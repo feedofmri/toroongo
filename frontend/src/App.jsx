@@ -1,7 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+// ─── Layouts ─────────────────────────────────────────────────
 import BuyerLayout from './components/layout/BuyerLayout';
 import BuyerDashboardLayout from './components/layout/BuyerDashboardLayout';
+import SellerLayout from './components/layout/SellerLayout';
+import SellerDashboardLayout from './components/layout/SellerDashboardLayout';
+import AdminDashboardLayout from './components/layout/AdminDashboardLayout';
+
+// ─── Buyer Pages ─────────────────────────────────────────────
 import Homepage from './pages/buyer/Homepage';
 import SearchResults from './pages/buyer/SearchResults';
 import ProductDetail from './pages/buyer/ProductDetail';
@@ -13,20 +20,46 @@ import OrderHistory from './pages/buyer/OrderHistory';
 import Wishlist from './pages/buyer/Wishlist';
 import AccountSettings from './pages/buyer/AccountSettings';
 import MessageCenter from './pages/buyer/MessageCenter';
-import SellerLayout from './components/layout/SellerLayout';
+
+// ─── Seller Storefront Pages ─────────────────────────────────
 import StoreHome from './pages/seller/StoreHome';
 import StoreCatalog from './pages/seller/StoreCatalog';
 import StoreAbout from './pages/seller/StoreAbout';
 import StorePolicies from './pages/seller/StorePolicies';
 
-// ─── Placeholder pages (to be built in later phases) ─────────
-function PlaceholderPage({ title }) {
+// ─── Seller Dashboard Pages ──────────────────────────────────
+import SellerDashboard from './pages/seller/SellerDashboard';
+import ProductManagement from './pages/seller/ProductManagement';
+import OrderManagement from './pages/seller/OrderManagement';
+import SellerFinance from './pages/seller/SellerFinance';
+import SellerSettings from './pages/seller/SellerSettings';
+import SellerMessages from './pages/seller/SellerMessages';
+
+// ─── Admin Dashboard Pages ───────────────────────────────────
+import AdminOverview from './pages/admin/AdminOverview';
+import UserManagement from './pages/admin/UserManagement';
+import SellerManagement from './pages/admin/SellerManagement';
+import CategoryManagement from './pages/admin/CategoryManagement';
+import AdminFinance from './pages/admin/AdminFinance';
+import DisputeResolution from './pages/admin/DisputeResolution';
+
+// ─── Static / Legal Pages ────────────────────────────────────
+import AboutPage from './pages/static/AboutPage';
+import SellOnToroongo from './pages/static/SellOnToroongo';
+import HelpCenter from './pages/static/HelpCenter';
+import ContactPage from './pages/static/ContactPage';
+import { TermsOfService, PrivacyPolicy } from './pages/static/LegalPages';
+
+// ─── 404 ─────────────────────────────────────────────────────
+function NotFoundPage() {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold text-text-primary mb-4">{title}</h1>
-        <p className="text-text-muted">This page is coming soon.</p>
-      </div>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <h1 className="text-6xl font-bold text-brand-primary mb-4">404</h1>
+      <p className="text-xl font-semibold text-text-primary mb-2">Page Not Found</p>
+      <p className="text-text-muted mb-6">The page you're looking for doesn't exist or has been moved.</p>
+      <a href="/" className="px-6 py-3 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors inline-block">
+        Go Home
+      </a>
     </div>
   );
 }
@@ -57,7 +90,7 @@ function App() {
             <Route path="messages" element={<MessageCenter />} />
           </Route>
 
-          {/* Seller storefront (public) */}
+          {/* Seller Storefronts (public) */}
           <Route path="/shop/:slug" element={<SellerLayout />}>
             <Route index element={<StoreHome />} />
             <Route path="products" element={<StoreCatalog />} />
@@ -65,18 +98,36 @@ function App() {
             <Route path="policies" element={<StorePolicies />} />
           </Route>
 
-          {/* Static pages */}
-          <Route path="/about" element={<PlaceholderPage title="About Toroongo" />} />
-          <Route path="/sell" element={<PlaceholderPage title="Sell on Toroongo" />} />
-          <Route path="/help" element={<PlaceholderPage title="Help Center" />} />
-          <Route path="/contact" element={<PlaceholderPage title="Contact Us" />} />
-          <Route path="/terms" element={<PlaceholderPage title="Terms of Service" />} />
-          <Route path="/privacy" element={<PlaceholderPage title="Privacy Policy" />} />
-          <Route path="/shipping" element={<PlaceholderPage title="Shipping & Delivery" />} />
-          <Route path="/returns" element={<PlaceholderPage title="Returns & Refunds" />} />
+          {/* Static Pages */}
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/sell" element={<SellOnToroongo />} />
+          <Route path="/help" element={<HelpCenter />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/terms" element={<TermsOfService />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
 
           {/* 404 */}
-          <Route path="*" element={<PlaceholderPage title="Page Not Found" />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+
+        {/* ── Seller Dashboard ──────────────────────────────── */}
+        <Route path="/seller" element={<SellerDashboardLayout />}>
+          <Route index element={<SellerDashboard />} />
+          <Route path="products" element={<ProductManagement />} />
+          <Route path="orders" element={<OrderManagement />} />
+          <Route path="finance" element={<SellerFinance />} />
+          <Route path="messages" element={<SellerMessages />} />
+          <Route path="settings" element={<SellerSettings />} />
+        </Route>
+
+        {/* ── Admin Dashboard ───────────────────────────────── */}
+        <Route path="/admin" element={<AdminDashboardLayout />}>
+          <Route index element={<AdminOverview />} />
+          <Route path="users" element={<UserManagement />} />
+          <Route path="sellers" element={<SellerManagement />} />
+          <Route path="categories" element={<CategoryManagement />} />
+          <Route path="finance" element={<AdminFinance />} />
+          <Route path="disputes" element={<DisputeResolution />} />
         </Route>
       </Routes>
     </Router>
