@@ -288,7 +288,7 @@ export const footerLinks = {
     ],
     sellOnToroongo: [
         { name: 'Start Selling', href: '/sell' },
-        { name: 'Seller Dashboard', href: '/seller/dashboard' },
+        { name: 'Seller Dashboard', href: '/seller' },
         { name: 'Pricing & Fees', href: '/sell/pricing' },
         { name: 'Seller Resources', href: '/sell/resources' },
     ],

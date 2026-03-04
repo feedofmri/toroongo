@@ -49,6 +49,14 @@ import SellOnToroongo from './pages/static/SellOnToroongo';
 import HelpCenter from './pages/static/HelpCenter';
 import ContactPage from './pages/static/ContactPage';
 import { TermsOfService, PrivacyPolicy } from './pages/static/LegalPages';
+import CareersPage from './pages/static/CareersPage';
+import PressPage from './pages/static/PressPage';
+import BlogPage from './pages/static/BlogPage';
+import ShippingPage from './pages/static/ShippingPage';
+import ReturnsPage from './pages/static/ReturnsPage';
+import CookiePolicy from './pages/static/CookiePolicy';
+import PricingPage from './pages/static/PricingPage';
+import SellerResources from './pages/static/SellerResources';
 
 // ─── 404 ─────────────────────────────────────────────────────
 function NotFoundPage() {
@@ -98,13 +106,27 @@ function App() {
             <Route path="policies" element={<StorePolicies />} />
           </Route>
 
-          {/* Static Pages */}
+          {/* Static Pages — About */}
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/sell" element={<SellOnToroongo />} />
+          <Route path="/careers" element={<CareersPage />} />
+          <Route path="/press" element={<PressPage />} />
+          <Route path="/blog" element={<BlogPage />} />
+
+          {/* Static Pages — Customer Service */}
           <Route path="/help" element={<HelpCenter />} />
+          <Route path="/shipping" element={<ShippingPage />} />
+          <Route path="/returns" element={<ReturnsPage />} />
           <Route path="/contact" element={<ContactPage />} />
+
+          {/* Static Pages — Sell on Toroongo */}
+          <Route path="/sell" element={<SellOnToroongo />} />
+          <Route path="/sell/pricing" element={<PricingPage />} />
+          <Route path="/sell/resources" element={<SellerResources />} />
+
+          {/* Static Pages — Legal */}
           <Route path="/terms" element={<TermsOfService />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/cookies" element={<CookiePolicy />} />
 
           {/* 404 */}
           <Route path="*" element={<NotFoundPage />} />
