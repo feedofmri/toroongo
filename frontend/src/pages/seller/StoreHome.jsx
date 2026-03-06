@@ -4,16 +4,31 @@ import { ArrowRight, Sparkles } from 'lucide-react';
 import ProductCard from '../../components/product/ProductCard';
 import { useDelayedLoad } from '../../hooks/useDelayedLoad';
 import ProductCardSkeleton from '../../components/product/ProductCardSkeleton';
+import StorefrontRenderer from './storefrontBuilder/StorefrontRenderer';
+import { getStorefrontConfig } from './storefrontBuilder/services/storefrontService';
 
 export default function StoreHome() {
     const { seller, sellerProducts } = useOutletContext();
     const { data: loadedProducts, isLoading } = useDelayedLoad(sellerProducts, 700);
 
-    const featuredProducts = sellerProducts.slice(0, 4);
-    const newArrivals = sellerProducts.slice(-4);
+    // Try to load saved storefront config for this seller
+    const sellerId = seller?.id ? (String(seller.id).startsWith('seller_') ? seller.id : `seller_${seller.id}`) : null;
+    const savedConfig = sellerId ? getStorefrontConfig(sellerId) : null;
+
+    // If there's a saved storefront config with widgets, render it
+    if (savedConfig && savedConfig.widgets && savedConfig.widgets.length > 0) {
+        return (
+            <StorefrontRenderer
+                schema={savedConfig}
+                products={sellerProducts}
+            />
+        );
+    }
+
+    // Otherwise, render the default/original layout
 
     return (
-        <div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             {/* Welcome Section */}
             <div className="mb-10">
                 <div className="flex items-center gap-2 mb-2">
@@ -29,7 +44,7 @@ export default function StoreHome() {
                 <div className="flex items-center justify-between mb-6">
                     <h3 className="text-xl font-bold text-text-primary">Featured Products</h3>
                     <Link
-                        to={`/shop/${seller.slug || seller.id}/products`}
+                        to={`/${seller.slug || seller.id}/products`}
                         className="flex items-center gap-1.5 text-sm font-medium transition-colors hover:opacity-80"
                         style={{ color: 'var(--seller-brand)' }}
                     >
@@ -57,7 +72,7 @@ export default function StoreHome() {
                         <h3 className="text-2xl font-bold mb-2">About {seller.name}</h3>
                         <p className="text-white/80 mb-5 text-sm leading-relaxed">{seller.description}</p>
                         <Link
-                            to={`/shop/${seller.slug || seller.id}/about`}
+                            to={`/${seller.slug || seller.id}/about`}
                             className="inline-flex items-center gap-2 px-5 py-2.5 bg-white text-text-primary font-semibold text-sm rounded-xl hover:bg-gray-50 transition-colors"
                         >
                             Learn More <ArrowRight size={14} />

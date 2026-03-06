@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Trash2, Minus, Plus, ShoppingBag, ArrowRight, Tag, Truck } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useProduct } from '../../context/ProductContext';
+import { resolveSellerSlug } from '../../utils/resolveSellerSlug';
 
 export default function ShoppingCart() {
     const { cart: cartItems, updateQuantity, removeFromCart: removeItem } = useCart();
@@ -66,7 +67,7 @@ export default function ShoppingCart() {
                                 {/* Seller header */}
                                 <div className="px-5 py-3 bg-surface-bg border-b border-border-soft flex items-center justify-between">
                                     <Link
-                                        to={`/shop/${sellerId}`}
+                                        to={`/${resolveSellerSlug(sellerId)}`}
                                         className="text-sm font-semibold text-brand-primary hover:text-brand-secondary transition-colors"
                                     >
                                         {sellerName}

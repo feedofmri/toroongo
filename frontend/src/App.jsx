@@ -12,6 +12,7 @@ import AdminDashboardLayout from './components/layout/AdminDashboardLayout';
 // ─── Buyer Pages ─────────────────────────────────────────────
 import Homepage from './pages/buyer/Homepage';
 import SearchResults from './pages/buyer/SearchResults';
+import ShopsPage from './pages/buyer/ShopsPage';
 import ProductDetail from './pages/buyer/ProductDetail';
 import ShoppingCart from './pages/buyer/ShoppingCart';
 import Checkout from './pages/buyer/Checkout';
@@ -35,6 +36,9 @@ import OrderManagement from './pages/seller/OrderManagement';
 import SellerFinance from './pages/seller/SellerFinance';
 import SellerSettings from './pages/seller/SellerSettings';
 import SellerMessages from './pages/seller/SellerMessages';
+
+// ─── Storefront Builder ──────────────────────────────────────
+import { StorefrontBuilder } from './pages/seller/storefrontBuilder';
 
 // ─── Admin Dashboard Pages ───────────────────────────────────
 import AdminOverview from './pages/admin/AdminOverview';
@@ -80,7 +84,9 @@ function App() {
         {/* ── Buyer Experience ──────────────────────────────── */}
         <Route element={<BuyerLayout />}>
           <Route index element={<Homepage />} />
+          <Route path="/products" element={<SearchResults />} />
           <Route path="/search" element={<SearchResults />} />
+          <Route path="/shops" element={<ShopsPage />} />
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<ShoppingCart />} />
           <Route path="/checkout" element={<Checkout />} />
@@ -98,14 +104,6 @@ function App() {
             <Route path="wishlist" element={<Wishlist />} />
             <Route path="settings" element={<AccountSettings />} />
             <Route path="messages" element={<MessageCenter />} />
-          </Route>
-
-          {/* Seller Storefronts (public) */}
-          <Route path="/shop/:slug" element={<SellerLayout />}>
-            <Route index element={<StoreHome />} />
-            <Route path="products" element={<StoreCatalog />} />
-            <Route path="about" element={<StoreAbout />} />
-            <Route path="policies" element={<StorePolicies />} />
           </Route>
 
           {/* Static Pages — About */}
@@ -133,6 +131,18 @@ function App() {
           {/* 404 */}
           <Route path="*" element={<NotFoundPage />} />
         </Route>
+
+        {/* ── Seller Storefronts (toroongo.com/:username) ─── */}
+        {/* Outside BuyerLayout — storefronts have their own header/nav, no Toroongo navbar */}
+        <Route path="/:slug" element={<SellerLayout />}>
+          <Route index element={<StoreHome />} />
+          <Route path="products" element={<StoreCatalog />} />
+          <Route path="about" element={<StoreAbout />} />
+          <Route path="policies" element={<StorePolicies />} />
+        </Route>
+
+        {/* ── Storefront Builder (full-screen, outside dashboard layout) ── */}
+        <Route path="/seller/storefront-builder" element={<StorefrontBuilder />} />
 
         {/* ── Seller Dashboard ──────────────────────────────── */}
         <Route path="/seller" element={<SellerDashboardLayout />}>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Mail, Lock, User, Eye, EyeOff, ArrowRight, Loader2 } from 'lucide-react';
+import { Mail, Lock, User, Eye, EyeOff, ArrowRight, Loader2, Store, ShoppingBag } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import iconColourful from '../../assets/Logo/icon_colourful.png';
 
@@ -15,7 +15,7 @@ export default function AuthPage() {
 
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
-        name: '', email: '', password: '', confirmPassword: '',
+        name: '', email: '', password: '', confirmPassword: '', accountType: 'buyer', storeName: '',
     });
 
     const handleChange = (field, value) => {
@@ -40,12 +40,17 @@ export default function AuthPage() {
                 if (formData.password !== formData.confirmPassword) {
                     return setError('Passwords do not match');
                 }
+                if (formData.accountType === 'seller' && !formData.storeName.trim()) {
+                    return setError('Store name is required for seller accounts');
+                }
                 await register({
                     name: formData.name,
                     email: formData.email,
-                    password: formData.password
+                    password: formData.password,
+                    role: formData.accountType,
+                    ...(formData.accountType === 'seller' && { storeName: formData.storeName.trim() }),
                 });
-                navigate('/');
+                navigate(formData.accountType === 'seller' ? '/seller' : '/');
             }
         } catch (err) {
             setError(err.message || 'An error occurred during authentication');
@@ -104,9 +109,56 @@ export default function AuthPage() {
                         {isLogin ? 'Welcome Back' : 'Create Your Account'}
                     </h1>
                     <p className="text-sm text-text-muted">
-                        {isLogin ? 'Log in to continue shopping on Toroongo.' : 'Join Toroongo and start discovering amazing products.'}
+                        {isLogin
+                            ? 'Log in to continue shopping on Toroongo.'
+                            : formData.accountType === 'seller'
+                                ? 'Start selling on Toroongo and grow your business.'
+                                : 'Join Toroongo and start discovering amazing products.'}
                     </p>
                 </div>
+
+                {/* Account type toggle (signup only) */}
+                {!isLogin && (
+                    <div className="mb-6">
+                        <p className="text-xs font-medium text-text-muted mb-2.5 text-center">I want to</p>
+                        <div className="grid grid-cols-2 gap-3">
+                            <button
+                                type="button"
+                                onClick={() => handleChange('accountType', 'buyer')}
+                                className={`flex items-center gap-2.5 p-3.5 rounded-xl border-2 text-left transition-all duration-200
+                                    ${formData.accountType === 'buyer'
+                                        ? 'border-brand-primary bg-brand-primary/5 ring-1 ring-brand-primary/20'
+                                        : 'border-border-soft hover:border-gray-300 bg-white'}`}
+                            >
+                                <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors
+                                    ${formData.accountType === 'buyer' ? 'bg-brand-primary text-white' : 'bg-surface-bg text-text-muted'}`}>
+                                    <ShoppingBag size={17} />
+                                </div>
+                                <div>
+                                    <p className={`text-sm font-semibold ${formData.accountType === 'buyer' ? 'text-brand-primary' : 'text-text-primary'}`}>Buy</p>
+                                    <p className="text-[10px] text-text-muted leading-tight">Shop & discover</p>
+                                </div>
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => handleChange('accountType', 'seller')}
+                                className={`flex items-center gap-2.5 p-3.5 rounded-xl border-2 text-left transition-all duration-200
+                                    ${formData.accountType === 'seller'
+                                        ? 'border-brand-primary bg-brand-primary/5 ring-1 ring-brand-primary/20'
+                                        : 'border-border-soft hover:border-gray-300 bg-white'}`}
+                            >
+                                <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors
+                                    ${formData.accountType === 'seller' ? 'bg-brand-primary text-white' : 'bg-surface-bg text-text-muted'}`}>
+                                    <Store size={17} />
+                                </div>
+                                <div>
+                                    <p className={`text-sm font-semibold ${formData.accountType === 'seller' ? 'text-brand-primary' : 'text-text-primary'}`}>Sell</p>
+                                    <p className="text-[10px] text-text-muted leading-tight">Open your shop</p>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                )}
 
                 {/* Social login */}
                 <div className="space-y-3 mb-6">
@@ -137,6 +189,14 @@ export default function AuthPage() {
                             <User size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                             <input type="text" placeholder="Full name" value={formData.name}
                                 onChange={(e) => handleChange('name', e.target.value)} className={inputClass} />
+                        </div>
+                    )}
+
+                    {!isLogin && formData.accountType === 'seller' && (
+                        <div className="relative">
+                            <Store size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
+                            <input type="text" placeholder="Store name" value={formData.storeName}
+                                onChange={(e) => handleChange('storeName', e.target.value)} className={inputClass} />
                         </div>
                     )}
 
@@ -191,7 +251,7 @@ export default function AuthPage() {
                         className="w-full py-3.5 bg-brand-primary text-white font-semibold rounded-xl
                      hover:bg-brand-secondary transition-colors shadow-lg shadow-brand-primary/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                     >
-                        {isLoading ? <Loader2 size={16} className="animate-spin" /> : (isLogin ? 'Log In' : 'Create Account')}
+                        {isLoading ? <Loader2 size={16} className="animate-spin" /> : (isLogin ? 'Log In' : formData.accountType === 'seller' ? 'Create Seller Account' : 'Create Account')}
                         {!isLoading && <ArrowRight size={16} />}
                     </button>
                 </form>
@@ -210,9 +270,12 @@ export default function AuthPage() {
                 {/* Terms */}
                 {!isLogin && (
                     <p className="mt-4 text-center text-xs text-text-muted leading-relaxed">
-                        By creating an account, you agree to our{' '}
-                        <Link to="/terms" className="text-brand-primary hover:text-brand-secondary">Terms of Service</Link>{' '}
-                        and{' '}
+                        By creating {formData.accountType === 'seller' ? 'a seller' : 'an'} account, you agree to our{' '}
+                        <Link to="/terms" className="text-brand-primary hover:text-brand-secondary">Terms of Service</Link>
+                        {formData.accountType === 'seller' && (
+                            <>, <Link to="/sell" className="text-brand-primary hover:text-brand-secondary">Seller Agreement</Link></>
+                        )}
+                        {' '}and{' '}
                         <Link to="/privacy" className="text-brand-primary hover:text-brand-secondary">Privacy Policy</Link>.
                     </p>
                 )}

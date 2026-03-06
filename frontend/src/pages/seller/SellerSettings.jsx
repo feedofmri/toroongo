@@ -1,10 +1,90 @@
-import React, { useState } from 'react';
-import { Store, Paintbrush, Globe, Bell } from 'lucide-react';
+import React, { useState, useCallback } from 'react';
+import { Store, Paintbrush, Globe, Bell, Link2, CheckCircle2, XCircle, Loader2, ExternalLink } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { sellers } from '../../data/mockData';
+
+// Reserved slugs that cannot be taken as shop usernames (matches static routes & system paths)
+const RESERVED_SLUGS = [
+    'search', 'products', 'product', 'shops', 'cart', 'checkout', 'order-confirmation', 'wishlist',
+    'login', 'signup', 'forgot-password', 'account',
+    'about', 'careers', 'press', 'blog',
+    'help', 'shipping', 'returns', 'contact',
+    'sell', 'terms', 'privacy', 'data-preferences',
+    'seller', 'admin', 'api', 'app', 'www', 'shop',
+    'toroongo', 'settings', 'dashboard', 'explore', 'discover',
+];
+
+/**
+ * Check if a slug is available (not taken by another seller and not reserved).
+ * @param {string} slug
+ * @param {string} [currentSellerId] - Exclude the current seller's own slug
+ * @returns {{ available: boolean, reason?: string }}
+ */
+function checkSlugAvailability(slug, currentSellerId) {
+    if (!slug || slug.length < 3) {
+        return { available: false, reason: 'Must be at least 3 characters' };
+    }
+    if (slug.length > 30) {
+        return { available: false, reason: 'Must be 30 characters or fewer' };
+    }
+    if (!/^[a-z0-9][a-z0-9-]*[a-z0-9]$/.test(slug) && slug.length > 1) {
+        return { available: false, reason: 'Only lowercase letters, numbers, and hyphens. Cannot start/end with a hyphen.' };
+    }
+    if (/--/.test(slug)) {
+        return { available: false, reason: 'Cannot contain consecutive hyphens' };
+    }
+    if (RESERVED_SLUGS.includes(slug)) {
+        return { available: false, reason: 'This username is reserved' };
+    }
+    // Check against existing sellers
+    const takenBy = sellers.find((s) => s.slug === slug);
+    if (takenBy) {
+        // Allow if it's the current seller's own slug
+        const currentNumId = typeof currentSellerId === 'string' && currentSellerId.startsWith('seller_')
+            ? parseInt(currentSellerId.replace('seller_', ''))
+            : parseInt(currentSellerId);
+        if (takenBy.id === currentNumId) {
+            return { available: true, reason: 'This is your current username' };
+        }
+        return { available: false, reason: `Already taken by "${takenBy.name}"` };
+    }
+    return { available: true };
+}
 
 export default function SellerSettings() {
     const { user } = useAuth();
     const [activeTab, setActiveTab] = useState('store');
+
+    // Resolve current seller slug
+    const currentSellerId = user?.id || 'seller_1';
+    const currentNumId = typeof currentSellerId === 'string' && currentSellerId.startsWith('seller_')
+        ? parseInt(currentSellerId.replace('seller_', ''))
+        : parseInt(currentSellerId);
+    const currentSeller = sellers.find((s) => s.id === currentNumId);
+    const currentSlug = currentSeller?.slug || 'sony-electronics';
+
+    // Shop username state
+    const [shopUsername, setShopUsername] = useState(currentSlug);
+    const [slugStatus, setSlugStatus] = useState({ available: true, reason: 'This is your current username' });
+    const [isChecking, setIsChecking] = useState(false);
+
+    // Debounced slug check
+    const checkSlug = useCallback((value) => {
+        const slug = value.toLowerCase().replace(/[^a-z0-9-]/g, '').replace(/--+/g, '-');
+        setShopUsername(slug);
+        if (!slug) {
+            setSlugStatus({ available: false, reason: 'Username cannot be empty' });
+            return;
+        }
+        setIsChecking(true);
+        // Simulate async check (would be API call in production)
+        setTimeout(() => {
+            const result = checkSlugAvailability(slug, currentSellerId);
+            setSlugStatus(result);
+            setIsChecking(false);
+        }, 400);
+    }, [currentSellerId]);
 
     const tabs = [
         { key: 'store', label: 'Store Info', icon: Store },
@@ -36,31 +116,113 @@ export default function SellerSettings() {
             </div>
 
             {activeTab === 'store' && (
-                <div className="max-w-lg space-y-5 bg-white p-6 rounded-2xl border border-border-soft">
-                    <h3 className="text-lg font-semibold text-text-primary">Store Information</h3>
-                    <div>
-                        <label className="block text-xs font-medium text-text-muted mb-1.5">Store Name</label>
-                        <input type="text" defaultValue={user?.name || 'Sony Electronics'} className={inputClass} />
+                <div className="max-w-lg space-y-5">
+                    {/* ── Shop Username (the star feature) ─── */}
+                    <div className="bg-white p-6 rounded-2xl border border-border-soft">
+                        <div className="flex items-center gap-2 mb-4">
+                            <Link2 size={18} className="text-brand-primary" />
+                            <h3 className="text-lg font-semibold text-text-primary">Shop Username</h3>
+                        </div>
+                        <p className="text-xs text-text-muted mb-4">
+                            Your unique storefront URL. Customers will find your shop at{' '}
+                            <span className="font-semibold text-text-primary">toroongo.com/{shopUsername || '...'}</span>
+                        </p>
+
+                        {/* Username Input */}
+                        <div className="space-y-2">
+                            <div className="flex items-stretch">
+                                <span className="inline-flex items-center px-4 text-sm font-medium text-text-muted bg-surface-bg border border-r-0 border-border-soft rounded-l-xl whitespace-nowrap">
+                                    toroongo.com/
+                                </span>
+                                <input
+                                    type="text"
+                                    value={shopUsername}
+                                    onChange={(e) => checkSlug(e.target.value)}
+                                    placeholder="your-shop-name"
+                                    className={`flex-1 px-4 py-3 text-sm bg-white border rounded-r-xl outline-none transition-colors font-mono
+                                        ${isChecking
+                                            ? 'border-gray-300'
+                                            : slugStatus.available
+                                                ? 'border-green-300 focus:border-green-400 focus:ring-2 focus:ring-green-100'
+                                                : 'border-red-300 focus:border-red-400 focus:ring-2 focus:ring-red-100'
+                                        }`}
+                                />
+                            </div>
+
+                            {/* Status indicator */}
+                            <div className="flex items-center gap-1.5 h-5">
+                                {isChecking ? (
+                                    <>
+                                        <Loader2 size={13} className="text-gray-400 animate-spin" />
+                                        <span className="text-xs text-gray-400">Checking availability...</span>
+                                    </>
+                                ) : shopUsername ? (
+                                    slugStatus.available ? (
+                                        <>
+                                            <CheckCircle2 size={13} className="text-green-500" />
+                                            <span className="text-xs text-green-600 font-medium">{slugStatus.reason || 'Username is available!'}</span>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <XCircle size={13} className="text-red-500" />
+                                            <span className="text-xs text-red-500 font-medium">{slugStatus.reason}</span>
+                                        </>
+                                    )
+                                ) : null}
+                            </div>
+
+                            {/* Preview link */}
+                            {shopUsername && slugStatus.available && (
+                                <Link
+                                    to={`/${shopUsername}`}
+                                    target="_blank"
+                                    className="inline-flex items-center gap-1.5 text-xs font-medium text-brand-primary hover:text-brand-secondary transition-colors mt-1"
+                                >
+                                    <ExternalLink size={11} />
+                                    Preview your storefront
+                                </Link>
+                            )}
+                        </div>
+
+                        <button
+                            disabled={!slugStatus.available || shopUsername === currentSlug}
+                            className={`mt-4 px-5 py-2.5 text-sm font-semibold rounded-xl transition-colors
+                                ${slugStatus.available && shopUsername !== currentSlug
+                                    ? 'bg-brand-primary text-white hover:bg-brand-secondary'
+                                    : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                                }`}
+                        >
+                            {shopUsername === currentSlug ? 'Current Username' : 'Claim Username'}
+                        </button>
                     </div>
-                    <div>
-                        <label className="block text-xs font-medium text-text-muted mb-1.5">Description</label>
-                        <textarea
-                            rows={3}
-                            defaultValue="Official store for premium electronics and entertainment products."
-                            className={`${inputClass} resize-none`}
-                        />
+
+                    {/* ── Store Info ─── */}
+                    <div className="bg-white p-6 rounded-2xl border border-border-soft space-y-5">
+                        <h3 className="text-lg font-semibold text-text-primary">Store Information</h3>
+                        <div>
+                            <label className="block text-xs font-medium text-text-muted mb-1.5">Store Name</label>
+                            <input type="text" defaultValue={user?.name || 'Sony Electronics'} className={inputClass} />
+                        </div>
+                        <div>
+                            <label className="block text-xs font-medium text-text-muted mb-1.5">Description</label>
+                            <textarea
+                                rows={3}
+                                defaultValue="Official store for premium electronics and entertainment products."
+                                className={`${inputClass} resize-none`}
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-xs font-medium text-text-muted mb-1.5">Contact Email</label>
+                            <input type="email" defaultValue={user?.email || 'support@sonyelectronics.com'} className={inputClass} />
+                        </div>
+                        <div>
+                            <label className="block text-xs font-medium text-text-muted mb-1.5">Phone</label>
+                            <input type="tel" defaultValue="+1 (800) 222-7669" className={inputClass} />
+                        </div>
+                        <button className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
+                            Save Changes
+                        </button>
                     </div>
-                    <div>
-                        <label className="block text-xs font-medium text-text-muted mb-1.5">Contact Email</label>
-                        <input type="email" defaultValue={user?.email || 'support@sonyelectronics.com'} className={inputClass} />
-                    </div>
-                    <div>
-                        <label className="block text-xs font-medium text-text-muted mb-1.5">Phone</label>
-                        <input type="tel" defaultValue="+1 (800) 222-7669" className={inputClass} />
-                    </div>
-                    <button className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
-                        Save Changes
-                    </button>
                 </div>
             )}
 

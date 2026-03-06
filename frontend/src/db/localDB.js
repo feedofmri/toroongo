@@ -1,5 +1,6 @@
 import { categories, sellers, products, heroBanners, navCategories } from '../data/mockData';
 import { User, Product, Blog, Message } from '../models';
+import { seedStorefrontConfigs } from '../pages/seller/storefrontBuilder/services/seedStorefrontConfigs';
 
 const DB_KEY = 'toroongo_db_v4';
 
@@ -20,6 +21,8 @@ const initialData = {
 class LocalDatabase {
     constructor() {
         this.data = this.loadData();
+        // Ensure storefront configs exist even if DB was already loaded
+        seedStorefrontConfigs();
     }
 
     // Load data from localStorage or initialize if empty
@@ -165,6 +168,10 @@ class LocalDatabase {
 
         this.data = db;
         this.save();
+
+        // Seed storefront builder configs for all sellers
+        seedStorefrontConfigs();
+
         return db;
     }
 
@@ -173,6 +180,7 @@ class LocalDatabase {
     // Generic clear DB
     reset() {
         localStorage.removeItem(DB_KEY);
+        localStorage.removeItem('toroongo_storefront_configs');
         this.data = this.seedDatabase();
         window.location.reload(); // Force reload to re-mount context
     }

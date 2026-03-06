@@ -9,6 +9,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { messageService } from '../../services';
 import { sellers } from '../../data/mockData';
+import { resolveSellerSlug } from '../../utils/resolveSellerSlug';
 
 const MOCK_REVIEWS = [
     { id: 1, name: 'Sarah M.', rating: 5, date: '2 weeks ago', text: 'Absolutely love this product! Quality is amazing and it arrived faster than expected. Definitely worth the price.' },
@@ -87,7 +88,7 @@ export default function ProductDetail() {
                     <nav className="flex items-center text-sm text-text-muted gap-1.5">
                         <Link to="/" className="hover:text-brand-primary transition-colors">Home</Link>
                         <ChevronRight size={14} />
-                        <Link to={`/search?category=${product.category}`} className="hover:text-brand-primary transition-colors capitalize">
+                        <Link to={`/products?category=${product.category}`} className="hover:text-brand-primary transition-colors capitalize">
                             {product.category.replace('-', ' & ')}
                         </Link>
                         <ChevronRight size={14} />
@@ -123,7 +124,7 @@ export default function ProductDetail() {
                     <div className="flex flex-col">
                         {/* Seller */}
                         <Link
-                            to={`/shop/${product.sellerId}`}
+                            to={`/${resolveSellerSlug(product.sellerId)}`}
                             className="text-sm text-brand-primary font-medium hover:text-brand-secondary transition-colors mb-2"
                         >
                             {product.seller}
@@ -240,7 +241,7 @@ export default function ProductDetail() {
                                         </div>
                                         <div className="flex-1">
                                             <Link
-                                                to={`/shop/${sellerData.slug}`}
+                                                to={`/${sellerData.slug}`}
                                                 className="text-sm font-semibold text-text-primary hover:text-brand-primary transition-colors"
                                             >
                                                 {sellerData.name}
@@ -255,7 +256,7 @@ export default function ProductDetail() {
                                         </div>
                                     </div>
                                     <Link
-                                        to={`/shop/${sellerData.slug}`}
+                                        to={`/${sellerData.slug}`}
                                         className="w-full flex items-center justify-center gap-1.5 py-2.5 bg-brand-primary/10 text-brand-primary
                                                    text-xs font-semibold rounded-lg hover:bg-brand-primary/20 transition-colors"
                                     >

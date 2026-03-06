@@ -52,31 +52,33 @@ export default function StorePolicies() {
     const { seller } = useOutletContext();
 
     return (
-        <div className="max-w-3xl">
-            <h2 className="text-2xl font-bold text-text-primary mb-6">Store Policies</h2>
-            <p className="text-text-muted text-sm mb-8">
-                {seller.name}'s policies for shipping, returns, warranty, and frequently asked questions.
-            </p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="max-w-3xl">
+                <h2 className="text-2xl font-bold text-text-primary mb-6">Store Policies</h2>
+                <p className="text-text-muted text-sm mb-8">
+                    {seller.name}'s policies for shipping, returns, warranty, and frequently asked questions.
+                </p>
 
-            <div className="space-y-6">
-                {POLICIES.map((policy) => (
-                    <div key={policy.title} className="border border-border-soft rounded-2xl overflow-hidden">
-                        <div className="px-5 py-4 bg-surface-bg border-b border-border-soft flex items-center gap-3">
-                            <policy.icon size={18} style={{ color: 'var(--seller-brand)' }} />
-                            <h3 className="font-semibold text-text-primary">{policy.title}</h3>
+                <div className="space-y-6">
+                    {POLICIES.map((policy) => (
+                        <div key={policy.title} className="border border-border-soft rounded-2xl overflow-hidden">
+                            <div className="px-5 py-4 bg-surface-bg border-b border-border-soft flex items-center gap-3">
+                                <policy.icon size={18} style={{ color: 'var(--seller-brand)' }} />
+                                <h3 className="font-semibold text-text-primary">{policy.title}</h3>
+                            </div>
+                            <div className="p-5">
+                                <ul className="space-y-2.5">
+                                    {policy.content.map((item, idx) => (
+                                        <li key={idx} className="flex gap-2.5 text-sm text-text-muted">
+                                            <span className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: 'var(--seller-brand)' }} />
+                                            {item}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
                         </div>
-                        <div className="p-5">
-                            <ul className="space-y-2.5">
-                                {policy.content.map((item, idx) => (
-                                    <li key={idx} className="flex gap-2.5 text-sm text-text-muted">
-                                        <span className="w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0" style={{ backgroundColor: 'var(--seller-brand)' }} />
-                                        {item}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
         </div>
     );

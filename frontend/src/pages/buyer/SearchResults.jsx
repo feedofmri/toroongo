@@ -44,7 +44,7 @@ export default function SearchResults() {
     const [customMinPrice, setCustomMinPrice] = useState('');
     const [customMaxPrice, setCustomMaxPrice] = useState('');
     const [filtersOpen, setFiltersOpen] = useState(false);
-    const [gridCols, setGridCols] = useState(4);
+    const [viewMode, setViewMode] = useState('grid'); // 'grid' or 'list'
     const [currentPage, setCurrentPage] = useState(1);
     const [showAllSellers, setShowAllSellers] = useState(false);
 
@@ -63,7 +63,7 @@ export default function SearchResults() {
             } else {
                 params.delete('q');
             }
-            navigate(`/search?${params.toString()}`);
+            navigate(`/products?${params.toString()}`);
             setCurrentPage(1);
         }
     };
@@ -233,17 +233,19 @@ export default function SearchResults() {
                                 <ChevronDown size={14} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none" />
                             </div>
 
-                            {/* Grid toggle (desktop) */}
+                            {/* View toggle (desktop) */}
                             <div className="hidden md:flex items-center border border-border-soft rounded-lg overflow-hidden">
                                 <button
-                                    onClick={() => setGridCols(4)}
-                                    className={`p-2 transition-colors ${gridCols === 4 ? 'bg-brand-primary text-white' : 'text-text-muted hover:text-text-primary'}`}
+                                    onClick={() => setViewMode('grid')}
+                                    className={`p-2 transition-colors ${viewMode === 'grid' ? 'bg-brand-primary text-white' : 'text-text-muted hover:text-text-primary'}`}
+                                    aria-label="Grid view"
                                 >
                                     <Grid3X3 size={16} />
                                 </button>
                                 <button
-                                    onClick={() => setGridCols(3)}
-                                    className={`p-2 transition-colors ${gridCols === 3 ? 'bg-brand-primary text-white' : 'text-text-muted hover:text-text-primary'}`}
+                                    onClick={() => setViewMode('list')}
+                                    className={`p-2 transition-colors ${viewMode === 'list' ? 'bg-brand-primary text-white' : 'text-text-muted hover:text-text-primary'}`}
+                                    aria-label="List view"
                                 >
                                     <LayoutList size={16} />
                                 </button>
@@ -495,19 +497,23 @@ export default function SearchResults() {
                         </div>
                     </aside>
 
-                    {/* ── Product Grid ─────────────────────────────────── */}
+                    {/* ── Product Grid / List ────────────────────────────── */}
                     <div className="flex-1 min-w-0">
                         {isLoading ? (
-                            <div className={`grid gap-5 grid-cols-1 sm:grid-cols-2 ${gridCols === 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3'}`}>
+                            <div className={viewMode === 'list'
+                                ? 'space-y-4'
+                                : 'grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'}>
                                 {[...Array(ITEMS_PER_PAGE)].map((_, i) => (
                                     <ProductCardSkeleton key={i} />
                                 ))}
                             </div>
                         ) : loadedProducts && loadedProducts.length > 0 ? (
                             <>
-                                <div className={`grid gap-5 grid-cols-1 sm:grid-cols-2 ${gridCols === 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3'}`}>
+                                <div className={viewMode === 'list'
+                                    ? 'space-y-4'
+                                    : 'grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'}>
                                     {loadedProducts.map((product) => (
-                                        <ProductCard key={product.id} product={product} />
+                                        <ProductCard key={product.id} product={product} layout={viewMode} />
                                     ))}
                                 </div>
 

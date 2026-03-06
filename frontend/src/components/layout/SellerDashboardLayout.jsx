@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, Outlet, Link } from 'react-router-dom';
-import { LayoutDashboard, Package, ShoppingBag, Settings, DollarSign, MessageSquare, Store, ChevronLeft } from 'lucide-react';
+import { LayoutDashboard, Package, ShoppingBag, Settings, DollarSign, MessageSquare, Store, ChevronLeft, Paintbrush } from 'lucide-react';
 import iconColourful from '../../assets/Logo/icon_colourful.png';
 
 const sidebarLinks = [
@@ -9,6 +9,7 @@ const sidebarLinks = [
     { to: '/seller/orders', icon: ShoppingBag, label: 'Orders' },
     { to: '/seller/finance', icon: DollarSign, label: 'Finance' },
     { to: '/seller/messages', icon: MessageSquare, label: 'Messages' },
+    { to: '/seller/storefront-builder', icon: Paintbrush, label: 'Storefront' },
     { to: '/seller/settings', icon: Settings, label: 'Settings' },
 ];
 
@@ -50,7 +51,7 @@ export default function SellerDashboardLayout() {
                     {/* View Store link */}
                     <div className="p-3 border-t border-border-soft">
                         <Link
-                            to="/shop/sony-electronics"
+                            to="/sony-electronics"
                             className="flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-text-muted hover:text-brand-primary rounded-xl hover:bg-surface-bg transition-colors"
                         >
                             <Store size={16} />

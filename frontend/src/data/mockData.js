@@ -2309,7 +2309,7 @@ export const heroBanners = [
         heading: 'Shop the Future.',
         subheading: 'Discover thousands of products from top sellers worldwide — all in one place.',
         ctaText: 'Explore Now',
-        ctaLink: '/search',
+        ctaLink: '/products',
         imageUrl: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=1400',
         gradient: 'from-slate-900/80 via-slate-900/50 to-transparent',
     },
@@ -2318,7 +2318,7 @@ export const heroBanners = [
         heading: 'Summer Essentials',
         subheading: 'Up to 40% off on handpicked collections from our best sellers.',
         ctaText: 'Shop Sale',
-        ctaLink: '/search?sale=true',
+        ctaLink: '/products?sale=true',
         imageUrl: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&q=80&w=1400',
         gradient: 'from-cyan-900/70 via-cyan-900/40 to-transparent',
     },
@@ -2327,14 +2327,14 @@ export const heroBanners = [
 // ─── Navigation Links ────────────────────────────────────────
 
 export const navCategories = [
-    { name: 'All Categories', slug: '/search' },
-    { name: 'Electronics', slug: '/search?category=electronics' },
-    { name: 'Fashion', slug: '/search?category=fashion' },
-    { name: 'Home & Living', slug: '/search?category=home-living' },
-    { name: 'Beauty', slug: '/search?category=beauty' },
-    { name: 'Sports', slug: '/search?category=sports' },
-    { name: 'Books', slug: '/search?category=books' },
-    { name: 'Deals', slug: '/search?sale=true' },
+    { name: 'All Categories', slug: '/products' },
+    { name: 'Electronics', slug: '/products?category=electronics' },
+    { name: 'Fashion', slug: '/products?category=fashion' },
+    { name: 'Home & Living', slug: '/products?category=home-living' },
+    { name: 'Beauty', slug: '/products?category=beauty' },
+    { name: 'Sports', slug: '/products?category=sports' },
+    { name: 'Books', slug: '/products?category=books' },
+    { name: 'Deals', slug: '/products?sale=true' },
 ];
 
 export const footerLinks = {

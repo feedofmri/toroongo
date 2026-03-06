@@ -5,6 +5,7 @@ import { useProduct } from '../../context/ProductContext';
 import { useAuth } from '../../context/AuthContext';
 import { useWishlist } from '../../context/WishlistContext';
 import StarRating from '../../components/ui/StarRating';
+import { resolveSellerSlug } from '../../utils/resolveSellerSlug';
 
 export default function Wishlist() {
     const { products: allProducts } = useProduct();
@@ -64,7 +65,7 @@ export default function Wishlist() {
 
                         {/* Info */}
                         <div className="flex-1 min-w-0">
-                            <Link to={`/shop/${product.sellerId}`} className="text-xs text-brand-primary font-medium hover:text-brand-secondary transition-colors">
+                            <Link to={`/${resolveSellerSlug(product.sellerId)}`} className="text-xs text-brand-primary font-medium hover:text-brand-secondary transition-colors">
                                 {product.seller}
                             </Link>
                             <Link to={`/product/${product.id}`}>

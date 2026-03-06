@@ -62,7 +62,7 @@ export default function Homepage() {
 
                             <div className="flex flex-wrap gap-4 mb-10">
                                 <Link
-                                    to="/search"
+                                    to="/products"
                                     className="inline-flex items-center gap-2 px-8 py-4 bg-brand-primary text-white font-bold
                                        rounded-2xl hover:bg-brand-secondary transition-all duration-300 shadow-xl shadow-brand-primary/20
                                        hover:shadow-brand-secondary/20 hover:-translate-y-0.5"
@@ -198,7 +198,7 @@ export default function Homepage() {
                             <p className="text-text-muted text-sm mt-1">Browse our most popular categories</p>
                         </div>
                         <Link
-                            to="/search"
+                            to="/products"
                             className="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-brand-primary hover:text-brand-secondary transition-colors"
                         >
                             View All <ArrowRight size={14} />
@@ -334,7 +334,7 @@ export default function Homepage() {
                         {sellers.map((seller) => (
                             <Link
                                 key={seller.id}
-                                to={`/shop/${seller.slug}`}
+                                to={`/${seller.slug}`}
                                 className="min-w-[280px] max-w-[280px] snap-start group relative bg-white rounded-2xl border border-border-soft overflow-hidden
                                            transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-brand-primary/20"
                             >
@@ -438,7 +438,7 @@ export default function Homepage() {
                                 </button>
                             </div>
                             <Link
-                                to="/search"
+                                to="/products"
                                 className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-primary hover:text-brand-secondary transition-colors"
                             >
                                 See All <ArrowRight size={14} />
