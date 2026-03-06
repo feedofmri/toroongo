@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Heart } from 'lucide-react';
+import React from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Heart, Store } from 'lucide-react';
 import StarRating from '../ui/StarRating';
+import { useWishlist } from '../../context/WishlistContext';
 
 /**
  * Reusable product card for grids and carousels.
@@ -10,7 +11,10 @@ import StarRating from '../ui/StarRating';
  * Hover: translateY(-2px) + shadow-lg for a smooth lift effect.
  */
 export default function ProductCard({ product }) {
-    const [wishlisted, setWishlisted] = useState(false);
+    const { toggleWishlist, isInWishlist } = useWishlist();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const wishlisted = isInWishlist(product.id);
 
     const {
         id,
@@ -55,7 +59,10 @@ export default function ProductCard({ product }) {
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        setWishlisted(!wishlisted);
+                        const success = toggleWishlist(id);
+                        if (!success) {
+                            navigate(`/login?redirect=${encodeURIComponent(location.pathname)}`);
+                        }
                     }}
                     className={`absolute top-3 right-3 p-2 rounded-full bg-white/90 backdrop-blur-sm
                      shadow-sm transition-all duration-200
@@ -72,8 +79,9 @@ export default function ProductCard({ product }) {
                 {/* Seller */}
                 <Link
                     to={`/shop/${sellerId}`}
-                    className="text-xs text-brand-primary font-medium mb-1.5 hover:text-brand-secondary transition-colors"
+                    className="inline-flex items-center gap-1 text-xs text-brand-primary font-medium mb-1.5 hover:text-brand-secondary transition-colors w-fit"
                 >
+                    <Store size={11} />
                     {seller}
                 </Link>
 

@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import CategoryIcon from './CategoryIcon';
 
 /**
  * Category card for the homepage grid.
- * Shows an emoji icon, category name, and product count.
+ * Shows a lucide icon, category name, and product count.
  * Hover: slight lift with shadow transition.
  */
 export default function CategoryCard({ category }) {
-    const { name, slug, icon, productCount, description } = category;
+    const { name, slug, icon, productCount } = category;
 
     return (
         <Link
@@ -17,9 +18,10 @@ export default function CategoryCard({ category }) {
                  hover:-translate-y-1 hover:shadow-lg hover:border-brand-primary/30"
         >
             {/* Icon */}
-            <span className="text-4xl mb-3 group-hover:scale-110 transition-transform duration-300">
-                {icon}
-            </span>
+            <div className="w-12 h-12 rounded-xl bg-brand-primary/10 flex items-center justify-center mb-3
+                            group-hover:bg-brand-primary/20 group-hover:scale-110 transition-all duration-300">
+                <CategoryIcon name={icon} size={24} className="text-brand-primary" />
+            </div>
 
             {/* Name */}
             <h3 className="font-semibold text-sm text-text-primary text-center mb-1">

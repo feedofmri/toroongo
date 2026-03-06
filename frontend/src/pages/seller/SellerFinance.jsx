@@ -1,15 +1,82 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { DollarSign, TrendingUp, ArrowDown, Calendar, Download } from 'lucide-react';
-
-const TRANSACTIONS = [
-    { id: 'TXN-001', date: '2026-03-03', type: 'Sale', description: 'Sony WH-1000XM5 × 1', amount: 348.00, fee: 34.80, net: 313.20 },
-    { id: 'TXN-002', date: '2026-03-02', type: 'Sale', description: 'WF-1000XM5 Earbuds × 1', amount: 278.00, fee: 27.80, net: 250.20 },
-    { id: 'TXN-003', date: '2026-03-01', type: 'Payout', description: 'Weekly payout → Bank ****4567', amount: -1245.60, fee: 0, net: -1245.60 },
-    { id: 'TXN-004', date: '2026-02-28', type: 'Sale', description: 'Desk Lamp × 2', amount: 178.00, fee: 17.80, net: 160.20 },
-    { id: 'TXN-005', date: '2026-02-27', type: 'Refund', description: 'Return – Sony WH-1000XM5', amount: -348.00, fee: -34.80, net: -313.20 },
-];
+import { useAuth } from '../../context/AuthContext';
+import { orderService, productService } from '../../services';
+import Skeleton from '../../components/ui/Skeleton';
 
 export default function SellerFinance() {
+    const { user } = useAuth();
+    const [transactions, setTransactions] = useState([]);
+    const [stats, setStats] = useState({ available: 0, pending: 0 });
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (!user) return;
+
+        Promise.all([
+            orderService.getSellerOrders(user.id),
+            productService.getProductsBySeller(user.id)
+        ]).then(([orders, products]) => {
+            let available = 0;
+            let pending = 0;
+            const txns = [];
+
+            // We apply a standard 10% platform fee
+            const FEE_RATE = 0.10;
+
+            orders.forEach(order => {
+                const amount = order.subtotal || 0;
+                const fee = amount * FEE_RATE;
+                const net = amount - fee;
+
+                if (order.status === 'delivered') {
+                    available += net;
+                } else {
+                    pending += net;
+                }
+
+                order.items.forEach(item => {
+                    const product = products.find(p => String(p.id) === String(item.productId));
+                    const itemAmount = item.priceAtPurchase * item.quantity;
+                    const itemFee = itemAmount * FEE_RATE;
+                    const itemNet = itemAmount - itemFee;
+
+                    txns.push({
+                        id: `TXN-${order.id.split('-')[0].toUpperCase()}-${item.productId}`,
+                        date: order.createdAt,
+                        type: 'Sale',
+                        description: `${product ? product.title : 'Product'} × ${item.quantity}`,
+                        amount: itemAmount,
+                        fee: itemFee,
+                        net: itemNet,
+                        status: order.status
+                    });
+                });
+            });
+
+            // Add a mock payout just for visual completeness if there are transactions
+            if (txns.length > 0) {
+                txns.push({
+                    id: 'TXN-PAYOUT-001',
+                    date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+                    type: 'Payout',
+                    description: 'Weekly payout → Bank ****4567',
+                    amount: -1245.60,
+                    fee: 0,
+                    net: -1245.60,
+                    status: 'completed'
+                });
+            }
+
+            // Sort by date descending
+            txns.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            setTransactions(txns);
+            setStats({ available, pending });
+            setLoading(false);
+        }).catch(console.error);
+    }, [user]);
+
     return (
         <div className="animate-fade-in">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
@@ -28,7 +95,9 @@ export default function SellerFinance() {
                         </div>
                         <span className="text-sm text-text-muted">Available Balance</span>
                     </div>
-                    <p className="text-2xl font-bold text-text-primary">$4,236.80</p>
+                    <p className="text-2xl font-bold text-text-primary">
+                        ${stats.available.toFixed(2)}
+                    </p>
                 </div>
                 <div className="bg-white p-5 rounded-2xl border border-border-soft">
                     <div className="flex items-center gap-3 mb-3">
@@ -37,7 +106,9 @@ export default function SellerFinance() {
                         </div>
                         <span className="text-sm text-text-muted">Pending Settlement</span>
                     </div>
-                    <p className="text-2xl font-bold text-text-primary">$626.00</p>
+                    <p className="text-2xl font-bold text-text-primary">
+                        ${stats.pending.toFixed(2)}
+                    </p>
                 </div>
                 <div className="bg-white p-5 rounded-2xl border border-border-soft">
                     <div className="flex items-center gap-3 mb-3">
@@ -46,8 +117,10 @@ export default function SellerFinance() {
                         </div>
                         <span className="text-sm text-text-muted">Next Payout</span>
                     </div>
-                    <p className="text-2xl font-bold text-text-primary">Mar 7</p>
-                    <p className="text-xs text-text-muted mt-0.5">Est. $4,236.80</p>
+                    <p className="text-2xl font-bold text-text-primary">
+                        {new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                    </p>
+                    <p className="text-xs text-text-muted mt-0.5">Est. ${stats.available.toFixed(2)}</p>
                 </div>
             </div>
 
@@ -70,7 +143,15 @@ export default function SellerFinance() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-border-soft">
-                            {TRANSACTIONS.map((txn) => (
+                            {loading ? (
+                                <tr>
+                                    <td colSpan="7" className="px-5 py-8 text-center text-text-muted">Loading transactions...</td>
+                                </tr>
+                            ) : transactions.length === 0 ? (
+                                <tr>
+                                    <td colSpan="7" className="px-5 py-8 text-center text-text-muted">No transactions yet.</td>
+                                </tr>
+                            ) : transactions.map((txn) => (
                                 <tr key={txn.id} className="hover:bg-surface-bg/50 transition-colors">
                                     <td className="px-5 py-3.5 text-sm font-medium text-text-primary">{txn.id}</td>
                                     <td className="px-5 py-3.5 text-sm text-text-muted">
@@ -78,13 +159,13 @@ export default function SellerFinance() {
                                     </td>
                                     <td className="px-5 py-3.5">
                                         <span className={`text-xs font-semibold px-2 py-0.5 rounded-full
-                      ${txn.type === 'Sale' ? 'text-green-600 bg-green-50'
+                                          ${txn.type === 'Sale' ? 'text-green-600 bg-green-50'
                                                 : txn.type === 'Payout' ? 'text-blue-600 bg-blue-50'
                                                     : 'text-red-500 bg-red-50'}`}>
                                             {txn.type}
                                         </span>
                                     </td>
-                                    <td className="px-5 py-3.5 text-sm text-text-muted">{txn.description}</td>
+                                    <td className="px-5 py-3.5 text-sm text-text-muted truncate max-w-[200px]">{txn.description}</td>
                                     <td className={`px-5 py-3.5 text-sm font-medium text-right ${txn.amount >= 0 ? 'text-text-primary' : 'text-red-500'}`}>
                                         {txn.amount >= 0 ? '+' : ''}${Math.abs(txn.amount).toFixed(2)}
                                     </td>

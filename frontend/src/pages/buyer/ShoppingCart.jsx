@@ -1,40 +1,21 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Trash2, Minus, Plus, ShoppingBag, ArrowRight, Tag, Truck } from 'lucide-react';
-import { products } from '../../data/mockData';
-
-// Simulate cart items grouped by seller
-const initialCartItems = [
-    { productId: 1, quantity: 1, sellerId: 1 },
-    { productId: 7, quantity: 2, sellerId: 3 },
-    { productId: 3, quantity: 1, sellerId: 4 },
-    { productId: 4, quantity: 1, sellerId: 4 },
-];
+import { useCart } from '../../context/CartContext';
+import { useProduct } from '../../context/ProductContext';
 
 export default function ShoppingCart() {
-    const [cartItems, setCartItems] = useState(initialCartItems);
+    const { cart: cartItems, updateQuantity, removeFromCart: removeItem } = useCart();
+    const { products: allProducts } = useProduct();
+
     const [promoCode, setPromoCode] = useState('');
     const [promoApplied, setPromoApplied] = useState(false);
 
-    const getProduct = (id) => products.find((p) => p.id === id);
-
-    const updateQuantity = (productId, delta) => {
-        setCartItems((prev) =>
-            prev.map((item) =>
-                item.productId === productId
-                    ? { ...item, quantity: Math.max(1, item.quantity + delta) }
-                    : item
-            )
-        );
-    };
-
-    const removeItem = (productId) => {
-        setCartItems((prev) => prev.filter((item) => item.productId !== productId));
-    };
+    const getProduct = (id) => allProducts.find((p) => String(p.id) === String(id));
 
     // Group items by seller
     const grouped = cartItems.reduce((acc, item) => {
-        const product = getProduct(item.productId);
+        const product = getProduct(item.id);
         if (!product) return acc;
         const sellerKey = product.seller;
         if (!acc[sellerKey]) acc[sellerKey] = { sellerId: product.sellerId, items: [] };
@@ -43,7 +24,7 @@ export default function ShoppingCart() {
     }, {});
 
     const subtotal = cartItems.reduce((sum, item) => {
-        const p = getProduct(item.productId);
+        const p = getProduct(item.id);
         return sum + (p ? p.price * item.quantity : 0);
     }, 0);
 
@@ -125,14 +106,14 @@ export default function ShoppingCart() {
                                                     {/* Quantity controls */}
                                                     <div className="flex items-center border border-border-soft rounded-lg overflow-hidden">
                                                         <button
-                                                            onClick={() => updateQuantity(product.id, -1)}
+                                                            onClick={() => updateQuantity(product.id, quantity - 1)}
                                                             className="p-1.5 text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors"
                                                         >
                                                             <Minus size={14} />
                                                         </button>
                                                         <span className="w-8 text-center text-xs font-medium">{quantity}</span>
                                                         <button
-                                                            onClick={() => updateQuantity(product.id, 1)}
+                                                            onClick={() => updateQuantity(product.id, quantity + 1)}
                                                             className="p-1.5 text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors"
                                                         >
                                                             <Plus size={14} />

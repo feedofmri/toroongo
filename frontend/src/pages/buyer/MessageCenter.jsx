@@ -1,54 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MessageSquare, Send, Search, ChevronLeft } from 'lucide-react';
-
-const MOCK_CONVERSATIONS = [
-    {
-        id: 1,
-        seller: 'Sony Electronics',
-        avatar: 'S',
-        lastMessage: 'Your order has been shipped! Here is the tracking number...',
-        time: '2 hours ago',
-        unread: true,
-        messages: [
-            { from: 'buyer', text: 'Hi, when will my order be shipped?', time: '10:00 AM' },
-            { from: 'seller', text: 'Hello! Your order is being processed and will ship within 24 hours.', time: '10:15 AM' },
-            { from: 'buyer', text: 'Thank you for the update!', time: '10:20 AM' },
-            { from: 'seller', text: 'Your order has been shipped! Here is the tracking number: TRK-9284756. You can track it on our website.', time: '2:00 PM' },
-        ],
-    },
-    {
-        id: 2,
-        seller: 'NaturGlow',
-        avatar: 'N',
-        lastMessage: 'Thank you for your purchase! Feel free to reach out if you have any questions.',
-        time: '1 day ago',
-        unread: false,
-        messages: [
-            { from: 'buyer', text: 'Is the Vitamin C serum suitable for sensitive skin?', time: '9:00 AM' },
-            { from: 'seller', text: 'Yes! Our serum is formulated with gentle, organic ingredients safe for all skin types, including sensitive skin.', time: '9:30 AM' },
-            { from: 'buyer', text: 'Great, I just placed an order!', time: '9:45 AM' },
-            { from: 'seller', text: 'Thank you for your purchase! Feel free to reach out if you have any questions.', time: '10:00 AM' },
-        ],
-    },
-    {
-        id: 3,
-        seller: 'TechVault',
-        avatar: 'T',
-        lastMessage: 'We have the black and silver variants in stock.',
-        time: '3 days ago',
-        unread: false,
-        messages: [
-            { from: 'buyer', text: 'Do you have the Keychron Q1 in black?', time: '3:00 PM' },
-            { from: 'seller', text: 'We have the black and silver variants in stock.', time: '3:20 PM' },
-        ],
-    },
-];
+import { useAuth } from '../../context/AuthContext';
+import { messageService } from '../../services';
 
 export default function MessageCenter() {
-    const [activeConvo, setActiveConvo] = useState(null);
+    const { user } = useAuth();
+    const [conversations, setConversations] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [activeConvo, setActiveConvo] = useState(null); // The other party's user object
+    const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
+    const [sending, setSending] = useState(false);
 
-    const selectedConvo = MOCK_CONVERSATIONS.find((c) => c.id === activeConvo);
+    const loadConversations = async () => {
+        if (!user) return;
+        try {
+            const convos = await messageService.getConversations(user.id);
+            setConversations(convos);
+        } catch (error) {
+            console.error("Failed to load conversations:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        loadConversations();
+    }, [user]);
+
+    const handleSelectConversation = async (convo) => {
+        setActiveConvo(convo);
+        try {
+            await messageService.markAsRead(user.id, convo.otherUserId);
+            const msgs = await messageService.getMessages(user.id, convo.otherUserId);
+            setMessages(msgs);
+            // Optimization: refresh conversations unread count without a full network delay call if possible,
+            // but calling loadConversations is easiest.
+            loadConversations();
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleSendMessage = async () => {
+        if (!newMessage.trim() || !activeConvo) return;
+        setSending(true);
+        try {
+            await messageService.sendMessage(user.id, activeConvo.otherUserId, newMessage);
+            setNewMessage('');
+            // Reload messages
+            const msgs = await messageService.getMessages(user.id, activeConvo.otherUserId);
+            setMessages(msgs);
+            loadConversations();
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setSending(false);
+        }
+    };
+
+    const formatTime = (isoString) => {
+        const d = new Date(isoString);
+        return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    };
 
     return (
         <div>
@@ -73,29 +87,31 @@ export default function MessageCenter() {
 
                         {/* List */}
                         <div className="flex-1 overflow-y-auto">
-                            {MOCK_CONVERSATIONS.map((convo) => (
+                            {loading ? (
+                                <div className="p-8 text-center text-text-muted text-sm">Loading messages...</div>
+                            ) : conversations.map((convo) => (
                                 <button
-                                    key={convo.id}
-                                    onClick={() => setActiveConvo(convo.id)}
+                                    key={convo.otherUserId}
+                                    onClick={() => handleSelectConversation(convo)}
                                     className={`w-full text-left p-4 flex gap-3 border-b border-border-soft transition-colors
-                    ${activeConvo === convo.id ? 'bg-brand-primary/5' : 'hover:bg-surface-bg'}`}
+                    ${activeConvo?.otherUserId === convo.otherUserId ? 'bg-brand-primary/5' : 'hover:bg-surface-bg'}`}
                                 >
                                     <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold
-                    ${convo.unread ? 'bg-brand-primary text-white' : 'bg-surface-bg text-text-muted border border-border-soft'}`}>
-                                        {convo.avatar}
+                    ${convo.unreadCount > 0 ? 'bg-brand-primary text-white' : 'bg-surface-bg text-text-muted border border-border-soft'}`}>
+                                        {convo.otherUser.name.charAt(0).toUpperCase()}
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center justify-between">
-                                            <span className={`text-sm ${convo.unread ? 'font-bold text-text-primary' : 'font-medium text-text-primary'}`}>
-                                                {convo.seller}
+                                            <span className={`text-sm ${convo.unreadCount > 0 ? 'font-bold text-text-primary' : 'font-medium text-text-primary'}`}>
+                                                {convo.otherUser.name}
                                             </span>
-                                            <span className="text-[10px] text-text-muted flex-shrink-0">{convo.time}</span>
+                                            <span className="text-[10px] text-text-muted flex-shrink-0">{formatTime(convo.lastMessage.createdAt)}</span>
                                         </div>
-                                        <p className={`text-xs mt-0.5 line-clamp-1 ${convo.unread ? 'text-text-primary font-medium' : 'text-text-muted'}`}>
-                                            {convo.lastMessage}
+                                        <p className={`text-xs mt-0.5 line-clamp-1 ${convo.unreadCount > 0 ? 'text-text-primary font-medium' : 'text-text-muted'}`}>
+                                            {convo.lastMessage.text}
                                         </p>
                                     </div>
-                                    {convo.unread && (
+                                    {convo.unreadCount > 0 && (
                                         <div className="w-2.5 h-2.5 bg-brand-primary rounded-full flex-shrink-0 mt-1" />
                                     )}
                                 </button>
@@ -105,7 +121,7 @@ export default function MessageCenter() {
 
                     {/* Chat Area */}
                     <div className={`${activeConvo ? 'flex' : 'hidden md:flex'} flex-col flex-1`}>
-                        {selectedConvo ? (
+                        {activeConvo ? (
                             <>
                                 {/* Chat header */}
                                 <div className="px-4 py-3 border-b border-border-soft flex items-center gap-3">
@@ -116,32 +132,35 @@ export default function MessageCenter() {
                                         <ChevronLeft size={18} />
                                     </button>
                                     <div className="w-8 h-8 bg-brand-primary/10 rounded-full flex items-center justify-center">
-                                        <span className="text-xs font-bold text-brand-primary">{selectedConvo.avatar}</span>
+                                        <span className="text-xs font-bold text-brand-primary">{activeConvo.otherUser.name.charAt(0).toUpperCase()}</span>
                                     </div>
-                                    <span className="text-sm font-semibold text-text-primary">{selectedConvo.seller}</span>
+                                    <span className="text-sm font-semibold text-text-primary">{activeConvo.otherUser.name}</span>
                                 </div>
 
                                 {/* Messages */}
                                 <div className="flex-1 overflow-y-auto p-4 space-y-3">
-                                    {selectedConvo.messages.map((msg, idx) => (
-                                        <div key={idx} className={`flex ${msg.from === 'buyer' ? 'justify-end' : 'justify-start'}`}>
-                                            <div className={`max-w-[75%] px-4 py-2.5 rounded-2xl text-sm
-                        ${msg.from === 'buyer'
-                                                    ? 'bg-brand-primary text-white rounded-br-none'
-                                                    : 'bg-surface-bg text-text-primary border border-border-soft rounded-bl-none'
-                                                }`}>
-                                                <p>{msg.text}</p>
-                                                <p className={`text-[10px] mt-1 ${msg.from === 'buyer' ? 'text-white/60' : 'text-text-muted'}`}>
-                                                    {msg.time}
-                                                </p>
+                                    {messages.map((msg, idx) => {
+                                        const isBuyer = msg.senderId === user.id;
+                                        return (
+                                            <div key={idx} className={`flex ${isBuyer ? 'justify-end' : 'justify-start'}`}>
+                                                <div className={`max-w-[75%] px-4 py-2.5 rounded-2xl text-sm
+                        ${isBuyer
+                                                        ? 'bg-brand-primary text-white rounded-br-none'
+                                                        : 'bg-surface-bg text-text-primary border border-border-soft rounded-bl-none'
+                                                    }`}>
+                                                    <p>{msg.text}</p>
+                                                    <p className={`text-[10px] mt-1 ${isBuyer ? 'text-white/60' : 'text-text-muted'}`}>
+                                                        {formatTime(msg.createdAt)}
+                                                    </p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        );
+                                    })}
                                 </div>
 
                                 {/* Input */}
                                 <div className="p-3 border-t border-border-soft">
-                                    <div className="flex gap-2">
+                                    <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }} className="flex gap-2">
                                         <input
                                             type="text"
                                             placeholder="Type a message..."
@@ -150,10 +169,14 @@ export default function MessageCenter() {
                                             className="flex-1 px-4 py-2.5 text-sm bg-surface-bg border border-border-soft rounded-xl
                                focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none"
                                         />
-                                        <button className="p-2.5 bg-brand-primary text-white rounded-xl hover:bg-brand-secondary transition-colors">
+                                        <button
+                                            type="submit"
+                                            disabled={sending || !newMessage.trim()}
+                                            className="p-2.5 bg-brand-primary text-white rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-50"
+                                        >
                                             <Send size={16} />
                                         </button>
-                                    </div>
+                                    </form>
                                 </div>
                             </>
                         ) : (

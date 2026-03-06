@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CreditCard, Truck, MapPin, ChevronRight, Lock, ShieldCheck } from 'lucide-react';
-import { products } from '../../data/mockData';
-
-const cartSummary = [
-    { productId: 1, quantity: 1 },
-    { productId: 7, quantity: 2 },
-    { productId: 3, quantity: 1 },
-];
+import { useCart } from '../../context/CartContext';
+import { useProduct } from '../../context/ProductContext';
+import { useAuth } from '../../context/AuthContext';
+import { orderService } from '../../services';
 
 export default function Checkout() {
+    const navigate = useNavigate();
+    const { cart: cartSummary, clearCart } = useCart();
+    const { products: allProducts } = useProduct();
+    const { user } = useAuth();
     const [step, setStep] = useState(1); // 1=shipping, 2=payment, 3=review
     const [shipping, setShipping] = useState({
         firstName: '', lastName: '', email: '', phone: '',
@@ -21,7 +22,7 @@ export default function Checkout() {
     });
 
     const subtotal = cartSummary.reduce((sum, item) => {
-        const p = products.find((pr) => pr.id === item.productId);
+        const p = allProducts.find((pr) => String(pr.id) === String(item.id));
         return sum + (p ? p.price * item.quantity : 0);
     }, 0);
     const shippingCost = shippingMethod === 'express' ? 12.99 : subtotal > 50 ? 0 : 5.99;
@@ -41,6 +42,37 @@ export default function Checkout() {
     const inputClass = `w-full px-4 py-3 text-sm bg-white border border-border-soft rounded-xl
     focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-colors
     placeholder:text-text-muted/50`;
+
+    const handlePlaceOrder = async () => {
+        if (!user) {
+            // Should be handled by protected route ideally but let's be safe
+            alert("Please login to place order");
+            return;
+        }
+
+        const orderData = {
+            buyerId: user.id,
+            items: cartSummary.map(item => {
+                const p = allProducts.find((pr) => String(pr.id) === String(item.id));
+                return {
+                    productId: item.id,
+                    quantity: item.quantity,
+                    sellerId: p ? p.sellerId : 1,
+                    priceAtPurchase: p ? p.price : 0
+                };
+            }),
+            shippingAddress: shipping,
+            paymentMethod: "Credit Card ending in " + (payment.cardNumber || '4242').slice(-4)
+        };
+
+        try {
+            await orderService.createOrder(orderData);
+            clearCart();
+            navigate('/order-confirmation');
+        } catch (error) {
+            alert("Order failed: " + error.message);
+        }
+    };
 
     return (
         <div className="animate-fade-in">
@@ -211,7 +243,7 @@ export default function Checkout() {
                                 {/* Order items */}
                                 <div className="border border-border-soft rounded-xl divide-y divide-border-soft">
                                     {cartSummary.map((item) => {
-                                        const p = products.find((pr) => pr.id === item.productId);
+                                        const p = allProducts.find((pr) => String(pr.id) === String(item.id));
                                         if (!p) return null;
                                         return (
                                             <div key={p.id} className="flex gap-4 p-4">
@@ -236,13 +268,13 @@ export default function Checkout() {
                                     >
                                         Back
                                     </button>
-                                    <Link
-                                        to="/order-confirmation"
+                                    <button
+                                        onClick={handlePlaceOrder}
                                         className="flex-1 py-3.5 bg-brand-primary text-white font-semibold rounded-xl
                              hover:bg-brand-secondary transition-colors flex items-center justify-center gap-2 shadow-lg shadow-brand-primary/20"
                                     >
                                         <Lock size={15} /> Place Order
-                                    </Link>
+                                    </button>
                                 </div>
                             </div>
                         )}

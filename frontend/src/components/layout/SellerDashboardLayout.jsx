@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, Outlet, Link } from 'react-router-dom';
 import { LayoutDashboard, Package, ShoppingBag, Settings, DollarSign, MessageSquare, Store, ChevronLeft } from 'lucide-react';
+import iconColourful from '../../assets/Logo/icon_colourful.png';
 
 const sidebarLinks = [
     { to: '/seller', icon: LayoutDashboard, label: 'Dashboard', end: true },
@@ -20,9 +21,7 @@ export default function SellerDashboardLayout() {
                     {/* Logo */}
                     <div className="p-5 border-b border-border-soft">
                         <Link to="/" className="flex items-center gap-2.5">
-                            <div className="w-8 h-8 bg-brand-primary rounded-lg flex items-center justify-center">
-                                <span className="text-white font-bold text-sm">T</span>
-                            </div>
+                            <img src={iconColourful} alt="Toroongo" className="w-8 h-8" />
                             <span className="font-bold text-lg text-text-primary">Seller Hub</span>
                         </Link>
                     </div>

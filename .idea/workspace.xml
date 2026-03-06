@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="5ed57508-28a7-4665-a420-ceaf18205174" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/AdminDashboardLayout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/AdminDashboardLayout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/Footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/Footer.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/Navbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/SellerDashboardLayout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/SellerDashboardLayout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/SellerLayout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/SellerLayout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/product/ProductCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/product/ProductCard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/ui/CategoryCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ui/CategoryCard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/data/mockData.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/data/mockData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/useDelayedLoad.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/hooks/useDelayedLoad.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/admin/AdminFinance.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/admin/AdminFinance.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/admin/AdminOverview.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/admin/AdminOverview.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/admin/CategoryManagement.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/admin/CategoryManagement.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/admin/DisputeResolution.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/admin/DisputeResolution.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/admin/SellerManagement.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/admin/SellerManagement.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/admin/UserManagement.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/admin/UserManagement.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/buyer/AccountSettings.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/buyer/AccountSettings.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/buyer/AuthPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/buyer/AuthPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/buyer/Checkout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/buyer/Checkout.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/buyer/Homepage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/buyer/Homepage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/buyer/MessageCenter.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/buyer/MessageCenter.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/buyer/OrderConfirmation.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/buyer/OrderConfirmation.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/buyer/OrderHistory.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/buyer/OrderHistory.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/buyer/ProductDetail.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/buyer/ProductDetail.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/buyer/SearchResults.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/buyer/SearchResults.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/buyer/ShoppingCart.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/buyer/ShoppingCart.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/buyer/Wishlist.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/buyer/Wishlist.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/seller/OrderManagement.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/seller/OrderManagement.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/seller/ProductManagement.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/seller/ProductManagement.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/seller/SellerDashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/seller/SellerDashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/seller/SellerFinance.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/seller/SellerFinance.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/seller/SellerMessages.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/seller/SellerMessages.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/seller/SellerSettings.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/seller/SellerSettings.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/static/BlogPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/static/BlogPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/static/CookiePolicy.jsx" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_F:/Areas/Development/Projects/React/toroongo" value="3AZ0a9inB3q2xNVUvmL8m82gZ2C" />
+    </persistenceIdMap>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;feedofmri&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/feedofmri/toroongo.git&quot;,
+    &quot;accountId&quot;: &quot;7dcdd4c1-121a-49a5-aa19-73e0686d08f9&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="3AZ0a9inB3q2xNVUvmL8m82gZ2C" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-09060db00ec0-JavaScript-WS-251.26927.40" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5ed57508-28a7-4665-a420-ceaf18205174" name="Changes" comment="" />
+      <created>1772784847538</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1772784847538</updated>
+      <workItem from="1772784849050" duration="49000" />
+      <workItem from="1772795231841" duration="410000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>

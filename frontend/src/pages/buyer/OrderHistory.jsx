@@ -1,40 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Package, Eye, Truck, CheckCircle, Clock, ChevronDown } from 'lucide-react';
-
-const MOCK_ORDERS = [
-    {
-        id: 'TRG-A8F2K1',
-        date: '2026-02-28',
-        status: 'delivered',
-        total: 348.00,
-        items: [
-            { title: 'Sony WH-1000XM5 Headphones', image: 'https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&q=80&w=100', qty: 1, price: 348.00 },
-        ],
-        seller: 'Sony Electronics',
-    },
-    {
-        id: 'TRG-K9M3P2',
-        date: '2026-03-01',
-        status: 'shipped',
-        total: 141.99,
-        items: [
-            { title: 'Vitamin C Brightening Serum', image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=100', qty: 2, price: 84.00 },
-            { title: 'Retinol Night Cream', image: 'https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&q=80&w=100', qty: 1, price: 58.00 },
-        ],
-        seller: 'NaturGlow',
-    },
-    {
-        id: 'TRG-X5J8W4',
-        date: '2026-03-03',
-        status: 'processing',
-        total: 199.00,
-        items: [
-            { title: 'Keychron Q1 Pro Keyboard', image: 'https://images.unsplash.com/photo-1595225476474-87563907a212?auto=format&fit=crop&q=80&w=100', qty: 1, price: 199.00 },
-        ],
-        seller: 'TechVault',
-    },
-];
+import { useAuth } from '../../context/AuthContext';
+import { orderService } from '../../services';
+import { useProduct } from '../../context/ProductContext';
+import Skeleton from '../../components/ui/Skeleton';
 
 const STATUS_CONFIG = {
     processing: { label: 'Processing', icon: Clock, color: 'text-amber-600 bg-amber-50' },
@@ -43,11 +13,31 @@ const STATUS_CONFIG = {
 };
 
 export default function OrderHistory() {
+    const { user } = useAuth();
+    const { products: allProducts } = useProduct();
+    const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState('all');
 
+    useEffect(() => {
+        if (user) {
+            orderService.getUserOrders(user.id)
+                .then(data => {
+                    setOrders(data);
+                    setLoading(false);
+                })
+                .catch(console.error);
+        }
+    }, [user]);
+
     const filteredOrders = filter === 'all'
-        ? MOCK_ORDERS
-        : MOCK_ORDERS.filter((o) => o.status === filter);
+        ? orders
+        : orders.filter((o) => o.status === filter);
+
+    const getProductInfo = (productId) => {
+        const p = allProducts.find(pr => String(pr.id) === String(productId));
+        return p || { title: 'Unknown Product', imageUrl: '', sellerId: 'Unknown' };
+    };
 
     return (
         <div>
@@ -73,8 +63,10 @@ export default function OrderHistory() {
 
             {/* Orders list */}
             <div className="space-y-4">
-                {filteredOrders.map((order) => {
-                    const statusCfg = STATUS_CONFIG[order.status];
+                {loading ? (
+                    <div className="text-center py-16 text-text-muted">Loading orders...</div>
+                ) : filteredOrders.map((order) => {
+                    const statusCfg = STATUS_CONFIG[order.status] || STATUS_CONFIG.processing;
                     const StatusIcon = statusCfg.icon;
 
                     return (
@@ -82,9 +74,9 @@ export default function OrderHistory() {
                             {/* Order header */}
                             <div className="px-5 py-3 bg-surface-bg border-b border-border-soft flex flex-wrap items-center justify-between gap-3">
                                 <div className="flex items-center gap-4 text-sm">
-                                    <span className="font-semibold text-text-primary">{order.id}</span>
+                                    <span className="font-semibold text-text-primary">TRG-{order.id.split('-')[0].toUpperCase()}</span>
                                     <span className="text-text-muted">
-                                        {new Date(order.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                                        {new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                     </span>
                                 </div>
                                 <div className="flex items-center gap-3">
@@ -97,24 +89,27 @@ export default function OrderHistory() {
 
                             {/* Items */}
                             <div className="divide-y divide-border-soft">
-                                {order.items.map((item, idx) => (
-                                    <div key={idx} className="p-5 flex gap-4">
-                                        <div className="w-16 h-16 rounded-xl overflow-hidden bg-surface-bg flex-shrink-0 border border-border-soft">
-                                            <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
+                                {order.items.map((item, idx) => {
+                                    const pInfo = getProductInfo(item.productId);
+                                    return (
+                                        <div key={idx} className="p-5 flex gap-4">
+                                            <div className="w-16 h-16 rounded-xl overflow-hidden bg-surface-bg flex-shrink-0 border border-border-soft">
+                                                {pInfo.imageUrl ? <img src={pInfo.imageUrl} alt={pInfo.title} className="w-full h-full object-cover" /> : <div className="w-full h-full bg-border-soft"></div>}
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <p className="text-sm font-medium text-text-primary line-clamp-1">{pInfo.title}</p>
+                                                <p className="text-xs text-text-muted mt-0.5">Sold by {pInfo.sellerId} · Qty: {item.quantity}</p>
+                                                <p className="text-sm font-semibold text-text-primary mt-1">${(item.priceAtPurchase).toFixed(2)}</p>
+                                            </div>
                                         </div>
-                                        <div className="flex-1 min-w-0">
-                                            <p className="text-sm font-medium text-text-primary line-clamp-1">{item.title}</p>
-                                            <p className="text-xs text-text-muted mt-0.5">Sold by {order.seller} · Qty: {item.qty}</p>
-                                            <p className="text-sm font-semibold text-text-primary mt-1">${item.price.toFixed(2)}</p>
-                                        </div>
-                                    </div>
-                                ))}
+                                    )
+                                })}
                             </div>
 
                             {/* Order footer */}
                             <div className="px-5 py-3 border-t border-border-soft flex items-center justify-between">
                                 <span className="text-sm text-text-muted">
-                                    Total: <span className="font-bold text-text-primary">${order.total.toFixed(2)}</span>
+                                    Total: <span className="font-bold text-text-primary">${order.items.reduce((sum, item) => sum + (item.priceAtPurchase * item.quantity), 0).toFixed(2)}</span>
                                 </span>
                                 <div className="flex gap-2">
                                     {order.status === 'shipped' && (
@@ -131,7 +126,7 @@ export default function OrderHistory() {
                     );
                 })}
 
-                {filteredOrders.length === 0 && (
+                {!loading && filteredOrders.length === 0 && (
                     <div className="text-center py-16">
                         <Package size={40} className="mx-auto text-text-muted/40 mb-4" />
                         <p className="text-text-primary font-medium mb-1">No orders found</p>

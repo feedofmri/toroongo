@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, Outlet, Link } from 'react-router-dom';
 import { LayoutDashboard, Users, Store, Layers, DollarSign, AlertTriangle, ChevronLeft } from 'lucide-react';
+import iconWhite from '../../assets/Logo/icon_white.png';
 
 const sidebarLinks = [
     { to: '/admin', icon: LayoutDashboard, label: 'Overview', end: true },
@@ -19,9 +20,7 @@ export default function AdminDashboardLayout() {
                 <aside className="hidden lg:flex flex-col w-60 bg-slate-900 text-white min-h-screen sticky top-0">
                     <div className="p-5 border-b border-white/10">
                         <Link to="/" className="flex items-center gap-2.5">
-                            <div className="w-8 h-8 bg-brand-primary rounded-lg flex items-center justify-center">
-                                <span className="text-white font-bold text-sm">T</span>
-                            </div>
+                            <img src={iconWhite} alt="Toroongo" className="w-8 h-8" />
                             <span className="font-bold text-lg">Admin Panel</span>
                         </Link>
                     </div>

@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { Mail, Lock, User, Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Mail, Lock, User, Eye, EyeOff, ArrowRight, Loader2 } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+import iconColourful from '../../assets/Logo/icon_colourful.png';
 
 export default function AuthPage() {
     const location = useLocation();
+    const navigate = useNavigate();
     const isLogin = location.pathname === '/login';
     const isForgot = location.pathname === '/forgot-password';
+
+    const { login, register, isLoading } = useAuth();
+    const [error, setError] = useState('');
 
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
@@ -13,7 +19,37 @@ export default function AuthPage() {
     });
 
     const handleChange = (field, value) => {
+        setError('');
         setFormData((prev) => ({ ...prev, [field]: value }));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+
+        if (!formData.email || !formData.password) {
+            return setError('Please fill in all required fields');
+        }
+
+        try {
+            if (isLogin) {
+                await login(formData.email, formData.password);
+                navigate('/');
+            } else {
+                if (!formData.name) return setError('Name is required');
+                if (formData.password !== formData.confirmPassword) {
+                    return setError('Passwords do not match');
+                }
+                await register({
+                    name: formData.name,
+                    email: formData.email,
+                    password: formData.password
+                });
+                navigate('/');
+            }
+        } catch (err) {
+            setError(err.message || 'An error occurred during authentication');
+        }
     };
 
     const inputClass = `w-full pl-11 pr-4 py-3 text-sm bg-white border border-border-soft rounded-xl
@@ -26,9 +62,7 @@ export default function AuthPage() {
             <div className="animate-fade-in min-h-[70vh] flex items-center justify-center">
                 <div className="w-full max-w-md mx-auto px-4 py-16">
                     <div className="text-center mb-8">
-                        <div className="w-14 h-14 bg-brand-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
-                            <span className="text-white font-bold text-xl">T</span>
-                        </div>
+                        <img src={iconColourful} alt="Toroongo" className="w-14 h-14 mx-auto mb-4" />
                         <h1 className="text-2xl font-bold text-text-primary mb-2">Reset Your Password</h1>
                         <p className="text-sm text-text-muted">
                             Enter your email and we'll send you a link to reset your password.
@@ -65,9 +99,7 @@ export default function AuthPage() {
             <div className="w-full max-w-md mx-auto px-4 py-16">
                 {/* Logo & heading */}
                 <div className="text-center mb-8">
-                    <div className="w-14 h-14 bg-brand-primary rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <span className="text-white font-bold text-xl">T</span>
-                    </div>
+                    <img src={iconColourful} alt="Toroongo" className="w-14 h-14 mx-auto mb-4" />
                     <h1 className="text-2xl font-bold text-text-primary mb-2">
                         {isLogin ? 'Welcome Back' : 'Create Your Account'}
                     </h1>
@@ -93,7 +125,13 @@ export default function AuthPage() {
                 </div>
 
                 {/* Form */}
-                <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    {error && (
+                        <div className="p-3 rounded-lg bg-red-50 text-red-600 text-sm border border-red-100 mb-4 text-center">
+                            {error}
+                        </div>
+                    )}
+
                     {!isLogin && (
                         <div className="relative">
                             <User size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
@@ -149,10 +187,12 @@ export default function AuthPage() {
 
                     <button
                         type="submit"
+                        disabled={isLoading}
                         className="w-full py-3.5 bg-brand-primary text-white font-semibold rounded-xl
-                     hover:bg-brand-secondary transition-colors shadow-lg shadow-brand-primary/20 flex items-center justify-center gap-2"
+                     hover:bg-brand-secondary transition-colors shadow-lg shadow-brand-primary/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                     >
-                        {isLogin ? 'Log In' : 'Create Account'} <ArrowRight size={16} />
+                        {isLoading ? <Loader2 size={16} className="animate-spin" /> : (isLogin ? 'Log In' : 'Create Account')}
+                        {!isLoading && <ArrowRight size={16} />}
                     </button>
                 </form>
 

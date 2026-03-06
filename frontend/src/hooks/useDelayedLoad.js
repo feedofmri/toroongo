@@ -20,7 +20,7 @@ export function useDelayedLoad(sourceData, delayMs = 800) {
         }, delayMs);
 
         return () => clearTimeout(timer);
-    }, [delayMs]); // only re-run when delay changes
+    }, [sourceData, delayMs]); // re-run when data or delay changes
 
     return { data, isLoading };
 }

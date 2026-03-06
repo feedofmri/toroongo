@@ -1,12 +1,7 @@
-import React from 'react';
-import { Users, Store, ShoppingBag, DollarSign, ArrowUp, ArrowDown, TrendingUp, Package } from 'lucide-react';
-
-const STATS = [
-    { label: 'Total Users', value: '24,580', change: '+840', up: true, icon: Users },
-    { label: 'Active Sellers', value: '1,234', change: '+56', up: true, icon: Store },
-    { label: 'Total Orders', value: '18.2K', change: '+1.2K', up: true, icon: ShoppingBag },
-    { label: 'Platform Revenue', value: '$182K', change: '+$14K', up: true, icon: DollarSign },
-];
+import React, { useState, useEffect } from 'react';
+import { Users, Store, ShoppingBag, DollarSign, ArrowUp, ArrowDown, TrendingUp, Package, Star } from 'lucide-react';
+import { adminService } from '../../services';
+import Skeleton from '../../components/ui/Skeleton';
 
 const TOP_SELLERS = [
     { name: 'Sony Electronics', revenue: 82400, orders: 384, rating: 4.8 },
@@ -23,15 +18,23 @@ const RECENT_ACTIVITY = [
     { text: 'User report: seller #412 flagged', time: '3 hours ago', type: 'dispute' },
 ];
 
-function MiniBarChart() {
-    const bars = [45, 65, 80, 55, 90, 70, 85, 95, 75, 88, 92, 98];
-    const max = Math.max(...bars);
+function MiniBarChart({ data = [] }) {
+    if (!data.length) return <div className="h-28 flex items-center justify-center text-text-muted">No data</div>;
+
+    const max = Math.max(...data.map(d => d.sales)) || 1;
     return (
         <div className="flex items-end gap-1.5 h-28">
-            {bars.map((val, idx) => (
-                <div key={idx} className="flex-1 flex flex-col items-center gap-1">
-                    <div className="w-full rounded-t-md bg-brand-primary/80 hover:bg-brand-primary transition-colors min-h-[4px]" style={{ height: `${(val / max) * 100}%` }} />
-                    <span className="text-[9px] text-text-muted">{['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'][idx]}</span>
+            {data.map((val, idx) => (
+                <div key={idx} className="flex-1 flex flex-col items-center gap-1 group relative">
+                    <div
+                        className="w-full rounded-t-md bg-brand-primary/80 hover:bg-brand-primary transition-colors min-h-[4px] relative"
+                        style={{ height: `${(val.sales / max) * 100}%` }}
+                    >
+                        <div className="opacity-0 group-hover:opacity-100 absolute -top-8 left-1/2 -translate-x-1/2 bg-text-primary text-white text-[10px] py-1 px-2 rounded pointer-events-none whitespace-nowrap z-10 transition-opacity">
+                            {val.sales} sales
+                        </div>
+                    </div>
+                    <span className="text-[9px] text-text-muted">{val.date.substring(0, 1)}</span>
                 </div>
             ))}
         </div>
@@ -39,14 +42,37 @@ function MiniBarChart() {
 }
 
 export default function AdminOverview() {
+    const [stats, setStats] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        adminService.getPlatformStats()
+            .then(data => {
+                setStats(data);
+                setLoading(false);
+            })
+            .catch(console.error);
+    }, []);
+
+    const displayStats = stats ? [
+        { label: 'Total Users', value: stats.totalUsers.toLocaleString(), change: '+12', up: true, icon: Users },
+        { label: 'Active Sellers', value: stats.sellerCount.toLocaleString(), change: '+3', up: true, icon: Store },
+        { label: 'Total Orders', value: stats.totalOrders.toLocaleString(), change: '+18%', up: true, icon: ShoppingBag },
+        { label: 'Platform Revenue', value: `$${stats.totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, change: '+5.2%', up: true, icon: DollarSign },
+    ] : [];
+
+    if (loading) {
+        return <div className="p-8 text-center text-text-muted">Loading overview...</div>;
+    }
+
     return (
         <div className="animate-fade-in">
             <h2 className="text-2xl font-bold text-text-primary mb-6">Platform Overview</h2>
 
             {/* Stats */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                {STATS.map((stat) => (
-                    <div key={stat.label} className="bg-white p-5 rounded-2xl border border-border-soft">
+                {displayStats.map((stat) => (
+                    <div key={stat.label} className="bg-white p-5 rounded-2xl border border-border-soft flex flex-col justify-between">
                         <div className="flex items-center justify-between mb-3">
                             <span className="text-sm text-text-muted">{stat.label}</span>
                             <div className="w-9 h-9 bg-brand-primary/10 rounded-xl flex items-center justify-center">
@@ -66,9 +92,9 @@ export default function AdminOverview() {
                 <div className="lg:col-span-2 bg-white p-6 rounded-2xl border border-border-soft">
                     <div className="flex items-center justify-between mb-6">
                         <h3 className="font-semibold text-text-primary">Platform Growth</h3>
-                        <span className="text-xs text-text-muted bg-surface-bg px-2.5 py-1 rounded-lg">Monthly Orders</span>
+                        <span className="text-xs text-text-muted bg-surface-bg px-2.5 py-1 rounded-lg">Last 7 Days</span>
                     </div>
-                    <MiniBarChart />
+                    <MiniBarChart data={stats.salesData} />
                 </div>
 
                 <div className="bg-white p-6 rounded-2xl border border-border-soft">
@@ -110,7 +136,7 @@ export default function AdminOverview() {
                                     <td className="px-6 py-3.5 text-sm font-medium text-text-primary">{seller.name}</td>
                                     <td className="px-6 py-3.5 text-sm font-medium text-text-primary">${seller.revenue.toLocaleString()}</td>
                                     <td className="px-6 py-3.5 text-sm text-text-muted">{seller.orders}</td>
-                                    <td className="px-6 py-3.5 text-sm text-text-primary">⭐ {seller.rating}</td>
+                                    <td className="px-6 py-3.5 text-sm text-text-primary"><span className="inline-flex items-center gap-1"><Star size={13} className="fill-amber-400 text-amber-400" /> {seller.rating}</span></td>
                                 </tr>
                             ))}
                         </tbody>

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Store, Paintbrush, Globe, Bell } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
 export default function SellerSettings() {
+    const { user } = useAuth();
     const [activeTab, setActiveTab] = useState('store');
 
     const tabs = [
@@ -38,19 +40,19 @@ export default function SellerSettings() {
                     <h3 className="text-lg font-semibold text-text-primary">Store Information</h3>
                     <div>
                         <label className="block text-xs font-medium text-text-muted mb-1.5">Store Name</label>
-                        <input type="text" defaultValue="Sony Electronics" className={inputClass} />
+                        <input type="text" defaultValue={user?.name || 'Sony Electronics'} className={inputClass} />
                     </div>
                     <div>
                         <label className="block text-xs font-medium text-text-muted mb-1.5">Description</label>
                         <textarea
                             rows={3}
-                            defaultValue="Official Sony store for premium electronics and entertainment products."
+                            defaultValue="Official store for premium electronics and entertainment products."
                             className={`${inputClass} resize-none`}
                         />
                     </div>
                     <div>
                         <label className="block text-xs font-medium text-text-muted mb-1.5">Contact Email</label>
-                        <input type="email" defaultValue="support@sonyelectronics.com" className={inputClass} />
+                        <input type="email" defaultValue={user?.email || 'support@sonyelectronics.com'} className={inputClass} />
                     </div>
                     <div>
                         <label className="block text-xs font-medium text-text-muted mb-1.5">Phone</label>

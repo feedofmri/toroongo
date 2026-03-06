@@ -1,11 +1,38 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { CheckCircle, Package, ArrowRight, Copy } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
+import { orderService } from '../../services';
 
 export default function OrderConfirmation() {
-    const orderNumber = 'TRG-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-    const estimatedDelivery = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+    const { user } = useAuth();
+    const navigate = useNavigate();
+    const [latestOrder, setLatestOrder] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (!user) {
+            setLoading(false);
+            return;
+        }
+        orderService.getUserOrders(user.id)
+            .then(orders => {
+                if (orders.length > 0) {
+                    setLatestOrder(orders[0]);
+                }
+                setLoading(false);
+            })
+            .catch(console.error);
+    }, [user]);
+
+    const orderNumber = latestOrder ? 'TRG-' + latestOrder.id.split('-')[0].toUpperCase() : 'TRG-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+    const createdAt = latestOrder ? new Date(latestOrder.createdAt) : new Date();
+    const estimatedDelivery = new Date(createdAt.getTime() + 7 * 24 * 60 * 60 * 1000)
         .toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+
+    if (loading) {
+        return <div className="p-16 text-center text-text-muted">Loading your order confirmation...</div>;
+    }
 
     return (
         <div className="animate-fade-in">
@@ -42,17 +69,26 @@ export default function OrderConfirmation() {
                         </div>
                         <div>
                             <p className="text-xs text-text-muted uppercase tracking-wider mb-1">Shipping To</p>
-                            <p className="text-sm text-text-primary">123 Main Street, New York, NY 10001</p>
+                            <p className="text-sm text-text-primary">
+                                {latestOrder?.shippingAddress ? (
+                                    <>
+                                        {latestOrder.shippingAddress.firstName} {latestOrder.shippingAddress.lastName}<br />
+                                        {latestOrder.shippingAddress.address}, {latestOrder.shippingAddress.city}, {latestOrder.shippingAddress.state} {latestOrder.shippingAddress.zip}
+                                    </>
+                                ) : '123 Main Street, New York, NY 10001'}
+                            </p>
                         </div>
                         <div>
                             <p className="text-xs text-text-muted uppercase tracking-wider mb-1">Payment</p>
-                            <p className="text-sm text-text-primary">Visa ending in •••• 4242</p>
+                            <p className="text-sm text-text-primary">{latestOrder?.paymentMethod || 'Visa ending in •••• 4242'}</p>
                         </div>
                     </div>
 
                     <div className="border-t border-border-soft mt-6 pt-6 flex justify-between items-center">
-                        <span className="text-sm text-text-muted">Total Paid</span>
-                        <span className="text-2xl font-bold text-text-primary">$531.97</span>
+                        <span className="text-sm text-text-muted">Subtotal Paid</span>
+                        <span className="text-2xl font-bold text-text-primary">
+                            ${latestOrder ? latestOrder.items.reduce((sum, item) => sum + (item.priceAtPurchase * item.quantity), 0).toFixed(2) : '531.97'}
+                        </span>
                     </div>
                 </div>
 

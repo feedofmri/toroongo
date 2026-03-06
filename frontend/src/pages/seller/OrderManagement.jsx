@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import { Search, ChevronDown, Eye, Truck, CheckCircle, Clock, Package } from 'lucide-react';
 
-const MOCK_ORDERS = [
-    { id: 'TRG-X1A', date: '2026-03-03', customer: 'Sarah M.', email: 'sarah@email.com', product: 'Sony WH-1000XM5', qty: 1, total: 348.00, status: 'processing' },
-    { id: 'TRG-Y2B', date: '2026-03-02', customer: 'James K.', email: 'james@email.com', product: 'WF-1000XM5 Earbuds', qty: 1, total: 278.00, status: 'shipped' },
-    { id: 'TRG-Z3C', date: '2026-03-01', customer: 'Emily R.', email: 'emily@email.com', product: 'Minimalist Desk Lamp', qty: 2, total: 178.00, status: 'delivered' },
-    { id: 'TRG-W4D', date: '2026-02-28', customer: 'Michael T.', email: 'michael@email.com', product: 'Sony WH-1000XM5', qty: 1, total: 348.00, status: 'processing' },
-    { id: 'TRG-V5E', date: '2026-02-27', customer: 'Anna L.', email: 'anna@email.com', product: 'WF-1000XM5 Earbuds', qty: 3, total: 834.00, status: 'delivered' },
-];
+import { useAuth } from '../../context/AuthContext';
+import { orderService } from '../../services';
+import { useProduct } from '../../context/ProductContext';
+import Skeleton from '../../components/ui/Skeleton';
 
 const STATUS_CONFIG = {
     processing: { label: 'Processing', icon: Clock, style: 'text-amber-600 bg-amber-50' },
@@ -16,15 +13,35 @@ const STATUS_CONFIG = {
 };
 
 export default function OrderManagement() {
+    const { user } = useAuth();
+    const { products: allProducts } = useProduct();
+    const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState('all');
     const [search, setSearch] = useState('');
 
-    const filtered = MOCK_ORDERS.filter((o) => {
+    React.useEffect(() => {
+        if (user) {
+            orderService.getSellerOrders(user.id)
+                .then(data => {
+                    setOrders(data);
+                    setLoading(false);
+                })
+                .catch(console.error);
+        }
+    }, [user]);
+
+    const filtered = orders.filter((o) => {
         const matchesFilter = filter === 'all' || o.status === filter;
         const matchesSearch = o.id.toLowerCase().includes(search.toLowerCase()) ||
-            o.customer.toLowerCase().includes(search.toLowerCase());
+            (o.shippingAddress?.firstName || '').toLowerCase().includes(search.toLowerCase());
         return matchesFilter && matchesSearch;
     });
+
+    const getProductName = (productId) => {
+        const p = allProducts.find(pr => String(pr.id) === String(productId));
+        return p ? p.title : 'Unknown Product';
+    };
 
     return (
         <div className="animate-fade-in">
@@ -33,9 +50,9 @@ export default function OrderManagement() {
             {/* Stats row */}
             <div className="grid grid-cols-3 gap-4 mb-6">
                 {[
-                    { label: 'Pending', count: MOCK_ORDERS.filter((o) => o.status === 'processing').length, color: 'text-amber-600' },
-                    { label: 'Shipped', count: MOCK_ORDERS.filter((o) => o.status === 'shipped').length, color: 'text-blue-600' },
-                    { label: 'Completed', count: MOCK_ORDERS.filter((o) => o.status === 'delivered').length, color: 'text-green-600' },
+                    { label: 'Pending', count: orders.filter((o) => o.status === 'processing').length, color: 'text-amber-600' },
+                    { label: 'Shipped', count: orders.filter((o) => o.status === 'shipped').length, color: 'text-blue-600' },
+                    { label: 'Completed', count: orders.filter((o) => o.status === 'delivered').length, color: 'text-green-600' },
                 ].map((stat) => (
                     <div key={stat.label} className="bg-white p-4 rounded-xl border border-border-soft text-center">
                         <p className={`text-2xl font-bold ${stat.color}`}>{stat.count}</p>
@@ -89,22 +106,32 @@ export default function OrderManagement() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-border-soft">
-                            {filtered.map((order) => {
-                                const cfg = STATUS_CONFIG[order.status];
+                            {loading ? (
+                                <tr>
+                                    <td colSpan="7" className="px-5 py-8 text-center text-text-muted">Loading orders...</td>
+                                </tr>
+                            ) : filtered.map((order) => {
+                                const cfg = STATUS_CONFIG[order.status] || STATUS_CONFIG.processing;
+                                const firstItem = order.items[0];
+                                const productName = firstItem ? getProductName(firstItem.productId) : 'N/A';
+                                const customerName = order.shippingAddress ? `${order.shippingAddress.firstName} ${order.shippingAddress.lastName}` : 'Guest';
+                                const customerEmail = order.shippingAddress?.email || 'N/A';
+
                                 return (
                                     <tr key={order.id} className="hover:bg-surface-bg/50 transition-colors">
-                                        <td className="px-5 py-3.5 text-sm font-semibold text-text-primary">{order.id}</td>
+                                        <td className="px-5 py-3.5 text-sm font-semibold text-text-primary">TRG-{order.id.split('-')[0].toUpperCase()}</td>
                                         <td className="px-5 py-3.5 text-sm text-text-muted">
-                                            {new Date(order.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                                            {new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                                         </td>
                                         <td className="px-5 py-3.5">
-                                            <p className="text-sm font-medium text-text-primary">{order.customer}</p>
-                                            <p className="text-[11px] text-text-muted">{order.email}</p>
+                                            <p className="text-sm font-medium text-text-primary">{customerName}</p>
+                                            <p className="text-[11px] text-text-muted">{customerEmail}</p>
                                         </td>
                                         <td className="px-5 py-3.5 text-sm text-text-muted">
-                                            {order.product} <span className="text-text-muted/60">× {order.qty}</span>
+                                            <span className="line-clamp-1">{productName}</span>
+                                            {order.items.length > 1 && <span className="text-xs text-brand-primary">+{order.items.length - 1} more</span>}
                                         </td>
-                                        <td className="px-5 py-3.5 text-sm font-medium text-text-primary">${order.total.toFixed(2)}</td>
+                                        <td className="px-5 py-3.5 text-sm font-medium text-text-primary">${order.subtotal?.toFixed(2) || '0.00'}</td>
                                         <td className="px-5 py-3.5">
                                             <span className={`flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full w-fit ${cfg.style}`}>
                                                 <cfg.icon size={11} /> {cfg.label}
@@ -122,7 +149,7 @@ export default function OrderManagement() {
                     </table>
                 </div>
 
-                {filtered.length === 0 && (
+                {!loading && filtered.length === 0 && (
                     <div className="text-center py-12">
                         <Package size={32} className="mx-auto text-text-muted/40 mb-3" />
                         <p className="text-text-primary font-medium">No orders found</p>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { User, MapPin, CreditCard, Bell, Plus, Pencil, Trash2 } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
 const MOCK_ADDRESSES = [
     { id: 1, label: 'Home', name: 'John Doe', address: '123 Main Street', city: 'New York', state: 'NY', zip: '10001', phone: '+1 (555) 123-4567', isDefault: true },
@@ -12,6 +13,7 @@ const MOCK_PAYMENTS = [
 ];
 
 export default function AccountSettings() {
+    const { user } = useAuth();
     const [activeTab, setActiveTab] = useState('profile');
 
     const tabs = [
@@ -60,16 +62,16 @@ export default function AccountSettings() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-xs font-medium text-text-muted mb-1.5">First Name</label>
-                            <input type="text" defaultValue="John" className={inputClass} />
+                            <input type="text" defaultValue={user?.name?.split(' ')[0] || ''} className={inputClass} />
                         </div>
                         <div>
                             <label className="block text-xs font-medium text-text-muted mb-1.5">Last Name</label>
-                            <input type="text" defaultValue="Doe" className={inputClass} />
+                            <input type="text" defaultValue={user?.name?.split(' ').slice(1).join(' ') || ''} className={inputClass} />
                         </div>
                     </div>
                     <div>
                         <label className="block text-xs font-medium text-text-muted mb-1.5">Email</label>
-                        <input type="email" defaultValue="john.doe@email.com" className={inputClass} />
+                        <input type="email" defaultValue={user?.email || ''} className={inputClass} />
                     </div>
                     <div>
                         <label className="block text-xs font-medium text-text-muted mb-1.5">Phone</label>

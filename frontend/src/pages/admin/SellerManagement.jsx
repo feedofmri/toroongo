@@ -1,14 +1,6 @@
-import React from 'react';
-import { CheckCircle, Clock, XCircle, Eye, MoreHorizontal } from 'lucide-react';
-
-const SELLERS = [
-    { id: 1, name: 'Sony Electronics', email: 'admin@sony.com', products: 324, revenue: 82400, rating: 4.8, status: 'approved' },
-    { id: 2, name: 'Urban Threads', email: 'hi@urbanthreads.com', products: 560, revenue: 64200, rating: 4.6, status: 'approved' },
-    { id: 3, name: 'NaturGlow', email: 'hello@naturglow.com', products: 180, revenue: 45800, rating: 4.9, status: 'approved' },
-    { id: 4, name: 'TechVault', email: 'support@techvault.com', products: 412, revenue: 38200, rating: 4.7, status: 'approved' },
-    { id: 5, name: 'ArtisanCraft', email: 'apply@artisancraft.com', products: 0, revenue: 0, rating: 0, status: 'pending' },
-    { id: 6, name: 'FakeGoods Inc.', email: 'fake@email.com', products: 12, revenue: 800, rating: 1.2, status: 'rejected' },
-];
+import React, { useState, useEffect } from 'react';
+import { CheckCircle, Clock, XCircle, Eye, MoreHorizontal, Star } from 'lucide-react';
+import { adminService } from '../../services';
 
 const STATUS_CONFIG = {
     approved: { label: 'Approved', icon: CheckCircle, style: 'text-green-600 bg-green-50' },
@@ -17,6 +9,27 @@ const STATUS_CONFIG = {
 };
 
 export default function SellerManagement() {
+    const [sellers, setSellers] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        adminService.getAllUsers()
+            .then(users => {
+                const sellerUsers = users.filter(u => u.role === 'seller').map(s => ({
+                    ...s,
+                    products: Math.floor(Math.random() * 50) + 1, // mock stat
+                    revenue: Math.floor(Math.random() * 10000), // mock stat
+                    rating: (Math.random() * 2 + 3).toFixed(1), // mock stat between 3 and 5
+                    status: 'approved'
+                }));
+                setSellers(sellerUsers);
+                setLoading(false);
+            })
+            .catch(console.error);
+    }, []);
+
+    if (loading) return <div className="p-8 text-center text-text-muted">Loading sellers...</div>;
+
     return (
         <div className="animate-fade-in">
             <h2 className="text-2xl font-bold text-text-primary mb-6">Seller Management</h2>
@@ -32,8 +45,10 @@ export default function SellerManagement() {
                             <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase text-right">Action</th>
                         </tr></thead>
                         <tbody className="divide-y divide-border-soft">
-                            {SELLERS.map((seller) => {
-                                const cfg = STATUS_CONFIG[seller.status];
+                            {sellers.length === 0 ? (
+                                <tr><td colSpan="6" className="px-5 py-8 text-center text-text-muted">No sellers found.</td></tr>
+                            ) : sellers.map((seller) => {
+                                const cfg = STATUS_CONFIG[seller.status] || STATUS_CONFIG.approved;
                                 return (
                                     <tr key={seller.id} className="hover:bg-surface-bg/50 transition-colors">
                                         <td className="px-5 py-3.5">
@@ -42,7 +57,7 @@ export default function SellerManagement() {
                                         </td>
                                         <td className="px-5 py-3.5 text-sm text-text-muted">{seller.products}</td>
                                         <td className="px-5 py-3.5 text-sm font-medium text-text-primary">${seller.revenue.toLocaleString()}</td>
-                                        <td className="px-5 py-3.5 text-sm text-text-muted">{seller.rating > 0 ? `⭐ ${seller.rating}` : '—'}</td>
+                                        <td className="px-5 py-3.5 text-sm text-text-muted">{seller.rating > 0 ? <span className="inline-flex items-center gap-1"><Star size={13} className="fill-amber-400 text-amber-400" /> {seller.rating}</span> : '—'}</td>
                                         <td className="px-5 py-3.5">
                                             <span className={`flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full w-fit ${cfg.style}`}>
                                                 <cfg.icon size={11} /> {cfg.label}

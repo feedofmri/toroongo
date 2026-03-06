@@ -1,25 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { DollarSign, TrendingUp, Package, ShoppingBag, ArrowUp, ArrowDown, Eye } from 'lucide-react';
-
-const STATS = [
-    { label: 'Total Revenue', value: '$24,580', change: '+12.5%', up: true, icon: DollarSign },
-    { label: 'Total Orders', value: '384', change: '+8.2%', up: true, icon: ShoppingBag },
-    { label: 'Products Listed', value: '56', change: '+3', up: true, icon: Package },
-    { label: 'Store Views', value: '12.4K', change: '-2.1%', up: false, icon: Eye },
-];
-
-const RECENT_ORDERS = [
-    { id: 'TRG-X1A', customer: 'Sarah M.', product: 'Sony WH-1000XM5', total: 348.00, status: 'shipped' },
-    { id: 'TRG-Y2B', customer: 'James K.', product: 'WF-1000XM5 Earbuds', total: 278.00, status: 'processing' },
-    { id: 'TRG-Z3C', customer: 'Emily R.', product: 'Minimalist Desk Lamp', total: 89.00, status: 'delivered' },
-    { id: 'TRG-W4D', customer: 'Michael T.', product: 'Sony WH-1000XM5', total: 348.00, status: 'processing' },
-];
-
-const TOP_PRODUCTS = [
-    { name: 'Sony WH-1000XM5', sold: 142, revenue: 49416 },
-    { name: 'WF-1000XM5 Earbuds', sold: 98, revenue: 27244 },
-    { name: 'Minimalist Desk Lamp', sold: 64, revenue: 5696 },
-];
+import { useAuth } from '../../context/AuthContext';
+import { orderService, productService } from '../../services';
 
 const STATUS_STYLES = {
     processing: 'text-amber-600 bg-amber-50',
@@ -49,13 +31,75 @@ function MiniBarChart() {
 }
 
 export default function SellerDashboard() {
+    const { user } = useAuth();
+    const [stats, setStats] = useState({ revenue: 0, orderCount: 0, productsCount: 0 });
+    const [recentOrders, setRecentOrders] = useState([]);
+    const [topProducts, setTopProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (!user) return;
+
+        Promise.all([
+            orderService.getSellerOrders(user.id),
+            productService.getProductsBySeller(user.id)
+        ]).then(([orders, products]) => {
+            const revenue = orders.reduce((sum, order) => sum + (order.subtotal || 0), 0);
+            setStats({
+                revenue,
+                orderCount: orders.length,
+                productsCount: products.length
+            });
+
+            // Calculate top products
+            const productSales = {};
+            orders.forEach(order => {
+                order.items.forEach(item => {
+                    if (!productSales[item.productId]) {
+                        productSales[item.productId] = { sold: 0, revenue: 0 };
+                    }
+                    productSales[item.productId].sold += item.quantity;
+                    productSales[item.productId].revenue += item.quantity * item.priceAtPurchase;
+                });
+            });
+
+            const top = Object.entries(productSales)
+                .map(([id, data]) => {
+                    const p = products.find(prod => String(prod.id) === String(id));
+                    return {
+                        name: p ? p.title : `Product #${id}`,
+                        sold: data.sold,
+                        revenue: data.revenue
+                    };
+                })
+                .sort((a, b) => b.revenue - a.revenue)
+                .slice(0, 3);
+
+            setTopProducts(top);
+            setRecentOrders(orders.slice(0, 4));
+            setLoading(false);
+        }).catch(console.error);
+
+    }, [user]);
+
+    const displayStats = [
+        { label: 'Total Revenue', value: `$${stats.revenue.toFixed(2)}`, change: '+12.5%', up: true, icon: DollarSign },
+        { label: 'Total Orders', value: stats.orderCount, change: '+8.2%', up: true, icon: ShoppingBag },
+        { label: 'Products Listed', value: stats.productsCount, change: '+3', up: true, icon: Package },
+        { label: 'Store Views', value: '12.4K', change: '-2.1%', up: false, icon: Eye },
+    ];
+
+    if (loading) {
+        return <div className="p-8 text-center text-text-muted">Loading dashboard...</div>;
+    }
+
     return (
         <div className="animate-fade-in">
             <h2 className="text-2xl font-bold text-text-primary mb-6">Dashboard</h2>
 
             {/* Stats Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                {STATS.map((stat) => (
+                {displayStats.map((stat) => (
                     <div key={stat.label} className="bg-white p-5 rounded-2xl border border-border-soft">
                         <div className="flex items-center justify-between mb-3">
                             <span className="text-sm text-text-muted">{stat.label}</span>
@@ -86,7 +130,9 @@ export default function SellerDashboard() {
                 <div className="bg-white p-6 rounded-2xl border border-border-soft">
                     <h3 className="font-semibold text-text-primary mb-4">Top Products</h3>
                     <div className="space-y-4">
-                        {TOP_PRODUCTS.map((product, idx) => (
+                        {topProducts.length === 0 ? (
+                            <p className="text-sm text-text-muted">No sales yet.</p>
+                        ) : topProducts.map((product, idx) => (
                             <div key={product.name} className="flex items-center gap-3">
                                 <span className="w-6 h-6 bg-surface-bg rounded-lg flex items-center justify-center text-xs font-bold text-text-muted">
                                     {idx + 1}
@@ -95,7 +141,7 @@ export default function SellerDashboard() {
                                     <p className="text-sm font-medium text-text-primary truncate">{product.name}</p>
                                     <p className="text-xs text-text-muted">{product.sold} sold</p>
                                 </div>
-                                <span className="text-sm font-semibold text-text-primary">${product.revenue.toLocaleString()}</span>
+                                <span className="text-sm font-semibold text-text-primary">${product.revenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                             </div>
                         ))}
                     </div>
@@ -119,19 +165,28 @@ export default function SellerDashboard() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-border-soft">
-                            {RECENT_ORDERS.map((order) => (
-                                <tr key={order.id} className="hover:bg-surface-bg/50 transition-colors">
-                                    <td className="px-6 py-3.5 text-sm font-medium text-text-primary">{order.id}</td>
-                                    <td className="px-6 py-3.5 text-sm text-text-muted">{order.customer}</td>
-                                    <td className="px-6 py-3.5 text-sm text-text-muted">{order.product}</td>
-                                    <td className="px-6 py-3.5 text-sm font-medium text-text-primary">${order.total.toFixed(2)}</td>
-                                    <td className="px-6 py-3.5">
-                                        <span className={`text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${STATUS_STYLES[order.status]}`}>
-                                            {order.status}
-                                        </span>
-                                    </td>
+                            {recentOrders.length === 0 ? (
+                                <tr>
+                                    <td colSpan="5" className="px-6 py-8 text-center text-text-muted">No orders yet</td>
                                 </tr>
-                            ))}
+                            ) : recentOrders.map((order) => {
+                                const customerName = order.shippingAddress ? `${order.shippingAddress.firstName} ${order.shippingAddress.lastName}` : 'Guest';
+                                return (
+                                    <tr key={order.id} className="hover:bg-surface-bg/50 transition-colors">
+                                        <td className="px-6 py-3.5 text-sm font-medium text-text-primary">TRG-{order.id.split('-')[0].toUpperCase()}</td>
+                                        <td className="px-6 py-3.5 text-sm text-text-muted">{customerName}</td>
+                                        <td className="px-6 py-3.5 text-sm text-text-muted">
+                                            <span className="line-clamp-1">{order.items.length > 0 ? `${order.items[0].quantity}x items` : 'N/A'}</span>
+                                        </td>
+                                        <td className="px-6 py-3.5 text-sm font-medium text-text-primary">${(order.subtotal || 0).toFixed(2)}</td>
+                                        <td className="px-6 py-3.5">
+                                            <span className={`text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${STATUS_STYLES[order.status] || STATUS_STYLES.processing}`}>
+                                                {order.status}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                )
+                            })}
                         </tbody>
                     </table>
                 </div>

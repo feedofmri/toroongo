@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
 import { Plus, Search, Pencil, Trash2, Eye, Package, ChevronDown } from 'lucide-react';
 
-const MOCK_PRODUCTS = [
-    { id: 1, title: 'Sony WH-1000XM5 Headphones', price: 348.00, stock: 45, status: 'active', category: 'Electronics', image: 'https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&q=80&w=60' },
-    { id: 2, title: 'WF-1000XM5 Earbuds', price: 278.00, stock: 23, status: 'active', category: 'Electronics', image: 'https://images.unsplash.com/photo-1590658268037-6bf12f032f55?auto=format&fit=crop&q=80&w=60' },
-    { id: 3, title: 'Minimalist Desk Lamp', price: 89.00, stock: 0, status: 'out_of_stock', category: 'Home & Living', image: 'https://images.unsplash.com/photo-1507473885765-e6ed057ab6fe?auto=format&fit=crop&q=80&w=60' },
-    { id: 4, title: 'Sony SRS-XB100 Speaker', price: 59.99, stock: 120, status: 'active', category: 'Electronics', image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&q=80&w=60' },
-    { id: 5, title: 'Premium USB-C Cable Set', price: 24.99, stock: 5, status: 'low_stock', category: 'Electronics', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?auto=format&fit=crop&q=80&w=60' },
-];
+import { useAuth } from '../../context/AuthContext';
+import { productService } from '../../services';
+import Skeleton from '../../components/ui/Skeleton';
 
 const STATUS_STYLES = {
     active: 'text-green-600 bg-green-50',
@@ -24,10 +20,31 @@ const STATUS_LABELS = {
 };
 
 export default function ProductManagement() {
+    const { user } = useAuth();
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
     const [filterStatus, setFilterStatus] = useState('all');
 
-    const filtered = MOCK_PRODUCTS.filter((p) => {
+    React.useEffect(() => {
+        if (user) {
+            productService.getProductsBySeller(user.id)
+                .then(data => {
+                    // Map stock to statuses since mock didn't have true status
+                    const mappedProducts = data.map(p => {
+                        let status = 'active';
+                        if (p.stock === 0) status = 'out_of_stock';
+                        else if (p.stock < 10) status = 'low_stock';
+                        return { ...p, status };
+                    });
+                    setProducts(mappedProducts);
+                    setLoading(false);
+                })
+                .catch(console.error);
+        }
+    }, [user]);
+
+    const filtered = products.filter((p) => {
         const matchesSearch = p.title.toLowerCase().includes(search.toLowerCase());
         const matchesStatus = filterStatus === 'all' || p.status === filterStatus;
         return matchesSearch && matchesStatus;
@@ -87,12 +104,16 @@ export default function ProductManagement() {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-border-soft">
-                            {filtered.map((product) => (
+                            {loading ? (
+                                <tr>
+                                    <td colSpan="6" className="px-5 py-8 text-center text-text-muted">Loading products...</td>
+                                </tr>
+                            ) : filtered.map((product) => (
                                 <tr key={product.id} className="hover:bg-surface-bg/50 transition-colors">
                                     <td className="px-5 py-3.5">
                                         <div className="flex items-center gap-3">
                                             <div className="w-10 h-10 rounded-lg overflow-hidden bg-surface-bg flex-shrink-0">
-                                                <img src={product.image} alt={product.title} className="w-full h-full object-cover" />
+                                                <img src={product.imageUrl} alt={product.title} className="w-full h-full object-cover" />
                                             </div>
                                             <span className="text-sm font-medium text-text-primary line-clamp-1">{product.title}</span>
                                         </div>
@@ -124,7 +145,7 @@ export default function ProductManagement() {
                     </table>
                 </div>
 
-                {filtered.length === 0 && (
+                {!loading && filtered.length === 0 && (
                     <div className="text-center py-12">
                         <Package size={32} className="mx-auto text-text-muted/40 mb-3" />
                         <p className="text-text-primary font-medium">No products found</p>

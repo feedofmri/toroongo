@@ -1,19 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, ChevronDown, UserCheck, UserX, MoreHorizontal } from 'lucide-react';
-
-const USERS = [
-    { id: 1, name: 'Sarah Mitchell', email: 'sarah@email.com', role: 'buyer', orders: 24, joined: '2025-08-12', status: 'active' },
-    { id: 2, name: 'James Kim', email: 'james@email.com', role: 'buyer', orders: 15, joined: '2025-10-22', status: 'active' },
-    { id: 3, name: 'Emily Rodriguez', email: 'emily@email.com', role: 'buyer', orders: 8, joined: '2025-12-01', status: 'active' },
-    { id: 4, name: 'Michael Thompson', email: 'michael@email.com', role: 'seller', orders: 0, joined: '2025-06-15', status: 'active' },
-    { id: 5, name: 'Anna Lee', email: 'anna@email.com', role: 'buyer', orders: 31, joined: '2025-04-20', status: 'suspended' },
-];
+import { adminService } from '../../services';
 
 export default function UserManagement() {
+    const [users, setUsers] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
     const [roleFilter, setRoleFilter] = useState('all');
 
-    const filtered = USERS.filter((u) => {
+    useEffect(() => {
+        adminService.getAllUsers()
+            .then(data => {
+                const mapped = data.map(u => ({
+                    ...u,
+                    joined: u.createdAt || new Date().toISOString(),
+                    status: 'active', // mock status
+                    orders: Math.floor(Math.random() * 10) // mock orders count for UI richness
+                }));
+                // Sort by joined descending
+                mapped.sort((a, b) => new Date(b.joined) - new Date(a.joined));
+                setUsers(mapped);
+                setLoading(false);
+            })
+            .catch(console.error);
+    }, []);
+
+    const filtered = users.filter((u) => {
         const matchSearch = u.name.toLowerCase().includes(search.toLowerCase()) || u.email.toLowerCase().includes(search.toLowerCase());
         const matchRole = roleFilter === 'all' || u.role === roleFilter;
         return matchSearch && matchRole;
@@ -50,14 +62,22 @@ export default function UserManagement() {
                             <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase text-right">Action</th>
                         </tr></thead>
                         <tbody className="divide-y divide-border-soft">
-                            {filtered.map((user) => (
+                            {loading ? (
+                                <tr>
+                                    <td colSpan="6" className="px-5 py-8 text-center text-text-muted">Loading users...</td>
+                                </tr>
+                            ) : filtered.length === 0 ? (
+                                <tr>
+                                    <td colSpan="6" className="px-5 py-8 text-center text-text-muted">No users found.</td>
+                                </tr>
+                            ) : filtered.map((user) => (
                                 <tr key={user.id} className="hover:bg-surface-bg/50 transition-colors">
                                     <td className="px-5 py-3.5">
                                         <p className="text-sm font-medium text-text-primary">{user.name}</p>
                                         <p className="text-[11px] text-text-muted">{user.email}</p>
                                     </td>
                                     <td className="px-5 py-3.5">
-                                        <span className={`text-xs font-semibold px-2 py-0.5 rounded-full capitalize ${user.role === 'seller' ? 'text-purple-600 bg-purple-50' : 'text-blue-600 bg-blue-50'}`}>{user.role}</span>
+                                        <span className={`text-xs font-semibold px-2 py-0.5 rounded-full capitalize ${user.role === 'seller' ? 'text-purple-600 bg-purple-50' : user.role === 'admin' ? 'text-green-600 bg-green-50' : 'text-blue-600 bg-blue-50'}`}>{user.role}</span>
                                     </td>
                                     <td className="px-5 py-3.5 text-sm text-text-muted">{user.orders}</td>
                                     <td className="px-5 py-3.5 text-sm text-text-muted">{new Date(user.joined).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</td>

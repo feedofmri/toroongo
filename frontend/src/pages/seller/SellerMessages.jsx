@@ -1,39 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MessageSquare, Send, Search, ChevronLeft } from 'lucide-react';
-
-const MOCK_CONVERSATIONS = [
-    {
-        id: 1, customer: 'Sarah M.', avatar: 'S', time: '1 hour ago', unread: true,
-        lastMessage: 'When will my headphones be shipped?',
-        messages: [
-            { from: 'customer', text: 'Hi, I ordered the WH-1000XM5 yesterday.', time: '2:00 PM' },
-            { from: 'customer', text: 'When will my headphones be shipped?', time: '2:01 PM' },
-        ],
-    },
-    {
-        id: 2, customer: 'James K.', avatar: 'J', time: '3 hours ago', unread: false,
-        lastMessage: 'Thank you for the quick response!',
-        messages: [
-            { from: 'customer', text: 'Is the desk lamp compatible with smart home?', time: '10:00 AM' },
-            { from: 'seller', text: 'The lamp has a standard E26 socket. You can use any smart bulb with it.', time: '10:15 AM' },
-            { from: 'customer', text: 'Thank you for the quick response!', time: '10:20 AM' },
-        ],
-    },
-    {
-        id: 3, customer: 'Emily R.', avatar: 'E', time: '1 day ago', unread: false,
-        lastMessage: 'Order received, everything looks great!',
-        messages: [
-            { from: 'customer', text: 'Got my package today.', time: '4:00 PM' },
-            { from: 'customer', text: 'Order received, everything looks great!', time: '4:01 PM' },
-            { from: 'seller', text: 'Glad to hear that! Thank you for shopping with us.', time: '4:30 PM' },
-        ],
-    },
-];
+import { useAuth } from '../../context/AuthContext';
+import { messageService } from '../../services';
 
 export default function SellerMessages() {
+    const { user } = useAuth();
+    const [conversations, setConversations] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [activeConvo, setActiveConvo] = useState(null);
+    const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState('');
-    const selectedConvo = MOCK_CONVERSATIONS.find((c) => c.id === activeConvo);
+    const [sending, setSending] = useState(false);
+
+    const loadConversations = async () => {
+        if (!user) return;
+        try {
+            const convos = await messageService.getConversations(user.id);
+            setConversations(convos);
+        } catch (error) {
+            console.error("Failed to load conversations:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        loadConversations();
+    }, [user]);
+
+    const handleSelectConversation = async (convo) => {
+        setActiveConvo(convo);
+        try {
+            await messageService.markAsRead(user.id, convo.otherUserId);
+            const msgs = await messageService.getMessages(user.id, convo.otherUserId);
+            setMessages(msgs);
+            loadConversations();
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleSendMessage = async () => {
+        if (!newMessage.trim() || !activeConvo) return;
+        setSending(true);
+        try {
+            await messageService.sendMessage(user.id, activeConvo.otherUserId, newMessage);
+            setNewMessage('');
+            const msgs = await messageService.getMessages(user.id, activeConvo.otherUserId);
+            setMessages(msgs);
+            loadConversations();
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setSending(false);
+        }
+    };
+
+    const formatTime = (isoString) => {
+        const d = new Date(isoString);
+        return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    };
 
     return (
         <div className="animate-fade-in">
@@ -50,24 +76,33 @@ export default function SellerMessages() {
                             </div>
                         </div>
                         <div className="flex-1 overflow-y-auto">
-                            {MOCK_CONVERSATIONS.map((convo) => (
+                            {loading ? (
+                                <div className="p-8 text-center text-text-muted text-sm">Loading messages...</div>
+                            ) : conversations.map((convo) => (
                                 <button
-                                    key={convo.id}
-                                    onClick={() => setActiveConvo(convo.id)}
+                                    key={convo.otherUserId}
+                                    onClick={() => handleSelectConversation(convo)}
                                     className={`w-full text-left p-3 flex gap-3 border-b border-border-soft transition-colors
-                    ${activeConvo === convo.id ? 'bg-brand-primary/5' : 'hover:bg-surface-bg'}`}
+                    ${activeConvo?.otherUserId === convo.otherUserId ? 'bg-brand-primary/5' : 'hover:bg-surface-bg'}`}
                                 >
                                     <div className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold
-                    ${convo.unread ? 'bg-brand-primary text-white' : 'bg-surface-bg text-text-muted border border-border-soft'}`}>
-                                        {convo.avatar}
+                    ${convo.unreadCount > 0 ? 'bg-brand-primary text-white' : 'bg-surface-bg text-text-muted border border-border-soft'}`}>
+                                        {convo.otherUser.name.charAt(0).toUpperCase()}
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center justify-between">
-                                            <span className={`text-sm ${convo.unread ? 'font-bold' : 'font-medium'} text-text-primary`}>{convo.customer}</span>
-                                            <span className="text-[10px] text-text-muted">{convo.time}</span>
+                                            <span className={`text-sm ${convo.unreadCount > 0 ? 'font-bold' : 'font-medium'} text-text-primary`}>
+                                                {convo.otherUser.name}
+                                            </span>
+                                            <span className="text-[10px] text-text-muted">{formatTime(convo.lastMessage.createdAt)}</span>
                                         </div>
-                                        <p className="text-xs text-text-muted line-clamp-1 mt-0.5">{convo.lastMessage}</p>
+                                        <p className={`text-xs mt-0.5 line-clamp-1 ${convo.unreadCount > 0 ? 'text-text-primary font-medium' : 'text-text-muted'}`}>
+                                            {convo.lastMessage.text}
+                                        </p>
                                     </div>
+                                    {convo.unreadCount > 0 && (
+                                        <div className="w-2.5 h-2.5 bg-brand-primary rounded-full flex-shrink-0 mt-1" />
+                                    )}
                                 </button>
                             ))}
                         </div>
@@ -75,32 +110,35 @@ export default function SellerMessages() {
 
                     {/* Chat Area */}
                     <div className={`${activeConvo ? 'flex' : 'hidden md:flex'} flex-col flex-1`}>
-                        {selectedConvo ? (
+                        {activeConvo ? (
                             <>
                                 <div className="px-4 py-3 border-b border-border-soft flex items-center gap-3">
                                     <button onClick={() => setActiveConvo(null)} className="md:hidden p-1 text-text-muted"><ChevronLeft size={18} /></button>
                                     <div className="w-8 h-8 bg-brand-primary/10 rounded-full flex items-center justify-center">
-                                        <span className="text-xs font-bold text-brand-primary">{selectedConvo.avatar}</span>
+                                        <span className="text-xs font-bold text-brand-primary">{activeConvo.otherUser.name.charAt(0).toUpperCase()}</span>
                                     </div>
-                                    <span className="text-sm font-semibold text-text-primary">{selectedConvo.customer}</span>
+                                    <span className="text-sm font-semibold text-text-primary">{activeConvo.otherUser.name}</span>
                                 </div>
                                 <div className="flex-1 overflow-y-auto p-4 space-y-3">
-                                    {selectedConvo.messages.map((msg, idx) => (
-                                        <div key={idx} className={`flex ${msg.from === 'seller' ? 'justify-end' : 'justify-start'}`}>
-                                            <div className={`max-w-[75%] px-4 py-2.5 rounded-2xl text-sm
-                        ${msg.from === 'seller' ? 'bg-brand-primary text-white rounded-br-none' : 'bg-surface-bg text-text-primary border border-border-soft rounded-bl-none'}`}>
-                                                <p>{msg.text}</p>
-                                                <p className={`text-[10px] mt-1 ${msg.from === 'seller' ? 'text-white/60' : 'text-text-muted'}`}>{msg.time}</p>
+                                    {messages.map((msg, idx) => {
+                                        const isSeller = msg.senderId === user.id;
+                                        return (
+                                            <div key={idx} className={`flex ${isSeller ? 'justify-end' : 'justify-start'}`}>
+                                                <div className={`max-w-[75%] px-4 py-2.5 rounded-2xl text-sm
+                        ${isSeller ? 'bg-brand-primary text-white rounded-br-none' : 'bg-surface-bg text-text-primary border border-border-soft rounded-bl-none'}`}>
+                                                    <p>{msg.text}</p>
+                                                    <p className={`text-[10px] mt-1 ${isSeller ? 'text-white/60' : 'text-text-muted'}`}>{formatTime(msg.createdAt)}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))}
+                                        );
+                                    })}
                                 </div>
                                 <div className="p-3 border-t border-border-soft">
-                                    <div className="flex gap-2">
+                                    <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }} className="flex gap-2">
                                         <input type="text" placeholder="Type a reply..." value={newMessage} onChange={(e) => setNewMessage(e.target.value)}
                                             className="flex-1 px-4 py-2.5 text-sm bg-surface-bg border border-border-soft rounded-xl focus:border-brand-primary outline-none" />
-                                        <button className="p-2.5 bg-brand-primary text-white rounded-xl hover:bg-brand-secondary transition-colors"><Send size={16} /></button>
-                                    </div>
+                                        <button disabled={sending || !newMessage.trim()} type="submit" className="p-2.5 bg-brand-primary text-white rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-50"><Send size={16} /></button>
+                                    </form>
                                 </div>
                             </>
                         ) : (

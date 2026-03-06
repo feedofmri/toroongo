@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import FloatingMessage from './components/message/FloatingMessage';
 
 // ─── Layouts ─────────────────────────────────────────────────
 import BuyerLayout from './components/layout/BuyerLayout';
@@ -54,7 +55,7 @@ import PressPage from './pages/static/PressPage';
 import BlogPage from './pages/static/BlogPage';
 import ShippingPage from './pages/static/ShippingPage';
 import ReturnsPage from './pages/static/ReturnsPage';
-import CookiePolicy from './pages/static/CookiePolicy';
+import DataPreferences from './pages/static/DataPreferences';
 import PricingPage from './pages/static/PricingPage';
 import SellerResources from './pages/static/SellerResources';
 
@@ -84,6 +85,7 @@ function App() {
           <Route path="/cart" element={<ShoppingCart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order-confirmation" element={<OrderConfirmation />} />
+          <Route path="/wishlist" element={<Wishlist />} />
 
           {/* Auth */}
           <Route path="/login" element={<AuthPage />} />
@@ -126,7 +128,7 @@ function App() {
           {/* Static Pages — Legal */}
           <Route path="/terms" element={<TermsOfService />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/cookies" element={<CookiePolicy />} />
+          <Route path="/data-preferences" element={<DataPreferences />} />
 
           {/* 404 */}
           <Route path="*" element={<NotFoundPage />} />
@@ -152,6 +154,7 @@ function App() {
           <Route path="disputes" element={<DisputeResolution />} />
         </Route>
       </Routes>
+      <FloatingMessage />
     </Router>
   );
 }

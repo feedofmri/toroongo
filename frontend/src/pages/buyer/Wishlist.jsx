@@ -1,17 +1,32 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Heart, ShoppingCart, Trash2 } from 'lucide-react';
-import { products } from '../../data/mockData';
+import { useProduct } from '../../context/ProductContext';
+import { useAuth } from '../../context/AuthContext';
+import { useWishlist } from '../../context/WishlistContext';
 import StarRating from '../../components/ui/StarRating';
 
 export default function Wishlist() {
-    const [wishlistIds, setWishlistIds] = useState([1, 5, 7, 10]);
+    const { products: allProducts } = useProduct();
+    const { isAuthenticated, isLoading: authLoading } = useAuth();
+    const { wishlist, removeFromWishlist } = useWishlist();
+    const navigate = useNavigate();
 
-    const wishlistProducts = products.filter((p) => wishlistIds.includes(p.id));
+    useEffect(() => {
+        if (!authLoading && !isAuthenticated) {
+            navigate('/login?redirect=/wishlist');
+        }
+    }, [isAuthenticated, authLoading, navigate]);
 
-    const removeFromWishlist = (id) => {
-        setWishlistIds((prev) => prev.filter((wid) => wid !== id));
-    };
+    if (authLoading) {
+        return (
+            <div className="flex items-center justify-center py-20">
+                <div className="w-8 h-8 border-4 border-brand-primary border-t-transparent rounded-full animate-spin"></div>
+            </div>
+        );
+    }
+
+    const wishlistProducts = allProducts.filter((p) => wishlist.includes(p.id));
 
     if (wishlistProducts.length === 0) {
         return (

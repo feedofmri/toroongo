@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default function CookiePolicy() {
+export default function DataPreferences() {
     return (
         <div className="animate-fade-in max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-            <h1 className="text-3xl font-bold text-text-primary mb-2">Cookie Policy</h1>
+            <h1 className="text-3xl font-bold text-text-primary mb-2">Data Preferences</h1>
             <p className="text-sm text-text-muted mb-8">Last updated: March 1, 2026</p>
 
             <div className="space-y-6 text-sm text-text-muted leading-relaxed">
