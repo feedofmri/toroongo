@@ -1,16 +1,7 @@
 import React from 'react';
-import {
-    DndContext,
-    closestCenter,
-    KeyboardSensor,
-    PointerSensor,
-    useSensor,
-    useSensors,
-    useDroppable,
-} from '@dnd-kit/core';
+import { useDroppable } from '@dnd-kit/core';
 import {
     SortableContext,
-    sortableKeyboardCoordinates,
     verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import useBuilderStore from '../store/useBuilderStore.js';
@@ -28,101 +19,68 @@ export default function BuilderStage() {
     const theme = useBuilderStore((s) => s.theme);
     const viewportMode = useBuilderStore((s) => s.viewportMode);
     const selectWidget = useBuilderStore((s) => s.selectWidget);
-    const reorderWidgets = useBuilderStore((s) => s.reorderWidgets);
-    const addWidget = useBuilderStore((s) => s.addWidget);
-
-    const sensors = useSensors(
-        useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
-        useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
-    );
 
     const { setNodeRef: setDroppableRef } = useDroppable({ id: 'builder-canvas' });
 
     const themeStyles = themeToCSS(theme);
     const viewportWidth = getViewportWidth(viewportMode);
 
-    const handleDragEnd = (event) => {
-        const { active, over } = event;
-        if (!over) return;
-
-        // Dragging from palette to canvas
-        if (active.data?.current?.fromPalette) {
-            const widgetType = active.data.current.type;
-            const entry = widgetRegistry[widgetType];
-            if (entry) {
-                addWidget(widgetType, { ...entry.defaultProps });
-            }
-            return;
-        }
-
-        // Reordering within canvas
-        if (active.id !== over.id) {
-            reorderWidgets(active.id, over.id);
-        }
-    };
-
     return (
-        <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
+        <div
+            className="flex-1 overflow-y-auto bg-gray-100 p-6"
+            onClick={() => selectWidget(null)}
         >
             <div
-                className="flex-1 overflow-y-auto bg-gray-100 p-6"
-                onClick={() => selectWidget(null)}
+                ref={setDroppableRef}
+                className="mx-auto bg-white shadow-lg rounded-xl overflow-hidden transition-all duration-300 min-h-[600px]"
+                style={{
+                    maxWidth: viewportWidth,
+                    ...themeStyles,
+                    backgroundColor: 'var(--seller-bg, #FFFFFF)',
+                    fontFamily: 'var(--seller-body-font, Inter, sans-serif)',
+                    fontSize: 'var(--seller-font-size, 16px)',
+                    color: 'var(--seller-text, #0F172A)',
+                }}
             >
-                <div
-                    ref={setDroppableRef}
-                    className="mx-auto bg-white shadow-lg rounded-xl overflow-hidden transition-all duration-300 min-h-[600px]"
-                    style={{
-                        maxWidth: viewportWidth,
-                        ...themeStyles,
-                        backgroundColor: 'var(--seller-bg, #FFFFFF)',
-                        fontFamily: 'var(--seller-body-font, Inter, sans-serif)',
-                        fontSize: 'var(--seller-font-size, 16px)',
-                        color: 'var(--seller-text, #0F172A)',
-                    }}
-                >
-                    {widgets.length === 0 ? (
-                        <EmptyCanvas />
-                    ) : (
-                        <SortableContext
-                            items={widgets.map((w) => w.id)}
-                            strategy={verticalListSortingStrategy}
-                        >
-                            {widgets.map((widget) => {
-                                const entry = widgetRegistry[widget.type];
-                                if (!entry) return null;
+                {widgets.length === 0 ? (
+                    <EmptyCanvas />
+                ) : (
+                    <SortableContext
+                        items={widgets.map((w) => w.id)}
+                        strategy={verticalListSortingStrategy}
+                    >
+                        {widgets.map((widget) => {
+                            const entry = widgetRegistry[widget.type];
+                            if (!entry) return null;
 
-                                const Component = entry.component;
-                                const { layout } = widget;
-                                const paddingTop = resolveSpacing(layout.paddingTop);
-                                const paddingBottom = resolveSpacing(layout.paddingBottom);
-                                const isFullWidth = layout.containerWidth === 'full';
+                            const Component = entry.component;
+                            const { layout } = widget;
+                            const paddingTop = resolveSpacing(layout.paddingTop);
+                            const paddingBottom = resolveSpacing(layout.paddingBottom);
+                            const isFullWidth = layout.containerWidth === 'full';
 
-                                let visibilityClass = '';
-                                if (layout.hideOnMobile && !layout.hideOnDesktop) visibilityClass = 'hidden sm:block';
-                                else if (layout.hideOnDesktop && !layout.hideOnMobile) visibilityClass = 'block sm:hidden';
-                                else if (layout.hideOnMobile && layout.hideOnDesktop) visibilityClass = 'hidden';
+                            let visibilityClass = '';
+                            if (layout.hideOnMobile && !layout.hideOnDesktop) visibilityClass = 'hidden sm:block';
+                            else if (layout.hideOnDesktop && !layout.hideOnMobile) visibilityClass = 'block sm:hidden';
+                            else if (layout.hideOnMobile && layout.hideOnDesktop) visibilityClass = 'hidden';
 
-                                return (
-                                    <SortableWidgetWrapper key={widget.id} widget={widget}>
-                                        <div
-                                            className={visibilityClass}
-                                            style={{ paddingTop, paddingBottom }}
-                                        >
-                                            <div className={isFullWidth ? '' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'}>
-                                                <Component {...widget.props} />
-                                            </div>
+                            return (
+                                <SortableWidgetWrapper key={widget.id} widget={widget}>
+                                    <div
+                                        className={visibilityClass}
+                                        style={{ paddingTop, paddingBottom }}
+                                    >
+                                        <div className={isFullWidth ? '' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'}>
+                                            <Component {...widget.props} />
                                         </div>
-                                    </SortableWidgetWrapper>
-                                );
-                            })}
-                        </SortableContext>
-                    )}
-                </div>
+                                    </div>
+                                </SortableWidgetWrapper>
+                            );
+                        })}
+                    </SortableContext>
+                )}
             </div>
-        </DndContext>
+        </div>
     );
 }
 

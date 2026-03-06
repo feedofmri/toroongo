@@ -1,10 +1,11 @@
 import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import { Package, Heart, Settings, MessageSquare, User } from 'lucide-react';
+import { Package, Heart, Settings, MessageSquare, User, Star } from 'lucide-react';
 
 const sidebarLinks = [
     { to: '/account', icon: Package, label: 'My Orders', end: true },
     { to: '/account/wishlist', icon: Heart, label: 'Wishlist' },
+    { to: '/account/reviews', icon: Star, label: 'My Reviews' },
     { to: '/account/settings', icon: Settings, label: 'Settings' },
     { to: '/account/messages', icon: MessageSquare, label: 'Messages' },
 ];

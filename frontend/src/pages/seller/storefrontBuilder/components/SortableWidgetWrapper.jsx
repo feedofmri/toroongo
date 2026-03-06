@@ -38,17 +38,17 @@ export default function SortableWidgetWrapper({ widget, children }) {
             ref={setNodeRef}
             style={style}
             className={`group relative transition-all duration-150
-                ${isSelected ? 'ring-2 ring-blue-500 ring-offset-2 rounded-lg z-10' : 'hover:ring-1 hover:ring-blue-200 hover:ring-offset-1 rounded-lg'}`}
+                ${isSelected ? 'ring-2 ring-brand-primary ring-offset-2 rounded-lg z-10' : 'hover:ring-1 hover:ring-brand-primary/40 hover:ring-offset-1 rounded-lg'}`}
             onClick={(e) => { e.stopPropagation(); selectWidget(widget.id); }}
         >
             {/* Hover/Selected toolbar */}
-            <div className={`absolute -top-8 left-2 z-20 flex items-center gap-1 bg-blue-500 text-white text-[10px] font-semibold rounded-t-lg px-2 py-1 transition-opacity
+            <div className={`absolute -top-8 left-2 z-20 flex items-center gap-1 bg-brand-primary text-white text-[10px] font-semibold rounded-t-lg px-2 py-1 transition-opacity
                 ${isSelected ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
                 {/* Drag handle */}
                 <button
                     {...attributes}
                     {...listeners}
-                    className="cursor-grab active:cursor-grabbing p-0.5 hover:bg-blue-600 rounded"
+                    className="cursor-grab active:cursor-grabbing p-0.5 hover:bg-brand-primary rounded"
                     title="Drag to reorder"
                 >
                     <GripVertical size={12} />
@@ -56,7 +56,7 @@ export default function SortableWidgetWrapper({ widget, children }) {
                 <span className="px-1">{entry?.label || widget.type}</span>
                 <button
                     onClick={(e) => { e.stopPropagation(); duplicateWidget(widget.id); }}
-                    className="p-0.5 hover:bg-blue-600 rounded"
+                    className="p-0.5 hover:bg-brand-primary rounded"
                     title="Duplicate"
                 >
                     <Copy size={11} />

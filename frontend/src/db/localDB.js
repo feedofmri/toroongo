@@ -1,4 +1,4 @@
-import { categories, sellers, products, heroBanners, navCategories } from '../data/mockData';
+import { categories, sellers, products, heroBanners, navCategories, mockAdmins, mockBuyers, extraSellers } from '../data/mockData';
 import { User, Product, Blog, Message } from '../models';
 import { seedStorefrontConfigs } from '../pages/seller/storefrontBuilder/services/seedStorefrontConfigs';
 
@@ -79,7 +79,8 @@ class LocalDatabase {
         db.users.push(demoBuyer);
 
         // 4. Transform Sellers (from mockData) to User models with 'seller' role
-        sellers.forEach(seller => {
+        const allSellers = [...sellers, ...extraSellers];
+        allSellers.forEach(seller => {
             const sellerUser = new User({
                 id: `seller_${seller.id}`,
                 name: seller.name,
@@ -98,6 +99,10 @@ class LocalDatabase {
             });
             db.users.push(sellerUser);
         });
+
+        // 4a. Add extra Admins and Buyers
+        mockAdmins.forEach(admin => db.users.push(new User(admin)));
+        mockBuyers.forEach(buyer => db.users.push(new User(buyer)));
 
         // 5. Transform Products (from mockData) to Product models
         products.forEach(p => {
@@ -120,12 +125,12 @@ class LocalDatabase {
 
         // 6. Add some mock blogs
         const rawBlogs = [
-            { category: 'Seller Tips', title: '10 Ways to Boost Your Storefront Sales in 2026', summary: 'Learn proven strategies to increase traffic to your Toroongo store, improve conversion rates, and grow your revenue.', author: 'Sarah Mitchell', readTime: '6 min read', color: 'bg-purple-500', content: '<p>Content goes here...</p>' },
-            { category: 'Platform Updates', title: 'Introducing Custom Storefronts: Your Brand, Your Way', summary: 'Sellers can now fully customize their store appearance with brand colors, banners, logos, and dedicated pages.', author: 'Toroongo Team', readTime: '4 min read', color: 'bg-brand-primary', content: '<p>Content goes here...</p>' },
-            { category: 'Buyer Guides', title: 'How to Shop Smart on Toroongo: A Complete Guide', summary: 'From finding deals to tracking orders, here is everything you need to know to get the most out of Toroongo.', author: 'James Kim', readTime: '5 min read', color: 'bg-green-500', content: '<p>Content goes here...</p>' },
-            { category: 'Industry News', title: 'The Future of Multi-Vendor E-Commerce', summary: 'Marketplaces are evolving. Discover how hybrid platforms like Toroongo are changing the way people buy and sell online.', author: 'Emily Rodriguez', readTime: '7 min read', color: 'bg-amber-500', content: '<p>Content goes here...</p>' },
-            { category: 'Seller Tips', title: 'Product Photography Tips That Actually Work', summary: 'Great photos sell products. Learn how to take professional-quality product images with just your smartphone.', author: 'Anna Lee', readTime: '5 min read', color: 'bg-purple-500', content: '<p>Content goes here...</p>' },
-            { category: 'Platform Updates', title: 'New Analytics Dashboard for Sellers', summary: 'Track your sales, revenue trends, and customer insights with our brand new seller analytics experience.', author: 'Toroongo Team', readTime: '3 min read', color: 'bg-brand-primary', content: '<p>Content goes here...</p>' }
+            { category: 'Seller Tips', title: '10 Ways to Boost Your Storefront Sales in 2026', summary: 'Learn proven strategies to increase traffic to your Toroongo store, improve conversion rates, and grow your revenue.', author: 'Sarah Mitchell', readTime: '6 min read', color: 'bg-purple-500', imageUrl: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1000', content: '<p>Content goes here...</p>' },
+            { category: 'Platform Updates', title: 'Introducing Custom Storefronts: Your Brand, Your Way', summary: 'Sellers can now fully customize their store appearance with brand colors, banners, logos, and dedicated pages.', author: 'Toroongo Team', readTime: '4 min read', color: 'bg-brand-primary', imageUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000', content: '<p>Content goes here...</p>' },
+            { category: 'Buyer Guides', title: 'How to Shop Smart on Toroongo: A Complete Guide', summary: 'From finding deals to tracking orders, here is everything you need to know to get the most out of Toroongo.', author: 'James Kim', readTime: '5 min read', color: 'bg-green-500', imageUrl: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?q=80&w=1000', content: '<p>Content goes here...</p>' },
+            { category: 'Industry News', title: 'The Future of Multi-Vendor E-Commerce', summary: 'Marketplaces are evolving. Discover how hybrid platforms like Toroongo are changing the way people buy and sell online.', author: 'Emily Rodriguez', readTime: '7 min read', color: 'bg-amber-500', imageUrl: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1000', content: '<p>Content goes here...</p>' },
+            { category: 'Seller Tips', title: 'Product Photography Tips That Actually Work', summary: 'Great photos sell products. Learn how to take professional-quality product images with just your smartphone.', author: 'Anna Lee', readTime: '5 min read', color: 'bg-purple-500', imageUrl: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1000', content: '<p>Content goes here...</p>' },
+            { category: 'Platform Updates', title: 'New Analytics Dashboard for Sellers', summary: 'Track your sales, revenue trends, and customer insights with our brand new seller analytics experience.', author: 'Toroongo Team', readTime: '3 min read', color: 'bg-brand-primary', imageUrl: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000', content: '<p>Content goes here...</p>' }
         ];
 
         db.blogs = rawBlogs.map((b, i) => {

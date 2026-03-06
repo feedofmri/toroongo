@@ -22,21 +22,21 @@ export default function HeroBanner({ imageUrl, heading, subheading, ctaText, cta
             />
             {/* Overlay */}
             <div
-                className="absolute inset-0 bg-black"
+                className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/10"
                 style={{ opacity: overlayOpacity }}
             />
             {/* Content */}
             <div className={`relative z-10 flex flex-col justify-center ${alignClass} w-full px-6 sm:px-12 py-12`}>
                 {heading && (
                     <h1
-                        className="text-3xl sm:text-5xl font-bold text-white mb-4 max-w-3xl"
+                        className="text-4xl sm:text-6xl font-extrabold text-white mb-5 max-w-3xl leading-tight drop-shadow-md"
                         style={{ fontFamily: 'var(--seller-heading-font, inherit)' }}
                     >
                         {heading}
                     </h1>
                 )}
                 {subheading && (
-                    <p className="text-base sm:text-lg text-white/90 mb-6 max-w-xl">
+                    <p className="text-lg sm:text-xl text-white/95 mb-8 max-w-2xl font-medium drop-shadow-md">
                         {subheading}
                     </p>
                 )}
@@ -45,7 +45,7 @@ export default function HeroBanner({ imageUrl, heading, subheading, ctaText, cta
                         href={ctaLink || '#'}
                         className="inline-block px-8 py-3 text-sm font-semibold text-white rounded-xl transition-colors hover:opacity-90"
                         style={{
-                            backgroundColor: 'var(--seller-brand, #06B6D4)',
+                            backgroundColor: 'var(--seller-brand, #008080)',
                             borderRadius: 'var(--seller-radius, 0.75rem)',
                         }}
                     >

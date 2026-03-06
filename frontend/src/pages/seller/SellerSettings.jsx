@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Store, Paintbrush, Globe, Bell, Link2, CheckCircle2, XCircle, Loader2, ExternalLink } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { sellers } from '../../data/mockData';
 
@@ -54,7 +54,10 @@ function checkSlugAvailability(slug, currentSellerId) {
 
 export default function SellerSettings() {
     const { user } = useAuth();
-    const [activeTab, setActiveTab] = useState('store');
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const initialTab = searchParams.get('tab') || 'store';
+    const [activeTab, setActiveTab] = useState(initialTab);
 
     // Resolve current seller slug
     const currentSellerId = user?.id || 'seller_1';

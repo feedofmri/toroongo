@@ -3,15 +3,44 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
     Search, ShoppingCart, User, Menu, X, Heart, LogOut,
     Store, HelpCircle, Newspaper, Tag, Percent, Package,
-    ChevronRight, LayoutDashboard, Settings, ShoppingBag
+    ChevronRight, LayoutDashboard, Settings, ShoppingBag,
+    Bell, MessageSquare, Users, Star, MapPin, Paintbrush
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
+import { useNotifications } from '../../contexts/NotificationContext';
+import NotificationDropdown from '../ui/NotificationDropdown';
 import logoColourful from '../../assets/Logo/logo_colourful.png';
 
-// ── Main navigation links for the second bar ──────────────
-const NAV_LINKS = [
+// ── Link Definitions ─────────────────────────────────────
+const BUYER_LINKS = [
+    { to: '/products', label: 'Shop All', icon: Package },
+    { to: '/shops', label: 'Stores', icon: Store },
+    { to: '/products?sale=true', label: 'Deals', icon: Percent },
+    { to: '/blog', label: 'Blog', icon: Newspaper },
+    { to: '/sell', label: 'Sell on Toroongo', icon: ShoppingBag },
+    { to: '/help', label: 'Help', icon: HelpCircle },
+];
+
+const SELLER_LINKS = [
+    { to: '/seller', label: 'Dashboard', icon: LayoutDashboard },
+    { to: '/seller/products', label: 'My Products', icon: Package },
+    { to: '/seller/blogs', label: 'Blog Manager', icon: Newspaper },
+    { to: '/seller/storefront-builder', label: 'Storefront', icon: Paintbrush },
+    { to: '/sell/pricing', label: 'Pricing', icon: Tag },
+    { to: '/help', label: 'Help Center', icon: HelpCircle },
+];
+
+const ADMIN_LINKS = [
+    { to: '/admin', label: 'Overview', icon: LayoutDashboard },
+    { to: '/admin/users', label: 'Users', icon: Users },
+    { to: '/admin/sellers', label: 'Sellers', icon: Store },
+    { to: '/admin/categories', label: 'Categories', icon: Tag },
+    { to: '/blog', label: 'Platform Blog', icon: Newspaper },
+];
+
+const GUEST_LINKS = [
     { to: '/products', label: 'Products', icon: Package },
     { to: '/shops', label: 'Shops', icon: Store },
     { to: '/products?sale=true', label: 'Deals', icon: Percent },
@@ -60,9 +89,12 @@ export default function Navbar() {
     const { user, isAuthenticated, logout } = useAuth();
     const { getCartCount } = useCart();
     const { wishlistCount } = useWishlist();
+    const { unreadCount } = useNotifications();
 
     const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+    const [notificationDropdownOpen, setNotificationDropdownOpen] = useState(false);
     const userDropdownRef = useRef(null);
+    const notificationDropdownRef = useRef(null);
 
     // Track scroll for sticky shadow
     useEffect(() => {
@@ -92,6 +124,11 @@ export default function Navbar() {
                 setUserDropdownOpen(false);
             }
         }
+        function handleNotificationClickOutside(e) {
+            if (notificationDropdownRef.current && !notificationDropdownRef.current.contains(e.target)) {
+                setNotificationDropdownOpen(false);
+            }
+        }
         if (mobileMenuOpen) {
             document.addEventListener('mousedown', handleClickOutside);
             document.body.style.overflow = 'hidden';
@@ -99,12 +136,16 @@ export default function Navbar() {
         if (userDropdownOpen) {
             document.addEventListener('mousedown', handleUserDropdownOutside);
         }
+        if (notificationDropdownOpen) {
+            document.addEventListener('mousedown', handleNotificationClickOutside);
+        }
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
             document.removeEventListener('mousedown', handleUserDropdownOutside);
+            document.removeEventListener('mousedown', handleNotificationClickOutside);
             document.body.style.overflow = '';
         };
-    }, [mobileMenuOpen, userDropdownOpen]);
+    }, [mobileMenuOpen, userDropdownOpen, notificationDropdownOpen]);
 
     const cartItemCount = getCartCount();
 
@@ -149,32 +190,81 @@ export default function Navbar() {
                             <Search size={20} />
                         </Link>
 
-                        {/* Sell CTA (desktop, not logged in or buyer) */}
-                        {(!isAuthenticated || user?.role === 'buyer') && (
-                            <Link
-                                to="/sell"
-                                className="hidden lg:flex items-center gap-1.5 px-3.5 py-1.5 text-sm font-medium text-text-muted hover:text-brand-primary hover:bg-brand-primary/5 rounded-lg transition-colors"
-                            >
-                                <Store size={15} />
-                                Sell
+
+                        {/* Buyer Actions (desktop) */}
+                        {isAuthenticated && user?.role === 'buyer' && (
+                            <Link to="/account/messages" className="hidden sm:flex relative p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors" aria-label="Messages">
+                                <MessageSquare size={20} />
                             </Link>
                         )}
 
-                        {/* Wishlist */}
-                        <Link to="/wishlist" className="hidden sm:flex relative p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors" aria-label="Wishlist">
-                            <Heart size={20} />
-                            {wishlistCount > 0 && (
+                        {/* Seller Actions (desktop) */}
+                        {isAuthenticated && user?.role === 'seller' && (
+                            <Link to="/seller/messages" className="hidden sm:flex relative p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors" aria-label="Messages">
+                                <MessageSquare size={20} />
                                 <span className="absolute -top-0.5 -right-0.5 bg-brand-primary text-white text-[10px] font-bold w-[18px] h-[18px] flex items-center justify-center rounded-full leading-none">
-                                    {wishlistCount}
+                                    3
                                 </span>
-                            )}
-                        </Link>
+                            </Link>
+                        )}
+
+                        {/* Notifications (Unified for all logged-in roles) */}
+                        {isAuthenticated && (
+                            <div className="relative hidden sm:block" ref={notificationDropdownRef}>
+                                <button
+                                    onClick={() => {
+                                        setNotificationDropdownOpen(!notificationDropdownOpen);
+                                        setUserDropdownOpen(false);
+                                    }}
+                                    className={`relative p-2 rounded-lg transition-colors ${notificationDropdownOpen ? 'bg-surface-bg text-brand-primary' : 'text-text-muted hover:text-text-primary hover:bg-surface-bg'}`}
+                                    aria-label="Notifications"
+                                >
+                                    <Bell size={20} />
+                                    {unreadCount > 0 && (
+                                        <span className="absolute -top-0.5 -right-0.5 bg-brand-primary text-white text-[10px] font-bold w-[18px] h-[18px] flex items-center justify-center rounded-full leading-none">
+                                            {unreadCount > 9 ? '9+' : unreadCount}
+                                        </span>
+                                    )}
+                                </button>
+
+                                {notificationDropdownOpen && (
+                                    <NotificationDropdown onClose={() => setNotificationDropdownOpen(false)} />
+                                )}
+                            </div>
+                        )}
+
+                        {/* Wishlist */}
+                        {(!isAuthenticated || user?.role === 'buyer') && (
+                            <Link to="/wishlist" className="hidden sm:flex relative p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors" aria-label="Wishlist">
+                                <Heart size={20} />
+                                {wishlistCount > 0 && (
+                                    <span className="absolute -top-0.5 -right-0.5 bg-brand-primary text-white text-[10px] font-bold w-[18px] h-[18px] flex items-center justify-center rounded-full leading-none">
+                                        {wishlistCount}
+                                    </span>
+                                )}
+                            </Link>
+                        )}
+
+                        {/* Cart */}
+                        {(!isAuthenticated || user?.role === 'buyer') && (
+                            <Link to="/cart" className="relative p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors" aria-label="Shopping cart">
+                                <ShoppingCart size={20} />
+                                {cartItemCount > 0 && (
+                                    <span className="absolute -top-0.5 -right-0.5 bg-brand-primary text-white text-[10px] font-bold w-[18px] h-[18px] flex items-center justify-center rounded-full leading-none">
+                                        {cartItemCount}
+                                    </span>
+                                )}
+                            </Link>
+                        )}
 
                         {/* Account */}
                         <div className="relative" ref={userDropdownRef}>
                             {isAuthenticated ? (
                                 <button
-                                    onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                                    onClick={() => {
+                                        setUserDropdownOpen(!userDropdownOpen);
+                                        setNotificationDropdownOpen(false);
+                                    }}
                                     className="flex items-center gap-2 p-2 rounded-lg hover:bg-surface-bg transition-colors"
                                 >
                                     <div className="w-8 h-8 rounded-full bg-brand-primary/10 flex items-center justify-center text-brand-primary font-semibold text-sm">
@@ -214,21 +304,60 @@ export default function Navbar() {
                                         >
                                             <LayoutDashboard size={15} className="text-text-muted" /> Dashboard
                                         </Link>
-                                        <Link
-                                            to="/account"
-                                            onClick={() => setUserDropdownOpen(false)}
-                                            className="flex items-center gap-2.5 px-3 py-2 text-sm text-text-primary hover:text-brand-primary hover:bg-brand-primary/5 rounded-lg transition-colors"
-                                        >
-                                            <ShoppingBag size={15} className="text-text-muted" /> My Orders
-                                        </Link>
-                                        <Link
-                                            to="/wishlist"
-                                            onClick={() => setUserDropdownOpen(false)}
-                                            className="flex items-center gap-2.5 px-3 py-2 text-sm text-text-primary hover:text-brand-primary hover:bg-brand-primary/5 rounded-lg transition-colors"
-                                        >
-                                            <Heart size={15} className="text-text-muted" /> Wishlist
-                                            {wishlistCount > 0 && <span className="ml-auto text-[10px] font-bold bg-brand-primary/10 text-brand-primary px-1.5 py-0.5 rounded-full">{wishlistCount}</span>}
-                                        </Link>
+                                        {isAuthenticated && user?.role === 'seller' && (
+                                            <>
+                                                <Link
+                                                    to="/seller/products"
+                                                    onClick={() => setUserDropdownOpen(false)}
+                                                    className="flex items-center gap-2.5 px-3 py-2 text-sm text-text-primary hover:text-brand-primary hover:bg-brand-primary/5 rounded-lg transition-colors"
+                                                >
+                                                    <Package size={15} className="text-text-muted" /> Products
+                                                </Link>
+                                                <Link
+                                                    to="/seller/orders"
+                                                    onClick={() => setUserDropdownOpen(false)}
+                                                    className="flex items-center gap-2.5 px-3 py-2 text-sm text-text-primary hover:text-brand-primary hover:bg-brand-primary/5 rounded-lg transition-colors"
+                                                >
+                                                    <ShoppingBag size={15} className="text-text-muted" /> Orders
+                                                </Link>
+                                            </>
+                                        )}
+                                        {isAuthenticated && user?.role === 'admin' && (
+                                            <>
+                                                <Link
+                                                    to="/admin/users"
+                                                    onClick={() => setUserDropdownOpen(false)}
+                                                    className="flex items-center gap-2.5 px-3 py-2 text-sm text-text-primary hover:text-brand-primary hover:bg-brand-primary/5 rounded-lg transition-colors"
+                                                >
+                                                    <Users size={15} className="text-text-muted" /> Users
+                                                </Link>
+                                                <Link
+                                                    to="/admin/sellers"
+                                                    onClick={() => setUserDropdownOpen(false)}
+                                                    className="flex items-center gap-2.5 px-3 py-2 text-sm text-text-primary hover:text-brand-primary hover:bg-brand-primary/5 rounded-lg transition-colors"
+                                                >
+                                                    <Store size={15} className="text-text-muted" /> Sellers
+                                                </Link>
+                                            </>
+                                        )}
+                                        {(!user || user?.role === 'buyer') && (
+                                            <>
+                                                <Link
+                                                    to="/account/orders"
+                                                    onClick={() => setUserDropdownOpen(false)}
+                                                    className="flex items-center gap-2.5 px-3 py-2 text-sm text-text-primary hover:text-brand-primary hover:bg-brand-primary/5 rounded-lg transition-colors"
+                                                >
+                                                    <ShoppingBag size={15} className="text-text-muted" /> My Orders
+                                                </Link>
+                                                <Link
+                                                    to="/account/reviews"
+                                                    onClick={() => setUserDropdownOpen(false)}
+                                                    className="flex items-center gap-2.5 px-3 py-2 text-sm text-text-primary hover:text-brand-primary hover:bg-brand-primary/5 rounded-lg transition-colors"
+                                                >
+                                                    <Star size={15} className="text-text-muted" /> My Reviews
+                                                </Link>
+                                            </>
+                                        )}
                                         <Link
                                             to="/account/settings"
                                             onClick={() => setUserDropdownOpen(false)}
@@ -249,15 +378,6 @@ export default function Navbar() {
                             )}
                         </div>
 
-                        {/* Cart */}
-                        <Link to="/cart" className="relative p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors" aria-label="Shopping cart">
-                            <ShoppingCart size={20} />
-                            {cartItemCount > 0 && (
-                                <span className="absolute -top-0.5 -right-0.5 bg-brand-primary text-white text-[10px] font-bold w-[18px] h-[18px] flex items-center justify-center rounded-full leading-none">
-                                    {cartItemCount}
-                                </span>
-                            )}
-                        </Link>
 
                         {/* Mobile menu toggle */}
                         <button
@@ -277,7 +397,7 @@ export default function Navbar() {
             <nav className="hidden lg:block border-t border-border-soft bg-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-center gap-0.5 h-10">
-                        {NAV_LINKS.map((link) => {
+                        {(isAuthenticated ? (user?.role === 'admin' ? ADMIN_LINKS : user?.role === 'seller' ? SELLER_LINKS : BUYER_LINKS) : GUEST_LINKS).map((link) => {
                             const isActive = location.pathname === link.to || (location.pathname + location.search) === link.to;
                             return (
                                 <Link
@@ -380,16 +500,15 @@ export default function Navbar() {
                         {/* Quick actions */}
                         <div className="p-3">
                             <p className="px-2 text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Account</p>
-                            <Link to="/wishlist" onClick={() => setMobileMenuOpen(false)}
-                                  className="flex items-center justify-between px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
-                                <span className="flex items-center gap-2.5"><Heart size={15} className="text-text-muted" /> Wishlist</span>
-                                {wishlistCount > 0 && <span className="text-[10px] font-bold bg-brand-primary/10 text-brand-primary px-1.5 py-0.5 rounded-full">{wishlistCount}</span>}
-                            </Link>
-                            <Link to="/cart" onClick={() => setMobileMenuOpen(false)}
-                                  className="flex items-center justify-between px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
-                                <span className="flex items-center gap-2.5"><ShoppingCart size={15} className="text-text-muted" /> Cart</span>
-                                {cartItemCount > 0 && <span className="text-[10px] font-bold bg-brand-primary/10 text-brand-primary px-1.5 py-0.5 rounded-full">{cartItemCount}</span>}
-                            </Link>
+                            {(!isAuthenticated || user?.role === 'buyer') && (
+                                <>
+                                    <Link to="/cart" onClick={() => setMobileMenuOpen(false)}
+                                        className="flex items-center justify-between px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
+                                        <span className="flex items-center gap-2.5"><ShoppingCart size={15} className="text-text-muted" /> Cart</span>
+                                        {cartItemCount > 0 && <span className="text-[10px] font-bold bg-brand-primary/10 text-brand-primary px-1.5 py-0.5 rounded-full">{cartItemCount}</span>}
+                                    </Link>
+                                </>
+                            )}
                             {isAuthenticated ? (
                                 <>
                                     <Link
@@ -399,14 +518,49 @@ export default function Navbar() {
                                     >
                                         <LayoutDashboard size={15} className="text-text-muted" /> Dashboard
                                     </Link>
+
+                                    {/* Additional for buyer/seller/admin */}
+                                    {(!user || user?.role === 'buyer') && (
+                                        <>
+                                            <Link to="/account/orders" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
+                                                <ShoppingBag size={15} className="text-text-muted" /> My Orders
+                                            </Link>
+                                            <Link to="/account/reviews" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
+                                                <Star size={15} className="text-text-muted" /> My Reviews
+                                            </Link>
+                                        </>
+                                    )}
+
+                                    {user?.role === 'seller' && (
+                                        <>
+                                            <Link to="/seller/products" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
+                                                <Package size={15} className="text-text-muted" /> Products
+                                            </Link>
+                                            <Link to="/seller/orders" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
+                                                <ShoppingBag size={15} className="text-text-muted" /> Orders
+                                            </Link>
+                                        </>
+                                    )}
+
+                                    {user?.role === 'admin' && (
+                                        <>
+                                            <Link to="/admin/users" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
+                                                <Users size={15} className="text-text-muted" /> Users
+                                            </Link>
+                                            <Link to="/admin/sellers" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
+                                                <Store size={15} className="text-text-muted" /> Sellers
+                                            </Link>
+                                        </>
+                                    )}
+
                                     <Link to="/account/settings" onClick={() => setMobileMenuOpen(false)}
-                                          className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
+                                        className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
                                         <Settings size={15} className="text-text-muted" /> Settings
                                     </Link>
                                 </>
                             ) : (
                                 <Link to="/login" onClick={() => setMobileMenuOpen(false)}
-                                      className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
+                                    className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
                                     <User size={15} className="text-text-muted" /> Sign in / Sign up
                                 </Link>
                             )}
@@ -446,16 +600,6 @@ export default function Navbar() {
                         )}
                     </nav>
 
-                    {/* Bottom CTA */}
-                    <div className="p-3 border-t border-border-soft">
-                        <Link
-                            to="/sell"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="flex items-center justify-center gap-2 w-full py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors"
-                        >
-                            <Store size={15} /> Sell on Toroongo
-                        </Link>
-                    </div>
                 </div>
             </div>
         </header>

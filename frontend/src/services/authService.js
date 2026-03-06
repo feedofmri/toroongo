@@ -8,6 +8,7 @@ const simulateDelay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 export const authService = {
     async login(email, password) {
         await simulateDelay(DELAY);
+        email = email.trim();
         const { users } = localDB.data;
         const user = users.find(u => u.email === email && u.password === password);
 

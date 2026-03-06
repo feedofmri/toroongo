@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { User, MapPin, CreditCard, Bell, Plus, Pencil, Trash2 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -14,7 +15,10 @@ const MOCK_PAYMENTS = [
 
 export default function AccountSettings() {
     const { user } = useAuth();
-    const [activeTab, setActiveTab] = useState('profile');
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const initialTab = searchParams.get('tab') || 'profile';
+    const [activeTab, setActiveTab] = useState(initialTab);
 
     const tabs = [
         { key: 'profile', label: 'Profile', icon: User },

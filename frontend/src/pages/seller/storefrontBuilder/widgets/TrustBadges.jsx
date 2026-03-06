@@ -19,9 +19,9 @@ export default function TrustBadges({ badges = [] }) {
                     <div key={i} className="flex flex-col items-center text-center gap-2.5 py-4">
                         <div
                             className="w-12 h-12 rounded-full flex items-center justify-center"
-                            style={{ backgroundColor: 'color-mix(in srgb, var(--seller-brand, #06B6D4) 10%, transparent)' }}
+                            style={{ backgroundColor: 'color-mix(in srgb, var(--seller-brand, #008080) 10%, transparent)' }}
                         >
-                            <Icon size={22} style={{ color: 'var(--seller-brand, #06B6D4)' }} />
+                            <Icon size={22} style={{ color: 'var(--seller-brand, #008080)' }} />
                         </div>
                         <span
                             className="text-sm font-medium"

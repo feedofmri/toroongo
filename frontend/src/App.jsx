@@ -8,6 +8,7 @@ import BuyerDashboardLayout from './components/layout/BuyerDashboardLayout';
 import SellerLayout from './components/layout/SellerLayout';
 import SellerDashboardLayout from './components/layout/SellerDashboardLayout';
 import AdminDashboardLayout from './components/layout/AdminDashboardLayout';
+import ProtectedRoute from './components/layout/ProtectedRoute';
 
 // ─── Buyer Pages ─────────────────────────────────────────────
 import Homepage from './pages/buyer/Homepage';
@@ -22,6 +23,7 @@ import OrderHistory from './pages/buyer/OrderHistory';
 import Wishlist from './pages/buyer/Wishlist';
 import AccountSettings from './pages/buyer/AccountSettings';
 import MessageCenter from './pages/buyer/MessageCenter';
+import MyReviews from './pages/buyer/MyReviews';
 
 // ─── Seller Storefront Pages ─────────────────────────────────
 import StoreHome from './pages/seller/StoreHome';
@@ -36,6 +38,8 @@ import OrderManagement from './pages/seller/OrderManagement';
 import SellerFinance from './pages/seller/SellerFinance';
 import SellerSettings from './pages/seller/SellerSettings';
 import SellerMessages from './pages/seller/SellerMessages';
+import BlogManagement from './pages/seller/BlogManagement';
+import BlogEditor from './pages/seller/BlogEditor';
 
 // ─── Storefront Builder ──────────────────────────────────────
 import { StorefrontBuilder } from './pages/seller/storefrontBuilder';
@@ -57,6 +61,7 @@ import { TermsOfService, PrivacyPolicy } from './pages/static/LegalPages';
 import CareersPage from './pages/static/CareersPage';
 import PressPage from './pages/static/PressPage';
 import BlogPage from './pages/static/BlogPage';
+import BlogDetail from './pages/static/BlogDetail';
 import ShippingPage from './pages/static/ShippingPage';
 import ReturnsPage from './pages/static/ReturnsPage';
 import DataPreferences from './pages/static/DataPreferences';
@@ -99,11 +104,17 @@ function App() {
           <Route path="/forgot-password" element={<AuthPage />} />
 
           {/* Buyer Dashboard */}
-          <Route path="/account" element={<BuyerDashboardLayout />}>
+          <Route path="/account" element={
+            <ProtectedRoute allowedRoles={['buyer', 'seller', 'admin']}>
+              <BuyerDashboardLayout />
+            </ProtectedRoute>
+          }>
             <Route index element={<OrderHistory />} />
+            <Route path="orders" element={<OrderHistory />} />
             <Route path="wishlist" element={<Wishlist />} />
             <Route path="settings" element={<AccountSettings />} />
             <Route path="messages" element={<MessageCenter />} />
+            <Route path="reviews" element={<MyReviews />} />
           </Route>
 
           {/* Static Pages — About */}
@@ -111,6 +122,7 @@ function App() {
           <Route path="/careers" element={<CareersPage />} />
           <Route path="/press" element={<PressPage />} />
           <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/:slug" element={<BlogDetail />} />
 
           {/* Static Pages — Customer Service */}
           <Route path="/help" element={<HelpCenter />} />
@@ -142,20 +154,35 @@ function App() {
         </Route>
 
         {/* ── Storefront Builder (full-screen, outside dashboard layout) ── */}
-        <Route path="/seller/storefront-builder" element={<StorefrontBuilder />} />
+        <Route path="/seller/storefront-builder" element={
+          <ProtectedRoute allowedRoles={['seller', 'admin']}>
+            <StorefrontBuilder />
+          </ProtectedRoute>
+        } />
 
         {/* ── Seller Dashboard ──────────────────────────────── */}
-        <Route path="/seller" element={<SellerDashboardLayout />}>
+        <Route path="/seller" element={
+          <ProtectedRoute allowedRoles={['seller', 'admin']}>
+            <SellerDashboardLayout />
+          </ProtectedRoute>
+        }>
           <Route index element={<SellerDashboard />} />
           <Route path="products" element={<ProductManagement />} />
           <Route path="orders" element={<OrderManagement />} />
           <Route path="finance" element={<SellerFinance />} />
           <Route path="messages" element={<SellerMessages />} />
           <Route path="settings" element={<SellerSettings />} />
+          <Route path="blogs" element={<BlogManagement />} />
+          <Route path="blogs/new" element={<BlogEditor />} />
+          <Route path="blogs/edit/:id" element={<BlogEditor />} />
         </Route>
 
         {/* ── Admin Dashboard ───────────────────────────────── */}
-        <Route path="/admin" element={<AdminDashboardLayout />}>
+        <Route path="/admin" element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <AdminDashboardLayout />
+          </ProtectedRoute>
+        }>
           <Route index element={<AdminOverview />} />
           <Route path="users" element={<UserManagement />} />
           <Route path="sellers" element={<SellerManagement />} />

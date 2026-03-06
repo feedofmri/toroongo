@@ -10,12 +10,12 @@ export default function BlogHighlights({ title, maxPosts = 3, posts = [] }) {
     const placeholders = posts.length === 0
         ? Array.from({ length: maxPosts }, (_, i) => ({
             id: `blog_placeholder_${i}`,
-            title: `Blog Post Title ${i + 1}`,
-            summary: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Short summary of the blog post goes here.',
-            author: 'Author Name',
+            title: `Essential Tips for Your Journey ${i + 1}`,
+            summary: 'Discover the best practices and essential tips to make the most out of your upcoming journey with our comprehensive guide.',
+            author: 'Store Admin',
             readTime: '5 min read',
-            category: 'Updates',
-            color: 'bg-brand-primary',
+            category: 'News',
+            imageUrl: `https://placehold.co/600x400/f8fafc/94a3b8?text=Blog+Image+${i + 1}`,
         }))
         : [];
 
@@ -34,7 +34,7 @@ export default function BlogHighlights({ title, maxPosts = 3, posts = [] }) {
                     <a
                         href="/blog"
                         className="flex items-center gap-1.5 text-sm font-medium hover:opacity-80"
-                        style={{ color: 'var(--seller-brand, #06B6D4)' }}
+                        style={{ color: 'var(--seller-brand, #008080)' }}
                     >
                         View All <ArrowRight size={14} />
                     </a>
@@ -44,22 +44,33 @@ export default function BlogHighlights({ title, maxPosts = 3, posts = [] }) {
                 {items.map((post) => (
                     <div
                         key={post.id}
-                        className="bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-md transition-shadow"
+                        className="group bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-gray-200/50 hover:-translate-y-1 transition-all duration-300"
                         style={{ borderRadius: 'var(--seller-radius, 0.75rem)' }}
                     >
-                        <div className="h-2 w-full" style={{ backgroundColor: 'var(--seller-brand, #06B6D4)' }} />
-                        <div className="p-5">
-                            <span className="text-xs font-semibold uppercase tracking-wide" style={{ color: 'var(--seller-brand, #06B6D4)' }}>
-                                {post.category}
-                            </span>
-                            <h3 className="text-base font-bold mt-2 mb-2 line-clamp-2" style={{ color: 'var(--seller-text, #0F172A)' }}>
+                        <div className="relative aspect-video overflow-hidden bg-gray-50 border-b border-gray-100">
+                            <img
+                                src={post.imageUrl || `https://placehold.co/600x400/f8fafc/94a3b8?text=Image+Not+Found`}
+                                alt={post.title}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            />
+                            <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-md shadow-sm">
+                                <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: 'var(--seller-brand, #008080)' }}>
+                                    {post.category}
+                                </span>
+                            </div>
+                        </div>
+                        <div className="p-6">
+                            <h3 className="text-lg font-bold mb-2 line-clamp-2 leading-tight group-hover:opacity-80 transition-opacity" style={{ color: 'var(--seller-text, #0F172A)' }}>
                                 {post.title}
                             </h3>
-                            <p className="text-sm line-clamp-2 mb-3" style={{ color: 'var(--seller-text-muted, #64748B)' }}>
+                            <p className="text-sm line-clamp-2 mb-4 leading-relaxed" style={{ color: 'var(--seller-text-muted, #64748B)' }}>
                                 {post.summary}
                             </p>
-                            <div className="flex items-center justify-between text-xs" style={{ color: 'var(--seller-text-muted, #64748B)' }}>
-                                <span>{post.author}</span>
+                            <div className="flex items-center justify-between text-xs font-medium pt-4 border-t border-gray-50" style={{ color: 'var(--seller-text-muted, #64748B)' }}>
+                                <span className="flex items-center gap-1.5">
+                                    <div className="w-5 h-5 rounded-full bg-gray-200" />
+                                    {post.author}
+                                </span>
                                 <span>{post.readTime}</span>
                             </div>
                         </div>

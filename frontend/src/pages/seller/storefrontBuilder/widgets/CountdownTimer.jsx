@@ -25,7 +25,7 @@ export default function CountdownTimer({ heading, endDate, backgroundColor, text
         <div
             className="rounded-2xl py-10 px-6 text-center"
             style={{
-                backgroundColor: backgroundColor || 'var(--seller-brand, #06B6D4)',
+                backgroundColor: backgroundColor || 'var(--seller-brand, #008080)',
                 color: textColor,
                 borderRadius: 'var(--seller-radius, 0.75rem)',
             }}
@@ -38,10 +38,10 @@ export default function CountdownTimer({ heading, endDate, backgroundColor, text
             <div className="flex justify-center gap-4 sm:gap-6">
                 {units.map((unit) => (
                     <div key={unit.label} className="flex flex-col items-center">
-                        <span className="text-3xl sm:text-5xl font-bold tabular-nums">
+                        <span className="text-3xl sm:text-5xl font-bold tabular-nums bg-black/10 backdrop-blur-sm rounded-xl min-w-[3.5rem] sm:min-w-[5rem] py-3 sm:py-4 mb-2 shadow-inner">
                             {String(unit.value).padStart(2, '0')}
                         </span>
-                        <span className="text-xs sm:text-sm mt-1 opacity-80 uppercase tracking-wide">
+                        <span className="text-[10px] sm:text-xs font-semibold opacity-90 uppercase tracking-widest">
                             {unit.label}
                         </span>
                     </div>

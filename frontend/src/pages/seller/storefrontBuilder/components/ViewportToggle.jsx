@@ -27,7 +27,7 @@ export default function ViewportToggle() {
                         title={viewport.label}
                         className={`p-2 rounded-md transition-colors ${
                             viewportMode === viewport.mode
-                                ? 'bg-white text-blue-600 shadow-sm'
+                                ? 'bg-white text-brand-primary shadow-sm'
                                 : 'text-gray-400 hover:text-gray-600'
                         }`}
                     >

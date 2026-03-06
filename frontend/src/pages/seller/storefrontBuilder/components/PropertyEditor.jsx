@@ -15,6 +15,7 @@ export default function PropertyEditor() {
     const removeWidget = useBuilderStore((s) => s.removeWidget);
     const duplicateWidget = useBuilderStore((s) => s.duplicateWidget);
     const selectWidget = useBuilderStore((s) => s.selectWidget);
+    const commitHistory = useBuilderStore((s) => s.commitHistory);
 
     const widget = widgets.find((w) => w.id === selectedWidgetId);
     if (!widget) {
@@ -41,6 +42,7 @@ export default function PropertyEditor() {
 
     const handleLayoutChange = (key, value) => {
         updateWidgetLayout(widget.id, { [key]: value });
+        commitHistory();
     };
 
     return (
@@ -50,7 +52,10 @@ export default function PropertyEditor() {
                 <Icon size={16} className="text-gray-400" />
                 <span className="text-sm font-semibold text-gray-700">{label}</span>
                 <button
-                    onClick={() => selectWidget(null)}
+                    onClick={() => {
+                        commitHistory();
+                        selectWidget(null);
+                    }}
                     className="ml-auto text-xs text-gray-400 hover:text-gray-600"
                 >
                     ✕
@@ -142,7 +147,7 @@ function PropertyField({ field, value, onChange }) {
                         value={value || ''}
                         onChange={(e) => onChange(e.target.value)}
                         placeholder={field.type === 'url' ? 'https://...' : ''}
-                        className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+                        className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30"
                     />
                 </div>
             );
@@ -154,7 +159,7 @@ function PropertyField({ field, value, onChange }) {
                         value={value || ''}
                         onChange={(e) => onChange(e.target.value)}
                         rows={4}
-                        className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300 resize-none font-mono"
+                        className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30 resize-none font-mono"
                     />
                 </div>
             );
@@ -169,7 +174,7 @@ function PropertyField({ field, value, onChange }) {
                         max={field.max}
                         step={field.step || 1}
                         onChange={(e) => onChange(Number(e.target.value))}
-                        className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
+                        className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30"
                     />
                 </div>
             );
@@ -187,7 +192,7 @@ function PropertyField({ field, value, onChange }) {
                         max={field.max ?? 100}
                         step={field.step ?? 1}
                         onChange={(e) => onChange(Number(e.target.value))}
-                        className="w-full accent-blue-500"
+                        className="w-full accent-brand-primary"
                     />
                 </div>
             );
@@ -224,7 +229,7 @@ function PropertyField({ field, value, onChange }) {
                             const parsed = Number(v);
                             onChange(isNaN(parsed) ? v : parsed);
                         }}
-                        className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-300"
+                        className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-brand-primary/30"
                     >
                         {(field.options || []).map((opt) => (
                             <option key={opt} value={opt}>
@@ -256,7 +261,7 @@ function LayoutSelect({ label, value, options, onChange }) {
                         onClick={() => onChange(opt)}
                         className={`px-2.5 py-1 text-[11px] font-medium rounded-md border transition-colors capitalize
                             ${value === opt
-                                ? 'bg-blue-50 border-blue-300 text-blue-700'
+                                ? 'bg-brand-primary/10 border-brand-primary/30 text-teal-700'
                                 : 'bg-white border-gray-200 text-gray-500 hover:border-gray-300'
                             }`}
                     >
@@ -274,7 +279,7 @@ function LayoutToggle({ label, checked, onChange }) {
             <span className="text-xs font-medium text-gray-500">{label}</span>
             <button
                 onClick={() => onChange(!checked)}
-                className={`relative inline-flex h-5 w-9 shrink-0 rounded-full transition-colors ${checked ? 'bg-blue-500' : 'bg-gray-200'}`}
+                className={`relative inline-flex h-5 w-9 shrink-0 rounded-full transition-colors ${checked ? 'bg-brand-primary' : 'bg-gray-200'}`}
             >
                 <span className={`inline-block h-4 w-4 rounded-full bg-white shadow transform transition-transform mt-0.5 ${checked ? 'translate-x-4 ml-0.5' : 'translate-x-0.5'}`} />
             </button>

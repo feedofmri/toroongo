@@ -7,6 +7,7 @@ const sidebarLinks = [
     { to: '/seller', icon: LayoutDashboard, label: 'Dashboard', end: true },
     { to: '/seller/products', icon: Package, label: 'Products' },
     { to: '/seller/orders', icon: ShoppingBag, label: 'Orders' },
+    { to: '/seller/blogs', icon: MessageSquare, label: 'Blog Posts' },
     { to: '/seller/finance', icon: DollarSign, label: 'Finance' },
     { to: '/seller/messages', icon: MessageSquare, label: 'Messages' },
     { to: '/seller/storefront-builder', icon: Paintbrush, label: 'Storefront' },

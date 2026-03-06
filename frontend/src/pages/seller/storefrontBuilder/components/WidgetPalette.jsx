@@ -44,8 +44,8 @@ function DraggableWidgetCard({ type, icon: Icon, label }) {
             {...listeners}
             {...attributes}
             className={`flex flex-col items-center gap-2 p-3 rounded-xl border border-gray-100 bg-white
-                cursor-grab active:cursor-grabbing hover:border-blue-200 hover:bg-blue-50/50 transition-colors
-                ${isDragging ? 'opacity-50 ring-2 ring-blue-400' : ''}`}
+                cursor-grab active:cursor-grabbing hover:border-blue-200 hover:bg-brand-primary/10/50 transition-colors
+                ${isDragging ? 'opacity-50 ring-2 ring-brand-primary' : ''}`}
         >
             <Icon size={20} className="text-gray-500" />
             <span className="text-[11px] font-medium text-gray-600 text-center leading-tight">{label}</span>

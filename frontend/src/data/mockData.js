@@ -18,6 +18,8 @@ export const sellers = [
         "id": 1,
         "name": "Sony Electronics",
         "slug": "sony-electronics",
+        "email": "contact@sony-electronics.com",
+        "password": "password123",
         "description": "Official Sony Electronics store offering premium products and services.",
         "logo": "https://images.unsplash.com/photo-1507473885765-e6ed057ab6fe?auto=format&fit=crop&q=80&w=100&h=100",
         "banner": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=1200&h=400",
@@ -30,6 +32,8 @@ export const sellers = [
         "id": 2,
         "name": "Urban Threads",
         "slug": "urban-threads",
+        "email": "contact@urban-threads.com",
+        "password": "password123",
         "description": "Official Urban Threads store offering premium products and services.",
         "logo": "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&q=80&w=100&h=100",
         "banner": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=1200&h=400",
@@ -42,6 +46,8 @@ export const sellers = [
         "id": 3,
         "name": "NaturGlow",
         "slug": "naturglow",
+        "email": "contact@naturglow.com",
+        "password": "password123",
         "description": "Official NaturGlow store offering premium products and services.",
         "logo": "https://images.unsplash.com/photo-1583394838336-acd977730f8a?auto=format&fit=crop&q=80&w=100&h=100",
         "banner": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=1200&h=400",
@@ -54,6 +60,8 @@ export const sellers = [
         "id": 4,
         "name": "TechVault",
         "slug": "techvault",
+        "email": "contact@techvault.com",
+        "password": "password123",
         "description": "Official TechVault store offering premium products and services.",
         "logo": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&q=80&w=100&h=100",
         "banner": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=1200&h=400",
@@ -66,6 +74,8 @@ export const sellers = [
         "id": 5,
         "name": "EcoHome",
         "slug": "ecohome",
+        "email": "contact@ecohome.com",
+        "password": "password123",
         "description": "Official EcoHome store offering premium products and services.",
         "logo": "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?auto=format&fit=crop&q=80&w=100&h=100",
         "banner": "https://images.unsplash.com/photo-1507473885765-e6ed057ab6fe?auto=format&fit=crop&q=80&w=1200&h=400",
@@ -78,6 +88,8 @@ export const sellers = [
         "id": 6,
         "name": "FitGear",
         "slug": "fitgear",
+        "email": "contact@fitgear.com",
+        "password": "password123",
         "description": "Official FitGear store offering premium products and services.",
         "logo": "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?auto=format&fit=crop&q=80&w=100&h=100",
         "banner": "https://images.unsplash.com/photo-1590658268037-6bf12f032f55?auto=format&fit=crop&q=80&w=1200&h=400",
@@ -90,6 +102,8 @@ export const sellers = [
         "id": 7,
         "name": "Bibliophile Haven",
         "slug": "bibliophile-haven",
+        "email": "contact@bibliophile-haven.com",
+        "password": "password123",
         "description": "Official Bibliophile Haven store offering premium products and services.",
         "logo": "https://images.unsplash.com/photo-1583394838336-acd977730f8a?auto=format&fit=crop&q=80&w=100&h=100",
         "banner": "https://images.unsplash.com/photo-1543163530-1073da1e94ba?auto=format&fit=crop&q=80&w=1200&h=400",
@@ -102,6 +116,8 @@ export const sellers = [
         "id": 8,
         "name": "ToyBox",
         "slug": "toybox",
+        "email": "contact@toybox.com",
+        "password": "password123",
         "description": "Official ToyBox store offering premium products and services.",
         "logo": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&q=80&w=100&h=100",
         "banner": "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&q=80&w=1200&h=400",
@@ -114,6 +130,8 @@ export const sellers = [
         "id": 9,
         "name": "Wellness Hub",
         "slug": "wellness-hub",
+        "email": "contact@wellness-hub.com",
+        "password": "password123",
         "description": "Official Wellness Hub store offering premium products and services.",
         "logo": "https://images.unsplash.com/photo-1543163530-1073da1e94ba?auto=format&fit=crop&q=80&w=100&h=100",
         "banner": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=1200&h=400",
@@ -126,6 +144,8 @@ export const sellers = [
         "id": 10,
         "name": "Glamour Shop",
         "slug": "glamour-shop",
+        "email": "contact@glamour-shop.com",
+        "password": "password123",
         "description": "Official Glamour Shop store offering premium products and services.",
         "logo": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&q=80&w=100&h=100",
         "banner": "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&q=80&w=1200&h=400",
@@ -138,6 +158,8 @@ export const sellers = [
         "id": 11,
         "name": "Modern Living",
         "slug": "modern-living",
+        "email": "contact@modern-living.com",
+        "password": "password123",
         "description": "Official Modern Living store offering premium products and services.",
         "logo": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=100&h=100",
         "banner": "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&q=80&w=1200&h=400",
@@ -150,6 +172,8 @@ export const sellers = [
         "id": 12,
         "name": "Pixel Perfect",
         "slug": "pixel-perfect",
+        "email": "contact@pixel-perfect.com",
+        "password": "password123",
         "description": "Official Pixel Perfect store offering premium products and services.",
         "logo": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=100&h=100",
         "banner": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=1200&h=400",
@@ -162,6 +186,8 @@ export const sellers = [
         "id": 13,
         "name": "Style Avenue",
         "slug": "style-avenue",
+        "email": "contact@style-avenue.com",
+        "password": "password123",
         "description": "Official Style Avenue store offering premium products and services.",
         "logo": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=100&h=100",
         "banner": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=1200&h=400",
@@ -174,6 +200,8 @@ export const sellers = [
         "id": 14,
         "name": "Green Life",
         "slug": "green-life",
+        "email": "contact@green-life.com",
+        "password": "password123",
         "description": "Official Green Life store offering premium products and services.",
         "logo": "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&q=80&w=100&h=100",
         "banner": "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&q=80&w=1200&h=400",
@@ -186,6 +214,8 @@ export const sellers = [
         "id": 15,
         "name": "Comfort Zone",
         "slug": "comfort-zone",
+        "email": "contact@comfort-zone.com",
+        "password": "password123",
         "description": "Official Comfort Zone store offering premium products and services.",
         "logo": "https://images.unsplash.com/photo-1560343090-f0409e92791a?auto=format&fit=crop&q=80&w=100&h=100",
         "banner": "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=1200&h=400",
@@ -2728,5 +2758,56 @@ export const testimonials = [
         "rating": 5,
         "text": "Absolutely love my purchase! The quality exceeded my expectations. Shipping was incredibly fast.",
         "date": "13 days ago"
+    }
+];
+
+// ─── Mock Users (5 Admins, 5 Buyers, 5 Sellers) ─────────────────
+
+export const mockAdmins = [
+    { id: 'admin_2', name: 'Admin Two', email: 'admin2@toroongo.com', password: 'password123', role: 'admin' },
+    { id: 'admin_3', name: 'Admin Three', email: 'admin3@toroongo.com', password: 'password123', role: 'admin' },
+    { id: 'admin_4', name: 'Admin Four', email: 'admin4@toroongo.com', password: 'password123', role: 'admin' },
+    { id: 'admin_5', name: 'Admin Five', email: 'admin5@toroongo.com', password: 'password123', role: 'admin' },
+    { id: 'admin_6', name: 'Admin Six', email: 'admin6@toroongo.com', password: 'password123', role: 'admin' }
+];
+
+export const mockBuyers = [
+    { id: 'buyer_2', name: 'Bob Smith', email: 'bob@example.com', password: 'password123', role: 'buyer' },
+    { id: 'buyer_3', name: 'Alice Johnson', email: 'alice@example.com', password: 'password123', role: 'buyer' },
+    { id: 'buyer_4', name: 'Charlie Brown', email: 'charlie@example.com', password: 'password123', role: 'buyer' },
+    { id: 'buyer_5', name: 'Diana Prince', email: 'diana@example.com', password: 'password123', role: 'buyer' },
+    { id: 'buyer_6', name: 'Evan Wright', email: 'evan@example.com', password: 'password123', role: 'buyer' }
+];
+
+export const extraSellers = [
+    {
+        id: 101, name: "Gizmo Haven", slug: "gizmo-haven", email: "contact@gizmo-haven.com", password: "password123", description: "All the gadgets you need.",
+        logo: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=100&h=100&fit=crop",
+        banner: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=1200&h=400",
+        rating: 4.6, totalProducts: 120, joinedDate: "2024-03-01", brandColor: "#a321cf"
+    },
+    {
+        id: 102, name: "Fashion Fiesta", slug: "fashion-fiesta", email: "contact@fashion-fiesta.com", password: "password123", description: "Trendy clothes for everyone.",
+        logo: "https://images.unsplash.com/photo-1583394838336-acd977730f8a?w=100&h=100&fit=crop",
+        banner: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200&h=400&fit=crop",
+        rating: 4.2, totalProducts: 250, joinedDate: "2024-04-12", brandColor: "#e63946"
+    },
+    {
+        id: 103, name: "Green Thumb", slug: "green-thumb", email: "contact@green-thumb.com", password: "password123", description: "Indoor and outdoor plants.",
+        logo: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=100&h=100&fit=crop",
+        banner: "https://images.unsplash.com/photo-1543163530-1073da1e94ba?w=1200&h=400&fit=crop",
+        rating: 4.8, totalProducts: 85, joinedDate: "2024-05-20", brandColor: "#2a9d8f"
+    },
+    {
+        id: 104, name: "Auto Gear", slug: "auto-gear", email: "contact@auto-gear.com", password: "password123", description: "Car accessories and tools.",
+        logo: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=100&h=100&fit=crop",
+        banner: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1200&h=400&fit=crop",
+        rating: 4.1, totalProducts: 40, joinedDate: "2024-06-15", brandColor: "#e9c46a"
+    },
+    {
+        id: 105, name: "Book Worms", slug: "book-worms", email: "contact@book-worms.com", password: "password123", description: "Best sellers and rare finds.",
+        logo: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=100&h=100&fit=crop",
+        banner: "https://images.unsplash.com/photo-1590658268037-6bf12f032f55?w=1200&h=400&fit=crop",
+        rating: 4.9, totalProducts: 300, joinedDate: "2024-07-05", brandColor: "#f4a261"
     }
 ];

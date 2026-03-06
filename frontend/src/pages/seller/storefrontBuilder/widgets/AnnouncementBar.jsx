@@ -13,7 +13,7 @@ export default function AnnouncementBar({ text, backgroundColor, textColor = '#F
         <div
             className="w-full py-2.5 px-4 text-center text-sm font-medium relative"
             style={{
-                backgroundColor: backgroundColor || 'var(--seller-brand, #06B6D4)',
+                backgroundColor: backgroundColor || 'var(--seller-brand, #008080)',
                 color: textColor,
             }}
         >

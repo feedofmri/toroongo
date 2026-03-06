@@ -27,20 +27,25 @@ export default function FAQAccordion({ title, items = [] }) {
                     >
                         <button
                             onClick={() => setOpenIndex(openIndex === i ? null : i)}
-                            className="w-full flex items-center justify-between px-5 py-4 text-left text-sm font-medium hover:bg-gray-50 transition-colors"
+                            className="w-full flex items-center justify-between px-6 py-4.5 text-left font-semibold transition-all duration-300 hover:bg-gray-50/80"
                             style={{ color: 'var(--seller-text, #0F172A)' }}
                         >
                             {item.question}
                             <ChevronDown
-                                size={16}
-                                className={`ml-2 shrink-0 transition-transform duration-200 ${openIndex === i ? 'rotate-180' : ''}`}
+                                size={18}
+                                className={`ml-4 shrink-0 transition-transform duration-300 text-gray-400 ${openIndex === i ? 'rotate-180 text-[color:var(--seller-brand,#008080)]' : ''}`}
                             />
                         </button>
-                        {openIndex === i && (
-                            <div className="px-5 pb-4 text-sm leading-relaxed" style={{ color: 'var(--seller-text-muted, #64748B)' }}>
-                                {item.answer}
+                        <div
+                            className="grid transition-all duration-300 ease-in-out"
+                            style={{ gridTemplateRows: openIndex === i ? '1fr' : '0fr' }}
+                        >
+                            <div className="overflow-hidden">
+                                <div className="px-6 pb-5 text-sm leading-relaxed" style={{ color: 'var(--seller-text-muted, #64748B)' }}>
+                                    {item.answer}
+                                </div>
                             </div>
-                        )}
+                        </div>
                     </div>
                 ))}
             </div>

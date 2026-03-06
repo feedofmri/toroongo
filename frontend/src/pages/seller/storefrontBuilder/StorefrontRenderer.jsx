@@ -75,7 +75,7 @@ export default function StorefrontRenderer({ schema, products = [], onWidgetClic
                 return (
                     <div
                         key={widget.id}
-                        className={`storefront-widget-wrapper ${visibilityClass} ${isBuilder ? 'cursor-pointer' : ''} ${isSelected ? 'ring-2 ring-blue-500 ring-offset-2 rounded-lg' : ''}`}
+                        className={`storefront-widget-wrapper ${visibilityClass} ${isBuilder ? 'cursor-pointer' : ''} ${isSelected ? 'ring-2 ring-brand-primary ring-offset-2 rounded-lg' : ''}`}
                         style={{ paddingTop, paddingBottom }}
                         onClick={isBuilder ? (e) => { e.stopPropagation(); onWidgetClick?.(widget.id); } : undefined}
                         data-widget-id={widget.id}

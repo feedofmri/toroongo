@@ -15,13 +15,13 @@ export default function BrandLogos({ title, logos = [] }) {
                     {title}
                 </h2>
             )}
-            <div className="flex flex-wrap items-center justify-center gap-8 sm:gap-12">
+            <div className="flex flex-wrap items-center justify-center gap-10 sm:gap-16 opacity-80 mt-8">
                 {logos.map((logo, i) => (
                     <img
                         key={i}
                         src={logo.imageUrl}
                         alt={logo.name}
-                        className="h-8 sm:h-10 object-contain opacity-50 hover:opacity-100 transition-opacity grayscale hover:grayscale-0"
+                        className="h-8 sm:h-12 object-contain hover:scale-105 transition-all duration-300 grayscale hover:grayscale-0 cursor-pointer"
                     />
                 ))}
             </div>

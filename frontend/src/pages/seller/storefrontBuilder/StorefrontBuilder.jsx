@@ -7,6 +7,9 @@ import BuilderStage from './components/BuilderStage.jsx';
 import ViewportToggle from './components/ViewportToggle.jsx';
 import { getStorefrontConfig, saveStorefrontConfig } from './services/storefrontService.js';
 import iconColourful from '../../../assets/Logo/icon_colourful.png';
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import { widgetRegistry } from './widgets/widgetRegistry.js';
 
 /**
  * StorefrontBuilder Page
@@ -22,9 +25,36 @@ export default function StorefrontBuilder() {
     const redo = useBuilderStore((s) => s.redo);
     const undoStack = useBuilderStore((s) => s.undoStack);
     const redoStack = useBuilderStore((s) => s.redoStack);
+    const addWidget = useBuilderStore((s) => s.addWidget);
+    const reorderWidgets = useBuilderStore((s) => s.reorderWidgets);
 
     // Current seller (hardcoded to match SellerDashboardLayout for now)
     const sellerId = 'seller_1';
+
+    const sensors = useSensors(
+        useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+        useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+    );
+
+    const handleDragEnd = (event) => {
+        const { active, over } = event;
+        if (!over) return;
+
+        // Dragging from palette to canvas
+        if (active.data?.current?.fromPalette) {
+            const widgetType = active.data.current.type;
+            const entry = widgetRegistry[widgetType];
+            if (entry) {
+                addWidget(widgetType, { ...entry.defaultProps });
+            }
+            return;
+        }
+
+        // Reordering within canvas
+        if (active.id !== over.id) {
+            reorderWidgets(active.id, over.id);
+        }
+    };
 
     const handleSave = useCallback(() => {
         const config = getConfig();
@@ -114,7 +144,7 @@ export default function StorefrontBuilder() {
                     <button
                         onClick={handleSave}
                         className={`flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-white rounded-lg transition-colors
-                            ${isDirty ? 'bg-blue-500 hover:bg-blue-600' : 'bg-gray-300 cursor-default'}`}
+                            ${isDirty ? 'bg-brand-primary hover:bg-brand-primary' : 'bg-gray-300 cursor-default'}`}
                     >
                         <Save size={14} />
                         <span className="hidden sm:inline">{isDirty ? 'Save' : 'Saved'}</span>
@@ -123,10 +153,16 @@ export default function StorefrontBuilder() {
             </header>
 
             {/* Main Area: Sidebar + Stage */}
-            <div className="flex flex-1 overflow-hidden">
-                <BuilderSidebar />
-                <BuilderStage />
-            </div>
+            <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+            >
+                <div className="flex flex-1 overflow-hidden">
+                    <BuilderSidebar />
+                    <BuilderStage />
+                </div>
+            </DndContext>
         </div>
     );
 }

@@ -32,6 +32,39 @@ export const blogService = {
         return newBlog;
     },
 
+    async updateBlog(id, blogData) {
+        await simulateDelay(DELAY);
+        const index = localDB.data.blogs.findIndex(b => b.id === id);
+        if (index === -1) throw new Error('Blog not found');
+
+        const updatedBlog = {
+            ...localDB.data.blogs[index],
+            ...blogData,
+            slug: blogData.title ? blogData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') : localDB.data.blogs[index].slug,
+            updatedAt: new Date().toISOString()
+        };
+
+        localDB.data.blogs[index] = updatedBlog;
+        localDB.save();
+        return updatedBlog;
+    },
+
+    async deleteBlog(id) {
+        await simulateDelay(DELAY);
+        const index = localDB.data.blogs.findIndex(b => b.id === id);
+        if (index === -1) throw new Error('Blog not found');
+        localDB.data.blogs.splice(index, 1);
+        localDB.save();
+        return true;
+    },
+
+    async getBlogsBySeller(sellerId) {
+        await simulateDelay(DELAY);
+        return localDB.data.blogs
+            .filter(b => b.sellerId === sellerId)
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    },
+
     async incrementViews(id) {
         const index = localDB.data.blogs.findIndex(b => b.id === id);
         if (index !== -1) {

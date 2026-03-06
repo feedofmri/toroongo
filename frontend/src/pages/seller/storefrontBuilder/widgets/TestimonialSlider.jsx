@@ -35,13 +35,13 @@ export default function TestimonialSlider({ title, testimonials = [] }) {
                     </div>
                     {/* Quote */}
                     <p
-                        className="text-base sm:text-lg italic mb-4 leading-relaxed"
+                        className="text-lg sm:text-2xl italic font-medium mb-6 leading-relaxed max-w-xl mx-auto"
                         style={{ color: 'var(--seller-text, #0F172A)' }}
                     >
                         "{testimonials[current].text}"
                     </p>
                     {/* Author */}
-                    <p className="text-sm font-semibold" style={{ color: 'var(--seller-brand, #06B6D4)' }}>
+                    <p className="text-sm font-semibold" style={{ color: 'var(--seller-brand, #008080)' }}>
                         — {testimonials[current].author}
                     </p>
                 </div>
@@ -59,7 +59,7 @@ export default function TestimonialSlider({ title, testimonials = [] }) {
                                 <button
                                     key={i}
                                     onClick={() => setCurrent(i)}
-                                    className={`w-2 h-2 rounded-full transition-colors ${i === current ? 'bg-gray-800' : 'bg-gray-300'}`}
+                                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === current ? 'w-6 bg-[color:var(--seller-brand,#008080)]' : 'bg-gray-200 hover:bg-gray-300'}`}
                                 />
                             ))}
                         </div>

@@ -136,7 +136,7 @@ function RangeField({ label, value, min, max, unit = '', onChange }) {
                 min={min}
                 max={max}
                 onChange={(e) => onChange(e.target.value)}
-                className="w-full accent-blue-500"
+                className="w-full accent-brand-primary"
             />
         </div>
     );
@@ -153,7 +153,7 @@ function RadioGroup({ label, value, options, onChange }) {
                         onClick={() => onChange(opt.value)}
                         className={`flex-1 px-3 py-2 text-xs font-medium rounded-lg border transition-colors
                             ${value === opt.value
-                                ? 'bg-blue-50 border-blue-300 text-blue-700'
+                                ? 'bg-brand-primary/10 border-brand-primary/30 text-teal-700'
                                 : 'bg-white border-gray-200 text-gray-500 hover:border-gray-300'
                             }`}
                     >
@@ -171,7 +171,7 @@ function ToggleField({ label, checked, onChange }) {
             <span className="text-sm text-gray-600">{label}</span>
             <button
                 onClick={() => onChange(!checked)}
-                className={`relative w-10 h-5.5 rounded-full transition-colors ${checked ? 'bg-blue-500' : 'bg-gray-200'}`}
+                className={`relative w-10 h-5.5 rounded-full transition-colors ${checked ? 'bg-brand-primary' : 'bg-gray-200'}`}
             >
                 <span
                     className={`absolute top-0.5 w-4.5 h-4.5 rounded-full bg-white shadow transition-transform

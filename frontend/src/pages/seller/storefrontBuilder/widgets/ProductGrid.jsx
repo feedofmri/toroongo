@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
+import ProductCard from '../../../../components/product/ProductCard';
 
 /**
  * ProductGrid Widget
@@ -42,9 +43,15 @@ export default function ProductGrid({ title, columns = 4, dataSource = 'featured
     const placeholders = displayProducts.length === 0
         ? Array.from({ length: maxItems }, (_, i) => ({
             id: `placeholder_${i}`,
-            title: `Product ${i + 1}`,
-            price: (19.99 + i * 10).toFixed(2),
-            imageUrl: `https://placehold.co/300x300/f1f5f9/64748b?text=Product+${i + 1}`,
+            title: `Featured Product ${i + 1}`,
+            price: 19.99 + i * 10,
+            originalPrice: 29.99 + i * 15,
+            imageUrl: `https://placehold.co/300x300/f8fafc/64748b?text=Product+${i + 1}`,
+            rating: 4.5,
+            reviews: 12,
+            seller: 'Demo Store',
+            sellerId: 'demo-store',
+            badge: i === 0 ? 'New' : i === 1 ? 'Sale' : null,
         }))
         : [];
 
@@ -63,7 +70,7 @@ export default function ProductGrid({ title, columns = 4, dataSource = 'featured
                     <a
                         href="#"
                         className="flex items-center gap-1.5 text-sm font-medium transition-colors hover:opacity-80"
-                        style={{ color: 'var(--seller-brand, #06B6D4)' }}
+                        style={{ color: 'var(--seller-brand, #008080)' }}
                     >
                         View All <ArrowRight size={14} />
                     </a>
@@ -72,38 +79,7 @@ export default function ProductGrid({ title, columns = 4, dataSource = 'featured
 
             <div className={gridClass}>
                 {items.map((product) => (
-                    <div
-                        key={product.id}
-                        className="group bg-white rounded-2xl border border-gray-100 overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-                        style={{ borderRadius: 'var(--seller-radius, 0.75rem)' }}
-                    >
-                        <div className="aspect-square overflow-hidden bg-gray-50">
-                            <img
-                                src={product.imageUrl}
-                                alt={product.title}
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                            />
-                        </div>
-                        <div className="p-4">
-                            <h3
-                                className="text-sm font-medium mb-1 line-clamp-2"
-                                style={{ color: 'var(--seller-text, #0F172A)' }}
-                            >
-                                {product.title}
-                            </h3>
-                            <div className="flex items-baseline gap-2">
-                                <span
-                                    className="text-base font-bold"
-                                    style={{ color: 'var(--seller-brand, #06B6D4)' }}
-                                >
-                                    ${product.price}
-                                </span>
-                                {product.originalPrice && (
-                                    <span className="text-xs text-gray-400 line-through">${product.originalPrice}</span>
-                                )}
-                            </div>
-                        </div>
-                    </div>
+                    <ProductCard key={product.id} product={product} />
                 ))}
             </div>
         </div>

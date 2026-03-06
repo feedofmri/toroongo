@@ -45,7 +45,7 @@ export default function BuilderSidebar() {
                             disabled={isDisabled}
                             className={`flex-1 flex items-center justify-center gap-1.5 px-3 py-3 text-[11px] font-semibold uppercase tracking-wider transition-colors border-b-2
                                 ${isActive
-                                    ? 'border-blue-500 text-blue-600'
+                                    ? 'border-brand-primary text-brand-primary'
                                     : isDisabled
                                         ? 'border-transparent text-gray-300 cursor-not-allowed'
                                         : 'border-transparent text-gray-400 hover:text-gray-600'

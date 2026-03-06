@@ -8,16 +8,20 @@ import { CartProvider } from './context/CartContext'
 import { ProductProvider } from './context/ProductContext'
 import { WishlistProvider } from './context/WishlistContext'
 
+import { NotificationProvider } from './contexts/NotificationContext'
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
-      <WishlistProvider>
-        <ProductProvider>
-          <CartProvider>
-            <App />
-          </CartProvider>
-        </ProductProvider>
-      </WishlistProvider>
+      <NotificationProvider>
+        <WishlistProvider>
+          <ProductProvider>
+            <CartProvider>
+              <App />
+            </CartProvider>
+          </ProductProvider>
+        </WishlistProvider>
+      </NotificationProvider>
     </AuthProvider>
   </StrictMode>,
 )

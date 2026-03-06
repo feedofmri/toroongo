@@ -46,7 +46,7 @@ export default function ImageSlider({ slides = [], autoPlay = true, interval = 5
                         href={slide.ctaLink || '#'}
                         className="inline-block px-8 py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity"
                         style={{
-                            backgroundColor: 'var(--seller-brand, #06B6D4)',
+                            backgroundColor: 'var(--seller-brand, #008080)',
                             borderRadius: 'var(--seller-radius, 0.75rem)',
                         }}
                     >

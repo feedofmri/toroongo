@@ -40,17 +40,16 @@ export default function NewsletterSignup({ heading, subheading, placeholderText,
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder={placeholderText || 'Enter your email'}
                         required
-                        className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-opacity-50"
+                        className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[color:var(--seller-brand,#008080)] focus:border-transparent transition-all shadow-sm"
                         style={{
                             borderRadius: 'var(--seller-radius, 0.75rem)',
-                            focusRingColor: 'var(--seller-brand)',
                         }}
                     />
                     <button
                         type="submit"
                         className="px-6 py-3 text-sm font-semibold text-white rounded-xl transition-colors hover:opacity-90"
                         style={{
-                            backgroundColor: buttonColor || 'var(--seller-brand, #06B6D4)',
+                            backgroundColor: buttonColor || 'var(--seller-brand, #008080)',
                             borderRadius: 'var(--seller-radius, 0.75rem)',
                         }}
                     >

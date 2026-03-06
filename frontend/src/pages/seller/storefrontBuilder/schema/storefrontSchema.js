@@ -73,7 +73,7 @@
 /** @returns {ThemeSettings} */
 export function createDefaultTheme() {
     return {
-        brandColor: '#06B6D4',
+        brandColor: '#008080',
         secondaryColor: '#8B5CF6',
         backgroundColor: '#FFFFFF',
         textColor: '#0F172A',

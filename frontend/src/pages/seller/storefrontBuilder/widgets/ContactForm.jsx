@@ -18,8 +18,8 @@ export default function ContactForm({ title, subtitle, fields = ['name', 'email'
         return (
             <div className="text-center py-10">
                 <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center"
-                    style={{ backgroundColor: 'color-mix(in srgb, var(--seller-brand, #06B6D4) 10%, transparent)' }}>
-                    <Send size={24} style={{ color: 'var(--seller-brand, #06B6D4)' }} />
+                    style={{ backgroundColor: 'color-mix(in srgb, var(--seller-brand, #008080) 10%, transparent)' }}>
+                    <Send size={24} style={{ color: 'var(--seller-brand, #008080)' }} />
                 </div>
                 <h3 className="text-lg font-bold mb-2" style={{ color: 'var(--seller-text, #0F172A)' }}>Message Sent!</h3>
                 <p className="text-sm" style={{ color: 'var(--seller-text-muted, #64748B)' }}>We'll get back to you soon.</p>
@@ -47,7 +47,7 @@ export default function ContactForm({ title, subtitle, fields = ['name', 'email'
                         placeholder="Your Name"
                         required
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full px-4 py-3 border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-opacity-50"
+                        className="w-full px-4 py-3.5 border border-gray-200 bg-gray-50/50 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-[color:var(--seller-brand,#008080)] focus:border-transparent transition-all shadow-sm"
                         style={{ borderRadius: 'var(--seller-radius, 0.75rem)' }}
                     />
                 )}
@@ -57,26 +57,27 @@ export default function ContactForm({ title, subtitle, fields = ['name', 'email'
                         placeholder="Your Email"
                         required
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full px-4 py-3 border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-opacity-50"
+                        className="w-full px-4 py-3.5 border border-gray-200 bg-gray-50/50 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-[color:var(--seller-brand,#008080)] focus:border-transparent transition-all shadow-sm"
                         style={{ borderRadius: 'var(--seller-radius, 0.75rem)' }}
                     />
                 )}
                 {fields.includes('message') && (
                     <textarea
-                        placeholder="Your Message"
-                        rows={4}
+                        placeholder="Your Message..."
+                        rows={5}
                         required
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        className="w-full px-4 py-3 border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-opacity-50 resize-none"
+                        className="w-full px-4 py-3.5 border border-gray-200 bg-gray-50/50 text-sm focus:bg-white focus:outline-none focus:ring-2 focus:ring-[color:var(--seller-brand,#008080)] focus:border-transparent transition-all shadow-sm resize-none"
                         style={{ borderRadius: 'var(--seller-radius, 0.75rem)' }}
                     />
                 )}
                 <button
                     type="submit"
-                    className="w-full px-6 py-3 text-sm font-semibold text-white transition-colors hover:opacity-90"
+                    className="w-full px-6 py-3.5 mt-2 text-sm font-bold text-white transition-all duration-300 hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5"
                     style={{
-                        backgroundColor: 'var(--seller-brand, #06B6D4)',
+                        backgroundColor: 'var(--seller-brand, #008080)',
                         borderRadius: 'var(--seller-radius, 0.75rem)',
+                        boxShadow: '0 4px 14px 0 color-mix(in srgb, var(--seller-brand, #008080) 40%, transparent)',
                     }}
                 >
                     {buttonText}

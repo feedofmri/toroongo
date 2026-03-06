@@ -134,11 +134,11 @@ export const useBuilderStore = create((set, get) => ({
      * @param {Object} newProps
      */
     updateWidgetProps: (widgetId, newProps) => {
-        get()._pushUndo();
         set((state) => ({
             widgets: state.widgets.map((w) =>
                 w.id === widgetId ? { ...w, props: { ...w.props, ...newProps } } : w
             ),
+            isDirty: true
         }));
     },
 
@@ -148,12 +148,19 @@ export const useBuilderStore = create((set, get) => ({
      * @param {Partial<import('../schema/storefrontSchema.js').WidgetLayout>} newLayout
      */
     updateWidgetLayout: (widgetId, newLayout) => {
-        get()._pushUndo();
         set((state) => ({
             widgets: state.widgets.map((w) =>
                 w.id === widgetId ? { ...w, layout: { ...w.layout, ...newLayout } } : w
             ),
+            isDirty: true
         }));
+    },
+
+    /**
+     * Record the current state into the undo stack explicitly.
+     */
+    commitHistory: () => {
+        get()._pushUndo();
     },
 
     /**
