@@ -1,30 +1,34 @@
 import React from 'react';
 import { NavLink, Outlet, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { LayoutDashboard, Package, ShoppingBag, Settings, DollarSign, MessageSquare, Store, ChevronLeft, Paintbrush } from 'lucide-react';
 import iconColourful from '../../assets/Logo/icon_colourful.png';
 
 const sidebarLinks = [
-    { to: '/seller', icon: LayoutDashboard, label: 'Dashboard', end: true },
-    { to: '/seller/products', icon: Package, label: 'Products' },
-    { to: '/seller/orders', icon: ShoppingBag, label: 'Orders' },
-    { to: '/seller/blogs', icon: MessageSquare, label: 'Blog Posts' },
-    { to: '/seller/finance', icon: DollarSign, label: 'Finance' },
-    { to: '/seller/messages', icon: MessageSquare, label: 'Messages' },
-    { to: '/seller/storefront-builder', icon: Paintbrush, label: 'Storefront' },
-    { to: '/seller/settings', icon: Settings, label: 'Settings' },
+    { to: '/seller', icon: LayoutDashboard, labelKey: 'dashboard', end: true },
+    { to: '/seller/products', icon: Package, labelKey: 'products' },
+    { to: '/seller/orders', icon: ShoppingBag, labelKey: 'orders' },
+    { to: '/seller/blogs', icon: MessageSquare, labelKey: 'blogPosts' },
+    { to: '/seller/finance', icon: DollarSign, labelKey: 'finance' },
+    { to: '/seller/messages', icon: MessageSquare, labelKey: 'messages' },
+    { to: '/seller/storefront-builder', icon: Paintbrush, labelKey: 'storefront' },
+    { to: '/seller/settings', icon: Settings, labelKey: 'settings' },
 ];
 
 export default function SellerDashboardLayout() {
+    const { t, i18n } = useTranslation();
+    const isRTL = i18n.dir() === 'rtl';
+
     return (
-        <div className="min-h-screen bg-surface-bg">
+        <div className="min-h-screen bg-surface-bg" dir={i18n.dir()}>
             <div className="flex">
                 {/* ── Sidebar ──────────────────────────────────────── */}
-                <aside className="hidden lg:flex flex-col w-60 bg-white border-r border-border-soft min-h-screen sticky top-0">
+                <aside className={`hidden lg:flex flex-col w-60 bg-white border-border-soft min-h-screen sticky top-0 ${isRTL ? 'border-l' : 'border-r'}`}>
                     {/* Logo */}
                     <div className="p-5 border-b border-border-soft">
                         <Link to="/" className="flex items-center gap-2.5">
                             <img src={iconColourful} alt="Toroongo" className="w-8 h-8" />
-                            <span className="font-bold text-lg text-text-primary">Seller Hub</span>
+                            <span className="font-bold text-lg text-text-primary">{t('sellerDashboard.title')}</span>
                         </Link>
                     </div>
 
@@ -44,7 +48,7 @@ export default function SellerDashboardLayout() {
                                 }
                             >
                                 <link.icon size={16} />
-                                {link.label}
+                                {t(`sellerDashboard.nav.${link.labelKey}`)}
                             </NavLink>
                         ))}
                     </nav>
@@ -56,7 +60,7 @@ export default function SellerDashboardLayout() {
                             className="flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-text-muted hover:text-brand-primary rounded-xl hover:bg-surface-bg transition-colors"
                         >
                             <Store size={16} />
-                            View My Store
+                            {t('sellerDashboard.nav.viewStore')}
                         </Link>
                     </div>
                 </aside>
@@ -66,10 +70,10 @@ export default function SellerDashboardLayout() {
                     {/* Top bar */}
                     <header className="bg-white border-b border-border-soft px-6 py-4 flex items-center justify-between sticky top-0 z-20">
                         <div className="flex items-center gap-3">
-                            <Link to="/" className="lg:hidden text-text-muted hover:text-text-primary">
+                            <Link to="/" className={`lg:hidden text-text-muted hover:text-text-primary ${isRTL ? 'rotate-180' : ''}`}>
                                 <ChevronLeft size={20} />
                             </Link>
-                            <h1 className="text-lg font-semibold text-text-primary lg:hidden">Seller Hub</h1>
+                            <h1 className="text-lg font-semibold text-text-primary lg:hidden">{t('sellerDashboard.title')}</h1>
                         </div>
                         <div className="flex items-center gap-3">
                             <div className="w-8 h-8 bg-brand-primary/10 rounded-full flex items-center justify-center">

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
     ArrowRight, ChevronLeft, ChevronRight, Sparkles, TrendingUp, Zap,
@@ -8,13 +8,25 @@ import ProductCard from '../../components/product/ProductCard';
 import ProductCardSkeleton from '../../components/product/ProductCardSkeleton';
 import CategoryCard from '../../components/ui/CategoryCard';
 import Skeleton from '../../components/ui/Skeleton';
-import { useDelayedLoad } from '../../hooks/useDelayedLoad';
-import { categories, sellers, testimonials } from '../../data/mockData';
+import { testimonials } from '../../data/mockData';
 import { useProduct } from '../../context/ProductContext';
+import { api } from '../../services/api';
+import { userService } from '../../services';
+
+import { useTranslation } from 'react-i18next';
+import { formatPrice } from '../../utils/currency';
 
 export default function Homepage() {
+    const { t } = useTranslation();
     const { products: loadedProducts, isLoading } = useProduct();
-    const { data: loadedCategories, isLoading: categoriesLoading } = useDelayedLoad(categories, 600);
+    const [sellers, setSellers] = useState([]);
+    const [loadedCategories, setLoadedCategories] = useState([]);
+    const [categoriesLoading, setCategoriesLoading] = useState(true);
+
+    useEffect(() => {
+        api('/system/categories').then(data => { setLoadedCategories(data); setCategoriesLoading(false); }).catch(() => setCategoriesLoading(false));
+        userService.getAllSellers().then(data => setSellers(data.map(s => ({ ...s, totalProducts: s.total_products, brandColor: s.brand_color, joinedDate: s.joined_date, storeName: s.store_name })))).catch(console.error);
+    }, []);
     const carouselRef = useRef(null);
     const featuredRef = useRef(null);
     const sellersRef = useRef(null);
@@ -50,14 +62,12 @@ export default function Homepage() {
                                 <span className="text-brand-primary text-xs font-semibold tracking-wide uppercase">Toroongo Marketplace</span>
                             </div>
 
-                            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 leading-[1.1] tracking-tight">
-                                Discover
-                                <span className="text-brand-primary"> amazing </span>
-                                products from top sellers
+                            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 leading-[1.1] tracking-tight whitespace-pre-line">
+                                {t('home.heroTitle', 'Discover amazing products')}
                             </h1>
 
-                            <p className="text-lg text-slate-600 mb-8 leading-relaxed max-w-lg">
-                                Shop from thousands of curated sellers. Quality products, secure payments, and fast delivery — all in one place.
+                            <p className="text-lg text-slate-600 mb-8 leading-relaxed max-w-lg whitespace-pre-line">
+                                {t('home.heroSubtitle', 'Shop from thousands of curated sellers. Quality products, secure payments, and fast delivery — all in one place.')}
                             </p>
 
                             <div className="flex flex-wrap gap-4 mb-10">
@@ -67,7 +77,7 @@ export default function Homepage() {
                                        rounded-2xl hover:bg-brand-secondary transition-all duration-300 shadow-xl shadow-brand-primary/20
                                        hover:shadow-brand-secondary/20 hover:-translate-y-0.5"
                                 >
-                                    Explore Products <ArrowRight size={18} />
+                                    {t('home.cta', 'Explore Products')} <ArrowRight size={18} />
                                 </Link>
                                 <Link
                                     to="/sell"
@@ -75,7 +85,7 @@ export default function Homepage() {
                                        rounded-2xl hover:bg-slate-50 transition-all duration-300 border border-slate-200
                                        hover:border-brand-primary/30"
                                 >
-                                    Start Selling
+                                    {t('home.sellCta', 'Start Selling')}
                                 </Link>
                             </div>
 
@@ -83,15 +93,15 @@ export default function Homepage() {
                             <div className="flex flex-wrap gap-10">
                                 <div className="flex flex-col">
                                     <span className="text-3xl font-extrabold text-slate-900">10K+</span>
-                                    <span className="text-sm text-slate-500 font-medium">Products</span>
+                                    <span className="text-sm text-slate-500 font-medium">{t('home.stats.products', 'Products')}</span>
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="text-3xl font-extrabold text-slate-900">500+</span>
-                                    <span className="text-sm text-slate-500 font-medium">Sellers</span>
+                                    <span className="text-sm text-slate-500 font-medium">{t('home.stats.sellers', 'Sellers')}</span>
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="text-3xl font-extrabold text-slate-900">50K+</span>
-                                    <span className="text-sm text-slate-500 font-medium">Happy Buyers</span>
+                                    <span className="text-sm text-slate-500 font-medium">{t('home.stats.buyers', 'Happy Buyers')}</span>
                                 </div>
                             </div>
                         </div>
@@ -141,17 +151,17 @@ export default function Homepage() {
                                             +50K
                                         </div>
                                     </div>
-                                    <p className="text-slate-900 font-bold text-sm">Trusted by 50K+</p>
-                                    <p className="text-slate-500 text-xs mt-0.5">Satisfied buyers</p>
+                                    <p className="text-slate-900 font-bold text-sm">{t('home.stats.trusted', 'Trusted by 50K+')}</p>
+                                    <p className="text-slate-500 text-xs mt-0.5">{t('home.stats.satisfied', 'Satisfied buyers')}</p>
                                 </div>
 
                                 <div className="bg-white/70 backdrop-blur-lg border border-white p-6 rounded-[2rem] shadow-xl shadow-slate-200/40">
                                     <div className="flex items-center gap-2 mb-3">
                                         <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-ping" />
-                                        <span className="text-green-600 text-xs font-bold uppercase tracking-wider">Live Activity</span>
+                                        <span className="text-green-600 text-xs font-bold uppercase tracking-wider">{t('home.stats.live', 'Live Activity')}</span>
                                     </div>
                                     <p className="text-slate-900 font-bold text-lg leading-tight">2.3K Orders</p>
-                                    <p className="text-slate-500 text-xs mt-0.5">Placed in 24h</p>
+                                    <p className="text-slate-500 text-xs mt-0.5">{t('home.stats.orders', 'Placed in 24h')}</p>
                                 </div>
                             </div>
                         </div>
@@ -166,10 +176,10 @@ export default function Homepage() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                         {[
-                            { icon: Truck, text: 'Free Shipping', sub: 'On orders over $50' },
-                            { icon: ShieldCheck, text: 'Secure Checkout', sub: '256-bit SSL encryption' },
-                            { icon: RotateCcw, text: '30-Day Returns', sub: 'No-hassle refunds' },
-                            { icon: Clock, text: '24/7 Support', sub: 'We are always here' },
+                            { icon: Truck, text: t('home.trust.shipping', 'Seller Shipping'), sub: t('home.trust.shippingSub', 'Price set by sellers') },
+                            { icon: ShieldCheck, text: t('home.trust.secure', 'Secure Checkout'), sub: t('home.trust.secureSub', '256-bit SSL encryption') },
+                            { icon: RotateCcw, text: t('home.trust.returns', '30-Day Returns'), sub: t('home.trust.returnsSub', 'No-hassle refunds') },
+                            { icon: Clock, text: t('home.trust.support', '24/7 Support'), sub: t('home.trust.supportSub', 'We are always here') },
                         ].map((badge, idx) => (
                             <div key={idx} className="flex items-center gap-4 justify-center md:justify-start">
                                 <div className="p-2.5 bg-slate-50 rounded-xl">
@@ -193,15 +203,15 @@ export default function Homepage() {
                     <div className="flex items-center justify-between mb-8">
                         <div>
                             <h2 className="text-2xl font-bold text-text-primary tracking-tight">
-                                Shop by Category
+                                {t('home.categories.title', 'Shop by Category')}
                             </h2>
-                            <p className="text-text-muted text-sm mt-1">Browse our most popular categories</p>
+                            <p className="text-text-muted text-sm mt-1">{t('home.categories.subtitle', 'Browse our most popular categories')}</p>
                         </div>
                         <Link
                             to="/products"
                             className="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-brand-primary hover:text-brand-secondary transition-colors"
                         >
-                            View All <ArrowRight size={14} />
+                            {t('common.viewAll', 'View All')} <ArrowRight size={14} />
                         </Link>
                     </div>
 
@@ -244,9 +254,9 @@ export default function Homepage() {
                             </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-text-primary tracking-tight">
-                                    Trending Now
+                                    {t('home.trending.title', 'Trending Now')}
                                 </h2>
-                                <p className="text-text-muted text-sm mt-0.5">What everyone's buying this week</p>
+                                <p className="text-text-muted text-sm mt-0.5">{t('home.trending.subtitle', "What everyone's buying this week")}</p>
                             </div>
                         </div>
                         <div className="hidden sm:flex items-center gap-2">
@@ -302,9 +312,9 @@ export default function Homepage() {
                             </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-text-primary tracking-tight">
-                                    Top Sellers
+                                    {t('home.sellers.title', 'Top Sellers')}
                                 </h2>
-                                <p className="text-text-muted text-sm mt-0.5">Explore stores from our best-rated sellers</p>
+                                <p className="text-text-muted text-sm mt-0.5">{t('home.sellers.subtitle', 'Explore stores from our best-rated sellers')}</p>
                             </div>
                         </div>
                         <div className="hidden sm:flex items-center gap-2">
@@ -363,7 +373,7 @@ export default function Homepage() {
                                             <Star size={12} className="fill-amber-400 text-amber-400" />
                                             <span className="text-xs font-semibold text-text-primary">{seller.rating}</span>
                                         </div>
-                                        <span className="text-[11px] text-text-muted">{seller.totalProducts} products</span>
+                                        <span className="text-[11px] text-text-muted">{(seller.totalProducts || seller.total_products)} {t('common.products', 'products')}</span>
                                     </div>
                                 </div>
                             </Link>
@@ -379,20 +389,20 @@ export default function Homepage() {
                         <div className="relative z-10 max-w-lg">
                             <div className="flex items-center gap-2 mb-3">
                                 <Zap size={18} className="text-white" />
-                                <span className="text-white/90 text-sm font-medium">For Sellers</span>
+                                <span className="text-white/90 text-sm font-medium">{t('home.promo.badge', 'For Sellers')}</span>
                             </div>
                             <h3 className="text-2xl sm:text-3xl font-bold text-white mb-3">
-                                Start your store today.
+                                {t('home.promo.title', 'Start your store today.')}
                             </h3>
                             <p className="text-white/80 mb-6">
-                                Join thousands of sellers on Toroongo. Build your brand, reach millions of buyers, and grow your business — all from one platform.
+                                {t('home.promo.subtitle', 'Join thousands of sellers on Toroongo. Build your brand, reach millions of buyers, and grow your business — all from one platform.')}
                             </p>
                             <Link
                                 to="/sell"
                                 className="inline-flex items-center gap-2 px-6 py-3 bg-white text-brand-secondary font-semibold
                            rounded-xl hover:bg-gray-50 transition-colors shadow-lg"
                             >
-                                Get Started <ArrowRight size={16} />
+                                {t('home.promo.cta', 'Get Started')} <ArrowRight size={16} />
                             </Link>
                         </div>
 
@@ -413,9 +423,9 @@ export default function Homepage() {
                             </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-text-primary tracking-tight">
-                                    Featured Products
+                                    {t('home.featured.title', 'Featured Products')}
                                 </h2>
-                                <p className="text-text-muted text-sm mt-0.5">Hand-picked by our editors</p>
+                                <p className="text-text-muted text-sm mt-0.5">{t('home.featured.subtitle', 'Hand-picked by our editors')}</p>
                             </div>
                         </div>
                         <div className="flex items-center gap-2">
@@ -441,7 +451,7 @@ export default function Homepage() {
                                 to="/products"
                                 className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-primary hover:text-brand-secondary transition-colors"
                             >
-                                See All <ArrowRight size={14} />
+                                {t('common.seeAll', 'See All')} <ArrowRight size={14} />
                             </Link>
                         </div>
                     </div>
@@ -479,9 +489,9 @@ export default function Homepage() {
                             </div>
                             <div>
                                 <h2 className="text-2xl font-bold text-text-primary tracking-tight">
-                                    What Our Buyers Say
+                                    {t('home.reviews.title', 'What Our Buyers Say')}
                                 </h2>
-                                <p className="text-text-muted text-sm mt-0.5">Real reviews from real customers</p>
+                                <p className="text-text-muted text-sm mt-0.5">{t('home.reviews.subtitle', 'Real reviews from real customers')}</p>
                             </div>
                         </div>
                         <div className="hidden sm:flex items-center gap-2">
@@ -524,7 +534,7 @@ export default function Homepage() {
 
                                 {/* Product purchased */}
                                 <p className="text-xs text-brand-primary font-medium mb-4 truncate">
-                                    Purchased: {review.purchased}
+                                    {t('home.reviews.purchased', 'Purchased:')} {review.purchased}
                                 </p>
 
                                 {/* Rating */}
@@ -550,7 +560,7 @@ export default function Homepage() {
                                     />
                                     <div className="flex-1">
                                         <p className="text-sm font-semibold text-text-primary">{review.name}</p>
-                                        <p className="text-[11px] text-text-muted">{review.role}</p>
+                                        <p className="text-[11px] text-text-muted">{t('home.reviews.verified', 'Verified Buyer')}</p>
                                     </div>
                                     <span className="text-[11px] text-text-muted">{review.date}</span>
                                 </div>
@@ -568,15 +578,15 @@ export default function Homepage() {
                             <Sparkles size={24} className="text-brand-primary" />
                         </div>
                         <h3 className="text-2xl font-bold text-text-primary mb-2">
-                            Stay in the loop
+                            {t('home.newsletter.title', 'Stay in the loop')}
                         </h3>
                         <p className="text-sm text-text-muted max-w-md mx-auto mb-6">
-                            Subscribe to get exclusive deals, new arrivals, and trending product updates — straight to your inbox.
+                            {t('home.newsletter.subtitle', 'Subscribe to get exclusive deals, new arrivals, and trending product updates — straight to your inbox.')}
                         </p>
                         <form onSubmit={(e) => e.preventDefault()} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
                             <input
                                 type="email"
-                                placeholder="Enter your email"
+                                placeholder={t('home.newsletter.placeholder', 'Enter your email')}
                                 className="flex-1 px-4 py-3 text-sm bg-white border border-border-soft rounded-xl
                                            focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none"
                             />
@@ -585,7 +595,7 @@ export default function Homepage() {
                                 className="px-6 py-3 bg-brand-primary text-white font-semibold text-sm rounded-xl
                                            hover:bg-brand-secondary transition-colors shadow-lg shadow-brand-primary/20"
                             >
-                                Subscribe
+                                {t('home.newsletter.button', 'Subscribe')}
                             </button>
                         </form>
                     </div>

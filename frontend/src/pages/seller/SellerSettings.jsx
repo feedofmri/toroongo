@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { Store, Paintbrush, Globe, Bell, Link2, CheckCircle2, XCircle, Loader2, ExternalLink } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { sellers } from '../../data/mockData';
 
@@ -53,6 +54,7 @@ function checkSlugAvailability(slug, currentSellerId) {
 }
 
 export default function SellerSettings() {
+    const { t } = useTranslation();
     const { user } = useAuth();
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
@@ -90,10 +92,10 @@ export default function SellerSettings() {
     }, [currentSellerId]);
 
     const tabs = [
-        { key: 'store', label: 'Store Info', icon: Store },
-        { key: 'branding', label: 'Branding', icon: Paintbrush },
-        { key: 'shipping', label: 'Shipping', icon: Globe },
-        { key: 'notifications', label: 'Notifications', icon: Bell },
+        { key: 'store', label: t('sellerSettings.tabs.store'), icon: Store },
+        { key: 'branding', label: t('sellerSettings.tabs.branding'), icon: Paintbrush },
+        { key: 'shipping', label: t('sellerSettings.tabs.shipping'), icon: Globe },
+        { key: 'notifications', label: t('sellerSettings.tabs.notifications'), icon: Bell },
     ];
 
     const inputClass = `w-full px-4 py-3 text-sm bg-white border border-border-soft rounded-xl
@@ -101,7 +103,7 @@ export default function SellerSettings() {
 
     return (
         <div className="animate-fade-in">
-            <h2 className="text-2xl font-bold text-text-primary mb-6">Store Settings</h2>
+            <h2 className="text-2xl font-bold text-text-primary mb-6">{t('sellerSettings.title')}</h2>
 
             {/* Tabs */}
             <div className="flex gap-1 mb-6 overflow-x-auto scrollbar-hide pb-1">
@@ -124,10 +126,10 @@ export default function SellerSettings() {
                     <div className="bg-white p-6 rounded-2xl border border-border-soft">
                         <div className="flex items-center gap-2 mb-4">
                             <Link2 size={18} className="text-brand-primary" />
-                            <h3 className="text-lg font-semibold text-text-primary">Shop Username</h3>
+                            <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.username.title')}</h3>
                         </div>
                         <p className="text-xs text-text-muted mb-4">
-                            Your unique storefront URL. Customers will find your shop at{' '}
+                            {t('sellerSettings.username.desc')}{' '}
                             <span className="font-semibold text-text-primary">toroongo.com/{shopUsername || '...'}</span>
                         </p>
 
@@ -195,19 +197,19 @@ export default function SellerSettings() {
                                     : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                                 }`}
                         >
-                            {shopUsername === currentSlug ? 'Current Username' : 'Claim Username'}
+                            {shopUsername === currentSlug ? t('sellerSettings.username.currentBtn') : t('sellerSettings.username.claim')}
                         </button>
                     </div>
 
                     {/* ── Store Info ─── */}
                     <div className="bg-white p-6 rounded-2xl border border-border-soft space-y-5">
-                        <h3 className="text-lg font-semibold text-text-primary">Store Information</h3>
+                        <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.storeInfo.title')}</h3>
                         <div>
-                            <label className="block text-xs font-medium text-text-muted mb-1.5">Store Name</label>
+                            <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.storeInfo.name')}</label>
                             <input type="text" defaultValue={user?.name || 'Sony Electronics'} className={inputClass} />
                         </div>
                         <div>
-                            <label className="block text-xs font-medium text-text-muted mb-1.5">Description</label>
+                            <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.storeInfo.description')}</label>
                             <textarea
                                 rows={3}
                                 defaultValue="Official store for premium electronics and entertainment products."
@@ -215,15 +217,15 @@ export default function SellerSettings() {
                             />
                         </div>
                         <div>
-                            <label className="block text-xs font-medium text-text-muted mb-1.5">Contact Email</label>
+                            <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.storeInfo.email')}</label>
                             <input type="email" defaultValue={user?.email || 'support@sonyelectronics.com'} className={inputClass} />
                         </div>
                         <div>
-                            <label className="block text-xs font-medium text-text-muted mb-1.5">Phone</label>
+                            <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.storeInfo.phone')}</label>
                             <input type="tel" defaultValue="+1 (800) 222-7669" className={inputClass} />
                         </div>
                         <button className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
-                            Save Changes
+                            {t('sellerSettings.storeInfo.save')}
                         </button>
                     </div>
                 </div>
@@ -231,7 +233,7 @@ export default function SellerSettings() {
 
             {activeTab === 'branding' && (
                 <div className="max-w-lg space-y-5 bg-white p-6 rounded-2xl border border-border-soft">
-                    <h3 className="text-lg font-semibold text-text-primary">Brand Customization</h3>
+                    <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.branding.title')}</h3>
                     <div>
                         <label className="block text-xs font-medium text-text-muted mb-1.5">Primary Brand Color</label>
                         <div className="flex items-center gap-3">
@@ -248,14 +250,14 @@ export default function SellerSettings() {
                         <input type="url" defaultValue="https://images.unsplash.com/..." className={inputClass} />
                     </div>
                     <button className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
-                        Update Branding
+                        {t('sellerSettings.branding.save')}
                     </button>
                 </div>
             )}
 
             {activeTab === 'shipping' && (
                 <div className="max-w-lg space-y-5 bg-white p-6 rounded-2xl border border-border-soft">
-                    <h3 className="text-lg font-semibold text-text-primary">Shipping Settings</h3>
+                    <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.shipping.title')}</h3>
                     <div>
                         <label className="block text-xs font-medium text-text-muted mb-1.5">Processing Time (days)</label>
                         <input type="number" defaultValue={2} className={inputClass} />
@@ -276,14 +278,14 @@ export default function SellerSettings() {
                         </div>
                     </label>
                     <button className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
-                        Save Shipping
+                        {t('sellerSettings.shipping.save')}
                     </button>
                 </div>
             )}
 
             {activeTab === 'notifications' && (
                 <div className="max-w-lg space-y-4 bg-white p-6 rounded-2xl border border-border-soft">
-                    <h3 className="text-lg font-semibold text-text-primary">Notification Preferences</h3>
+                    <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.notifications.title')}</h3>
                     {[
                         { label: 'New orders', desc: 'Get notified when you receive a new order' },
                         { label: 'Order updates', desc: 'Status changes and delivery confirmations' },
@@ -300,7 +302,7 @@ export default function SellerSettings() {
                         </label>
                     ))}
                     <button className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
-                        Save Preferences
+                        {t('sellerSettings.notifications.save')}
                     </button>
                 </div>
             )}

@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Models;
+
+use Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+
+class User extends Authenticatable
+{
+    use HasApiTokens, HasFactory, Notifiable;
+
+    protected $fillable = [
+        'name', 'email', 'password', 'role', 'avatar',
+        'store_name', 'description', 'logo', 'banner',
+        'rating', 'total_products', 'brand_color', 'slug', 'joined_date',
+    ];
+
+    protected $hidden = ['password', 'remember_token'];
+
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'joined_date' => 'datetime',
+            'password' => 'hashed',
+            'rating' => 'float',
+        ];
+    }
+
+    public function addresses() { return $this->hasMany(Address::class); }
+    public function products() { return $this->hasMany(Product::class, 'seller_id'); }
+    public function orders() { return $this->hasMany(Order::class, 'buyer_id'); }
+    public function blogs() { return $this->hasMany(Blog::class, 'seller_id'); }
+    public function wishlistItems() { return $this->hasMany(Wishlist::class); }
+    public function cartItems() { return $this->hasMany(CartItem::class); }
+    public function sentMessages() { return $this->hasMany(Message::class, 'sender_id'); }
+    public function receivedMessages() { return $this->hasMany(Message::class, 'receiver_id'); }
+}

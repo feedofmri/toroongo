@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Clock } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { blogService } from '../../services';
 
 export default function BlogPage() {
+    const { t } = useTranslation();
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -17,21 +19,21 @@ export default function BlogPage() {
     }, []);
 
     const formatDate = (isoString) => {
-        return new Date(isoString).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        return new Date(isoString).toLocaleDateString(t('common.dateLocale'), { month: 'short', day: 'numeric', year: 'numeric' });
     };
 
     return (
         <div className="animate-fade-in">
             <div className="bg-surface-bg border-b border-border-soft py-12">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <h1 className="text-3xl font-bold text-text-primary mb-2">Toroongo Blog</h1>
-                    <p className="text-text-muted">Tips, updates, and insights for buyers and sellers.</p>
+                    <h1 className="text-3xl font-bold text-text-primary mb-2">{t('blog.title')}</h1>
+                    <p className="text-text-muted">{t('blog.subtitle')}</p>
                 </div>
             </div>
 
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 {loading ? (
-                    <div className="text-center py-20 text-text-muted">Loading articles...</div>
+                    <div className="text-center py-20 text-text-muted">{t('blog.loading')}</div>
                 ) : posts.length > 0 ? (
                     <>
                         {/* Featured post */}
@@ -68,7 +70,7 @@ export default function BlogPage() {
                                         </div>
                                     </div>
                                     <Link to={`/blog/${posts[0].slug}`} className="flex items-center gap-2 px-5 py-2.5 bg-brand-primary/5 text-brand-primary text-sm font-bold rounded-xl hover:bg-brand-primary hover:text-white transition-all group/btn">
-                                        Read Article <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
+                                        {t('blog.readArticle')} <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
                                     </Link>
                                 </div>
                             </div>
@@ -91,7 +93,7 @@ export default function BlogPage() {
                                         <div className="flex items-center justify-between mb-4">
                                             <span className={`text-[10px] font-bold uppercase text-white px-2 py-0.5 rounded-md ${post.color || 'bg-brand-primary'}`}>{post.category}</span>
                                             {post.sellerId && (
-                                                <span className="text-[10px] font-bold text-brand-primary bg-brand-primary/5 px-2 py-0.5 rounded-md">Partner Post</span>
+                                                <span className="text-[10px] font-bold text-brand-primary bg-brand-primary/5 px-2 py-0.5 rounded-md">{t('blog.partnerPost')}</span>
                                             )}
                                         </div>
                                         <Link to={`/blog/${post.slug}`}>
@@ -117,8 +119,8 @@ export default function BlogPage() {
                     </>
                 ) : (
                     <div className="text-center py-20 text-text-muted bg-surface-bg rounded-3xl border-2 border-dashed border-border-soft">
-                        <p className="font-bold text-lg mb-2">No articles found</p>
-                        <p className="text-sm">We are busy writing new content. Check back soon!</p>
+                        <p className="font-bold text-lg mb-2">{t('blog.noArticles')}</p>
+                        <p className="text-sm">{t('blog.noArticlesDesc')}</p>
                     </div>
                 )}
             </div>

@@ -1,0 +1,1047 @@
+{
+    "nav": {
+        "shopAll": "Shop All",
+        "stores": "Stores",
+        "deals": "Deals",
+        "blog": "Blog",
+        "sell": "Sell on Toroongo",
+        "pricing": "Pricing",
+        "help": "Help",
+        "search": "Search products, sellers, categories...",
+        "dashboard": "Dashboard",
+        "myProducts": "My Products",
+        "blogManager": "Blog Manager",
+        "storefront": "Storefront",
+        "helpCenter": "Help Center",
+        "overview": "Overview",
+        "users": "Users",
+        "sellers": "Sellers",
+        "categories": "Categories",
+        "platformBlog": "Platform Blog",
+        "myOrders": "My Orders",
+        "myReviews": "My Reviews",
+        "settings": "Settings",
+        "signOut": "Sign out"
+    },
+    "common": {
+        "daysAgo": "{{count}} days ago",
+        "weeksAgo": "{{count}} week ago",
+        "daysAgo_plural": "{{count}} days ago",
+        "weeksAgo_plural": "{{count}} weeks ago",
+        "products": "products",
+        "viewAll": "View All",
+        "seeAll": "See All"
+    },
+    "home": {
+        "heroTitle": "Shop Everything",
+        "heroSubtitle": "Discover millions of products from thousands of independent sellers across the globe.",
+        "cta": "Start Shopping",
+        "sellCta": "Start Selling",
+        "stats": {
+            "products": "Products",
+            "sellers": "Sellers",
+            "buyers": "Happy Buyers",
+            "trusted": "Trusted by 50K+",
+            "satisfied": "Satisfied buyers",
+            "live": "Live Activity",
+            "orders": "Placed in 24h"
+        },
+        "trust": {
+            "shipping": "Seller Shipping",
+            "shippingSub": "Price set by sellers",
+            "secure": "Secure Checkout",
+            "secureSub": "256-bit SSL encryption",
+            "returns": "30-Day Returns",
+            "returnsSub": "No-hassle refunds",
+            "support": "24/7 Support",
+            "supportSub": "We are always here"
+        },
+        "categories": {
+            "title": "Shop by Category",
+            "subtitle": "Browse our most popular categories"
+        },
+        "trending": {
+            "title": "Trending Now",
+            "subtitle": "What everyone's buying this week"
+        },
+        "sellers": {
+            "title": "Top Sellers",
+            "subtitle": "Explore stores from our best-rated sellers"
+        },
+        "promo": {
+            "badge": "For Sellers",
+            "title": "Start your store today.",
+            "subtitle": "Join thousands of sellers on Toroongo. Build your brand, reach millions of buyers, and grow your business — all from one platform.",
+            "cta": "Get Started"
+        },
+        "featured": {
+            "title": "Featured Products",
+            "subtitle": "Hand-picked by our editors"
+        },
+        "reviews": {
+            "title": "What Our Buyers Say",
+            "subtitle": "Real reviews from real customers",
+            "verified": "Verified Buyer",
+            "purchased": "Purchased:"
+        },
+        "newsletter": {
+            "title": "Stay in the loop",
+            "subtitle": "Subscribe to get exclusive deals, new arrivals, and trending product updates — straight to your inbox.",
+            "placeholder": "Enter your email",
+            "button": "Subscribe"
+        }
+    },
+    "checkout": {
+        "title": "Checkout",
+        "shipping": "Shipping",
+        "payment": "Payment",
+        "review": "Review",
+        "shippingInfo": "Shipping Information",
+        "savedAddresses": "Saved Addresses",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "email": "Email address",
+        "phone": "Phone number",
+        "address": "Street address",
+        "city": "City",
+        "state": "State",
+        "zip": "ZIP Code",
+        "shippingMethod": "Shipping Method",
+        "standardShipping": "Standard Shipping",
+        "expressShipping": "Express Shipping",
+        "days": "business days",
+        "free": "Free",
+        "continueToPayment": "Continue to Payment",
+        "paymentDetails": "Payment Details",
+        "creditCard": "Credit Card",
+        "cod": "Cash on Delivery",
+        "bkash": "bKash",
+        "nagad": "Nagad",
+        "paypal": "PayPal",
+        "secureInfo": "Your payment information is encrypted and secure.",
+        "nameOnCard": "Name on card",
+        "cardNumber": "Card number",
+        "expiry": "MM / YY",
+        "cvv": "CVV",
+        "bkashNagadDesc": "Please enter your {{method}} account number. We will send an OTP for verification.",
+        "paypalDesc": "You will be redirected to PayPal to complete your purchase securely after clicking \"Review Order\".",
+        "codDesc": "Pay with cash upon delivery of your order. No advance payment required.",
+        "back": "Back",
+        "reviewOrder": "Review Order",
+        "reviewTitle": "Review Your Order",
+        "shippingTo": "Shipping to",
+        "edit": "Edit",
+        "placeOrder": "Place Order",
+        "orderSummary": "Order Summary",
+        "items": "items",
+        "subtotal": "Subtotal",
+        "shippingCost": "Shipping",
+        "tax": "Est. Tax",
+        "total": "Total",
+        "loginRequired": "Please login to place order",
+        "orderFailed": "Order failed: "
+    },
+    "orderConfirmation": {
+        "loading": "Loading your order confirmation...",
+        "title": "Order Confirmed!",
+        "subtitle": "Thank you for your purchase. We've sent a confirmation email with your order details.",
+        "orderNumber": "Order Number",
+        "copyOrderNumber": "Copy order number",
+        "estimatedDelivery": "Estimated Delivery",
+        "shippingTo": "Shipping To",
+        "defaultAddress": "123 Main Street, New York, NY 10001",
+        "payment": "Payment",
+        "defaultPayment": "Visa ending in •••• 4242",
+        "subtotalPaid": "Subtotal Paid",
+        "orderPlaced": "Order Placed",
+        "processing": "Processing",
+        "shipped": "Shipped",
+        "delivered": "Delivered",
+        "trackOrder": "Track Order",
+        "continueShopping": "Continue Shopping"
+    },
+    "reviews": {
+        "title": "My Reviews",
+        "subtitle": "Manage all your product reviews in one place.",
+        "noReviews": "No Reviews Yet",
+        "noReviewsDesc": "You haven't written any reviews for your purchased products.",
+        "viewOrderHistory": "View Order History",
+        "published": "Published",
+        "pending": "Pending",
+        "editReview": "Edit Review",
+        "viewProduct": "View Product"
+    },
+    "common": {
+        "viewAll": "View All",
+        "products": "products",
+        "seeAll": "See All",
+        "wishlistAdd": "Add to wishlist",
+        "wishlistRemove": "Remove from wishlist",
+        "badges": {
+            "Sale": "Sale",
+            "New": "New",
+            "BestSeller": "Best Seller"
+        },
+        "dateLocale": "en-US"
+    },
+    "search": {
+        "resultsFor": "Results for \"{{query}}\"",
+        "allProducts": "All Products",
+        "found": "{{count}} product found",
+        "found_plural": "{{count}} products found",
+        "pageOf": "Page {{current}} of {{total}}",
+        "filters": "Filters",
+        "clearAll": "Clear all",
+        "activeFilters": "Active Filters",
+        "category": "Category",
+        "allCategories": "All Categories",
+        "priceRange": "Price Range",
+        "customRange": "Custom range",
+        "min": "Min",
+        "max": "Max",
+        "onSaleOnly": "On Sale Only",
+        "minRating": "Minimum Rating",
+        "andUp": "& Up",
+        "shopBySeller": "Shop by Seller",
+        "allShops": "All Shops",
+        "showAll": "Show All ({{count}})",
+        "showLess": "Show Less",
+        "noProducts": "No products found",
+        "adjustFilters": "Try adjusting your filters or search terms.",
+        "sortBy": "Sort By",
+        "relevance": "Relevance",
+        "priceAsc": "Price: Low to High",
+        "priceDesc": "Price: High to Low",
+        "rating": "Highest Rated",
+        "newest": "Newest First",
+        "gridView": "Grid view",
+        "listView": "List view"
+    },
+    "product": {
+        "notFound": "Product Not Found",
+        "notFoundDesc": "The product you're looking for doesn't exist or has been removed.",
+        "backToHome": "Back to Home",
+        "unknownProduct": "Unknown Product",
+        "unknownSeller": "Unknown",
+        "quantity": "Quantity",
+        "addedToCart": "Added to Cart",
+        "addToCart": "Add to Cart",
+        "contactSeller": "Contact Seller",
+        "soldBy": "Sold By",
+        "visitShop": "Visit Shop",
+        "freeShipping": "Free Shipping",
+        "freeShippingDesc": "Orders $50+",
+        "buyerProtection": "Buyer Protection",
+        "buyerProtectionDesc": "Money-back guarantee",
+        "easyReturns": "Easy Returns",
+        "easyReturnsDesc": "30-day policy",
+        "description": "Description",
+        "reviews": "Reviews ({{count}})",
+        "highlights": "Highlights",
+        "mayAlsoLike": "You May Also Like",
+        "sellerInstructions": "Please log in as a buyer to send messages.",
+        "regardingItem": "Regarding this item",
+        "typeQuestion": "Type your question here...",
+        "cancel": "Cancel",
+        "sendMessage": "Send Message",
+        "messageSent": "Message Sent!",
+        "messageSentDesc": "The seller will respond to you shortly via the Message Center.",
+        "home": "Home"
+    },
+    "cart": {
+        "title": "Shopping Cart",
+        "itemsCount": "({{count}} items)",
+        "empty": "Your cart is empty",
+        "emptyDesc": "Looks like you haven't added anything to your cart yet.",
+        "continueShopping": "Continue Shopping",
+        "freeShippingText": "Free shipping",
+        "shippingCostText": "$5.99 shipping",
+        "orderSummary": "Order Summary",
+        "promoCode": "Promo code",
+        "apply": "Apply",
+        "subtotal": "Subtotal",
+        "promoDiscount": "Promo discount (10%)",
+        "shipping": "Shipping",
+        "total": "Total",
+        "proceedToCheckout": "Proceed to Checkout",
+        "removeItem": "Remove item"
+    },
+    "contact": {
+        "title": "Contact Us",
+        "subtitle": "Have a question? We'd love to hear from you.",
+        "email": "Email",
+        "phone": "Phone",
+        "address": "Address",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "emailLabel": "Email address",
+        "subject": "Subject",
+        "message": "Your message...",
+        "sendMessage": "Send Message"
+    },
+    "help": {
+        "title": "Help Center",
+        "subtitle": "Find answers to common questions or get in touch with our support team.",
+        "searchPlaceholder": "Search for help...",
+        "faqTitle": "Frequently Asked Questions",
+        "emailSupport": "Email Support",
+        "emailSupportDesc": "Get a response within 24 hours",
+        "liveChat": "Live Chat",
+        "liveChatDesc": "Chat with our support team",
+        "faq": [
+            {
+                "q": "How do I track my order?",
+                "a": "Go to My Account > My Orders to see real-time tracking information for all your purchases."
+            },
+            {
+                "q": "What is the return policy?",
+                "a": "Most items can be returned within 30 days of delivery. Check the seller's store policies for specific details."
+            },
+            {
+                "q": "How do I become a seller?",
+                "a": "Click 'Sell on Toroongo' and create a free seller account. You can start listing products immediately."
+            },
+            {
+                "q": "Is my payment information secure?",
+                "a": "Absolutely. All payments are processed through encrypted, PCI-compliant systems. We never store your full card details."
+            },
+            {
+                "q": "How do I contact a seller?",
+                "a": "Go to the seller's store page and use the 'Message' feature, or find it in your Account Messages section."
+            },
+            {
+                "q": "What happens if I receive a defective item?",
+                "a": "Open a dispute through your order page and our team will help resolve it within 48 hours."
+            }
+        ]
+    },
+    "auth": {
+        "resetPassword": "Reset Your Password",
+        "resetDesc": "Enter your email and we'll send you a link to reset your password.",
+        "sendResetLink": "Send Reset Link",
+        "rememberPassword": "Remember your password?",
+        "login": "Log in",
+        "welcomeBack": "Welcome Back",
+        "createAccount": "Create Your Account",
+        "loginDesc": "Log in to continue shopping on Toroongo.",
+        "sellerSignupDesc": "Start selling on Toroongo and grow your business.",
+        "buyerSignupDesc": "Join Toroongo and start discovering amazing products.",
+        "iWantTo": "I want to",
+        "buy": "Buy",
+        "buyDesc": "Shop & discover",
+        "sell": "Sell",
+        "sellDesc": "Open your shop",
+        "continueWithGoogle": "Continue with Google",
+        "or": "or",
+        "fullName": "Full name",
+        "storeName": "Store name",
+        "emailAddress": "Email address",
+        "password": "Password",
+        "confirmPassword": "Confirm password",
+        "forgotPassword": "Forgot password?",
+        "signup": "Sign up",
+        "dontHaveAccount": "Don't have an account?",
+        "alreadyHaveAccount": "Already have an account?",
+        "termsAgreement": "By creating your account, you agree to our",
+        "termsOfService": "Terms of Service",
+        "sellerAgreement": "Seller Agreement",
+        "privacyPolicy": "Privacy Policy",
+        "errorRequired": "Please fill in all required fields",
+        "errorName": "Name is required",
+        "errorPasswordMatch": "Passwords do not match",
+        "errorStoreName": "Store name is required for seller accounts",
+        "resetEmailSent": "We've sent a link to reset your password.",
+        "loginButton": "Log In",
+        "signupBuyer": "Create Account",
+        "signupSeller": "Create Seller Account",
+        "authError": "An error occurred during authentication"
+    },
+    "wishlist": {
+        "title": "Wishlist",
+        "empty": "Your wishlist is empty",
+        "emptyDesc": "Save items you love to find them later.",
+        "exploreProducts": "Explore Products",
+        "removeFromWishlist": "Remove"
+    },
+    "orders": {
+        "title": "My Orders",
+        "allOrders": "All Orders",
+        "processing": "Processing",
+        "shipped": "Shipped",
+        "delivered": "Delivered",
+        "cancelled": "Cancelled",
+        "loading": "Loading orders...",
+        "orderNo": "TRG-{{id}}",
+        "soldBy": "Sold by {{seller}}",
+        "total": "Total:",
+        "cancelOrder": "Cancel Order",
+        "cancelError": "Failed to cancel order: ",
+        "track": "Track",
+        "details": "Details",
+        "noOrders": "No orders found",
+        "noOrdersDesc": "Try changing your filter or start shopping!",
+        "cancelTitle": "Cancel Order",
+        "cancelDesc": "Are you sure you want to cancel this order? Please select a reason for cancellation.",
+        "selectReason": "Select a reason...",
+        "keepOrder": "Keep Order",
+        "confirmCancel": "Confirm Cancellation",
+        "cancelling": "Cancelling...",
+        "qty": "Qty",
+        "reasons": {
+            "changedMind": "Changed my mind",
+            "betterPrice": "Found a better price elsewhere",
+            "mistake": "Ordered by mistake",
+            "longDelivery": "Expected delivery time is too long",
+            "other": "Other"
+        }
+    },
+    "account": {
+        "profile": "Profile",
+        "addresses": "Addresses",
+        "payment": "Payment",
+        "notifications": "Notifications",
+        "profileInfo": "Profile Information",
+        "changePhoto": "Change Photo",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+        "email": "Email",
+        "phone": "Phone",
+        "saveChanges": "Save Changes",
+        "savedAddresses": "Saved Addresses",
+        "addAddress": "Add Address",
+        "default": "Default",
+        "edit": "Edit",
+        "remove": "Remove",
+        "paymentMethods": "Payment Methods",
+        "addCard": "Add Card",
+        "expires": "Expires {{date}}",
+        "notificationPrefs": "Notification Preferences",
+        "orderUpdates": "Order updates",
+        "orderUpdatesDesc": "Shipping confirmations and delivery alerts",
+        "promotions": "Promotions & deals",
+        "promotionsDesc": "Sales, discount codes, and special offers",
+        "sellerMessages": "Seller messages",
+        "sellerMessagesDesc": "Responses from sellers you contacted",
+        "wishlistAlerts": "Wishlist alerts",
+        "wishlistAlertsDesc": "Price drops on your saved items",
+        "savePrefs": "Save Preferences"
+    },
+    "messages": {
+        "title": "Messages",
+        "searchPlaceholder": "Search messages...",
+        "loading": "Loading messages...",
+        "emptyState": "Select a conversation",
+        "emptyStateDesc": "Choose a seller to view your messages.",
+        "typeMessage": "Type a message..."
+    },
+    "blog": {
+        "title": "Toroongo Blog",
+        "subtitle": "Tips, updates, and insights for buyers and sellers.",
+        "loading": "Loading articles...",
+        "readArticle": "Read Article",
+        "noArticles": "No articles found",
+        "noArticlesDesc": "We are busy writing new content. Check back soon!",
+        "partnerPost": "Partner Post",
+        "articleNotFound": "Article not found",
+        "backToBlog": "Back to Blog",
+        "share": "Share"
+    },
+    "legal": {
+        "terms": {
+            "title": "Terms of Service",
+            "lastUpdated": "Last updated: March 1, 2026",
+            "sections": [
+                {
+                    "title": "1. Acceptance of Terms",
+                    "content": "By accessing or using the Toroongo platform, you agree to be bound by these Terms of Service. If you do not agree, you may not use our services."
+                },
+                {
+                    "title": "2. User Accounts",
+                    "content": "You must provide accurate information when creating an account. You are responsible for maintaining the security of your account credentials."
+                },
+                {
+                    "title": "3. Buyer Responsibilities",
+                    "content": "Buyers agree to pay for items purchased, provide accurate shipping information, and communicate respectfully with sellers."
+                },
+                {
+                    "title": "4. Seller Obligations",
+                    "content": "Sellers must provide accurate product descriptions, ship orders promptly, and comply with all applicable laws."
+                },
+                {
+                    "title": "5. Prohibited Activities",
+                    "content": "Users may not sell counterfeit goods, engage in fraud, or harass other users while using the platform."
+                },
+                {
+                    "title": "6. Limitation of Liability",
+                    "content": "Toroongo acts as a marketplace facilitator and is not responsible for the quality or legality of items sold by third-party sellers."
+                }
+            ]
+        },
+        "privacy": {
+            "title": "Privacy Policy",
+            "lastUpdated": "Last updated: March 1, 2026",
+            "sections": [
+                {
+                    "title": "1. Information We Collect",
+                    "content": "We collect information you provide directly (name, email) as well as usage data to improve your experience."
+                },
+                {
+                    "title": "2. How We Use Your Information",
+                    "content": "We use your data to process orders, personalize your shopping experience, and prevent fraud."
+                },
+                {
+                    "title": "3. Data Sharing",
+                    "content": "We share necessary information with sellers to fulfill orders. We do not sell personal data to third parties."
+                },
+                {
+                    "title": "4. Data Security",
+                    "content": "We implement industry-standard security measures including encryption to protect your information."
+                },
+                {
+                    "title": "5. Your Rights",
+                    "content": "You may request access to, correction of, or deletion of your personal data at any time."
+                }
+            ]
+        }
+    },
+    "returns": {
+        "title": "Returns & Refunds",
+        "subtitle": "We want you to love every purchase. If something is not right, we make returns easy.",
+        "highlights": {
+            "h1": {
+                "title": "30-Day Returns",
+                "desc": "Return most items within 30 days of delivery."
+            },
+            "h2": {
+                "title": "Free Return Shipping",
+                "desc": "We cover return shipping on eligible items."
+            },
+            "h3": {
+                "title": "Fast Refunds",
+                "desc": "Refunds processed within 3-5 business days."
+            }
+        },
+        "howItWorks": {
+            "title": "How Returns Work",
+            "steps": [
+                {
+                    "step": "01",
+                    "title": "Initiate Return",
+                    "desc": "Go to My Orders and select the item you want to return."
+                },
+                {
+                    "step": "02",
+                    "title": "Pack & Ship",
+                    "desc": "Repackage the item and ship it using the provided label."
+                },
+                {
+                    "step": "03",
+                    "title": "Get Refunded",
+                    "desc": "Once inspected, your refund will be processed promptly."
+                }
+            ]
+        },
+        "eligibility": {
+            "title": "Return Eligibility",
+            "eligible": {
+                "title": "Eligible for Return",
+                "items": [
+                    "Unused items in original packaging",
+                    "Defective or damaged products",
+                    "Wrong item received",
+                    "Item significantly not as described"
+                ]
+            },
+            "notEligible": {
+                "title": "Not Eligible",
+                "items": [
+                    "Personalized or custom-made items",
+                    "Perishable goods",
+                    "Digital downloads",
+                    "Items returned after 30 days"
+                ]
+            }
+        },
+        "cta": {
+            "title": "Need to Return Something?",
+            "subtitle": "Start a return from your order history page or contact our support team."
+        }
+    },
+    "careers": {
+        "title": "Join the Toroongo Team",
+        "subtitle": "Help us reshape the future of e-commerce.",
+        "whyUs": "Why Work With Us",
+        "perks": {
+            "p1": {
+                "title": "Remote Friendly",
+                "desc": "Work from anywhere in the world."
+            },
+            "p2": {
+                "title": "Health & Wellness",
+                "desc": "Full medical, dental, and vision coverage."
+            },
+            "p3": {
+                "title": "Learning Budget",
+                "desc": "$2,000/year for courses and conferences."
+            },
+            "p4": {
+                "title": "Equity Package",
+                "desc": "Every team member is an owner."
+            }
+        },
+        "openings": "Open Positions",
+        "apply": "Apply",
+        "noRole": "Don't see a role for you?",
+        "noRoleDesc": "Send us your resume for future openings.",
+        "getInTouch": "Get in Touch"
+    },
+    "press": {
+        "title": "Press & Media",
+        "subtitle": "Get the latest news about Toroongo.",
+        "emailUs": "Email our media team",
+        "releases": "Press Releases",
+        "news": "In the News",
+        "assets": "Brand Assets",
+        "assetsDesc": "Download our logo and media kit.",
+        "download": "Download Media Kit",
+        "readMore": "Read More"
+    },
+    "shipping": {
+        "title": "Shipping info",
+        "subtitle": "Shipping is set and managed by individual sellers.",
+        "sellerManaged": {
+            "title": "Seller-Managed Shipping",
+            "desc": "Toroongo is a marketplace where each seller is responsible for setting their own shipping rates and delivery methods. Shipping costs and estimated delivery times are determined by the seller and will be clearly displayed on the product page and during checkout."
+        },
+        "cost": {
+            "title": "Shipping Costs",
+            "desc": "Shipping fees vary depending on the seller, the item weight, and your delivery location. Some sellers may offer free shipping for orders above a certain amount, while others may have flat rates or calculated costs."
+        },
+        "tracking": {
+            "title": "Order Tracking",
+            "desc": "Once your order is shipped, the seller will provide a tracking number. You can monitor your shipment through the dashboard under \"My Orders.\" If you have any questions about your delivery, you can message the seller directly."
+        },
+        "global": {
+            "title": "Global & Regional Delivery",
+            "desc": "While Toroongo has a strong presence in core markets like Bangladesh, Nepal, India, UAE, Indonesia, and Malaysia, our sellers can ship to almost any location globally. Please check the seller's individual store policies for international shipping availability."
+        }
+    },
+    "dataPreferences": {
+        "title": "Data Preferences",
+        "lastUpdated": "Last updated: March 1, 2026",
+        "sections": [
+            {
+                "title": "1. What Are Cookies",
+                "content": "Cookies are small text files stored on your device that help us remember your preferences."
+            },
+            {
+                "title": "2. How We Use Cookies",
+                "content": "We use cookies for essential functions, preferences, analytics, and marketing."
+            },
+            {
+                "title": "3. Third-Party Cookies",
+                "content": "Some cookies are placed by third-party services like Google Analytics and payment processors."
+            },
+            {
+                "title": "4. Managing Cookies",
+                "content": "You can control cookies through your browser settings or our consent banner."
+            }
+        ]
+    },
+    "sellerResources": {
+        "title": "Seller Resources",
+        "subtitle": "Guides, tutorials, and tools to help you succeed.",
+        "guides": "Seller Guides",
+        "more": "More Resources",
+        "ready": "Ready to Start Selling?",
+        "readyDesc": "Create your free seller account today.",
+        "getStarted": "Get Started"
+    },
+    "sellerDashboard": {
+        "title": "Seller Hub",
+        "nav": {
+            "dashboard": "Dashboard",
+            "products": "Products",
+            "orders": "Orders",
+            "blogPosts": "Blog Posts",
+            "finance": "Finance",
+            "messages": "Messages",
+            "storefront": "Storefront",
+            "settings": "Settings",
+            "viewStore": "View My Store"
+        },
+        "stats": {
+            "totalRevenue": "Total Revenue",
+            "totalOrders": "Total Orders",
+            "productsListed": "Products Listed",
+            "storeViews": "Store Views",
+            "vsLastMonth": "vs last month"
+        },
+        "revenueOverview": {
+            "title": "Revenue Overview",
+            "last12Months": "Last 12 months"
+        },
+        "topProducts": {
+            "title": "Top Products",
+            "sold": "sold",
+            "noSales": "No sales yet."
+        },
+        "recentOrders": {
+            "title": "Recent Orders",
+            "order": "Order",
+            "customer": "Customer",
+            "product": "Product",
+            "total": "Total",
+            "status": "Status",
+            "noOrders": "No orders yet",
+            "loading": "Loading dashboard..."
+        }
+    },
+    "sellerOrders": {
+        "title": "Orders",
+        "stats": {
+            "pending": "Pending",
+            "shipped": "Shipped",
+            "completed": "Completed"
+        },
+        "filters": {
+            "searchPlaceholder": "Search by order ID or customer...",
+            "allStatus": "All Status",
+            "processing": "Processing",
+            "shipped": "Shipped",
+            "delivered": "Delivered"
+        },
+        "table": {
+            "order": "Order",
+            "date": "Date",
+            "customer": "Customer",
+            "product": "Product",
+            "total": "Total",
+            "status": "Status",
+            "action": "Action",
+            "view": "View",
+            "loading": "Loading orders...",
+            "noOrders": "No orders found",
+            "itemsCount": "{{count}}x items",
+            "moreItems": "+{{count}} more"
+        }
+    },
+    "sellerProducts": {
+        "title": "Products",
+        "addProduct": "Add Product",
+        "filters": {
+            "searchPlaceholder": "Search products...",
+            "allStatus": "All Status"
+        },
+        "status": {
+            "active": "Active",
+            "lowStock": "Low Stock",
+            "outOfStock": "Out of Stock",
+            "draft": "Draft"
+        },
+        "table": {
+            "product": "Product",
+            "category": "Category",
+            "price": "Price",
+            "stock": "Stock",
+            "status": "Status",
+            "actions": "Actions",
+            "loading": "Loading products...",
+            "noProducts": "No products found"
+        },
+        "actions": {
+            "view": "View",
+            "edit": "Edit",
+            "delete": "Delete"
+        }
+    },
+    "sellerBlogs": {
+        "title": "Blog Management",
+        "subtitle": "Create and manage your store's blog posts.",
+        "createNew": "Create New Post",
+        "searchPlaceholder": "Search posts...",
+        "loading": "Loading your blogs...",
+        "noBlogs": "No blog posts found",
+        "noBlogsMatch": "No posts matching \"{{query}}\". Try a different search term.",
+        "noBlogsAction": "You haven't created any blog posts yet. Start by creating your first post to engage with your customers.",
+        "clearSearch": "Clear Search",
+        "createFirst": "Create First Post",
+        "deleteConfirm": "Are you sure you want to delete this blog post?",
+        "deleteFailed": "Failed to delete blog",
+        "table": {
+            "details": "Post Details",
+            "category": "Category",
+            "status": "Status",
+            "actions": "Actions",
+            "publishedOn": "Published on {{date}}"
+        },
+        "status": {
+            "published": "Published"
+        },
+        "view": "View",
+        "edit": "Edit",
+        "delete": "Delete",
+        "views": "{{count}} views"
+    },
+    "sellerFinance": {
+        "title": "Finance",
+        "exportCsv": "Export CSV",
+        "stats": {
+            "available": "Available Balance",
+            "pending": "Pending Settlement",
+            "nextPayout": "Next Payout"
+        },
+        "transactions": {
+            "title": "Recent Transactions",
+            "table": {
+                "id": "Transaction",
+                "date": "Date",
+                "type": "Type",
+                "description": "Description",
+                "amount": "Amount",
+                "fee": "Fee",
+                "net": "Net",
+                "loading": "Loading transactions...",
+                "noTransactions": "No transactions yet."
+            },
+            "types": {
+                "sale": "Sale",
+                "payout": "Payout"
+            }
+        },
+        "payoutInfo": "Weekly payout → Bank ****{{lastFour}}"
+    },
+    "sellerSettings": {
+        "title": "Store Settings",
+        "tabs": {
+            "store": "Store Info",
+            "branding": "Branding",
+            "shipping": "Shipping",
+            "notifications": "Notifications"
+        },
+        "username": {
+            "title": "Shop Username",
+            "desc": "Your unique storefront URL. Customers will find your shop at ",
+            "placeholder": "your-shop-name",
+            "checking": "Checking availability...",
+            "available": "Username is available!",
+            "current": "This is your current username",
+            "empty": "Username cannot be empty",
+            "preview": "Preview your storefront",
+            "claim": "Claim Username",
+            "currentBtn": "Current Username"
+        },
+        "storeInfo": {
+            "title": "Store Information",
+            "name": "Store Name",
+            "description": "Description",
+            "email": "Contact Email",
+            "phone": "Phone",
+            "save": "Save Changes"
+        },
+        "branding": {
+            "title": "Brand Customization",
+            "color": "Primary Brand Color",
+            "logo": "Logo URL",
+            "banner": "Banner Image URL",
+            "save": "Update Branding"
+        },
+        "shipping": {
+            "title": "Shipping Settings",
+            "processing": "Processing Time (days)",
+            "threshold": "Free Shipping Threshold ($)",
+            "rate": "Standard Shipping Rate ($)",
+            "express": "Offer express shipping",
+            "expressDesc": "Allow customers to choose faster 2-3 day delivery",
+            "save": "Save Shipping"
+        },
+        "notifications": {
+            "title": "Notification Preferences",
+            "save": "Save Preferences",
+            "items": {
+                "orders": {
+                    "label": "New orders",
+                    "desc": "Get notified when you receive a new order"
+                },
+                "updates": {
+                    "label": "Order updates",
+                    "desc": "Status changes and delivery confirmations"
+                },
+                "messages": {
+                    "label": "Customer messages",
+                    "desc": "When a buyer sends you a message"
+                },
+                "stock": {
+                    "label": "Low stock alerts",
+                    "desc": "When product stock falls below 5 units"
+                },
+                "payouts": {
+                    "label": "Payout notifications",
+                    "desc": "When payouts are processed to your bank"
+                }
+            }
+        }
+    },
+    "sellerMessages": {
+        "title": "Messages",
+        "searchPlaceholder": "Search...",
+        "loading": "Loading messages...",
+        "select": "Select a conversation",
+        "selectDesc": "Choose a customer message to reply.",
+        "typePlaceholder": "Type a reply..."
+    },
+    "pricing": {
+        "title": "Pricing & Plans",
+        "subtitle": "Choose the perfect tier for your business. No transaction fees, ever.",
+        "month": "/ Month",
+        "mostPopular": "Most Popular",
+        "aiSuperpower": "AI Superpower",
+        "faqTitle": "Frequently Asked Questions",
+        "cta": {
+            "free": "Start for Free",
+            "growth": "Get Growth",
+            "business": "Get Business",
+            "contact": "Contact Sales"
+        },
+        "plans": {
+            "starter": {
+                "name": "Starter",
+                "desc": "Perfect for new sellers getting started.",
+                "ai": "AI Product Description Generator",
+                "aiDesc": "Instantly write engaging, SEO-friendly descriptions from a few keywords."
+            },
+            "growth": {
+                "name": "Growth",
+                "desc": "For growing brands needing professional tools.",
+                "ai": "AI Image Enhancer",
+                "aiDesc": "Automatically remove basic backgrounds and replace them with pure white or brand colors."
+            },
+            "business": {
+                "name": "Business",
+                "desc": "For established retailers scaling operations.",
+                "ai": "AI Support & Recommendations",
+                "aiDesc": "24/7 AI chatbot for buyer questions & smart 'Frequently Bought Together' recommendations."
+            },
+            "enterprise": {
+                "name": "Enterprise",
+                "desc": "For power sellers with massive operations.",
+                "ai": "AI Forecasting & Sentiment",
+                "aiDesc": "Predict inventory run-outs and analyze hundreds of reviews for instant, actionable summaries."
+            }
+        },
+        "features": {
+            "fee": "100% sales kept (0% fee)",
+            "subdomain": "Standard platform subdomain",
+            "builder": "Basic drag-and-drop builder",
+            "limit10": "Max 10 product listings",
+            "branding": "Mandatory Toroongo footer branding",
+            "support": "Standard community/KB support",
+            "domain": "Custom domain mapping",
+            "whiteLabel": "White-labeled experience (No branding)",
+            "limit100": "Max 100 product listings",
+            "staff2": "2 staff accounts",
+            "templates": "Premium layout templates",
+            "emailSupport": "Standard email customer support",
+            "limitUnlimited": "Unlimited product listings",
+            "blog": "Built-in blogging engine",
+            "cart": "Automated abandoned cart emails",
+            "analytics": "Sales analytics dashboard",
+            "staff5": "5 staff accounts with roles",
+            "liveChat": "Priority live chat support",
+            "api": "Full API access (accounting/ERP)",
+            "custom": "Custom CSS and HTML injection",
+            "warehouse": "Multi-warehouse inventory management",
+            "staffUnlimited": "Unlimited staff accounts",
+            "manager": "Dedicated account manager"
+        },
+        "faq": {
+            "fee": {
+                "q": "Are there any transaction fees?",
+                "a": "No! You keep 100% of your sales with 0% platform transaction fees on all plans."
+            },
+            "countries": {
+                "q": "Which countries do you support?",
+                "a": "Toroongo is a global platform accessible from anywhere in the world! However, our platform is specially tailored and friendly for sellers and buyers in 6 core markets: Bangladesh, Nepal, Malaysia, United Arab Emirates (UAE), Indonesia, and India."
+            },
+            "change": {
+                "q": "Can I change my plan later?",
+                "a": "Yes, you can upgrade or downgrade your plan at any time from your seller dashboard."
+            },
+            "ai": {
+                "q": "How do the AI features work?",
+                "a": "Each tier unlocks powerful, easy-to-use AI tools designed specifically to save you time and increase your sales."
+            }
+        }
+    },
+    "about": {
+        "title": "About Toroongo",
+        "subtitle": "Empowering independent sellers to build their brand and reach customers globally with the power of AI.",
+        "missionTitle": "Our Mission",
+        "missionDesc": "At Toroongo, we believe every business deserves a professional online presence. Our mission is to democratize e-commerce by providing tools that were previously only available to giant retailers.",
+        "valuesTitle": "Our Values",
+        "globalReach": "Global Reach",
+        "globalReachDesc": "Connect with buyers in multiple markets with localized experiences.",
+        "trustSafety": "Trust & Safety",
+        "trustSafetyDesc": "Secure transactions and verified sellers for a worry-free experience.",
+        "community": "Community First",
+        "communityDesc": "We grow when our sellers grow. Our ecosystem is built on mutual success.",
+        "innovation": "AI Innovation",
+        "innovationDesc": "Using cutting-edge AI to automate the boring stuff so you can focus on creativity.",
+        "ctaTitle": "Ready to start your journey?",
+        "ctaSubtitle": "Join thousands of sellers already growing on Toroongo.",
+        "ctaStart": "Start Selling",
+        "ctaSell": "Learn More"
+    },
+    "sell": {
+        "hero": {
+            "title": "Your Brand, Your Store, No Limits.",
+            "subtitle": "Built for independent creators and growing businesses. 0% transaction fees, global reach, and AI-powered tools.",
+            "cta": "Open Your Store"
+        },
+        "features": {
+            "f1": {
+                "title": "Storefront Builder",
+                "desc": "Customizable, mobile-ready stores that reflect your unique brand identity."
+            },
+            "f2": {
+                "title": "0% Commission",
+                "desc": "We don’t take a cut of your hard-earned money. Keep 100% of your sales."
+            },
+            "f3": {
+                "title": "Global Logistics",
+                "desc": "Reach customers in 6+ countries with automated shipping and currency handle."
+            },
+            "f4": {
+                "title": "AI Copilot",
+                "desc": "Generate images, write copy, and predict inventory with your own AI assistant."
+            }
+        },
+        "howItWorks": {
+            "title": "Launch in 3 Simple Steps",
+            "s1": {
+                "title": "Sign Up",
+                "desc": "Create your account and choose your store's unique name."
+            },
+            "s2": {
+                "title": "Add Products",
+                "desc": "List your items with the help of our AI description generator."
+            },
+            "s3": {
+                "title": "Start Selling",
+                "desc": "Share your store link and start taking orders globally."
+            }
+        },
+        "pricing": {
+            "title": "Simple Transparency.",
+            "subtitle": "Everything you need to succeed, with no hidden surprises.",
+            "features": [
+                "0% Transaction Fees",
+                "24/7 Seller Support",
+                "AI Marketing Tools",
+                "Global Order Manager"
+            ],
+            "viewPlans": "View Detailed Plans",
+            "signup": "Sign Up Now"
+        }
+    }
+}

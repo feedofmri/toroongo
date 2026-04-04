@@ -1,0 +1,827 @@
+{
+    "nav": {
+        "shopAll": "تسوق الكل",
+        "stores": "المتاجر",
+        "deals": "العروض",
+        "blog": "المدونة",
+        "sell": "البيع على تورونغو",
+        "help": "مساعدة",
+        "search": "ابحث عن المنتجات، البائعين، الفئات..."
+    },
+    "home": {
+        "heroTitle": "تسوق كل شيء",
+        "heroSubtitle": "اكتشف ملايين المنتجات من آلاف البائعين المستقلين حول العالم.",
+        "cta": "ابدأ التسوق",
+        "sellCta": "ابدأ البيع",
+        "stats": {
+            "products": "المنتجات",
+            "sellers": "البائعون",
+            "buyers": "مشترون سعداء",
+            "trusted": "يوثق بنا أكثر من ٥٠ ألف",
+            "satisfied": "مشترون راضون",
+            "live": "نشاط حي",
+            "orders": "طلب في ٢٤ ساعة"
+        },
+        "trust": {
+            "shipping": "شحن مجاني",
+            "shippingSub": "للطلبات فوق ٥٠ دولاراً",
+            "secure": "دفع آمن",
+            "secureSub": "تشفير SSL بقوة ٢٥٦ بت",
+            "returns": "إرجاع خلال ٣٠ يوماً",
+            "returnsSub": "استرداد للأموال دون عناء",
+            "support": "دعم ٢٤/٧",
+            "supportSub": "نحن هنا دائماً"
+        },
+        "categories": {
+            "title": "تسوق حسب الفئة",
+            "subtitle": "تصفح الفئات الأكثر شعبية لدينا"
+        },
+        "trending": {
+            "title": "رائج الآن",
+            "subtitle": "ما يشتريه الجميع هذا الأسبوع"
+        },
+        "sellers": {
+            "title": "أفضل البائعين",
+            "subtitle": "استكشف متاجر البائعين الأعلى تقييماً"
+        },
+        "promo": {
+            "badge": "للبائعين",
+            "title": "ابدأ متجرك اليوم.",
+            "subtitle": "انضم إلى آلاف البائعين على تورونغو. ابنِ علامتك التجارية، وصِل لملايين المشترين، ونمُ بعملك — كل ذلك من منصة واحدة.",
+            "cta": "ابدأ الآن"
+        },
+        "featured": {
+            "title": "منتجات مميزة",
+            "subtitle": "مختارة بعناية من قبل محررينا"
+        },
+        "reviews": {
+            "title": "ماذا يقول مشترونا",
+            "subtitle": "مراجعات حقيقية من عملاء حقيقيين",
+            "verified": "مشتري موثق",
+            "purchased": "تم شراء:"
+        },
+        "newsletter": {
+            "title": "ابق على اطلاع",
+            "subtitle": "اشترك للحصول على عروض حصرية، وأحدث المنتجات، والتحديثات الرائجة — مباشرة إلى بريدك الوارد.",
+            "placeholder": "أدخل بريدك الإلكتروني",
+            "button": "اشتراك"
+        }
+    },
+    "checkout": {
+        "title": "الدفع",
+        "shipping": "الشحن",
+        "payment": "الدفع",
+        "review": "المراجعة",
+        "shippingInfo": "معلومات الشحن",
+        "savedAddresses": "العناوين المحفوظة",
+        "firstName": "الاسم الأول",
+        "lastName": "اسم العائلة",
+        "email": "البريد الإلكتروني",
+        "phone": "رقم الهاتف",
+        "address": "عنوان الشارع",
+        "city": "المدينة",
+        "state": "الولاية/المقاطعة",
+        "zip": "الرمز البريدي",
+        "shippingMethod": "طريقة الشحن",
+        "standardShipping": "شحن قياسي",
+        "expressShipping": "شحن سريع",
+        "days": "أيام عمل",
+        "free": "مجاني",
+        "continueToPayment": "المتابعة للدفع",
+        "paymentDetails": "تفاصيل الدفع",
+        "creditCard": "بطاقة الائتمان",
+        "cod": "الدفع عند الاستلام",
+        "bkash": "bKash",
+        "nagad": "Nagad",
+        "paypal": "PayPal",
+        "secureInfo": "معلومات الدفع الخاصة بك مشفرة وآمنة.",
+        "nameOnCard": "الاسم على البطاقة",
+        "cardNumber": "رقم البطاقة",
+        "expiry": "الشهر / السنة",
+        "cvv": "CVV",
+        "bkashNagadDesc": "يرجى إدخال رقم حساب {{method}} الخاص بك. سنرسل رمز التحقق (OTP) للتأكيد.",
+        "paypalDesc": "سيتم توجيهك إلى PayPal لإكمال عملية الشراء بأمان بعد النقر على \"مراجعة الطلب\".",
+        "codDesc": "ادفع نقداً عند استلام طلبك. لا يتطلب دفع مسبق.",
+        "back": "العودة",
+        "reviewOrder": "مراجعة الطلب",
+        "reviewTitle": "راجع طلبك",
+        "shippingTo": "الشحن إلى",
+        "edit": "تعديل",
+        "placeOrder": "إتمام الطلب",
+        "orderSummary": "ملخص الطلب",
+        "items": "منتجات",
+        "subtotal": "المجموع الفرعي",
+        "shippingCost": "الشحن",
+        "tax": "الضريبة المقدرة",
+        "total": "الإجمالي",
+        "loginRequired": "يرجى تسجيل الدخول لإتمام الطلب",
+        "orderFailed": "فشل الطلب: "
+    },
+    "orderConfirmation": {
+        "loading": "جاري تحميل تأكيد طلبك...",
+        "title": "تم تأكيد الطلب!",
+        "subtitle": "شكراً لك على شرائك. لقد أرسلنا رسالة تأكيد عبر البريد الإلكتروني تحتوي على تفاصيل طلبك.",
+        "orderNumber": "رقم الطلب",
+        "copyOrderNumber": "نسخ رقم الطلب",
+        "estimatedDelivery": "موعد التسليم المتوقع",
+        "shippingTo": "الشحن إلى",
+        "defaultAddress": "123 شارع رئيسي، نيويورك، 10001",
+        "payment": "الدفع",
+        "defaultPayment": "فيزا تنتهي بـ •••• 4242",
+        "subtotalPaid": "إجمالي المدفوع",
+        "orderPlaced": "تم وضع الطلب",
+        "processing": "قيد المعالجة",
+        "shipped": "تم الشحن",
+        "delivered": "تم التوصيل",
+        "trackOrder": "تتبع الطلب",
+        "continueShopping": "مواصلة التسوق"
+    },
+    "reviews": {
+        "title": "مراجعاتي",
+        "subtitle": "إدارة جميع مراجعات المنتجات الخاصة بك في مكان واحد.",
+        "noReviews": "لا توجد مراجعات بعد",
+        "noReviewsDesc": "لم تقم بكتابة أي مراجعات للمنتجات التي اشتريتها بعد.",
+        "viewOrderHistory": "عرض سجل الطلبات",
+        "published": "منشور",
+        "pending": "قيد الانتظار",
+        "editReview": "تعديل المراجعة",
+        "viewProduct": "عرض المنتج"
+    },
+    "common": {
+        "viewAll": "عرض الكل",
+        "products": "المنتجات",
+        "seeAll": "عرض الكل",
+        "wishlistAdd": "أضف إلى قائمة الرغبات",
+        "wishlistRemove": "إزالة من قائمة الرغبات",
+        "badges": {
+            "Sale": "تخفيض",
+            "New": "جديد",
+            "BestSeller": "الأكثر مبيعاً"
+        }
+    },
+    "pricing": {
+        "title": "الأسعار والخطط",
+        "subtitle": "اختر الباقة المثالية لعملك. لا توجد رسوم معاملات على الإطلاق."
+    },
+    "search": {
+        "resultsFor": "نتائج \"{{query}}\"",
+        "allProducts": "جميع المنتجات",
+        "found": "تم العثور على منتج واحد",
+        "found_plural": "تم العثور على {{count}} منتجات",
+        "pageOf": "صفحة {{current}} من {{total}}",
+        "filters": "الفلاتر",
+        "clearAll": "مسح الكل",
+        "activeFilters": "الفلاتر النشطة",
+        "category": "الفئة",
+        "allCategories": "جميع الفئات",
+        "priceRange": "نطاق السعر",
+        "customRange": "نطاق مخصص",
+        "min": "الأدنى",
+        "max": "الأقصى",
+        "onSaleOnly": "في العرض فقط",
+        "minRating": "الحد الأدنى للتقييم",
+        "andUp": "فأكثر",
+        "shopBySeller": "تسوق حسب البائع",
+        "allShops": "جميع المتاجر",
+        "showAll": "عرض الكل ({{count}})",
+        "showLess": "عرض أقل",
+        "noProducts": "لم يتم العثور على منتجات",
+        "adjustFilters": "حاول ضبط الفلاتر أو كلمات البحث.",
+        "sortBy": "ترتيب حسب",
+        "relevance": "الأكثر صلة",
+        "priceAsc": "السعر: من الأقل إلى الأعلى",
+        "priceDesc": "السعر: من الأعلى إلى الأقل",
+        "rating": "الأعلى تقييماً",
+        "newest": "الأحداث أولاً",
+        "gridView": "عرض الشبكة",
+        "listView": "عرض القائمة"
+    },
+    "product": {
+        "notFound": "المنتج غير موجود",
+        "notFoundDesc": "المنتج الذي تبحث عنه غير موجود أو تم حذفه.",
+        "backToHome": "العودة إلى الصفحة الرئيسية",
+        "quantity": "الكمية",
+        "addedToCart": "تمت الإضافة إلى السلة",
+        "addToCart": "إضافة إلى السلة",
+        "contactSeller": "اتصل بالبائع",
+        "soldBy": "يباع بواسطة",
+        "visitShop": "زيارة المتجر",
+        "freeShipping": "شحن مجاني",
+        "freeShippingDesc": "للطلبات أكثر من $50",
+        "buyerProtection": "حماية المشتري",
+        "buyerProtectionDesc": "ضمان استعادة الأموال",
+        "easyReturns": "إرجاع سهل",
+        "easyReturnsDesc": "سياسة 30 يوماً",
+        "description": "الوصف",
+        "reviews": "المراجعات ({{count}})",
+        "highlights": "المميزات",
+        "mayAlsoLike": "قد يعجبك أيضاً",
+        "sellerInstructions": "يرجى تسجيل الدخول كمشتري لإرسال الرسائل.",
+        "regardingItem": "بخصوص هذا المنتج",
+        "typeQuestion": "اكتب سؤالك هنا...",
+        "cancel": "إلغاء",
+        "sendMessage": "إرسال الرسالة",
+        "messageSent": "تم إرسال الرسالة!",
+        "messageSentDesc": "سيرد عليك البائع قريباً عبر مركز الرسائل.",
+        "home": "الرئيسية"
+    },
+    "cart": {
+        "title": "سلة التسوق",
+        "itemsCount": "({{count}} منتجات)",
+        "empty": "سلتك فارغة",
+        "emptyDesc": "يبدو أنك لم تضف أي شيء إلى سلتك بعد.",
+        "continueShopping": "مواصلة التسوق",
+        "freeShippingText": "شحن مجاني",
+        "shippingCostText": "$5.99 تكلفة الشحن",
+        "orderSummary": "ملخص الطلب",
+        "promoCode": "كود الخصم",
+        "apply": "تطبيق",
+        "subtotal": "المجموع الفرعي",
+        "promoDiscount": "خصم ترويجي (10%)",
+        "shipping": "الشحن",
+        "total": "الإجمالي",
+        "proceedToCheckout": "المتابعة لإتمام الطلب",
+        "removeItem": "إزالة المنتج"
+    },
+    "about": {
+        "title": "عن تورونغو",
+        "subtitle": "نحن نبني مستقبل التجارة الإلكترونية — سوق عالمي حيث يمكن لكل بائع أن يتألق ويمكن لكل مشتري اكتشاف شيء استثنائي.",
+        "missionTitle": "مهمتنا",
+        "missionDesc": "تمكن تورونغو البائعين من بناء علامتهم التجارية بينما تمنح المشترين إمكانية الوصول إلى سوق عالمي منظم. نحن نؤمن بخلق نظام بيئي تزدهر فيه الجودة والثقة والإبداع.",
+        "valuesTitle": "قيمنا",
+        "globalReach": "وصول عالمي",
+        "globalReachDesc": "ربط البائعين والمشترين عبر الحدود، مما يجعل التجارة بلا حدود حقاً.",
+        "trustSafety": "الثقة والأمان",
+        "trustSafetyDesc": "حماية المشتري، بائعون موثوقون، ومدفوعات آمنة في كل معاملة.",
+        "community": "المجتمع أولاً",
+        "communityDesc": "بناء علاقات دائمة بين البائعين وعملائهم المخلصين.",
+        "innovation": "الابتكار",
+        "innovationDesc": "تحسين تجربة التسوق والبيع باستمرار بأحدث الأدوات.",
+        "ctaTitle": "هل أنت مستعد للانضمام إلينا؟",
+        "ctaSubtitle": "سواء كنت مشترياً أو بائعاً، هناك مكان لك في تورونغو.",
+        "ctaStart": "ابدأ الآن",
+        "ctaSell": "ابدأ البيع"
+    },
+    "contact": {
+        "title": "اتصل بنا",
+        "subtitle": "لديك سؤال؟ نود أن نسمع منك.",
+        "email": "البريد الإلكتروني",
+        "phone": "الهاتف",
+        "address": "العنوان",
+        "firstName": "الاسم الأول",
+        "lastName": "اسم العائلة",
+        "emailLabel": "عنوان البريد الإلكتروني",
+        "subject": "الموضوع",
+        "message": "رسالتك...",
+        "sendMessage": "إرسال الرسالة"
+    },
+    "help": {
+        "title": "مركز المساعدة",
+        "subtitle": "ابحث عن إجابات للأسئلة الشائعة أو تواصل مع فريق الدعم لدينا.",
+        "searchPlaceholder": "البحث عن مساعدة...",
+        "faqTitle": "الأسئلة الشائعة",
+        "emailSupport": "دعم البريد الإلكتروني",
+        "emailSupportDesc": "احصل على رد خلال 24 ساعة",
+        "liveChat": "دردشة مباشرة",
+        "liveChatDesc": "دردش مع فريق الدعم لدينا",
+        "faq": [
+            {
+                "q": "كيف يمكنني تتبع طلبي؟",
+                "a": "اذهب إلى حسابي > طلباتي لرؤية معلومات التتبع في الوقت الفعلي لجميع مشترياتك."
+            },
+            {
+                "q": "ما هي سياسة الإرجاع؟",
+                "a": "يمكن إرجاع معظم العناصر في غضون 30 يوماً من التسليم. تحقق من سياسات متجر البائع للحصول على تفاصيل محددة."
+            },
+            {
+                "q": "كيف أصبح بائعاً؟",
+                "a": "انقر على 'البيع على تورونغو' وأنشئ حساب بائع مجاني. يمكنك البدء في إدراج المنتجات على الفور."
+            },
+            {
+                "q": "هل معلومات الدفع الخاصة بي آمنة؟",
+                "a": "بالتأكيد. تتم معالجة جميع المدفوعات من خلال أنظمة مشفرة ومتوافقة مع PCI. نحن لا نقوم أبداً بتخزين تفاصيل بطاقتك الكاملة."
+            },
+            {
+                "q": "كيف يمكنني التواصل مع البائع؟",
+                "a": "انتقل إلى صفحة متجر البائع واستخدم ميزة 'الرسائل'، أو ابحث عنها في قسم رسائل حسابك."
+            },
+            {
+                "q": "ماذا يحدث إذا استلمت منتجاً معيباً؟",
+                "a": "افتح نزاعاً من خلال صفحة طلبك وسيساعد فريقنا في حله في غضون 48 ساعة."
+            }
+        ]
+    },
+    "auth": {
+        "resetPassword": "إعادة تعيين كلمة المرور",
+        "resetDesc": "أدخل بريدك الإلكتروني وسنرسل لك رابطاً لإعادة تعيين كلمة المرور الخاصة بك.",
+        "sendResetLink": "إرسال رابط إعادة التعيين",
+        "rememberPassword": "هل تتذكر كلمة المرور؟",
+        "login": "تسجيل الدخول",
+        "welcomeBack": "مرحباً بك مجدداً",
+        "createAccount": "إنشاء حسابك",
+        "loginDesc": "سجل الدخول لمواصلة التسوق في تورونغو.",
+        "sellerSignupDesc": "ابدأ البيع في تورونغو ونمِ عملك.",
+        "buyerSignupDesc": "انضم إلى تورونغو وابدأ في اكتشاف منتجات مذهلة.",
+        "iWantTo": "أريد أن",
+        "buy": "أشتري",
+        "buyDesc": "تسوق واكتشف",
+        "sell": "أبيع",
+        "sellDesc": "افتح متجرك",
+        "continueWithGoogle": "المتابعة باستخدام جوجل",
+        "or": "أو",
+        "fullName": "الاسم الكامل",
+        "storeName": "اسم المتجر",
+        "emailAddress": "عنوان البريد الإلكتروني",
+        "password": "كلمة المرور",
+        "confirmPassword": "تأكيد كلمة المرور",
+        "forgotPassword": "هل نسيت كلمة المرور؟",
+        "signup": "إنشاء حساب",
+        "dontHaveAccount": "ليس لديك حساب؟",
+        "alreadyHaveAccount": "لديك حساب بالفعل؟",
+        "termsAgreement": "بإنشاء حسابك، فإنك توافق على",
+        "termsOfService": "شروط الخدمة",
+        "sellerAgreement": "اتفاقية البائع",
+        "privacyPolicy": "سياسة الخصوصية",
+        "errorRequired": "يرجى ملء جميع الحقول المطلوبة",
+        "errorName": "الاسم مطلوب",
+        "errorPasswordMatch": "كلمات المرور غير متطابقة",
+        "errorStoreName": "اسم المتجر مطلوب لحسابات البائعين",
+        "resetEmailSent": "لقد أرسلنا رابطاً لإعادة تعيين كلمة المرور الخاصة بك.",
+        "loginButton": "تسجيل الدخول",
+        "signupBuyer": "إنشاء حساب",
+        "signupSeller": "إنشاء حساب بائع",
+        "authError": "حدث خطأ أثناء المصادقة"
+    },
+    "wishlist": {
+        "title": "قائمة الأمنيات",
+        "empty": "قائمة الأمنيات فارغة",
+        "emptyDesc": "احفظ العناصر التي تحبها لتجدها لاحقاً.",
+        "exploreProducts": "اكتشف المنتجات",
+        "removeFromWishlist": "إزالة"
+    },
+    "orders": {
+        "title": "طلباتي",
+        "allOrders": "جميع الطلبات",
+        "processing": "قيد المعالجة",
+        "shipped": "تم الشحن",
+        "delivered": "تم التوصيل",
+        "cancelled": "تم الإلغاء",
+        "loading": "جاري تحميل الطلبات...",
+        "orderNo": "TRG-{{id}}",
+        "soldBy": "يباع بواسطة {{seller}}",
+        "total": "الإجمالي:",
+        "cancelOrder": "إلغاء الطلب",
+        "track": "تتبع",
+        "details": "التفاصيل",
+        "noOrders": "لم يتم العثور على طلبات",
+        "noOrdersDesc": "حاول تغيير الفلتر أو ابدأ التسوق!",
+        "cancelTitle": "إلغاء الطلب",
+        "cancelDesc": "هل أنت متأكد أنك تريد إلغاء هذا الطلب؟ يرجى تحديد سبب الإلغاء.",
+        "selectReason": "اختر سبباً...",
+        "keepOrder": "الاحتفاظ بالطلب",
+        "confirmCancel": "تأكيد الإلغاء",
+        "cancelling": "جاري الإلغاء...",
+        "qty": "الكمية",
+        "reasons": {
+            "changedMind": "غيرت رأيي",
+            "betterPrice": "وجدت سعراً أفضل في مكان آخر",
+            "mistake": "طلبت بالخطأ",
+            "longDelivery": "وقت التسليم المتوقع طويل جداً",
+            "other": "آخر"
+        }
+    },
+    "account": {
+        "profile": "الملف الشخصي",
+        "addresses": "العناوين",
+        "payment": "الدفع",
+        "notifications": "الإشعارات",
+        "profileInfo": "معلومات الملف الشخصي",
+        "changePhoto": "تغيير الصورة",
+        "firstName": "الاسم الأول",
+        "lastName": "اسم العائلة",
+        "email": "البريد الإلكتروني",
+        "phone": "الهاتف",
+        "saveChanges": "حفظ التغييرات",
+        "savedAddresses": "العناوين المحفوظة",
+        "addAddress": "إضافة عنوان",
+        "default": "افتراضي",
+        "edit": "تعديل",
+        "remove": "إزالة",
+        "paymentMethods": "طرق الدفع",
+        "addCard": "إضافة بطاقة",
+        "expires": "تنتهي في {{date}}",
+        "notificationPrefs": "تفضيلات الإشعارات",
+        "orderUpdates": "تحديثات الطلب",
+        "orderUpdatesDesc": "تأكيدات الشحن وتنبيهات التوصيل",
+        "promotions": "العروض والترقيات",
+        "promotionsDesc": "المبيعات، أكواد الخصم، وعروض المنتجات الرائجة",
+        "sellerMessages": "رسائل البائع",
+        "sellerMessagesDesc": "الردود من البائعين الذين تواصلت معهم",
+        "wishlistAlerts": "تنبيهات قائمة الأمنيات",
+        "wishlistAlertsDesc": "انخفاض الأسعار على العناصر المحفوظة",
+        "savePrefs": "حفظ التفضيلات"
+    },
+    "messages": {
+        "title": "الرسائل",
+        "searchPlaceholder": "البحث عن رسائل...",
+        "loading": "جاري تحميل الرسائل...",
+        "emptyState": "اختر محادثة",
+        "emptyStateDesc": "اختر بائعاً لعرض رسائلك.",
+        "typeMessage": "اكتب رسالة..."
+    },
+    "blog": {
+        "title": "Toroongo Blog",
+        "subtitle": "Tips, updates, and insights for buyers and sellers.",
+        "loading": "Loading articles...",
+        "readArticle": "Read Article",
+        "noArticles": "No articles found",
+        "noArticlesDesc": "We are busy writing new content. Check back soon!",
+        "partnerPost": "Partner Post",
+        "articleNotFound": "Article not found",
+        "backToBlog": "Back to Blog",
+        "share": "Share"
+    },
+    "legal": {
+        "terms": {
+            "title": "Terms of Service",
+            "lastUpdated": "Last updated: March 1, 2026",
+            "sections": [
+                {
+                    "title": "1. Acceptance of Terms",
+                    "content": "By accessing or using the Toroongo platform, you agree to be bound by these Terms of Service. If you do not agree, you may not use our services."
+                },
+                {
+                    "title": "2. User Accounts",
+                    "content": "You must provide accurate information when creating an account. You are responsible for maintaining the security of your account credentials."
+                },
+                {
+                    "title": "3. Buyer Responsibilities",
+                    "content": "Buyers agree to pay for items purchased, provide accurate shipping information, and communicate respectfully with sellers."
+                },
+                {
+                    "title": "4. Seller Obligations",
+                    "content": "Sellers must provide accurate product descriptions, ship orders promptly, and comply with all applicable laws."
+                },
+                {
+                    "title": "5. Prohibited Activities",
+                    "content": "Users may not sell counterfeit goods, engage in fraud, or harass other users while using the platform."
+                },
+                {
+                    "title": "6. Limitation of Liability",
+                    "content": "Toroongo acts as a marketplace facilitator and is not responsible for the quality or legality of items sold by third-party sellers."
+                }
+            ]
+        },
+        "privacy": {
+            "title": "Privacy Policy",
+            "lastUpdated": "Last updated: March 1, 2026",
+            "sections": [
+                {
+                    "title": "1. Information We Collect",
+                    "content": "We collect information you provide directly (name, email) as well as usage data to improve your experience."
+                },
+                {
+                    "title": "2. How We Use Your Information",
+                    "content": "We use your data to process orders, personalize your shopping experience, and prevent fraud."
+                },
+                {
+                    "title": "3. Data Sharing",
+                    "content": "We share necessary information with sellers to fulfill orders. We do not sell personal data to third parties."
+                },
+                {
+                    "title": "4. Data Security",
+                    "content": "We implement industry-standard security measures including encryption to protect your information."
+                },
+                {
+                    "title": "5. Your Rights",
+                    "content": "You may request access to, correction of, or deletion of your personal data at any time."
+                }
+            ]
+        }
+    },
+    "sell": {
+        "hero": {
+            "title": "Sell on Toroongo",
+            "subtitle": "Launch your online store in minutes. Reach millions of buyers with your own customizable storefront.",
+            "cta": "Start Selling Free"
+        },
+        "features": {
+            "f1": {
+                "title": "Your Own Storefront",
+                "desc": "Customize your shop with your brand colors, logo, and banner."
+            },
+            "f2": {
+                "title": "Powerful Analytics",
+                "desc": "Track sales, revenue, and customer insights with your seller dashboard."
+            },
+            "f3": {
+                "title": "Global Audience",
+                "desc": "Access millions of buyers from around the world through the Toroongo marketplace."
+            },
+            "f4": {
+                "title": "Easy Management",
+                "desc": "List products, manage orders, and handle messages — all from one place."
+            }
+        },
+        "howItWorks": {
+            "title": "How It Works",
+            "s1": {
+                "title": "Sign Up",
+                "desc": "Create your seller account in under 2 minutes."
+            },
+            "s2": {
+                "title": "List Products",
+                "desc": "Add your products, set prices, and upload images."
+            },
+            "s3": {
+                "title": "Start Selling",
+                "desc": "Your store goes live and orders start coming in."
+            }
+        },
+        "pricing": {
+            "title": "Simple, Transparent Pricing",
+            "subtitle": "Keep 100% of your sales with 0% transaction fees.",
+            "features": [
+                "0% transaction fees forever",
+                "AI-powered seller tools included",
+                "Start for 0 BDT / month",
+                "Free storefront customization",
+                "Powerful analytics and support"
+            ],
+            "viewPlans": "View Pricing Plans",
+            "signup": "Create Seller Account"
+        }
+    },
+    "returns": {
+        "title": "Returns & Refunds",
+        "subtitle": "We want you to love every purchase. If something is not right, we make returns easy.",
+        "highlights": {
+            "h1": {
+                "title": "30-Day Returns",
+                "desc": "Return most items within 30 days of delivery."
+            },
+            "h2": {
+                "title": "Free Return Shipping",
+                "desc": "We cover return shipping on eligible items."
+            },
+            "h3": {
+                "title": "Fast Refunds",
+                "desc": "Refunds processed within 3-5 business days."
+            }
+        },
+        "howItWorks": {
+            "title": "How Returns Work",
+            "steps": [
+                {
+                    "step": "01",
+                    "title": "Initiate Return",
+                    "desc": "Go to My Orders and select the item you want to return."
+                },
+                {
+                    "step": "02",
+                    "title": "Pack & Ship",
+                    "desc": "Repackage the item and ship it using the provided label."
+                },
+                {
+                    "step": "03",
+                    "title": "Get Refunded",
+                    "desc": "Once inspected, your refund will be processed promptly."
+                }
+            ]
+        },
+        "eligibility": {
+            "title": "Return Eligibility",
+            "eligible": {
+                "title": "Eligible for Return",
+                "items": [
+                    "Unused items in original packaging",
+                    "Defective or damaged products",
+                    "Wrong item received",
+                    "Item significantly not as described"
+                ]
+            },
+            "notEligible": {
+                "title": "Not Eligible",
+                "items": [
+                    "Personalized or custom-made items",
+                    "Perishable goods",
+                    "Digital downloads",
+                    "Items returned after 30 days"
+                ]
+            }
+        },
+        "cta": {
+            "title": "Need to Return Something?",
+            "subtitle": "Start a return from your order history page or contact our support team."
+        }
+    },
+    "careers": {
+        "title": "Join the Toroongo Team",
+        "subtitle": "Help us reshape the future of e-commerce.",
+        "whyUs": "Why Work With Us",
+        "perks": {
+            "p1": {
+                "title": "Remote Friendly",
+                "desc": "Work from anywhere in the world."
+            },
+            "p2": {
+                "title": "Health & Wellness",
+                "desc": "Full medical, dental, and vision coverage."
+            },
+            "p3": {
+                "title": "Learning Budget",
+                "desc": "$2,000/year for courses and conferences."
+            },
+            "p4": {
+                "title": "Equity Package",
+                "desc": "Every team member is an owner."
+            }
+        },
+        "openings": "Open Positions",
+        "apply": "Apply",
+        "noRole": "Don't see a role for you?",
+        "noRoleDesc": "Send us your resume for future openings.",
+        "getInTouch": "Get in Touch"
+    },
+    "press": {
+        "title": "Press & Media",
+        "subtitle": "Get the latest news about Toroongo.",
+        "emailUs": "Email our media team",
+        "releases": "Press Releases",
+        "news": "In the News",
+        "assets": "Brand Assets",
+        "assetsDesc": "Download our logo and media kit.",
+        "download": "Download Media Kit",
+        "readMore": "Read More"
+    },
+    "shipping": {
+        "title": "Shipping & Delivery",
+        "subtitle": "Everything you need to know about how your orders are shipped.",
+        "options": {
+            "standard": {
+                "title": "Standard Shipping",
+                "time": "5-7 business days",
+                "price": "Free over $50"
+            },
+            "express": {
+                "title": "Express Shipping",
+                "time": "2-3 business days",
+                "price": "From $9.99"
+            },
+            "international": {
+                "title": "International",
+                "time": "7-14 business days",
+                "price": "From $14.99"
+            }
+        },
+        "details": {
+            "processing": {
+                "title": "Order Processing",
+                "desc": "Orders are typically processed within 1-2 business days. You will receive a confirmation email once your order ships."
+            },
+            "tracking": {
+                "title": "Tracking Your Order",
+                "desc": "Once your order has shipped, you can track it in real-time through your account dashboard."
+            },
+            "global": {
+                "title": "Global Shipping & Core Markets",
+                "desc1": "We are a global marketplace accessible everywhere. International orders may be subject to customs duties.",
+                "coreTitle": "Core Markets:",
+                "coreDesc": "We heavily focus on our 6 core markets: Bangladesh, Nepal, Malaysia, UAE, Indonesia, and India."
+            },
+            "protection": {
+                "title": "Shipping Protection",
+                "desc": "All shipments are insured against loss and damage during transit."
+            }
+        }
+    },
+    "dataPreferences": {
+        "title": "Data Preferences",
+        "lastUpdated": "Last updated: March 1, 2026",
+        "sections": [
+            {
+                "title": "1. What Are Cookies",
+                "content": "Cookies are small text files stored on your device that help us remember your preferences."
+            },
+            {
+                "title": "2. How We Use Cookies",
+                "content": "We use cookies for essential functions, preferences, analytics, and marketing."
+            },
+            {
+                "title": "3. Third-Party Cookies",
+                "content": "Some cookies are placed by third-party services like Google Analytics and payment processors."
+            },
+            {
+                "title": "4. Managing Cookies",
+                "content": "You can control cookies through your browser settings or our consent banner."
+            }
+        ]
+    },
+    "sellerResources": {
+        "title": "Seller Resources",
+        "subtitle": "Guides, tutorials, and tools to help you succeed.",
+        "guides": "Seller Guides",
+        "more": "More Resources",
+        "ready": "Ready to Start Selling?",
+        "readyDesc": "Create your free seller account today.",
+        "getStarted": "Get Started"
+    },
+    "sellerDashboard": {
+        "title": "مركز البائع",
+        "nav": {
+            "dashboard": "لوحة القيادة",
+            "products": "المنتجات",
+            "orders": "الطلبات",
+            "blogPosts": "منشورات المدونة",
+            "finance": "المالية",
+            "messages": "الرسائل",
+            "storefront": "واجهة المتجر",
+            "settings": "الإعدادات",
+            "viewStore": "عرض متجري"
+        },
+        "stats": {
+            "totalRevenue": "إجمالي الإيرادات",
+            "totalOrders": "إجمالي الطلبات",
+            "productsListed": "المنتجات المدرجة",
+            "storeViews": "مشاهدات المتجر",
+            "vsLastMonth": "مقارنة بالشهر الماضي"
+        },
+        "revenueOverview": {
+            "title": "نظرة عامة على الإيرادات",
+            "last12Months": "آخر 12 شهرًا"
+        },
+        "topProducts": {
+            "title": "أفضل المنتجات",
+            "sold": "بيعت",
+            "noSales": "لا توجد مبيعات بعد."
+        },
+        "recentOrders": {
+            "title": "الطلبات الأخيرة",
+            "order": "الطلب",
+            "customer": "العميل",
+            "product": "المنتج",
+            "total": "الإجمالي",
+            "status": "الحالة",
+            "noOrders": "لا توجد طلبات بعد",
+            "loading": "جاري تحميل لوحة القيادة..."
+        }
+    },
+    "sellerOrders": {
+        "title": "الطلبات",
+        "stats": {
+            "pending": "قيد الانتظار",
+            "shipped": "تم الشحن",
+            "completed": "مكتمل"
+        },
+        "filters": {
+            "searchPlaceholder": "البحث برقم الطلب أو العميل...",
+            "allStatus": "كل الحالات",
+            "processing": "جاري المعالجة",
+            "shipped": "تم الشحن",
+            "delivered": "تم التوصيل"
+        },
+        "table": {
+            "order": "الطلب",
+            "date": "التاريخ",
+            "customer": "العميل",
+            "product": "المنتج",
+            "total": "الإجمالي",
+            "status": "الحالة",
+            "action": "الإجراء",
+            "view": "عرض",
+            "loading": "جاري تحميل الطلبات...",
+            "noOrders": "لم يتم العثور على طلبات",
+            "itemsCount": "{{count}} قطع",
+            "moreItems": "+{{count}} المزيد"
+        }
+    },
+    "sellerProducts": {
+        "title": "المنتجات",
+        "addProduct": "إضافة منتج",
+        "filters": {
+            "searchPlaceholder": "البحث عن المنتجات...",
+            "allStatus": "كل الحالات"
+        },
+        "status": {
+            "active": "نشط",
+            "lowStock": "مخزون منخفض",
+            "outOfStock": "نفد المخزون",
+            "draft": "مسودة"
+        },
+        "table": {
+            "product": "المنتج",
+            "category": "الفئة",
+            "price": "السعر",
+            "stock": "المخزون",
+            "status": "الحالة",
+            "actions": "الإجراءات",
+            "loading": "جاري تحميل المنتجات...",
+            "noProducts": "لم يتم العثور على منتجات"
+        },
+        "actions": {
+            "view": "عرض",
+            "edit": "تعديل",
+            "delete": "حذف"
+        }
+    }
+}

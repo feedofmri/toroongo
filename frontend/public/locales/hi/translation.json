@@ -1,0 +1,827 @@
+{
+    "nav": {
+        "shopAll": "सब खरीदें",
+        "stores": "दुकानें",
+        "deals": "ऑफ़र",
+        "blog": "ब्लॉग",
+        "sell": "टोरोंगो पर बेचें",
+        "help": "सहायता",
+        "search": "उत्पाद, विक्रेता, श्रेणियां खोजें..."
+    },
+    "home": {
+        "heroTitle": "सब कुछ खरीदें",
+        "heroSubtitle": "दुनिया भर के हजारों स्वतंत्र विक्रेताओं से लाखों उत्पाद खोजें।",
+        "cta": "खरीदारी शुरू करें",
+        "sellCta": "बेचना शुरू करें",
+        "stats": {
+            "products": "उत्पाद",
+            "sellers": "विक्रेता",
+            "buyers": "खुश खरीदार",
+            "trusted": "50K+ द्वारा विश्वसनीय",
+            "satisfied": "संतुष्ट खरीदार",
+            "live": "लाइव गतिविधि",
+            "orders": "24 घंटे में ऑर्डर"
+        },
+        "trust": {
+            "shipping": "मुफ़्त शिपिंग",
+            "shippingSub": "$50 से अधिक के ऑर्डर पर",
+            "secure": "सुरक्षित चेकआउट",
+            "secureSub": "256-बिट SSL एन्क्रिप्शन",
+            "returns": "30-दिन की वापसी",
+            "returnsSub": "बिना किसी परेशानी के रिफंड",
+            "support": "24/7 सहायता",
+            "supportSub": "हम हमेशा यहाँ हैं"
+        },
+        "categories": {
+            "title": "श्रेणी के अनुसार खरीदारी करें",
+            "subtitle": "हमारी सबसे लोकप्रिय श्रेणियां देखें"
+        },
+        "trending": {
+            "title": "अभी ट्रेंडिंग",
+            "subtitle": "इस हफ्ते हर कोई क्या खरीद रहा है"
+        },
+        "sellers": {
+            "title": "शीर्ष विक्रेता",
+            "subtitle": "हमारे सबसे अच्छे रेटेड विक्रेताओं के स्टोर देखें"
+        },
+        "promo": {
+            "badge": "विक्रेताओं के लिए",
+            "title": "आज ही अपना स्टोर शुरू करें।",
+            "subtitle": "टोरोंगो पर हजारों विक्रेताओं से जुड़ें। अपना ब्रांड बनाएं, लाखों खरीदारों तक पहुंचें और अपना व्यवसाय बढ़ाएं — सब एक ही प्लेटफॉर्म से।",
+            "cta": "शुरू करें"
+        },
+        "featured": {
+            "title": "विशेष उत्पाद",
+            "subtitle": "हमारे संपादकों द्वारा चुने गए"
+        },
+        "reviews": {
+            "title": "हमारे खरीदार क्या कहते हैं",
+            "subtitle": "असली ग्राहकों की असली समीक्षाएं",
+            "verified": "सत्यापित खरीदार",
+            "purchased": "खरीदा गया:"
+        },
+        "newsletter": {
+            "title": "जुड़े रहें",
+            "subtitle": "विशेष सौदे, नए आगमन और ट्रेंडिंग उत्पाद अपडेट सीधे अपने इनबॉक्स में पाने के लिए सब्सक्राइब करें।",
+            "placeholder": "अपना ईमेल दर्ज करें",
+            "button": "सब्सक्राइब"
+        }
+    },
+    "checkout": {
+        "title": "चेकआउट",
+        "shipping": "शिपिंग",
+        "payment": "भुगतान",
+        "review": "समीक्षा",
+        "shippingInfo": "शिपिंग जानकारी",
+        "savedAddresses": "सहेजे गए पते",
+        "firstName": "पहला नाम",
+        "lastName": "अंतिम नाम",
+        "email": "ईमेल पता",
+        "phone": "फ़ोन नंबर",
+        "address": "पता",
+        "city": "शहर",
+        "state": "राज्य",
+        "zip": "पिन कोड",
+        "shippingMethod": "शिपिंग विधि",
+        "standardShipping": "मानक शिपिंग",
+        "expressShipping": "एक्सप्रेस शिपिंग",
+        "days": "कार्यदिवस",
+        "free": "मुफ़्त",
+        "continueToPayment": "भुगतान के लिए आगे बढ़ें",
+        "paymentDetails": "भुगतान विवरण",
+        "creditCard": "क्रेडिट कार्ड",
+        "cod": "कैश ऑन डिलीवरी",
+        "bkash": "bKash",
+        "nagad": "Nagad",
+        "paypal": "PayPal",
+        "secureInfo": "आपकी भुगतान जानकारी एन्क्रिप्टेड और सुरक्षित है।",
+        "nameOnCard": "कार्ड पर नाम",
+        "cardNumber": "कार्ड नंबर",
+        "expiry": "माह / वर्ष",
+        "cvv": "CVV",
+        "bkashNagadDesc": "कृपया अपना {{method}} खाता नंबर दर्ज करें। हम सत्यापन के लिए एक ओटीपी भेजेंगे।",
+        "paypalDesc": "\"ऑर्डर की समीक्षा करें\" पर क्लिक करने के बाद आपको सुरक्षित रूप से खरीदारी पूरी करने के लिए पेपैल पर भेज दिया जाएगा।",
+        "codDesc": "अर्डर की डिलीवरी पर नकद भुगतान करें। किसी अग्रिम भुगतान की आवश्यकता नहीं है।",
+        "back": "पीछे",
+        "reviewOrder": "ऑर्डर की समीक्षा",
+        "reviewTitle": "अपने ऑर्डर की समीक्षा करें",
+        "shippingTo": "शिपिंग पता",
+        "edit": "संपादन",
+        "placeOrder": "ऑर्डर दें",
+        "orderSummary": "ऑर्डर विवरण",
+        "items": "उत्पाद",
+        "subtotal": "सबटोटल",
+        "shippingCost": "शिपिंग",
+        "tax": "अनुमानित टैक्स",
+        "total": "कुल",
+        "loginRequired": "ऑर्डर देने के लिए कृपया लॉगिन करें",
+        "orderFailed": "ऑर्डर विफल रहा: "
+    },
+    "orderConfirmation": {
+        "loading": "आपके ऑर्डर की पुष्टि लोड हो रही है...",
+        "title": "ऑर्डर की पुष्टि हो गई!",
+        "subtitle": "आपकी खरीदारी के लिए धन्यवाद। हमने आपके ऑर्डर के विवरण के साथ एक पुष्टिकरण ईमेल भेजा है।",
+        "orderNumber": "ऑर्डर संख्या",
+        "copyOrderNumber": "ऑर्डर संख्या कॉपी करें",
+        "estimatedDelivery": "अनुमानित वितरण",
+        "shippingTo": "शिपिंग पता",
+        "defaultAddress": "123 मेन स्ट्रीट, न्यूयॉर्क, एनवाई 10001",
+        "payment": "भुगतान",
+        "defaultPayment": "•••• 4242 पर समाप्त होने वाला वीज़ा",
+        "subtotalPaid": "कुल भुगतान",
+        "orderPlaced": "ऑर्डर दिया गया",
+        "processing": "प्रसंस्करण",
+        "shipped": "भेज दिया गया",
+        "delivered": "वितरित",
+        "trackOrder": "ऑर्डर ट्रैक करें",
+        "continueShopping": "खरीदारी जारी रखें"
+    },
+    "reviews": {
+        "title": "मेरी समीक्षाएं",
+        "subtitle": "एक ही स्थान पर अपनी सभी उत्पाद समीक्षाएं प्रबंधित करें।",
+        "noReviews": "अभी तक कोई समीक्षा नहीं",
+        "noReviewsDesc": "आपने अपने खरीदे गए उत्पादों के लिए कोई समीक्षा नहीं लिखी है।",
+        "viewOrderHistory": "ऑर्डर इतिहास देखें",
+        "published": "प्रकाशित",
+        "pending": "लंबित",
+        "editReview": "समीक्षा संपादित करें",
+        "viewProduct": "उत्पाद देखें"
+    },
+    "common": {
+        "viewAll": "सभी देखें",
+        "products": "उत्पाद",
+        "seeAll": "सभी देखें",
+        "wishlistAdd": "विशलिस्ट में जोड़ें",
+        "wishlistRemove": "विशलिस्ट से निकालें",
+        "badges": {
+            "Sale": "सेल",
+            "New": "नया",
+            "BestSeller": "बेस्ट सेलर"
+        }
+    },
+    "pricing": {
+        "title": "मूल्य निर्धारण और योजनाएं",
+        "subtitle": "अपने व्यवसाय के लिए सही टियर चुनें। कोई लेनदेन शुल्क नहीं।"
+    },
+    "search": {
+        "resultsFor": "\"{{query}}\" के परिणाम",
+        "allProducts": "सभी उत्पाद",
+        "found": "{{count}} उत्पाद मिला",
+        "found_plural": "{{count}} उत्पाद मिले",
+        "pageOf": "पृष्ठ {{current}}, कुल {{total}}",
+        "filters": "फ़िल्टर",
+        "clearAll": "सभी साफ़ करें",
+        "activeFilters": "सक्रिय फ़िल्टर",
+        "category": "श्रेणी",
+        "allCategories": "सभी श्रेणियाँ",
+        "priceRange": "मूल्य सीमा",
+        "customRange": "कस्टम सीमा",
+        "min": "न्यूनतम",
+        "max": "अधिकतम",
+        "onSaleOnly": "केवल सेल पर",
+        "minRating": "न्यूनतम रेटिंग",
+        "andUp": "और उससे ऊपर",
+        "shopBySeller": "विक्रेता के अनुसार खोजें",
+        "allShops": "सभी दुकानें",
+        "showAll": "सभी देखें ({{count}})",
+        "showLess": "कम देखें",
+        "noProducts": "कोई उत्पाद नहीं मिला",
+        "adjustFilters": "कृपया अपने फ़िल्टर या खोज शब्दों को बदलने का प्रयास करें।",
+        "sortBy": "क्रमबद्ध करें",
+        "relevance": "प्रासंगिकता",
+        "priceAsc": "मूल्य: कम से अधिक",
+        "priceDesc": "मूल्य: अधिक से कम",
+        "rating": "उच्चतम रेटिंग",
+        "newest": "नवीनतम पहले",
+        "gridView": "ग्रिड व्यू",
+        "listView": "लिस्ट व्यू"
+    },
+    "product": {
+        "notFound": "उत्पाद नहीं मिला",
+        "notFoundDesc": "वह उत्पाद जिसे आप खोज रहे हैं वह मौजूद नहीं है या हटा दिया गया है।",
+        "backToHome": "होम पर वापस जाएँ",
+        "quantity": "मात्रा",
+        "addedToCart": "कार्ट में जोड़ा गया",
+        "addToCart": "कार्ट में जोड़ें",
+        "contactSeller": "विक्रेता से संपर्क करें",
+        "soldBy": "विक्रेता",
+        "visitShop": "दुकान देखें",
+        "freeShipping": "मुफ़्त शिपिंग",
+        "freeShippingDesc": "$50+ के ऑर्डर पर",
+        "buyerProtection": "खरीदार सुरक्षा",
+        "buyerProtectionDesc": "पैसे वापसी की गारंटी",
+        "easyReturns": "आसान रिटर्न",
+        "easyReturnsDesc": "30-दिन की पॉलिसी",
+        "description": "विवरण",
+        "reviews": "समीक्षाएं ({{count}})",
+        "highlights": "मुख्य विशेषताएं",
+        "mayAlsoLike": "आपको ये भी पसंद आ सकते हैं",
+        "sellerInstructions": "विक्रेता को संदेश भेजने के लिए कृपया खरीदार के रूप में लॉग इन करें।",
+        "regardingItem": "इस उत्पाद के बारे में",
+        "typeQuestion": "अपना प्रश्न यहाँ टाइप करें...",
+        "cancel": "रद्द करें",
+        "sendMessage": "संदेश भेजें",
+        "messageSent": "संदेश भेज दिया गया!",
+        "messageSentDesc": "विक्रेता जल्द ही संदेश केंद्र के माध्यम से आपको उत्तर देगा।",
+        "home": "होम"
+    },
+    "cart": {
+        "title": "शॉपिंग कार्ट",
+        "itemsCount": "({{count}} आइटम)",
+        "empty": "आपकी कार्ट खाली है",
+        "emptyDesc": "लगता है आपने अभी तक अपनी कार्ट में कुछ नहीं जोड़ा है।",
+        "continueShopping": "खरीदारी जारी रखें",
+        "freeShippingText": "मुफ़्त शिपिंग",
+        "shippingCostText": "$5.99 शिपिंग शुल्क",
+        "orderSummary": "ऑर्डर सारांश",
+        "promoCode": "प्रोमो कोड",
+        "apply": "लागू करें",
+        "subtotal": "सबटोटल",
+        "promoDiscount": "प्रोमो छूट (10%)",
+        "shipping": "शिपिंग",
+        "total": "कुल",
+        "proceedToCheckout": "चेकआउट के लिए आगे बढ़ें",
+        "removeItem": "आइटम हटाएँ"
+    },
+    "about": {
+        "title": "तोरोंगो के बारे में",
+        "subtitle": "हम ई-कॉमर्स का भविष्य बना रहे हैं — एक वैश्विक बाज़ार जहाँ हर विक्रेता चमक सकता है और हर खरीदार कुछ असाधारण खोज सकता है।",
+        "missionTitle": "हमारा मिशन",
+        "missionDesc": "तोरोंगो विक्रेताओं को अपना ब्रांड बनाने के लिए सशक्त बनाता है जबकि खरीदारों को एक चुनिंदा, वैश्विक बाज़ार तक पहुँच प्रदान करता है। हम एक ऐसा पारिस्थितिकी तंत्र बनाने में विश्वास करते हैं जहाँ गुणवत्ता, विश्वास और रचनात्मकता पनपती है।",
+        "valuesTitle": "हमारे मूल्य",
+        "globalReach": "वैश्विक पहुँच",
+        "globalReachDesc": "सीमाओं के पार विक्रेताओं और खरीदारों को जोड़ना, वाणिज्य को वास्तव में सीमाहीन बनाना।",
+        "trustSafety": "विश्वास और सुरक्षा",
+        "trustSafetyDesc": "हर लेनदेन पर खरीदार सुरक्षा, सत्यापित विक्रेता और सुरक्षित भुगतान।",
+        "community": "समुदाय पहले",
+        "communityDesc": "विक्रेताओं और उनके वफादार ग्राहकों के बीच स्थायी संबंध बनाना।",
+        "innovation": "नवाचार",
+        "innovationDesc": "अत्याधुनिक उपकरणों के साथ खरीदारी और बिक्री के अनुभव में लगातार सुधार करना।",
+        "ctaTitle": "क्या आप हमसे जुड़ने के लिए तैयार हैं?",
+        "ctaSubtitle": "चाहे आप खरीदार हों या विक्रेता, तोरोंगो पर आपके लिए जगह है।",
+        "ctaStart": "शुरू करें",
+        "ctaSell": "बेचना शुरू करें"
+    },
+    "contact": {
+        "title": "संपर्क करें",
+        "subtitle": "कोई प्रश्न है? हमें आपसे सुनना अच्छा लगेगा।",
+        "email": "ईमेल",
+        "phone": "फ़ोन",
+        "address": "पता",
+        "firstName": "पहला नाम",
+        "lastName": "अंतिम नाम",
+        "emailLabel": "ईमेल पता",
+        "subject": "विषय",
+        "message": "आपका संदेश...",
+        "sendMessage": "संदेश भेजें"
+    },
+    "help": {
+        "title": "सहायता केंद्र",
+        "subtitle": "सामान्य प्रश्नों के उत्तर खोजें या हमारी सहायता टीम से संपर्क करें।",
+        "searchPlaceholder": "सहायता के लिए खोजें...",
+        "faqTitle": "अक्सर पूछे जाने वाले प्रश्न",
+        "emailSupport": "ईमेल सहायता",
+        "emailSupportDesc": "24 घंटे के भीतर उत्तर प्राप्त करें",
+        "liveChat": "लाइव चैट",
+        "liveChatDesc": "हमारी सहायता टीम के साथ चैट करें",
+        "faq": [
+            {
+                "q": "मैं अपना ऑर्डर कैसे ट्रैक करूँ?",
+                "a": "अपने सभी खरीदारी की रीयल-टाइम ट्रैकिंग जानकारी देखने के लिए मेरा खाता > मेरे ऑर्डर पर जाएँ।"
+            },
+            {
+                "q": "वापसी नीति क्या है?",
+                "a": "अधिकांश वस्तुओं को डिलीवरी के 30 दिनों के भीतर वापस किया जा सकता है। विशिष्ट विवरण के लिए विक्रेता की स्टोर नीतियों की जाँच करें।"
+            },
+            {
+                "q": "मैं एक विक्रेता कैसे बन सकता हूँ?",
+                "a": "'तोरोंगो पर बेचें' पर क्लिक करें और एक मुफ़्त विक्रेता खाता बनाएँ। आप तुरंत उत्पादों को सूचीबद्ध करना शुरू कर सकते हैं।"
+            },
+            {
+                "q": "क्या मेरी भुगतान जानकारी सुरक्षित है?",
+                "a": "बिल्कुल। सभी भुगतान एन्क्रिप्टेड, PCI-अनुपालन प्रणालियों के माध्यम से संसाधित किए जाते हैं। हम आपकी पूरी कार्ड विवरण कभी संग्रहीत नहीं करते हैं।"
+            },
+            {
+                "q": "मैं एक विक्रेता से कैसे संपर्क करूँ?",
+                "a": "विक्रेता के स्टोर पृष्ठ पर जाएँ और 'संदेश' सुविधा का उपयोग करें, या इसे अपने खाता संदेश अनुभाग में खोजें।"
+            },
+            {
+                "q": "अगर मुझे कोई दोषपूर्ण वस्तु मिले तो क्या होगा?",
+                "a": "अपने ऑर्डर पृष्ठ के माध्यम से एक विवाद खोलें और हमारी टीम 48 घंटों के भीतर इसे हल करने में मदद करेगी।"
+            }
+        ]
+    },
+    "auth": {
+        "resetPassword": "अपना पासवर्ड रीसेट करें",
+        "resetDesc": "अपना ईमेल दर्ज करें और हम आपको अपना पासवर्ड रीसेट करने के लिए एक लिंक भेजेंगे।",
+        "sendResetLink": "रीसेट लिंक भेजें",
+        "rememberPassword": "अपना पासवर्ड याद है?",
+        "login": "लॉग इन",
+        "welcomeBack": "वापसी पर स्वागत है",
+        "createAccount": "अपना खाता बनाएँ",
+        "loginDesc": "तोरोंगो पर खरीदारी जारी रखने के लिए लॉग इन करें।",
+        "sellerSignupDesc": "तोरोंगो पर बेचना शुरू करें और अपना व्यवसाय बढ़ाएँ।",
+        "buyerSignupDesc": "तोरोंगो से जुड़ें और अद्भुत उत्पादों की खोज शुरू करें।",
+        "iWantTo": "मैं चाहता हूँ",
+        "buy": "खरीदना",
+        "buyDesc": "खरीदारी और खोज",
+        "sell": "बेचना",
+        "sellDesc": "अपनी दुकान खोलें",
+        "continueWithGoogle": "गूगल के साथ आगे बढ़ें",
+        "or": "या",
+        "fullName": "पूरा नाम",
+        "storeName": "दुकान का नाम",
+        "emailAddress": "ईमेल पता",
+        "password": "पासवर्ड",
+        "confirmPassword": "पासवर्ड की पुष्टि करें",
+        "forgotPassword": "पासवर्ड भूल गए?",
+        "signup": "साइन अप",
+        "dontHaveAccount": "खाता नहीं है?",
+        "alreadyHaveAccount": "पहले से ही खाता है?",
+        "termsAgreement": "अपना खाता बनाकर, आप हमारे इनसे सहमत होते हैं",
+        "termsOfService": "सेवा की शर्तें",
+        "sellerAgreement": "विक्रेता समझौता",
+        "privacyPolicy": "गोपनीयता नीति",
+        "errorRequired": "कृपया सभी आवश्यक फ़ील्ड भरें",
+        "errorName": "नाम आवश्यक है",
+        "errorPasswordMatch": "पासवर्ड मेल नहीं खाते",
+        "errorStoreName": "विक्रेता खातों के लिए दुकान का नाम आवश्यक है",
+        "resetEmailSent": "हमने आपका पासवर्ड रीसेट करने के लिए एक लिंक भेजा है।",
+        "loginButton": "लॉग इन करें",
+        "signupBuyer": "खाता बनाएँ",
+        "signupSeller": "विक्रेता खाता बनाएँ",
+        "authError": "प्रमाणीकरण के दौरान एक त्रुटि हुई"
+    },
+    "wishlist": {
+        "title": "विशलिस्ट",
+        "empty": "आपकी विशलिस्ट खाली है",
+        "emptyDesc": "जिन आइटमों को आप पसंद करते हैं उन्हें बाद में खोजने के लिए सहेजें।",
+        "exploreProducts": "उत्पादों को एक्सप्लोर करें",
+        "removeFromWishlist": "हटाएँ"
+    },
+    "orders": {
+        "title": "मेरे ऑर्डर",
+        "allOrders": "सभी ऑर्डर",
+        "processing": "प्रसंस्करण",
+        "shipped": "भेज दिया गया",
+        "delivered": "पहुँचा दिया गया",
+        "cancelled": "रद्द कर दिया गया",
+        "loading": "ऑर्डर लोड हो रहे हैं...",
+        "orderNo": "TRG-{{id}}",
+        "soldBy": "विक्रेता: {{seller}}",
+        "total": "कुल:",
+        "cancelOrder": "ऑर्डर रद्द करें",
+        "track": "ट्रैक",
+        "details": "विवरण",
+        "noOrders": "कोई ऑर्डर नहीं मिला",
+        "noOrdersDesc": "अपने फ़िल्टर को बदलने का प्रयास करें या खरीदारी शुरू करें!",
+        "cancelTitle": "ऑर्डर रद्द करें",
+        "cancelDesc": "क्या आप वाकई इस ऑर्डर को रद्द करना चाहते हैं? कृपया रद्दीकरण का कारण चुनें।",
+        "selectReason": "कारण चुनें...",
+        "keepOrder": "ऑर्डर रखें",
+        "confirmCancel": "रद्दीकरण की पुष्टि करें",
+        "cancelling": "रद्द किया जा रहा है...",
+        "qty": "मात्रा",
+        "reasons": {
+            "changedMind": "मन बदल गया",
+            "betterPrice": "कहीं और बेहतर कीमत मिली",
+            "mistake": "गलती से ऑर्डर हो गया",
+            "longDelivery": "प्रत्याशित डिलीवरी समय बहुत लंबा है",
+            "other": "अन्य"
+        }
+    },
+    "account": {
+        "profile": "प्रोफ़ाइल",
+        "addresses": "पते",
+        "payment": "भुगतान",
+        "notifications": "सूचनाएं",
+        "profileInfo": "प्रोफ़ाइल जानकारी",
+        "changePhoto": "फ़ोटो बदलें",
+        "firstName": "पहला नाम",
+        "lastName": "अंतिम नाम",
+        "email": "ईमेल",
+        "phone": "फ़ोन",
+        "saveChanges": "परिवर्तन सहेजें",
+        "savedAddresses": "सहेजे गए पते",
+        "addAddress": "पता जोड़ें",
+        "default": "डिफ़ॉल्ट",
+        "edit": "संपादित करें",
+        "remove": "हटाएँ",
+        "paymentMethods": "भुगतान के तरीके",
+        "addCard": "कार्ड जोड़ें",
+        "expires": "समाप्ति {{date}}",
+        "notificationPrefs": "सूचना प्राथमिकताएं",
+        "orderUpdates": "ऑर्डर अपडेट",
+        "orderUpdatesDesc": "शिपिंग पुष्टिकरण और डिलीवरी अलर्ट",
+        "promotions": "प्रचार और ऑफ़र",
+        "promotionsDesc": "सेल, डिस्काउंट कोड और विशेष ऑफ़र",
+        "sellerMessages": "विक्रेता संदेश",
+        "sellerMessagesDesc": "आपके द्वारा संपर्क किए गए विक्रेताओं की प्रतिक्रियाएं",
+        "wishlistAlerts": "विशलिस्ट अलर्ट",
+        "wishlistAlertsDesc": "आपकी सहेजी गई वस्तुओं पर मूल्य में गिरावट",
+        "savePrefs": "प्राथमिकताएं सहेजें"
+    },
+    "messages": {
+        "title": "संदेश",
+        "searchPlaceholder": "संदेश खोजें...",
+        "loading": "संदेश लोड हो रहे हैं...",
+        "emptyState": "एक बातचीत चुनें",
+        "emptyStateDesc": "अपने संदेश देखने के लिए एक विक्रेता चुनें।",
+        "typeMessage": "संदेश टाइप करें..."
+    },
+    "blog": {
+        "title": "Toroongo Blog",
+        "subtitle": "Tips, updates, and insights for buyers and sellers.",
+        "loading": "Loading articles...",
+        "readArticle": "Read Article",
+        "noArticles": "No articles found",
+        "noArticlesDesc": "We are busy writing new content. Check back soon!",
+        "partnerPost": "Partner Post",
+        "articleNotFound": "Article not found",
+        "backToBlog": "Back to Blog",
+        "share": "Share"
+    },
+    "legal": {
+        "terms": {
+            "title": "Terms of Service",
+            "lastUpdated": "Last updated: March 1, 2026",
+            "sections": [
+                {
+                    "title": "1. Acceptance of Terms",
+                    "content": "By accessing or using the Toroongo platform, you agree to be bound by these Terms of Service. If you do not agree, you may not use our services."
+                },
+                {
+                    "title": "2. User Accounts",
+                    "content": "You must provide accurate information when creating an account. You are responsible for maintaining the security of your account credentials."
+                },
+                {
+                    "title": "3. Buyer Responsibilities",
+                    "content": "Buyers agree to pay for items purchased, provide accurate shipping information, and communicate respectfully with sellers."
+                },
+                {
+                    "title": "4. Seller Obligations",
+                    "content": "Sellers must provide accurate product descriptions, ship orders promptly, and comply with all applicable laws."
+                },
+                {
+                    "title": "5. Prohibited Activities",
+                    "content": "Users may not sell counterfeit goods, engage in fraud, or harass other users while using the platform."
+                },
+                {
+                    "title": "6. Limitation of Liability",
+                    "content": "Toroongo acts as a marketplace facilitator and is not responsible for the quality or legality of items sold by third-party sellers."
+                }
+            ]
+        },
+        "privacy": {
+            "title": "Privacy Policy",
+            "lastUpdated": "Last updated: March 1, 2026",
+            "sections": [
+                {
+                    "title": "1. Information We Collect",
+                    "content": "We collect information you provide directly (name, email) as well as usage data to improve your experience."
+                },
+                {
+                    "title": "2. How We Use Your Information",
+                    "content": "We use your data to process orders, personalize your shopping experience, and prevent fraud."
+                },
+                {
+                    "title": "3. Data Sharing",
+                    "content": "We share necessary information with sellers to fulfill orders. We do not sell personal data to third parties."
+                },
+                {
+                    "title": "4. Data Security",
+                    "content": "We implement industry-standard security measures including encryption to protect your information."
+                },
+                {
+                    "title": "5. Your Rights",
+                    "content": "You may request access to, correction of, or deletion of your personal data at any time."
+                }
+            ]
+        }
+    },
+    "sell": {
+        "hero": {
+            "title": "Sell on Toroongo",
+            "subtitle": "Launch your online store in minutes. Reach millions of buyers with your own customizable storefront.",
+            "cta": "Start Selling Free"
+        },
+        "features": {
+            "f1": {
+                "title": "Your Own Storefront",
+                "desc": "Customize your shop with your brand colors, logo, and banner."
+            },
+            "f2": {
+                "title": "Powerful Analytics",
+                "desc": "Track sales, revenue, and customer insights with your seller dashboard."
+            },
+            "f3": {
+                "title": "Global Audience",
+                "desc": "Access millions of buyers from around the world through the Toroongo marketplace."
+            },
+            "f4": {
+                "title": "Easy Management",
+                "desc": "List products, manage orders, and handle messages — all from one place."
+            }
+        },
+        "howItWorks": {
+            "title": "How It Works",
+            "s1": {
+                "title": "Sign Up",
+                "desc": "Create your seller account in under 2 minutes."
+            },
+            "s2": {
+                "title": "List Products",
+                "desc": "Add your products, set prices, and upload images."
+            },
+            "s3": {
+                "title": "Start Selling",
+                "desc": "Your store goes live and orders start coming in."
+            }
+        },
+        "pricing": {
+            "title": "Simple, Transparent Pricing",
+            "subtitle": "Keep 100% of your sales with 0% transaction fees.",
+            "features": [
+                "0% transaction fees forever",
+                "AI-powered seller tools included",
+                "Start for 0 BDT / month",
+                "Free storefront customization",
+                "Powerful analytics and support"
+            ],
+            "viewPlans": "View Pricing Plans",
+            "signup": "Create Seller Account"
+        }
+    },
+    "returns": {
+        "title": "Returns & Refunds",
+        "subtitle": "We want you to love every purchase. If something is not right, we make returns easy.",
+        "highlights": {
+            "h1": {
+                "title": "30-Day Returns",
+                "desc": "Return most items within 30 days of delivery."
+            },
+            "h2": {
+                "title": "Free Return Shipping",
+                "desc": "We cover return shipping on eligible items."
+            },
+            "h3": {
+                "title": "Fast Refunds",
+                "desc": "Refunds processed within 3-5 business days."
+            }
+        },
+        "howItWorks": {
+            "title": "How Returns Work",
+            "steps": [
+                {
+                    "step": "01",
+                    "title": "Initiate Return",
+                    "desc": "Go to My Orders and select the item you want to return."
+                },
+                {
+                    "step": "02",
+                    "title": "Pack & Ship",
+                    "desc": "Repackage the item and ship it using the provided label."
+                },
+                {
+                    "step": "03",
+                    "title": "Get Refunded",
+                    "desc": "Once inspected, your refund will be processed promptly."
+                }
+            ]
+        },
+        "eligibility": {
+            "title": "Return Eligibility",
+            "eligible": {
+                "title": "Eligible for Return",
+                "items": [
+                    "Unused items in original packaging",
+                    "Defective or damaged products",
+                    "Wrong item received",
+                    "Item significantly not as described"
+                ]
+            },
+            "notEligible": {
+                "title": "Not Eligible",
+                "items": [
+                    "Personalized or custom-made items",
+                    "Perishable goods",
+                    "Digital downloads",
+                    "Items returned after 30 days"
+                ]
+            }
+        },
+        "cta": {
+            "title": "Need to Return Something?",
+            "subtitle": "Start a return from your order history page or contact our support team."
+        }
+    },
+    "careers": {
+        "title": "Join the Toroongo Team",
+        "subtitle": "Help us reshape the future of e-commerce.",
+        "whyUs": "Why Work With Us",
+        "perks": {
+            "p1": {
+                "title": "Remote Friendly",
+                "desc": "Work from anywhere in the world."
+            },
+            "p2": {
+                "title": "Health & Wellness",
+                "desc": "Full medical, dental, and vision coverage."
+            },
+            "p3": {
+                "title": "Learning Budget",
+                "desc": "$2,000/year for courses and conferences."
+            },
+            "p4": {
+                "title": "Equity Package",
+                "desc": "Every team member is an owner."
+            }
+        },
+        "openings": "Open Positions",
+        "apply": "Apply",
+        "noRole": "Don't see a role for you?",
+        "noRoleDesc": "Send us your resume for future openings.",
+        "getInTouch": "Get in Touch"
+    },
+    "press": {
+        "title": "Press & Media",
+        "subtitle": "Get the latest news about Toroongo.",
+        "emailUs": "Email our media team",
+        "releases": "Press Releases",
+        "news": "In the News",
+        "assets": "Brand Assets",
+        "assetsDesc": "Download our logo and media kit.",
+        "download": "Download Media Kit",
+        "readMore": "Read More"
+    },
+    "shipping": {
+        "title": "Shipping & Delivery",
+        "subtitle": "Everything you need to know about how your orders are shipped.",
+        "options": {
+            "standard": {
+                "title": "Standard Shipping",
+                "time": "5-7 business days",
+                "price": "Free over $50"
+            },
+            "express": {
+                "title": "Express Shipping",
+                "time": "2-3 business days",
+                "price": "From $9.99"
+            },
+            "international": {
+                "title": "International",
+                "time": "7-14 business days",
+                "price": "From $14.99"
+            }
+        },
+        "details": {
+            "processing": {
+                "title": "Order Processing",
+                "desc": "Orders are typically processed within 1-2 business days. You will receive a confirmation email once your order ships."
+            },
+            "tracking": {
+                "title": "Tracking Your Order",
+                "desc": "Once your order has shipped, you can track it in real-time through your account dashboard."
+            },
+            "global": {
+                "title": "Global Shipping & Core Markets",
+                "desc1": "We are a global marketplace accessible everywhere. International orders may be subject to customs duties.",
+                "coreTitle": "Core Markets:",
+                "coreDesc": "We heavily focus on our 6 core markets: Bangladesh, Nepal, Malaysia, UAE, Indonesia, and India."
+            },
+            "protection": {
+                "title": "Shipping Protection",
+                "desc": "All shipments are insured against loss and damage during transit."
+            }
+        }
+    },
+    "dataPreferences": {
+        "title": "Data Preferences",
+        "lastUpdated": "Last updated: March 1, 2026",
+        "sections": [
+            {
+                "title": "1. What Are Cookies",
+                "content": "Cookies are small text files stored on your device that help us remember your preferences."
+            },
+            {
+                "title": "2. How We Use Cookies",
+                "content": "We use cookies for essential functions, preferences, analytics, and marketing."
+            },
+            {
+                "title": "3. Third-Party Cookies",
+                "content": "Some cookies are placed by third-party services like Google Analytics and payment processors."
+            },
+            {
+                "title": "4. Managing Cookies",
+                "content": "You can control cookies through your browser settings or our consent banner."
+            }
+        ]
+    },
+    "sellerResources": {
+        "title": "Seller Resources",
+        "subtitle": "Guides, tutorials, and tools to help you succeed.",
+        "guides": "Seller Guides",
+        "more": "More Resources",
+        "ready": "Ready to Start Selling?",
+        "readyDesc": "Create your free seller account today.",
+        "getStarted": "Get Started"
+    },
+    "sellerDashboard": {
+        "title": "Seller Hub",
+        "nav": {
+            "dashboard": "Dashboard",
+            "products": "Products",
+            "orders": "Orders",
+            "blogPosts": "Blog Posts",
+            "finance": "Finance",
+            "messages": "Messages",
+            "storefront": "Storefront",
+            "settings": "Settings",
+            "viewStore": "View My Store"
+        },
+        "stats": {
+            "totalRevenue": "Total Revenue",
+            "totalOrders": "Total Orders",
+            "productsListed": "Products Listed",
+            "storeViews": "Store Views",
+            "vsLastMonth": "vs last month"
+        },
+        "revenueOverview": {
+            "title": "Revenue Overview",
+            "last12Months": "Last 12 months"
+        },
+        "topProducts": {
+            "title": "Top Products",
+            "sold": "sold",
+            "noSales": "No sales yet."
+        },
+        "recentOrders": {
+            "title": "Recent Orders",
+            "order": "Order",
+            "customer": "Customer",
+            "product": "Product",
+            "total": "Total",
+            "status": "Status",
+            "noOrders": "No orders yet",
+            "loading": "Loading dashboard..."
+        }
+    },
+    "sellerOrders": {
+        "title": "Orders",
+        "stats": {
+            "pending": "Pending",
+            "shipped": "Shipped",
+            "completed": "Completed"
+        },
+        "filters": {
+            "searchPlaceholder": "Search by order ID or customer...",
+            "allStatus": "All Status",
+            "processing": "Processing",
+            "shipped": "Shipped",
+            "delivered": "Delivered"
+        },
+        "table": {
+            "order": "Order",
+            "date": "Date",
+            "customer": "Customer",
+            "product": "Product",
+            "total": "Total",
+            "status": "Status",
+            "action": "Action",
+            "view": "View",
+            "loading": "Loading orders...",
+            "noOrders": "No orders found",
+            "itemsCount": "{{count}}x items",
+            "moreItems": "+{{count}} more"
+        }
+    },
+    "sellerProducts": {
+        "title": "Products",
+        "addProduct": "Add Product",
+        "filters": {
+            "searchPlaceholder": "Search products...",
+            "allStatus": "All Status"
+        },
+        "status": {
+            "active": "Active",
+            "lowStock": "Low Stock",
+            "outOfStock": "Out of Stock",
+            "draft": "Draft"
+        },
+        "table": {
+            "product": "Product",
+            "category": "Category",
+            "price": "Price",
+            "stock": "Stock",
+            "status": "Status",
+            "actions": "Actions",
+            "loading": "Loading products...",
+            "noProducts": "No products found"
+        },
+        "actions": {
+            "view": "View",
+            "edit": "Edit",
+            "delete": "Delete"
+        }
+    }
+}

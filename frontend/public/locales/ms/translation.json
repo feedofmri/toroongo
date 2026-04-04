@@ -1,0 +1,827 @@
+{
+    "nav": {
+        "shopAll": "Beli Semua",
+        "stores": "Kedai",
+        "deals": "Tawaran",
+        "blog": "Blog",
+        "sell": "Jual di Toroongo",
+        "help": "Bantuan",
+        "search": "Cari produk, penjual, kategori..."
+    },
+    "home": {
+        "heroTitle": "Beli Segala-galanya",
+        "heroSubtitle": "Temui jutaan produk daripada ribuan penjual bebas di seluruh dunia.",
+        "cta": "Mula Membeli-belah",
+        "sellCta": "Mula Menjual",
+        "stats": {
+            "products": "Produk",
+            "sellers": "Penjual",
+            "buyers": "Pembeli Gembira",
+            "trusted": "Dipercayai oleh 50k+",
+            "satisfied": "Pembeli berpuas hati",
+            "live": "Aktiviti Langsung",
+            "orders": "Pesanan dalam 24j"
+        },
+        "trust": {
+            "shipping": "Penghantaran Percuma",
+            "shippingSub": "Untuk pesanan melebihi $50",
+            "secure": "Pembayaran Selamat",
+            "secureSub": "Enkripsi SSL 256-bit",
+            "returns": "Pemulangan 30 Hari",
+            "returnsSub": "Bayaran balik tanpa kerumitan",
+            "support": "Sokongan 24/7",
+            "supportSub": "Kami sentiasa di sini"
+        },
+        "categories": {
+            "title": "Beli mengikut Kategori",
+            "subtitle": "Layari kategori paling popular kami"
+        },
+        "trending": {
+            "title": "Trending Sekarang",
+            "subtitle": "Apa yang semua orang beli minggu ini"
+        },
+        "sellers": {
+            "title": "Penjual Teratas",
+            "subtitle": "Terokai kedai daripada penjual dengan penarafan terbaik kami"
+        },
+        "promo": {
+            "badge": "Untuk Penjual",
+            "title": "Mula kedai anda hari ini.",
+            "subtitle": "Sertai beribu-ribu penjual di Toroongo. Bina jenama anda, capai berjuta-juta pembeli, dan kembangkan perniagaan anda — semuanya dari satu platform.",
+            "cta": "Bermula"
+        },
+        "featured": {
+            "title": "Produk Pilihan",
+            "subtitle": "Dipilih sendiri oleh editor kami"
+        },
+        "reviews": {
+            "title": "Apa Kata Pembeli Kami",
+            "subtitle": "Ulasan sebenar daripada pelanggan sebenar",
+            "verified": "Pembeli Disahkan",
+            "purchased": "Dibeli:"
+        },
+        "newsletter": {
+            "title": "Kekal dalam Makluman",
+            "subtitle": "Langgan untuk mendapatkan tawaran eksklusif, ketibaan baharu dan kemas kini produk trending — terus ke peti masuk anda.",
+            "placeholder": "Masukkan e-mel anda",
+            "button": "Langgan"
+        }
+    },
+    "checkout": {
+        "title": "Checkout",
+        "shipping": "Penghantaran",
+        "payment": "Pembayaran",
+        "review": "Semakan",
+        "shippingInfo": "Maklumat Penghantaran",
+        "savedAddresses": "Alamat Disimpan",
+        "firstName": "Nama pertama",
+        "lastName": "Nama akhir",
+        "email": "Alamat e-mel",
+        "phone": "Nombor telefon",
+        "address": "Alamat jalan",
+        "city": "Bandar",
+        "state": "Negeri",
+        "zip": "Poskod",
+        "shippingMethod": "Kaedah Penghantaran",
+        "standardShipping": "Penghantaran Standard",
+        "expressShipping": "Penghantaran Ekspres",
+        "days": "hari bekerja",
+        "free": "Percuma",
+        "continueToPayment": "Teruskan ke Pembayaran",
+        "paymentDetails": "Butiran Pembayaran",
+        "creditCard": "Kad Kredit",
+        "cod": "Tunai semasa Penghantaran",
+        "bkash": "bKash",
+        "nagad": "Nagad",
+        "paypal": "PayPal",
+        "secureInfo": "Maklumat pembayaran anda disulitkan dan selamat.",
+        "nameOnCard": "Nama pada kad",
+        "cardNumber": "Nombor kad",
+        "expiry": "BB / TT",
+        "cvv": "CVV",
+        "bkashNagadDesc": "Sila masukkan nombor akaun {{method}} anda. Kami akan menghantar OTP untuk pengesahan.",
+        "paypalDesc": "Anda akan diarahkan ke PayPal untuk melengkapkan pembelian anda dengan selamat selepas mengklik \"Semak Pesanan\".",
+        "codDesc": "Bayar dengan tunai semasa penghantaran pesanan anda. Tiada pembayaran pendahuluan diperlukan.",
+        "back": "Kembali",
+        "reviewOrder": "Semak Pesanan",
+        "reviewTitle": "Semak Pesanan Anda",
+        "shippingTo": "Penghantaran ke",
+        "edit": "Edit",
+        "placeOrder": "Buat Pesanan",
+        "orderSummary": "Ringkasan Pesanan",
+        "items": "item",
+        "subtotal": "Subtotal",
+        "shippingCost": "Penghantaran",
+        "tax": "Anggaran Cukai",
+        "total": "Jumlah",
+        "loginRequired": "Sila log masuk untuk membuat pesanan",
+        "orderFailed": "Pesanan gagal: "
+    },
+    "orderConfirmation": {
+        "loading": "Memuatkan pengesahan pesanan anda...",
+        "title": "Pesanan Disahkan!",
+        "subtitle": "Terima kasih atas pembelian anda. Kami telah menghantar e-mel pengesahan dengan butiran pesanan anda.",
+        "orderNumber": "Nombor Pesanan",
+        "copyOrderNumber": "Salin nombor pesanan",
+        "estimatedDelivery": "Anggaran Penghantaran",
+        "shippingTo": "Dihantar Ke",
+        "defaultAddress": "123 Main Street, New York, NY 10001",
+        "payment": "Pembayaran",
+        "defaultPayment": "Visa berakhir dengan •••• 4242",
+        "subtotalPaid": "Sub-jumlah Dibayar",
+        "orderPlaced": "Pesanan Dibuat",
+        "processing": "Diproses",
+        "shipped": "Dihantar",
+        "delivered": "Diterima",
+        "trackOrder": "Jejak Pesanan",
+        "continueShopping": "Teruskan Membeli-belah"
+    },
+    "reviews": {
+        "title": "Ulasan Saya",
+        "subtitle": "Urus semua ulasan produk anda di satu tempat.",
+        "noReviews": "Tiada Ulasan Lagi",
+        "noReviewsDesc": "Anda belum menulis sebarang ulasan untuk produk yang anda beli.",
+        "viewOrderHistory": "Lihat Sejarah Pesanan",
+        "published": "Diterbitkan",
+        "pending": "Belum Selesai",
+        "editReview": "Edit Ulasan",
+        "viewProduct": "Lihat Produk"
+    },
+    "common": {
+        "viewAll": "Lihat Semua",
+        "products": "produk",
+        "seeAll": "Lihat Semua",
+        "wishlistAdd": "Tambah ke wishlist",
+        "wishlistRemove": "Keluarkan dari wishlist",
+        "badges": {
+            "Sale": "Sale",
+            "New": "Baru",
+            "BestSeller": "Paling Laris"
+        }
+    },
+    "pricing": {
+        "title": "Harga & Pelan",
+        "subtitle": "Pilih peringkat yang sesuai untuk perniagaan anda. Tiada yuran transaksi."
+    },
+    "search": {
+        "resultsFor": "Hasil untuk \"{{query}}\"",
+        "allProducts": "Semua Produk",
+        "found": "{{count}} produk dijumpai",
+        "found_plural": "{{count}} produk dijumpai",
+        "pageOf": "Halaman {{current}} daripada {{total}}",
+        "filters": "Penapis",
+        "clearAll": "Kosongkan Semua",
+        "activeFilters": "Penapis Aktif",
+        "category": "Kategori",
+        "allCategories": "Semua Kategori",
+        "priceRange": "Julat Harga",
+        "customRange": "Julat Tersuai",
+        "min": "Min",
+        "max": "Maks",
+        "onSaleOnly": "Hanya Jualan",
+        "minRating": "Penarafan Minimum",
+        "andUp": "ke Atas",
+        "shopBySeller": "Cari mengikut Penjual",
+        "allShops": "Semua Kedai",
+        "showAll": "Lihat Semua ({{count}})",
+        "showLess": "Lihat Sedikit",
+        "noProducts": "Produk tidak dijumpai",
+        "adjustFilters": "Sila cuba laraskan penapis atau istilah carian anda.",
+        "sortBy": "Isih Mengikut",
+        "relevance": "Keselarasan",
+        "priceAsc": "Harga: Rendah ke Tinggi",
+        "priceDesc": "Harga: Tinggi ke Rendah",
+        "rating": "Penarafan Tertinggi",
+        "newest": "Terbaharu",
+        "gridView": "Paparan Grid",
+        "listView": "Paparan Senarai"
+    },
+    "product": {
+        "notFound": "Produk Tidak Dijumpai",
+        "notFoundDesc": "Produk yang anda cari tidak wujud atau telah dipadamkan.",
+        "backToHome": "Kembali ke Laman Utama",
+        "quantity": "Kuantiti",
+        "addedToCart": "Ditambah ke Troli",
+        "addToCart": "Tambah ke Troli",
+        "contactSeller": "Hubungi Penjual",
+        "soldBy": "Dijual oleh",
+        "visitShop": "Lawati Kedai",
+        "freeShipping": "Penghantaran Percuma",
+        "freeShippingDesc": "Untuk pesanan melebihi $50",
+        "buyerProtection": "Perlindungan Pembeli",
+        "buyerProtectionDesc": "Jaminan wang dikembalikan",
+        "easyReturns": "Pemulangan Mudah",
+        "easyReturnsDesc": "Polisi 30 hari",
+        "description": "Penerangan",
+        "reviews": "Ulasan ({{count}})",
+        "highlights": "Sorotan Produk",
+        "mayAlsoLike": "Anda Mungkin Juga Suka",
+        "sellerInstructions": "Sila log masuk sebagai pembeli untuk menghantar mesej kepada penjual.",
+        "regardingItem": "Mengenai item ini",
+        "typeQuestion": "Taip soalan anda di sini...",
+        "cancel": "Batal",
+        "sendMessage": "Hantar Mesej",
+        "messageSent": "Mesej Dihantar!",
+        "messageSentDesc": "Penjual akan membalas anda tidak lama lagi melalui Pusat Mesej.",
+        "home": "Laman Utama"
+    },
+    "cart": {
+        "title": "Troli Membeli-belah",
+        "itemsCount": "({{count}} item)",
+        "empty": "Troli anda kosong",
+        "emptyDesc": "Nampaknya anda belum menambah apa-apa ke troli anda lagi.",
+        "continueShopping": "Teruskan Membeli-belah",
+        "freeShippingText": "Penghantaran Percuma",
+        "shippingCostText": "$5.99 kos penghantaran",
+        "orderSummary": "Ringkasan Pesanan",
+        "promoCode": "Kod Promo",
+        "apply": "Gunakan",
+        "subtotal": "Subtotal",
+        "promoDiscount": "Diskon Promo (10%)",
+        "shipping": "Penghantaran",
+        "total": "Jumlah",
+        "proceedToCheckout": "Teruskan ke Pembayaran",
+        "removeItem": "Buang Item"
+    },
+    "about": {
+        "title": "Mengenai Toroongo",
+        "subtitle": "Kami membina masa depan e-dagang — pasaran global di mana setiap penjual boleh bersinar dan setiap pembeli boleh menemui sesuatu yang luar biasa.",
+        "missionTitle": "Misi Kami",
+        "missionDesc": "Toroongo memperkasakan penjual untuk membina jenama mereka sambil memberikan akses kepada pembeli ke pasaran global yang dipilih susun. Kami percaya dalam mewujudkan ekosistem di mana kualiti, kepercayaan dan kreativiti berkembang.",
+        "valuesTitle": "Nilai Kami",
+        "globalReach": "Jangkauan Global",
+        "globalReachDesc": "Menghubungkan penjual and pembeli merentasi sempadan, menjadikan perdagangan benar-benar tanpa sempadan.",
+        "trustSafety": "Kepercayaan & Keselamatan",
+        "trustSafetyDesc": "Perlindungan pembeli, penjual yang disahkan, dan pembayaran selamat pada setiap transaksi.",
+        "community": "Komuniti Diutamakan",
+        "communityDesc": "Membina hubungan yang berkekalan antara penjual dan pelanggan setia mereka.",
+        "innovation": "Inovasi",
+        "innovationDesc": "Sentiasa menambah baik pengalaman membeli-belah dan menjual dengan alat yang canggih.",
+        "ctaTitle": "Sedia untuk Menyertai Kami?",
+        "ctaSubtitle": "Sama ada anda pembeli atau penjual, ada tempat untuk anda di Toroongo.",
+        "ctaStart": "Bermula Sekarang",
+        "ctaSell": "Mula Menjual"
+    },
+    "contact": {
+        "title": "Hubungi Kami",
+        "subtitle": "Ada soalan? Kami ingin mendengar daripada anda.",
+        "email": "E-mel",
+        "phone": "Telefon",
+        "address": "Alamat",
+        "firstName": "Nama Pertama",
+        "lastName": "Nama Keluarga",
+        "emailLabel": "Alamat E-mel",
+        "subject": "Subjek",
+        "message": "Mesej Anda...",
+        "sendMessage": "Hantar Mesej"
+    },
+    "help": {
+        "title": "Pusat Bantuan",
+        "subtitle": "Cari jawapan kepada soalan lazim atau hubungi pasukan sokongan kami.",
+        "searchPlaceholder": "Cari bantuan...",
+        "faqTitle": "Soalan Lazim",
+        "emailSupport": "Sokongan E-mel",
+        "emailSupportDesc": "Dapatkan jawapan dalam masa 24 jam",
+        "liveChat": "Sembang Langsung",
+        "liveChatDesc": "Sembang dengan pasukan sokongan kami",
+        "faq": [
+            {
+                "q": "Bagaimanakah cara untuk saya menjejaki pesanan saya?",
+                "a": "Pergi ke Akaun Saya > Pesanan Saya untuk melihat maklumat penjejakan masa nyata bagi semua pembelian anda."
+            },
+            {
+                "q": "Apakah dasar pemulangan?",
+                "a": "Kebanyakan item boleh dipulangkan dalam masa 30 hari selepas penghantaran. Semak dasar kedai penjual untuk butiran khusus."
+            },
+            {
+                "q": "Bagaimanakah cara untuk saya menjadi penjual?",
+                "a": "Klik 'Jual di Toroongo' dan cipta akaun penjual percuma. Anda boleh mula menyenaraikan produk dengan segera."
+            },
+            {
+                "q": "Adakah maklumat pembayaran saya selamat?",
+                "a": "Sudah tentu. Semua pembayaran diproses melalui sistem yang disulitkan dan patuh PCI. Kami tidak pernah menyimpan butiran kad penuh anda."
+            },
+            {
+                "q": "Bagaimanakah cara untuk saya menghubungi penjual?",
+                "a": "Pergi ke halaman kedai penjual dan gunakan ciri 'Mesej', atau carinya di bahagian Mesej Akaun anda."
+            },
+            {
+                "q": "Apa yang berlaku jika saya menerima item yang rosak?",
+                "a": "Buka pertikaian melalui halaman pesanan anda dan pasukan kami akan membantu menyelesaikannya dalam masa 48 jam."
+            }
+        ]
+    },
+    "auth": {
+        "resetPassword": "Tetapkan Semula Kata Laluan",
+        "resetDesc": "Masukkan e-mel anda dan kami akan menghantar pautan untuk menetapkan semula kata laluan anda.",
+        "sendResetLink": "Hantar Pautan Penetapan Semula",
+        "rememberPassword": "Ingat kata laluan anda?",
+        "login": "Log Masuk",
+        "welcomeBack": "Selamat Kembali",
+        "createAccount": "Buat Akaun Anda",
+        "loginDesc": "Log masuk untuk terus membeli-belah di Toroongo.",
+        "sellerSignupDesc": "Mula menjual di Toroongo dan kembangkan perniagaan anda.",
+        "buyerSignupDesc": "Sertai Toroongo dan mula temui produk yang menakjubkan.",
+        "iWantTo": "Saya ingin",
+        "buy": "Membeli",
+        "buyDesc": "Beli-belah & Temui",
+        "sell": "Menjual",
+        "sellDesc": "Buka Kedai Anda",
+        "continueWithGoogle": "Teruskan dengan Google",
+        "or": "atau",
+        "fullName": "Nama Penuh",
+        "storeName": "Nama Kedai",
+        "emailAddress": "Alamat E-mel",
+        "password": "Kata Laluan",
+        "confirmPassword": "Sahkan Kata Laluan",
+        "forgotPassword": "Lupa Kata Laluan?",
+        "signup": "Daftar",
+        "dontHaveAccount": "Tidak mempunyai akaun?",
+        "alreadyHaveAccount": "Sudah mempunyai akaun?",
+        "termsAgreement": "Dengan membina akaun anda, anda bersetuju dengan kami",
+        "termsOfService": "Syarat Perkhidmatan",
+        "sellerAgreement": "Perjanjian Penjual",
+        "privacyPolicy": "Dasar Privasi",
+        "errorRequired": "Sila isi semua ruangan yang diperlukan",
+        "errorName": "Nama diperlukan",
+        "errorPasswordMatch": "Kata laluan tidak sepadan",
+        "errorStoreName": "Nama kedai diperlukan untuk akaun penjual",
+        "resetEmailSent": "Kami telah menghantar pautan untuk menetapkan semula kata laluan anda.",
+        "loginButton": "Log Masuk",
+        "signupBuyer": "Daftar Akaun",
+        "signupSeller": "Daftar Akaun Penjual",
+        "authError": "Ralat berlaku semasa pengesahan"
+    },
+    "wishlist": {
+        "title": "Senarai Keinginan",
+        "empty": "Senarai keinginan anda kosong",
+        "emptyDesc": "Simpan item yang anda suka untuk mencarinya kemudian.",
+        "exploreProducts": "Teroka Produk",
+        "removeFromWishlist": "Buang"
+    },
+    "orders": {
+        "title": "Pesanan Saya",
+        "allOrders": "Semua Pesanan",
+        "processing": "Diproses",
+        "shipped": "Dihantar",
+        "delivered": "Dihantar",
+        "cancelled": "Dibatalkan",
+        "loading": "Memuatkan pesanan...",
+        "orderNo": "TRG-{{id}}",
+        "soldBy": "Dijual oleh: {{seller}}",
+        "total": "Jumlah: ",
+        "cancelOrder": "Batal Pesanan",
+        "track": "Jejak",
+        "details": "Butiran",
+        "noOrders": "Tiada pesanan dijumpai",
+        "noOrdersDesc": "Cuba tukar penapis anda atau mula membeli-belah!",
+        "cancelTitle": "Batal Pesanan",
+        "cancelDesc": "Adakah anda pasti mahu membatalkan pesanan ini? Sila pilih sebab pembatalan.",
+        "selectReason": "Pilih sebab...",
+        "keepOrder": "Simpan Pesanan",
+        "confirmCancel": "Sahkan Batal",
+        "cancelling": "Membatalkan...",
+        "qty": "Kuantiti",
+        "reasons": {
+            "changedMind": "Berubah fikiran",
+            "betterPrice": "Menemui harga yang lebih baik di tempat lain",
+            "mistake": "Pesanan tidak sengaja",
+            "longDelivery": "Masa penghantaran yang dijangka terlalu lama",
+            "other": "Lain-lain"
+        }
+    },
+    "account": {
+        "profile": "Profil",
+        "addresses": "Alamat",
+        "payment": "Pembayaran",
+        "notifications": "Pemberitahuan",
+        "profileInfo": "Maklumat Profil",
+        "changePhoto": "Tukar Foto",
+        "firstName": "Nama Pertama",
+        "lastName": "Nama Keluarga",
+        "email": "E-mel",
+        "phone": "Telefon",
+        "saveChanges": "Simpan Perubahan",
+        "savedAddresses": "Alamat Tersimpan",
+        "addAddress": "Tambah Alamat",
+        "default": "Lalai",
+        "edit": "Sunting",
+        "remove": "Buang",
+        "paymentMethods": "Kaedah Pembayaran",
+        "addCard": "Tambah Kad",
+        "expires": "Tamat {{date}}",
+        "notificationPrefs": "Keutamaan Pemberitahuan",
+        "orderUpdates": "Kemas Kini Pesanan",
+        "orderUpdatesDesc": "Pengesahan penghantaran dan amaran penghantaran",
+        "promotions": "Promosi & Tawaran",
+        "promotionsDesc": "Jualan, kod diskaun dan tawaran produk trending",
+        "sellerMessages": "Mesej Penjual",
+        "sellerMessagesDesc": "Maklum balas daripada penjual yang anda hubungi",
+        "wishlistAlerts": "Amaran Senarai Keinginan",
+        "wishlistAlertsDesc": "Penurunan harga pada item yang anda simpan",
+        "savePrefs": "Simpan Keutamaan"
+    },
+    "messages": {
+        "title": "Mesej",
+        "searchPlaceholder": "Cari mesej...",
+        "loading": "Memuatkan mesej...",
+        "emptyState": "Pilih perbualan",
+        "emptyStateDesc": "Pilih penjual untuk melihat mesej anda.",
+        "typeMessage": "Taip mesej..."
+    },
+    "blog": {
+        "title": "Toroongo Blog",
+        "subtitle": "Tips, updates, and insights for buyers and sellers.",
+        "loading": "Loading articles...",
+        "readArticle": "Read Article",
+        "noArticles": "No articles found",
+        "noArticlesDesc": "We are busy writing new content. Check back soon!",
+        "partnerPost": "Partner Post",
+        "articleNotFound": "Article not found",
+        "backToBlog": "Back to Blog",
+        "share": "Share"
+    },
+    "legal": {
+        "terms": {
+            "title": "Terms of Service",
+            "lastUpdated": "Last updated: March 1, 2026",
+            "sections": [
+                {
+                    "title": "1. Acceptance of Terms",
+                    "content": "By accessing or using the Toroongo platform, you agree to be bound by these Terms of Service. If you do not agree, you may not use our services."
+                },
+                {
+                    "title": "2. User Accounts",
+                    "content": "You must provide accurate information when creating an account. You are responsible for maintaining the security of your account credentials."
+                },
+                {
+                    "title": "3. Buyer Responsibilities",
+                    "content": "Buyers agree to pay for items purchased, provide accurate shipping information, and communicate respectfully with sellers."
+                },
+                {
+                    "title": "4. Seller Obligations",
+                    "content": "Sellers must provide accurate product descriptions, ship orders promptly, and comply with all applicable laws."
+                },
+                {
+                    "title": "5. Prohibited Activities",
+                    "content": "Users may not sell counterfeit goods, engage in fraud, or harass other users while using the platform."
+                },
+                {
+                    "title": "6. Limitation of Liability",
+                    "content": "Toroongo acts as a marketplace facilitator and is not responsible for the quality or legality of items sold by third-party sellers."
+                }
+            ]
+        },
+        "privacy": {
+            "title": "Privacy Policy",
+            "lastUpdated": "Last updated: March 1, 2026",
+            "sections": [
+                {
+                    "title": "1. Information We Collect",
+                    "content": "We collect information you provide directly (name, email) as well as usage data to improve your experience."
+                },
+                {
+                    "title": "2. How We Use Your Information",
+                    "content": "We use your data to process orders, personalize your shopping experience, and prevent fraud."
+                },
+                {
+                    "title": "3. Data Sharing",
+                    "content": "We share necessary information with sellers to fulfill orders. We do not sell personal data to third parties."
+                },
+                {
+                    "title": "4. Data Security",
+                    "content": "We implement industry-standard security measures including encryption to protect your information."
+                },
+                {
+                    "title": "5. Your Rights",
+                    "content": "You may request access to, correction of, or deletion of your personal data at any time."
+                }
+            ]
+        }
+    },
+    "sell": {
+        "hero": {
+            "title": "Sell on Toroongo",
+            "subtitle": "Launch your online store in minutes. Reach millions of buyers with your own customizable storefront.",
+            "cta": "Start Selling Free"
+        },
+        "features": {
+            "f1": {
+                "title": "Your Own Storefront",
+                "desc": "Customize your shop with your brand colors, logo, and banner."
+            },
+            "f2": {
+                "title": "Powerful Analytics",
+                "desc": "Track sales, revenue, and customer insights with your seller dashboard."
+            },
+            "f3": {
+                "title": "Global Audience",
+                "desc": "Access millions of buyers from around the world through the Toroongo marketplace."
+            },
+            "f4": {
+                "title": "Easy Management",
+                "desc": "List products, manage orders, and handle messages — all from one place."
+            }
+        },
+        "howItWorks": {
+            "title": "How It Works",
+            "s1": {
+                "title": "Sign Up",
+                "desc": "Create your seller account in under 2 minutes."
+            },
+            "s2": {
+                "title": "List Products",
+                "desc": "Add your products, set prices, and upload images."
+            },
+            "s3": {
+                "title": "Start Selling",
+                "desc": "Your store goes live and orders start coming in."
+            }
+        },
+        "pricing": {
+            "title": "Simple, Transparent Pricing",
+            "subtitle": "Keep 100% of your sales with 0% transaction fees.",
+            "features": [
+                "0% transaction fees forever",
+                "AI-powered seller tools included",
+                "Start for 0 BDT / month",
+                "Free storefront customization",
+                "Powerful analytics and support"
+            ],
+            "viewPlans": "View Pricing Plans",
+            "signup": "Create Seller Account"
+        }
+    },
+    "returns": {
+        "title": "Returns & Refunds",
+        "subtitle": "We want you to love every purchase. If something is not right, we make returns easy.",
+        "highlights": {
+            "h1": {
+                "title": "30-Day Returns",
+                "desc": "Return most items within 30 days of delivery."
+            },
+            "h2": {
+                "title": "Free Return Shipping",
+                "desc": "We cover return shipping on eligible items."
+            },
+            "h3": {
+                "title": "Fast Refunds",
+                "desc": "Refunds processed within 3-5 business days."
+            }
+        },
+        "howItWorks": {
+            "title": "How Returns Work",
+            "steps": [
+                {
+                    "step": "01",
+                    "title": "Initiate Return",
+                    "desc": "Go to My Orders and select the item you want to return."
+                },
+                {
+                    "step": "02",
+                    "title": "Pack & Ship",
+                    "desc": "Repackage the item and ship it using the provided label."
+                },
+                {
+                    "step": "03",
+                    "title": "Get Refunded",
+                    "desc": "Once inspected, your refund will be processed promptly."
+                }
+            ]
+        },
+        "eligibility": {
+            "title": "Return Eligibility",
+            "eligible": {
+                "title": "Eligible for Return",
+                "items": [
+                    "Unused items in original packaging",
+                    "Defective or damaged products",
+                    "Wrong item received",
+                    "Item significantly not as described"
+                ]
+            },
+            "notEligible": {
+                "title": "Not Eligible",
+                "items": [
+                    "Personalized or custom-made items",
+                    "Perishable goods",
+                    "Digital downloads",
+                    "Items returned after 30 days"
+                ]
+            }
+        },
+        "cta": {
+            "title": "Need to Return Something?",
+            "subtitle": "Start a return from your order history page or contact our support team."
+        }
+    },
+    "careers": {
+        "title": "Join the Toroongo Team",
+        "subtitle": "Help us reshape the future of e-commerce.",
+        "whyUs": "Why Work With Us",
+        "perks": {
+            "p1": {
+                "title": "Remote Friendly",
+                "desc": "Work from anywhere in the world."
+            },
+            "p2": {
+                "title": "Health & Wellness",
+                "desc": "Full medical, dental, and vision coverage."
+            },
+            "p3": {
+                "title": "Learning Budget",
+                "desc": "$2,000/year for courses and conferences."
+            },
+            "p4": {
+                "title": "Equity Package",
+                "desc": "Every team member is an owner."
+            }
+        },
+        "openings": "Open Positions",
+        "apply": "Apply",
+        "noRole": "Don't see a role for you?",
+        "noRoleDesc": "Send us your resume for future openings.",
+        "getInTouch": "Get in Touch"
+    },
+    "press": {
+        "title": "Press & Media",
+        "subtitle": "Get the latest news about Toroongo.",
+        "emailUs": "Email our media team",
+        "releases": "Press Releases",
+        "news": "In the News",
+        "assets": "Brand Assets",
+        "assetsDesc": "Download our logo and media kit.",
+        "download": "Download Media Kit",
+        "readMore": "Read More"
+    },
+    "shipping": {
+        "title": "Shipping & Delivery",
+        "subtitle": "Everything you need to know about how your orders are shipped.",
+        "options": {
+            "standard": {
+                "title": "Standard Shipping",
+                "time": "5-7 business days",
+                "price": "Free over $50"
+            },
+            "express": {
+                "title": "Express Shipping",
+                "time": "2-3 business days",
+                "price": "From $9.99"
+            },
+            "international": {
+                "title": "International",
+                "time": "7-14 business days",
+                "price": "From $14.99"
+            }
+        },
+        "details": {
+            "processing": {
+                "title": "Order Processing",
+                "desc": "Orders are typically processed within 1-2 business days. You will receive a confirmation email once your order ships."
+            },
+            "tracking": {
+                "title": "Tracking Your Order",
+                "desc": "Once your order has shipped, you can track it in real-time through your account dashboard."
+            },
+            "global": {
+                "title": "Global Shipping & Core Markets",
+                "desc1": "We are a global marketplace accessible everywhere. International orders may be subject to customs duties.",
+                "coreTitle": "Core Markets:",
+                "coreDesc": "We heavily focus on our 6 core markets: Bangladesh, Nepal, Malaysia, UAE, Indonesia, and India."
+            },
+            "protection": {
+                "title": "Shipping Protection",
+                "desc": "All shipments are insured against loss and damage during transit."
+            }
+        }
+    },
+    "dataPreferences": {
+        "title": "Data Preferences",
+        "lastUpdated": "Last updated: March 1, 2026",
+        "sections": [
+            {
+                "title": "1. What Are Cookies",
+                "content": "Cookies are small text files stored on your device that help us remember your preferences."
+            },
+            {
+                "title": "2. How We Use Cookies",
+                "content": "We use cookies for essential functions, preferences, analytics, and marketing."
+            },
+            {
+                "title": "3. Third-Party Cookies",
+                "content": "Some cookies are placed by third-party services like Google Analytics and payment processors."
+            },
+            {
+                "title": "4. Managing Cookies",
+                "content": "You can control cookies through your browser settings or our consent banner."
+            }
+        ]
+    },
+    "sellerResources": {
+        "title": "Seller Resources",
+        "subtitle": "Guides, tutorials, and tools to help you succeed.",
+        "guides": "Seller Guides",
+        "more": "More Resources",
+        "ready": "Ready to Start Selling?",
+        "readyDesc": "Create your free seller account today.",
+        "getStarted": "Get Started"
+    },
+    "sellerDashboard": {
+        "title": "Seller Hub",
+        "nav": {
+            "dashboard": "Dashboard",
+            "products": "Products",
+            "orders": "Orders",
+            "blogPosts": "Blog Posts",
+            "finance": "Finance",
+            "messages": "Messages",
+            "storefront": "Storefront",
+            "settings": "Settings",
+            "viewStore": "View My Store"
+        },
+        "stats": {
+            "totalRevenue": "Total Revenue",
+            "totalOrders": "Total Orders",
+            "productsListed": "Products Listed",
+            "storeViews": "Store Views",
+            "vsLastMonth": "vs last month"
+        },
+        "revenueOverview": {
+            "title": "Revenue Overview",
+            "last12Months": "Last 12 months"
+        },
+        "topProducts": {
+            "title": "Top Products",
+            "sold": "sold",
+            "noSales": "No sales yet."
+        },
+        "recentOrders": {
+            "title": "Recent Orders",
+            "order": "Order",
+            "customer": "Customer",
+            "product": "Product",
+            "total": "Total",
+            "status": "Status",
+            "noOrders": "No orders yet",
+            "loading": "Loading dashboard..."
+        }
+    },
+    "sellerOrders": {
+        "title": "Orders",
+        "stats": {
+            "pending": "Pending",
+            "shipped": "Shipped",
+            "completed": "Completed"
+        },
+        "filters": {
+            "searchPlaceholder": "Search by order ID or customer...",
+            "allStatus": "All Status",
+            "processing": "Processing",
+            "shipped": "Shipped",
+            "delivered": "Delivered"
+        },
+        "table": {
+            "order": "Order",
+            "date": "Date",
+            "customer": "Customer",
+            "product": "Product",
+            "total": "Total",
+            "status": "Status",
+            "action": "Action",
+            "view": "View",
+            "loading": "Loading orders...",
+            "noOrders": "No orders found",
+            "itemsCount": "{{count}}x items",
+            "moreItems": "+{{count}} more"
+        }
+    },
+    "sellerProducts": {
+        "title": "Products",
+        "addProduct": "Add Product",
+        "filters": {
+            "searchPlaceholder": "Search products...",
+            "allStatus": "All Status"
+        },
+        "status": {
+            "active": "Active",
+            "lowStock": "Low Stock",
+            "outOfStock": "Out of Stock",
+            "draft": "Draft"
+        },
+        "table": {
+            "product": "Product",
+            "category": "Category",
+            "price": "Price",
+            "stock": "Stock",
+            "status": "Status",
+            "actions": "Actions",
+            "loading": "Loading products...",
+            "noProducts": "No products found"
+        },
+        "actions": {
+            "view": "View",
+            "edit": "Edit",
+            "delete": "Delete"
+        }
+    }
+}

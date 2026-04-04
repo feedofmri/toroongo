@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { DollarSign, TrendingUp, Package, ShoppingBag, ArrowUp, ArrowDown, Eye } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { orderService, productService } from '../../services';
+import { formatPrice } from '../../utils/currency';
 
 const STATUS_STYLES = {
     processing: 'text-amber-600 bg-amber-50',
@@ -31,6 +33,7 @@ function MiniBarChart() {
 }
 
 export default function SellerDashboard() {
+    const { t } = useTranslation();
     const { user } = useAuth();
     const [stats, setStats] = useState({ revenue: 0, orderCount: 0, productsCount: 0 });
     const [recentOrders, setRecentOrders] = useState([]);
@@ -83,19 +86,19 @@ export default function SellerDashboard() {
     }, [user]);
 
     const displayStats = [
-        { label: 'Total Revenue', value: `$${stats.revenue.toFixed(2)}`, change: '+12.5%', up: true, icon: DollarSign },
-        { label: 'Total Orders', value: stats.orderCount, change: '+8.2%', up: true, icon: ShoppingBag },
-        { label: 'Products Listed', value: stats.productsCount, change: '+3', up: true, icon: Package },
-        { label: 'Store Views', value: '12.4K', change: '-2.1%', up: false, icon: Eye },
+        { label: t('sellerDashboard.stats.totalRevenue'), value: `${formatPrice(stats.revenue)}`, change: '+12.5%', up: true, icon: DollarSign },
+        { label: t('sellerDashboard.stats.totalOrders'), value: stats.orderCount, change: '+8.2%', up: true, icon: ShoppingBag },
+        { label: t('sellerDashboard.stats.productsListed'), value: stats.productsCount, change: '+3', up: true, icon: Package },
+        { label: t('sellerDashboard.stats.storeViews'), value: '12.4K', change: '-2.1%', up: false, icon: Eye },
     ];
 
     if (loading) {
-        return <div className="p-8 text-center text-text-muted">Loading dashboard...</div>;
+        return <div className="p-8 text-center text-text-muted">{t('sellerDashboard.recentOrders.loading')}</div>;
     }
 
     return (
         <div className="animate-fade-in">
-            <h2 className="text-2xl font-bold text-text-primary mb-6">Dashboard</h2>
+            <h2 className="text-2xl font-bold text-text-primary mb-6">{t('sellerDashboard.nav.dashboard')}</h2>
 
             {/* Stats Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -110,7 +113,7 @@ export default function SellerDashboard() {
                         <p className="text-2xl font-bold text-text-primary">{stat.value}</p>
                         <div className={`flex items-center gap-1 mt-1 text-xs font-medium ${stat.up ? 'text-green-600' : 'text-red-500'}`}>
                             {stat.up ? <ArrowUp size={12} /> : <ArrowDown size={12} />}
-                            {stat.change} <span className="text-text-muted font-normal">vs last month</span>
+                            {stat.change} <span className="text-text-muted font-normal">{t('sellerDashboard.stats.vsLastMonth')}</span>
                         </div>
                     </div>
                 ))}
@@ -120,18 +123,18 @@ export default function SellerDashboard() {
                 {/* Revenue Chart */}
                 <div className="lg:col-span-2 bg-white p-6 rounded-2xl border border-border-soft">
                     <div className="flex items-center justify-between mb-6">
-                        <h3 className="font-semibold text-text-primary">Revenue Overview</h3>
-                        <span className="text-xs text-text-muted bg-surface-bg px-2.5 py-1 rounded-lg">Last 12 months</span>
+                        <h3 className="font-semibold text-text-primary">{t('sellerDashboard.revenueOverview.title')}</h3>
+                        <span className="text-xs text-text-muted bg-surface-bg px-2.5 py-1 rounded-lg">{t('sellerDashboard.revenueOverview.last12Months')}</span>
                     </div>
                     <MiniBarChart />
                 </div>
 
                 {/* Top Products */}
                 <div className="bg-white p-6 rounded-2xl border border-border-soft">
-                    <h3 className="font-semibold text-text-primary mb-4">Top Products</h3>
+                    <h3 className="font-semibold text-text-primary mb-4">{t('sellerDashboard.topProducts.title')}</h3>
                     <div className="space-y-4">
                         {topProducts.length === 0 ? (
-                            <p className="text-sm text-text-muted">No sales yet.</p>
+                            <p className="text-sm text-text-muted">{t('sellerDashboard.topProducts.noSales')}</p>
                         ) : topProducts.map((product, idx) => (
                             <div key={product.name} className="flex items-center gap-3">
                                 <span className="w-6 h-6 bg-surface-bg rounded-lg flex items-center justify-center text-xs font-bold text-text-muted">
@@ -139,7 +142,7 @@ export default function SellerDashboard() {
                                 </span>
                                 <div className="flex-1 min-w-0">
                                     <p className="text-sm font-medium text-text-primary truncate">{product.name}</p>
-                                    <p className="text-xs text-text-muted">{product.sold} sold</p>
+                                    <p className="text-xs text-text-muted">{product.sold} {t('sellerDashboard.topProducts.sold')}</p>
                                 </div>
                                 <span className="text-sm font-semibold text-text-primary">${product.revenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                             </div>
@@ -151,23 +154,23 @@ export default function SellerDashboard() {
             {/* Recent Orders */}
             <div className="bg-white rounded-2xl border border-border-soft overflow-hidden">
                 <div className="px-6 py-4 border-b border-border-soft">
-                    <h3 className="font-semibold text-text-primary">Recent Orders</h3>
+                    <h3 className="font-semibold text-text-primary">{t('sellerDashboard.recentOrders.title')}</h3>
                 </div>
                 <div className="overflow-x-auto">
                     <table className="w-full">
                         <thead>
                             <tr className="bg-surface-bg text-left">
-                                <th className="px-6 py-3 text-xs font-medium text-text-muted uppercase">Order</th>
-                                <th className="px-6 py-3 text-xs font-medium text-text-muted uppercase">Customer</th>
-                                <th className="px-6 py-3 text-xs font-medium text-text-muted uppercase">Product</th>
-                                <th className="px-6 py-3 text-xs font-medium text-text-muted uppercase">Total</th>
-                                <th className="px-6 py-3 text-xs font-medium text-text-muted uppercase">Status</th>
+                                <th className="px-6 py-3 text-xs font-medium text-text-muted uppercase">{t('sellerDashboard.recentOrders.order')}</th>
+                                <th className="px-6 py-3 text-xs font-medium text-text-muted uppercase">{t('sellerDashboard.recentOrders.customer')}</th>
+                                <th className="px-6 py-3 text-xs font-medium text-text-muted uppercase">{t('sellerDashboard.recentOrders.product')}</th>
+                                <th className="px-6 py-3 text-xs font-medium text-text-muted uppercase">{t('sellerDashboard.recentOrders.total')}</th>
+                                <th className="px-6 py-3 text-xs font-medium text-text-muted uppercase">{t('sellerDashboard.recentOrders.status')}</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-border-soft">
                             {recentOrders.length === 0 ? (
                                 <tr>
-                                    <td colSpan="5" className="px-6 py-8 text-center text-text-muted">No orders yet</td>
+                                    <td colSpan="5" className="px-6 py-8 text-center text-text-muted">{t('sellerDashboard.recentOrders.noOrders')}</td>
                                 </tr>
                             ) : recentOrders.map((order) => {
                                 const customerName = order.shippingAddress ? `${order.shippingAddress.firstName} ${order.shippingAddress.lastName}` : 'Guest';
@@ -178,7 +181,7 @@ export default function SellerDashboard() {
                                         <td className="px-6 py-3.5 text-sm text-text-muted">
                                             <span className="line-clamp-1">{order.items.length > 0 ? `${order.items[0].quantity}x items` : 'N/A'}</span>
                                         </td>
-                                        <td className="px-6 py-3.5 text-sm font-medium text-text-primary">${(order.subtotal || 0).toFixed(2)}</td>
+                                        <td className="px-6 py-3.5 text-sm font-medium text-text-primary">{formatPrice((order.subtotal || 0))}</td>
                                         <td className="px-6 py-3.5">
                                             <span className={`text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${STATUS_STYLES[order.status] || STATUS_STYLES.processing}`}>
                                                 {order.status}

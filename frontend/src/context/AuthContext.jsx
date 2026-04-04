@@ -23,10 +23,10 @@ export function AuthProvider({ children }) {
     const login = async (email, password) => {
         setIsLoading(true);
         try {
-            const response = await authService.login(email, password);
-            setUser(response.user);
+            const loggedInUser = await authService.login(email, password);
+            setUser(loggedInUser);
             setIsAuthenticated(true);
-            return response;
+            return loggedInUser;
         } finally {
             setIsLoading(false);
         }
@@ -35,10 +35,10 @@ export function AuthProvider({ children }) {
     const register = async (userData) => {
         setIsLoading(true);
         try {
-            const response = await authService.register(userData);
-            setUser(response.user);
+            const registeredUser = await authService.register(userData);
+            setUser(registeredUser);
             setIsAuthenticated(true);
-            return response;
+            return registeredUser;
         } finally {
             setIsLoading(false);
         }

@@ -6,70 +6,75 @@ import {
     ChevronRight, LayoutDashboard, Settings, ShoppingBag,
     Bell, MessageSquare, Users, Star, MapPin, Paintbrush
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { useNotifications } from '../../contexts/NotificationContext';
 import NotificationDropdown from '../ui/NotificationDropdown';
+import LanguageSwitcher from './LanguageSwitcher';
 import logoColourful from '../../assets/Logo/logo_colourful.png';
 
 // ── Link Definitions ─────────────────────────────────────
 const BUYER_LINKS = [
-    { to: '/products', label: 'Shop All', icon: Package },
-    { to: '/shops', label: 'Stores', icon: Store },
-    { to: '/products?sale=true', label: 'Deals', icon: Percent },
-    { to: '/blog', label: 'Blog', icon: Newspaper },
-    { to: '/sell', label: 'Sell on Toroongo', icon: ShoppingBag },
-    { to: '/help', label: 'Help', icon: HelpCircle },
+    { to: '/products', label: 'nav.shopAll', icon: Package, default: 'Shop All' },
+    { to: '/shops', label: 'nav.stores', icon: Store, default: 'Stores' },
+    { to: '/products?sale=true', label: 'nav.deals', icon: Percent, default: 'Deals' },
+    { to: '/blog', label: 'nav.blog', icon: Newspaper, default: 'Blog' },
+    { to: '/sell', label: 'nav.sell', icon: ShoppingBag, default: 'Sell on Toroongo' },
+    { to: '/pricing', label: 'nav.pricing', icon: Tag, default: 'Pricing' },
+    { to: '/help', label: 'nav.help', icon: HelpCircle, default: 'Help' },
 ];
 
 const SELLER_LINKS = [
-    { to: '/seller', label: 'Dashboard', icon: LayoutDashboard },
-    { to: '/seller/products', label: 'My Products', icon: Package },
-    { to: '/seller/blogs', label: 'Blog Manager', icon: Newspaper },
-    { to: '/seller/storefront-builder', label: 'Storefront', icon: Paintbrush },
-    { to: '/sell/pricing', label: 'Pricing', icon: Tag },
-    { to: '/help', label: 'Help Center', icon: HelpCircle },
+    { to: '/seller', label: 'nav.dashboard', icon: LayoutDashboard, default: 'Dashboard' },
+    { to: '/seller/products', label: 'nav.myProducts', icon: Package, default: 'My Products' },
+    { to: '/seller/blogs', label: 'nav.blogManager', icon: Newspaper, default: 'Blog Manager' },
+    { to: '/seller/storefront-builder', label: 'nav.storefront', icon: Paintbrush, default: 'Storefront' },
+    { to: '/pricing', label: 'nav.pricing', icon: Tag, default: 'Pricing' },
+    { to: '/help', label: 'nav.helpCenter', icon: HelpCircle, default: 'Help Center' },
 ];
 
 const ADMIN_LINKS = [
-    { to: '/admin', label: 'Overview', icon: LayoutDashboard },
-    { to: '/admin/users', label: 'Users', icon: Users },
-    { to: '/admin/sellers', label: 'Sellers', icon: Store },
-    { to: '/admin/categories', label: 'Categories', icon: Tag },
-    { to: '/blog', label: 'Platform Blog', icon: Newspaper },
+    { to: '/admin', label: 'nav.overview', icon: LayoutDashboard, default: 'Overview' },
+    { to: '/admin/users', label: 'nav.users', icon: Users, default: 'Users' },
+    { to: '/admin/sellers', label: 'nav.sellers', icon: Store, default: 'Sellers' },
+    { to: '/admin/categories', label: 'nav.categories', icon: Tag, default: 'Categories' },
+    { to: '/blog', label: 'nav.platformBlog', icon: Newspaper, default: 'Platform Blog' },
 ];
 
 const GUEST_LINKS = [
-    { to: '/products', label: 'Products', icon: Package },
-    { to: '/shops', label: 'Shops', icon: Store },
-    { to: '/products?sale=true', label: 'Deals', icon: Percent },
-    { to: '/blog', label: 'Blog', icon: Newspaper },
-    { to: '/sell', label: 'Sell on Toroongo', icon: ShoppingBag },
-    { to: '/help', label: 'Help', icon: HelpCircle },
+    { to: '/products', label: 'nav.shopAll', icon: Package, default: 'Shop All' },
+    { to: '/shops', label: 'nav.stores', icon: Store, default: 'Stores' },
+    { to: '/products?sale=true', label: 'nav.deals', icon: Percent, default: 'Deals' },
+    { to: '/blog', label: 'nav.blog', icon: Newspaper, default: 'Blog' },
+    { to: '/sell', label: 'nav.sell', icon: ShoppingBag, default: 'Sell on Toroongo' },
+    { to: '/pricing', label: 'nav.pricing', icon: Tag, default: 'Pricing' },
+    { to: '/help', label: 'nav.help', icon: HelpCircle, default: 'Help' },
 ];
 
 // ── Mobile drawer sections ────────────────────────────────
 const MOBILE_SHOP_LINKS = [
-    { to: '/products', label: 'All Products', icon: Package },
+    { to: '/products', label: 'nav.shopAll', icon: Package, default: 'All Products' },
     { to: '/products?category=electronics', label: 'Electronics', icon: null },
     { to: '/products?category=fashion', label: 'Fashion', icon: null },
     { to: '/products?category=home-living', label: 'Home & Living', icon: null },
     { to: '/products?category=beauty', label: 'Beauty', icon: null },
     { to: '/products?category=sports', label: 'Sports & Outdoors', icon: null },
     { to: '/products?category=books', label: 'Books', icon: null },
-    { to: '/products?sale=true', label: 'Deals & Offers', icon: Tag },
-    { to: '/shops', label: 'Browse Shops', icon: Store },
+    { to: '/products?sale=true', label: 'nav.deals', icon: Tag, default: 'Deals & Offers' },
+    { to: '/shops', label: 'nav.stores', icon: Store, default: 'Browse Shops' },
 ];
 
 const MOBILE_INFO_LINKS = [
-    { to: '/blog', label: 'Blog', icon: Newspaper },
-    { to: '/help', label: 'Help Center', icon: HelpCircle },
+    { to: '/blog', label: 'nav.blog', icon: Newspaper, default: 'Blog' },
+    { to: '/help', label: 'nav.help', icon: HelpCircle, default: 'Help Center' },
     { to: '/about', label: 'About Us', icon: null },
     { to: '/contact', label: 'Contact', icon: null },
 ];
 
 export default function Navbar() {
+    const { t } = useTranslation();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [searchFocused, setSearchFocused] = useState(false);
     const [scrolled, setScrolled] = useState(false);
@@ -169,7 +174,7 @@ export default function Navbar() {
                             <Search size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none" />
                             <input
                                 type="text"
-                                placeholder="Search products, sellers, categories..."
+                                placeholder={t('nav.search', 'Search products, sellers, categories...')}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 onKeyDown={handleSearch}
@@ -244,6 +249,11 @@ export default function Navbar() {
                                 )}
                             </Link>
                         )}
+
+                        {/* Language Switcher */}
+                        <div className="hidden sm:block">
+                            <LanguageSwitcher />
+                        </div>
 
                         {/* Cart */}
                         {(!isAuthenticated || user?.role === 'buyer') && (
@@ -347,14 +357,14 @@ export default function Navbar() {
                                                     onClick={() => setUserDropdownOpen(false)}
                                                     className="flex items-center gap-2.5 px-3 py-2 text-sm text-text-primary hover:text-brand-primary hover:bg-brand-primary/5 rounded-lg transition-colors"
                                                 >
-                                                    <ShoppingBag size={15} className="text-text-muted" /> My Orders
+                                                    <ShoppingBag size={15} className="text-text-muted" /> {t('nav.myOrders', 'My Orders')}
                                                 </Link>
                                                 <Link
                                                     to="/account/reviews"
                                                     onClick={() => setUserDropdownOpen(false)}
                                                     className="flex items-center gap-2.5 px-3 py-2 text-sm text-text-primary hover:text-brand-primary hover:bg-brand-primary/5 rounded-lg transition-colors"
                                                 >
-                                                    <Star size={15} className="text-text-muted" /> My Reviews
+                                                    <Star size={15} className="text-text-muted" /> {t('nav.myReviews', 'My Reviews')}
                                                 </Link>
                                             </>
                                         )}
@@ -363,7 +373,7 @@ export default function Navbar() {
                                             onClick={() => setUserDropdownOpen(false)}
                                             className="flex items-center gap-2.5 px-3 py-2 text-sm text-text-primary hover:text-brand-primary hover:bg-brand-primary/5 rounded-lg transition-colors"
                                         >
-                                            <Settings size={15} className="text-text-muted" /> Settings
+                                            <Settings size={15} className="text-text-muted" /> {t('nav.settings', 'Settings')}
                                         </Link>
                                     </div>
                                     <div className="p-1.5 border-t border-border-soft">
@@ -371,7 +381,7 @@ export default function Navbar() {
                                             onClick={() => { logout(); setUserDropdownOpen(false); }}
                                             className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                                         >
-                                            <LogOut size={15} /> Sign out
+                                            <LogOut size={15} /> {t('nav.signOut', 'Sign out')}
                                         </button>
                                     </div>
                                 </div>
@@ -409,7 +419,7 @@ export default function Navbar() {
                                             : 'text-text-muted hover:text-text-primary hover:bg-surface-bg'}`}
                                 >
                                     <link.icon size={14} />
-                                    {link.label}
+                                    {t(link.label, link.default)}
                                 </Link>
                             );
                         })}
@@ -488,7 +498,7 @@ export default function Navbar() {
                                     <span className="flex items-center gap-2.5">
                                         {link.icon && <link.icon size={15} className="text-text-muted" />}
                                         {!link.icon && <span className="w-[15px]" />}
-                                        {link.label}
+                                        {t(link.label, link.default)}
                                     </span>
                                     <ChevronRight size={14} className="text-text-muted/40" />
                                 </Link>
@@ -579,7 +589,7 @@ export default function Navbar() {
                                     className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors"
                                 >
                                     {link.icon ? <link.icon size={15} className="text-text-muted" /> : <span className="w-[15px]" />}
-                                    {link.label}
+                                    {t(link.label, link.default)}
                                 </Link>
                             ))}
                         </div>

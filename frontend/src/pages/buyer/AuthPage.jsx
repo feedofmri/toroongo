@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Mail, Lock, User, Eye, EyeOff, ArrowRight, Loader2, Store, ShoppingBag } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import iconColourful from '../../assets/Logo/icon_colourful.png';
 
 export default function AuthPage() {
+    const { t } = useTranslation();
     const location = useLocation();
     const navigate = useNavigate();
     const isLogin = location.pathname === '/login';
@@ -28,7 +30,7 @@ export default function AuthPage() {
         setError('');
 
         if (!formData.email || !formData.password) {
-            return setError('Please fill in all required fields');
+            return setError(t('auth.errorRequired'));
         }
 
         try {
@@ -36,12 +38,12 @@ export default function AuthPage() {
                 await login(formData.email, formData.password);
                 navigate('/');
             } else {
-                if (!formData.name) return setError('Name is required');
+                if (!formData.name) return setError(t('auth.errorName'));
                 if (formData.password !== formData.confirmPassword) {
-                    return setError('Passwords do not match');
+                    return setError(t('auth.errorPasswordMatch'));
                 }
                 if (formData.accountType === 'seller' && !formData.storeName.trim()) {
-                    return setError('Store name is required for seller accounts');
+                    return setError(t('auth.errorStoreName'));
                 }
                 await register({
                     name: formData.name,
@@ -53,7 +55,7 @@ export default function AuthPage() {
                 navigate(formData.accountType === 'seller' ? '/seller' : '/');
             }
         } catch (err) {
-            setError(err.message || 'An error occurred during authentication');
+            setError(err.message || t('auth.authError'));
         }
     };
 
@@ -68,16 +70,16 @@ export default function AuthPage() {
                 <div className="w-full max-w-md mx-auto px-4 py-16">
                     <div className="text-center mb-8">
                         <img src={iconColourful} alt="Toroongo" className="w-14 h-14 mx-auto mb-4" />
-                        <h1 className="text-2xl font-bold text-text-primary mb-2">Reset Your Password</h1>
+                        <h1 className="text-2xl font-bold text-text-primary mb-2">{t('auth.resetPassword')}</h1>
                         <p className="text-sm text-text-muted">
-                            Enter your email and we'll send you a link to reset your password.
+                            {t('auth.resetDesc')}
                         </p>
                     </div>
 
                     <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
                         <div className="relative">
                             <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
-                            <input type="email" placeholder="Email address" value={formData.email}
+                            <input type="email" placeholder={t('auth.emailAddress')} value={formData.email}
                                 onChange={(e) => handleChange('email', e.target.value)} className={inputClass} />
                         </div>
 
@@ -86,13 +88,13 @@ export default function AuthPage() {
                             className="w-full py-3.5 bg-brand-primary text-white font-semibold rounded-xl
                        hover:bg-brand-secondary transition-colors flex items-center justify-center gap-2"
                         >
-                            Send Reset Link <ArrowRight size={16} />
+                            {t('auth.sendResetLink')} <ArrowRight size={16} />
                         </button>
                     </form>
 
                     <p className="mt-6 text-center text-sm text-text-muted">
-                        Remember your password?{' '}
-                        <Link to="/login" className="text-brand-primary font-medium hover:text-brand-secondary">Log in</Link>
+                        {t('auth.rememberPassword')}{' '}
+                        <Link to="/login" className="text-brand-primary font-medium hover:text-brand-secondary">{t('auth.login')}</Link>
                     </p>
                 </div>
             </div>
@@ -106,21 +108,21 @@ export default function AuthPage() {
                 <div className="text-center mb-8">
                     <img src={iconColourful} alt="Toroongo" className="w-14 h-14 mx-auto mb-4" />
                     <h1 className="text-2xl font-bold text-text-primary mb-2">
-                        {isLogin ? 'Welcome Back' : 'Create Your Account'}
+                        {isLogin ? t('auth.welcomeBack') : t('auth.createAccount')}
                     </h1>
                     <p className="text-sm text-text-muted">
                         {isLogin
-                            ? 'Log in to continue shopping on Toroongo.'
+                            ? t('auth.loginDesc')
                             : formData.accountType === 'seller'
-                                ? 'Start selling on Toroongo and grow your business.'
-                                : 'Join Toroongo and start discovering amazing products.'}
+                                ? t('auth.sellerSignupDesc')
+                                : t('auth.buyerSignupDesc')}
                     </p>
                 </div>
 
                 {/* Account type toggle (signup only) */}
                 {!isLogin && (
                     <div className="mb-6">
-                        <p className="text-xs font-medium text-text-muted mb-2.5 text-center">I want to</p>
+                        <p className="text-xs font-medium text-text-muted mb-2.5 text-center">{t('auth.iWantTo')}</p>
                         <div className="grid grid-cols-2 gap-3">
                             <button
                                 type="button"
@@ -135,8 +137,8 @@ export default function AuthPage() {
                                     <ShoppingBag size={17} />
                                 </div>
                                 <div>
-                                    <p className={`text-sm font-semibold ${formData.accountType === 'buyer' ? 'text-brand-primary' : 'text-text-primary'}`}>Buy</p>
-                                    <p className="text-[10px] text-text-muted leading-tight">Shop & discover</p>
+                                    <p className={`text-sm font-semibold ${formData.accountType === 'buyer' ? 'text-brand-primary' : 'text-text-primary'}`}>{t('auth.buy')}</p>
+                                    <p className="text-[10px] text-text-muted leading-tight">{t('auth.buyDesc')}</p>
                                 </div>
                             </button>
                             <button
@@ -152,8 +154,8 @@ export default function AuthPage() {
                                     <Store size={17} />
                                 </div>
                                 <div>
-                                    <p className={`text-sm font-semibold ${formData.accountType === 'seller' ? 'text-brand-primary' : 'text-text-primary'}`}>Sell</p>
-                                    <p className="text-[10px] text-text-muted leading-tight">Open your shop</p>
+                                    <p className={`text-sm font-semibold ${formData.accountType === 'seller' ? 'text-brand-primary' : 'text-text-primary'}`}>{t('auth.sell')}</p>
+                                    <p className="text-[10px] text-text-muted leading-tight">{t('auth.sellDesc')}</p>
                                 </div>
                             </button>
                         </div>
@@ -165,14 +167,14 @@ export default function AuthPage() {
                     <button className="w-full py-3 border border-border-soft rounded-xl text-sm font-medium text-text-primary
                            hover:bg-surface-bg transition-colors flex items-center justify-center gap-3">
                         <svg className="w-5 h-5" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" /><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" /><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" /><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" /></svg>
-                        Continue with Google
+                        {t('auth.continueWithGoogle')}
                     </button>
                 </div>
 
                 {/* Divider */}
                 <div className="flex items-center gap-4 mb-6">
                     <div className="flex-1 h-px bg-border-soft" />
-                    <span className="text-xs text-text-muted uppercase">or</span>
+                    <span className="text-xs text-text-muted uppercase">{t('auth.or')}</span>
                     <div className="flex-1 h-px bg-border-soft" />
                 </div>
 
@@ -187,7 +189,7 @@ export default function AuthPage() {
                     {!isLogin && (
                         <div className="relative">
                             <User size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
-                            <input type="text" placeholder="Full name" value={formData.name}
+                            <input type="text" placeholder={t('auth.fullName')} value={formData.name}
                                 onChange={(e) => handleChange('name', e.target.value)} className={inputClass} />
                         </div>
                     )}
@@ -195,14 +197,14 @@ export default function AuthPage() {
                     {!isLogin && formData.accountType === 'seller' && (
                         <div className="relative">
                             <Store size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
-                            <input type="text" placeholder="Store name" value={formData.storeName}
+                            <input type="text" placeholder={t('auth.storeName')} value={formData.storeName}
                                 onChange={(e) => handleChange('storeName', e.target.value)} className={inputClass} />
                         </div>
                     )}
 
                     <div className="relative">
                         <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
-                        <input type="email" placeholder="Email address" value={formData.email}
+                        <input type="email" placeholder={t('auth.emailAddress')} value={formData.email}
                             onChange={(e) => handleChange('email', e.target.value)} className={inputClass} />
                     </div>
 
@@ -210,7 +212,7 @@ export default function AuthPage() {
                         <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                         <input
                             type={showPassword ? 'text' : 'password'}
-                            placeholder="Password"
+                            placeholder={t('auth.password')}
                             value={formData.password}
                             onChange={(e) => handleChange('password', e.target.value)}
                             className={inputClass}
@@ -229,7 +231,7 @@ export default function AuthPage() {
                             <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                             <input
                                 type="password"
-                                placeholder="Confirm password"
+                                placeholder={t('auth.confirmPassword')}
                                 value={formData.confirmPassword}
                                 onChange={(e) => handleChange('confirmPassword', e.target.value)}
                                 className={inputClass}
@@ -240,7 +242,7 @@ export default function AuthPage() {
                     {isLogin && (
                         <div className="flex justify-end">
                             <Link to="/forgot-password" className="text-xs text-brand-primary font-medium hover:text-brand-secondary">
-                                Forgot password?
+                                {t('auth.forgotPassword')}
                             </Link>
                         </div>
                     )}
@@ -251,32 +253,32 @@ export default function AuthPage() {
                         className="w-full py-3.5 bg-brand-primary text-white font-semibold rounded-xl
                      hover:bg-brand-secondary transition-colors shadow-lg shadow-brand-primary/20 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                     >
-                        {isLoading ? <Loader2 size={16} className="animate-spin" /> : (isLogin ? 'Log In' : formData.accountType === 'seller' ? 'Create Seller Account' : 'Create Account')}
+                        {isLoading ? <Loader2 size={16} className="animate-spin" /> : (isLogin ? t('auth.loginButton') : formData.accountType === 'seller' ? t('auth.signupSeller') : t('auth.signupBuyer'))}
                         {!isLoading && <ArrowRight size={16} />}
                     </button>
                 </form>
 
                 {/* Switch auth mode */}
                 <p className="mt-6 text-center text-sm text-text-muted">
-                    {isLogin ? "Don't have an account? " : 'Already have an account? '}
+                    {isLogin ? t('auth.dontHaveAccount') : t('auth.alreadyHaveAccount')}
                     <Link
                         to={isLogin ? '/signup' : '/login'}
                         className="text-brand-primary font-medium hover:text-brand-secondary"
                     >
-                        {isLogin ? 'Sign up' : 'Log in'}
+                        {isLogin ? t('auth.signup') : t('auth.login')}
                     </Link>
                 </p>
 
                 {/* Terms */}
                 {!isLogin && (
                     <p className="mt-4 text-center text-xs text-text-muted leading-relaxed">
-                        By creating {formData.accountType === 'seller' ? 'a seller' : 'an'} account, you agree to our{' '}
-                        <Link to="/terms" className="text-brand-primary hover:text-brand-secondary">Terms of Service</Link>
+                        {t('auth.termsAgreement')} {formData.accountType === 'seller' ? 'a seller' : 'an'} account, you agree to our{' '}
+                        <Link to="/terms" className="text-brand-primary hover:text-brand-secondary">{t('auth.termsOfService')}</Link>
                         {formData.accountType === 'seller' && (
-                            <>, <Link to="/sell" className="text-brand-primary hover:text-brand-secondary">Seller Agreement</Link></>
+                            <>, <Link to="/sell" className="text-brand-primary hover:text-brand-secondary">{t('auth.sellerAgreement')}</Link></>
                         )}
                         {' '}and{' '}
-                        <Link to="/privacy" className="text-brand-primary hover:text-brand-secondary">Privacy Policy</Link>.
+                        <Link to="/privacy" className="text-brand-primary hover:text-brand-secondary">{t('auth.privacyPolicy')}</Link>.
                     </p>
                 )}
             </div>

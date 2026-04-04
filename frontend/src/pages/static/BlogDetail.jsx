@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Clock, User, Calendar, Share2, Facebook, Twitter, Link as LinkIcon, ChevronRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { blogService } from '../../services';
 
 export default function BlogDetail() {
+    const { t } = useTranslation();
     const { slug } = useParams();
     const [blog, setBlog] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -19,7 +21,7 @@ export default function BlogDetail() {
                 blogService.incrementViews(data.id);
             } catch (err) {
                 console.error('Error fetching blog:', err);
-                setError('Article not found');
+                setError(t('blog.articleNotFound'));
             } finally {
                 setLoading(false);
             }
@@ -33,7 +35,7 @@ export default function BlogDetail() {
         return (
             <div className="max-w-4xl mx-auto px-4 py-20 flex flex-col items-center justify-center space-y-4">
                 <div className="w-10 h-10 border-4 border-brand-primary/20 border-t-brand-primary rounded-full animate-spin"></div>
-                <p className="text-text-muted font-medium">Loading article...</p>
+                <p className="text-text-muted font-medium">{t('blog.loading')}</p>
             </div>
         );
     }
@@ -43,7 +45,7 @@ export default function BlogDetail() {
             <div className="max-w-4xl mx-auto px-4 py-20 text-center">
                 <h2 className="text-2xl font-bold text-text-primary mb-4">{error}</h2>
                 <Link to="/blog" className="text-brand-primary font-semibold hover:underline flex items-center justify-center gap-2">
-                    <ArrowLeft size={18} /> Back to Blog
+                    <ArrowLeft size={18} /> {t('blog.backToBlog')}
                 </Link>
             </div>
         );
@@ -55,9 +57,9 @@ export default function BlogDetail() {
             <div className="bg-surface-bg border-b border-border-soft">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <nav className="flex items-center gap-2 text-xs font-medium text-text-muted">
-                        <Link to="/" className="hover:text-brand-primary transition-colors">Home</Link>
+                        <Link to="/" className="hover:text-brand-primary transition-colors">{t('product.home')}</Link>
                         <ChevronRight size={12} />
-                        <Link to="/blog" className="hover:text-brand-primary transition-colors">Blog</Link>
+                        <Link to="/blog" className="hover:text-brand-primary transition-colors">{t('nav.blog')}</Link>
                         <ChevronRight size={12} />
                         <span className="text-text-primary truncate">{blog.title}</span>
                     </nav>
@@ -86,7 +88,7 @@ export default function BlogDetail() {
                         </div>
                         <div className="flex items-center gap-1.5">
                             <Calendar size={16} />
-                            <span>{new Date(blog.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                            <span>{new Date(blog.createdAt).toLocaleDateString(t('common.dateLocale'), { month: 'long', day: 'numeric', year: 'numeric' })}</span>
                         </div>
                     </div>
                 </header>
@@ -114,7 +116,7 @@ export default function BlogDetail() {
                     {/* Footer / Social Share */}
                     <div className="mt-16 pt-10 border-t border-border-soft flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                         <div className="flex items-center gap-3">
-                            <span className="text-sm font-bold text-text-primary">Share:</span>
+                            <span className="text-sm font-bold text-text-primary">{t('blog.share')}:</span>
                             <div className="flex gap-2">
                                 <button className="p-2 bg-surface-bg hover:bg-brand-primary/10 hover:text-brand-primary rounded-xl transition-all border border-border-soft">
                                     <Facebook size={18} />
@@ -128,7 +130,7 @@ export default function BlogDetail() {
                             </div>
                         </div>
                         <Link to="/blog" className="inline-flex items-center gap-2 text-sm font-bold text-brand-primary hover:text-brand-secondary transition-colors">
-                            <ArrowLeft size={18} /> Back to all articles
+                            <ArrowLeft size={18} /> {t('blog.backToBlog')}
                         </Link>
                     </div>
                 </div>

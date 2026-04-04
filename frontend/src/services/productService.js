@@ -1,70 +1,42 @@
-import { localDB } from '../db/localDB';
-import { Product } from '../models';
-
-const DELAY = 500;
-const simulateDelay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+import { api } from './api';
 
 export const productService = {
     async getAllProducts() {
-        await simulateDelay(DELAY);
-        return [...localDB.data.products]; // Return a copy
+        return await api('/products');
     },
 
     async getProductById(id) {
-        await simulateDelay(DELAY);
-        const product = localDB.data.products.find(p => p.id === id);
-        if (!product) throw new Error('Product not found');
-        return product;
+        return await api(`/products/${id}`);
     },
 
     async getProductsBySeller(sellerId) {
-        await simulateDelay(DELAY);
-        return localDB.data.products.filter(p => p.sellerId === sellerId);
+        return await api(`/products/seller/${sellerId}`);
     },
 
     async getProductsByCategory(categorySlug) {
-        await simulateDelay(DELAY);
-        return localDB.data.products.filter(p => p.category === categorySlug);
+        return await api(`/products/category/${categorySlug}`);
     },
 
     async searchProducts(query) {
-        await simulateDelay(DELAY);
-        const search = query.toLowerCase();
-        return localDB.data.products.filter(p =>
-            p.title.toLowerCase().includes(search) ||
-            p.description.toLowerCase().includes(search)
-        );
+        return await api(`/products?search=${encodeURIComponent(query)}`);
     },
 
     async createProduct(productData) {
-        await simulateDelay(DELAY);
-        const newProduct = new Product(productData);
-        localDB.data.products.push(newProduct);
-        localDB.save();
-        return newProduct;
+        return await api('/products', {
+            method: 'POST',
+            body: JSON.stringify(productData),
+        });
     },
 
     async updateProduct(id, updateData) {
-        await simulateDelay(DELAY);
-        const index = localDB.data.products.findIndex(p => p.id === id);
-        if (index === -1) throw new Error('Product not found');
-
-        localDB.data.products[index] = {
-            ...localDB.data.products[index],
-            ...updateData,
-            updatedAt: new Date().toISOString()
-        };
-        localDB.save();
-        return localDB.data.products[index];
+        return await api(`/products/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(updateData),
+        });
     },
 
     async deleteProduct(id) {
-        await simulateDelay(DELAY);
-        const index = localDB.data.products.findIndex(p => p.id === id);
-        if (index === -1) throw new Error('Product not found');
-
-        localDB.data.products.splice(index, 1);
-        localDB.save();
+        return await api(`/products/${id}`, { method: 'DELETE' });
         return true;
     }
 };

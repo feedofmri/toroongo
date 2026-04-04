@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import { ShoppingCart, Heart, Truck, ShieldCheck, RotateCcw, Minus, Plus, ChevronRight, Star, MessageSquare, Check, Store, ExternalLink } from 'lucide-react';
 import StarRating from '../../components/ui/StarRating';
@@ -10,6 +11,7 @@ import { useWishlist } from '../../context/WishlistContext';
 import { messageService } from '../../services';
 import { sellers } from '../../data/mockData';
 import { resolveSellerSlug } from '../../utils/resolveSellerSlug';
+import { formatPrice } from '../../utils/currency';
 
 const MOCK_REVIEWS = [
     { id: 1, name: 'Sarah M.', rating: 5, date: '2 weeks ago', text: 'Absolutely love this product! Quality is amazing and it arrived faster than expected. Definitely worth the price.' },
@@ -18,6 +20,7 @@ const MOCK_REVIEWS = [
 ];
 
 export default function ProductDetail() {
+    const { t } = useTranslation();
     const { id } = useParams();
     const { products: allProducts } = useProduct();
     const { addToCart } = useCart();
@@ -41,10 +44,10 @@ export default function ProductDetail() {
     if (!product) {
         return (
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
-                <h1 className="text-2xl font-bold text-text-primary mb-3">Product Not Found</h1>
-                <p className="text-text-muted mb-6">The product you're looking for doesn't exist or has been removed.</p>
+                <h1 className="text-2xl font-bold text-text-primary mb-3">{t('product.notFound')}</h1>
+                <p className="text-text-muted mb-6">{t('product.notFoundDesc')}</p>
                 <Link to="/" className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
-                    Back to Home
+                    {t('product.backToHome')}
                 </Link>
             </div>
         );
@@ -86,7 +89,7 @@ export default function ProductDetail() {
             <div className="bg-surface-bg border-b border-border-soft">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
                     <nav className="flex items-center text-sm text-text-muted gap-1.5">
-                        <Link to="/" className="hover:text-brand-primary transition-colors">Home</Link>
+                        <Link to="/" className="hover:text-brand-primary transition-colors">{t('product.home')}</Link>
                         <ChevronRight size={14} />
                         <Link to={`/products?category=${product.category}`} className="hover:text-brand-primary transition-colors capitalize">
                             {product.category.replace('-', ' & ')}
@@ -143,12 +146,12 @@ export default function ProductDetail() {
                         {/* Price */}
                         <div className="flex items-baseline gap-3 mb-6">
                             <span className="text-3xl font-bold text-text-primary">
-                                ${product.price.toFixed(2)}
+                                {formatPrice(product.price)}
                             </span>
                             {product.originalPrice && (
                                 <>
                                     <span className="text-lg text-text-muted line-through">
-                                        ${product.originalPrice.toFixed(2)}
+                                        {formatPrice(product.originalPrice)}
                                     </span>
                                     <span className="text-sm font-semibold text-green-600 bg-green-50 px-2 py-1 rounded-lg">
                                         Save {product.discount}%
@@ -169,7 +172,7 @@ export default function ProductDetail() {
 
                         {/* Quantity */}
                         <div className="flex items-center gap-4 mb-6">
-                            <span className="text-sm font-medium text-text-primary">Quantity</span>
+                            <span className="text-sm font-medium text-text-primary">{t('product.quantity')}</span>
                             <div className="flex items-center border border-border-soft rounded-xl overflow-hidden">
                                 <button
                                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -194,7 +197,7 @@ export default function ProductDetail() {
                                 className={`flex-1 flex items-center justify-center gap-2 py-3.5 text-white font-semibold
                          rounded-xl transition-colors shadow-lg ${added ? 'bg-green-600 shadow-green-600/20' : 'bg-brand-primary shadow-brand-primary/20 hover:bg-brand-secondary'}`}
                             >
-                                {added ? <><Check size={18} /> Added to Cart</> : <><ShoppingCart size={18} /> Add to Cart</>}
+                                {added ? <><Check size={18} /> {t('product.addedToCart')}</> : <><ShoppingCart size={18} /> {t('product.addToCart')}</>}
                             </button>
                             <button
                                 onClick={() => {
@@ -222,7 +225,7 @@ export default function ProductDetail() {
                                        hover:text-brand-primary transition-colors"
                         >
                             <MessageSquare size={16} />
-                            Contact Seller
+                            {t('product.contactSeller')}
                         </button>
 
                         {/* Sold By — Seller Info Card */}
@@ -230,7 +233,7 @@ export default function ProductDetail() {
                             const sellerData = sellers.find(s => `seller_${s.id}` === product.sellerId);
                             return sellerData ? (
                                 <div className="bg-surface-bg rounded-xl p-4 mb-6 border border-border-soft">
-                                    <p className="text-[11px] text-text-muted uppercase tracking-wider font-semibold mb-3">Sold By</p>
+                                    <p className="text-[11px] text-text-muted uppercase tracking-wider font-semibold mb-3">{t('product.soldBy')}</p>
                                     <div className="flex items-center gap-3 mb-3">
                                         <div className="w-11 h-11 rounded-xl overflow-hidden border border-border-soft bg-white">
                                             <img
@@ -260,7 +263,7 @@ export default function ProductDetail() {
                                         className="w-full flex items-center justify-center gap-1.5 py-2.5 bg-brand-primary/10 text-brand-primary
                                                    text-xs font-semibold rounded-lg hover:bg-brand-primary/20 transition-colors"
                                     >
-                                        <Store size={13} /> Visit Shop <ExternalLink size={11} />
+                                        <Store size={13} /> {t('product.visitShop')} <ExternalLink size={11} />
                                     </Link>
                                 </div>
                             ) : null;
@@ -270,18 +273,18 @@ export default function ProductDetail() {
                         <div className="grid grid-cols-3 gap-3">
                             <div className="flex flex-col items-center p-3 bg-surface-bg rounded-xl text-center">
                                 <Truck size={18} className="text-brand-primary mb-1.5" />
-                                <span className="text-xs font-medium text-text-primary">Free Shipping</span>
-                                <span className="text-[10px] text-text-muted">Orders $50+</span>
+                                <span className="text-xs font-medium text-text-primary">{t('product.freeShipping')}</span>
+                                <span className="text-[10px] text-text-muted">{t('product.freeShippingDesc')}</span>
                             </div>
                             <div className="flex flex-col items-center p-3 bg-surface-bg rounded-xl text-center">
                                 <ShieldCheck size={18} className="text-brand-primary mb-1.5" />
-                                <span className="text-xs font-medium text-text-primary">Buyer Protection</span>
-                                <span className="text-[10px] text-text-muted">Money-back guarantee</span>
+                                <span className="text-xs font-medium text-text-primary">{t('product.buyerProtection')}</span>
+                                <span className="text-[10px] text-text-muted">{t('product.buyerProtectionDesc')}</span>
                             </div>
                             <div className="flex flex-col items-center p-3 bg-surface-bg rounded-xl text-center">
                                 <RotateCcw size={18} className="text-brand-primary mb-1.5" />
-                                <span className="text-xs font-medium text-text-primary">Easy Returns</span>
-                                <span className="text-[10px] text-text-muted">30-day policy</span>
+                                <span className="text-xs font-medium text-text-primary">{t('product.easyReturns')}</span>
+                                <span className="text-[10px] text-text-muted">{t('product.easyReturnsDesc')}</span>
                             </div>
                         </div>
                     </div>
@@ -300,7 +303,7 @@ export default function ProductDetail() {
                                         : 'text-text-muted hover:text-text-primary'
                                     }`}
                             >
-                                {tab === 'reviews' ? `Reviews (${product.reviews.toLocaleString()})` : tab}
+                                {tab === 'reviews' ? t('product.reviews', { count: product.reviews }) : t(`product.${tab}`)}
                                 {activeTab === tab && (
                                     <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand-primary rounded-full" />
                                 )}
@@ -319,7 +322,7 @@ export default function ProductDetail() {
                                 Whether you're a professional or an enthusiast, this product delivers exceptional performance
                                 that exceeds expectations.
                             </p>
-                            <h4 className="text-text-primary font-semibold pt-2">Highlights</h4>
+                            <h4 className="text-text-primary font-semibold pt-2">{t('product.highlights')}</h4>
                             <ul className="list-disc list-inside space-y-1.5 text-text-muted">
                                 <li>Premium materials and build quality</li>
                                 <li>Industry-leading performance</li>
@@ -354,7 +357,7 @@ export default function ProductDetail() {
                 {/* ── Related Products ──────────────────────────────── */}
                 {relatedProducts.length > 0 && (
                     <section className="mt-16">
-                        <h2 className="text-2xl font-bold text-text-primary tracking-tight mb-6">You May Also Like</h2>
+                        <h2 className="text-2xl font-bold text-text-primary tracking-tight mb-6">{t('product.mayAlsoLike')}</h2>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                             {relatedProducts.map((p) => (
                                 <ProductCard key={p.id} product={p} />
@@ -369,7 +372,7 @@ export default function ProductDetail() {
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
                     <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden">
                         <div className="p-5 border-b border-border-soft flex justify-between items-center bg-surface-bg">
-                            <h3 className="font-bold text-text-primary">Contact {product.seller}</h3>
+                            <h3 className="font-bold text-text-primary">{t('product.contactSeller')}</h3>
                             <button onClick={() => setShowMessageModal(false)} className="text-text-muted hover:text-text-primary text-xl">&times;</button>
                         </div>
                         <div className="p-5">
@@ -378,8 +381,8 @@ export default function ProductDetail() {
                                     <div className="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
                                         <ShieldCheck size={24} />
                                     </div>
-                                    <h4 className="font-bold text-text-primary mb-2">Message Sent!</h4>
-                                    <p className="text-sm text-text-muted">The seller will respond to you shortly via the Message Center.</p>
+                                    <h4 className="font-bold text-text-primary mb-2">{t('product.messageSent')}</h4>
+                                    <p className="text-sm text-text-muted">{t('product.messageSentDesc')}</p>
                                 </div>
                             ) : (
                                 <>
@@ -387,23 +390,23 @@ export default function ProductDetail() {
                                         <img src={product.imageUrl} alt="" className="w-10 h-10 object-cover rounded-md" />
                                         <div>
                                             <p className="text-xs font-semibold text-text-primary leading-tight line-clamp-1">{product.title}</p>
-                                            <p className="text-[10px] text-text-muted mt-0.5">Regarding this item</p>
+                                            <p className="text-[10px] text-text-muted mt-0.5">{t('product.regardingItem')}</p>
                                         </div>
                                     </div>
                                     <textarea
                                         value={messageText}
                                         onChange={(e) => setMessageText(e.target.value)}
-                                        placeholder="Type your question here..."
+                                        placeholder={t('product.typeQuestion')}
                                         className="w-full h-32 p-3 text-sm border border-border-soft rounded-xl focus:border-brand-primary outline-none resize-none mb-4"
                                     />
                                     <div className="flex gap-3 justify-end">
-                                        <button onClick={() => setShowMessageModal(false)} className="px-4 py-2 text-sm font-semibold text-text-muted hover:text-text-primary">Cancel</button>
+                                        <button onClick={() => setShowMessageModal(false)} className="px-4 py-2 text-sm font-semibold text-text-muted hover:text-text-primary">{t('product.cancel')}</button>
                                         <button
                                             onClick={handleSendMessage}
                                             disabled={!messageText.trim() || sendingMessage}
                                             className="px-5 py-2 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-50"
                                         >
-                                            {sendingMessage ? 'Sending...' : 'Send Message'}
+                                            {sendingMessage ? t('orders.cancelling') : t('product.sendMessage')}
                                         </button>
                                     </div>
                                 </>

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { MessageSquare, Send, Search, ChevronLeft } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { messageService } from '../../services';
 
 export default function MessageCenter() {
+    const { t } = useTranslation();
     const { user } = useAuth();
     const [conversations, setConversations] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -66,7 +68,7 @@ export default function MessageCenter() {
 
     return (
         <div>
-            <h2 className="text-xl font-bold text-text-primary mb-6">Messages</h2>
+            <h2 className="text-xl font-bold text-text-primary mb-6">{t('messages.title')}</h2>
 
             <div className="border border-border-soft rounded-2xl overflow-hidden" style={{ height: '500px' }}>
                 <div className="flex h-full">
@@ -78,7 +80,7 @@ export default function MessageCenter() {
                                 <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
                                 <input
                                     type="text"
-                                    placeholder="Search messages..."
+                                    placeholder={t('messages.searchPlaceholder')}
                                     className="w-full pl-9 pr-3 py-2 text-sm bg-surface-bg border border-border-soft rounded-lg
                            focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none"
                                 />
@@ -88,7 +90,7 @@ export default function MessageCenter() {
                         {/* List */}
                         <div className="flex-1 overflow-y-auto">
                             {loading ? (
-                                <div className="p-8 text-center text-text-muted text-sm">Loading messages...</div>
+                                <div className="p-8 text-center text-text-muted text-sm">{t('messages.loading')}</div>
                             ) : conversations.map((convo) => (
                                 <button
                                     key={convo.otherUserId}
@@ -163,7 +165,7 @@ export default function MessageCenter() {
                                     <form onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }} className="flex gap-2">
                                         <input
                                             type="text"
-                                            placeholder="Type a message..."
+                                            placeholder={t('messages.typeMessage')}
                                             value={newMessage}
                                             onChange={(e) => setNewMessage(e.target.value)}
                                             className="flex-1 px-4 py-2.5 text-sm bg-surface-bg border border-border-soft rounded-xl
@@ -182,8 +184,8 @@ export default function MessageCenter() {
                         ) : (
                             <div className="flex-1 flex flex-col items-center justify-center text-center p-8">
                                 <MessageSquare size={40} className="text-text-muted/30 mb-4" />
-                                <p className="text-text-primary font-medium mb-1">Select a conversation</p>
-                                <p className="text-sm text-text-muted">Choose a seller to view your messages.</p>
+                                <p className="text-text-primary font-medium mb-1">{t('messages.emptyState')}</p>
+                                <p className="text-sm text-text-muted">{t('messages.emptyStateDesc')}</p>
                             </div>
                         )}
                     </div>

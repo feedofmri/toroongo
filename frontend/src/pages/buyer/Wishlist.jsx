@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
 import { Heart, ShoppingCart, Trash2 } from 'lucide-react';
 import { useProduct } from '../../context/ProductContext';
@@ -6,8 +7,10 @@ import { useAuth } from '../../context/AuthContext';
 import { useWishlist } from '../../context/WishlistContext';
 import StarRating from '../../components/ui/StarRating';
 import { resolveSellerSlug } from '../../utils/resolveSellerSlug';
+import { formatPrice } from '../../utils/currency';
 
 export default function Wishlist() {
+    const { t } = useTranslation();
     const { products: allProducts } = useProduct();
     const { isAuthenticated, isLoading: authLoading } = useAuth();
     const { wishlist, removeFromWishlist } = useWishlist();
@@ -33,13 +36,13 @@ export default function Wishlist() {
         return (
             <div className="text-center py-16">
                 <Heart size={40} className="mx-auto text-text-muted/40 mb-4" />
-                <p className="text-text-primary font-medium mb-1">Your wishlist is empty</p>
-                <p className="text-sm text-text-muted mb-6">Save items you love to find them later.</p>
+                <p className="text-text-primary font-medium mb-1">{t('wishlist.empty')}</p>
+                <p className="text-sm text-text-muted mb-6">{t('wishlist.emptyDesc')}</p>
                 <Link
                     to="/"
                     className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors"
                 >
-                    Explore Products
+                    {t('wishlist.exploreProducts')}
                 </Link>
             </div>
         );
@@ -49,7 +52,7 @@ export default function Wishlist() {
         <div>
             <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-bold text-text-primary">
-                    Wishlist <span className="text-text-muted font-normal text-base">({wishlistProducts.length})</span>
+                    {t('wishlist.title')} <span className="text-text-muted font-normal text-base">({wishlistProducts.length})</span>
                 </h2>
             </div>
 
@@ -77,9 +80,9 @@ export default function Wishlist() {
                                 <StarRating rating={product.rating} reviews={product.reviews} size={12} />
                             </div>
                             <div className="flex items-baseline gap-2 mt-1.5">
-                                <span className="text-base font-bold text-text-primary">${product.price.toFixed(2)}</span>
+                                <span className="text-base font-bold text-text-primary">{formatPrice(product.price)}</span>
                                 {product.originalPrice && (
-                                    <span className="text-xs text-text-muted line-through">${product.originalPrice.toFixed(2)}</span>
+                                    <span className="text-xs text-text-muted line-through">{formatPrice(product.originalPrice)}</span>
                                 )}
                             </div>
                         </div>
@@ -90,13 +93,13 @@ export default function Wishlist() {
                                 to={`/product/${product.id}`}
                                 className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium bg-brand-primary text-white rounded-lg hover:bg-brand-secondary transition-colors"
                             >
-                                <ShoppingCart size={13} /> Add to Cart
+                                <ShoppingCart size={13} /> {t('product.addToCart')}
                             </Link>
                             <button
                                 onClick={() => removeFromWishlist(product.id)}
                                 className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-text-muted border border-border-soft rounded-lg hover:text-red-500 hover:border-red-200 transition-colors"
                             >
-                                <Trash2 size={13} /> Remove
+                                <Trash2 size={13} /> {t('wishlist.removeFromWishlist')}
                             </button>
                         </div>
                     </div>

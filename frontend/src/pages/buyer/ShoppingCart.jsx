@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Trash2, Minus, Plus, ShoppingBag, ArrowRight, Tag, Truck } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useProduct } from '../../context/ProductContext';
 import { resolveSellerSlug } from '../../utils/resolveSellerSlug';
+import { formatPrice } from '../../utils/currency';
 
 export default function ShoppingCart() {
+    const { t } = useTranslation();
     const { cart: cartItems, updateQuantity, removeFromCart: removeItem } = useCart();
     const { products: allProducts } = useProduct();
 
@@ -39,14 +42,14 @@ export default function ShoppingCart() {
                 <div className="w-20 h-20 bg-surface-bg rounded-full flex items-center justify-center mx-auto mb-6">
                     <ShoppingBag size={32} className="text-text-muted" />
                 </div>
-                <h1 className="text-2xl font-bold text-text-primary mb-3">Your cart is empty</h1>
-                <p className="text-text-muted mb-8">Looks like you haven't added anything to your cart yet.</p>
+                <h1 className="text-2xl font-bold text-text-primary mb-3">{t('cart.empty')}</h1>
+                <p className="text-text-muted mb-8">{t('cart.emptyDesc')}</p>
                 <Link
                     to="/"
                     className="inline-flex items-center gap-2 px-6 py-3 bg-brand-primary text-white font-semibold rounded-xl
                    hover:bg-brand-secondary transition-colors"
                 >
-                    Continue Shopping
+                    {t('cart.continueShopping')}
                 </Link>
             </div>
         );
@@ -56,7 +59,7 @@ export default function ShoppingCart() {
         <div className="animate-fade-in">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 <h1 className="text-2xl font-bold text-text-primary tracking-tight mb-8">
-                    Shopping Cart <span className="text-text-muted font-normal text-lg">({cartItems.length} items)</span>
+                    {t('cart.title')} <span className="text-text-muted font-normal text-lg">{t('cart.itemsCount', { count: cartItems.length })}</span>
                 </h1>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -74,7 +77,7 @@ export default function ShoppingCart() {
                                     </Link>
                                     <div className="flex items-center gap-1.5 text-xs text-text-muted">
                                         <Truck size={13} />
-                                        <span>{subtotal > 50 ? 'Free shipping' : '$5.99 shipping'}</span>
+                                        <span>{subtotal > 50 ? t('cart.freeShippingText') : t('cart.shippingCostText')}</span>
                                     </div>
                                 </div>
 
@@ -97,9 +100,9 @@ export default function ShoppingCart() {
                                                     </h3>
                                                 </Link>
                                                 <div className="flex items-baseline gap-2 mt-1.5">
-                                                    <span className="text-sm font-bold text-text-primary">${product.price.toFixed(2)}</span>
+                                                    <span className="text-sm font-bold text-text-primary">{formatPrice(product.price)}</span>
                                                     {product.originalPrice && (
-                                                        <span className="text-xs text-text-muted line-through">${product.originalPrice.toFixed(2)}</span>
+                                                        <span className="text-xs text-text-muted line-through">{formatPrice(product.originalPrice)}</span>
                                                     )}
                                                 </div>
 
@@ -125,7 +128,7 @@ export default function ShoppingCart() {
                                                     <button
                                                         onClick={() => removeItem(product.id)}
                                                         className="p-1.5 text-text-muted hover:text-red-500 transition-colors"
-                                                        aria-label="Remove item"
+                                                        aria-label={t('cart.removeItem')}
                                                     >
                                                         <Trash2 size={16} />
                                                     </button>
@@ -141,7 +144,7 @@ export default function ShoppingCart() {
                     {/* ── Order Summary ──────────────────────────────── */}
                     <div className="lg:col-span-1">
                         <div className="sticky top-24 border border-border-soft rounded-2xl p-6">
-                            <h2 className="text-lg font-semibold text-text-primary mb-5">Order Summary</h2>
+                            <h2 className="text-lg font-semibold text-text-primary mb-5">{t('cart.orderSummary')}</h2>
 
                             {/* Promo code */}
                             <div className="flex gap-2 mb-6">
@@ -149,7 +152,7 @@ export default function ShoppingCart() {
                                     <Tag size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
                                     <input
                                         type="text"
-                                        placeholder="Promo code"
+                                        placeholder={t('cart.promoCode')}
                                         value={promoCode}
                                         onChange={(e) => setPromoCode(e.target.value)}
                                         className="w-full pl-9 pr-3 py-2.5 text-sm bg-surface-bg border border-border-soft rounded-lg
@@ -161,31 +164,31 @@ export default function ShoppingCart() {
                                     className="px-4 py-2.5 text-sm font-medium bg-surface-bg border border-border-soft rounded-lg
                            hover:border-gray-300 transition-colors"
                                 >
-                                    Apply
+                                    {t('cart.apply')}
                                 </button>
                             </div>
 
                             {/* Totals */}
                             <div className="space-y-3 text-sm">
                                 <div className="flex justify-between">
-                                    <span className="text-text-muted">Subtotal</span>
-                                    <span className="font-medium text-text-primary">${subtotal.toFixed(2)}</span>
+                                    <span className="text-text-muted">{t('cart.subtotal')}</span>
+                                    <span className="font-medium text-text-primary">{formatPrice(subtotal)}</span>
                                 </div>
                                 {promoApplied && (
                                     <div className="flex justify-between text-green-600">
-                                        <span>Promo discount (10%)</span>
-                                        <span className="font-medium">-${discount.toFixed(2)}</span>
+                                        <span>{t('cart.promoDiscount')}</span>
+                                        <span className="font-medium">-{formatPrice(discount)}</span>
                                     </div>
                                 )}
                                 <div className="flex justify-between">
-                                    <span className="text-text-muted">Shipping</span>
+                                    <span className="text-text-muted">{t('cart.shipping')}</span>
                                     <span className={`font-medium ${shipping === 0 ? 'text-green-600' : 'text-text-primary'}`}>
-                                        {shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}
+                                        {shipping === 0 ? t('checkout.free') : `${formatPrice(shipping)}`}
                                     </span>
                                 </div>
                                 <div className="border-t border-border-soft pt-3 flex justify-between">
-                                    <span className="font-semibold text-text-primary">Total</span>
-                                    <span className="text-xl font-bold text-text-primary">${total.toFixed(2)}</span>
+                                    <span className="font-semibold text-text-primary">{t('cart.total')}</span>
+                                    <span className="text-xl font-bold text-text-primary">{formatPrice(total)}</span>
                                 </div>
                             </div>
 
@@ -195,7 +198,7 @@ export default function ShoppingCart() {
                                 className="mt-6 w-full flex items-center justify-center gap-2 py-3.5 bg-brand-primary text-white font-semibold
                          rounded-xl hover:bg-brand-secondary transition-colors shadow-lg shadow-brand-primary/20"
                             >
-                                Proceed to Checkout <ArrowRight size={16} />
+                                {t('cart.proceedToCheckout')} <ArrowRight size={16} />
                             </Link>
 
                             <Link
@@ -203,7 +206,7 @@ export default function ShoppingCart() {
                                 className="mt-3 w-full flex items-center justify-center py-2.5 text-sm font-medium text-text-muted
                          hover:text-text-primary transition-colors"
                             >
-                                Continue Shopping
+                                {t('cart.continueShopping')}
                             </Link>
                         </div>
                     </div>

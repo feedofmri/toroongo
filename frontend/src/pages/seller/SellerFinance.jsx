@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { DollarSign, TrendingUp, ArrowDown, Calendar, Download } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { orderService, productService } from '../../services';
 import Skeleton from '../../components/ui/Skeleton';
+import { formatPrice } from '../../utils/currency';
 
 export default function SellerFinance() {
+    const { t } = useTranslation();
     const { user } = useAuth();
     const [transactions, setTransactions] = useState([]);
     const [stats, setStats] = useState({ available: 0, pending: 0 });
@@ -80,9 +83,9 @@ export default function SellerFinance() {
     return (
         <div className="animate-fade-in">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-                <h2 className="text-2xl font-bold text-text-primary">Finance</h2>
+                <h2 className="text-2xl font-bold text-text-primary">{t('sellerFinance.title')}</h2>
                 <button className="flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-text-muted border border-border-soft rounded-xl hover:bg-surface-bg transition-colors">
-                    <Download size={15} /> Export CSV
+                    <Download size={15} /> {t('sellerFinance.exportCsv')}
                 </button>
             </div>
 
@@ -93,10 +96,10 @@ export default function SellerFinance() {
                         <div className="w-9 h-9 bg-green-50 rounded-xl flex items-center justify-center">
                             <DollarSign size={16} className="text-green-600" />
                         </div>
-                        <span className="text-sm text-text-muted">Available Balance</span>
+                        <span className="text-sm text-text-muted">{t('sellerFinance.stats.available')}</span>
                     </div>
                     <p className="text-2xl font-bold text-text-primary">
-                        ${stats.available.toFixed(2)}
+                        {formatPrice(stats.available)}
                     </p>
                 </div>
                 <div className="bg-white p-5 rounded-2xl border border-border-soft">
@@ -107,7 +110,7 @@ export default function SellerFinance() {
                         <span className="text-sm text-text-muted">Pending Settlement</span>
                     </div>
                     <p className="text-2xl font-bold text-text-primary">
-                        ${stats.pending.toFixed(2)}
+                        {formatPrice(stats.pending)}
                     </p>
                 </div>
                 <div className="bg-white p-5 rounded-2xl border border-border-soft">
@@ -120,36 +123,36 @@ export default function SellerFinance() {
                     <p className="text-2xl font-bold text-text-primary">
                         {new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                     </p>
-                    <p className="text-xs text-text-muted mt-0.5">Est. ${stats.available.toFixed(2)}</p>
+                    <p className="text-xs text-text-muted mt-0.5">Est. {formatPrice(stats.available)}</p>
                 </div>
             </div>
 
             {/* Transactions */}
             <div className="bg-white rounded-2xl border border-border-soft overflow-hidden">
                 <div className="px-6 py-4 border-b border-border-soft">
-                    <h3 className="font-semibold text-text-primary">Recent Transactions</h3>
+                    <h3 className="font-semibold text-text-primary">{t('sellerFinance.transactions.title')}</h3>
                 </div>
                 <div className="overflow-x-auto">
                     <table className="w-full">
                         <thead>
                             <tr className="bg-surface-bg text-left">
-                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">Transaction</th>
-                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">Date</th>
-                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">Type</th>
-                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">Description</th>
-                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase text-right">Amount</th>
-                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase text-right">Fee</th>
-                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase text-right">Net</th>
+                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">{t('sellerFinance.transactions.table.id')}</th>
+                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">{t('sellerFinance.transactions.table.date')}</th>
+                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">{t('sellerFinance.transactions.table.type')}</th>
+                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">{t('sellerFinance.transactions.table.description')}</th>
+                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase text-right">{t('sellerFinance.transactions.table.amount')}</th>
+                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase text-right">{t('sellerFinance.transactions.table.fee')}</th>
+                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase text-right">{t('sellerFinance.transactions.table.net')}</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-border-soft">
                             {loading ? (
                                 <tr>
-                                    <td colSpan="7" className="px-5 py-8 text-center text-text-muted">Loading transactions...</td>
+                                    <td colSpan="7" className="px-5 py-8 text-center text-text-muted">{t('sellerFinance.transactions.table.loading')}</td>
                                 </tr>
                             ) : transactions.length === 0 ? (
                                 <tr>
-                                    <td colSpan="7" className="px-5 py-8 text-center text-text-muted">No transactions yet.</td>
+                                    <td colSpan="7" className="px-5 py-8 text-center text-text-muted">{t('sellerFinance.transactions.table.noTransactions')}</td>
                                 </tr>
                             ) : transactions.map((txn) => (
                                 <tr key={txn.id} className="hover:bg-surface-bg/50 transition-colors">
@@ -167,13 +170,13 @@ export default function SellerFinance() {
                                     </td>
                                     <td className="px-5 py-3.5 text-sm text-text-muted truncate max-w-[200px]">{txn.description}</td>
                                     <td className={`px-5 py-3.5 text-sm font-medium text-right ${txn.amount >= 0 ? 'text-text-primary' : 'text-red-500'}`}>
-                                        {txn.amount >= 0 ? '+' : ''}${Math.abs(txn.amount).toFixed(2)}
+                                        {txn.amount >= 0 ? '+' : ''}{formatPrice(Math.abs(txn.amount))}
                                     </td>
                                     <td className="px-5 py-3.5 text-sm text-text-muted text-right">
-                                        {txn.fee !== 0 ? `$${Math.abs(txn.fee).toFixed(2)}` : '—'}
+                                        {txn.fee !== 0 ? `${formatPrice(Math.abs(txn.fee))}` : '—'}
                                     </td>
                                     <td className={`px-5 py-3.5 text-sm font-semibold text-right ${txn.net >= 0 ? 'text-green-600' : 'text-red-500'}`}>
-                                        {txn.net >= 0 ? '+' : ''}${Math.abs(txn.net).toFixed(2)}
+                                        {txn.net >= 0 ? '+' : ''}{formatPrice(Math.abs(txn.net))}
                                     </td>
                                 </tr>
                             ))}

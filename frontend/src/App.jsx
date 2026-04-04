@@ -1,6 +1,8 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import FloatingMessage from './components/message/FloatingMessage';
+import ScrollToTop from './components/ScrollToTop';
 
 // ─── Layouts ─────────────────────────────────────────────────
 import BuyerLayout from './components/layout/BuyerLayout';
@@ -82,9 +84,57 @@ function NotFoundPage() {
   );
 }
 
+const COUNTRY_LANGUAGE_MAP = {
+  'BD': 'bn', // Bangladesh -> Bengali
+  'IN': 'hi', // India -> Hindi
+  'NP': 'ne', // Nepal -> Nepali
+  'ID': 'id', // Indonesia -> Indonesian
+  'MY': 'ms', // Malaysia -> Malay
+  'AE': 'ar', // UAE -> Arabic
+};
+
 function App() {
+  const { i18n } = useTranslation();
+
+  useEffect(() => {
+    const hasSetLanguage = localStorage.getItem('i18nextLng');
+
+    // Only auto-detect if user hasn't actively saved a preference
+    if (!hasSetLanguage || hasSetLanguage === 'en') {
+      fetch('https://freeipapi.com/api/json')
+        .then(res => {
+          if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+          return res.json();
+        })
+        .then(data => {
+          // freeipapi uses countryCode (camelCase)
+          if (data && data.countryCode) {
+            const mappedLang = COUNTRY_LANGUAGE_MAP[data.countryCode];
+            if (mappedLang) {
+              i18n.changeLanguage(mappedLang);
+
+              // Apply RTL layout for Arabic
+              if (mappedLang === 'ar') {
+                document.documentElement.dir = 'rtl';
+              }
+            }
+          }
+        })
+        .catch(err => {
+          console.warn("Language auto-detection skipped:", err.message);
+        });
+    }
+  }, [i18n]);
+
+  useEffect(() => {
+    // Update document direction and lang
+    document.documentElement.dir = i18n.dir();
+    document.documentElement.lang = i18n.language;
+  }, [i18n.language]);
+
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         {/* ── Buyer Experience ──────────────────────────────── */}
         <Route element={<BuyerLayout />}>
@@ -132,16 +182,13 @@ function App() {
 
           {/* Static Pages — Sell on Toroongo */}
           <Route path="/sell" element={<SellOnToroongo />} />
-          <Route path="/sell/pricing" element={<PricingPage />} />
+          <Route path="/pricing" element={<PricingPage />} />
           <Route path="/sell/resources" element={<SellerResources />} />
 
           {/* Static Pages — Legal */}
           <Route path="/terms" element={<TermsOfService />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/data-preferences" element={<DataPreferences />} />
-
-          {/* 404 */}
-          <Route path="*" element={<NotFoundPage />} />
         </Route>
 
         {/* ── Seller Storefronts (toroongo.com/:username) ─── */}
@@ -161,6 +208,7 @@ function App() {
         } />
 
         {/* ── Seller Dashboard ──────────────────────────────── */}
+        <Route path="/seller/dashboard" element={<Navigate to="/seller" replace />} />
         <Route path="/seller" element={
           <ProtectedRoute allowedRoles={['seller', 'admin']}>
             <SellerDashboardLayout />
@@ -190,6 +238,9 @@ function App() {
           <Route path="finance" element={<AdminFinance />} />
           <Route path="disputes" element={<DisputeResolution />} />
         </Route>
+
+        {/* 404 - Should be at the very end */}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <FloatingMessage />
     </Router>

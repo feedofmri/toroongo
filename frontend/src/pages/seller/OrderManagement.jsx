@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, ChevronDown, Eye, Truck, CheckCircle, Clock, Package } from 'lucide-react';
-
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { orderService } from '../../services';
+import { formatPrice } from '../../utils/currency';
 import { useProduct } from '../../context/ProductContext';
 import Skeleton from '../../components/ui/Skeleton';
 
 const STATUS_CONFIG = {
-    processing: { label: 'Processing', icon: Clock, style: 'text-amber-600 bg-amber-50' },
-    shipped: { label: 'Shipped', icon: Truck, style: 'text-blue-600 bg-blue-50' },
-    delivered: { label: 'Delivered', icon: CheckCircle, style: 'text-green-600 bg-green-50' },
+    processing: { labelKey: 'processing', icon: Clock, style: 'text-amber-600 bg-amber-50' },
+    shipped: { labelKey: 'shipped', icon: Truck, style: 'text-blue-600 bg-blue-50' },
+    delivered: { labelKey: 'delivered', icon: CheckCircle, style: 'text-green-600 bg-green-50' },
 };
 
 export default function OrderManagement() {
+    const { t } = useTranslation();
     const { user } = useAuth();
     const { products: allProducts } = useProduct();
     const [orders, setOrders] = useState([]);
@@ -40,19 +42,19 @@ export default function OrderManagement() {
 
     const getProductName = (productId) => {
         const p = allProducts.find(pr => String(pr.id) === String(productId));
-        return p ? p.title : 'Unknown Product';
+        return p ? p.title : t('sellerOrders.table.product');
     };
 
     return (
         <div className="animate-fade-in">
-            <h2 className="text-2xl font-bold text-text-primary mb-6">Orders</h2>
+            <h2 className="text-2xl font-bold text-text-primary mb-6">{t('sellerOrders.title')}</h2>
 
             {/* Stats row */}
             <div className="grid grid-cols-3 gap-4 mb-6">
                 {[
-                    { label: 'Pending', count: orders.filter((o) => o.status === 'processing').length, color: 'text-amber-600' },
-                    { label: 'Shipped', count: orders.filter((o) => o.status === 'shipped').length, color: 'text-blue-600' },
-                    { label: 'Completed', count: orders.filter((o) => o.status === 'delivered').length, color: 'text-green-600' },
+                    { label: t('sellerOrders.stats.pending'), count: orders.filter((o) => o.status === 'processing').length, color: 'text-amber-600' },
+                    { label: t('sellerOrders.stats.shipped'), count: orders.filter((o) => o.status === 'shipped').length, color: 'text-blue-600' },
+                    { label: t('sellerOrders.stats.completed'), count: orders.filter((o) => o.status === 'delivered').length, color: 'text-green-600' },
                 ].map((stat) => (
                     <div key={stat.label} className="bg-white p-4 rounded-xl border border-border-soft text-center">
                         <p className={`text-2xl font-bold ${stat.color}`}>{stat.count}</p>
@@ -67,7 +69,7 @@ export default function OrderManagement() {
                     <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
                     <input
                         type="text"
-                        placeholder="Search by order ID or customer..."
+                        placeholder={t('sellerOrders.filters.searchPlaceholder')}
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         className="w-full pl-9 pr-3 py-2.5 text-sm bg-white border border-border-soft rounded-xl
@@ -81,10 +83,10 @@ export default function OrderManagement() {
                         className="appearance-none pl-3 pr-8 py-2.5 text-sm bg-white border border-border-soft rounded-xl
                      cursor-pointer hover:border-gray-300 outline-none"
                     >
-                        <option value="all">All Status</option>
-                        <option value="processing">Processing</option>
-                        <option value="shipped">Shipped</option>
-                        <option value="delivered">Delivered</option>
+                        <option value="all">{t('sellerOrders.filters.allStatus')}</option>
+                        <option value="processing">{t('sellerOrders.filters.processing')}</option>
+                        <option value="shipped">{t('sellerOrders.filters.shipped')}</option>
+                        <option value="delivered">{t('sellerOrders.filters.delivered')}</option>
                     </select>
                     <ChevronDown size={14} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none" />
                 </div>
@@ -96,19 +98,19 @@ export default function OrderManagement() {
                     <table className="w-full">
                         <thead>
                             <tr className="bg-surface-bg text-left">
-                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">Order</th>
-                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">Date</th>
-                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">Customer</th>
-                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">Product</th>
-                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">Total</th>
-                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">Status</th>
-                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase text-right">Action</th>
+                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">{t('sellerOrders.table.order')}</th>
+                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">{t('sellerOrders.table.date')}</th>
+                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">{t('sellerOrders.table.customer')}</th>
+                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">{t('sellerOrders.table.product')}</th>
+                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">{t('sellerOrders.table.total')}</th>
+                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">{t('sellerOrders.table.status')}</th>
+                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase text-right">{t('sellerOrders.table.action')}</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-border-soft">
                             {loading ? (
                                 <tr>
-                                    <td colSpan="7" className="px-5 py-8 text-center text-text-muted">Loading orders...</td>
+                                    <td colSpan="7" className="px-5 py-8 text-center text-text-muted">{t('sellerOrders.table.loading')}</td>
                                 </tr>
                             ) : filtered.map((order) => {
                                 const cfg = STATUS_CONFIG[order.status] || STATUS_CONFIG.processing;
@@ -129,17 +131,17 @@ export default function OrderManagement() {
                                         </td>
                                         <td className="px-5 py-3.5 text-sm text-text-muted">
                                             <span className="line-clamp-1">{productName}</span>
-                                            {order.items.length > 1 && <span className="text-xs text-brand-primary">+{order.items.length - 1} more</span>}
+                                            {order.items.length > 1 && <span className="text-xs text-brand-primary">{t('sellerOrders.table.moreItems', { count: order.items.length - 1 })}</span>}
                                         </td>
-                                        <td className="px-5 py-3.5 text-sm font-medium text-text-primary">${order.subtotal?.toFixed(2) || '0.00'}</td>
+                                        <td className="px-5 py-3.5 text-sm font-medium text-text-primary">{formatPrice(order.subtotal || 0)}</td>
                                         <td className="px-5 py-3.5">
                                             <span className={`flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full w-fit ${cfg.style}`}>
-                                                <cfg.icon size={11} /> {cfg.label}
+                                                <cfg.icon size={11} /> {t(`sellerOrders.filters.${cfg.labelKey}`)}
                                             </span>
                                         </td>
                                         <td className="px-5 py-3.5 text-right">
                                             <button className="text-xs font-medium text-brand-primary hover:text-brand-secondary transition-colors">
-                                                View
+                                                {t('sellerOrders.table.view')}
                                             </button>
                                         </td>
                                     </tr>
@@ -152,7 +154,7 @@ export default function OrderManagement() {
                 {!loading && filtered.length === 0 && (
                     <div className="text-center py-12">
                         <Package size={32} className="mx-auto text-text-muted/40 mb-3" />
-                        <p className="text-text-primary font-medium">No orders found</p>
+                        <p className="text-text-primary font-medium">{t('sellerOrders.table.noOrders')}</p>
                     </div>
                 )}
             </div>

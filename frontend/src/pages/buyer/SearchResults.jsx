@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { SlidersHorizontal, X, ChevronDown, ChevronLeft, ChevronRight, Grid3X3, LayoutList, Star, Tag, Search as SearchIcon } from 'lucide-react';
 import ProductCard from '../../components/product/ProductCard';
@@ -9,11 +10,11 @@ import { useProduct } from '../../context/ProductContext';
 import CategoryIcon from '../../components/ui/CategoryIcon';
 
 const SORT_OPTIONS = [
-    { value: 'relevance', label: 'Relevance' },
-    { value: 'price-asc', label: 'Price: Low to High' },
-    { value: 'price-desc', label: 'Price: High to Low' },
-    { value: 'rating', label: 'Highest Rated' },
-    { value: 'newest', label: 'Newest First' },
+    { value: 'relevance', label: 'search.relevance' },
+    { value: 'price-asc', label: 'search.priceAsc' },
+    { value: 'price-desc', label: 'search.priceDesc' },
+    { value: 'rating', label: 'search.rating' },
+    { value: 'newest', label: 'search.newest' },
 ];
 
 const PRICE_RANGES = [
@@ -28,6 +29,7 @@ const PRICE_RANGES = [
 const ITEMS_PER_PAGE = 12;
 
 export default function SearchResults() {
+    const { t } = useTranslation();
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const categorySlug = searchParams.get('category');
@@ -187,7 +189,7 @@ export default function SearchResults() {
                             <SearchIcon size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted" />
                             <input
                                 type="text"
-                                placeholder="Search products..."
+                                placeholder={t('nav.search')}
                                 value={searchInput}
                                 onChange={(e) => setSearchInput(e.target.value)}
                                 onKeyDown={handlePageSearch}
@@ -208,11 +210,11 @@ export default function SearchResults() {
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                         <div>
                             <h1 className="text-2xl font-bold text-text-primary tracking-tight">
-                                {activeCategory ? activeCategory.name : onSaleOnly ? 'Sale' : query ? `Results for "${query}"` : 'All Products'}
+                                {activeCategory ? activeCategory.name : onSaleOnly ? t('badges.Sale') : query ? t('search.resultsFor', { query }) : t('search.allProducts')}
                             </h1>
                             <p className="text-sm text-text-muted mt-1">
-                                {filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''} found
-                                {totalPages > 1 && ` · Page ${currentPage} of ${totalPages}`}
+                                {t('search.found', { count: filteredProducts.length })}
+                                {totalPages > 1 && ` · ${t('search.pageOf', { current: currentPage, total: totalPages })}`}
                             </p>
                         </div>
 
@@ -227,7 +229,7 @@ export default function SearchResults() {
                            focus:ring-2 focus:ring-brand-primary/20 outline-none transition-colors"
                                 >
                                     {SORT_OPTIONS.map((opt) => (
-                                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                        <option key={opt.value} value={opt.value}>{t(opt.label)}</option>
                                     ))}
                                 </select>
                                 <ChevronDown size={14} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none" />
@@ -258,7 +260,7 @@ export default function SearchResults() {
                          rounded-lg hover:border-gray-300 transition-colors"
                             >
                                 <SlidersHorizontal size={16} />
-                                Filters
+                                {t('search.filters')}
                                 {hasActiveFilters && <span className="w-2 h-2 bg-brand-primary rounded-full" />}
                             </button>
                         </div>
@@ -277,7 +279,7 @@ export default function SearchResults() {
                             {/* Mobile close */}
                             {filtersOpen && (
                                 <div className="flex items-center justify-between mb-4 lg:hidden">
-                                    <h3 className="font-semibold text-text-primary">Filters</h3>
+                                    <h3 className="font-semibold text-text-primary">{t('search.filters')}</h3>
                                     <button onClick={() => setFiltersOpen(false)} className="p-1.5 hover:bg-surface-bg rounded-lg">
                                         <X size={18} />
                                     </button>
@@ -288,12 +290,12 @@ export default function SearchResults() {
                             {hasActiveFilters && (
                                 <div className="mb-6 p-3 bg-brand-primary/5 rounded-xl">
                                     <div className="flex items-center justify-between mb-2">
-                                        <span className="text-xs font-semibold text-text-primary">Active Filters</span>
+                                        <span className="text-xs font-semibold text-text-primary">{t('search.activeFilters')}</span>
                                         <button
                                             onClick={clearFilters}
                                             className="text-xs font-medium text-brand-primary hover:text-brand-secondary transition-colors"
                                         >
-                                            Clear all
+                                            {t('search.clearAll')}
                                         </button>
                                     </div>
                                     <div className="flex flex-wrap gap-1.5">
@@ -315,7 +317,7 @@ export default function SearchResults() {
                                         )}
                                         {onSaleOnly && (
                                             <span className="inline-flex items-center gap-1 text-[11px] font-medium bg-white text-text-primary px-2 py-1 rounded-md border border-border-soft">
-                                                On Sale
+                                                {t('badges.Sale')}
                                                 <button onClick={() => handleFilterChange(setOnSaleOnly)(false)}>
                                                     <X size={10} />
                                                 </button>
@@ -323,7 +325,7 @@ export default function SearchResults() {
                                         )}
                                         {selectedRating && (
                                             <span className="inline-flex items-center gap-1 text-[11px] font-medium bg-white text-text-primary px-2 py-1 rounded-md border border-border-soft">
-                                                {selectedRating}+ stars
+                                                {t('search.andUp', { rating: selectedRating })}
                                                 <button onClick={() => handleFilterChange(setSelectedRating)(null)}>
                                                     <X size={10} />
                                                 </button>
@@ -335,14 +337,14 @@ export default function SearchResults() {
 
                             {/* Category filter */}
                             <div className="mb-6">
-                                <h4 className="text-sm font-semibold text-text-primary mb-3">Category</h4>
+                                <h4 className="text-sm font-semibold text-text-primary mb-3">{t('search.category')}</h4>
                                 <div className="space-y-1">
                                     <button
                                         onClick={() => handleFilterChange(setSelectedCategory)('')}
                                         className={`w-full text-left px-3 py-2 text-sm rounded-lg transition-colors
                       ${!selectedCategory ? 'bg-brand-primary/10 text-brand-primary font-medium' : 'text-text-muted hover:bg-surface-bg hover:text-text-primary'}`}
                                     >
-                                        All Categories
+                                        {t('search.allCategories')}
                                     </button>
                                     {categories.map((cat) => {
                                         const count = allProducts.filter(p => p.category === cat.slug).length;
@@ -364,7 +366,7 @@ export default function SearchResults() {
 
                             {/* Price filter */}
                             <div className="mb-6">
-                                <h4 className="text-sm font-semibold text-text-primary mb-3">Price Range</h4>
+                                <h4 className="text-sm font-semibold text-text-primary mb-3">{t('search.priceRange')}</h4>
                                 <div className="space-y-1 mb-3">
                                     {PRICE_RANGES.map((range, idx) => (
                                         <button
@@ -382,11 +384,11 @@ export default function SearchResults() {
                                     ))}
                                 </div>
                                 <div className="border-t border-border-soft pt-3">
-                                    <p className="text-[10px] text-text-muted mb-2 uppercase tracking-wider font-bold">Custom range</p>
+                                    <p className="text-[10px] text-text-muted mb-2 uppercase tracking-wider font-bold">{t('search.customRange')}</p>
                                     <div className="flex items-center gap-2">
                                         <input
                                             type="number"
-                                            placeholder="Min"
+                                            placeholder={t('search.min')}
                                             value={customMinPrice}
                                             onChange={(e) => {
                                                 setCustomMinPrice(e.target.value);
@@ -399,7 +401,7 @@ export default function SearchResults() {
                                         <span className="text-text-muted text-xs">–</span>
                                         <input
                                             type="number"
-                                            placeholder="Max"
+                                            placeholder={t('search.max')}
                                             value={customMaxPrice}
                                             onChange={(e) => {
                                                 setCustomMaxPrice(e.target.value);
@@ -421,13 +423,13 @@ export default function SearchResults() {
                                         ${onSaleOnly ? 'bg-red-50 text-red-600 border border-red-200 shadow-sm' : 'bg-surface-bg text-text-muted hover:text-text-primary border border-transparent'}`}
                                 >
                                     <Tag size={14} className={onSaleOnly ? 'text-red-500' : ''} />
-                                    <span>On Sale Only</span>
+                                    <span>{t('search.onSaleOnly')}</span>
                                 </button>
                             </div>
 
                             {/* Rating filter */}
                             <div className="mb-6">
-                                <h4 className="text-sm font-semibold text-text-primary mb-3">Minimum Rating</h4>
+                                <h4 className="text-sm font-semibold text-text-primary mb-3">{t('search.minRating')}</h4>
                                 <div className="space-y-1">
                                     {[4, 3, 2].map((r) => (
                                         <button
@@ -441,7 +443,7 @@ export default function SearchResults() {
                                                     <Star key={i} size={11} className={i < r ? 'fill-amber-400 text-amber-400' : 'text-gray-200'} />
                                                 ))}
                                             </div>
-                                            <span className="text-[11px] font-medium">& Up</span>
+                                            <span className="text-[11px] font-medium">{t('search.andUp')}</span>
                                         </button>
                                     ))}
                                 </div>
@@ -449,14 +451,14 @@ export default function SearchResults() {
 
                             {/* Seller filter */}
                             <div className="mb-6">
-                                <h4 className="text-sm font-semibold text-text-primary mb-4">Shop by Seller</h4>
+                                <h4 className="text-sm font-semibold text-text-primary mb-4">{t('search.shopBySeller')}</h4>
                                 <div className="space-y-2">
                                     <button
                                         onClick={() => handleFilterChange(setSelectedSeller)('')}
                                         className={`w-full text-left px-3 py-2 text-xs rounded-lg transition-colors font-semibold uppercase tracking-wider
                                 ${!selectedSeller ? 'bg-brand-primary/10 text-brand-primary' : 'bg-transparent text-text-muted hover:bg-surface-bg'}`}
                                     >
-                                        All Shops
+                                        {t('search.allShops')}
                                     </button>
                                     {sellers.slice(0, showAllSellers ? sellers.length : 6).map((s) => (
                                         <button
@@ -489,7 +491,7 @@ export default function SearchResults() {
                                             onClick={() => setShowAllSellers(!showAllSellers)}
                                             className="w-full py-2 text-xs font-semibold text-brand-primary hover:text-brand-secondary transition-colors"
                                         >
-                                            {showAllSellers ? 'Show Less' : `Show All (${sellers.length})`}
+                                            {showAllSellers ? t('search.showLess') : t('search.showAll', { count: sellers.length })}
                                         </button>
                                     )}
                                 </div>
@@ -584,14 +586,14 @@ export default function SearchResults() {
                             </>
                         ) : (
                             <div className="text-center py-20">
-                                <p className="text-lg font-medium text-text-primary mb-2">No products found</p>
-                                <p className="text-text-muted text-sm mb-6">Try adjusting your filters or search terms.</p>
+                                <p className="text-lg font-medium text-text-primary mb-2">{t('search.noProducts')}</p>
+                                <p className="text-text-muted text-sm mb-6">{t('search.adjustFilters')}</p>
                                 <button
                                     onClick={clearFilters}
                                     className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl
-                           hover:bg-brand-secondary transition-colors"
+                            hover:bg-brand-secondary transition-colors"
                                 >
-                                    Clear All Filters
+                                    {t('search.clearAll')}
                                 </button>
                             </div>
                         )}

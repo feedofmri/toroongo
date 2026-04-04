@@ -2,7 +2,7 @@ import { categories, sellers, products, heroBanners, navCategories, mockAdmins, 
 import { User, Product, Blog, Message } from '../models';
 import { seedStorefrontConfigs } from '../pages/seller/storefrontBuilder/services/seedStorefrontConfigs';
 
-const DB_KEY = 'toroongo_db_v4';
+const DB_KEY = 'toroongo_db_v5';
 
 // Initial data shape
 const initialData = {
@@ -74,7 +74,11 @@ class LocalDatabase {
             name: 'Demo Buyer',
             email: 'buyer@example.com',
             password: 'password123',
-            role: 'buyer'
+            role: 'buyer',
+            addresses: [
+                { id: 'addr_1', label: 'Home', firstName: 'Demo', lastName: 'Buyer', email: 'buyer@example.com', phone: '+8801712345678', address: '123 Main Street, Dhanmondi', city: 'Dhaka', state: 'Dhaka', zip: '1209', country: 'BD' },
+                { id: 'addr_2', label: 'Office', firstName: 'Demo', lastName: 'Buyer', email: 'office@example.com', phone: '+8801812345679', address: '45 Corporate Ave, Gulshan', city: 'Dhaka', state: 'Dhaka', zip: '1212', country: 'BD' }
+            ]
         });
         db.users.push(demoBuyer);
 

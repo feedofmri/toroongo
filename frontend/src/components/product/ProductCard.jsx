@@ -4,6 +4,8 @@ import { Heart, Store } from 'lucide-react';
 import StarRating from '../ui/StarRating';
 import { useWishlist } from '../../context/WishlistContext';
 import { resolveSellerSlug } from '../../utils/resolveSellerSlug';
+import { formatPrice } from '../../utils/currency';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Reusable product card for grids and carousels.
@@ -12,6 +14,7 @@ import { resolveSellerSlug } from '../../utils/resolveSellerSlug';
  * Hover: translateY(-2px) + shadow-lg for a smooth lift effect.
  */
 export default function ProductCard({ product, layout = 'grid' }) {
+    const { t } = useTranslation();
     const { toggleWishlist, isInWishlist } = useWishlist();
     const navigate = useNavigate();
     const location = useLocation();
@@ -47,7 +50,7 @@ export default function ProductCard({ product, layout = 'grid' }) {
                      shadow-sm transition-all duration-200
                      hover:scale-110 hover:shadow-md
                      ${wishlisted ? 'text-red-500' : 'text-text-muted hover:text-red-400'}`}
-            aria-label={wishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+            aria-label={wishlisted ? t('common.wishlistRemove', 'Remove from wishlist') : t('common.wishlistAdd', 'Add to wishlist')}
         >
             <Heart size={16} className={wishlisted ? 'fill-current' : ''} />
         </button>
@@ -72,7 +75,7 @@ export default function ProductCard({ product, layout = 'grid' }) {
                                 : badge === 'New' ? 'bg-brand-primary text-white'
                                     : badge === 'Best Seller' ? 'bg-amber-400 text-slate-900'
                                         : 'bg-slate-800 text-white'}`}>
-                            {badge}
+                            {t(`common.badges.${badge.replace(/\s+/g, '')}`, badge)}
                         </span>
                     )}
                     {wishlistButton}
@@ -101,11 +104,11 @@ export default function ProductCard({ product, layout = 'grid' }) {
 
                     <div className="mt-auto flex items-baseline gap-2">
                         <span className="text-lg font-bold text-text-primary">
-                            ${price.toFixed(2)}
+                            {formatPrice(price)}
                         </span>
                         {originalPrice && (
                             <span className="text-sm text-text-muted line-through">
-                                ${originalPrice.toFixed(2)}
+                                {formatPrice(originalPrice)}
                             </span>
                         )}
                         {discount > 0 && (
@@ -140,7 +143,7 @@ export default function ProductCard({ product, layout = 'grid' }) {
                             : badge === 'New' ? 'bg-brand-primary text-white'
                                 : badge === 'Best Seller' ? 'bg-amber-400 text-slate-900'
                                     : 'bg-slate-800 text-white'}`}>
-                        {badge}
+                        {t(`common.badges.${badge.replace(/\s+/g, '')}`, badge)}
                     </span>
                 )}
 
@@ -175,11 +178,11 @@ export default function ProductCard({ product, layout = 'grid' }) {
                 {/* Price */}
                 <div className="mt-auto flex items-baseline gap-2">
                     <span className="text-lg font-bold text-text-primary">
-                        ${price.toFixed(2)}
+                        {formatPrice(price)}
                     </span>
                     {originalPrice && (
                         <span className="text-sm text-text-muted line-through">
-                            ${originalPrice.toFixed(2)}
+                            {formatPrice(originalPrice)}
                         </span>
                     )}
                     {discount > 0 && (

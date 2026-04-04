@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AlertTriangle, CheckCircle, Clock, MessageSquare, Package } from 'lucide-react';
+import { formatPrice } from '../../utils/currency';
 
 const MOCK_DISPUTES = [
     { id: 'D-2841', buyer: 'Sarah M.', seller: 'TechVault', reason: 'Item not as described', order: 'TRG-X1A', amount: 199.00, date: '2026-03-02', status: 'open' },
@@ -71,7 +72,7 @@ export default function DisputeResolution() {
                                         <td className="px-5 py-3.5 text-sm text-text-muted">{d.buyer}</td>
                                         <td className="px-5 py-3.5 text-sm text-text-muted">{d.seller}</td>
                                         <td className="px-5 py-3.5 text-sm text-text-muted">{d.reason}</td>
-                                        <td className="px-5 py-3.5 text-sm font-medium text-text-primary">${d.amount.toFixed(2)}</td>
+                                        <td className="px-5 py-3.5 text-sm font-medium text-text-primary">{formatPrice(d.amount)}</td>
                                         <td className="px-5 py-3.5">
                                             <span className={`flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full w-fit ${cfg.style}`}>
                                                 <cfg.icon size={11} /> {cfg.label}

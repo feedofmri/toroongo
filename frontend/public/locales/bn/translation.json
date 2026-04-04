@@ -1,0 +1,1043 @@
+{
+    "nav": {
+        "shopAll": "সব কেনাকাটা",
+        "stores": "দোকান",
+        "deals": "অফার",
+        "blog": "ব্লগ",
+        "sell": "তরঙ্গতে বিক্রি করুন",
+        "pricing": "মূল্য নির্ধারণ",
+        "help": "সাহায্য",
+        "search": "পণ্য, বিক্রেতা, বিভাগগুলি খুঁজুন...",
+        "dashboard": "ড্যাশবোর্ড",
+        "myProducts": "আমার পণ্য",
+        "blogManager": "ব্লগ ম্যানেজার",
+        "storefront": "স্টোরফ্রন্ট",
+        "helpCenter": "হেল্প সেন্টার",
+        "overview": "ওভারভিউ",
+        "users": "ব্যবহারকারী",
+        "sellers": "বিক্রেতা",
+        "categories": "বিভাগ",
+        "platformBlog": "প্ল্যাটফর্ম ব্লগ",
+        "myOrders": "আমার অর্ডার",
+        "myReviews": "আমার রিভিউ",
+        "settings": "সেটিংস",
+        "signOut": "সাইন আউট"
+    },
+    "common": {
+        "daysAgo": "{{count}} দিন আগে",
+        "weeksAgo": "{{count}} সপ্তাহ আগে",
+        "daysAgo_plural": "{{count}} দিন আগে",
+        "weeksAgo_plural": "{{count}} সপ্তাহ আগে",
+        "products": "পণ্য",
+        "viewAll": "সব দেখুন",
+        "seeAll": "সব দেখুন"
+    },
+    "home": {
+        "heroTitle": "সবকিছু কিনুন",
+        "heroSubtitle": "সারা বিশ্ব জুড়ে হাজার হাজার স্বাধীন বিক্রেতার লক্ষ লক্ষ পণ্য আবিষ্কার করুন।",
+        "cta": "কেনাকাটা শুরু করুন",
+        "sellCta": "বিক্রি শুরু করুন",
+        "stats": {
+            "products": "পণ্য",
+            "sellers": "বিক্রেতা",
+            "buyers": "সুখী ক্রেতা",
+            "trusted": "৫০,০০০+ মানুষের বিশ্বস্ত",
+            "satisfied": "সন্তুষ্ট ক্রেতা",
+            "live": "লাইভ অ্যাক্টিভিটি",
+            "orders": "২৪ ঘণ্টায় অর্ডারের সংখ্যা"
+        },
+        "trust": {
+            "shipping": "সেলার শিপিং",
+            "shippingSub": "বিক্রেতা দ্বারা নির্ধারিত মূল্য",
+            "secure": "নিরাপদ চেকআউট",
+            "secureSub": "২৫৬-বিট SSL এনক্রিপশন",
+            "returns": "৩০ দিনের রিটার্ন",
+            "returnsSub": "ঝামেলামুক্ত রিফান্ড",
+            "support": "২৪/৭ সাপোর্ট",
+            "supportSub": "আমরা সবসময় আছি"
+        },
+        "categories": {
+            "title": "বিভাগ অনুযায়ী কেনাকাটা",
+            "subtitle": "আমাদের সবচেয়ে জনপ্রিয় বিভাগগুলো দেখুন"
+        },
+        "trending": {
+            "title": "এখন ট্রেন্ডিং",
+            "subtitle": "সবাই এই সপ্তাহে যা কিনছে"
+        },
+        "sellers": {
+            "title": "সেরা বিক্রেতা",
+            "subtitle": "সেরা রেটিং প্রাপ্ত বিক্রেতাদের দোকান দেখুন"
+        },
+        "promo": {
+            "badge": "বিক্রেতাদের জন্য",
+            "title": "আজই আপনার দোকান শুরু করুন।",
+            "subtitle": "তরঙ্গতে হাজার হাজার বিক্রেতার সাথে যোগ দিন। আপনার ব্র্যান্ড তৈরি করুন, লক্ষ লক্ষ ক্রেতার কাছে পৌঁছান এবং আপনার ব্যবসা বৃদ্ধি করুন — সবই এক প্ল্যাটফর্মে।",
+            "cta": "শুরু করুন"
+        },
+        "featured": {
+            "title": "নির্বাচিত পণ্য",
+            "subtitle": "আমাদের এডিটরদের দ্বারা নির্বাচিত"
+        },
+        "reviews": {
+            "title": "ক্রেতারা যা বলছেন",
+            "subtitle": "আসল গ্রাহকদের আসল রিভিউ",
+            "verified": "যাচাইকৃত ক্রেতা",
+            "purchased": "কেনা হয়েছে:"
+        },
+        "newsletter": {
+            "title": "খবর পান",
+            "subtitle": "এক্সক্লুসিভ ডিল, নতুন পণ্য এবং ট্রেন্ডিং আপডেট পেতে সাবস্ক্রাইব করুন — সরাসরি আপনার ইনবক্সে।",
+            "placeholder": "আপনার ইমেল লিখুন",
+            "button": "সাবস্ক্রাইব"
+        }
+    },
+    "checkout": {
+        "title": "চেকআউট",
+        "shipping": "শিপিং",
+        "payment": "পেমেন্ট",
+        "review": "রিভিউ",
+        "shippingInfo": "শিপিং তথ্য",
+        "savedAddresses": "সংরক্ষিত ঠিকানা",
+        "firstName": "প্রথম নাম",
+        "lastName": "শেষ নাম",
+        "email": "ইমেল ঠিকানা",
+        "phone": "ফোন নম্বর",
+        "address": "ঠিকানা",
+        "city": "শহর",
+        "state": "বিভাগ/রাজ্য",
+        "zip": "জিপ কোড",
+        "shippingMethod": "শিপিং পদ্ধতি",
+        "standardShipping": "স্ট্যান্ডার্ড শিপিং",
+        "expressShipping": "এক্সপ্রেস শিপিং",
+        "days": "কাজের দিন",
+        "free": "ফ্রি",
+        "continueToPayment": "পেমেন্টে এগিয়ে যান",
+        "paymentDetails": "পেমেন্ট বিবরণ",
+        "creditCard": "ক্রেডিট কার্ড",
+        "cod": "ক্যাশ অন ডেলিভারি",
+        "bkash": "বিকাশ",
+        "nagad": "নগদ",
+        "paypal": "পেপাল",
+        "secureInfo": "আপনার পেমেন্ট তথ্য এনক্রিপ্ট করা এবং সুরক্ষিত।",
+        "nameOnCard": "কার্ডের নাম",
+        "cardNumber": "কার্ড নম্বর",
+        "expiry": "মাস / বছর",
+        "cvv": "সিভিভি",
+        "bkashNagadDesc": "দয়া করে আপনার {{method}} অ্যাকাউন্ট নম্বর লিখুন। আমরা ভেরিফিকেশনের জন্য একটি ওটিপি পাঠাব।",
+        "paypalDesc": "রিভিউ অর্ডারে ক্লিক করার পর আপনাকে নিরাপদে পেমেন্ট সম্পন্ন করতে পেপালে পাঠিয়ে দেওয়া হবে।",
+        "codDesc": "অর্ডার ডেলিভারির সময় নগদে পেমেন্ট করুন। কোন অগ্রিম পেমেন্টের প্রয়োজন নেই।",
+        "back": "ফিরে যান",
+        "reviewOrder": "অর্ডার রিভিউ",
+        "reviewTitle": "আপনার অর্ডার রিভিউ করুন",
+        "shippingTo": "শিপিং ঠিকানা",
+        "edit": "সম্পাদনা",
+        "placeOrder": "অর্ডার করুন",
+        "orderSummary": "অর্ডার সারাংশ",
+        "items": "টি পণ্য",
+        "subtotal": "সাবটোটাল",
+        "shippingCost": "শিপিং",
+        "tax": "কর",
+        "total": "মোট",
+        "loginRequired": "অর্ডার করতে লগইন করুন",
+        "orderFailed": "অর্ডার ব্যর্থ হয়েছে: "
+    },
+    "orderConfirmation": {
+        "loading": "আপনার অর্ডার নিশ্চিতকরণ লোড হচ্ছে...",
+        "title": "অর্ডার নিশ্চিত করা হয়েছে!",
+        "subtitle": "আপনার কেনাকাটার জন্য ধন্যবাদ। আমরা আপনার অর্ডারের বিবরণ সহ একটি নিশ্চিতকরণ ইমেল পাঠিয়েছি।",
+        "orderNumber": "অর্ডার নম্বর",
+        "copyOrderNumber": "অর্ডার নম্বর কপি করুন",
+        "estimatedDelivery": "সম্ভাব্য ডেলিভারি",
+        "shippingTo": "শিপিং হচ্ছে",
+        "defaultAddress": "১২৩ মেইন স্ট্রিট, নিউ ইয়র্ক, এনওয়াই ১০০০১",
+        "payment": "পেমেন্ট",
+        "defaultPayment": "•••• ৪২৪২ এ শেষ হওয়া ভিসা",
+        "subtotalPaid": "মোট পরিশোধিত",
+        "orderPlaced": "অর্ডার করা হয়েছে",
+        "processing": "প্রসেসিং হচ্ছে",
+        "shipped": "শিপ করা হয়েছে",
+        "delivered": "ডেলিভারি করা হয়েছে",
+        "trackOrder": "অর্ডার ট্র্যাক করুন",
+        "continueShopping": "কেনাকাটা চালিয়ে যান"
+    },
+    "reviews": {
+        "title": "আমার রিভিউ",
+        "subtitle": "আপনার সমস্ত পণ্য রিভিউ এক জায়গায় পরিচালনা করুন।",
+        "noReviews": "এখনও কোন রিভিউ নেই",
+        "noReviewsDesc": "আপনি আপনার ক্রয়কৃত করা পণ্যের জন্য এখনও কোন রিভিউ লিখেননি।",
+        "viewOrderHistory": "অর্ডার ইতিহাস দেখুন",
+        "published": "প্রকাশিত",
+        "pending": "পেন্ডিং",
+        "editReview": "রিভিউ সম্পাদনা",
+        "viewProduct": "পণ্য দেখুন"
+    },
+    "common": {
+        "viewAll": "সব দেখুন",
+        "products": "পণ্য",
+        "seeAll": "সব দেখুন",
+        "wishlistAdd": "উইশলিস্টে যোগ করুন",
+        "wishlistRemove": "উইশলিস্ট থেকে সরান",
+        "badges": {
+            "Sale": "সেল",
+            "New": "নতুন",
+            "BestSeller": "বেস্ট সেলার"
+        }
+    },
+    "search": {
+        "resultsFor": "\"{{query}}\"-এর ফলাফল",
+        "allProducts": "সব পণ্য",
+        "found": "{{count}}টি পণ্য পাওয়া গেছে",
+        "found_plural": "{{count}}টি পণ্য পাওয়া গেছে",
+        "pageOf": "পৃষ্ঠা {{current}}, মোট {{total}}",
+        "filters": "ফিল্টার",
+        "clearAll": "সব মুছুন",
+        "activeFilters": "সক্রিয় ফিল্টার",
+        "category": "বিভাগ",
+        "allCategories": "সব বিভাগ",
+        "priceRange": "মূল্যসীমা",
+        "customRange": "কাস্টম সীমা",
+        "min": "সর্বনিম্ন",
+        "max": "সর্বোচ্চ",
+        "onSaleOnly": "শুধু অফারের পণ্য",
+        "minRating": "সর্বনিম্ন রেটিং",
+        "andUp": "ও তার বেশি",
+        "shopBySeller": "বিক্রেতা অনুযায়ী",
+        "allShops": "সব দোকান",
+        "showAll": "সব দেখুন ({{count}})",
+        "showLess": "কম দেখুন",
+        "noProducts": "কোনো পণ্য পাওয়া যায়নি",
+        "adjustFilters": "অনুগ্রহ করে ফিল্টার পরিবর্তন করুন বা অন্য কিছু লিখে খুঁজুন।",
+        "sortBy": "সর্ট করুন",
+        "relevance": "প্রাসঙ্গিকতা",
+        "priceAsc": "মূল্য: কম থেকে বেশি",
+        "priceDesc": "মূল্য: বেশি থেকে কম",
+        "rating": "সর্বোচ্চ রেটিং",
+        "newest": "নতুন পণ্য আগে",
+        "gridView": "গ্রিড ভিউ",
+        "listView": "লিস্ট ভিউ"
+    },
+    "product": {
+        "notFound": "পণ্যটি পাওয়া যায়নি",
+        "notFoundDesc": "আপনি যে পণ্যটি খুঁজছেন তা নেই অথবা সরিয়ে ফেলা হয়েছে।",
+        "backToHome": "হোম পেজে ফিরে যান",
+        "quantity": "পরিমাণ",
+        "addedToCart": "কার্টে যোগ করা হয়েছে",
+        "addToCart": "কার্টে যোগ করুন",
+        "contactSeller": "বিক্রেতার সাথে যোগাযোগ করুন",
+        "soldBy": "বিক্রেতা",
+        "visitShop": "দোকান দেখুন",
+        "freeShipping": "ফ্রি শিপিং",
+        "freeShippingDesc": "৫০ ডলারের বেশি অর্ডারে",
+        "buyerProtection": "ক্রেতা সুরক্ষা",
+        "buyerProtectionDesc": "মানি-ব্যাক গ্যারান্টি",
+        "easyReturns": "সহজ রিটার্ন",
+        "easyReturnsDesc": "৩০ দিনের পলিসি",
+        "description": "বিবরণ",
+        "reviews": "রিভিউ ({{count}})",
+        "highlights": "হাইলাইটস",
+        "mayAlsoLike": "আপনার এগুলোও পছন্দ হতে পারে",
+        "sellerInstructions": "বিক্রেতাকে মেসেজ পাঠাতে দয়া করে ক্রেতা হিসেবে লগইন করুন।",
+        "regardingItem": "এই পণ্যটি সম্পর্কে",
+        "typeQuestion": "আপনার প্রশ্ন এখানে লিখুন...",
+        "cancel": "বাতিল",
+        "sendMessage": "মেসেজ পাঠান",
+        "messageSent": "মেসেজ পাঠানো হয়েছে!",
+        "messageSentDesc": "বিক্রেতা শীঘ্রই মেসেজ সেন্টারের মাধ্যমে আপনাকে উত্তর দেবেন।",
+        "home": "হোম"
+    },
+    "cart": {
+        "title": "শপিং কার্ট",
+        "itemsCount": "({{count}}টি পণ্য)",
+        "empty": "আপনার কার্ট খালি",
+        "emptyDesc": "মনে হচ্ছে আপনি এখনো কার্টে কিছু যোগ করেননি।",
+        "continueShopping": "কেনাকাটা চালিয়ে যান",
+        "freeShippingText": "ফ্রি শিপিং",
+        "shippingCostText": "$৫.৯৯ শিপিং চার্জ",
+        "orderSummary": "অর্ডার সারাংশ",
+        "promoCode": "প্রোমো কোড",
+        "apply": "প্রয়োগ করুন",
+        "subtotal": "সাবটোটাল",
+        "promoDiscount": "প্রোমো ডিসকাউন্ট (১০%)",
+        "shipping": "শিপিং",
+        "total": "মোট",
+        "proceedToCheckout": "চেকআউটে যান",
+        "removeItem": "পণ্যটি সরান"
+    },
+    "contact": {
+        "title": "যোগাযোগ করুন",
+        "subtitle": "কোনো প্রশ্ন আছে? আমরা আপনার কাছ থেকে শুনতে পছন্দ করব।",
+        "email": "ইমেল",
+        "phone": "ফোন",
+        "address": "ঠিকানা",
+        "firstName": "প্রথম নাম",
+        "lastName": "শেষ নাম",
+        "emailLabel": "ইমেল ঠিকানা",
+        "subject": "বিষয়",
+        "message": "আপনার মেসেজ...",
+        "sendMessage": "মেসেজ পাঠান"
+    },
+    "help": {
+        "title": "হেল্প সেন্টার",
+        "subtitle": "সাধারণ প্রশ্নের উত্তর খুঁজুন অথবা আমাদের সাপোর্ট টিমের সাথে যোগাযোগ করুন।",
+        "searchPlaceholder": "সহায়তার জন্য খুঁজুন...",
+        "faqTitle": "সচরাচর জিজ্ঞাসিত প্রশ্নাবলী",
+        "emailSupport": "ইমেল সাপোর্ট",
+        "emailSupportDesc": "২৪ ঘণ্টার মধ্যে উত্তর পান",
+        "liveChat": "লাইভ চ্যাট",
+        "liveChatDesc": "আমাদের সাপোর্ট টিমের সাথে চ্যাট করুন",
+        "faq": [
+            {
+                "q": "কিভাবে আমি আমার অর্ডার ট্র্যাক করব?",
+                "a": "আপনার সমস্ত কেনাকাটার রিয়েল-টাইম ট্র্যাকিং তথ্য দেখতে আমার অ্যাকাউন্ট > আমার অর্ডার-এ যান।"
+            },
+            {
+                "q": "ফেরত নীতি কি?",
+                "a": "বেশিরভাগ পণ্য ডেলিভারির ৩০ দিনের মধ্যে ফেরত দেওয়া যেতে পারে। নির্দিষ্ট বিবরণের জন্য বিক্রেতার স্টোর পলিসি দেখুন।"
+            },
+            {
+                "q": "আমি কিভাবে বিক্রেতা হব?",
+                "a": "'টোরোঙ্গোতে বিক্রি করুন'-এ ক্লিক করুন এবং একটি ফ্রি বিক্রেতা অ্যাকাউন্ট তৈরি করুন। আপনি অবিলম্বে পণ্য তালিকাভুক্ত করা শুরু করতে পারেন।"
+            },
+            {
+                "q": "আমার পেমেন্ট তথ্য কি নিরাপদ?",
+                "a": "একেবারে। সমস্ত পেমেন্ট এনক্রিপ্ট করা, PCI-সম্মত সিস্টেমের মাধ্যমে প্রক্রিয়া করা হয়। আমরা কখনোই আপনার সম্পূর্ণ কার্ডের তথ্য সংরক্ষণ করি না।"
+            },
+            {
+                "q": "আমি কিভাবে একজন বিক্রেতার সাথে যোগাযোগ করব?",
+                "a": "বিক্রেতার স্টোর পেজে যান এবং 'মেসেজ' বৈশিষ্ট্যটি ব্যবহার করুন, অথবা আপনার অ্যাকাউন্ট মেসেজ সেকশনে এটি খুঁজে নিন।"
+            },
+            {
+                "q": "আমি যদি একটি ত্রুটিপূর্ণ পণ্য পাই তবে কি হবে?",
+                "a": "আপনার অর্ডার পেজের মাধ্যমে একটি বিরোধ খুলুন এবং আমাদের টিম ৪৮ ঘণ্টার মধ্যে এটি সমাধান করতে সহায়তা করবে।"
+            }
+        ]
+    },
+    "auth": {
+        "resetPassword": "পাসওয়ার্ড রিসেট করুন",
+        "resetDesc": "আপনার ইমেল লিখুন এবং আমরা আপনার পাসওয়ার্ড রিসেট করার জন্য একটি লিঙ্ক পাঠাব।",
+        "sendResetLink": "রিসেট লিঙ্ক পাঠান",
+        "rememberPassword": "আপনার পাসওয়ার্ড মনে আছে?",
+        "login": "লগইন",
+        "welcomeBack": "আবার স্বাগতম",
+        "createAccount": "অ্যাকাউন্ট তৈরি করুন",
+        "loginDesc": "তরঙ্গতে কেনাকাটা চালিয়ে যেতে লগইন করুন।",
+        "sellerSignupDesc": "তরঙ্গতে বিক্রি শুরু করুন এবং আপনার ব্যবসা বৃদ্ধি করুন।",
+        "buyerSignupDesc": "তরঙ্গতে যোগ দিন এবং অসাধারণ সব পণ্য আবিষ্কার শুরু করুন।",
+        "iWantTo": "আমি চাই",
+        "buy": "কিনতে",
+        "buyDesc": "কেনাকাটা ও আবিষ্কার",
+        "sell": "বিক্রি করতে",
+        "sellDesc": "আপনার দোকান খুলুন",
+        "continueWithGoogle": "গুগল দিয়ে প্রবেশ করুন",
+        "or": "অথবা",
+        "fullName": "পুরো নাম",
+        "storeName": "দোকানের নাম",
+        "emailAddress": "ইমেল ঠিকানা",
+        "password": "পাসওয়ার্ড",
+        "confirmPassword": "পাসওয়ার্ড নিশ্চিত করুন",
+        "forgotPassword": "পাসওয়ার্ড ভুলে গেছেন?",
+        "signup": "সাইন আপ",
+        "dontHaveAccount": "অ্যাকাউন্ট নেই?",
+        "alreadyHaveAccount": "ইতিমধ্যেই অ্যাকাউন্ট আছে?",
+        "termsAgreement": "অ্যাকাউন্ট তৈরি করার মাধ্যমে, আপনি আমাদের সাথে একমত হচ্ছেন",
+        "termsOfService": "পরিষেবার শর্তাবলী",
+        "sellerAgreement": "বিক্রেতা চুক্তি",
+        "privacyPolicy": "গোপনীয়তা নীতি",
+        "errorRequired": "দয়া করে সব প্রয়োজনীয় ক্ষেত্র পূরণ করুন",
+        "errorName": "নাম প্রয়োজন",
+        "errorPasswordMatch": "পাসওয়ার্ড মেলেনি",
+        "errorStoreName": "বিক্রেতা অ্যাকাউন্টের জন্য দোকানের নাম প্রয়োজন",
+        "resetEmailSent": "পাসওয়ার্ড রিসেট করার জন্য আমরা একটি লিঙ্ক পাঠিয়েছি।",
+        "loginButton": "লগইন করুন",
+        "signupBuyer": "অ্যাকাউন্ট তৈরি করুন",
+        "signupSeller": "বিক্রেতা অ্যাকাউন্ট তৈরি করুন",
+        "authError": "অথেনটিকেশনের সময় একটি ত্রুটি ঘটেছে"
+    },
+    "wishlist": {
+        "title": "উইশলিস্ট",
+        "empty": "আপনার উইশলিস্ট খালি",
+        "emptyDesc": "আপনার পছন্দের পণ্যগুলো পরে খুঁজে পেতে এখানে সংরক্ষণ করুন।",
+        "exploreProducts": "পণ্য দেখুন",
+        "removeFromWishlist": "সরিয়ে ফেলুন"
+    },
+    "orders": {
+        "title": "আমার অর্ডার",
+        "allOrders": "সব অর্ডার",
+        "processing": "প্রসেসিং হচ্ছে",
+        "shipped": "শিপ করা হয়েছে",
+        "delivered": "ডেলিভারি হয়েছে",
+        "cancelled": "বাতিল করা হয়েছে",
+        "loading": "অর্ডার লোড হচ্ছে...",
+        "orderNo": "TRG-{{id}}",
+        "soldBy": "বিক্রেতা: {{seller}}",
+        "total": "মোট:",
+        "cancelOrder": "অর্ডার বাতিল করুন",
+        "track": "ট্র্যাক",
+        "details": "বিস্তারিত",
+        "noOrders": "কোনো অর্ডার পাওয়া যায়নি",
+        "noOrdersDesc": "আপনার ফিল্টার পরিবর্তন করে দেখুন অথবা কেনাকাটা শুরু করুন!",
+        "cancelTitle": "অর্ডার বাতিল",
+        "cancelDesc": "আপনি কি নিশ্চিত যে আপনি এই অর্ডারটি বাতিল করতে চান? দয়া করে বাতিলের কারণ নির্বাচন করুন।",
+        "selectReason": "একটি কারণ নির্বাচন করুন...",
+        "keepOrder": "অর্ডার রাখুন",
+        "confirmCancel": "বাতিল নিশ্চিত করুন",
+        "cancelling": "বাতিল করা হচ্ছে...",
+        "qty": "পরিমাণ",
+        "reasons": {
+            "changedMind": "মন পরিবর্তন করেছি",
+            "betterPrice": "অন্য কোথাও কম দামে পেয়েছি",
+            "mistake": "ভুল করে অর্ডার করেছি",
+            "longDelivery": "ডেলিভারি সময় অনেক বেশি",
+            "other": "অন্যান্য"
+        }
+    },
+    "account": {
+        "profile": "প্রোফাইল",
+        "addresses": "ঠিকানা",
+        "payment": "পেমেন্ট",
+        "notifications": "নোটিফিকেশন",
+        "profileInfo": "প্রোফাইল তথ্য",
+        "changePhoto": "ছবি পরিবর্তন করুন",
+        "firstName": "প্রথম নাম",
+        "lastName": "শেষ নাম",
+        "email": "ইমেল",
+        "phone": "ফোন",
+        "saveChanges": "পরিবর্তন সংরক্ষণ করুন",
+        "savedAddresses": "সংরক্ষিত ঠিকানা",
+        "addAddress": "ঠিকানা যোগ করুন",
+        "default": "ডিফল্ট",
+        "edit": "সম্পাদনা",
+        "remove": "সরান",
+        "paymentMethods": "পেমেন্ট পদ্ধতি",
+        "addCard": "কার্ড যোগ করুন",
+        "expires": "মেয়াদ {{date}}",
+        "notificationPrefs": "নোটিফিকেশন পছন্দসমূহ",
+        "orderUpdates": "অর্ডার আপডেট",
+        "orderUpdatesDesc": "শিপিং নিশ্চিতকরণ এবং ডেলিভারি অ্যালার্ট",
+        "promotions": "প্রোমোশন ও অফার",
+        "promotionsDesc": "সেল, ডিসকাউন্ট কোড এবং বিশেষ অফার",
+        "sellerMessages": "বিক্রেতার মেসেজ",
+        "sellerMessagesDesc": "আপনার যোগাযোগ করা বিক্রেতাদের উত্তর",
+        "wishlistAlerts": "উইশলিস্ট অ্যালার্ট",
+        "wishlistAlertsDesc": "আপনার পছন্দের পণ্যের দাম কমলে নোটিফিকেশন",
+        "savePrefs": "পছন্দসমূহ সংরক্ষণ করুন"
+    },
+    "messages": {
+        "title": "মেসেজ",
+        "searchPlaceholder": "মেসেজ খুঁজুন...",
+        "loading": "মেসেজ লোড হচ্ছে...",
+        "emptyState": "একটি কথোপকথন নির্বাচন করুন",
+        "emptyStateDesc": "আপনার মেসেজ দেখতে একজন বিক্রেতাকে বেছে নিন।",
+        "typeMessage": "মেসেজ লিখুন..."
+    },
+    "blog": {
+        "title": "Toroongo Blog",
+        "subtitle": "Tips, updates, and insights for buyers and sellers.",
+        "loading": "Loading articles...",
+        "readArticle": "Read Article",
+        "noArticles": "No articles found",
+        "noArticlesDesc": "We are busy writing new content. Check back soon!",
+        "partnerPost": "Partner Post",
+        "articleNotFound": "Article not found",
+        "backToBlog": "Back to Blog",
+        "share": "Share"
+    },
+    "legal": {
+        "terms": {
+            "title": "Terms of Service",
+            "lastUpdated": "Last updated: March 1, 2026",
+            "sections": [
+                {
+                    "title": "1. Acceptance of Terms",
+                    "content": "By accessing or using the Toroongo platform, you agree to be bound by these Terms of Service. If you do not agree, you may not use our services."
+                },
+                {
+                    "title": "2. User Accounts",
+                    "content": "You must provide accurate information when creating an account. You are responsible for maintaining the security of your account credentials."
+                },
+                {
+                    "title": "3. Buyer Responsibilities",
+                    "content": "Buyers agree to pay for items purchased, provide accurate shipping information, and communicate respectfully with sellers."
+                },
+                {
+                    "title": "4. Seller Obligations",
+                    "content": "Sellers must provide accurate product descriptions, ship orders promptly, and comply with all applicable laws."
+                },
+                {
+                    "title": "5. Prohibited Activities",
+                    "content": "Users may not sell counterfeit goods, engage in fraud, or harass other users while using the platform."
+                },
+                {
+                    "title": "6. Limitation of Liability",
+                    "content": "Toroongo acts as a marketplace facilitator and is not responsible for the quality or legality of items sold by third-party sellers."
+                }
+            ]
+        },
+        "privacy": {
+            "title": "Privacy Policy",
+            "lastUpdated": "Last updated: March 1, 2026",
+            "sections": [
+                {
+                    "title": "1. Information We Collect",
+                    "content": "We collect information you provide directly (name, email) as well as usage data to improve your experience."
+                },
+                {
+                    "title": "2. How We Use Your Information",
+                    "content": "We use your data to process orders, personalize your shopping experience, and prevent fraud."
+                },
+                {
+                    "title": "3. Data Sharing",
+                    "content": "We share necessary information with sellers to fulfill orders. We do not sell personal data to third parties."
+                },
+                {
+                    "title": "4. Data Security",
+                    "content": "We implement industry-standard security measures including encryption to protect your information."
+                },
+                {
+                    "title": "5. Your Rights",
+                    "content": "You may request access to, correction of, or deletion of your personal data at any time."
+                }
+            ]
+        }
+    },
+    "returns": {
+        "title": "Returns & Refunds",
+        "subtitle": "We want you to love every purchase. If something is not right, we make returns easy.",
+        "highlights": {
+            "h1": {
+                "title": "30-Day Returns",
+                "desc": "Return most items within 30 days of delivery."
+            },
+            "h2": {
+                "title": "Free Return Shipping",
+                "desc": "We cover return shipping on eligible items."
+            },
+            "h3": {
+                "title": "Fast Refunds",
+                "desc": "Refunds processed within 3-5 business days."
+            }
+        },
+        "howItWorks": {
+            "title": "How Returns Work",
+            "steps": [
+                {
+                    "step": "01",
+                    "title": "Initiate Return",
+                    "desc": "Go to My Orders and select the item you want to return."
+                },
+                {
+                    "step": "02",
+                    "title": "Pack & Ship",
+                    "desc": "Repackage the item and ship it using the provided label."
+                },
+                {
+                    "step": "03",
+                    "title": "Get Refunded",
+                    "desc": "Once inspected, your refund will be processed promptly."
+                }
+            ]
+        },
+        "eligibility": {
+            "title": "Return Eligibility",
+            "eligible": {
+                "title": "Eligible for Return",
+                "items": [
+                    "Unused items in original packaging",
+                    "Defective or damaged products",
+                    "Wrong item received",
+                    "Item significantly not as described"
+                ]
+            },
+            "notEligible": {
+                "title": "Not Eligible",
+                "items": [
+                    "Personalized or custom-made items",
+                    "Perishable goods",
+                    "Digital downloads",
+                    "Items returned after 30 days"
+                ]
+            }
+        },
+        "cta": {
+            "title": "Need to Return Something?",
+            "subtitle": "Start a return from your order history page or contact our support team."
+        }
+    },
+    "careers": {
+        "title": "Join the Toroongo Team",
+        "subtitle": "Help us reshape the future of e-commerce.",
+        "whyUs": "Why Work With Us",
+        "perks": {
+            "p1": {
+                "title": "Remote Friendly",
+                "desc": "Work from anywhere in the world."
+            },
+            "p2": {
+                "title": "Health & Wellness",
+                "desc": "Full medical, dental, and vision coverage."
+            },
+            "p3": {
+                "title": "Learning Budget",
+                "desc": "$2,000/year for courses and conferences."
+            },
+            "p4": {
+                "title": "Equity Package",
+                "desc": "Every team member is an owner."
+            }
+        },
+        "openings": "Open Positions",
+        "apply": "Apply",
+        "noRole": "Don't see a role for you?",
+        "noRoleDesc": "Send us your resume for future openings.",
+        "getInTouch": "Get in Touch"
+    },
+    "press": {
+        "title": "Press & Media",
+        "subtitle": "Get the latest news about Toroongo.",
+        "emailUs": "Email our media team",
+        "releases": "Press Releases",
+        "news": "In the News",
+        "assets": "Brand Assets",
+        "assetsDesc": "Download our logo and media kit.",
+        "download": "Download Media Kit",
+        "readMore": "Read More"
+    },
+    "shipping": {
+        "title": "শিপিং তথ্য",
+        "subtitle": "শিপিং স্বতন্ত্র বিক্রেতাদের দ্বারা নির্ধারিত এবং পরিচালিত হয়।",
+        "sellerManaged": {
+            "title": "বিক্রেতা-পরিচালিত শিপিং",
+            "desc": "তরঙ্গ একটি মার্কেটপ্লেস যেখানে প্রতিটি বিক্রেতা তাদের নিজস্ব শিপিং রেট এবং ডেলিভারি পদ্ধতি নির্ধারণের জন্য দায়ী। শিপিং খরচ এবং আনুমানিক ডেলিভারি সময় বিক্রেতা দ্বারা নির্ধারিত হয় এবং পণ্যের পৃষ্ঠা এবং চেকআউটের সময় স্পষ্টভাবে প্রদর্শিত হবে।"
+        },
+        "cost": {
+            "title": "শিপিং খরচ",
+            "desc": "বিক্রেতা, আইটেমের ওজন এবং আপনার ডেলিভারি অবস্থানের উপর ভিত্তি করে শিপিং ফি ভিন্ন হয়। কিছু বিক্রেতা একটি নির্দিষ্ট পরিমাণের উপরের অর্ডারের জন্য বিনামূল্যে শিপিং অফার করতে পারে, অন্যদের ক্ষেত্রে ফ্ল্যাট রেট বা হিসাব করা খরচ থাকতে পারে।"
+        },
+        "tracking": {
+            "title": "অর্ডার ট্র্যাকিং",
+            "desc": "আপনার অর্ডার পাঠানোর পরে, বিক্রেতা একটি ট্র্যাকিং নম্বর প্রদান করবেন। আপনি আপনার ড্যাশবোর্ডের \"আমার অর্ডার\" এর অধীনে আপনার শিপমেন্ট পর্যবেক্ষণ করতে পারেন। আপনার ডেলিভারি সম্পর্কে কোনো প্রশ্ন থাকলে, আপনি সরাসরি বিক্রেতাকে মেসেজ করতে পারেন।"
+        },
+        "global": {
+            "title": "গ্লোবাল এবং রিজিওনাল ডেলিভারি",
+            "desc": "যদিও তরঙ্গ বাংলাদেশ, নেপাল, ভারত, ইউএই, ইন্দোনেশিয়া এবং মালয়েশিয়ার মতো মূল বাজারগুলিতে শক্তিশালী উপস্থিতি রয়েছে, আমাদের বিক্রেতারা বিশ্বব্যাপী প্রায় যে কোনও অবস্থানে শিপিং করতে পারেন। আন্তর্জাতিক শিপিং উপলব্ধতার জন্য অনুগ্রহ করে বিক্রেতার স্বতন্ত্র দোকানের নীতিগুলি দেখুন।"
+        }
+    },
+    "dataPreferences": {
+        "title": "Data Preferences",
+        "lastUpdated": "Last updated: March 1, 2026",
+        "sections": [
+            {
+                "title": "1. What Are Cookies",
+                "content": "Cookies are small text files stored on your device that help us remember your preferences."
+            },
+            {
+                "title": "2. How We Use Cookies",
+                "content": "We use cookies for essential functions, preferences, analytics, and marketing."
+            },
+            {
+                "title": "3. Third-Party Cookies",
+                "content": "Some cookies are placed by third-party services like Google Analytics and payment processors."
+            },
+            {
+                "title": "4. Managing Cookies",
+                "content": "You can control cookies through your browser settings or our consent banner."
+            }
+        ]
+    },
+    "sellerResources": {
+        "title": "Seller Resources",
+        "subtitle": "Guides, tutorials, and tools to help you succeed.",
+        "guides": "Seller Guides",
+        "more": "More Resources",
+        "ready": "Ready to Start Selling?",
+        "readyDesc": "Create your free seller account today.",
+        "getStarted": "Get Started"
+    },
+    "sellerDashboard": {
+        "title": "সেলার হাব",
+        "nav": {
+            "dashboard": "ড্যাশবোর্ড",
+            "products": "পণ্যসমূহ",
+            "orders": "অর্ডারসমূহ",
+            "blogPosts": "ব্লগ পোস্ট",
+            "finance": "অর্থায়ন",
+            "messages": "বার্তা",
+            "storefront": "স্টোরফ্রন্ট",
+            "settings": "সেটিংস",
+            "viewStore": "আমার স্টোর দেখুন"
+        },
+        "stats": {
+            "totalRevenue": "মোট আয়",
+            "totalOrders": "মোট অর্ডার",
+            "productsListed": "তালিকাভুক্ত পণ্য",
+            "storeViews": "স্টোর ভিউ",
+            "vsLastMonth": "গত মাসের তুলনায়"
+        },
+        "revenueOverview": {
+            "title": "আয়ের সংক্ষিপ্ত বিবরণ",
+            "last12Months": "গত ১২ মাস"
+        },
+        "topProducts": {
+            "title": "সেরা পণ্যসমূহ",
+            "sold": "বিক্রিত",
+            "noSales": "এখনো কোনো বিক্রি হয়নি।"
+        },
+        "recentOrders": {
+            "title": "সাম্প্রতিক অর্ডারসমূহ",
+            "order": "অর্ডার",
+            "customer": "ক্রেতা",
+            "product": "পণ্য",
+            "total": "মোট",
+            "status": "অবস্থা",
+            "noOrders": "এখনো কোনো অর্ডার নেই",
+            "loading": "ড্যাশবোর্ড লোড হচ্ছে..."
+        }
+    },
+    "sellerOrders": {
+        "title": "অর্ডারসমূহ",
+        "stats": {
+            "pending": "অপেক্ষমান",
+            "shipped": "চালান করা হয়েছে",
+            "completed": "সম্পন্ন"
+        },
+        "filters": {
+            "searchPlaceholder": "অর্ডার আইডি বা ক্রেতা দিয়ে খুঁজুন...",
+            "allStatus": "সব অবস্থা",
+            "processing": "প্রক্রিয়াকরণ হচ্ছে",
+            "shipped": "চালান করা হয়েছে",
+            "delivered": "বিতরণ করা হয়েছে"
+        },
+        "table": {
+            "order": "অর্ডার",
+            "date": "তারিখ",
+            "customer": "ক্রেতা",
+            "product": "পণ্য",
+            "total": "মোট",
+            "status": "অবস্থা",
+            "action": "অ্যাকশন",
+            "view": "দেখুন",
+            "loading": "অর্ডার লোড হচ্ছে...",
+            "noOrders": "কোনো অর্ডার পাওয়া যায়নি",
+            "itemsCount": "{{count}}টি পণ্য",
+            "moreItems": "+{{count}}টি আরও"
+        }
+    },
+    "sellerProducts": {
+        "title": "পণ্যসমূহ",
+        "addProduct": "পণ্য যোগ করুন",
+        "filters": {
+            "searchPlaceholder": "পণ্য খুঁজুন...",
+            "allStatus": "সব অবস্থা"
+        },
+        "status": {
+            "active": "সক্রিয়",
+            "lowStock": "কম স্টক",
+            "outOfStock": "স্টক নেই",
+            "draft": "খসড়া"
+        },
+        "table": {
+            "product": "পণ্য",
+            "category": "বিভাগ",
+            "price": "মূল্য",
+            "stock": "স্টক",
+            "status": "অবস্থা",
+            "actions": "অ্যাকশন",
+            "loading": "পণ্য লোড হচ্ছে...",
+            "noProducts": "কোনো পণ্য পাওয়া যায়নি"
+        },
+        "actions": {
+            "view": "দেখুন",
+            "edit": "সম্পাদনা",
+            "delete": "মুছে ফেলুন"
+        }
+    },
+    "sellerBlogs": {
+        "title": "ব্লগ ব্যবস্থাপনা",
+        "subtitle": "আপনার দোকানের ব্লগ পোস্ট তৈরি এবং পরিচালনা করুন।",
+        "createNew": "নতুন পোস্ট তৈরি করুন",
+        "searchPlaceholder": "পোস্ট খুঁজুন...",
+        "loading": "ব্লগ লোড হচ্ছে...",
+        "noBlogs": "কোনো ব্লগ পোস্ট পাওয়া যায়নি",
+        "noBlogsMatch": "\"{{query}}\" এর সাথে মিল থাকা কোনো পোস্ট নেই। অন্য কিছু খুঁজুন।",
+        "noBlogsAction": "আপনি এখনও কোনো ব্লগ পোস্ট তৈরি করেননি। গ্রাহকদের সাথে যোগাযোগ বাড়ানোর জন্য আপনার প্রথম পোস্টটি তৈরি করুন।",
+        "clearSearch": "সার্চ পরিষ্কার করুন",
+        "createFirst": "প্রথম পোস্ট তৈরি করুন",
+        "deleteConfirm": "আপনি কি নিশ্চিত যে আপনি এই ব্লগ পোস্টটি মুছে ফেলতে চান?",
+        "deleteFailed": "ব্লগ মুছতে ব্যর্থ হয়েছে",
+        "table": {
+            "details": "পোস্ট বিস্তারিত",
+            "category": "বিভাগ",
+            "status": "অবস্থা",
+            "actions": "অ্যাকশন",
+            "publishedOn": "{{date}} এ প্রকাশিত"
+        },
+        "status": {
+            "published": "প্রকাশিত"
+        },
+        "view": "দেখুন",
+        "edit": "সম্পাদনা",
+        "delete": "মুছে ফেলুন",
+        "views": "{{count}} ভিউ"
+    },
+    "sellerFinance": {
+        "title": "অর্থনীতি",
+        "exportCsv": "CSV এক্সপোর্ট করুন",
+        "stats": {
+            "available": "বর্তমান ব্যালেন্স",
+            "pending": "পেন্ডিং সেটেলমেন্ট",
+            "nextPayout": "পরবর্তী পে-আউট"
+        },
+        "transactions": {
+            "title": "সাম্প্রতিক লেনদেন",
+            "table": {
+                "id": "লেনদেন",
+                "date": "তারিখ",
+                "type": "ধরণ",
+                "description": "বিস্তারিত",
+                "amount": "পরিমাণ",
+                "fee": "ফি",
+                "net": "নিট",
+                "loading": "লেনদেন লোড হচ্ছে...",
+                "noTransactions": "এখনও কোনো লেনদেন নেই।"
+            },
+            "types": {
+                "sale": "বিক্রয়",
+                "payout": "পে-আউট"
+            }
+        },
+        "payoutInfo": "সাপ্তাহিক পে-আউট → ব্যাংক ****{{lastFour}}"
+    },
+    "sellerSettings": {
+        "title": "স্টোর সেটিংস",
+        "tabs": {
+            "store": "স্টোর তথ্য",
+            "branding": "ব্র্যান্ডিং",
+            "shipping": "শিপিং",
+            "notifications": "নোটিফিকেশন"
+        },
+        "username": {
+            "title": "শপ ইউজারনেম",
+            "desc": "আপনার অনন্য স্টোরফ্রন্ট URL। গ্রাহকরা আপনার শপ পাবেন এখানে: ",
+            "placeholder": "আপনার-শপ-নাম",
+            "checking": "পরীক্ষা করা হচ্ছে...",
+            "available": "ইউজারনেমটি খালি আছে!",
+            "current": "এটি আপনার বর্তমান ইউজারনেম",
+            "empty": "ইউজারনেম খালি হতে পারে না",
+            "preview": "আপনার স্টোরফ্রন্ট দেখুন",
+            "claim": "ইউজারনেমটি নিন",
+            "currentBtn": "বর্তমান ইউজারনেম"
+        },
+        "storeInfo": {
+            "title": "স্টোর তথ্য",
+            "name": "স্টোর নাম",
+            "description": "বিবরণ",
+            "email": "যোগাযোগের ইমেইল",
+            "phone": "ফোন",
+            "save": "পরিবর্তন সংরক্ষণ করুন"
+        },
+        "branding": {
+            "title": "ব্র্যান্ড কাস্টমাইজেশন",
+            "color": "ব্র্যান্ডের প্রাথমিক রং",
+            "logo": "লোগো URL",
+            "banner": "ব্যানার ইমেজ URL",
+            "save": "ব্র্যান্ডিং আপডেট করুন"
+        },
+        "shipping": {
+            "title": "শিপিং সেটিংস",
+            "processing": "প্রসেসিং সময় (দিন)",
+            "threshold": "ফ্রি শিপিং থ্রেশহোল্ড ($)",
+            "rate": "স্ট্যান্ডার্ড শিপিং রেট ($)",
+            "express": "এক্সপ্রেস শিপিং অফার করুন",
+            "expressDesc": "গ্রাহকদের দ্রুত ২-৩ দিনে ডেলিভারি পাওয়ার সুযোগ দিন",
+            "save": "শিপিং সংরক্ষণ করুন"
+        },
+        "notifications": {
+            "title": "নোটিফিকেশন পছন্দসমূহ",
+            "save": "পছন্দসমূহ সংরক্ষণ করুন",
+            "items": {
+                "orders": {
+                    "label": "নতুন অর্ডার",
+                    "desc": "নতুন অর্ডার পেলে জানানো হবে"
+                },
+                "updates": {
+                    "label": "অর্ডার আপডেট",
+                    "desc": "অবস্থার পরিবর্তন এবং ডেলিভারি নিশ্চিতকরণ"
+                },
+                "messages": {
+                    "label": "গ্রাহকের বার্তা",
+                    "desc": "যখন কোনো ক্রেতা আপনাকে বার্তা পাঠাবেন"
+                },
+                "stock": {
+                    "label": "কম স্টক অ্যালার্ট",
+                    "desc": "যখন পণ্যের স্টক ৫ ইউনিটের নিচে নেমে যাবে"
+                },
+                "payouts": {
+                    "label": "পে-আউট নোটিফিকেশন",
+                    "desc": "যখন আপনার ব্যাংকে পে-আউট পাঠানো হবে"
+                }
+            }
+        }
+    },
+    "pricing": {
+        "title": "মূল্য এবং পরিকল্পনা",
+        "subtitle": "আপনার ব্যবসার জন্য উপযুক্ত স্তরটি বেছে নিন। কোনো ট্রানজেকশন ফি নেই, কখনোই না।",
+        "month": "/ মাস",
+        "mostPopular": "সবচেয়ে জনপ্রিয়",
+        "aiSuperpower": "AI সুপারপাওয়ার",
+        "faqTitle": "সচরাচর জিজ্ঞাসিত প্রশ্নাবলী",
+        "cta": {
+            "free": "বিনামূল্যে শুরু করুন",
+            "growth": "গ্রোথ পান",
+            "business": "বিজনেস পান",
+            "contact": "সেলসের সাথে যোগাযোগ করুন"
+        },
+        "plans": {
+            "starter": {
+                "name": "স্টার্টার",
+                "desc": "নতুন বিক্রেতাদের শুরু করার জন্য উপযুক্ত।",
+                "ai": "AI পণ্য বিবরণ জেনারেটর",
+                "aiDesc": "কয়েকটি কীওয়ার্ড থেকে দ্রুত আকর্ষক এবং SEO-বান্ধব বিবরণ লিখুন।"
+            },
+            "growth": {
+                "name": "গ্রোথ",
+                "desc": "পেশাদার সরঞ্জাম প্রয়োজন এমন বর্ধনশীল ব্র্যান্ডের জন্য।",
+                "ai": "AI ইমেজ এনহ্যান্সার",
+                "aiDesc": "স্বয়ংক্রিয়ভাবে সাধারণ ব্যাকগ্রাউন্ড সরান এবং সেগুলোকে সলিড রঙ দিয়ে প্রতিস্থাপন করুন।"
+            },
+            "business": {
+                "name": "বিজনেস",
+                "desc": "প্রতিষ্ঠিত খুচরা বিক্রেতাদের কার্যক্রম সম্প্রসারণের জন্য।",
+                "ai": "AI সাপোর্ট এবং সুপারিশ",
+                "aiDesc": "২৪/৭ ক্রেতাদের প্রশ্নের জন্য AI চ্যাটবট এবং স্মার্ট পণ্যের সুপারিশ।"
+            },
+            "enterprise": {
+                "name": "এন্টারপ্রাইজ",
+                "desc": "বিশাল কার্যক্রম সমৃদ্ধ পাওয়ার সেলারদের জন্য।",
+                "ai": "AI পূর্বাভাস এবং সেন্টিমেন্ট",
+                "aiDesc": "ইনভেন্টরি শেষ হওয়ার পূর্বাভাস দিন এবং শত শত রিভিউ বিশ্লেষণ করুন।"
+            }
+        },
+        "features": {
+            "fee": "১০০% বিক্রয় আপনার (০% ফি)",
+            "subdomain": "স্ট্যান্ডার্ড প্ল্যাটফর্ম সাবডোমেন",
+            "builder": "বেসিক ড্র্যাগ-অ্যান্ড-ড্রপ বিল্ডার",
+            "limit10": "সর্বোচ্চ ১০টি পণ্য তালিকা",
+            "branding": "তরঙ্গ ফুটার ব্র্যান্ডিং বাধ্যতামূলক",
+            "support": "স্ট্যান্ডার্ড কমিউনিটি সাপোর্ট",
+            "domain": "কাস্টম ডোমেইন ম্যাপিং",
+            "whiteLabel": "হোয়াইট-লেবেল অভিজ্ঞতা (ব্র্যান্ডিং নেই)",
+            "limit100": "সর্বোচ্চ ১০০টি পণ্য তালিকা",
+            "staff2": "২টি স্টাফ অ্যাকাউন্ট",
+            "templates": "প্রিমিয়াম লেআউট টেমপ্লেট",
+            "emailSupport": "স্ট্যান্ডার্ড ইমেল গ্রাহক সহায়তা",
+            "limitUnlimited": "সীমাহীন পণ্য তালিকা",
+            "blog": "বিল্ট-ইন ব্লগিং ইঞ্জিন",
+            "cart": "স্বয়ংক্রিয় পরিত্যক্ত কার্ট ইমেল",
+            "analytics": "সেলস অ্যানালিটিক্স ড্যাশবোর্ড",
+            "staff5": "৫টি স্টাফ অ্যাকাউন্ট",
+            "liveChat": "অগ্রাধিকার লাইভ চ্যাট সাপোর্ট",
+            "api": "সম্পূর্ণ API অ্যাক্সেস (অ্যাকাউন্টিং/ERP)",
+            "custom": "কাস্টম CSS এবং HTML ইনজেকশন",
+            "warehouse": "মাল্টি-ওয়্যারহাউস ইনভেন্টরি ম্যানেজমেন্ট",
+            "staffUnlimited": "সীমাহীন স্টাফ অ্যাকাউন্ট",
+            "manager": "ডেডিকেটেড অ্যাকাউন্ট ম্যানেজার"
+        },
+        "faq": {
+            "fee": {
+                "q": "কোন ট্রানজেকশন ফি আছে কি?",
+                "a": "না! আপনি আপনার বিক্রয়ের ১০০% পাবেন, কোনো প্ল্যাটফর্ম ট্রানজেকশন ফি নেই।"
+            },
+            "countries": {
+                "q": "আপনারা কোন কোন দেশে সাপোর্ট করেন?",
+                "a": "তরঙ্গ একটি বৈশ্বিক প্ল্যাটফর্ম! তবে আমরা বাংলাদেশ, নেপাল, মালয়েশিয়া, সংযুক্ত আরব আমিরাত, ইন্দোনেশিয়া এবং ভারতের বাজারের জন্য বিশেষভাবে কাজ করি।"
+            },
+            "change": {
+                "q": "আমি কি পরে আমার প্ল্যান পরিবর্তন করতে পারি?",
+                "a": "হ্যাঁ, আপনি যেকোনো সময় আপনার সেলার ড্যাশবোর্ড থেকে প্ল্যান পরিবর্তন করতে পারেন।"
+            },
+            "ai": {
+                "q": "AI ফিচারগুলো কীভাবে কাজ করে?",
+                "a": "প্রতিটি ধাপ আপনার সময় বাঁচাতে এবং বিক্রয় বাড়াতে বিশেষভাবে ডিজাইন করা শক্তিশালী AI টুল আনলক করে।"
+            }
+        }
+    },
+    "about": {
+        "title": "তরঙ্গ সম্পর্কে",
+        "subtitle": "AI-এর শক্তি দিয়ে স্বাধীন বিক্রেতাদের তাদের ব্র্যান্ড তৈরি করতে এবং বিশ্বব্যাপী ক্রেতাদের কাছে পৌঁছাতে সাহায্য করা।",
+        "missionTitle": "আমাদের লক্ষ্য",
+        "missionDesc": "তরঙ্গতে আমরা বিশ্বাস করি প্রতিটি ব্যবসার একটি পেশাদার অনলাইন উপস্থিতি প্রয়োজন। আমাদের লক্ষ্য হল এমন সরঞ্জাম সরবরাহ করে ই-কমার্সকে সবার জন্য উন্মুক্ত করা যা আগে কেবল বিশাল কোম্পানিগুলোর কাছে ছিল।",
+        "valuesTitle": "আমাদের মূল্যবোধ",
+        "globalReach": "বিশ্বব্যাপী প্রসার",
+        "globalReachDesc": "স্থানীয় অভিজ্ঞতার সাথে একাধিক বাজারের ক্রেতাদের সাথে সংযুক্ত হন।",
+        "trustSafety": "বিশ্বাস এবং নিরাপত্তা",
+        "trustSafetyDesc": "নিশ্চিত লেনদেন এবং যাচাইকৃত বিক্রেতা আপনার অভিজ্ঞতাকে করে তুলবে দুশ্চিন্তামুক্ত।",
+        "community": "কমিউনিটি সবার আগে",
+        "communityDesc": "আমাদের বিক্রেতারা যখন বৃদ্ধি পায়, তখন আমরাও বৃদ্ধি পাই।",
+        "innovation": "AI উদ্ভাবন",
+        "innovationDesc": "একঘেয়ে কাজগুলো স্বয়ংক্রিয় করতে অত্যাধুনিক AI ব্যবহার করা যাতে আপনি সৃজনশীলতায় মনোযোগ দিতে পারেন।",
+        "ctaTitle": "আপনার যাত্রা শুরু করতে প্রস্তুত?",
+        "ctaSubtitle": "তরঙ্গতে ইতিমধ্যে সফল হাজার হাজার বিক্রেতাদের সাথে যোগ দিন।",
+        "ctaStart": "বিক্রি শুরু করুন",
+        "ctaSell": "আরও জানুন"
+    },
+    "sell": {
+        "hero": {
+            "title": "আপনার ব্র্যান্ড, আপনার দোকান, কোনো সীমা নেই।",
+            "subtitle": "স্বাধীন নির্মাতা এবং বর্ধনশীল ব্যবসার জন্য তৈরি। ০% ট্রানজেকশন ফি, বিশ্বব্যাপী প্রসার এবং AI টুলস।",
+            "cta": "দোকান খুলুন"
+        },
+        "features": {
+            "f1": {
+                "title": "স্টোরফ্রন্ট বিল্ডার",
+                "desc": "কাস্টমাইজযোগ্য এবং মোবাইল-রেডি স্টোর যা আপনার ব্র্যান্ডের পরিচয় তুলে ধরে।"
+            },
+            "f2": {
+                "title": "০% কমিশন",
+                "desc": "আপনার কষ্টার্জিত অর্থ থেকে আমরা কোনো অংশ নিই না। আপনার বিক্রয়ের ১০০% আপনারই থাকবে।"
+            },
+            "f3": {
+                "title": "বিশ্বব্যাপী লজিস্টিকস",
+                "desc": "স্বয়ংক্রিয় শিপিং এবং কারেন্সি হ্যান্ডলিংয়ের মাধ্যমে ৬টিরও বেশি দেশের ক্রেতাদের কাছে পৌঁছান।"
+            },
+            "f4": {
+                "title": "AI কোপাইলট",
+                "desc": "আপনার নিজস্ব AI সহকারীর সাহায্য নিয়ে ছবি তৈরি করুন, কপি লিখুন এবং ইনভেন্টরি পূর্বাভাস দিন।"
+            }
+        },
+        "howItWorks": {
+            "title": "৩টি সহজ ধাপে শুরু করুন",
+            "s1": {
+                "title": "সাইন আপ করুন",
+                "desc": "আপনার অ্যাকাউন্ট তৈরি করুন এবং দোকানের নাম বেছে নিন।"
+            },
+            "s2": {
+                "title": "পণ্য যোগ করুন",
+                "desc": "আমাদের AI বর্ণনা জেনারেটরের সাহায্যে আপনার পণ্যগুলো লিস্ট করুন।"
+            },
+            "s3": {
+                "title": "বিক্রি শুরু করুন",
+                "desc": "আপনার দোকানের লিঙ্ক শেয়ার করুন এবং বিশ্বব্যাপী অর্ডার গ্রহণ শুরু করুন।"
+            }
+        },
+        "pricing": {
+            "title": "সহজ স্বচ্ছতা।",
+            "subtitle": "আপনার সফল হওয়ার জন্য প্রয়োজনীয় সবকিছু, কোনো গোপন চার্জ নেই।",
+            "features": [
+                "০% ট্রানজেকশন ফি",
+                "২৪/৭ সেলার সাপোর্ট",
+                "AI মার্কেটিং টুলস",
+                "গ্লোবাল অর্ডার ম্যানেজার"
+            ],
+            "viewPlans": "বিস্তারিত প্ল্যান দেখুন",
+            "signup": "এখনই সাইন আপ করুন"
+        }
+    },
+    "sellerMessages": {
+        "title": "বার্তা",
+        "searchPlaceholder": "খুঁজুন...",
+        "loading": "বার্তা লোড হচ্ছে...",
+        "select": "একটি কথোপকথন নির্বাচন করুন",
+        "selectDesc": "উত্তর দেওয়ার জন্য একজন গ্রাহকের বার্তা বেছে নিন।",
+        "typePlaceholder": "একটি উত্তর লিখুন..."
+    }
+}

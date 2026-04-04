@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Star, FileText, ChevronRight } from 'lucide-react';
 import StarRating from '../../components/ui/StarRating';
@@ -37,12 +38,13 @@ const MOCK_REVIEWS = [
 ];
 
 export default function MyReviews() {
+    const { t } = useTranslation();
     return (
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-text-primary">My Reviews</h1>
-                    <p className="text-sm text-text-muted mt-1">Manage all your product reviews in one place.</p>
+                    <h1 className="text-2xl font-bold text-text-primary">{t('reviews.title', 'My Reviews')}</h1>
+                    <p className="text-sm text-text-muted mt-1">{t('reviews.subtitle', 'Manage all your product reviews in one place.')}</p>
                 </div>
             </div>
 
@@ -52,10 +54,10 @@ export default function MyReviews() {
                         <div className="w-16 h-16 bg-surface-bg rounded-full flex items-center justify-center mx-auto mb-4">
                             <Star size={32} className="text-text-muted/50" />
                         </div>
-                        <h3 className="text-lg font-bold text-text-primary mb-2">No Reviews Yet</h3>
-                        <p className="text-text-muted mb-6">You haven't written any reviews for your purchased products.</p>
+                        <h3 className="text-lg font-bold text-text-primary mb-2">{t('reviews.noReviews', 'No Reviews Yet')}</h3>
+                        <p className="text-text-muted mb-6">{t('reviews.noReviewsDesc', "You haven't written any reviews for your purchased products.")}</p>
                         <Link to="/account" className="px-6 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors inline-block">
-                            View Order History
+                            {t('reviews.viewOrderHistory', 'View Order History')}
                         </Link>
                     </div>
                 ) : (
@@ -89,14 +91,14 @@ export default function MyReviews() {
                                             <div className="flex items-center gap-2">
                                                 {review.status === 'published' ? (
                                                     <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-green-100 text-green-700 rounded-lg">
-                                                        Published
+                                                        {t('reviews.published', 'Published')}
                                                     </span>
                                                 ) : (
                                                     <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-700 rounded-lg">
-                                                        Pending
+                                                        {t('reviews.pending', 'Pending')}
                                                     </span>
                                                 )}
-                                                <button className="p-2 text-text-muted hover:text-brand-primary hover:bg-brand-primary/10 rounded-lg transition-colors" title="Edit Review">
+                                                <button className="p-2 text-text-muted hover:text-brand-primary hover:bg-brand-primary/10 rounded-lg transition-colors" title={t('reviews.editReview', 'Edit Review')}>
                                                     <FileText size={16} />
                                                 </button>
                                             </div>
@@ -108,7 +110,7 @@ export default function MyReviews() {
 
                                         <div className="mt-3 flex items-center justify-end">
                                             <Link to={`/product/${review.productId}`} className="text-xs font-semibold text-brand-primary hover:text-brand-secondary flex items-center gap-1">
-                                                View Product <ChevronRight size={12} />
+                                                {t('reviews.viewProduct', 'View Product')} <ChevronRight size={12} />
                                             </Link>
                                         </div>
                                     </div>

@@ -31,12 +31,12 @@ export default function BlogManagement() {
     };
 
     const handleDelete = async (id) => {
-        if (window.confirm('Are you sure you want to delete this blog post?')) {
+        if (window.confirm(t('sellerBlogs.deleteConfirm'))) {
             try {
                 await blogService.deleteBlog(id);
                 fetchBlogs();
             } catch (error) {
-                alert('Failed to delete blog');
+                alert(t('sellerBlogs.deleteFailed') || 'Failed to delete blog');
             }
         }
     };
@@ -58,15 +58,15 @@ export default function BlogManagement() {
         <div className="animate-fade-in space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-bold text-text-primary">Blog Management</h2>
-                    <p className="text-text-muted text-sm">Create and manage your store's blog posts.</p>
+                    <h2 className="text-2xl font-bold text-text-primary">{t('sellerBlogs.title')}</h2>
+                    <p className="text-text-muted text-sm">{t('sellerBlogs.subtitle')}</p>
                 </div>
                 <Link
                     to="/seller/blogs/new"
                     className="flex items-center justify-center gap-2 px-4 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors"
                 >
                     <Plus size={18} />
-                    Create New Post
+                    {t('sellerBlogs.createNew')}
                 </Link>
             </div>
 
@@ -109,10 +109,10 @@ export default function BlogManagement() {
                         <table className="w-full text-left">
                             <thead className="bg-surface-bg border-b border-border-soft">
                                 <tr>
-                                    <th className="px-6 py-4 text-xs font-bold text-text-muted uppercase tracking-wider">Post Details</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-text-muted uppercase tracking-wider">Category</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-text-muted uppercase tracking-wider">Status</th>
-                                    <th className="px-6 py-4 text-xs font-bold text-text-muted uppercase tracking-wider text-right">Actions</th>
+                                    <th className="px-6 py-4 text-xs font-bold text-text-muted uppercase tracking-wider">{t('sellerBlogs.table.details')}</th>
+                                    <th className="px-6 py-4 text-xs font-bold text-text-muted uppercase tracking-wider">{t('sellerBlogs.table.category')}</th>
+                                    <th className="px-6 py-4 text-xs font-bold text-text-muted uppercase tracking-wider">{t('sellerBlogs.table.status')}</th>
+                                    <th className="px-6 py-4 text-xs font-bold text-text-muted uppercase tracking-wider text-right">{t('sellerBlogs.table.actions')}</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-border-soft">
@@ -129,7 +129,7 @@ export default function BlogManagement() {
                                                 </div>
                                                 <div>
                                                     <p className="text-sm font-semibold text-text-primary line-clamp-1">{blog.title}</p>
-                                                    <p className="text-xs text-text-muted">Published on {formatDate(blog.createdAt)}</p>
+                                                    <p className="text-xs text-text-muted">{t('sellerBlogs.table.publishedOn', { date: formatDate(blog.createdAt) })}</p>
                                                 </div>
                                             </div>
                                         </td>
@@ -141,7 +141,7 @@ export default function BlogManagement() {
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-1.5 text-xs text-green-600 font-medium">
                                                 <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
-                                                Published
+                                                {t('sellerBlogs.status.published')}
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 text-right">
@@ -149,14 +149,14 @@ export default function BlogManagement() {
                                                 <button
                                                     onClick={() => navigate(`/seller/blogs/edit/${blog.id}`)}
                                                     className="p-2 text-text-muted hover:text-brand-primary hover:bg-brand-primary/10 rounded-lg transition-all"
-                                                    title="Edit"
+                                                    title={t('sellerBlogs.edit')}
                                                 >
                                                     <Pencil size={16} />
                                                 </button>
                                                 <button
                                                     onClick={() => handleDelete(blog.id)}
                                                     className="p-2 text-text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
-                                                    title="Delete"
+                                                    title={t('sellerBlogs.delete')}
                                                 >
                                                     <Trash2 size={16} />
                                                 </button>
