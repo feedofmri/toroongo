@@ -56,12 +56,12 @@ const GUEST_LINKS = [
 // ── Mobile drawer sections ────────────────────────────────
 const MOBILE_SHOP_LINKS = [
     { to: '/products', label: 'nav.shopAll', icon: Package, default: 'All Products' },
-    { to: '/products?category=electronics', label: 'Electronics', icon: null },
-    { to: '/products?category=fashion', label: 'Fashion', icon: null },
-    { to: '/products?category=home-living', label: 'Home & Living', icon: null },
-    { to: '/products?category=beauty', label: 'Beauty', icon: null },
-    { to: '/products?category=sports', label: 'Sports & Outdoors', icon: null },
-    { to: '/products?category=books', label: 'Books', icon: null },
+    { to: '/products?category=electronics', label: 'nav.cat.electronics', icon: null, default: 'Electronics' },
+    { to: '/products?category=fashion', label: 'nav.cat.fashion', icon: null, default: 'Fashion' },
+    { to: '/products?category=home-living', label: 'nav.cat.homeLiving', icon: null, default: 'Home & Living' },
+    { to: '/products?category=beauty', label: 'nav.cat.beauty', icon: null, default: 'Beauty' },
+    { to: '/products?category=sports', label: 'nav.cat.sports', icon: null, default: 'Sports & Outdoors' },
+    { to: '/products?category=books', label: 'nav.cat.books', icon: null, default: 'Books' },
     { to: '/products?sale=true', label: 'nav.deals', icon: Tag, default: 'Deals & Offers' },
     { to: '/shops', label: 'nav.stores', icon: Store, default: 'Browse Shops' },
 ];
@@ -69,8 +69,8 @@ const MOBILE_SHOP_LINKS = [
 const MOBILE_INFO_LINKS = [
     { to: '/blog', label: 'nav.blog', icon: Newspaper, default: 'Blog' },
     { to: '/help', label: 'nav.help', icon: HelpCircle, default: 'Help Center' },
-    { to: '/about', label: 'About Us', icon: null },
-    { to: '/contact', label: 'Contact', icon: null },
+    { to: '/about', label: 'nav.aboutUs', icon: null, default: 'About Us' },
+    { to: '/contact', label: 'nav.contactUs', icon: null, default: 'Contact' },
 ];
 
 export default function Navbar() {
@@ -251,7 +251,7 @@ export default function Navbar() {
                         )}
 
                         {/* Language Switcher */}
-                        <div className="hidden sm:block">
+                        <div className="flex">
                             <LanguageSwitcher />
                         </div>
 
@@ -487,7 +487,7 @@ export default function Navbar() {
 
                         {/* Shop section */}
                         <div className="p-3">
-                            <p className="px-2 text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Shop</p>
+                            <p className="px-2 text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">{t('nav.shopHeader', 'Shop')}</p>
                             {MOBILE_SHOP_LINKS.map((link) => (
                                 <Link
                                     key={link.to}
@@ -509,7 +509,7 @@ export default function Navbar() {
 
                         {/* Quick actions */}
                         <div className="p-3">
-                            <p className="px-2 text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">Account</p>
+                            <p className="px-2 text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">{t('nav.accountHeader', 'Account')}</p>
                             {(!isAuthenticated || user?.role === 'buyer') && (
                                 <>
                                     <Link to="/cart" onClick={() => setMobileMenuOpen(false)}
@@ -580,7 +580,7 @@ export default function Navbar() {
 
                         {/* Info links */}
                         <div className="p-3">
-                            <p className="px-2 text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">More</p>
+                            <p className="px-2 text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">{t('nav.moreHeader', 'More')}</p>
                             {MOBILE_INFO_LINKS.map((link) => (
                                 <Link
                                     key={link.to}

@@ -17,6 +17,7 @@ export default function Footer() {
                 { name: t('footer.links.becomeSeller', 'Become a Seller'), href: "/sell" },
                 { name: t('footer.links.sellerPricing', 'Seller Pricing'), href: "/pricing" },
                 { name: t('footer.links.sellerResources', 'Seller Resources'), href: "/sell/resources" },
+                { name: t('footer.links.sellerFaq', 'Seller FAQs'), href: "/help" },
             ]
         },
         buyer: {

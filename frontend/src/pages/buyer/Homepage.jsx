@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
-    ArrowRight, ChevronLeft, ChevronRight, Sparkles, TrendingUp, Zap,
+    ArrowRight, ChevronLeft, ChevronRight, ChevronUp, ChevronDown, Sparkles, TrendingUp, Zap,
     ShieldCheck, Truck, RotateCcw, Star, Store, Clock, Percent, Quote, MessageCircle
 } from 'lucide-react';
 import ProductCard from '../../components/product/ProductCard';
@@ -22,6 +22,7 @@ export default function Homepage() {
     const [sellers, setSellers] = useState([]);
     const [loadedCategories, setLoadedCategories] = useState([]);
     const [categoriesLoading, setCategoriesLoading] = useState(true);
+    const [showAllCategories, setShowAllCategories] = useState(false);
 
     useEffect(() => {
         api('/system/categories').then(data => { setLoadedCategories(data); setCategoriesLoading(false); }).catch(() => setCategoriesLoading(false));
@@ -59,7 +60,7 @@ export default function Homepage() {
                         <div>
                             <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-primary/10 border border-brand-primary/20 rounded-full mb-6">
                                 <Sparkles size={14} className="text-brand-primary" />
-                                <span className="text-brand-primary text-xs font-semibold tracking-wide uppercase">Toroongo Marketplace</span>
+                                <span className="text-brand-primary text-xs font-semibold tracking-wide uppercase">{t('home.hero.badge', 'Toroongo Marketplace')}</span>
                             </div>
 
                             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 leading-[1.1] tracking-tight whitespace-pre-line">
@@ -116,7 +117,7 @@ export default function Homepage() {
                                     ))}
                                 </div>
                                 <p className="text-slate-700 text-base leading-relaxed mb-6 font-medium italic">
-                                    "Best marketplace I've used. Found amazing products from verified sellers, and everything arrived exactly as described. The customer service is outstanding!"
+                                    {t('home.hero.reviewText', '"Best marketplace I\'ve used. Found amazing products from verified sellers, and everything arrived exactly as described. The customer service is outstanding!"')}
                                 </p>
                                 <div className="flex items-center gap-4">
                                     <img
@@ -125,8 +126,8 @@ export default function Homepage() {
                                         className="w-12 h-12 rounded-full object-cover ring-4 ring-brand-primary/10"
                                     />
                                     <div>
-                                        <p className="text-slate-900 font-bold text-base">Sarah Mitchell</p>
-                                        <p className="text-slate-500 text-xs font-semibold">Verified Buyer — purchased 12 items</p>
+                                        <p className="text-slate-900 font-bold text-base">{t('home.hero.reviewName', 'Sarah Mitchell')}</p>
+                                        <p className="text-slate-500 text-xs font-semibold">{t('home.hero.reviewRole', 'Verified Buyer — purchased 12 items')}</p>
                                     </div>
                                 </div>
                             </div>
@@ -160,7 +161,7 @@ export default function Homepage() {
                                         <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-ping" />
                                         <span className="text-green-600 text-xs font-bold uppercase tracking-wider">{t('home.stats.live', 'Live Activity')}</span>
                                     </div>
-                                    <p className="text-slate-900 font-bold text-lg leading-tight">2.3K Orders</p>
+                                    <p className="text-slate-900 font-bold text-lg leading-tight">{t('home.stats.orderCount', '2.3K Orders')}</p>
                                     <p className="text-slate-500 text-xs mt-0.5">{t('home.stats.orders', 'Placed in 24h')}</p>
                                 </div>
                             </div>
@@ -200,19 +201,11 @@ export default function Homepage() {
             FEATURED CATEGORIES
             ═══════════════════════════════════════════════════════ */}
                 <section className="py-12 lg:py-16">
-                    <div className="flex items-center justify-between mb-8">
-                        <div>
-                            <h2 className="text-2xl font-bold text-text-primary tracking-tight">
-                                {t('home.categories.title', 'Shop by Category')}
-                            </h2>
-                            <p className="text-text-muted text-sm mt-1">{t('home.categories.subtitle', 'Browse our most popular categories')}</p>
-                        </div>
-                        <Link
-                            to="/products"
-                            className="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-brand-primary hover:text-brand-secondary transition-colors"
-                        >
-                            {t('common.viewAll', 'View All')} <ArrowRight size={14} />
-                        </Link>
+                    <div className="text-center mb-8">
+                        <h2 className="text-2xl font-bold text-text-primary tracking-tight">
+                            {t('home.categories.title', 'Shop by Category')}
+                        </h2>
+                        <p className="text-text-muted text-sm mt-1">{t('home.categories.subtitle', 'Browse our most popular categories')}</p>
                     </div>
 
                     {categoriesLoading ? (
@@ -227,9 +220,9 @@ export default function Homepage() {
                         </div>
                     ) : (
                         <>
-                            {/* Mobile: Limit to first 4 categories */}
+                            {/* Mobile: Limit to first 4 categories, explicitly expandable */}
                             <div className="grid grid-cols-2 sm:hidden gap-4">
-                                {loadedCategories.slice(0, 4).map((cat) => (
+                                {(showAllCategories ? loadedCategories : loadedCategories.slice(0, 4)).map((cat) => (
                                     <CategoryCard key={cat.id} category={cat} />
                                 ))}
                             </div>
@@ -239,6 +232,19 @@ export default function Homepage() {
                                     <CategoryCard key={cat.id} category={cat} />
                                 ))}
                             </div>
+
+                            {/* Expand/Collapse Button for Mobile */}
+                            {loadedCategories.length > 4 && (
+                                <div className="flex justify-center mt-6 sm:hidden">
+                                    <button
+                                        onClick={() => setShowAllCategories(!showAllCategories)}
+                                        className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-primary hover:text-brand-secondary transition-colors"
+                                    >
+                                        {showAllCategories ? t('common.showLess', 'Show Less') : t('common.viewAll', 'View All')}
+                                        {showAllCategories ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                                    </button>
+                                </div>
+                            )}
                         </>
                     )}
                 </section>
@@ -247,36 +253,11 @@ export default function Homepage() {
             TRENDING PRODUCTS — Horizontal carousel
             ═══════════════════════════════════════════════════════ */}
                 <section className="py-8 lg:py-12">
-                    <div className="flex items-center justify-between mb-8">
-                        <div className="flex items-center gap-3">
-                            <div className="p-2 bg-brand-primary/10 rounded-lg">
-                                <TrendingUp size={20} className="text-brand-primary" />
-                            </div>
-                            <div>
-                                <h2 className="text-2xl font-bold text-text-primary tracking-tight">
-                                    {t('home.trending.title', 'Trending Now')}
-                                </h2>
-                                <p className="text-text-muted text-sm mt-0.5">{t('home.trending.subtitle', "What everyone's buying this week")}</p>
-                            </div>
-                        </div>
-                        <div className="hidden sm:flex items-center gap-2">
-                            <button
-                                onClick={() => scrollContainer(carouselRef, 'left')}
-                                className="p-2 rounded-lg border border-border-soft text-text-muted hover:text-text-primary
-                           hover:border-gray-300 transition-colors"
-                                aria-label="Scroll left"
-                            >
-                                <ChevronLeft size={18} />
-                            </button>
-                            <button
-                                onClick={() => scrollContainer(carouselRef, 'right')}
-                                className="p-2 rounded-lg border border-border-soft text-text-muted hover:text-text-primary
-                           hover:border-gray-300 transition-colors"
-                                aria-label="Scroll right"
-                            >
-                                <ChevronRight size={18} />
-                            </button>
-                        </div>
+                    <div className="text-center mb-8">
+                        <h2 className="text-2xl font-bold text-text-primary tracking-tight">
+                            {t('home.trending.title', 'Trending Now')}
+                        </h2>
+                        <p className="text-text-muted text-sm mt-1">{t('home.trending.subtitle', "What everyone's buying this week")}</p>
                     </div>
 
                     {isLoading ? (
@@ -299,42 +280,34 @@ export default function Homepage() {
                             ))}
                         </div>
                     )}
+
+                    <div className="hidden sm:flex items-center justify-center gap-3 mt-8">
+                        <button
+                            onClick={() => scrollContainer(carouselRef, 'left')}
+                            className="p-3 rounded-full border border-border-soft text-text-muted hover:text-text-primary hover:border-gray-300 hover:shadow-sm transition-all"
+                            aria-label="Scroll left"
+                        >
+                            <ChevronLeft size={20} />
+                        </button>
+                        <button
+                            onClick={() => scrollContainer(carouselRef, 'right')}
+                            className="p-3 rounded-full border border-border-soft text-text-muted hover:text-text-primary hover:border-gray-300 hover:shadow-sm transition-all"
+                            aria-label="Scroll right"
+                        >
+                            <ChevronRight size={20} />
+                        </button>
+                    </div>
                 </section>
 
                 {/* ═══════════════════════════════════════════════════════
             TOP SELLERS — Horizontal Carousel
             ═══════════════════════════════════════════════════════ */}
                 <section className="py-8 lg:py-12">
-                    <div className="flex items-center justify-between mb-8">
-                        <div className="flex items-center gap-3">
-                            <div className="p-2 bg-brand-primary/10 rounded-lg">
-                                <Store size={20} className="text-brand-primary" />
-                            </div>
-                            <div>
-                                <h2 className="text-2xl font-bold text-text-primary tracking-tight">
-                                    {t('home.sellers.title', 'Top Sellers')}
-                                </h2>
-                                <p className="text-text-muted text-sm mt-0.5">{t('home.sellers.subtitle', 'Explore stores from our best-rated sellers')}</p>
-                            </div>
-                        </div>
-                        <div className="hidden sm:flex items-center gap-2">
-                            <button
-                                onClick={() => scrollContainer(sellersRef, 'left')}
-                                className="p-2 rounded-lg border border-border-soft text-text-muted hover:text-text-primary
-                           hover:border-gray-300 transition-colors"
-                                aria-label="Scroll left"
-                            >
-                                <ChevronLeft size={18} />
-                            </button>
-                            <button
-                                onClick={() => scrollContainer(sellersRef, 'right')}
-                                className="p-2 rounded-lg border border-border-soft text-text-muted hover:text-text-primary
-                           hover:border-gray-300 transition-colors"
-                                aria-label="Scroll right"
-                            >
-                                <ChevronRight size={18} />
-                            </button>
-                        </div>
+                    <div className="text-center mb-8">
+                        <h2 className="text-2xl font-bold text-text-primary tracking-tight">
+                            {t('home.sellers.title', 'Top Sellers')}
+                        </h2>
+                        <p className="text-text-muted text-sm mt-1">{t('home.sellers.subtitle', 'Explore stores from our best-rated sellers')}</p>
                     </div>
 
                     <div
@@ -379,6 +352,23 @@ export default function Homepage() {
                             </Link>
                         ))}
                     </div>
+
+                    <div className="hidden sm:flex items-center justify-center gap-3 mt-8">
+                        <button
+                            onClick={() => scrollContainer(sellersRef, 'left')}
+                            className="p-3 rounded-full border border-border-soft text-text-muted hover:text-text-primary hover:border-gray-300 hover:shadow-sm transition-all"
+                            aria-label="Scroll left"
+                        >
+                            <ChevronLeft size={20} />
+                        </button>
+                        <button
+                            onClick={() => scrollContainer(sellersRef, 'right')}
+                            className="p-3 rounded-full border border-border-soft text-text-muted hover:text-text-primary hover:border-gray-300 hover:shadow-sm transition-all"
+                            aria-label="Scroll right"
+                        >
+                            <ChevronRight size={20} />
+                        </button>
+                    </div>
                 </section>
 
                 {/* ═══════════════════════════════════════════════════════
@@ -416,44 +406,11 @@ export default function Homepage() {
             FEATURED PRODUCTS GRID
             ═══════════════════════════════════════════════════════ */}
                 <section className="py-8 lg:py-12">
-                    <div className="flex items-center justify-between mb-8">
-                        <div className="flex items-center gap-3">
-                            <div className="p-2 bg-brand-primary/10 rounded-lg">
-                                <Sparkles size={20} className="text-brand-primary" />
-                            </div>
-                            <div>
-                                <h2 className="text-2xl font-bold text-text-primary tracking-tight">
-                                    {t('home.featured.title', 'Featured Products')}
-                                </h2>
-                                <p className="text-text-muted text-sm mt-0.5">{t('home.featured.subtitle', 'Hand-picked by our editors')}</p>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <div className="hidden sm:flex items-center gap-2">
-                                <button
-                                    onClick={() => scrollContainer(featuredRef, 'left')}
-                                    className="p-2 rounded-lg border border-border-soft text-text-muted hover:text-text-primary
-                                               hover:border-gray-300 transition-colors"
-                                    aria-label="Scroll left"
-                                >
-                                    <ChevronLeft size={18} />
-                                </button>
-                                <button
-                                    onClick={() => scrollContainer(featuredRef, 'right')}
-                                    className="p-2 rounded-lg border border-border-soft text-text-muted hover:text-text-primary
-                                               hover:border-gray-300 transition-colors"
-                                    aria-label="Scroll right"
-                                >
-                                    <ChevronRight size={18} />
-                                </button>
-                            </div>
-                            <Link
-                                to="/products"
-                                className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-primary hover:text-brand-secondary transition-colors"
-                            >
-                                {t('common.seeAll', 'See All')} <ArrowRight size={14} />
-                            </Link>
-                        </div>
+                    <div className="text-center mb-8">
+                        <h2 className="text-2xl font-bold text-text-primary tracking-tight">
+                            {t('home.featured.title', 'Featured Products')}
+                        </h2>
+                        <p className="text-text-muted text-sm mt-1">{t('home.featured.subtitle', 'Hand-picked by our editors')}</p>
                     </div>
 
                     {isLoading ? (
@@ -476,42 +433,34 @@ export default function Homepage() {
                             ))}
                         </div>
                     )}
+
+                    <div className="hidden sm:flex items-center justify-center gap-3 mt-8">
+                        <button
+                            onClick={() => scrollContainer(featuredRef, 'left')}
+                            className="p-3 rounded-full border border-border-soft text-text-muted hover:text-text-primary hover:border-gray-300 hover:shadow-sm transition-all"
+                            aria-label="Scroll left"
+                        >
+                            <ChevronLeft size={20} />
+                        </button>
+                        <button
+                            onClick={() => scrollContainer(featuredRef, 'right')}
+                            className="p-3 rounded-full border border-border-soft text-text-muted hover:text-text-primary hover:border-gray-300 hover:shadow-sm transition-all"
+                            aria-label="Scroll right"
+                        >
+                            <ChevronRight size={20} />
+                        </button>
+                    </div>
                 </section>
 
                 {/* ═══════════════════════════════════════════════════════
             CUSTOMER TESTIMONIALS — Horizontal Carousel
             ═══════════════════════════════════════════════════════ */}
-                <section className="py-8 lg:py-12 pb-20">
-                    <div className="flex items-center justify-between mb-8">
-                        <div className="flex items-center gap-3">
-                            <div className="p-2 bg-brand-primary/10 rounded-lg">
-                                <MessageCircle size={20} className="text-brand-primary" />
-                            </div>
-                            <div>
-                                <h2 className="text-2xl font-bold text-text-primary tracking-tight">
-                                    {t('home.reviews.title', 'What Our Buyers Say')}
-                                </h2>
-                                <p className="text-text-muted text-sm mt-0.5">{t('home.reviews.subtitle', 'Real reviews from real customers')}</p>
-                            </div>
-                        </div>
-                        <div className="hidden sm:flex items-center gap-2">
-                            <button
-                                onClick={() => scrollContainer(reviewsRef, 'left')}
-                                className="p-2 rounded-lg border border-border-soft text-text-muted hover:text-text-primary
-                           hover:border-gray-300 transition-colors"
-                                aria-label="Scroll left"
-                            >
-                                <ChevronLeft size={18} />
-                            </button>
-                            <button
-                                onClick={() => scrollContainer(reviewsRef, 'right')}
-                                className="p-2 rounded-lg border border-border-soft text-text-muted hover:text-text-primary
-                           hover:border-gray-300 transition-colors"
-                                aria-label="Scroll right"
-                            >
-                                <ChevronRight size={18} />
-                            </button>
-                        </div>
+                <section className="py-8 lg:py-12">
+                    <div className="text-center mb-8">
+                        <h2 className="text-2xl font-bold text-text-primary tracking-tight">
+                            {t('home.reviews.title', 'What Our Buyers Say')}
+                        </h2>
+                        <p className="text-text-muted text-sm mt-1">{t('home.reviews.subtitle', 'Real reviews from real customers')}</p>
                     </div>
 
                     <div
@@ -567,12 +516,29 @@ export default function Homepage() {
                             </div>
                         ))}
                     </div>
+
+                    <div className="hidden sm:flex items-center justify-center gap-3 mt-8">
+                        <button
+                            onClick={() => scrollContainer(reviewsRef, 'left')}
+                            className="p-3 rounded-full border border-border-soft text-text-muted hover:text-text-primary hover:border-gray-300 hover:shadow-sm transition-all"
+                            aria-label="Scroll left"
+                        >
+                            <ChevronLeft size={20} />
+                        </button>
+                        <button
+                            onClick={() => scrollContainer(reviewsRef, 'right')}
+                            className="p-3 rounded-full border border-border-soft text-text-muted hover:text-text-primary hover:border-gray-300 hover:shadow-sm transition-all"
+                            aria-label="Scroll right"
+                        >
+                            <ChevronRight size={20} />
+                        </button>
+                    </div>
                 </section>
 
                 {/* ═══════════════════════════════════════════════════════
             NEWSLETTER — Final engagement section
             ═══════════════════════════════════════════════════════ */}
-                <section className="py-8 lg:py-16 mb-8">
+                <section className="py-8 lg:py-16">
                     <div className="bg-surface-bg rounded-2xl border border-border-soft p-8 sm:p-12 text-center">
                         <div className="w-14 h-14 bg-brand-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-5">
                             <Sparkles size={24} className="text-brand-primary" />
