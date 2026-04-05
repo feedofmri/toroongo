@@ -210,7 +210,7 @@ export default function SearchResults() {
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                         <div>
                             <h1 className="text-2xl font-bold text-text-primary tracking-tight">
-                                {activeCategory ? activeCategory.name : onSaleOnly ? t('badges.Sale') : query ? t('search.resultsFor', { query }) : t('search.allProducts')}
+                                {activeCategory ? activeCategory.name : onSaleOnly ? t('common.badges.Sale') : query ? t('search.resultsFor', { query }) : t('search.allProducts')}
                             </h1>
                             <p className="text-sm text-text-muted mt-1">
                                 {t('search.found', { count: filteredProducts.length })}
@@ -317,7 +317,7 @@ export default function SearchResults() {
                                         )}
                                         {onSaleOnly && (
                                             <span className="inline-flex items-center gap-1 text-[11px] font-medium bg-white text-text-primary px-2 py-1 rounded-md border border-border-soft">
-                                                {t('badges.Sale')}
+                                                {t('common.badges.Sale')}
                                                 <button onClick={() => handleFilterChange(setOnSaleOnly)(false)}>
                                                     <X size={10} />
                                                 </button>

@@ -1,6 +1,6 @@
 {
     "nav": {
-        "shopAll": "Shop All",
+        "products": "Products",
         "stores": "Stores",
         "deals": "Deals",
         "blog": "Blog",
@@ -1183,5 +1183,9 @@
             "settings": "Settings",
             "messages": "Messages"
         }
+    },
+    "shops": {
+        "title": "Explore Shops",
+        "subtitle": "Discover unique stores from independent sellers on Toroongo. Every shop is a curated experience."
     }
 }

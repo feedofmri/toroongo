@@ -1,6 +1,6 @@
 {
     "nav": {
-        "shopAll": "Shop All",
+        "products": "Products",
         "stores": "Stores",
         "deals": "Deals",
         "blog": "Blog",
@@ -1158,30 +1158,8 @@
         "contactStore": "Contact {{name}}",
         "searchStore": "Search {{name}}..."
     },
-    "adminPanel": {
-        "title": "Admin Panel",
-        "roles": {
-            "superAdmin": "Super Admin"
-        },
-        "nav": {
-            "overview": "Overview",
-            "users": "Users",
-            "sellers": "Sellers",
-            "categories": "Categories",
-            "finance": "Finance",
-            "disputes": "Disputes"
-        },
-        "loading": "Loading overview..."
-    },
-    "buyerDashboard": {
-        "title": "My Account",
-        "subtitle": "Manage your orders, wishlist, and account settings",
-        "nav": {
-            "orders": "My Orders",
-            "wishlist": "Wishlist",
-            "reviews": "My Reviews",
-            "settings": "Settings",
-            "messages": "Messages"
-        }
+    "shops": {
+        "title": "Explore Shops",
+        "subtitle": "Discover unique stores from independent sellers on Toroongo. Every shop is a curated experience."
     }
 }

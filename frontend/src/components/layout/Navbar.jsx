@@ -17,8 +17,8 @@ import logoColourful from '../../assets/Logo/logo_colourful.png';
 
 // ── Link Definitions ─────────────────────────────────────
 const BUYER_LINKS = [
-    { to: '/products', label: 'nav.shopAll', icon: Package, default: 'Shop All' },
-    { to: '/shops', label: 'nav.stores', icon: Store, default: 'Stores' },
+    { to: '/products', label: 'nav.products', icon: Package, default: 'Products' },
+    { to: '/shops', label: 'nav.stores', icon: Store, default: 'Shops' },
     { to: '/products?sale=true', label: 'nav.deals', icon: Percent, default: 'Deals' },
     { to: '/blog', label: 'nav.blog', icon: Newspaper, default: 'Blog' },
     { to: '/sell', label: 'nav.sell', icon: ShoppingBag, default: 'Sell on Toroongo' },
@@ -44,8 +44,8 @@ const ADMIN_LINKS = [
 ];
 
 const GUEST_LINKS = [
-    { to: '/products', label: 'nav.shopAll', icon: Package, default: 'Shop All' },
-    { to: '/shops', label: 'nav.stores', icon: Store, default: 'Stores' },
+    { to: '/products', label: 'nav.products', icon: Package, default: 'Products' },
+    { to: '/shops', label: 'nav.stores', icon: Store, default: 'Shops' },
     { to: '/products?sale=true', label: 'nav.deals', icon: Percent, default: 'Deals' },
     { to: '/blog', label: 'nav.blog', icon: Newspaper, default: 'Blog' },
     { to: '/sell', label: 'nav.sell', icon: ShoppingBag, default: 'Sell on Toroongo' },
@@ -55,7 +55,7 @@ const GUEST_LINKS = [
 
 // ── Mobile drawer sections ────────────────────────────────
 const MOBILE_SHOP_LINKS = [
-    { to: '/products', label: 'nav.shopAll', icon: Package, default: 'All Products' },
+    { to: '/products', label: 'nav.products', icon: Package, default: 'All Products' },
     { to: '/products?category=electronics', label: 'nav.cat.electronics', icon: null, default: 'Electronics' },
     { to: '/products?category=fashion', label: 'nav.cat.fashion', icon: null, default: 'Fashion' },
     { to: '/products?category=home-living', label: 'nav.cat.homeLiving', icon: null, default: 'Home & Living' },
@@ -519,7 +519,7 @@ export default function Navbar() {
                             {/* Essential Shop Links */}
                             <Link to="/products" onClick={() => setMobileMenuOpen(false)}
                                 className="flex items-center justify-between px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
-                                <span className="flex items-center gap-2.5"><Package size={15} className="text-text-muted" /> {t('nav.shopAll', 'All Products')}</span>
+                                <span className="flex items-center gap-2.5"><Package size={15} className="text-text-muted" /> {t('nav.products', 'All Products')}</span>
                                 <ChevronRight size={14} className="text-text-muted/40" />
                             </Link>
 

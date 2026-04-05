@@ -5,63 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5ed57508-28a7-4665-a420-ceaf18205174" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/buyer/ShopsPage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/StorefrontBuilder.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/StorefrontRenderer.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/components/BuilderSidebar.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/components/BuilderStage.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/components/PropertyEditor.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/components/SortableWidgetWrapper.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/components/ThemePanel.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/components/ViewportToggle.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/components/WidgetPalette.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/schema/storefrontSchema.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/schema/widgetDefaults.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/services/seedStorefrontConfigs.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/services/storefrontService.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/store/useBuilderStore.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/utils/viewportUtils.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/widgets/AnnouncementBar.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/widgets/BlogHighlights.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/widgets/BrandLogos.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/widgets/ContactForm.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/widgets/CountdownTimer.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/widgets/CustomHTML.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/widgets/FAQAccordion.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/widgets/FeatureCards.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/widgets/HeroBanner.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/widgets/ImageSlider.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/widgets/NewsletterSignup.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/widgets/ProductGrid.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/widgets/StoreStats.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/widgets/TestimonialSlider.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/widgets/TrustBadges.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/widgets/VideoPlayer.jsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/pages/seller/storefrontBuilder/widgets/widgetRegistry.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/utils/resolveSellerSlug.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/locales/ar/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/locales/ar/translation.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/locales/bn/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/locales/bn/translation.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/locales/en/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/locales/en/translation.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/locales/hi/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/locales/hi/translation.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/locales/id/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/locales/id/translation.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/locales/ms/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/locales/ms/translation.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/locales/ne/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/locales/ne/translation.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/Navbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/SellerDashboardLayout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/SellerDashboardLayout.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/SellerLayout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/SellerLayout.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/product/ProductCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/product/ProductCard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/ui/CategoryCard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ui/CategoryCard.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/data/mockData.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/data/mockData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/db/localDB.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/db/localDB.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/buyer/AuthPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/buyer/AuthPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/buyer/Homepage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/buyer/Homepage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/buyer/ProductDetail.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/buyer/ProductDetail.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/pages/buyer/SearchResults.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/buyer/SearchResults.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/buyer/ShoppingCart.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/buyer/ShoppingCart.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/buyer/Wishlist.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/buyer/Wishlist.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/seller/SellerSettings.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/seller/SellerSettings.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/seller/StoreAbout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/seller/StoreAbout.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/seller/StoreCatalog.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/seller/StoreCatalog.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/seller/StoreHome.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/seller/StoreHome.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/seller/StorePolicies.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/seller/StorePolicies.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/buyer/ShopsPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/buyer/ShopsPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend_crm/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend_crm/public/locales/ar/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/public/locales/ar/translation.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend_crm/public/locales/bn/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/public/locales/bn/translation.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend_crm/public/locales/en/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/public/locales/en/translation.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend_crm/public/locales/hi/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/public/locales/hi/translation.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend_crm/public/locales/id/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/public/locales/id/translation.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend_crm/public/locales/ms/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/public/locales/ms/translation.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend_crm/public/locales/ne/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/public/locales/ne/translation.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend_crm/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/src/index.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,6 +37,12 @@
     <persistenceIdMap>
       <entry key="_F:/Areas/Development/Projects/React/toroongo" value="3AZ0a9inB3q2xNVUvmL8m82gZ2C" />
     </persistenceIdMap>
+  </component>
+  <component name="CopilotUserSelectedModel">
+    <selectedModels>
+      <entry key="chat-panel" value="Gemini 3.1 Pro" />
+      <entry key="agent-panel" value="Gemini 3.1 Pro" />
+    </selectedModels>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -139,6 +110,7 @@
       <workItem from="1772784849050" duration="49000" />
       <workItem from="1772795231841" duration="1026000" />
       <workItem from="1772796742207" duration="6041000" />
+      <workItem from="1775414876868" duration="2977000" />
     </task>
     <servers />
   </component>

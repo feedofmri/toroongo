@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Search, Star, Package, SlidersHorizontal, Grid3X3, LayoutList } from 'lucide-react';
 import { sellers } from '../../data/mockData';
 
+import { useTranslation } from 'react-i18next';
+
 const SORT_OPTIONS = [
     { value: 'popular', label: 'Most Popular' },
     { value: 'rating', label: 'Highest Rated' },
@@ -12,6 +14,7 @@ const SORT_OPTIONS = [
 ];
 
 export default function ShopsPage() {
+    const { t } = useTranslation();
     const [searchQuery, setSearchQuery] = useState('');
     const [sortBy, setSortBy] = useState('popular');
     const [viewMode, setViewMode] = useState('grid'); // grid | list
@@ -53,9 +56,9 @@ export default function ShopsPage() {
             {/* Header */}
             <div className="bg-surface-bg border-b border-border-soft">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
-                    <h1 className="text-2xl sm:text-3xl font-bold text-text-primary mb-2">Explore Shops</h1>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-text-primary mb-2">{t('shops.title', 'Explore Shops')}</h1>
                     <p className="text-text-muted text-sm sm:text-base max-w-xl">
-                        Discover unique stores from independent sellers on Toroongo. Every shop is a curated experience.
+                        {t('shops.subtitle', 'Discover unique stores from independent sellers on Toroongo. Every shop is a curated experience.')}
                     </p>
                 </div>
             </div>
