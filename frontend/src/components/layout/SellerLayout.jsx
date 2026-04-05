@@ -337,7 +337,32 @@ export default function SellerLayout() {
 
             {/* Mobile nav drawer */}
             {mobileNavOpen && (
-                <div className="sm:hidden border-b border-border-soft bg-white px-4 py-3 space-y-1 animate-fade-in">
+                <div className="sm:hidden border-b border-border-soft bg-white px-4 py-3 space-y-1 animate-fade-in shadow-sm">
+                    {/* Store Nav Links */}
+                    <div className="pb-2 mb-2 border-b border-border-soft">
+                        <p className="px-3 text-[10px] font-bold text-text-muted uppercase tracking-wider mb-1">Store Navigation</p>
+                        {navLinks.map((link) => (
+                            <NavLink
+                                key={link.to}
+                                to={link.to}
+                                end={link.end}
+                                onClick={() => setMobileNavOpen(false)}
+                                className={({ isActive }) =>
+                                    `flex items-center gap-2.5 px-3 py-2.5 text-sm font-medium rounded-lg transition-colors
+                                    ${isActive
+                                        ? 'text-white'
+                                        : 'text-text-muted hover:text-text-primary hover:bg-surface-bg'
+                                    }`
+                                }
+                                style={({ isActive }) => isActive ? { backgroundColor: 'var(--seller-brand)' } : {}}
+                            >
+                                <link.icon size={16} />
+                                {link.label}
+                            </NavLink>
+                        ))}
+                    </div>
+
+                    <p className="px-3 text-[10px] font-bold text-text-muted uppercase tracking-wider mb-1">User Actions</p>
                     <Link to="/wishlist" onClick={() => setMobileNavOpen(false)}
                           className="flex items-center gap-2.5 px-3 py-2.5 text-sm font-medium text-text-muted hover:text-text-primary hover:bg-surface-bg rounded-lg transition-colors">
                         <Heart size={16} /> Wishlist {wishlistCount > 0 && <span className="ml-auto text-xs font-bold text-white px-1.5 py-0.5 rounded-full" style={{ backgroundColor: 'var(--seller-brand)' }}>{wishlistCount}</span>}

@@ -9,7 +9,6 @@ import BuyerLayout from './components/layout/BuyerLayout';
 import BuyerDashboardLayout from './components/layout/BuyerDashboardLayout';
 import SellerLayout from './components/layout/SellerLayout';
 import SellerDashboardLayout from './components/layout/SellerDashboardLayout';
-import AdminDashboardLayout from './components/layout/AdminDashboardLayout';
 import ProtectedRoute from './components/layout/ProtectedRoute';
 
 // ─── Buyer Pages ─────────────────────────────────────────────
@@ -46,14 +45,6 @@ import BlogEditor from './pages/seller/BlogEditor';
 // ─── Storefront Builder ──────────────────────────────────────
 import { StorefrontBuilder } from './pages/seller/storefrontBuilder';
 
-// ─── Admin Dashboard Pages ───────────────────────────────────
-import AdminOverview from './pages/admin/AdminOverview';
-import UserManagement from './pages/admin/UserManagement';
-import SellerManagement from './pages/admin/SellerManagement';
-import CategoryManagement from './pages/admin/CategoryManagement';
-import AdminFinance from './pages/admin/AdminFinance';
-import DisputeResolution from './pages/admin/DisputeResolution';
-
 // ─── Static / Legal Pages ────────────────────────────────────
 import AboutPage from './pages/static/AboutPage';
 import SellOnToroongo from './pages/static/SellOnToroongo';
@@ -72,13 +63,14 @@ import SellerResources from './pages/static/SellerResources';
 
 // ─── 404 ─────────────────────────────────────────────────────
 function NotFoundPage() {
+  const { t } = useTranslation();
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
       <h1 className="text-6xl font-bold text-brand-primary mb-4">404</h1>
-      <p className="text-xl font-semibold text-text-primary mb-2">Page Not Found</p>
-      <p className="text-text-muted mb-6">The page you're looking for doesn't exist or has been moved.</p>
+      <p className="text-xl font-semibold text-text-primary mb-2">{t('common.notFound')}</p>
+      <p className="text-text-muted mb-6">{t('common.notFoundDesc')}</p>
       <a href="/" className="px-6 py-3 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors inline-block">
-        Go Home
+        {t('common.goHome')}
       </a>
     </div>
   );
@@ -223,20 +215,6 @@ function App() {
           <Route path="blogs" element={<BlogManagement />} />
           <Route path="blogs/new" element={<BlogEditor />} />
           <Route path="blogs/edit/:id" element={<BlogEditor />} />
-        </Route>
-
-        {/* ── Admin Dashboard ───────────────────────────────── */}
-        <Route path="/admin" element={
-          <ProtectedRoute allowedRoles={['admin']}>
-            <AdminDashboardLayout />
-          </ProtectedRoute>
-        }>
-          <Route index element={<AdminOverview />} />
-          <Route path="users" element={<UserManagement />} />
-          <Route path="sellers" element={<SellerManagement />} />
-          <Route path="categories" element={<CategoryManagement />} />
-          <Route path="finance" element={<AdminFinance />} />
-          <Route path="disputes" element={<DisputeResolution />} />
         </Route>
 
         {/* 404 - Should be at the very end */}

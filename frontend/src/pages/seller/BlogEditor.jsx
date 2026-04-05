@@ -3,6 +3,7 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Save, Eye, Image as ImageIcon, Layout, Type, FileText, X } from 'lucide-react';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
+import { useTranslation } from 'react-i18next';
 import { blogService } from '../../services';
 import { useAuth } from '../../context/AuthContext';
 
@@ -24,6 +25,7 @@ const formats = [
 ];
 
 export default function BlogEditor() {
+    const { t } = useTranslation();
     const { id } = useParams();
     const isEdit = !!id;
     const navigate = useNavigate();
@@ -34,9 +36,9 @@ export default function BlogEditor() {
         category: 'Seller Tips',
         summary: '',
         content: '',
-        imageUrl: '',
+        image_url: '',
         color: 'bg-brand-primary',
-        readTime: '5 min read'
+        read_time: '5 min read'
     });
     const [loading, setLoading] = useState(isEdit);
     const [saving, setSaving] = useState(false);
@@ -53,7 +55,7 @@ export default function BlogEditor() {
             const blog = await blogService.getBlogById(id);
             // Security check: only owner or admin can edit
             if (blog.sellerId !== user.id && user.role !== 'admin') {
-                alert('You do not have permission to edit this blog.');
+                alert(t('sellerBlogs.editor.noPermission'));
                 navigate('/seller/blogs');
                 return;
             }
@@ -62,9 +64,9 @@ export default function BlogEditor() {
                 category: blog.category,
                 summary: blog.summary,
                 content: blog.content,
-                imageUrl: blog.imageUrl || '',
+                image_url: blog.image_url || '',
                 color: blog.color || 'bg-brand-primary',
-                readTime: blog.readTime || '5 min read'
+                read_time: blog.read_time || '5 min read'
             });
         } catch (error) {
             console.error('Error fetching blog:', error);
@@ -89,7 +91,7 @@ export default function BlogEditor() {
             }
             navigate('/seller/blogs');
         } catch (error) {
-            alert('Failed to save blog');
+            alert(t('sellerBlogs.saveFailed') || 'Failed to save blog');
         } finally {
             setSaving(false);
         }
@@ -102,7 +104,7 @@ export default function BlogEditor() {
         return (
             <div className="flex flex-col items-center justify-center py-20 text-text-muted space-y-3">
                 <div className="w-10 h-10 border-4 border-brand-primary/20 border-t-brand-primary rounded-full animate-spin"></div>
-                <p className="text-sm font-medium">Loading editor...</p>
+                <p className="text-sm font-medium">{t('sellerBlogs.editor.loading')}</p>
             </div>
         );
     }
@@ -120,10 +122,10 @@ export default function BlogEditor() {
                     </button>
                     <div>
                         <h2 className="text-xl font-bold text-text-primary">
-                            {isEdit ? 'Edit Blog Post' : 'Create New Post'}
+                            {isEdit ? t('sellerBlogs.editor.editTitle') : t('sellerBlogs.editor.newTitle')}
                         </h2>
                         <span className="text-xs text-text-muted font-medium">
-                            {isEdit ? 'Updating your shared insights' : 'Share your knowledge with Toroongo'}
+                            {isEdit ? t('sellerBlogs.editor.editSubtitle') : t('sellerBlogs.editor.newSubtitle')}
                         </span>
                     </div>
                 </div>
@@ -137,7 +139,7 @@ export default function BlogEditor() {
                             }`}
                     >
                         {previewMode ? <Layout size={18} /> : <Eye size={18} />}
-                        {previewMode ? 'Back to Edit' : 'Preview Post'}
+                        {previewMode ? t('sellerBlogs.editor.backToEdit') : t('sellerBlogs.editor.preview')}
                     </button>
                     <button
                         onClick={handleSubmit}
@@ -149,16 +151,16 @@ export default function BlogEditor() {
                         ) : (
                             <Save size={18} />
                         )}
-                        {isEdit ? 'Update Post' : 'Publish Post'}
+                        {isEdit ? t('sellerBlogs.editor.update') : t('sellerBlogs.editor.publish')}
                     </button>
                 </div>
             </div>
 
             {previewMode ? (
                 <div className="bg-white rounded-3xl border border-border-soft overflow-hidden shadow-xl animate-scale-in">
-                    {formData.imageUrl && (
+                    {formData.image_url && (
                         <div className="w-full aspect-[21/9] bg-surface-bg relative">
-                            <img src={formData.imageUrl} alt="" className="w-full h-full object-cover" />
+                            <img src={formData.image_url} alt="" className="w-full h-full object-cover" />
                         </div>
                     )}
                     <div className="max-w-3xl mx-auto px-8 py-12">
@@ -166,27 +168,27 @@ export default function BlogEditor() {
                             <span className={`px-3 py-1 text-[10px] font-bold uppercase text-white rounded-lg ${formData.color}`}>
                                 {formData.category}
                             </span>
-                            <span className="text-xs text-text-muted font-medium italic">{formData.readTime}</span>
+                            <span className="text-xs text-text-muted font-medium italic">{formData.read_time}</span>
                         </div>
                         <h1 className="text-4xl font-black text-text-primary mb-6 leading-tight">
-                            {formData.title || 'Untitled Post'}
+                            {formData.title || t('sellerBlogs.editor.untitled')}
                         </h1>
                         <div className="flex items-center gap-3 mb-10 pb-10 border-b border-border-soft">
                             <div className="w-10 h-10 rounded-full bg-brand-primary/10 flex items-center justify-center font-black text-brand-primary text-sm uppercase">
-                                {user?.name?.substring(0, 2) || 'SE'}
+                                {user?.name?.substring(0, 2) || t('sellerBlogs.editor.defaultAuthorInitials')}
                             </div>
                             <div>
-                                <p className="text-sm font-bold text-text-primary">{user.name || 'Your Store'}</p>
+                                <p className="text-sm font-bold text-text-primary">{user.name || t('sellerBlogs.editor.defaultAuthor')}</p>
                                 <p className="text-[10px] text-text-muted font-medium uppercase tracking-widest">{new Date().toLocaleDateString()}</p>
                             </div>
                         </div>
                         <div className="prose prose-brand max-w-none">
                             <p className="text-lg text-text-muted font-medium leading-relaxed mb-8 italic border-l-4 border-brand-primary pl-6 py-2">
-                                {formData.summary || 'Post summary will appear here...'}
+                                {formData.summary || t('sellerBlogs.editor.summaryPlaceholder')}
                             </p>
                             <div
                                 className="text-text-primary leading-loose font-medium ql-editor !p-0"
-                                dangerouslySetInnerHTML={{ __html: formData.content || '<p>Start writing your content...</p>' }}
+                                dangerouslySetInnerHTML={{ __html: formData.content || `<p>${t('sellerBlogs.editor.contentPlaceholder')}</p>` }}
                             />
                         </div>
                     </div>
@@ -200,15 +202,15 @@ export default function BlogEditor() {
                                 <div className="p-2 bg-brand-primary/10 rounded-lg text-brand-primary">
                                     <Type size={20} />
                                 </div>
-                                <h3 className="font-bold text-text-primary">Content Strategy</h3>
+                                <h3 className="font-bold text-text-primary">{t('sellerBlogs.editor.strategy')}</h3>
                             </div>
 
                             <div>
-                                <label className={labelClass}>Post Title</label>
+                                <label className={labelClass}>{t('sellerBlogs.editor.postTitle')}</label>
                                 <input
                                     type="text"
                                     required
-                                    placeholder="e.g. 5 Strategies for High Conversion"
+                                    placeholder={t('sellerBlogs.editor.titlePlaceholder')}
                                     className={`${inputClass} text-xl font-bold`}
                                     value={formData.title}
                                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
@@ -216,11 +218,11 @@ export default function BlogEditor() {
                             </div>
 
                             <div>
-                                <label className={labelClass}>Short Summary</label>
+                                <label className={labelClass}>{t('sellerBlogs.editor.shortSummary')}</label>
                                 <textarea
                                     required
                                     rows={2}
-                                    placeholder="A brief hook that appears in the blog feed..."
+                                    placeholder={t('sellerBlogs.editor.summaryHookPlaceholder')}
                                     className={`${inputClass} resize-none italic font-medium`}
                                     value={formData.summary}
                                     onChange={(e) => setFormData({ ...formData, summary: e.target.value })}
@@ -229,8 +231,8 @@ export default function BlogEditor() {
 
                             <div>
                                 <div className="flex items-center justify-between mb-2">
-                                    <label className={labelClass}>Full Article Content</label>
-                                    <span className="text-[10px] font-bold text-brand-primary bg-brand-primary/5 px-2 py-1 rounded-md">Rich Text Enabled</span>
+                                    <label className={labelClass}>{t('sellerBlogs.editor.fullContent')}</label>
+                                    <span className="text-[10px] font-bold text-brand-primary bg-brand-primary/5 px-2 py-1 rounded-md">{t('sellerBlogs.editor.richText')}</span>
                                 </div>
                                 <div className="quill-editor-wrapper">
                                     <ReactQuill
@@ -239,7 +241,7 @@ export default function BlogEditor() {
                                         onChange={(content) => setFormData({ ...formData, content })}
                                         modules={modules}
                                         formats={formats}
-                                        placeholder="Tell your story..."
+                                        placeholder={t('sellerBlogs.editor.storyPlaceholder')}
                                         className="bg-white rounded-xl border-border-soft overflow-hidden"
                                     />
                                     <style>{`
@@ -274,26 +276,26 @@ export default function BlogEditor() {
                                 <div className="p-2 bg-purple-100 rounded-lg text-purple-600">
                                     <FileText size={20} />
                                 </div>
-                                <h3 className="font-bold text-text-primary">Metadata</h3>
+                                <h3 className="font-bold text-text-primary">{t('sellerBlogs.editor.metadata')}</h3>
                             </div>
 
                             <div>
-                                <label className={labelClass}>Category</label>
+                                <label className={labelClass}>{t('sellerBlogs.editor.category')}</label>
                                 <select
                                     className={inputClass}
                                     value={formData.category}
                                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                                 >
-                                    <option>Seller Tips</option>
-                                    <option>Industry Insight</option>
-                                    <option>Product Guide</option>
-                                    <option>Brand Story</option>
-                                    <option>Update</option>
+                                    <option>{t('sellerBlogs.categories.tips')}</option>
+                                    <option>{t('sellerBlogs.categories.insights')}</option>
+                                    <option>{t('sellerBlogs.categories.guides')}</option>
+                                    <option>{t('sellerBlogs.categories.stories')}</option>
+                                    <option>{t('sellerBlogs.categories.updates')}</option>
                                 </select>
                             </div>
 
                             <div>
-                                <label className={labelClass}>Post Color Theme</label>
+                                <label className={labelClass}>{t('sellerBlogs.editor.theme')}</label>
                                 <div className="flex flex-wrap gap-2">
                                     {[
                                         { name: 'Brand', class: 'bg-brand-primary' },
@@ -320,37 +322,37 @@ export default function BlogEditor() {
                                 <div className="p-2 bg-blue-100 rounded-lg text-blue-600">
                                     <ImageIcon size={20} />
                                 </div>
-                                <h3 className="font-bold text-text-primary">Cover Image</h3>
+                                <h3 className="font-bold text-text-primary">{t('sellerBlogs.editor.coverImage')}</h3>
                             </div>
 
                             <div>
-                                <label className={labelClass}>Image URL</label>
+                                <label className={labelClass}>{t('sellerBlogs.editor.imageUrl')}</label>
                                 <div className="relative group">
                                     <input
                                         type="url"
-                                        placeholder="https://..."
+                                        placeholder={t('sellerBlogs.editor.urlPlaceholder')}
                                         className={inputClass}
-                                        value={formData.imageUrl}
-                                        onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                                        value={formData.image_url}
+                                        onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
                                     />
-                                    {formData.imageUrl && (
+                                    {formData.image_url && (
                                         <button
                                             type="button"
-                                            onClick={() => setFormData({ ...formData, imageUrl: '' })}
+                                            onClick={() => setFormData({ ...formData, image_url: '' })}
                                             className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-text-muted hover:text-red-500 transition-colors"
                                         >
                                             <X size={14} />
                                         </button>
                                     )}
                                 </div>
-                                {formData.imageUrl ? (
+                                {formData.image_url ? (
                                     <div className="mt-4 aspect-video rounded-2xl overflow-hidden border border-border-soft bg-surface-bg">
-                                        <img src={formData.imageUrl} alt="" className="w-full h-full object-cover" />
+                                        <img src={formData.image_url} alt="" className="w-full h-full object-cover" />
                                     </div>
                                 ) : (
                                     <div className="mt-4 aspect-video rounded-2xl border-2 border-dashed border-border-soft flex flex-col items-center justify-center text-text-muted text-[10px] font-bold uppercase tracking-widest gap-2">
                                         <ImageIcon size={20} className="text-border-soft" />
-                                        No Preview Available
+                                        {t('sellerBlogs.editor.noPreview')}
                                     </div>
                                 )}
                             </div>

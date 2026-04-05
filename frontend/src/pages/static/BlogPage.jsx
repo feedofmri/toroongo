@@ -38,10 +38,10 @@ export default function BlogPage() {
                     <>
                         {/* Featured post */}
                         <div className="bg-white border border-border-soft rounded-2xl mb-12 overflow-hidden group shadow-sm hover:shadow-md transition-shadow">
-                            {posts[0].imageUrl && (
+                            {posts[0].image_url && (
                                 <Link to={`/blog/${posts[0].slug}`} className="block w-full aspect-[21/9] overflow-hidden">
                                     <img
-                                        src={posts[0].imageUrl}
+                                        src={posts[0].image_url}
                                         alt={posts[0].title}
                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                     />
@@ -52,7 +52,7 @@ export default function BlogPage() {
                                     <span className={`text-[10px] font-bold uppercase text-white px-3 py-1 rounded-lg ${posts[0].color}`}>{posts[0].category}</span>
                                     <div className="flex items-center gap-1.5 text-xs text-text-muted">
                                         <Clock size={14} />
-                                        <span>{posts[0].readTime}</span>
+                                        <span>{posts[0].read_time}</span>
                                     </div>
                                 </div>
                                 <Link to={`/blog/${posts[0].slug}`}>
@@ -66,7 +66,7 @@ export default function BlogPage() {
                                         </div>
                                         <div className="flex flex-col">
                                             <span className="text-sm font-bold text-text-primary">{posts[0].author}</span>
-                                            <span className="text-[10px] text-text-muted font-medium uppercase tracking-widest">{formatDate(posts[0].createdAt)}</span>
+                                            <span className="text-[10px] text-text-muted font-medium uppercase tracking-widest">{formatDate(posts[0].created_at)}</span>
                                         </div>
                                     </div>
                                     <Link to={`/blog/${posts[0].slug}`} className="flex items-center gap-2 px-5 py-2.5 bg-brand-primary/5 text-brand-primary text-sm font-bold rounded-xl hover:bg-brand-primary hover:text-white transition-all group/btn">
@@ -80,10 +80,10 @@ export default function BlogPage() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                             {posts.slice(1).map((post) => (
                                 <div key={post.id} className="bg-white border border-border-soft rounded-3xl hover:border-brand-primary/20 hover:shadow-xl hover:shadow-brand-primary/5 transition-all group overflow-hidden flex flex-col h-full">
-                                    {post.imageUrl && (
+                                    {post.image_url && (
                                         <Link to={`/blog/${post.slug}`} className="block w-full aspect-[16/10] overflow-hidden border-b border-border-soft">
                                             <img
-                                                src={post.imageUrl}
+                                                src={post.image_url}
                                                 alt={post.title}
                                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                             />
@@ -109,7 +109,7 @@ export default function BlogPage() {
                                             </div>
                                             <div className="flex items-center gap-1.5 text-[10px] text-text-muted font-bold">
                                                 <Clock size={12} />
-                                                <span>{post.readTime}</span>
+                                                <span>{post.read_time}</span>
                                             </div>
                                         </div>
                                     </div>

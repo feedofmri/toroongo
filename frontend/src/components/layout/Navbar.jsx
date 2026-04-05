@@ -81,6 +81,7 @@ export default function Navbar() {
     const [searchQuery, setSearchQuery] = useState('');
     const location = useLocation();
     const navigate = useNavigate();
+    const [mobileCategoriesOpen, setMobileCategoriesOpen] = useState(false);
     const menuRef = useRef(null);
 
     const handleSearch = (e) => {
@@ -207,9 +208,6 @@ export default function Navbar() {
                         {isAuthenticated && user?.role === 'seller' && (
                             <Link to="/seller/messages" className="hidden sm:flex relative p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors" aria-label="Messages">
                                 <MessageSquare size={20} />
-                                <span className="absolute -top-0.5 -right-0.5 bg-brand-primary text-white text-[10px] font-bold w-[18px] h-[18px] flex items-center justify-center rounded-full leading-none">
-                                    3
-                                </span>
                             </Link>
                         )}
 
@@ -283,13 +281,13 @@ export default function Navbar() {
                                 </button>
                             ) : (
                                 <Link to="/login" className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold bg-brand-primary text-white hover:bg-brand-secondary transition-colors">
-                                    <User size={15} /> Sign in
+                                    <User size={15} /> {t('nav.signIn', 'Sign in')}
                                 </Link>
                             )}
 
                             {/* Not logged in — mobile icon fallback */}
                             {!isAuthenticated && (
-                                <Link to="/login" className="sm:hidden p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors" aria-label="Sign in">
+                                <Link to="/login" className="sm:hidden p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors" aria-label={t('nav.signIn', 'Sign in')}>
                                     <User size={20} />
                                 </Link>
                             )}
@@ -312,7 +310,7 @@ export default function Navbar() {
                                             onClick={() => setUserDropdownOpen(false)}
                                             className="flex items-center gap-2.5 px-3 py-2 text-sm text-text-primary hover:text-brand-primary hover:bg-brand-primary/5 rounded-lg transition-colors"
                                         >
-                                            <LayoutDashboard size={15} className="text-text-muted" /> Dashboard
+                                            <LayoutDashboard size={15} className="text-text-muted" /> {t('nav.dashboard')}
                                         </Link>
                                         {isAuthenticated && user?.role === 'seller' && (
                                             <>
@@ -321,14 +319,14 @@ export default function Navbar() {
                                                     onClick={() => setUserDropdownOpen(false)}
                                                     className="flex items-center gap-2.5 px-3 py-2 text-sm text-text-primary hover:text-brand-primary hover:bg-brand-primary/5 rounded-lg transition-colors"
                                                 >
-                                                    <Package size={15} className="text-text-muted" /> Products
+                                                    <Package size={15} className="text-text-muted" /> {t('nav.myProducts')}
                                                 </Link>
                                                 <Link
                                                     to="/seller/orders"
                                                     onClick={() => setUserDropdownOpen(false)}
                                                     className="flex items-center gap-2.5 px-3 py-2 text-sm text-text-primary hover:text-brand-primary hover:bg-brand-primary/5 rounded-lg transition-colors"
                                                 >
-                                                    <ShoppingBag size={15} className="text-text-muted" /> Orders
+                                                    <ShoppingBag size={15} className="text-text-muted" /> {t('nav.orders')}
                                                 </Link>
                                             </>
                                         )}
@@ -339,14 +337,14 @@ export default function Navbar() {
                                                     onClick={() => setUserDropdownOpen(false)}
                                                     className="flex items-center gap-2.5 px-3 py-2 text-sm text-text-primary hover:text-brand-primary hover:bg-brand-primary/5 rounded-lg transition-colors"
                                                 >
-                                                    <Users size={15} className="text-text-muted" /> Users
+                                                    <Users size={15} className="text-text-muted" /> {t('nav.users')}
                                                 </Link>
                                                 <Link
                                                     to="/admin/sellers"
                                                     onClick={() => setUserDropdownOpen(false)}
                                                     className="flex items-center gap-2.5 px-3 py-2 text-sm text-text-primary hover:text-brand-primary hover:bg-brand-primary/5 rounded-lg transition-colors"
                                                 >
-                                                    <Store size={15} className="text-text-muted" /> Sellers
+                                                    <Store size={15} className="text-text-muted" /> {t('nav.sellers')}
                                                 </Link>
                                             </>
                                         )}
@@ -459,7 +457,7 @@ export default function Navbar() {
                             <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
                             <input
                                 type="text"
-                                placeholder="Search products..."
+                                placeholder={t('nav.searchPlaceholderMobile', 'Search products...')}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 onKeyDown={handleSearch}
@@ -485,10 +483,10 @@ export default function Navbar() {
                             </div>
                         )}
 
-                        {/* Shop section */}
+                        {/* Role-based main links (Mobile) */}
                         <div className="p-3">
-                            <p className="px-2 text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">{t('nav.shopHeader', 'Shop')}</p>
-                            {MOBILE_SHOP_LINKS.map((link) => (
+                            <p className="px-2 text-[10px] font-bold text-text-muted uppercase tracking-widest mb-1.5">{t('nav.menuHeader', 'Menu')}</p>
+                            {(isAuthenticated ? (user?.role === 'admin' ? ADMIN_LINKS : user?.role === 'seller' ? SELLER_LINKS : BUYER_LINKS) : GUEST_LINKS).map((link) => (
                                 <Link
                                     key={link.to}
                                     to={link.to}
@@ -496,13 +494,69 @@ export default function Navbar() {
                                     className="flex items-center justify-between px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors"
                                 >
                                     <span className="flex items-center gap-2.5">
-                                        {link.icon && <link.icon size={15} className="text-text-muted" />}
-                                        {!link.icon && <span className="w-[15px]" />}
+                                        <link.icon size={15} className="text-text-muted" />
                                         {t(link.label, link.default)}
                                     </span>
                                     <ChevronRight size={14} className="text-text-muted/40" />
                                 </Link>
                             ))}
+                        </div>
+
+                        <div className="mx-3 border-t border-border-soft" />
+
+                        {/* Shop / Categories section */}
+                        <div className="p-3">
+                            <div className="flex items-center justify-between px-2 mb-1.5">
+                                <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest">{t('nav.shopHeader', 'Shop')}</p>
+                                <button
+                                    onClick={() => setMobileCategoriesOpen(!mobileCategoriesOpen)}
+                                    className="text-[10px] font-bold text-brand-primary hover:underline"
+                                >
+                                    {mobileCategoriesOpen ? t('common.showLess', 'Show Less') : t('common.viewAll', 'View All')}
+                                </button>
+                            </div>
+
+                            {/* Essential Shop Links */}
+                            <Link to="/products" onClick={() => setMobileMenuOpen(false)}
+                                className="flex items-center justify-between px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
+                                <span className="flex items-center gap-2.5"><Package size={15} className="text-text-muted" /> {t('nav.shopAll', 'All Products')}</span>
+                                <ChevronRight size={14} className="text-text-muted/40" />
+                            </Link>
+
+                            {/* Categories Dropdown */}
+                            <div className="mt-1">
+                                <button
+                                    onClick={() => setMobileCategoriesOpen(!mobileCategoriesOpen)}
+                                    className="w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg transition-colors"
+                                >
+                                    <span className="flex items-center gap-2.5">
+                                        <Tag size={15} className="text-text-muted" />
+                                        {t('nav.categories', 'Categories')}
+                                    </span>
+                                    <ChevronRight size={14} className={`text-text-muted/40 transition-transform duration-200 ${mobileCategoriesOpen ? 'rotate-90' : ''}`} />
+                                </button>
+
+                                {mobileCategoriesOpen && (
+                                    <div className="ml-4 pl-4 border-l border-border-soft mt-1 flex flex-col gap-1 overflow-hidden animate-slide-down">
+                                        {MOBILE_SHOP_LINKS.filter(l => l.to.includes('category=')).map((link) => (
+                                            <Link
+                                                key={link.to}
+                                                to={link.to}
+                                                onClick={() => setMobileMenuOpen(false)}
+                                                className="px-2.5 py-1.5 rounded-lg text-[13px] font-medium text-text-muted hover:text-brand-primary hover:bg-brand-primary/5 transition-colors"
+                                            >
+                                                {t(link.label, link.default)}
+                                            </Link>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            <Link to="/products?sale=true" onClick={() => setMobileMenuOpen(false)}
+                                className="flex items-center justify-between px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
+                                <span className="flex items-center gap-2.5"><Percent size={15} className="text-text-muted" /> {t('nav.deals', 'Deals')}</span>
+                                <ChevronRight size={14} className="text-text-muted/40" />
+                            </Link>
                         </div>
 
                         <div className="mx-3 border-t border-border-soft" />
@@ -514,7 +568,7 @@ export default function Navbar() {
                                 <>
                                     <Link to="/cart" onClick={() => setMobileMenuOpen(false)}
                                         className="flex items-center justify-between px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
-                                        <span className="flex items-center gap-2.5"><ShoppingCart size={15} className="text-text-muted" /> Cart</span>
+                                        <span className="flex items-center gap-2.5"><ShoppingCart size={15} className="text-text-muted" /> {t('nav.cart', 'Cart')}</span>
                                         {cartItemCount > 0 && <span className="text-[10px] font-bold bg-brand-primary/10 text-brand-primary px-1.5 py-0.5 rounded-full">{cartItemCount}</span>}
                                     </Link>
                                 </>
@@ -526,17 +580,17 @@ export default function Navbar() {
                                         onClick={() => setMobileMenuOpen(false)}
                                         className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors"
                                     >
-                                        <LayoutDashboard size={15} className="text-text-muted" /> Dashboard
+                                        <LayoutDashboard size={15} className="text-text-muted" /> {t('nav.dashboard')}
                                     </Link>
 
                                     {/* Additional for buyer/seller/admin */}
                                     {(!user || user?.role === 'buyer') && (
                                         <>
                                             <Link to="/account/orders" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
-                                                <ShoppingBag size={15} className="text-text-muted" /> My Orders
+                                                <ShoppingBag size={15} className="text-text-muted" /> {t('nav.myOrders', 'My Orders')}
                                             </Link>
                                             <Link to="/account/reviews" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
-                                                <Star size={15} className="text-text-muted" /> My Reviews
+                                                <Star size={15} className="text-text-muted" /> {t('nav.myReviews', 'My Reviews')}
                                             </Link>
                                         </>
                                     )}
@@ -544,10 +598,10 @@ export default function Navbar() {
                                     {user?.role === 'seller' && (
                                         <>
                                             <Link to="/seller/products" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
-                                                <Package size={15} className="text-text-muted" /> Products
+                                                <Package size={15} className="text-text-muted" /> {t('nav.myProducts')}
                                             </Link>
                                             <Link to="/seller/orders" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
-                                                <ShoppingBag size={15} className="text-text-muted" /> Orders
+                                                <ShoppingBag size={15} className="text-text-muted" /> {t('nav.orders')}
                                             </Link>
                                         </>
                                     )}
@@ -555,23 +609,23 @@ export default function Navbar() {
                                     {user?.role === 'admin' && (
                                         <>
                                             <Link to="/admin/users" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
-                                                <Users size={15} className="text-text-muted" /> Users
+                                                <Users size={15} className="text-text-muted" /> {t('nav.users')}
                                             </Link>
                                             <Link to="/admin/sellers" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
-                                                <Store size={15} className="text-text-muted" /> Sellers
+                                                <Store size={15} className="text-text-muted" /> {t('nav.sellers')}
                                             </Link>
                                         </>
                                     )}
 
                                     <Link to="/account/settings" onClick={() => setMobileMenuOpen(false)}
                                         className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
-                                        <Settings size={15} className="text-text-muted" /> Settings
+                                        <Settings size={15} className="text-text-muted" /> {t('nav.settings', 'Settings')}
                                     </Link>
                                 </>
                             ) : (
                                 <Link to="/login" onClick={() => setMobileMenuOpen(false)}
                                     className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
-                                    <User size={15} className="text-text-muted" /> Sign in / Sign up
+                                    <User size={15} className="text-text-muted" /> {t('nav.signInUp', 'Sign in / Sign up')}
                                 </Link>
                             )}
                         </div>
@@ -603,7 +657,7 @@ export default function Navbar() {
                                         onClick={() => { logout(); setMobileMenuOpen(false); }}
                                         className="w-full flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
                                     >
-                                        <LogOut size={15} /> Sign out
+                                        <LogOut size={15} /> {t('nav.signOut', 'Sign out')}
                                     </button>
                                 </div>
                             </>

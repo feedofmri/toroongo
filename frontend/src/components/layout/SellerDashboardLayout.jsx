@@ -1,8 +1,10 @@
 import React from 'react';
 import { NavLink, Outlet, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { LayoutDashboard, Package, ShoppingBag, Settings, DollarSign, MessageSquare, Store, ChevronLeft, Paintbrush } from 'lucide-react';
+import { LayoutDashboard, Package, ShoppingBag, Settings, DollarSign, MessageSquare, Store, ChevronLeft, Paintbrush, Menu, X } from 'lucide-react';
+import { useState } from 'react';
 import iconColourful from '../../assets/Logo/icon_colourful.png';
+import Navbar from './Navbar';
 
 const sidebarLinks = [
     { to: '/seller', icon: LayoutDashboard, labelKey: 'dashboard', end: true },
@@ -20,10 +22,11 @@ export default function SellerDashboardLayout() {
     const isRTL = i18n.dir() === 'rtl';
 
     return (
-        <div className="min-h-screen bg-surface-bg" dir={i18n.dir()}>
-            <div className="flex">
+        <div className="min-h-screen bg-surface-bg flex flex-col" dir={i18n.dir()}>
+            <Navbar />
+            <div className="flex flex-1">
                 {/* ── Sidebar ──────────────────────────────────────── */}
-                <aside className={`hidden lg:flex flex-col w-60 bg-white border-border-soft min-h-screen sticky top-0 ${isRTL ? 'border-l' : 'border-r'}`}>
+                <aside className={`hidden lg:flex flex-col w-60 bg-white border-border-soft min-h-screen sticky top-[64px] ${isRTL ? 'border-l' : 'border-r'}`}>
                     {/* Logo */}
                     <div className="p-5 border-b border-border-soft">
                         <Link to="/" className="flex items-center gap-2.5">
@@ -65,26 +68,29 @@ export default function SellerDashboardLayout() {
                     </div>
                 </aside>
 
+
                 {/* ── Main Content ─────────────────────────────────── */}
                 <main className="flex-1 min-w-0">
-                    {/* Top bar */}
-                    <header className="bg-white border-b border-border-soft px-6 py-4 flex items-center justify-between sticky top-0 z-20">
-                        <div className="flex items-center gap-3">
-                            <Link to="/" className={`lg:hidden text-text-muted hover:text-text-primary ${isRTL ? 'rotate-180' : ''}`}>
-                                <ChevronLeft size={20} />
-                            </Link>
-                            <h1 className="text-lg font-semibold text-text-primary lg:hidden">{t('sellerDashboard.title')}</h1>
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 bg-brand-primary/10 rounded-full flex items-center justify-center">
-                                <span className="text-xs font-bold text-brand-primary">SE</span>
-                            </div>
-                            <div className="hidden sm:block">
-                                <p className="text-sm font-medium text-text-primary">Sony Electronics</p>
-                                <p className="text-[11px] text-text-muted">Premium Seller</p>
-                            </div>
-                        </div>
-                    </header>
+                    {/* Mobile Navigation (Horizontal Scroll) */}
+                    <nav className="lg:hidden flex items-center gap-1.5 p-3 border-b border-border-soft overflow-x-auto no-scrollbar bg-white sticky top-[64px] z-10">
+                        {sidebarLinks.map((link) => (
+                            <NavLink
+                                key={link.to}
+                                to={link.to}
+                                end={link.end}
+                                className={({ isActive }) =>
+                                    `flex-shrink-0 flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all
+                                    ${isActive
+                                        ? 'bg-brand-primary text-white shadow-md shadow-brand-primary/20'
+                                        : 'text-text-muted hover:bg-surface-bg hover:text-text-primary border border-transparent hover:border-border-soft'
+                                    }`
+                                }
+                            >
+                                <link.icon size={14} />
+                                {t(`sellerDashboard.nav.${link.labelKey}`)}
+                            </NavLink>
+                        ))}
+                    </nav>
 
                     <div className="p-6">
                         <Outlet />

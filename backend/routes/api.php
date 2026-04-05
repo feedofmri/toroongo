@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\WishlistController;
 use App\Http\Controllers\Api\SystemController;
+use App\Http\Controllers\Api\CategoryController;
 
 // ── Public Routes ───────────────────────────────────
 Route::post('/auth/register', [AuthController::class, 'register']);
@@ -85,5 +86,20 @@ Route::middleware('auth:sanctum')->group(function () {
     // Admin
     Route::get('/admin/stats', [AdminController::class, 'stats']);
     Route::get('/admin/users', [AdminController::class, 'users']);
+    Route::get('/admin/users/{id}', [AdminController::class, 'showUser']);
     Route::put('/admin/users/{id}/role', [AdminController::class, 'updateRole']);
+    Route::patch('/admin/users/{id}/toggle-status', [AdminController::class, 'toggleStatus']);
+    Route::get('/admin/sellers', [AdminController::class, 'sellers']);
+    
+    // Category Management
+    Route::get('/admin/categories', [CategoryController::class, 'index']);
+    Route::post('/admin/categories', [CategoryController::class, 'store']);
+    Route::put('/admin/categories/{id}', [CategoryController::class, 'update']);
+    Route::delete('/admin/categories/{id}', [CategoryController::class, 'destroy']);
+
+    // Settings
+    Route::get('/admin/settings', [AdminController::class, 'getSettings']);
+    Route::post('/admin/settings', [AdminController::class, 'updateSettings']);
 });
+
+

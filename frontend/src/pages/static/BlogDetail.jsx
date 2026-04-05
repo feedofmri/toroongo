@@ -84,19 +84,19 @@ export default function BlogDetail() {
                         </div>
                         <div className="flex items-center gap-1.5">
                             <Clock size={16} />
-                            <span>{blog.readTime}</span>
+                            <span>{blog.read_time}</span>
                         </div>
                         <div className="flex items-center gap-1.5">
                             <Calendar size={16} />
-                            <span>{new Date(blog.createdAt).toLocaleDateString(t('common.dateLocale'), { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                            <span>{new Date(blog.created_at).toLocaleDateString(t('common.dateLocale'), { month: 'long', day: 'numeric', year: 'numeric' })}</span>
                         </div>
                     </div>
                 </header>
 
                 {/* Banner Image */}
-                {blog.imageUrl && (
+                {blog.image_url && (
                     <div className="mb-12 rounded-3xl overflow-hidden shadow-2xl border border-border-soft">
-                        <img src={blog.imageUrl} alt={blog.title} className="w-full h-auto object-cover max-h-[500px]" />
+                        <img src={blog.image_url} alt={blog.title} className="w-full h-auto object-cover max-h-[500px]" />
                     </div>
                 )}
 

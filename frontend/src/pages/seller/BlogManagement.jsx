@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Plus, Pencil, Trash2, Eye, Newspaper, Search, ChevronRight, LayoutGrid, List as ListIcon } from 'lucide-react';
+import { Plus, Pencil, Trash2, Eye, Newspaper, Search, LayoutGrid, List as ListIcon } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { blogService } from '../../services';
 import { useAuth } from '../../context/AuthContext';
 
 export default function BlogManagement() {
+    const { t, i18n } = useTranslation();
     const { user } = useAuth();
     const navigate = useNavigate();
     const [blogs, setBlogs] = useState([]);
@@ -47,7 +49,7 @@ export default function BlogManagement() {
     );
 
     const formatDate = (dateString) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
+        return new Date(dateString).toLocaleDateString(i18n.language || 'en-US', {
             month: 'short',
             day: 'numeric',
             year: 'numeric'
@@ -76,7 +78,7 @@ export default function BlogManagement() {
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" size={18} />
                     <input
                         type="text"
-                        placeholder="Search posts..."
+                        placeholder={t('sellerBlogs.searchPlaceholder')}
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className="w-full pl-10 pr-4 py-2 bg-surface-bg border border-border-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-primary/20 focus:border-brand-primary transition-all text-sm"
@@ -101,7 +103,7 @@ export default function BlogManagement() {
             {loading ? (
                 <div className="flex flex-col items-center justify-center py-20 text-text-muted space-y-3">
                     <div className="w-10 h-10 border-4 border-brand-primary/20 border-t-brand-primary rounded-full animate-spin"></div>
-                    <p className="text-sm font-medium">Loading your blogs...</p>
+                    <p className="text-sm font-medium">{t('sellerBlogs.loading')}</p>
                 </div>
             ) : filteredBlogs.length > 0 ? (
                 viewMode === 'list' ? (
@@ -120,16 +122,16 @@ export default function BlogManagement() {
                                     <tr key={blog.id} className="hover:bg-surface-bg/50 transition-colors">
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-12 h-12 rounded-lg bg-brand-primary/10 flex items-center justify-center flex-shrink-0">
-                                                    {blog.imageUrl ? (
-                                                        <img src={blog.imageUrl} alt="" className="w-full h-full object-cover rounded-lg" />
+                                                 <div className="w-12 h-12 rounded-lg bg-brand-primary/10 flex items-center justify-center flex-shrink-0">
+                                                    {blog.image_url ? (
+                                                        <img src={blog.image_url} alt="" className="w-full h-full object-cover rounded-lg" />
                                                     ) : (
                                                         <Newspaper size={20} className="text-brand-primary" />
                                                     )}
                                                 </div>
                                                 <div>
                                                     <p className="text-sm font-semibold text-text-primary line-clamp-1">{blog.title}</p>
-                                                    <p className="text-xs text-text-muted">{t('sellerBlogs.table.publishedOn', { date: formatDate(blog.createdAt) })}</p>
+                                                    <p className="text-xs text-text-muted">{t('sellerBlogs.table.publishedOn', { date: formatDate(blog.created_at) })}</p>
                                                 </div>
                                             </div>
                                         </td>
@@ -172,8 +174,8 @@ export default function BlogManagement() {
                         {filteredBlogs.map((blog) => (
                             <div key={blog.id} className="bg-white rounded-2xl border border-border-soft overflow-hidden group hover:border-brand-primary/30 transition-all shadow-sm">
                                 <div className="aspect-video bg-surface-bg relative overflow-hidden">
-                                    {blog.imageUrl ? (
-                                        <img src={blog.imageUrl} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                    {blog.image_url ? (
+                                        <img src={blog.image_url} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                                     ) : (
                                         <div className="w-full h-full flex items-center justify-center">
                                             <Newspaper size={40} className="text-brand-primary/20" />
@@ -190,7 +192,7 @@ export default function BlogManagement() {
                                     <p className="text-xs text-text-muted line-clamp-2 mb-4 leading-relaxed">{blog.summary}</p>
                                     <div className="flex items-center justify-between pt-4 border-t border-border-soft">
                                         <div className="text-[10px] text-text-muted flex items-center gap-1">
-                                            <Eye size={12} /> {blog.views || 0} views
+                                            <Eye size={12} /> {t('sellerBlogs.views', { count: blog.views || 0 })}
                                         </div>
                                         <div className="flex items-center gap-1">
                                             <button
@@ -217,19 +219,21 @@ export default function BlogManagement() {
                     <div className="w-16 h-16 bg-surface-bg rounded-2xl flex items-center justify-center mx-auto mb-4 text-text-muted">
                         <Newspaper size={32} />
                     </div>
-                    <h3 className="text-lg font-bold text-text-primary mb-2">No blog posts found</h3>
+                    <h3 className="text-lg font-bold text-text-primary mb-2">{t('sellerBlogs.empty.title')}</h3>
                     <p className="text-text-muted text-sm max-w-sm mx-auto mb-6">
-                        {searchQuery ? `No posts matching "${searchQuery}". Try a different search term.` : "You haven't created any blog posts yet. Start by creating your first post to engage with your customers."}
+                        {searchQuery 
+                            ? t('sellerBlogs.empty.searchNoMatch', { query: searchQuery }) 
+                            : t('sellerBlogs.empty.subtitle')}
                     </p>
                     {searchQuery ? (
-                        <button onClick={() => setSearchQuery('')} className="text-brand-primary font-semibold text-sm">Clear Search</button>
+                        <button onClick={() => setSearchQuery('')} className="text-brand-primary font-semibold text-sm">{t('sellerBlogs.empty.clearSearch')}</button>
                     ) : (
                         <Link
                             to="/seller/blogs/new"
                             className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors"
                         >
                             <Plus size={18} />
-                            Create First Post
+                            {t('sellerBlogs.empty.createFirst')}
                         </Link>
                     )}
                 </div>

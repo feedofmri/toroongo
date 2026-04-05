@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { MessageSquare, Send, Search, ChevronLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
