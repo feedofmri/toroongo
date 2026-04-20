@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
-import { CreditCard, Truck, MapPin, ChevronRight, Lock, ShieldCheck } from 'lucide-react';
+import { CreditCard, Truck, MapPin, ChevronRight, Lock, ShieldCheck, Plus } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useProduct } from '../../context/ProductContext';
 import { useAuth } from '../../context/AuthContext';
-import { orderService } from '../../services';
+import { orderService, addressService } from '../../services';
 import { formatPrice } from '../../utils/currency';
 
 export default function Checkout() {
@@ -23,7 +23,78 @@ export default function Checkout() {
         nameOnCard: '', cardNumber: '', expiry: '', cvv: '',
     });
     const [paymentMethod, setPaymentMethod] = useState('credit_card');
-    const [savedAddresses] = useState([]); // Mocking saved addresses as empty for now
+    const [savedAddresses, setSavedAddresses] = useState([]);
+    const [selectedAddressId, setSelectedAddressId] = useState(null);
+    const [loadingAddresses, setLoadingAddresses] = useState(false);
+
+    useEffect(() => {
+        if (user) {
+            // Pre-fill from user profile
+            const [firstName, ...lastNameParts] = (user.name || '').split(' ');
+            const lastName = lastNameParts.join(' ');
+            
+            setShipping(prev => ({
+                ...prev,
+                firstName: firstName || prev.firstName,
+                lastName: lastName || prev.lastName,
+                email: user.email || prev.email,
+                phone: user.phone || prev.phone,
+            }));
+
+            // Fetch and pre-fill from addresses
+            const fetchAndFillAddress = async () => {
+                setLoadingAddresses(true);
+                try {
+                    const data = await addressService.getAddresses();
+                    setSavedAddresses(data);
+                    if (data.length > 0) {
+                        const defaultAddr = data[0]; // For now, use the first one
+                        setShipping(prev => ({
+                            ...prev,
+                            firstName: defaultAddr.first_name || prev.firstName,
+                            lastName: defaultAddr.last_name || prev.lastName,
+                            email: defaultAddr.email || prev.email,
+                            phone: defaultAddr.phone || prev.phone,
+                            address: defaultAddr.address || prev.address,
+                            city: defaultAddr.city || prev.city,
+                            state: defaultAddr.state || prev.state,
+                            zip: defaultAddr.zip || prev.zip,
+                            country: defaultAddr.country || prev.country,
+                        }));
+                    }
+                } catch (error) {
+                    console.error('Failed to auto-fill address:', error);
+                } finally {
+                    setLoadingAddresses(false);
+                }
+            };
+
+            fetchAndFillAddress();
+        }
+    }, [user]);
+
+    const handleAddressSelect = (addr) => {
+        setSelectedAddressId(addr.id);
+        setShipping({
+            firstName: addr.first_name || '',
+            lastName: addr.last_name || '',
+            email: addr.email || '',
+            phone: addr.phone || '',
+            address: addr.address || '',
+            city: addr.city || '',
+            state: addr.state || '',
+            zip: addr.zip || '',
+            country: addr.country || 'BD',
+        });
+    };
+
+    const handleManualEntry = () => {
+        setSelectedAddressId(null);
+        setShipping({
+            firstName: '', lastName: '', email: '', phone: '',
+            address: '', city: '', state: '', zip: '', country: 'BD',
+        });
+    };
 
     const subtotal = useMemo(() => {
         return cartSummary.reduce((sum, item) => {
@@ -157,6 +228,39 @@ export default function Checkout() {
                         {step === 1 && (
                             <div className="space-y-6">
                                 <h2 className="text-xl font-bold text-text-primary">{t('checkout.shippingInfo', 'Shipping Information')}</h2>
+
+                                {savedAddresses.length > 0 && (
+                                    <div className="space-y-3">
+                                        <p className="text-sm font-medium text-text-muted">{t('checkout.selectSavedAddress', 'Select a saved address')}</p>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                            {savedAddresses.map((addr) => (
+                                                <button
+                                                    key={addr.id}
+                                                    onClick={() => handleAddressSelect(addr)}
+                                                    className={`p-4 border text-left rounded-xl transition-all ${selectedAddressId === addr.id 
+                                                        ? 'border-brand-primary bg-brand-primary/5 ring-1 ring-brand-primary' 
+                                                        : 'border-border-soft hover:border-gray-300 bg-white'}`}
+                                                >
+                                                    <div className="flex justify-between items-start mb-1">
+                                                        <span className="text-xs font-bold text-brand-primary uppercase tracking-wider">{addr.label}</span>
+                                                        {selectedAddressId === addr.id && <div className="w-2 h-2 rounded-full bg-brand-primary"></div>}
+                                                    </div>
+                                                    <p className="text-sm font-bold text-text-primary">{addr.first_name} {addr.last_name}</p>
+                                                    <p className="text-xs text-text-muted line-clamp-1 mt-0.5">{addr.address}, {addr.city}</p>
+                                                </button>
+                                            ))}
+                                            <button
+                                                onClick={handleManualEntry}
+                                                className={`p-4 border text-left rounded-xl transition-all flex flex-col justify-center items-center gap-1 border-dashed ${!selectedAddressId 
+                                                    ? 'border-brand-primary bg-brand-primary/5 ring-1 ring-brand-primary' 
+                                                    : 'border-border-soft hover:border-gray-300 bg-white'}`}
+                                            >
+                                                <Plus size={16} className="text-text-muted" />
+                                                <span className="text-xs font-bold text-text-muted uppercase tracking-wider">{t('checkout.newAddress', 'New Address')}</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
 
 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

@@ -24,15 +24,23 @@ export default function OrderManagement() {
     const [search, setSearch] = useState('');
     const [selectedOrderId, setSelectedOrderId] = useState(null);
 
-    React.useEffect(() => {
+    const fetchOrders = () => {
         if (user) {
+            setLoading(true);
             orderService.getSellerOrders(user.id)
                 .then(data => {
                     setOrders(data);
                     setLoading(false);
                 })
-                .catch(console.error);
+                .catch(err => {
+                    console.error(err);
+                    setLoading(false);
+                });
         }
+    };
+
+    React.useEffect(() => {
+        fetchOrders();
     }, [user]);
 
     const filtered = orders.filter((o) => {
@@ -168,6 +176,7 @@ export default function OrderManagement() {
             <OrderDetailModal 
                 orderId={selectedOrderId} 
                 onClose={() => setSelectedOrderId(null)} 
+                onUpdate={fetchOrders}
             />
         </div>
     );

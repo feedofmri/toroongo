@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Notification;
+use App\Models\Review;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -102,10 +103,23 @@ class OrderController extends Controller
 
     public function myOrders(Request $request)
     {
-        $orders = Order::where('buyer_id', $request->user()->id)
-            ->with('items')
+        $userId = $request->user()->id;
+        $orders = Order::where('buyer_id', $userId)
+            ->with(['items'])
             ->orderBy('created_at', 'desc')
             ->get();
+            
+        // Get all product IDs this user has reviewed
+        $reviewedProductIds = Review::where('user_id', $userId)
+            ->pluck('product_id')
+            ->toArray();
+
+        foreach ($orders as $order) {
+            foreach ($order->items as $item) {
+                $item->is_reviewed = in_array($item->product_id, $reviewedProductIds);
+            }
+        }
+
         return response()->json($orders);
     }
 

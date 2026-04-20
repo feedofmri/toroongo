@@ -7,3 +7,4 @@ export * from './adminService';
 export * from './messageService';
 export * from './notificationService';
 export * from './reviewService';
+export * from './addressService';

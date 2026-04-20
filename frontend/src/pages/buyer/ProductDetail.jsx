@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
-import { ShoppingCart, Heart, Truck, ShieldCheck, RotateCcw, Minus, Plus, ChevronRight, Star, MessageSquare, Check, Store, ExternalLink } from 'lucide-react';
+import { ShoppingCart, Heart, Truck, ShieldCheck, RotateCcw, Minus, Plus, ChevronRight, Star, MessageSquare, Check, Store, ExternalLink, Loader2 } from 'lucide-react';
 import StarRating from '../../components/ui/StarRating';
 import ProductCard from '../../components/product/ProductCard';
 import { useProduct } from '../../context/ProductContext';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { useWishlist } from '../../context/WishlistContext';
-import { messageService } from '../../services';
+import { messageService, reviewService } from '../../services';
 import { resolveSellerSlug } from '../../utils/resolveSellerSlug';
 import { formatPrice } from '../../utils/currency';
 

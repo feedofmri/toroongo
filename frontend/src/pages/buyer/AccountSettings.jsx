@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { User, MapPin, CreditCard, Bell, Plus, Pencil, Trash2, Loader2 } from 'lucide-react';
+import { User, MapPin, CreditCard, Bell, Plus, Pencil, Trash2, Loader2, X } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { userService } from '../../services';
-
-const MOCK_ADDRESSES = [
-    { id: 1, label: 'Home', name: 'John Doe', address: '123 Main Street', city: 'New York', state: 'NY', zip: '10001', phone: '+1 (555) 123-4567', isDefault: true },
-    { id: 2, label: 'Office', name: 'John Doe', address: '456 Business Ave, Suite 200', city: 'San Francisco', state: 'CA', zip: '94105', phone: '+1 (555) 987-6543', isDefault: false },
-];
+import { userService, addressService } from '../../services';
 
 const MOCK_PAYMENTS = [
     { id: 1, type: 'Visa', last4: '4242', expiry: '12/27', isDefault: true },
@@ -30,16 +25,121 @@ export default function AccountSettings() {
         sellerMessages: true,
         wishlistAlerts: false
     });
+    // Profile State
+    const [profile, setProfile] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: ''
+    });
+
+    // Address State
+    const [addresses, setAddresses] = useState([]);
+    const [loadingAddresses, setLoadingAddresses] = useState(false);
+    const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
+    const [editingAddress, setEditingAddress] = useState(null);
+    const [addressForm, setAddressForm] = useState({
+        label: 'Home', first_name: '', last_name: '', email: '', phone: '',
+        address: '', city: '', state: '', zip: '', country: 'BD'
+    });
+
     const [isSaving, setIsSaving] = useState(false);
+    const [isSavingProfile, setIsSavingProfile] = useState(false);
+    const [isSavingAddress, setIsSavingAddress] = useState(false);
 
     useEffect(() => {
-        if (user?.buyer_settings?.notifications) {
-            setNotificationPrefs({
-                ...notificationPrefs,
-                ...user.buyer_settings.notifications
+        if (user) {
+            setProfile({
+                firstName: user.name?.split(' ')[0] || '',
+                lastName: user.name?.split(' ').slice(1).join(' ') || '',
+                email: user.email || '',
+                phone: user.phone || ''
             });
+
+            if (user.buyer_settings?.notifications) {
+                setNotificationPrefs({
+                    ...notificationPrefs,
+                    ...user.buyer_settings.notifications
+                });
+            }
+            
+            fetchAddresses();
         }
     }, [user]);
+
+    const fetchAddresses = async () => {
+        setLoadingAddresses(true);
+        try {
+            const data = await addressService.getAddresses();
+            setAddresses(data);
+        } catch (error) {
+            console.error('Failed to fetch addresses:', error);
+        } finally {
+            setLoadingAddresses(false);
+        }
+    };
+
+    const handleSaveProfile = async () => {
+        setIsSavingProfile(true);
+        try {
+            const updatedUser = await userService.updateProfile(user.id, {
+                name: `${profile.firstName} ${profile.lastName}`.trim(),
+                email: profile.email,
+                phone: profile.phone
+            });
+            updateUser(updatedUser);
+            alert('Profile updated successfully!');
+        } catch (error) {
+            console.error('Failed to update profile:', error);
+            alert('Failed to update profile.');
+        } finally {
+            setIsSavingProfile(false);
+        }
+    };
+
+    const handleOpenAddressModal = (addr = null) => {
+        if (addr) {
+            setEditingAddress(addr);
+            setAddressForm({ ...addr });
+        } else {
+            setEditingAddress(null);
+            setAddressForm({
+                label: 'Home', first_name: profile.firstName, last_name: profile.lastName, 
+                email: profile.email, phone: profile.phone,
+                address: '', city: '', state: '', zip: '', country: 'BD'
+            });
+        }
+        setIsAddressModalOpen(true);
+    };
+
+    const handleSaveAddress = async (e) => {
+        e.preventDefault();
+        setIsSavingAddress(true);
+        try {
+            if (editingAddress) {
+                await addressService.updateAddress(editingAddress.id, addressForm);
+            } else {
+                await addressService.createAddress(addressForm);
+            }
+            await fetchAddresses();
+            setIsAddressModalOpen(false);
+        } catch (error) {
+            console.error('Failed to save address:', error);
+            alert('Failed to save address.');
+        } finally {
+            setIsSavingAddress(false);
+        }
+    };
+
+    const handleDeleteAddress = async (id) => {
+        if (!window.confirm('Are you sure you want to remove this address?')) return;
+        try {
+            await addressService.deleteAddress(id);
+            await fetchAddresses();
+        } catch (error) {
+            console.error('Failed to delete address:', error);
+        }
+    };
 
     const handleSaveNotifications = async () => {
         setIsSaving(true);
@@ -105,22 +205,47 @@ export default function AccountSettings() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.firstName')}</label>
-                            <input type="text" defaultValue={user?.name?.split(' ')[0] || ''} className={inputClass} />
+                            <input 
+                                type="text" 
+                                value={profile.firstName} 
+                                onChange={(e) => setProfile({...profile, firstName: e.target.value})}
+                                className={inputClass} 
+                            />
                         </div>
                         <div>
                             <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.lastName')}</label>
-                            <input type="text" defaultValue={user?.name?.split(' ').slice(1).join(' ') || ''} className={inputClass} />
+                            <input 
+                                type="text" 
+                                value={profile.lastName} 
+                                onChange={(e) => setProfile({...profile, lastName: e.target.value})}
+                                className={inputClass} 
+                            />
                         </div>
                     </div>
                     <div>
                         <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.email')}</label>
-                        <input type="email" defaultValue={user?.email || ''} className={inputClass} />
+                        <input 
+                            type="email" 
+                            value={profile.email} 
+                            onChange={(e) => setProfile({...profile, email: e.target.value})}
+                            className={inputClass} 
+                        />
                     </div>
                     <div>
                         <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.phone')}</label>
-                        <input type="tel" defaultValue={user?.phone || "+1 (555) 123-4567"} className={inputClass} />
+                        <input 
+                            type="tel" 
+                            value={profile.phone} 
+                            onChange={(e) => setProfile({...profile, phone: e.target.value})}
+                            className={inputClass} 
+                        />
                     </div>
-                    <button className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
+                    <button 
+                        onClick={handleSaveProfile}
+                        disabled={isSavingProfile}
+                        className="flex items-center gap-2 px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-70"
+                    >
+                        {isSavingProfile && <Loader2 size={16} className="animate-spin" />}
                         {t('account.saveChanges')}
                     </button>
                 </div>
@@ -131,33 +256,158 @@ export default function AccountSettings() {
                 <div>
                     <div className="flex items-center justify-between mb-5">
                         <h3 className="text-lg font-semibold text-text-primary">{t('account.savedAddresses')}</h3>
-                        <button className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-brand-primary border border-brand-primary/30 rounded-lg hover:bg-brand-primary/5 transition-colors">
+                        <button 
+                            onClick={() => handleOpenAddressModal()}
+                            className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-brand-primary border border-brand-primary/30 rounded-lg hover:bg-brand-primary/5 transition-colors"
+                        >
                             <Plus size={15} /> {t('account.addAddress')}
                         </button>
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {MOCK_ADDRESSES.map((addr) => (
-                            <div key={addr.id} className="p-5 border border-border-soft rounded-xl relative">
-                                {addr.isDefault && (
-                                    <span className="absolute top-3 right-3 text-[10px] font-semibold text-brand-primary bg-brand-primary/10 px-2 py-0.5 rounded-full">
-                                        {t('account.default')}
-                                    </span>
-                                )}
-                                <p className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-2">{addr.label}</p>
-                                <p className="text-sm font-medium text-text-primary">{addr.name}</p>
-                                <p className="text-sm text-text-muted mt-0.5">{addr.address}</p>
-                                <p className="text-sm text-text-muted">{addr.city}, {addr.state} {addr.zip}</p>
-                                <p className="text-sm text-text-muted mt-1">{addr.phone}</p>
-                                <div className="flex gap-2 mt-3">
-                                    <button className="flex items-center gap-1 text-xs font-medium text-text-muted hover:text-brand-primary transition-colors">
-                                        <Pencil size={12} /> {t('account.edit')}
-                                    </button>
-                                    <button className="flex items-center gap-1 text-xs font-medium text-text-muted hover:text-red-500 transition-colors">
-                                        <Trash2 size={12} /> {t('account.remove')}
-                                    </button>
+                    
+                    {loadingAddresses ? (
+                        <div className="flex flex-col items-center justify-center py-12">
+                            <Loader2 size={32} className="text-brand-primary animate-spin mb-4" />
+                            <p className="text-sm text-text-muted">Loading addresses...</p>
+                        </div>
+                    ) : addresses.length > 0 ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {addresses.map((addr) => (
+                                <div key={addr.id} className="p-5 border border-border-soft rounded-xl relative hover:border-brand-primary/30 transition-colors group">
+                                    <p className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-2">{addr.label}</p>
+                                    <p className="text-sm font-medium text-text-primary">{addr.first_name} {addr.last_name}</p>
+                                    <p className="text-sm text-text-muted mt-0.5">{addr.address}</p>
+                                    <p className="text-sm text-text-muted">{addr.city}, {addr.state} {addr.zip}</p>
+                                    <p className="text-sm text-text-muted mt-1">{addr.phone}</p>
+                                    <div className="flex gap-4 mt-4 pt-3 border-t border-border-soft opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <button 
+                                            onClick={() => handleOpenAddressModal(addr)}
+                                            className="flex items-center gap-1 text-xs font-medium text-brand-primary hover:text-brand-secondary transition-colors"
+                                        >
+                                            <Pencil size={12} /> {t('account.edit')}
+                                        </button>
+                                        <button 
+                                            onClick={() => handleDeleteAddress(addr.id)}
+                                            className="flex items-center gap-1 text-xs font-medium text-red-500 hover:text-red-600 transition-colors"
+                                        >
+                                            <Trash2 size={12} /> {t('account.remove')}
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-12 border-2 border-dashed border-border-soft rounded-2xl">
+                            <MapPin size={40} className="text-text-muted/30 mx-auto mb-3" />
+                            <p className="text-sm text-text-muted font-medium">No saved addresses yet.</p>
+                            <button 
+                                onClick={() => handleOpenAddressModal()}
+                                className="mt-4 text-xs font-bold text-brand-primary hover:underline"
+                            >
+                                Add your first shipping address
+                            </button>
+                        </div>
+                    )}
+                </div>
+            )}
+
+            {/* Address Modal */}
+            {isAddressModalOpen && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
+                    <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden flex flex-col animate-scale-up">
+                        <div className="px-6 py-4 border-b border-border-soft flex items-center justify-between bg-surface-bg">
+                            <h3 className="font-bold text-text-primary">
+                                {editingAddress ? 'Edit Address' : 'Add New Address'}
+                            </h3>
+                            <button onClick={() => setIsAddressModalOpen(false)} className="p-1 text-text-muted hover:text-text-primary transition-colors">
+                                <X size={20} />
+                            </button>
+                        </div>
+                        <form onSubmit={handleSaveAddress} className="p-6 space-y-4">
+                            <div>
+                                <label className="block text-xs font-medium text-text-muted mb-1.5">Address Label (e.g. Home, Office)</label>
+                                <input 
+                                    type="text" required value={addressForm.label} 
+                                    onChange={(e) => setAddressForm({...addressForm, label: e.target.value})} className={inputClass} 
+                                />
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-xs font-medium text-text-muted mb-1.5">First Name</label>
+                                    <input 
+                                        type="text" required value={addressForm.first_name} 
+                                        onChange={(e) => setAddressForm({...addressForm, first_name: e.target.value})} className={inputClass} 
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-medium text-text-muted mb-1.5">Last Name</label>
+                                    <input 
+                                        type="text" required value={addressForm.last_name} 
+                                        onChange={(e) => setAddressForm({...addressForm, last_name: e.target.value})} className={inputClass} 
+                                    />
                                 </div>
                             </div>
-                        ))}
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-xs font-medium text-text-muted mb-1.5">Email</label>
+                                    <input 
+                                        type="email" value={addressForm.email} 
+                                        onChange={(e) => setAddressForm({...addressForm, email: e.target.value})} className={inputClass} 
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-xs font-medium text-text-muted mb-1.5">Phone</label>
+                                    <input 
+                                        type="tel" required value={addressForm.phone} 
+                                        onChange={(e) => setAddressForm({...addressForm, phone: e.target.value})} className={inputClass} 
+                                    />
+                                </div>
+                            </div>
+                            <div>
+                                <label className="block text-xs font-medium text-text-muted mb-1.5">Street Address</label>
+                                <input 
+                                    type="text" required value={addressForm.address} 
+                                    onChange={(e) => setAddressForm({...addressForm, address: e.target.value})} className={inputClass} 
+                                />
+                            </div>
+                            <div className="grid grid-cols-3 gap-4">
+                                <div className="col-span-1">
+                                    <label className="block text-xs font-medium text-text-muted mb-1.5">City</label>
+                                    <input 
+                                        type="text" required value={addressForm.city} 
+                                        onChange={(e) => setAddressForm({...addressForm, city: e.target.value})} className={inputClass} 
+                                    />
+                                </div>
+                                <div className="col-span-1">
+                                    <label className="block text-xs font-medium text-text-muted mb-1.5">State</label>
+                                    <input 
+                                        type="text" value={addressForm.state} 
+                                        onChange={(e) => setAddressForm({...addressForm, state: e.target.value})} className={inputClass} 
+                                    />
+                                </div>
+                                <div className="col-span-1">
+                                    <label className="block text-xs font-medium text-text-muted mb-1.5">ZIP Code</label>
+                                    <input 
+                                        type="text" required value={addressForm.zip} 
+                                        onChange={(e) => setAddressForm({...addressForm, zip: e.target.value})} className={inputClass} 
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex gap-3 pt-4">
+                                <button 
+                                    type="button" onClick={() => setIsAddressModalOpen(false)}
+                                    className="flex-1 py-3 text-sm font-bold text-text-muted bg-surface-bg rounded-xl hover:text-text-primary transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                                <button 
+                                    type="submit" disabled={isSavingAddress}
+                                    className="flex-[2] py-3 bg-brand-primary text-white text-sm font-bold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                                >
+                                    {isSavingAddress && <Loader2 size={16} className="animate-spin" />}
+                                    {editingAddress ? 'Update Address' : 'Save Address'}
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             )}

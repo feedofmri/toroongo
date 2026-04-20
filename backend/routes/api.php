@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\SystemController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\Api\AddressController;
 
 // ── Public Routes ───────────────────────────────────
 Route::post('/auth/register', [AuthController::class, 'register']);
@@ -73,6 +74,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/reviews/my', [ReviewController::class, 'myReviews']);
         Route::put('/reviews/{review}', [ReviewController::class, 'update']);
         Route::delete('/reviews/{review}', [ReviewController::class, 'destroy']);
+
+        // Addresses
+        Route::get('/addresses', [AddressController::class, 'index']);
+        Route::post('/addresses', [AddressController::class, 'store']);
+        Route::put('/addresses/{id}', [AddressController::class, 'update']);
+        Route::delete('/addresses/{id}', [AddressController::class, 'destroy']);
     });
 
     // ── Seller Specific Routes ────────────────────

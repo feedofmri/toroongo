@@ -133,7 +133,7 @@ export default function OrderHistory() {
                                                 <p className="text-xs text-text-muted mt-0.5">{t('orders.soldBy', { seller: pInfo.sellerId })} · {t('orders.qty')}: {item.quantity}</p>
                                                 <p className="text-sm font-semibold text-text-primary mt-1">{formatPrice((item.priceAtPurchase))}</p>
                                             </div>
-                                            {order.status === 'delivered' && (
+                                            {order.status === 'delivered' && !item.is_reviewed && (
                                                 <button
                                                     onClick={() => {
                                                         setReviewingProduct(pInfo);

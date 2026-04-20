@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, Package, Truck, CheckCircle, Clock, MapPin, CreditCard, ChevronRight, Loader2 } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 import { orderService } from '../../services/orderService';
 import { formatPrice } from '../../utils/currency';
 import { useProduct } from '../../context/ProductContext';
@@ -12,11 +13,13 @@ const STATUS_CONFIG = {
     cancelled: { icon: X, color: 'text-red-600 bg-red-50', label: 'Cancelled' },
 };
 
-export default function OrderDetailModal({ orderId, onClose }) {
+export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
     const { t } = useTranslation();
+    const { user } = useAuth();
     const { products: allProducts } = useProduct();
     const [order, setOrder] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [updatingStatus, setUpdatingStatus] = useState(false);
 
     useEffect(() => {
         if (orderId) {
@@ -38,6 +41,23 @@ export default function OrderDetailModal({ orderId, onClose }) {
     const getProductInfo = (productId) => {
         const p = allProducts.find(pr => String(pr.id) === String(productId));
         return p || { title: 'Unknown Product', imageUrl: '' };
+    };
+
+    const handleStatusChange = async (newStatus) => {
+        if (!order || updatingStatus) return;
+        setUpdatingStatus(true);
+        try {
+            await orderService.updateOrderStatus(order.id, newStatus);
+            // Refresh local state
+            const updated = await orderService.getOrderById(order.id);
+            setOrder(updated);
+            if (onUpdate) onUpdate();
+        } catch (err) {
+            console.error('Failed to update status:', err);
+            alert('Failed to update status. Please try again.');
+        } finally {
+            setUpdatingStatus(false);
+        }
     };
 
     const statusCfg = order ? (STATUS_CONFIG[order.status] || STATUS_CONFIG.processing) : STATUS_CONFIG.processing;
@@ -165,10 +185,48 @@ export default function OrderDetailModal({ orderId, onClose }) {
                         </div>
 
                         {/* Footer Actions */}
-                        <div className="p-6 pt-0 sm:p-8 sm:pt-0 bg-white">
+                        <div className="p-6 pt-0 sm:p-8 sm:pt-0 bg-white space-y-4">
+                            {/* Seller Status Controls */}
+                            {user?.role === 'seller' && order.status !== 'delivered' && order.status !== 'cancelled' && (
+                                <div className="p-5 bg-surface-bg border border-border-soft rounded-2xl">
+                                    <h4 className="text-sm font-bold text-text-primary mb-3">Seller Management</h4>
+                                    <div className="flex flex-wrap gap-2">
+                                        {order.status === 'processing' && (
+                                            <>
+                                                <button 
+                                                    onClick={() => handleStatusChange('shipped')}
+                                                    disabled={updatingStatus}
+                                                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-brand-primary text-white text-xs font-bold rounded-xl hover:bg-brand-secondary transition-all disabled:opacity-50"
+                                                >
+                                                    {updatingStatus ? <Loader2 size={14} className="animate-spin" /> : <Truck size={14} />}
+                                                    Mark as Shipped
+                                                </button>
+                                                <button 
+                                                    onClick={() => handleStatusChange('cancelled')}
+                                                    disabled={updatingStatus}
+                                                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-red-50 text-red-600 text-xs font-bold border border-red-100 rounded-xl hover:bg-red-100 transition-all disabled:opacity-50"
+                                                >
+                                                    Cancel Order
+                                                </button>
+                                            </>
+                                        )}
+                                        {order.status === 'shipped' && (
+                                            <button 
+                                                onClick={() => handleStatusChange('delivered')}
+                                                disabled={updatingStatus}
+                                                className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-green-600 text-white text-xs font-bold rounded-xl hover:bg-green-700 transition-all disabled:opacity-50"
+                                            >
+                                                {updatingStatus ? <Loader2 size={14} className="animate-spin" /> : <CheckCircle size={14} />}
+                                                Mark as Delivered
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
                             <button 
                                 onClick={onClose}
-                                className="w-full py-3.5 bg-brand-primary text-white font-bold rounded-2xl hover:bg-brand-secondary transition-all shadow-lg shadow-brand-primary/20"
+                                className="w-full py-3.5 bg-brand-primary/5 text-brand-primary font-bold rounded-2xl hover:bg-brand-primary/10 transition-all"
                             >
                                 Close Details
                             </button>
