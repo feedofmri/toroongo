@@ -11,6 +11,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { useNotifications } from '../../contexts/NotificationContext';
+import { useProduct } from '../../context/ProductContext';
 import NotificationDropdown from '../ui/NotificationDropdown';
 import LanguageSwitcher from './LanguageSwitcher';
 import logoColourful from '../../assets/Logo/logo_colourful.png';
@@ -96,6 +97,7 @@ export default function Navbar() {
     const { getCartCount } = useCart();
     const { wishlistCount } = useWishlist();
     const { unreadCount } = useNotifications();
+    const { categories } = useProduct();
 
     const [userDropdownOpen, setUserDropdownOpen] = useState(false);
     const [notificationDropdownOpen, setNotificationDropdownOpen] = useState(false);
@@ -538,16 +540,29 @@ export default function Navbar() {
 
                                 {mobileCategoriesOpen && (
                                     <div className="ml-4 pl-4 border-l border-border-soft mt-1 flex flex-col gap-1 overflow-hidden animate-slide-down">
-                                        {MOBILE_SHOP_LINKS.filter(l => l.to.includes('category=')).map((link) => (
-                                            <Link
-                                                key={link.to}
-                                                to={link.to}
-                                                onClick={() => setMobileMenuOpen(false)}
-                                                className="px-2.5 py-1.5 rounded-lg text-[13px] font-medium text-text-muted hover:text-brand-primary hover:bg-brand-primary/5 transition-colors"
-                                            >
-                                                {t(link.label, link.default)}
-                                            </Link>
-                                        ))}
+                                        {categories.length > 0 ? (
+                                            categories.map((cat) => (
+                                                <Link
+                                                    key={cat.id || cat.slug}
+                                                    to={`/products?category=${cat.slug}`}
+                                                    onClick={() => setMobileMenuOpen(false)}
+                                                    className="px-2.5 py-1.5 rounded-lg text-[13px] font-medium text-text-muted hover:text-brand-primary hover:bg-brand-primary/5 transition-colors"
+                                                >
+                                                    {cat.name}
+                                                </Link>
+                                            ))
+                                        ) : (
+                                            MOBILE_SHOP_LINKS.filter(l => l.to.includes('category=')).map((link) => (
+                                                <Link
+                                                    key={link.to}
+                                                    to={link.to}
+                                                    onClick={() => setMobileMenuOpen(false)}
+                                                    className="px-2.5 py-1.5 rounded-lg text-[13px] font-medium text-text-muted hover:text-brand-primary hover:bg-brand-primary/5 transition-colors"
+                                                >
+                                                    {t(link.label, link.default)}
+                                                </Link>
+                                            ))
+                                        )}
                                     </div>
                                 )}
                             </div>

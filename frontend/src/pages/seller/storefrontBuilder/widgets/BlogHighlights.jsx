@@ -44,8 +44,8 @@ export default function BlogHighlights({ title, maxPosts = 3, posts = [] }) {
                 {items.map((post) => (
                     <div
                         key={post.id}
-                        className="group bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-gray-200/50 hover:-translate-y-1 transition-all duration-300"
-                        style={{ borderRadius: 'var(--seller-radius, 0.75rem)' }}
+                        className="group bg-white border border-gray-100 overflow-hidden hover:shadow-xl hover:shadow-gray-200/50 hover:-translate-y-1 transition-all duration-300"
+                        style={{ borderRadius: 'var(--seller-widget-radius, 1rem)' }}
                     >
                         <div className="relative aspect-video overflow-hidden bg-gray-50 border-b border-gray-100">
                             <img

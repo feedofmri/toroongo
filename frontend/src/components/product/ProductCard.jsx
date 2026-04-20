@@ -3,9 +3,11 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Heart, Store } from 'lucide-react';
 import StarRating from '../ui/StarRating';
 import { useWishlist } from '../../context/WishlistContext';
+import { useAuth } from '../../context/AuthContext';
 import { resolveSellerSlug } from '../../utils/resolveSellerSlug';
 import { formatPrice } from '../../utils/currency';
 import { useTranslation } from 'react-i18next';
+import { useProduct } from '../../context/ProductContext';
 
 /**
  * Reusable product card for grids and carousels.
@@ -16,6 +18,8 @@ import { useTranslation } from 'react-i18next';
 export default function ProductCard({ product, layout = 'grid' }) {
     const { t } = useTranslation();
     const { toggleWishlist, isInWishlist } = useWishlist();
+    const { user } = useAuth();
+    const { sellers } = useProduct();
     const navigate = useNavigate();
     const location = useLocation();
     const wishlisted = isInWishlist(product.id);
@@ -23,6 +27,7 @@ export default function ProductCard({ product, layout = 'grid' }) {
     const {
         id,
         title,
+        slug,
         price,
         originalPrice,
         discount,
@@ -30,13 +35,17 @@ export default function ProductCard({ product, layout = 'grid' }) {
         reviews,
         seller,
         sellerId,
-        imageUrl,
+        imageUrl: _imageUrl,
+        image_url,
         badge,
     } = product;
 
-    const sellerSlug = resolveSellerSlug(sellerId);
+    const imageUrl = _imageUrl || image_url;
+    const productUrl = `/product/${slug || id}`;
 
-    const wishlistButton = (
+    const sellerSlug = resolveSellerSlug(sellerId, sellers);
+
+    const wishlistButton = user?.role === 'seller' ? null : (
         <button
             onClick={(e) => {
                 e.preventDefault();
@@ -62,7 +71,7 @@ export default function ProductCard({ product, layout = 'grid' }) {
             <div className="group relative flex bg-white rounded-2xl border border-border-soft overflow-hidden
                             transition-all duration-300 ease-out hover:shadow-lg hover:border-brand-primary/20">
                 {/* Image */}
-                <Link to={`/product/${id}`} className="relative w-40 sm:w-48 flex-shrink-0 overflow-hidden bg-surface-bg">
+                <Link to={productUrl} className="relative w-40 sm:w-48 flex-shrink-0 overflow-hidden bg-surface-bg">
                     <img
                         src={imageUrl}
                         alt={title}
@@ -91,7 +100,7 @@ export default function ProductCard({ product, layout = 'grid' }) {
                         {seller}
                     </Link>
 
-                    <Link to={`/product/${id}`} className="block mb-1.5">
+                    <Link to={productUrl} className="block mb-1.5">
                         <h3 className="text-sm font-medium text-text-primary line-clamp-2 leading-snug
                              group-hover:text-brand-primary transition-colors duration-200">
                             {title}
@@ -128,7 +137,7 @@ export default function ProductCard({ product, layout = 'grid' }) {
                     transition-all duration-300 ease-out
                     hover:-translate-y-1 hover:shadow-lg hover:border-brand-primary/20">
             {/* Image */}
-            <Link to={`/product/${id}`} className="relative aspect-square overflow-hidden bg-surface-bg">
+            <Link to={productUrl} className="relative aspect-square overflow-hidden bg-surface-bg">
                 <img
                     src={imageUrl}
                     alt={title}
@@ -163,7 +172,7 @@ export default function ProductCard({ product, layout = 'grid' }) {
                 </Link>
 
                 {/* Title */}
-                <Link to={`/product/${id}`} className="block mb-2">
+                <Link to={productUrl} className="block mb-2">
                     <h3 className="text-sm font-medium text-text-primary line-clamp-2 leading-snug
                          group-hover:text-brand-primary transition-colors duration-200">
                         {title}

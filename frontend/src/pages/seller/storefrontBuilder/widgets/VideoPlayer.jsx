@@ -22,7 +22,8 @@ export default function VideoPlayer({ title, videoUrl, aspectRatio = '16:9' }) {
                 </h2>
             )}
             <div
-                className="relative w-full rounded-2xl overflow-hidden bg-gray-100"
+                className="relative w-full overflow-hidden bg-gray-100"
+                style={{ borderRadius: 'var(--seller-widget-radius, 1rem)' }}
                 style={{
                     paddingBottom: paddingMap[aspectRatio] || paddingMap['16:9'],
                     borderRadius: 'var(--seller-radius, 0.75rem)',

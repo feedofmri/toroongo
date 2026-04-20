@@ -5,7 +5,6 @@ import { SlidersHorizontal, X, ChevronDown, ChevronLeft, ChevronRight, Grid3X3, 
 import ProductCard from '../../components/product/ProductCard';
 import ProductCardSkeleton from '../../components/product/ProductCardSkeleton';
 import { useDelayedLoad } from '../../hooks/useDelayedLoad';
-import { categories, sellers } from '../../data/mockData';
 import { useProduct } from '../../context/ProductContext';
 import CategoryIcon from '../../components/ui/CategoryIcon';
 
@@ -50,7 +49,7 @@ export default function SearchResults() {
     const [currentPage, setCurrentPage] = useState(1);
     const [showAllSellers, setShowAllSellers] = useState(false);
 
-    const { products: allProducts } = useProduct();
+    const { products: allProducts, categories, sellers } = useProduct();
 
     // Sync search input with URL query
     useEffect(() => {
@@ -86,7 +85,7 @@ export default function SearchResults() {
 
         // Seller filter
         if (selectedSeller) {
-            result = result.filter((p) => p.sellerId === selectedSeller);
+            result = result.filter((p) => String(p.sellerId) === String(selectedSeller));
         }
 
         // Search query filter
@@ -94,9 +93,9 @@ export default function SearchResults() {
             const q = query.toLowerCase();
             result = result.filter(
                 (p) =>
-                    p.title.toLowerCase().includes(q) ||
-                    p.seller.toLowerCase().includes(q) ||
-                    p.category.toLowerCase().includes(q)
+                    (p.title || '').toLowerCase().includes(q) ||
+                    (p.seller || '').toLowerCase().includes(q) ||
+                    (p.category || '').toLowerCase().includes(q)
             );
         }
 
@@ -463,23 +462,23 @@ export default function SearchResults() {
                                     {sellers.slice(0, showAllSellers ? sellers.length : 6).map((s) => (
                                         <button
                                             key={s.id}
-                                            onClick={() => handleFilterChange(setSelectedSeller)(`seller_${s.id}`)}
+                                            onClick={() => handleFilterChange(setSelectedSeller)(selectedSeller === String(s.id) ? '' : String(s.id))}
                                             className={`w-full text-left px-2 py-2 rounded-xl border transition-all duration-200
-                                ${selectedSeller === `seller_${s.id}`
+                                ${selectedSeller === String(s.id)
                                                     ? 'bg-brand-primary/5 border-brand-primary/30 ring-1 ring-brand-primary/20'
                                                     : 'bg-white border-border-soft hover:border-gray-300'}`}
                                         >
                                             <div className="flex items-center gap-2">
                                                 <div className="w-8 h-8 rounded-lg overflow-hidden border border-border-soft bg-white">
-                                                    <img src={s.logo} alt={s.name} className="w-full h-full object-cover" />
+                                                    <img src={s.logo} alt={s.storeName || s.name} className="w-full h-full object-cover" />
                                                 </div>
                                                 <div className="flex-1 min-w-0">
-                                                    <p className={`text-[11px] font-bold truncate ${selectedSeller === `seller_${s.id}` ? 'text-brand-primary' : 'text-text-primary'}`}>
-                                                        {s.name}
+                                                    <p className={`text-[11px] font-bold truncate ${selectedSeller === String(s.id) ? 'text-brand-primary' : 'text-text-primary'}`}>
+                                                        {s.storeName || s.name}
                                                     </p>
                                                     <div className="flex items-center gap-1 mt-0.5">
                                                         <Star size={9} className="fill-amber-400 text-amber-400" />
-                                                        <span className="text-[9px] text-text-muted font-medium">{s.rating}</span>
+                                                        <span className="text-[9px] text-text-muted font-medium">{Number(s.rating || 0).toFixed(1)}</span>
                                                     </div>
                                                 </div>
                                             </div>

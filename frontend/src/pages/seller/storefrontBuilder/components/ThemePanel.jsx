@@ -50,6 +50,7 @@ export default function ThemePanel() {
             {/* UI Shape */}
             <Section title="UI Shape">
                 <RadioGroup label="Button / Input Radius" value={theme.borderRadius} options={RADIUS_OPTIONS} onChange={(v) => handleChange('borderRadius', v)} />
+                <RadioGroup label="Widget Corner Radius" value={theme.widgetRadius || 'rounded'} options={RADIUS_OPTIONS} onChange={(v) => handleChange('widgetRadius', v)} />
                 <RadioGroup label="Product Card Style" value={theme.cardStyle} options={CARD_STYLES} onChange={(v) => handleChange('cardStyle', v)} />
             </Section>
 

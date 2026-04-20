@@ -27,7 +27,7 @@ export default function ImageSlider({ slides = [], autoPlay = true, interval = 5
     const slide = slides[current];
 
     return (
-        <div className="relative w-full min-h-[320px] sm:min-h-[420px] rounded-2xl overflow-hidden">
+        <div className="relative w-full min-h-[320px] sm:min-h-[420px] overflow-hidden" style={{ borderRadius: 'var(--seller-widget-radius, 1rem)' }}>
             <img
                 src={slide.imageUrl}
                 alt={slide.heading || ''}

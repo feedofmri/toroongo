@@ -22,7 +22,7 @@ export default function TestimonialSlider({ title, testimonials = [] }) {
                 </h2>
             )}
             <div className="relative max-w-2xl mx-auto">
-                <div className="bg-white rounded-2xl border border-gray-100 p-8 sm:p-10 text-center">
+                <div className="bg-white border border-gray-100 p-8 sm:p-10 text-center" style={{ borderRadius: 'var(--seller-widget-radius, 1rem)' }}>
                     {/* Stars */}
                     <div className="flex justify-center gap-1 mb-4">
                         {Array.from({ length: 5 }).map((_, i) => (

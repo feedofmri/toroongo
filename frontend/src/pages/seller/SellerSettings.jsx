@@ -1,9 +1,9 @@
-import React, { useState, useCallback } from 'react';
-import { Store, Paintbrush, Globe, Bell, Link2, CheckCircle2, XCircle, Loader2, ExternalLink } from 'lucide-react';
+import React, { useState, useCallback, useEffect } from 'react';
+import { Store, Paintbrush, Globe, Bell, Link2, CheckCircle2, XCircle, Loader2, ExternalLink, BookOpen, FileText, Info } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
-import { sellers } from '../../data/mockData';
+import { userService } from '../../services';
 
 // Reserved slugs that cannot be taken as shop usernames (matches static routes & system paths)
 const RESERVED_SLUGS = [
@@ -20,9 +20,10 @@ const RESERVED_SLUGS = [
  * Check if a slug is available (not taken by another seller and not reserved).
  * @param {string} slug
  * @param {string} [currentSellerId] - Exclude the current seller's own slug
+ * @param {Array} sellersList - Array of all current sellers
  * @returns {{ available: boolean, reason?: string }}
  */
-function checkSlugAvailability(slug, currentSellerId) {
+function checkSlugAvailability(slug, currentSellerId, sellersList) {
     if (!slug || slug.length < 3) {
         return { available: false, reason: 'Must be at least 3 characters' };
     }
@@ -39,7 +40,7 @@ function checkSlugAvailability(slug, currentSellerId) {
         return { available: false, reason: 'This username is reserved' };
     }
     // Check against existing sellers
-    const takenBy = sellers.find((s) => s.slug === slug);
+    const takenBy = sellersList.find((s) => s.slug === slug);
     if (takenBy) {
         // Allow if it's the current seller's own slug
         const currentNumId = typeof currentSellerId === 'string' && currentSellerId.startsWith('seller_')
@@ -55,24 +56,118 @@ function checkSlugAvailability(slug, currentSellerId) {
 
 export default function SellerSettings() {
     const { t } = useTranslation();
-    const { user } = useAuth();
+    const { user, updateUser } = useAuth();
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const initialTab = searchParams.get('tab') || 'store';
     const [activeTab, setActiveTab] = useState(initialTab);
 
     // Resolve current seller slug
-    const currentSellerId = user?.id || 'seller_1';
-    const currentNumId = typeof currentSellerId === 'string' && currentSellerId.startsWith('seller_')
-        ? parseInt(currentSellerId.replace('seller_', ''))
-        : parseInt(currentSellerId);
-    const currentSeller = sellers.find((s) => s.id === currentNumId);
-    const currentSlug = currentSeller?.slug || 'sony-electronics';
+    const currentSellerId = user?.id;
+    const currentSlug = user?.slug || '';
 
     // Shop username state
     const [shopUsername, setShopUsername] = useState(currentSlug);
     const [slugStatus, setSlugStatus] = useState({ available: true, reason: 'This is your current username' });
     const [isChecking, setIsChecking] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
+    const [allSellers, setAllSellers] = useState([]);
+
+    useEffect(() => {
+        userService.getAllSellers().then(setAllSellers).catch(console.error);
+    }, []);
+
+    // Tab states
+    const [storeInfo, setStoreInfo] = useState({
+        store_name: user?.store_name || user?.name || '',
+        description: user?.description || '',
+        email: user?.email || '',
+        phone: user?.phone || '',
+        location: user?.location || '',
+    });
+    const [saveStoreInfoLoading, setSaveStoreInfoLoading] = useState(false);
+
+    const [branding, setBranding] = useState({
+        brand_color: user?.brand_color || '#000000',
+        logo: user?.logo || '',
+        banner: user?.banner || '',
+    });
+    const [saveBrandingLoading, setSaveBrandingLoading] = useState(false);
+
+    const [shipping, setShipping] = useState({
+        processing_time: user?.seller_settings?.processing_time || 2,
+        free_shipping_threshold: user?.seller_settings?.free_shipping_threshold || 50,
+        standard_shipping_rate: user?.seller_settings?.standard_shipping_rate || 5.99,
+        offer_express_shipping: user?.seller_settings?.offer_express_shipping !== undefined ? user?.seller_settings?.offer_express_shipping : true,
+    });
+    const [saveShippingLoading, setSaveShippingLoading] = useState(false);
+
+    const [notifications, setNotifications] = useState({
+        new_orders: user?.seller_settings?.notifications?.new_orders !== undefined ? user?.seller_settings?.notifications?.new_orders : true,
+        order_updates: user?.seller_settings?.notifications?.order_updates !== undefined ? user?.seller_settings?.notifications?.order_updates : true,
+        customer_messages: user?.seller_settings?.notifications?.customer_messages !== undefined ? user?.seller_settings?.notifications?.customer_messages : true,
+        low_stock_alerts: user?.seller_settings?.notifications?.low_stock_alerts !== undefined ? user?.seller_settings?.notifications?.low_stock_alerts : true,
+        payout_notifications: user?.seller_settings?.notifications?.payout_notifications !== undefined ? user?.seller_settings?.notifications?.payout_notifications : false,
+    });
+    const [saveNotificationsLoading, setSaveNotificationsLoading] = useState(false);
+    
+    const [storeContent, setStoreContent] = useState({
+        about_content: user?.seller_settings?.about_content || '',
+        policies: {
+            shipping: user?.seller_settings?.policies?.shipping || '',
+            returns: user?.seller_settings?.policies?.returns || '',
+            warranty: user?.seller_settings?.policies?.warranty || '',
+            faq: user?.seller_settings?.policies?.faq || '',
+        },
+        benefits: user?.seller_settings?.benefits || [
+            { title: 'Quality Guaranteed', desc: 'Every product undergoes rigorous quality checks before reaching you.' },
+            { title: 'Fast & Reliable Shipping', desc: 'We partner with trusted carriers to get your order to you quickly.' },
+            { title: 'Exceptional Support', desc: 'Our dedicated team is always ready to help with any questions or concerns.' },
+            { title: 'Easy Returns', desc: 'Not satisfied? Return any product within 30 days for a full refund.' },
+        ]
+    });
+    const [saveContentLoading, setSaveContentLoading] = useState(false);
+
+    const handleSaveStoreInfo = async () => {
+        setSaveStoreInfoLoading(true);
+        try {
+            const updatedUser = await userService.updateProfile(user.id, storeInfo);
+            updateUser(updatedUser);
+        } catch (e) {
+            console.error('Failed to save store info', e);
+        } finally {
+            setSaveStoreInfoLoading(false);
+        }
+    };
+
+    const handleSaveBranding = async () => {
+        setSaveBrandingLoading(true);
+        try {
+            const updatedUser = await userService.updateProfile(user.id, branding);
+            updateUser(updatedUser);
+        } catch (e) {
+            console.error('Failed to save branding', e);
+        } finally {
+            setSaveBrandingLoading(false);
+        }
+    };
+
+    const handleSaveSettings = async (settingsType, data, setLoader) => {
+        setLoader(true);
+        try {
+            const currentSettings = user?.seller_settings || {};
+            const newSettings = settingsType === 'notifications' 
+                ? { ...currentSettings, notifications: data }
+                : { ...currentSettings, ...data };
+            
+            const updatedUser = await userService.updateProfile(user.id, { seller_settings: newSettings });
+            updateUser(updatedUser);
+        } catch (e) {
+            console.error(`Failed to save ${settingsType}`, e);
+        } finally {
+            setLoader(false);
+        }
+    };
 
     // Debounced slug check
     const checkSlug = useCallback((value) => {
@@ -85,15 +180,31 @@ export default function SellerSettings() {
         setIsChecking(true);
         // Simulate async check (would be API call in production)
         setTimeout(() => {
-            const result = checkSlugAvailability(slug, currentSellerId);
+            const result = checkSlugAvailability(slug, currentSellerId, allSellers);
             setSlugStatus(result);
             setIsChecking(false);
         }, 400);
-    }, [currentSellerId]);
+    }, [currentSellerId, allSellers]);
+
+    const handleClaimUsername = async () => {
+        if (!slugStatus.available || shopUsername === currentSlug) return;
+        setIsSaving(true);
+        try {
+            const updatedUser = await userService.updateProfile(user.id, { slug: shopUsername });
+            updateUser(updatedUser);
+            setSlugStatus({ available: true, reason: 'This is your current username' });
+        } catch (error) {
+            console.error('Failed to update username:', error);
+            setSlugStatus({ available: false, reason: error.response?.data?.message || 'Failed to update username.' });
+        } finally {
+            setIsSaving(false);
+        }
+    };
 
     const tabs = [
         { key: 'store', label: t('sellerSettings.tabs.store'), icon: Store },
         { key: 'branding', label: t('sellerSettings.tabs.branding'), icon: Paintbrush },
+        { key: 'content', label: 'Store Content', icon: BookOpen },
         { key: 'shipping', label: t('sellerSettings.tabs.shipping'), icon: Globe },
         { key: 'notifications', label: t('sellerSettings.tabs.notifications'), icon: Bell },
     ];
@@ -190,14 +301,16 @@ export default function SellerSettings() {
                         </div>
 
                         <button
-                            disabled={!slugStatus.available || shopUsername === currentSlug}
+                            onClick={handleClaimUsername}
+                            disabled={!slugStatus.available || shopUsername === currentSlug || isSaving}
                             className={`mt-4 px-5 py-2.5 text-sm font-semibold rounded-xl transition-colors
-                                ${slugStatus.available && shopUsername !== currentSlug
+                                ${slugStatus.available && shopUsername !== currentSlug && !isSaving
                                     ? 'bg-brand-primary text-white hover:bg-brand-secondary'
                                     : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                                 }`}
                         >
-                            {shopUsername === currentSlug ? t('sellerSettings.username.currentBtn') : t('sellerSettings.username.claim')}
+                            {isSaving ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
+                            {isSaving ? 'Claiming...' : shopUsername === currentSlug ? t('sellerSettings.username.currentBtn') : t('sellerSettings.username.claim')}
                         </button>
                     </div>
 
@@ -206,25 +319,31 @@ export default function SellerSettings() {
                         <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.storeInfo.title')}</h3>
                         <div>
                             <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.storeInfo.name')}</label>
-                            <input type="text" defaultValue={user?.name || 'Sony Electronics'} className={inputClass} />
+                            <input type="text" value={storeInfo.store_name} onChange={(e) => setStoreInfo({...storeInfo, store_name: e.target.value})} className={inputClass} />
                         </div>
                         <div>
                             <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.storeInfo.description')}</label>
                             <textarea
                                 rows={3}
-                                defaultValue="Official store for premium electronics and entertainment products."
+                                value={storeInfo.description}
+                                onChange={(e) => setStoreInfo({...storeInfo, description: e.target.value})}
                                 className={`${inputClass} resize-none`}
                             />
                         </div>
                         <div>
                             <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.storeInfo.email')}</label>
-                            <input type="email" defaultValue={user?.email || 'support@sonyelectronics.com'} className={inputClass} />
+                            <input type="email" value={storeInfo.email} onChange={(e) => setStoreInfo({...storeInfo, email: e.target.value})} className={inputClass} />
                         </div>
                         <div>
                             <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.storeInfo.phone')}</label>
-                            <input type="tel" defaultValue="+1 (800) 222-7669" className={inputClass} />
+                            <input type="tel" value={storeInfo.phone} onChange={(e) => setStoreInfo({...storeInfo, phone: e.target.value})} className={inputClass} />
                         </div>
-                        <button className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
+                        <div>
+                            <label className="block text-xs font-medium text-text-muted mb-1.5">Location</label>
+                            <input type="text" value={storeInfo.location} onChange={(e) => setStoreInfo({...storeInfo, location: e.target.value})} className={inputClass} placeholder="e.g. United States, New York" />
+                        </div>
+                        <button onClick={handleSaveStoreInfo} disabled={saveStoreInfoLoading} className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-70 disabled:cursor-not-allowed">
+                            {saveStoreInfoLoading ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
                             {t('sellerSettings.storeInfo.save')}
                         </button>
                     </div>
@@ -237,19 +356,20 @@ export default function SellerSettings() {
                     <div>
                         <label className="block text-xs font-medium text-text-muted mb-1.5">Primary Brand Color</label>
                         <div className="flex items-center gap-3">
-                            <input type="color" defaultValue="#000000" className="w-10 h-10 rounded-lg border border-border-soft cursor-pointer" />
-                            <input type="text" defaultValue="#000000" className={inputClass} />
+                            <input type="color" value={branding.brand_color} onChange={(e) => setBranding({...branding, brand_color: e.target.value})} className="w-10 h-10 rounded-lg border border-border-soft cursor-pointer" />
+                            <input type="text" value={branding.brand_color} onChange={(e) => setBranding({...branding, brand_color: e.target.value})} className={inputClass} />
                         </div>
                     </div>
                     <div>
                         <label className="block text-xs font-medium text-text-muted mb-1.5">Logo URL</label>
-                        <input type="url" defaultValue="https://images.unsplash.com/..." className={inputClass} />
+                        <input type="url" value={branding.logo} onChange={(e) => setBranding({...branding, logo: e.target.value})} className={inputClass} />
                     </div>
                     <div>
                         <label className="block text-xs font-medium text-text-muted mb-1.5">Banner Image URL</label>
-                        <input type="url" defaultValue="https://images.unsplash.com/..." className={inputClass} />
+                        <input type="url" value={branding.banner} onChange={(e) => setBranding({...branding, banner: e.target.value})} className={inputClass} />
                     </div>
-                    <button className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
+                    <button onClick={handleSaveBranding} disabled={saveBrandingLoading} className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-70 disabled:cursor-not-allowed">
+                        {saveBrandingLoading ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
                         {t('sellerSettings.branding.save')}
                     </button>
                 </div>
@@ -260,24 +380,25 @@ export default function SellerSettings() {
                     <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.shipping.title')}</h3>
                     <div>
                         <label className="block text-xs font-medium text-text-muted mb-1.5">Processing Time (days)</label>
-                        <input type="number" defaultValue={2} className={inputClass} />
+                        <input type="number" value={shipping.processing_time} onChange={(e) => setShipping({...shipping, processing_time: parseInt(e.target.value) || 0})} className={inputClass} />
                     </div>
                     <div>
                         <label className="block text-xs font-medium text-text-muted mb-1.5">Free Shipping Threshold ($)</label>
-                        <input type="number" defaultValue={50} className={inputClass} />
+                        <input type="number" value={shipping.free_shipping_threshold} onChange={(e) => setShipping({...shipping, free_shipping_threshold: parseFloat(e.target.value) || 0})} className={inputClass} />
                     </div>
                     <div>
                         <label className="block text-xs font-medium text-text-muted mb-1.5">Standard Shipping Rate ($)</label>
-                        <input type="number" defaultValue={5.99} step="0.01" className={inputClass} />
+                        <input type="number" value={shipping.standard_shipping_rate} onChange={(e) => setShipping({...shipping, standard_shipping_rate: parseFloat(e.target.value) || 0})} step="0.01" className={inputClass} />
                     </div>
                     <label className="flex items-center gap-3 p-4 border border-border-soft rounded-xl cursor-pointer hover:border-gray-300">
-                        <input type="checkbox" defaultChecked className="accent-brand-primary w-4 h-4" />
+                        <input type="checkbox" checked={shipping.offer_express_shipping} onChange={(e) => setShipping({...shipping, offer_express_shipping: e.target.checked})} className="accent-brand-primary w-4 h-4" />
                         <div>
                             <p className="text-sm font-medium text-text-primary">Offer express shipping</p>
                             <p className="text-xs text-text-muted">Allow customers to choose faster 2-3 day delivery</p>
                         </div>
                     </label>
-                    <button className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
+                    <button onClick={() => handleSaveSettings('shipping', shipping, setSaveShippingLoading)} disabled={saveShippingLoading} className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-70 disabled:cursor-not-allowed">
+                        {saveShippingLoading ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
                         {t('sellerSettings.shipping.save')}
                     </button>
                 </div>
@@ -287,22 +408,153 @@ export default function SellerSettings() {
                 <div className="max-w-lg space-y-4 bg-white p-6 rounded-2xl border border-border-soft">
                     <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.notifications.title')}</h3>
                     {[
-                        { label: 'New orders', desc: 'Get notified when you receive a new order' },
-                        { label: 'Order updates', desc: 'Status changes and delivery confirmations' },
-                        { label: 'Customer messages', desc: 'When a buyer sends you a message' },
-                        { label: 'Low stock alerts', desc: 'When product stock falls below 5 units' },
-                        { label: 'Payout notifications', desc: 'When payouts are processed to your bank' },
-                    ].map((item, idx) => (
-                        <label key={idx} className="flex items-start justify-between p-4 border border-border-soft rounded-xl cursor-pointer hover:border-gray-300 transition-colors">
+                        { key: 'new_orders', label: 'New orders', desc: 'Get notified when you receive a new order' },
+                        { key: 'order_updates', label: 'Order updates', desc: 'Status changes and delivery confirmations' },
+                        { key: 'customer_messages', label: 'Customer messages', desc: 'When a buyer sends you a message' },
+                        { key: 'low_stock_alerts', label: 'Low stock alerts', desc: 'When product stock falls below 5 units' },
+                        { key: 'payout_notifications', label: 'Payout notifications', desc: 'When payouts are processed to your bank' },
+                    ].map((item) => (
+                        <label key={item.key} className="flex items-start justify-between p-4 border border-border-soft rounded-xl cursor-pointer hover:border-gray-300 transition-colors">
                             <div>
                                 <p className="text-sm font-medium text-text-primary">{item.label}</p>
                                 <p className="text-xs text-text-muted mt-0.5">{item.desc}</p>
                             </div>
-                            <input type="checkbox" defaultChecked={idx < 4} className="accent-brand-primary mt-0.5 w-4 h-4" />
+                            <input type="checkbox" checked={notifications[item.key]} onChange={(e) => setNotifications({...notifications, [item.key]: e.target.checked})} className="accent-brand-primary mt-0.5 w-4 h-4" />
                         </label>
                     ))}
-                    <button className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
+                    <button onClick={() => handleSaveSettings('notifications', notifications, setSaveNotificationsLoading)} disabled={saveNotificationsLoading} className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-70 disabled:cursor-not-allowed">
+                        {saveNotificationsLoading ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
                         {t('sellerSettings.notifications.save')}
+                    </button>
+                </div>
+            )}
+
+            {activeTab === 'content' && (
+                <div className="max-w-2xl space-y-6">
+                    {/* About Store */}
+                    <div className="bg-white p-6 rounded-2xl border border-border-soft space-y-5">
+                        <div className="flex items-center gap-2 mb-1">
+                            <Info size={18} className="text-brand-primary" />
+                            <h3 className="text-lg font-semibold text-text-primary">About Your Store</h3>
+                        </div>
+                        <p className="text-xs text-text-muted">
+                            Tell your story. This will be displayed on the "About" tab of your storefront.
+                        </p>
+                        <div>
+                            <textarea
+                                rows={8}
+                                value={storeContent.about_content}
+                                onChange={(e) => setStoreContent({...storeContent, about_content: e.target.value})}
+                                className={`${inputClass} resize-none`}
+                                placeholder="Describe your store, your team, and your mission..."
+                            />
+                        </div>
+                    </div>
+
+                    {/* Why Shop With Us (Benefits) */}
+                    <div className="bg-white p-6 rounded-2xl border border-border-soft space-y-5">
+                        <div className="flex items-center gap-2 mb-1">
+                            <CheckCircle2 size={18} className="text-brand-primary" />
+                            <h3 className="text-lg font-semibold text-text-primary">Why Shop With Us</h3>
+                        </div>
+                        <p className="text-xs text-text-muted">
+                            Highlight what makes your store unique. These appear on your "About" page.
+                        </p>
+                        
+                        <div className="space-y-4">
+                            {storeContent.benefits.map((benefit, index) => (
+                                <div key={index} className="p-4 border border-border-soft rounded-xl space-y-3">
+                                    <div className="flex justify-between items-center mb-1">
+                                        <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest">Benefit #{index + 1}</span>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        value={benefit.title}
+                                        onChange={(e) => {
+                                            const newBenefits = [...storeContent.benefits];
+                                            newBenefits[index].title = e.target.value;
+                                            setStoreContent({...storeContent, benefits: newBenefits});
+                                        }}
+                                        className={inputClass}
+                                        placeholder="Benefit Title"
+                                    />
+                                    <textarea
+                                        rows={2}
+                                        value={benefit.desc}
+                                        onChange={(e) => {
+                                            const newBenefits = [...storeContent.benefits];
+                                            newBenefits[index].desc = e.target.value;
+                                            setStoreContent({...storeContent, benefits: newBenefits});
+                                        }}
+                                        className={`${inputClass} resize-none`}
+                                        placeholder="Description..."
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Store Policies */}
+                    <div className="bg-white p-6 rounded-2xl border border-border-soft space-y-5">
+                        <div className="flex items-center gap-2 mb-1">
+                            <FileText size={18} className="text-brand-primary" />
+                            <h3 className="text-lg font-semibold text-text-primary">Store Policies</h3>
+                        </div>
+                        <p className="text-xs text-text-muted">
+                            Custom policies for your customers. Defaults will be shown if left blank.
+                        </p>
+                        
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-xs font-medium text-text-primary mb-1.5 uppercase tracking-wider">Shipping Policy</label>
+                                <textarea
+                                    rows={3}
+                                    value={storeContent.policies.shipping}
+                                    onChange={(e) => setStoreContent({...storeContent, policies: {...storeContent.policies, shipping: e.target.value}})}
+                                    className={`${inputClass} resize-none`}
+                                    placeholder="Order processing times, shipping methods, areas covered..."
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-medium text-text-primary mb-1.5 uppercase tracking-wider">Return & Refund Policy</label>
+                                <textarea
+                                    rows={3}
+                                    value={storeContent.policies.returns}
+                                    onChange={(e) => setStoreContent({...storeContent, policies: {...storeContent.policies, returns: e.target.value}})}
+                                    className={`${inputClass} resize-none`}
+                                    placeholder="Return windows, refund conditions, who pays for shipping..."
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-medium text-text-primary mb-1.5 uppercase tracking-wider">Warranty Information</label>
+                                <textarea
+                                    rows={3}
+                                    value={storeContent.policies.warranty}
+                                    onChange={(e) => setStoreContent({...storeContent, policies: {...storeContent.policies, warranty: e.target.value}})}
+                                    className={`${inputClass} resize-none`}
+                                    placeholder="Product guarantee periods, coverage details..."
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-medium text-text-primary mb-1.5 uppercase tracking-wider">Frequently Asked Questions (FAQ)</label>
+                                <textarea
+                                    rows={4}
+                                    value={storeContent.policies.faq}
+                                    onChange={(e) => setStoreContent({...storeContent, policies: {...storeContent.policies, faq: e.target.value}})}
+                                    className={`${inputClass} resize-none`}
+                                    placeholder="Common questions and answers for your buyers..."
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <button 
+                        onClick={() => handleSaveSettings('content', storeContent, setSaveContentLoading)} 
+                        disabled={saveContentLoading} 
+                        className="px-6 py-3 bg-brand-primary text-white text-sm font-bold rounded-xl hover:bg-brand-secondary transition-all shadow-lg shadow-brand-primary/20 disabled:opacity-70 disabled:cursor-not-allowed"
+                    >
+                        {saveContentLoading ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
+                        Save Store Content
                     </button>
                 </div>
             )}

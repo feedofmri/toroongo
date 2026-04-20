@@ -48,23 +48,44 @@ Route::middleware('auth:sanctum')->group(function () {
     // User profile
     Route::put('/users/profile', [UserController::class, 'updateProfile']);
 
-    // Products (seller CRUD)
-    Route::post('/products', [ProductController::class, 'store']);
-    Route::put('/products/{id}', [ProductController::class, 'update']);
-    Route::delete('/products/{id}', [ProductController::class, 'destroy']);
+    // ── Buyer Specific Routes ─────────────────────
+    Route::middleware('role:buyer')->group(function () {
+        // Orders (buyer actions)
+        Route::post('/orders', [OrderController::class, 'store']);
+        Route::get('/orders/my', [OrderController::class, 'myOrders']);
 
-    // Orders
-    Route::post('/orders', [OrderController::class, 'store']);
-    Route::get('/orders/my', [OrderController::class, 'myOrders']);
-    Route::get('/orders/seller', [OrderController::class, 'sellerOrders']);
+        // Cart
+        Route::get('/cart', [CartController::class, 'index']);
+        Route::post('/cart', [CartController::class, 'store']);
+        Route::put('/cart/{id}', [CartController::class, 'update']);
+        Route::delete('/cart/{id}', [CartController::class, 'destroy']);
+        Route::delete('/cart', [CartController::class, 'clear']);
+
+        // Wishlist
+        Route::get('/wishlist', [WishlistController::class, 'index']);
+        Route::post('/wishlist', [WishlistController::class, 'toggle']);
+    });
+
+    // ── Seller Specific Routes ────────────────────
+    Route::middleware('role:seller')->group(function () {
+        // Products (seller CRUD)
+        Route::post('/products', [ProductController::class, 'store']);
+        Route::put('/products/{id}', [ProductController::class, 'update']);
+        Route::delete('/products/{id}', [ProductController::class, 'destroy']);
+
+        // Blogs (seller CRUD)
+        Route::post('/blogs', [BlogController::class, 'store']);
+        Route::put('/blogs/{id}', [BlogController::class, 'update']);
+        Route::delete('/blogs/{id}', [BlogController::class, 'destroy']);
+
+        // Orders (seller management)
+        Route::get('/orders/seller', [OrderController::class, 'sellerOrders']);
+        Route::put('/orders/{id}/status', [OrderController::class, 'updateStatus']);
+    });
+
+    // ── General Authenticated Routes ──────────────
     Route::get('/orders/{id}', [OrderController::class, 'show']);
-    Route::put('/orders/{id}/status', [OrderController::class, 'updateStatus']);
     Route::put('/orders/{id}/cancel', [OrderController::class, 'cancel']);
-
-    // Blogs (seller CRUD)
-    Route::post('/blogs', [BlogController::class, 'store']);
-    Route::put('/blogs/{id}', [BlogController::class, 'update']);
-    Route::delete('/blogs/{id}', [BlogController::class, 'destroy']);
 
     // Messages
     Route::get('/messages/conversations', [MessageController::class, 'conversations']);
@@ -72,16 +93,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/messages', [MessageController::class, 'send']);
     Route::put('/messages/{otherUserId}/read', [MessageController::class, 'markAsRead']);
 
-    // Cart
-    Route::get('/cart', [CartController::class, 'index']);
-    Route::post('/cart', [CartController::class, 'store']);
-    Route::put('/cart/{id}', [CartController::class, 'update']);
-    Route::delete('/cart/{id}', [CartController::class, 'destroy']);
-    Route::delete('/cart', [CartController::class, 'clear']);
-
-    // Wishlist
-    Route::get('/wishlist', [WishlistController::class, 'index']);
-    Route::post('/wishlist', [WishlistController::class, 'toggle']);
 
     // Admin
     Route::get('/admin/stats', [AdminController::class, 'stats']);

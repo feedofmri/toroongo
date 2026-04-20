@@ -41,6 +41,7 @@
  * @property {string} bodyFont          - Google Font name for body text
  * @property {number} baseFontSize      - Base font size in px (14-20)
  * @property {BorderRadiusPreset} borderRadius - Button/input border-radius preset
+ * @property {BorderRadiusPreset} widgetRadius - Widget outer bounding box border-radius preset
  * @property {'none' | 'shadow' | 'border'} cardStyle - Product card visual style
  * @property {HeaderStyle} headerStyle  - Header color scheme
  * @property {'left' | 'center'} logoPosition - Logo alignment in header
@@ -82,6 +83,7 @@ export function createDefaultTheme() {
         bodyFont: 'Inter',
         baseFontSize: 16,
         borderRadius: 'rounded',
+        widgetRadius: 'rounded',
         cardStyle: 'shadow',
         headerStyle: 'light',
         logoPosition: 'left',
@@ -160,6 +162,7 @@ export function themeToCSS(theme) {
         '--seller-body-font': `"${theme.bodyFont}", sans-serif`,
         '--seller-font-size': `${theme.baseFontSize}px`,
         '--seller-radius': resolveBorderRadius(theme.borderRadius),
+        '--seller-widget-radius': resolveBorderRadius(theme.widgetRadius || 'rounded'),
         '--seller-header-bg': theme.headerStyle === 'dark' ? '#0F172A' : '#FFFFFF',
         '--seller-header-text': theme.headerStyle === 'dark' ? '#FFFFFF' : '#0F172A',
     };

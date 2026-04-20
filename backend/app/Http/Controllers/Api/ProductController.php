@@ -25,9 +25,11 @@ class ProductController extends Controller
         return response()->json($query->orderBy('created_at', 'desc')->get());
     }
 
-    public function show($id)
+    public function show($idOrSlug)
     {
-        $product = Product::findOrFail($id);
+        $product = is_numeric($idOrSlug)
+            ? Product::findOrFail($idOrSlug)
+            : Product::where('slug', $idOrSlug)->firstOrFail();
         return response()->json($product);
     }
 
@@ -55,6 +57,7 @@ class ProductController extends Controller
             'stock' => 'nullable|integer',
             'specifications' => 'nullable|array',
             'is_featured' => 'nullable|boolean',
+            'meta_description' => 'nullable|string',
         ]);
 
         $user = $request->user();
@@ -84,6 +87,7 @@ class ProductController extends Controller
             'stock' => 'nullable|integer',
             'specifications' => 'nullable|array',
             'is_featured' => 'nullable|boolean',
+            'meta_description' => 'nullable|string',
         ]);
 
         if (isset($data['original_price']) && $data['original_price'] > 0 && isset($data['price'])) {

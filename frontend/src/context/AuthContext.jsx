@@ -20,6 +20,11 @@ export function AuthProvider({ children }) {
         setIsLoading(false);
     }, []);
 
+    const updateUser = (newUserData) => {
+        setUser(newUserData);
+    };
+
+
     const login = async (email, password) => {
         setIsLoading(true);
         try {
@@ -56,7 +61,7 @@ export function AuthProvider({ children }) {
     };
 
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, isLoading, login, register, logout }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, isLoading, login, register, logout, updateUser }}>
             {children}
         </AuthContext.Provider>
     );

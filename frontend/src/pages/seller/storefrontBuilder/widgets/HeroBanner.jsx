@@ -13,7 +13,7 @@ export default function HeroBanner({ imageUrl, heading, subheading, ctaText, cta
     }[textAlignment] || 'items-center text-center';
 
     return (
-        <div className="relative w-full min-h-[320px] sm:min-h-[420px] flex overflow-hidden rounded-2xl">
+        <div className="relative w-full min-h-[320px] sm:min-h-[420px] flex overflow-hidden" style={{ borderRadius: 'var(--seller-widget-radius, 1rem)' }}>
             {/* Background Image */}
             <img
                 src={imageUrl}

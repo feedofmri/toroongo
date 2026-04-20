@@ -140,12 +140,33 @@ class DatabaseSeeder extends Seeder
             $sellerNames['seller_' . ($i + 1)] = $s['name'];
         }
 
-        foreach ($productsData as $p) {
+        foreach ($productsData as $i => $p) {
             $sellerKey = $p['seller_key'];
             unset($p['seller_key']);
             $p['seller_id'] = $sellerIdMap[$sellerKey] ?? 3;
             $p['seller_name'] = $sellerNames[$sellerKey] ?? 'Unknown';
             $p['stock'] = rand(20, 100);
+            
+            // Add realistic descriptions
+            $p['description'] = "This is a premium " . strtolower($p['title']) . ". Experience the perfect combination of innovation and craftsmanship.\n\nDesigned for those who demand the very best, this product sets a new standard in its category with meticulously engineered features and superior build quality.";
+            
+            // Add sample specifications for some products
+            if ($i % 2 === 0) {
+                $p['specifications'] = [
+                    'material' => 'Premium Quality',
+                    'warranty' => '2 Years',
+                    'origin' => 'Certified Manufacturing',
+                    'eco_friendly' => 'Yes'
+                ];
+            } else {
+                $p['specifications'] = [
+                    'Built with industry-leading technology',
+                    'Ergonomic and user-friendly design',
+                    'Performance that exceeds expectations',
+                    'Eco-friendly packaging included'
+                ];
+            }
+            
             Product::create($p);
         }
 

@@ -16,13 +16,28 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6',
             'role' => 'in:buyer,seller',
+            'storeName' => 'nullable|string|max:255',
         ]);
+
+        $slug = null;
+        if (isset($data['storeName']) && ($data['role'] ?? 'buyer') === 'seller') {
+            $slug = \Illuminate\Support\Str::slug($data['storeName']);
+            $originalSlug = $slug;
+            $counter = 1;
+            while (User::where('slug', $slug)->exists()) {
+                $slug = $originalSlug . '-' . $counter;
+                $counter++;
+            }
+        }
 
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => $data['password'],
             'role' => $data['role'] ?? 'buyer',
+            'store_name' => $data['storeName'] ?? null,
+            'slug' => $slug,
+            'joined_date' => ($data['role'] ?? 'buyer') === 'seller' ? now() : null,
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;

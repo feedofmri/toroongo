@@ -9,9 +9,143 @@ import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { messageService } from '../../services';
-import { sellers } from '../../data/mockData';
 import { resolveSellerSlug } from '../../utils/resolveSellerSlug';
 import { formatPrice } from '../../utils/currency';
+
+function isVideoUrl(url) {
+    return /\.(mp4|webm|ogg|mov)(\?|$)/i.test(url) || /youtube\.com|youtu\.be|vimeo\.com/i.test(url);
+}
+
+function getYoutubeEmbed(url) {
+    const match = url?.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
+    return match ? `https://www.youtube.com/embed/${match[1]}` : null;
+}
+
+function MediaGallery({ product }) {
+    const allMedia = product.images?.length
+        ? product.images
+        : product.imageUrl
+            ? [product.imageUrl]
+            : [];
+
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const selectedMedia = allMedia[selectedIndex] || product.imageUrl;
+    const isSelectedVideo = selectedMedia && isVideoUrl(selectedMedia);
+    const youtubeEmbed = selectedMedia && getYoutubeEmbed(selectedMedia);
+
+    return (
+        <div className="relative flex gap-3">
+            {/* Thumbnails (left strip) */}
+            {allMedia.length > 1 && (
+                <div className="hidden sm:flex flex-col gap-2 w-16 flex-shrink-0 max-h-[500px] overflow-y-auto pr-1
+                                scrollbar-thin scrollbar-thumb-border-soft scrollbar-track-transparent">
+                    {allMedia.map((url, i) => {
+                        const isThumbnailVideo = isVideoUrl(url);
+                        return (
+                            <button
+                                key={i}
+                                type="button"
+                                onClick={() => setSelectedIndex(i)}
+                                className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all duration-200 flex-shrink-0
+                                    ${selectedIndex === i
+                                        ? 'border-brand-primary ring-2 ring-brand-primary/20'
+                                        : 'border-border-soft hover:border-gray-300'}`}
+                            >
+                                {isThumbnailVideo ? (
+                                    <div className="w-full h-full bg-slate-100 flex items-center justify-center">
+                                        <div className="w-6 h-6 rounded-full bg-purple-500/90 flex items-center justify-center">
+                                            <div className="w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[7px] border-l-white ml-0.5" />
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <img
+                                        src={url}
+                                        alt={`${product.title} ${i + 1}`}
+                                        className="w-full h-full object-cover"
+                                    />
+                                )}
+                            </button>
+                        );
+                    })}
+                </div>
+            )}
+
+            {/* Main display */}
+            <div className="flex-1">
+                <div className="aspect-square rounded-2xl overflow-hidden bg-surface-bg border border-border-soft">
+                    {isSelectedVideo ? (
+                        youtubeEmbed ? (
+                            <iframe
+                                src={youtubeEmbed}
+                                title="Product video"
+                                className="w-full h-full"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                            />
+                        ) : (
+                            <video
+                                src={selectedMedia}
+                                className="w-full h-full object-cover"
+                                controls
+                                playsInline
+                            />
+                        )
+                    ) : (
+                        <img
+                            src={selectedMedia || product.imageUrl}
+                            alt={product.title}
+                            className="w-full h-full object-cover"
+                        />
+                    )}
+                </div>
+
+                {/* Mobile thumbnails (horizontal scroll) */}
+                {allMedia.length > 1 && (
+                    <div className="flex sm:hidden gap-2 mt-3 overflow-x-auto pb-1">
+                        {allMedia.map((url, i) => {
+                            const isThumbnailVideo = isVideoUrl(url);
+                            return (
+                                <button
+                                    key={i}
+                                    type="button"
+                                    onClick={() => setSelectedIndex(i)}
+                                    className={`relative w-14 h-14 rounded-lg overflow-hidden border-2 transition-all flex-shrink-0
+                                        ${selectedIndex === i
+                                            ? 'border-brand-primary'
+                                            : 'border-border-soft'}`}
+                                >
+                                    {isThumbnailVideo ? (
+                                        <div className="w-full h-full bg-slate-100 flex items-center justify-center">
+                                            <div className="w-5 h-5 rounded-full bg-purple-500/90 flex items-center justify-center">
+                                                <div className="w-0 h-0 border-t-[4px] border-t-transparent border-b-[4px] border-b-transparent border-l-[6px] border-l-white ml-0.5" />
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <img
+                                            src={url}
+                                            alt={`${product.title} ${i + 1}`}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    )}
+                                </button>
+                            );
+                        })}
+                    </div>
+                )}
+            </div>
+
+            {product.badge && (
+                <span className={`absolute top-4 ${allMedia.length > 1 ? 'sm:left-[76px] left-4' : 'left-4'} text-sm font-semibold px-3 py-1.5 rounded-full z-10
+                    ${product.badge === 'Sale' ? 'bg-red-500 text-white'
+                        : product.badge === 'New' ? 'bg-brand-primary text-white'
+                            : product.badge === 'Best Seller' ? 'bg-amber-400 text-slate-900'
+                                : 'bg-slate-800 text-white'}`}>
+                    {product.badge}
+                </span>
+            )}
+        </div>
+    );
+}
 
 const MOCK_REVIEWS = [
     { id: 1, name: 'Sarah M.', rating: 5, date: '2 weeks ago', text: 'Absolutely love this product! Quality is amazing and it arrived faster than expected. Definitely worth the price.' },
@@ -21,16 +155,16 @@ const MOCK_REVIEWS = [
 
 export default function ProductDetail() {
     const { t } = useTranslation();
-    const { id } = useParams();
-    const { products: allProducts } = useProduct();
+    const { slug } = useParams();
+    const { products: allProducts, sellers } = useProduct();
     const { addToCart } = useCart();
     const { user } = useAuth();
     const { toggleWishlist, isInWishlist } = useWishlist();
     const navigate = useNavigate();
     const location = useLocation();
 
-    // id could be string like 'prod_1' from real DB or string '1' from mock
-    const product = allProducts.find((p) => String(p.id) === String(id));
+    // Find product by slug first, fall back to id for backwards compatibility
+    const product = allProducts.find((p) => p.slug === slug) || allProducts.find((p) => String(p.id) === String(slug));
 
     const [quantity, setQuantity] = useState(1);
     const wishlisted = isInWishlist(product?.id);
@@ -91,8 +225,8 @@ export default function ProductDetail() {
                     <nav className="flex items-center text-sm text-text-muted gap-1.5">
                         <Link to="/" className="hover:text-brand-primary transition-colors">{t('product.home')}</Link>
                         <ChevronRight size={14} />
-                        <Link to={`/products?category=${product.category}`} className="hover:text-brand-primary transition-colors capitalize">
-                            {product.category.replace('-', ' & ')}
+                        <Link to={`/products?category=${product.category || 'all'}`} className="hover:text-brand-primary transition-colors capitalize">
+                            {(product.category || 'Uncategorized').replace('-', ' & ')}
                         </Link>
                         <ChevronRight size={14} />
                         <span className="text-text-primary truncate max-w-[200px]">{product.title}</span>
@@ -103,25 +237,8 @@ export default function ProductDetail() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* ── Product Main ──────────────────────────────────── */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
-                    {/* Image */}
-                    <div className="relative">
-                        <div className="aspect-square rounded-2xl overflow-hidden bg-surface-bg border border-border-soft">
-                            <img
-                                src={product.imageUrl}
-                                alt={product.title}
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
-                        {product.badge && (
-                            <span className={`absolute top-4 left-4 text-sm font-semibold px-3 py-1.5 rounded-full
-                ${product.badge === 'Sale' ? 'bg-red-500 text-white'
-                                    : product.badge === 'New' ? 'bg-brand-primary text-white'
-                                        : product.badge === 'Best Seller' ? 'bg-amber-400 text-slate-900'
-                                            : 'bg-slate-800 text-white'}`}>
-                                {product.badge}
-                            </span>
-                        )}
-                    </div>
+                    {/* Image Gallery */}
+                    <MediaGallery product={product} />
 
                     {/* Info */}
                     <div className="flex flex-col">
@@ -163,11 +280,9 @@ export default function ProductDetail() {
                         {/* Divider */}
                         <div className="border-t border-border-soft mb-6" />
 
-                        {/* Description snippet */}
+                        {/* Description snippet (Meta Description) */}
                         <p className="text-text-muted text-sm leading-relaxed mb-6">
-                            Premium quality product from {product.seller}. Experience excellence with industry-leading
-                            features, superior build quality, and outstanding performance. Designed for those who
-                            demand the very best.
+                            {product.metaDescription || product.description || t('product.noDescription', 'Experience excellence with industry-leading features, superior build quality, and outstanding performance.')}
                         </p>
 
                         {/* Quantity */}
@@ -191,46 +306,55 @@ export default function ProductDetail() {
                         </div>
 
                         {/* Action buttons */}
-                        <div className="flex gap-3 mb-4">
-                            <button
-                                onClick={handleAddToCart}
-                                className={`flex-1 flex items-center justify-center gap-2 py-3.5 text-white font-semibold
-                         rounded-xl transition-colors shadow-lg ${added ? 'bg-green-600 shadow-green-600/20' : 'bg-brand-primary shadow-brand-primary/20 hover:bg-brand-secondary'}`}
-                            >
-                                {added ? <><Check size={18} /> {t('product.addedToCart')}</> : <><ShoppingCart size={18} /> {t('product.addToCart')}</>}
-                            </button>
-                            <button
-                                onClick={() => {
-                                    const success = toggleWishlist(product.id);
-                                    if (!success) {
-                                        navigate(`/login?redirect=${encodeURIComponent(location.pathname)}`);
-                                    }
-                                }}
-                                className={`p-3.5 rounded-xl border transition-all duration-200
-                   ${wishlisted
-                                        ? 'bg-red-50 border-red-200 text-red-500'
-                                        : 'border-border-soft text-text-muted hover:text-red-400 hover:border-red-200'
-                                    }`}
-                                aria-label="Wishlist"
-                            >
-                                <Heart size={20} className={wishlisted ? 'fill-current' : ''} />
-                            </button>
-                        </div>
+                        {user?.role === 'seller' ? (
+                            <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 text-amber-800 text-sm">
+                                <p className="font-semibold mb-1">Seller Account Detected</p>
+                                <p>To purchase products, please log in with a buyer account. Sellers are restricted from buying on the platform.</p>
+                            </div>
+                        ) : (
+                            <div className="flex gap-3 mb-4">
+                                <button
+                                    onClick={handleAddToCart}
+                                    className={`flex-1 flex items-center justify-center gap-2 py-3.5 text-white font-semibold
+                             rounded-xl transition-colors shadow-lg ${added ? 'bg-green-600 shadow-green-600/20' : 'bg-brand-primary shadow-brand-primary/20 hover:bg-brand-secondary'}`}
+                                >
+                                    {added ? <><Check size={18} /> {t('product.addedToCart')}</> : <><ShoppingCart size={18} /> {t('product.addToCart')}</>}
+                                </button>
+                                <button
+                                    onClick={() => {
+                                        const success = toggleWishlist(product.id);
+                                        if (!success) {
+                                            navigate(`/login?redirect=${encodeURIComponent(location.pathname)}`);
+                                        }
+                                    }}
+                                    className={`p-3.5 rounded-xl border transition-all duration-200
+                       ${wishlisted
+                                            ? 'bg-red-50 border-red-200 text-red-500'
+                                            : 'border-border-soft text-text-muted hover:text-red-400 hover:border-red-200'
+                                        }`}
+                                    aria-label="Wishlist"
+                                >
+                                    <Heart size={20} className={wishlisted ? 'fill-current' : ''} />
+                                </button>
+                            </div>
+                        )}
 
                         {/* Contact Seller */}
-                        <button
-                            onClick={() => setShowMessageModal(true)}
-                            className="w-full flex items-center justify-center gap-2 py-3 mb-6 border border-border-soft
-                                       rounded-xl text-sm font-semibold text-text-primary hover:border-brand-primary
-                                       hover:text-brand-primary transition-colors"
-                        >
-                            <MessageSquare size={16} />
-                            {t('product.contactSeller')}
-                        </button>
+                        {user?.role !== 'seller' && (
+                            <button
+                                onClick={() => setShowMessageModal(true)}
+                                className="w-full flex items-center justify-center gap-2 py-3 mb-6 border border-border-soft
+                                           rounded-xl text-sm font-semibold text-text-primary hover:border-brand-primary
+                                           hover:text-brand-primary transition-colors"
+                            >
+                                <MessageSquare size={16} />
+                                {t('product.contactSeller')}
+                            </button>
+                        )}
 
                         {/* Sold By — Seller Info Card */}
                         {(() => {
-                            const sellerData = sellers.find(s => `seller_${s.id}` === product.sellerId);
+                            const sellerData = sellers.find(s => String(s.id) === String(product.sellerId));
                             return sellerData ? (
                                 <div className="bg-surface-bg rounded-xl p-4 mb-6 border border-border-soft">
                                     <p className="text-[11px] text-text-muted uppercase tracking-wider font-semibold mb-3">{t('product.soldBy')}</p>
@@ -247,14 +371,14 @@ export default function ProductDetail() {
                                                 to={`/${sellerData.slug}`}
                                                 className="text-sm font-semibold text-text-primary hover:text-brand-primary transition-colors"
                                             >
-                                                {sellerData.name}
+                                                {sellerData.storeName || sellerData.name}
                                             </Link>
                                             <div className="flex items-center gap-2 mt-0.5">
                                                 <div className="flex items-center gap-0.5">
                                                     <Star size={11} className="fill-amber-400 text-amber-400" />
-                                                    <span className="text-xs font-semibold text-text-primary">{sellerData.rating}</span>
+                                                    <span className="text-xs font-semibold text-text-primary">{Number(sellerData.rating || 0).toFixed(1)}</span>
                                                 </div>
-                                                <span className="text-[10px] text-text-muted">{sellerData.totalProducts} products</span>
+                                                <span className="text-[10px] text-text-muted">{sellerData.totalProducts || 0} products</span>
                                             </div>
                                         </div>
                                     </div>
@@ -312,24 +436,56 @@ export default function ProductDetail() {
                     </div>
 
                     {activeTab === 'description' ? (
-                        <div className="max-w-3xl text-text-muted text-sm leading-relaxed space-y-4">
-                            <p>
-                                Experience the perfect combination of innovation and craftsmanship with the {product.title}.
-                                Meticulously designed by {product.seller}, this product sets a new standard in its category.
-                            </p>
-                            <p>
-                                Key features include premium build quality, advanced technology integration, and ergonomic design.
-                                Whether you're a professional or an enthusiast, this product delivers exceptional performance
-                                that exceeds expectations.
-                            </p>
-                            <h4 className="text-text-primary font-semibold pt-2">{t('product.highlights')}</h4>
-                            <ul className="list-disc list-inside space-y-1.5 text-text-muted">
-                                <li>Premium materials and build quality</li>
-                                <li>Industry-leading performance</li>
-                                <li>Ergonomic and user-friendly design</li>
-                                <li>Full manufacturer warranty included</li>
-                                <li>Eco-friendly packaging</li>
-                            </ul>
+                        <div className="max-w-3xl text-text-muted text-sm leading-relaxed space-y-6">
+                            <div className="prose prose-sm max-w-none">
+                                {product.description ? (
+                                    product.description.split('\n').map((para, i) => (
+                                        <p key={i} className="mb-4">{para}</p>
+                                    ))
+                                ) : (
+                                    <>
+                                        <p>
+                                            Experience the perfect combination of innovation and craftsmanship with the {product.title}.
+                                            Meticulously designed by {product.seller}, this product sets a new standard in its category.
+                                        </p>
+                                        <p>
+                                            Key features include premium build quality, advanced technology integration, and ergonomic design.
+                                            Whether you're a professional or an enthusiast, this product delivers exceptional performance
+                                            that exceeds expectations.
+                                        </p>
+                                    </>
+                                )}
+                            </div>
+
+                            {product.specifications && (
+                                <div className="mt-8 border-t border-border-soft pt-6">
+                                    <h4 className="text-text-primary font-semibold mb-4 capitalize">{t('product.highlights', 'Product Highlights')}</h4>
+                                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 list-disc list-inside text-text-muted">
+                                        {Array.isArray(product.specifications) ? (
+                                            product.specifications.map((spec, i) => (
+                                                <li key={i}>{spec}</li>
+                                            ))
+                                        ) : typeof product.specifications === 'object' ? (
+                                            Object.entries(product.specifications).map(([key, value], i) => (
+                                                <li key={i}><span className="font-medium text-text-primary capitalize">{key.replace('_', ' ')}:</span> {value}</li>
+                                            ))
+                                        ) : null}
+                                    </ul>
+                                </div>
+                            )}
+
+                            {!product.specifications && !product.description && (
+                                <>
+                                    <h4 className="text-text-primary font-semibold pt-2">{t('product.highlights')}</h4>
+                                    <ul className="list-disc list-inside space-y-1.5 text-text-muted">
+                                        <li>Premium materials and build quality</li>
+                                        <li>Industry-leading performance</li>
+                                        <li>Ergonomic and user-friendly design</li>
+                                        <li>Full manufacturer warranty included</li>
+                                        <li>Eco-friendly packaging</li>
+                                    </ul>
+                                </>
+                            )}
                         </div>
                     ) : (
                         <div className="max-w-3xl space-y-6">
@@ -387,7 +543,7 @@ export default function ProductDetail() {
                             ) : (
                                 <>
                                     <div className="flex items-center gap-3 mb-4 p-3 bg-surface-bg rounded-xl border border-border-soft">
-                                        <img src={product.imageUrl} alt="" className="w-10 h-10 object-cover rounded-md" />
+                                        <img src={product.imageUrl || product.image_url} alt="" className="w-10 h-10 object-cover rounded-md" />
                                         <div>
                                             <p className="text-xs font-semibold text-text-primary leading-tight line-clamp-1">{product.title}</p>
                                             <p className="text-[10px] text-text-muted mt-0.5">{t('product.regardingItem')}</p>

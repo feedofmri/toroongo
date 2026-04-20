@@ -11,10 +11,13 @@ export const authService = {
         return data.user;
     },
 
-    async register({ name, email, password, role = 'buyer' }) {
+    async register({ name, email, password, role = 'buyer', storeName }) {
+        const payload = { name, email, password, role };
+        if (storeName) payload.storeName = storeName;
+
         const data = await api('/auth/register', {
             method: 'POST',
-            body: JSON.stringify({ name, email, password, role }),
+            body: JSON.stringify(payload),
         });
         setToken(data.token);
         localStorage.setItem('toroongo_user', JSON.stringify(data.user));

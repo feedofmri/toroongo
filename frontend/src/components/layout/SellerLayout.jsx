@@ -2,20 +2,25 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Outlet, NavLink, Link, useParams, useNavigate } from 'react-router-dom';
 import {
     Store, Grid3X3, Info, FileText, Star, MessageSquare, ShieldCheck,
-    ShoppingCart, Heart, User, Search, LogOut, ChevronLeft, Menu, X
+    ShoppingCart, Heart, User, Search, LogOut, ChevronLeft, Menu, X, Loader2
 } from 'lucide-react';
-import { sellers, products } from '../../data/mockData';
 import { resolveSellerTheme } from '../../theme/sellerTheme';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { messageService } from '../../services';
+import { api } from '../../services/api';
 import iconColourful from '../../assets/Logo/icon_colourful.png';
 
 export default function SellerLayout() {
     const { slug } = useParams();
     const navigate = useNavigate();
-    const seller = sellers.find((s) => s.slug === slug || s.id === parseInt(slug));
+    
+    const [seller, setSeller] = useState(null);
+    const [sellerProducts, setSellerProducts] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+
     const { user, isAuthenticated, logout } = useAuth();
     const { getCartCount } = useCart();
     const { wishlistCount } = useWishlist();
@@ -29,6 +34,36 @@ export default function SellerLayout() {
     const [searchQuery, setSearchQuery] = useState('');
     const userDropdownRef = useRef(null);
 
+    // Fetch seller and products from real API instead of mockData
+    useEffect(() => {
+        const fetchSellerData = async () => {
+            setIsLoading(true);
+            try {
+                const sellerData = await api(`/users/sellers/${slug}`);
+                setSeller(sellerData);
+                
+                try {
+                    const productsData = await api(`/products/seller/${sellerData.id}`);
+                    setSellerProducts(productsData || []);
+                } catch (prodErr) {
+                    console.error("Failed to load products", prodErr);
+                    setSellerProducts([]);
+                }
+                
+                setError(null);
+            } catch (err) {
+                console.error("Seller not found", err);
+                setError(true);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        if (slug) {
+            fetchSellerData();
+        }
+    }, [slug]);
+
     // Close dropdown on outside click
     useEffect(() => {
         function handleClickOutside(e) {
@@ -40,7 +75,15 @@ export default function SellerLayout() {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [userDropdownOpen]);
 
-    if (!seller) {
+    if (isLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-white">
+                <Loader2 className="animate-spin text-brand-primary" size={48} />
+            </div>
+        );
+    }
+
+    if (error || !seller) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-white">
                 <div className="text-center px-4">
@@ -55,11 +98,7 @@ export default function SellerLayout() {
         );
     }
 
-    const theme = resolveSellerTheme({ brandColor: seller.brandColor });
-    const sellerProducts = products.filter((p) => {
-        const pId = String(p.sellerId);
-        return pId === String(seller.id) || pId === `seller_${seller.id}`;
-    });
+    const theme = resolveSellerTheme({ brandColor: seller.brand_color || seller.brandColor });
     const cartItemCount = getCartCount();
 
     const handleSendMessage = async () => {
@@ -116,10 +155,14 @@ export default function SellerLayout() {
                             </Link>
                             <div className="hidden sm:block w-px h-6 bg-border-soft" />
                             <Link to={`/${slug}`} className="flex items-center gap-2.5 min-w-0">
-                                <div className="w-7 h-7 rounded-lg overflow-hidden border border-border-soft bg-white flex-shrink-0">
-                                    <img src={seller.logo} alt={seller.name} className="w-full h-full object-cover" />
+                                <div className="w-7 h-7 rounded-lg overflow-hidden border border-border-soft bg-surface-bg flex-shrink-0 flex items-center justify-center">
+                                    {seller.logo ? (
+                                        <img src={seller.logo} alt={seller.store_name || seller.name} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <Store size={14} className="text-text-muted" />
+                                    )}
                                 </div>
-                                <span className="text-sm font-bold text-text-primary truncate hidden sm:block">{seller.name}</span>
+                                <span className="text-sm font-bold text-text-primary truncate hidden sm:block">{seller.store_name || seller.name}</span>
                             </Link>
                         </div>
 
@@ -129,7 +172,7 @@ export default function SellerLayout() {
                                 <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none" />
                                 <input
                                     type="text"
-                                    placeholder={`Search ${seller.name}...`}
+                                    placeholder={`Search ${seller.store_name || seller.name}...`}
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     onKeyDown={handleSearch}
@@ -261,22 +304,30 @@ export default function SellerLayout() {
             {/* ══════════════════════════════════════════════════════
                  STORE BANNER
                  ══════════════════════════════════════════════════════ */}
-            <div className="relative h-44 sm:h-56 lg:h-64 overflow-hidden bg-slate-900">
-                <img
-                    src={seller.banner}
-                    alt={`${seller.name} banner`}
-                    className="absolute inset-0 w-full h-full object-cover opacity-70"
-                />
+            <div className="relative h-44 sm:h-56 lg:h-64 overflow-hidden bg-slate-900 border-b border-border-soft">
+                {seller.banner ? (
+                    <img
+                        src={seller.banner}
+                        alt={`${seller.store_name || seller.name} banner`}
+                        className="absolute inset-0 w-full h-full object-cover opacity-70"
+                    />
+                ) : (
+                    <div className="absolute inset-0 bg-gradient-to-r from-gray-200 to-gray-300 opacity-30" />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
 
                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end pb-5">
                     <div className="flex items-end gap-4 justify-between w-full">
                         <div className="flex items-end gap-3 sm:gap-4">
-                            <div className="w-14 h-14 sm:w-18 sm:h-18 rounded-2xl overflow-hidden border-[3px] border-white shadow-lg bg-white flex-shrink-0">
-                                <img src={seller.logo} alt={seller.name} className="w-full h-full object-cover" />
+                            <div className="w-14 h-14 sm:w-18 sm:h-18 rounded-2xl overflow-hidden border-[3px] border-white shadow-lg bg-white flex-shrink-0 flex items-center justify-center text-text-muted">
+                                {seller.logo ? (
+                                    <img src={seller.logo} alt={seller.store_name || seller.name} className="w-full h-full object-cover" />
+                                ) : (
+                                    <Store size={32} />
+                                )}
                             </div>
                             <div className="pb-0.5">
-                                <h1 className="text-lg sm:text-2xl font-bold text-white leading-tight">{seller.name}</h1>
+                                <h1 className="text-lg sm:text-2xl font-bold text-white leading-tight">{seller.store_name || seller.name}</h1>
                                 <div className="flex items-center gap-2.5 mt-0.5">
                                     <div className="flex items-center gap-1">
                                         <Star size={12} className="fill-amber-400 text-amber-400" />
@@ -390,10 +441,14 @@ export default function SellerLayout() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-lg overflow-hidden border border-border-soft bg-white">
-                                <img src={seller.logo} alt={seller.name} className="w-full h-full object-cover" />
+                            <div className="w-8 h-8 rounded-lg overflow-hidden border border-border-soft bg-white flex items-center justify-center text-text-muted">
+                                {seller.logo ? (
+                                    <img src={seller.logo} alt={seller.store_name || seller.name} className="w-full h-full object-cover" />
+                                ) : (
+                                    <Store size={16} />
+                                )}
                             </div>
-                            <span className="text-sm font-semibold text-text-primary">{seller.name}</span>
+                            <span className="text-sm font-semibold text-text-primary">{seller.store_name || seller.name}</span>
                         </div>
                         <div className="flex items-center gap-4 text-xs text-text-muted">
                             <NavLink to={`/${slug}/policies`} className="hover:text-text-primary transition-colors">Policies</NavLink>
@@ -415,7 +470,7 @@ export default function SellerLayout() {
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
                     <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden text-text-primary">
                         <div className="p-5 border-b border-border-soft flex justify-between items-center bg-surface-bg">
-                            <h3 className="font-bold text-text-primary">Contact {seller.name}</h3>
+                            <h3 className="font-bold text-text-primary">Contact {seller.store_name || seller.name}</h3>
                             <button onClick={() => setShowMessageModal(false)} className="text-text-muted hover:text-text-primary text-xl leading-none">&times;</button>
                         </div>
                         <div className="p-5">
@@ -430,11 +485,15 @@ export default function SellerLayout() {
                             ) : (
                                 <>
                                     <div className="flex items-center gap-3 mb-4 p-3 bg-surface-bg rounded-xl border border-border-soft">
-                                        <div className="w-10 h-10 rounded-lg overflow-hidden bg-white border border-border-soft">
-                                            <img src={seller.logo} alt={seller.name} className="w-full h-full object-cover" />
+                                        <div className="w-10 h-10 rounded-lg overflow-hidden bg-white border border-border-soft flex items-center justify-center text-text-muted">
+                                            {seller.logo ? (
+                                                <img src={seller.logo} alt={seller.store_name || seller.name} className="w-full h-full object-cover" />
+                                            ) : (
+                                                <Store size={20} />
+                                            )}
                                         </div>
                                         <div>
-                                            <p className="text-xs font-semibold text-text-primary leading-tight line-clamp-1">{seller.name}</p>
+                                            <p className="text-xs font-semibold text-text-primary leading-tight line-clamp-1">{seller.store_name || seller.name}</p>
                                             <p className="text-[10px] text-text-muted mt-0.5">Contact Support</p>
                                         </div>
                                     </div>

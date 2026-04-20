@@ -22,8 +22,8 @@ export default function FAQAccordion({ title, items = [] }) {
                 {items.map((item, i) => (
                     <div
                         key={i}
-                        className="border border-gray-100 rounded-xl overflow-hidden"
-                        style={{ borderRadius: 'var(--seller-radius, 0.75rem)' }}
+                        className="border border-gray-100 overflow-hidden"
+                        style={{ borderRadius: 'var(--seller-widget-radius, 1rem)' }}
                     >
                         <button
                             onClick={() => setOpenIndex(openIndex === i ? null : i)}

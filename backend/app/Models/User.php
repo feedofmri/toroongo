@@ -16,6 +16,7 @@ class User extends Authenticatable
         'name', 'email', 'password', 'role', 'avatar',
         'store_name', 'description', 'logo', 'banner',
         'rating', 'total_products', 'brand_color', 'slug', 'joined_date',
+        'phone', 'seller_settings', 'location',
     ];
 
     protected $hidden = ['password', 'remember_token'];
@@ -27,6 +28,7 @@ class User extends Authenticatable
             'joined_date' => 'datetime',
             'password' => 'hashed',
             'rating' => 'float',
+            'seller_settings' => 'array',
         ];
     }
 

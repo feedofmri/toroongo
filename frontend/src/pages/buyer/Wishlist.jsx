@@ -11,7 +11,7 @@ import { formatPrice } from '../../utils/currency';
 
 export default function Wishlist() {
     const { t } = useTranslation();
-    const { products: allProducts } = useProduct();
+    const { products: allProducts, sellers } = useProduct();
     const { isAuthenticated, isLoading: authLoading } = useAuth();
     const { wishlist, removeFromWishlist } = useWishlist();
     const navigate = useNavigate();
@@ -60,7 +60,7 @@ export default function Wishlist() {
                 {wishlistProducts.map((product) => (
                     <div key={product.id} className="flex gap-4 p-4 border border-border-soft rounded-xl hover:border-brand-primary/20 transition-colors group">
                         {/* Image */}
-                        <Link to={`/product/${product.id}`} className="flex-shrink-0">
+                        <Link to={`/product/${product.slug || product.id}`} className="flex-shrink-0">
                             <div className="w-24 h-24 rounded-xl overflow-hidden bg-surface-bg border border-border-soft">
                                 <img src={product.imageUrl} alt={product.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                             </div>
@@ -68,10 +68,10 @@ export default function Wishlist() {
 
                         {/* Info */}
                         <div className="flex-1 min-w-0">
-                            <Link to={`/${resolveSellerSlug(product.sellerId)}`} className="text-xs text-brand-primary font-medium hover:text-brand-secondary transition-colors">
+                            <Link to={`/${resolveSellerSlug(product.sellerId, sellers)}`} className="text-xs text-brand-primary font-medium hover:text-brand-secondary transition-colors">
                                 {product.seller}
                             </Link>
-                            <Link to={`/product/${product.id}`}>
+                            <Link to={`/product/${product.slug || product.id}`}>
                                 <h3 className="text-sm font-medium text-text-primary line-clamp-1 mt-0.5 hover:text-brand-primary transition-colors">
                                     {product.title}
                                 </h3>
@@ -90,7 +90,7 @@ export default function Wishlist() {
                         {/* Actions */}
                         <div className="flex flex-col gap-2 flex-shrink-0">
                             <Link
-                                to={`/product/${product.id}`}
+                                to={`/product/${product.slug || product.id}`}
                                 className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium bg-brand-primary text-white rounded-lg hover:bg-brand-secondary transition-colors"
                             >
                                 <ShoppingCart size={13} /> {t('product.addToCart')}

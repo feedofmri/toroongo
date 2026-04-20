@@ -23,11 +23,11 @@ export default function CountdownTimer({ heading, endDate, backgroundColor, text
 
     return (
         <div
-            className="rounded-2xl py-10 px-6 text-center"
+            className="py-10 px-6 text-center"
             style={{
                 backgroundColor: backgroundColor || 'var(--seller-brand, #008080)',
                 color: textColor,
-                borderRadius: 'var(--seller-radius, 0.75rem)',
+                borderRadius: 'var(--seller-widget-radius, 1rem)',
             }}
         >
             {heading && (

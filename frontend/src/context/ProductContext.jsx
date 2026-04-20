@@ -1,24 +1,55 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { productService } from '../services';
+import { api } from '../services/api';
 
 const ProductContext = createContext();
 
 export function ProductProvider({ children }) {
     const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [sellers, setSellers] = useState([]);
+    const [heroBanners, setHeroBanners] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Initial load of all products
-    const loadProducts = async () => {
+    // Initial load of all data from backend
+    const loadData = async () => {
         setIsLoading(true);
         setError(null);
         try {
-            const data = await productService.getAllProducts();
-            setProducts(data);
-            setFilteredProducts(data);
+            const [productsData, categoriesData, sellersData, bannersData] = await Promise.all([
+                productService.getAllProducts(),
+                api('/system/categories'),
+                api('/users/sellers'),
+                api('/system/hero-banners')
+            ]);
+
+            // Map snake_case API fields to camelCase
+            const mappedProducts = productsData.map(p => ({
+                ...p,
+                imageUrl: p.image_url || p.imageUrl,
+                originalPrice: p.original_price || p.originalPrice,
+                sellerId: p.seller_id || p.sellerId,
+                seller: p.seller_name || p.seller,
+                metaDescription: p.meta_description || p.metaDescription,
+            }));
+
+            const mappedSellers = sellersData.map(s => ({
+                ...s,
+                storeName: s.store_name || s.name,
+                totalProducts: s.total_products || 0,
+                brandColor: s.brand_color,
+                joinedDate: s.joined_date || s.created_at
+            }));
+
+            setProducts(mappedProducts);
+            setCategories(categoriesData);
+            setSellers(mappedSellers);
+            setHeroBanners(bannersData);
+            setFilteredProducts(mappedProducts);
         } catch (err) {
-            setError('Failed to load products');
+            setError('Failed to load data from backend');
             console.error(err);
         } finally {
             setIsLoading(false);
@@ -26,30 +57,30 @@ export function ProductProvider({ children }) {
     };
 
     useEffect(() => {
-        loadProducts();
+        loadData();
     }, []);
 
-    // Helper function to re-fetch when products change (e.g., from seller dashboard)
-    const refreshProducts = () => {
-        loadProducts();
+    const refreshData = () => {
+        loadData();
     };
 
     const getProduct = async (id) => {
-        // Attempt sync retrieval from local state first
-        const localMatch = products.find(p => p.id === id);
+        const localMatch = products.find(p => String(p.id) === String(id));
         if (localMatch) return localMatch;
-        // Fallback to async retrieval
         return await productService.getProductById(id);
     };
 
     return (
         <ProductContext.Provider value={{
             products,
+            categories,
+            sellers,
+            heroBanners,
             filteredProducts,
             setFilteredProducts,
             isLoading,
             error,
-            refreshProducts,
+            refreshProducts: refreshData,
             getProduct
         }}>
             {children}

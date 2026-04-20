@@ -10,6 +10,7 @@ import iconColourful from '../../../assets/Logo/icon_colourful.png';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { widgetRegistry } from './widgets/widgetRegistry.js';
+import { useAuth } from '../../../context/AuthContext';
 
 /**
  * StorefrontBuilder Page
@@ -28,8 +29,11 @@ export default function StorefrontBuilder() {
     const addWidget = useBuilderStore((s) => s.addWidget);
     const reorderWidgets = useBuilderStore((s) => s.reorderWidgets);
 
-    // Current seller (hardcoded to match SellerDashboardLayout for now)
-    const sellerId = 'seller_1';
+    const { user } = useAuth();
+
+    // Use current authenticated seller ID, format identically to how StoreHome loads it
+    const sellerId = user?.id ? (String(user.id).startsWith('seller_') ? user.id : `seller_${user.id}`) : 'seller_1';
+    const storeSlug = user?.slug || user?.id || 'sony-electronics';
 
     const sensors = useSensors(
         useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -94,7 +98,7 @@ export default function StorefrontBuilder() {
 
     const handlePreview = () => {
         handleSave();
-        window.open('/sony-electronics', '_blank');
+        window.open(`/${storeSlug}`, '_blank');
     };
 
     return (

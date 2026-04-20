@@ -35,7 +35,7 @@ export default function StoreHome() {
                     <Sparkles size={16} style={{ color: 'var(--seller-brand)' }} />
                     <span className="text-sm font-medium" style={{ color: 'var(--seller-brand)' }}>Welcome to</span>
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-text-primary mb-3">{seller.name}</h2>
+                <h2 className="text-2xl sm:text-3xl font-bold text-text-primary mb-3">{seller.store_name || seller.name}</h2>
                 <p className="text-text-muted max-w-xl">{seller.description}</p>
             </div>
 
@@ -69,7 +69,7 @@ export default function StoreHome() {
             <section className="mb-12">
                 <div className="rounded-2xl p-8 sm:p-10 text-white relative overflow-hidden" style={{ backgroundColor: 'var(--seller-brand)' }}>
                     <div className="relative z-10 max-w-md">
-                        <h3 className="text-2xl font-bold mb-2">About {seller.name}</h3>
+                        <h3 className="text-2xl font-bold mb-2">About {seller.store_name || seller.name}</h3>
                         <p className="text-white/80 mb-5 text-sm leading-relaxed">{seller.description}</p>
                         <Link
                             to={`/${seller.slug || seller.id}/about`}

@@ -10,7 +10,7 @@ import { formatPrice } from '../../utils/currency';
 export default function ShoppingCart() {
     const { t } = useTranslation();
     const { cart: cartItems, updateQuantity, removeFromCart: removeItem } = useCart();
-    const { products: allProducts } = useProduct();
+    const { products: allProducts, sellers } = useProduct();
 
     const [promoCode, setPromoCode] = useState('');
     const [promoApplied, setPromoApplied] = useState(false);
@@ -70,7 +70,7 @@ export default function ShoppingCart() {
                                 {/* Seller header */}
                                 <div className="px-5 py-3 bg-surface-bg border-b border-border-soft flex items-center justify-between">
                                     <Link
-                                        to={`/${resolveSellerSlug(sellerId)}`}
+                                        to={`/${resolveSellerSlug(sellerId, sellers)}`}
                                         className="text-sm font-semibold text-brand-primary hover:text-brand-secondary transition-colors"
                                     >
                                         {sellerName}
@@ -86,7 +86,7 @@ export default function ShoppingCart() {
                                     {items.map(({ product, quantity }) => (
                                         <div key={product.id} className="p-5 flex gap-4">
                                             {/* Thumbnail */}
-                                            <Link to={`/product/${product.id}`} className="flex-shrink-0">
+                                            <Link to={`/product/${product.slug || product.id}`} className="flex-shrink-0">
                                                 <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden bg-surface-bg border border-border-soft">
                                                     <img src={product.imageUrl} alt={product.title} className="w-full h-full object-cover" />
                                                 </div>
@@ -94,7 +94,7 @@ export default function ShoppingCart() {
 
                                             {/* Details */}
                                             <div className="flex-1 min-w-0">
-                                                <Link to={`/product/${product.id}`}>
+                                                <Link to={`/product/${product.slug || product.id}`}>
                                                     <h3 className="text-sm font-medium text-text-primary line-clamp-2 hover:text-brand-primary transition-colors">
                                                         {product.title}
                                                     </h3>

@@ -8,7 +8,7 @@ export default function StoreStats({ stats = [] }) {
     return (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
             {stats.map((stat, i) => (
-                <div key={i} className="py-8 px-4 bg-white rounded-2xl border border-gray-100 shadow-sm transition-transform hover:-translate-y-1" style={{ borderRadius: 'var(--seller-radius, 0.75rem)' }}>
+                <div key={i} className="py-8 px-4 bg-white border border-gray-100 shadow-sm transition-transform hover:-translate-y-1" style={{ borderRadius: 'var(--seller-widget-radius, 1rem)' }}>
                     <div
                         className="text-3xl sm:text-4xl font-extrabold mb-2 tracking-tight"
                         style={{ color: 'var(--seller-brand, #008080)' }}

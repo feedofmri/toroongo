@@ -37,6 +37,5 @@ export const productService = {
 
     async deleteProduct(id) {
         return await api(`/products/${id}`, { method: 'DELETE' });
-        return true;
     }
 };

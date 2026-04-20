@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Search, Pencil, Trash2, Eye, Package, ChevronDown } from 'lucide-react';
+import { Plus, Search, Pencil, Trash2, Eye, Package, ChevronDown, Loader } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { productService } from '../../services';
 import Skeleton from '../../components/ui/Skeleton';
 import { formatPrice } from '../../utils/currency';
+import ProductFormModal from './ProductFormModal';
 
 const STATUS_STYLES = {
     active: 'text-green-600 bg-green-50',
@@ -23,13 +25,19 @@ const STATUS_LABELS = {
 export default function ProductManagement() {
     const { t } = useTranslation();
     const { user } = useAuth();
+    const navigate = useNavigate();
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
     const [filterStatus, setFilterStatus] = useState('all');
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editProduct, setEditProduct] = useState(null);
+    const [deletingId, setDeletingId] = useState(null);
+    const [deleteConfirm, setDeleteConfirm] = useState(null);
 
-    React.useEffect(() => {
+    const fetchProducts = () => {
         if (user) {
+            setLoading(true);
             productService.getProductsBySeller(user.id)
                 .then(data => {
                     // Map stock to statuses since mock didn't have true status
@@ -37,13 +45,17 @@ export default function ProductManagement() {
                         let status = 'active';
                         if (p.stock === 0) status = 'out_of_stock';
                         else if (p.stock < 10) status = 'low_stock';
-                        return { ...p, status };
+                        return { ...p, status, imageUrl: p.image_url || p.imageUrl };
                     });
                     setProducts(mappedProducts);
-                    setLoading(false);
                 })
-                .catch(console.error);
+                .catch(console.error)
+                .finally(() => setLoading(false));
         }
+    };
+
+    React.useEffect(() => {
+        fetchProducts();
     }, [user]);
 
     const filtered = products.filter((p) => {
@@ -52,11 +64,54 @@ export default function ProductManagement() {
         return matchesSearch && matchesStatus;
     });
 
+    // ── Action Handlers ─────────────────────────────────────
+    const handleView = (product) => {
+        // Open product detail in a new tab
+        window.open(`/product/${product.slug || product.id}`, '_blank');
+    };
+
+    const handleEdit = (product) => {
+        setEditProduct(product);
+        setIsModalOpen(true);
+    };
+
+    const handleDeleteClick = (product) => {
+        setDeleteConfirm(product);
+    };
+
+    const handleDeleteConfirm = async () => {
+        if (!deleteConfirm) return;
+        setDeletingId(deleteConfirm.id);
+        try {
+            await productService.deleteProduct(deleteConfirm.id);
+            fetchProducts();
+        } catch (err) {
+            console.error('Failed to delete product:', err);
+        } finally {
+            setDeletingId(null);
+            setDeleteConfirm(null);
+        }
+    };
+
+    const handleModalClose = () => {
+        setIsModalOpen(false);
+        setEditProduct(null);
+    };
+
+    const handleModalSuccess = () => {
+        setIsModalOpen(false);
+        setEditProduct(null);
+        fetchProducts();
+    };
+
     return (
         <div className="animate-fade-in">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                 <h2 className="text-2xl font-bold text-text-primary">{t('sellerProducts.title')}</h2>
-                <button className="flex items-center gap-2 px-4 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
+                <button 
+                    onClick={() => { setEditProduct(null); setIsModalOpen(true); }}
+                    className="flex items-center gap-2 px-4 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors"
+                >
                     <Plus size={16} /> {t('sellerProducts.addProduct')}
                 </button>
             </div>
@@ -114,8 +169,13 @@ export default function ProductManagement() {
                                 <tr key={product.id} className="hover:bg-surface-bg/50 transition-colors">
                                     <td className="px-5 py-3.5">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-10 h-10 rounded-lg overflow-hidden bg-surface-bg flex-shrink-0">
-                                                <img src={product.imageUrl} alt={product.title} className="w-full h-full object-cover" />
+                                            <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-surface-bg flex-shrink-0">
+                                                <img src={product.imageUrl || product.image_url} alt={product.title} className="w-full h-full object-cover" />
+                                                {product.images?.length > 1 && (
+                                                    <span className="absolute bottom-0 right-0 text-[8px] font-bold bg-black/70 text-white px-1 rounded-tl">
+                                                        +{product.images.length - 1}
+                                                    </span>
+                                                )}
                                             </div>
                                             <span className="text-sm font-medium text-text-primary line-clamp-1">{product.title}</span>
                                         </div>
@@ -130,14 +190,30 @@ export default function ProductManagement() {
                                     </td>
                                     <td className="px-5 py-3.5">
                                         <div className="flex items-center justify-end gap-1">
-                                            <button className="p-1.5 text-text-muted hover:text-brand-primary transition-colors" title={t('sellerProducts.actions.view')}>
+                                            <button 
+                                                onClick={() => handleView(product)}
+                                                className="p-1.5 text-text-muted hover:text-brand-primary transition-colors" 
+                                                title={t('sellerProducts.actions.view')}
+                                            >
                                                 <Eye size={15} />
                                             </button>
-                                            <button className="p-1.5 text-text-muted hover:text-brand-primary transition-colors" title={t('sellerProducts.actions.edit')}>
+                                            <button 
+                                                onClick={() => handleEdit(product)}
+                                                className="p-1.5 text-text-muted hover:text-brand-primary transition-colors" 
+                                                title={t('sellerProducts.actions.edit')}
+                                            >
                                                 <Pencil size={15} />
                                             </button>
-                                            <button className="p-1.5 text-text-muted hover:text-red-500 transition-colors" title={t('sellerProducts.actions.delete')}>
-                                                <Trash2 size={15} />
+                                            <button 
+                                                onClick={() => handleDeleteClick(product)}
+                                                disabled={deletingId === product.id}
+                                                className="p-1.5 text-text-muted hover:text-red-500 transition-colors disabled:opacity-50" 
+                                                title={t('sellerProducts.actions.delete')}
+                                            >
+                                                {deletingId === product.id 
+                                                    ? <Loader size={15} className="animate-spin" />
+                                                    : <Trash2 size={15} />
+                                                }
                                             </button>
                                         </div>
                                     </td>
@@ -154,6 +230,54 @@ export default function ProductManagement() {
                     </div>
                 )}
             </div>
+
+            {/* Add/Edit Product Modal */}
+            <ProductFormModal 
+                isOpen={isModalOpen}
+                onClose={handleModalClose}
+                onSuccess={handleModalSuccess}
+                editProduct={editProduct}
+            />
+
+            {/* Delete Confirmation Modal */}
+            {deleteConfirm && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
+                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden">
+                        <div className="p-6">
+                            <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4">
+                                <Trash2 size={22} className="text-red-500" />
+                            </div>
+                            <h3 className="text-lg font-bold text-text-primary text-center mb-2">Delete Product</h3>
+                            <p className="text-sm text-text-muted text-center mb-1">
+                                Are you sure you want to delete
+                            </p>
+                            <p className="text-sm font-semibold text-text-primary text-center mb-6 line-clamp-1">
+                                "{deleteConfirm.title}"?
+                            </p>
+                            <p className="text-xs text-red-500 text-center mb-6">
+                                This action cannot be undone.
+                            </p>
+                            <div className="flex gap-3">
+                                <button
+                                    onClick={() => setDeleteConfirm(null)}
+                                    disabled={deletingId}
+                                    className="flex-1 px-4 py-2.5 text-sm font-semibold text-text-primary bg-white border border-border-soft rounded-xl hover:bg-gray-50 transition-colors disabled:opacity-50"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={handleDeleteConfirm}
+                                    disabled={deletingId}
+                                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-red-500 rounded-xl hover:bg-red-600 transition-colors disabled:opacity-50"
+                                >
+                                    {deletingId ? <Loader size={14} className="animate-spin" /> : null}
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

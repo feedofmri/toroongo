@@ -24,6 +24,13 @@ class UserController extends Controller
             'logo' => 'nullable|string',
             'banner' => 'nullable|string',
             'brand_color' => 'nullable|string|max:7',
+            'slug' => "nullable|string|unique:users,slug,{$user->id}",
+            'phone' => 'nullable|string',
+            'seller_settings' => 'nullable|array',
+            'location' => 'nullable|string',
+            'rating' => 'nullable|numeric|min:0|max:5',
+            'total_products' => 'nullable|integer|min:0',
+            'joined_date' => 'nullable|date',
         ]);
 
         $user->update($data);

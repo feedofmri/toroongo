@@ -11,26 +11,57 @@ import ProductCard from '../../components/product/ProductCard';
 import ProductCardSkeleton from '../../components/product/ProductCardSkeleton';
 import CategoryCard from '../../components/ui/CategoryCard';
 import Skeleton from '../../components/ui/Skeleton';
-import { testimonials } from '../../data/mockData';
 import { useProduct } from '../../context/ProductContext';
-import { api } from '../../services/api';
-import { userService } from '../../services';
 
 import { useTranslation } from 'react-i18next';
 import { formatPrice } from '../../utils/currency';
 
 export default function Homepage() {
+    const testimonials = [
+        {
+            id: 1,
+            name: "Emily R.",
+            role: "Fashion Blogger",
+            text: "Toroongo has completely changed how I shop for unique pieces. The variety of sellers is incredible and the quality always exceeds expectations!",
+            rating: 5,
+            avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150",
+            date: "2 weeks ago",
+            purchased: "Classic Silk Dress"
+        },
+        {
+            id: 2,
+            name: "Michael T.",
+            role: "Tech Enthusiast",
+            text: "I found exclusive gadgets here that I couldn't find anywhere else. The support from sellers is top-notch and delivery was faster than expected.",
+            rating: 5,
+            avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150&h=150",
+            date: "1 month ago",
+            purchased: "Wireless Noise-Cancelling Headphones"
+        },
+        {
+            id: 3,
+            name: "Sarah J.",
+            role: "Home Decorator",
+            text: "The artisan collection on Toroongo is simply stunning. My home feels so much more personal with the handcrafted items I've discovered here.",
+            rating: 5,
+            avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=150&h=150",
+            date: "3 weeks ago",
+            purchased: "Hand-Woven Textures Rug"
+        }
+    ];
     const { t } = useTranslation();
-    const { products: loadedProducts, isLoading } = useProduct();
-    const [sellers, setSellers] = useState([]);
-    const [loadedCategories, setLoadedCategories] = useState([]);
-    const [categoriesLoading, setCategoriesLoading] = useState(true);
-    const [showAllCategories, setShowAllCategories] = useState(false);
+    const { 
+        products: loadedProducts, 
+        categories: loadedCategories, 
+        sellers, 
+        heroBanners,
+        isLoading: productsLoading 
+    } = useProduct();
 
-    useEffect(() => {
-        api('/system/categories').then(data => { setLoadedCategories(data); setCategoriesLoading(false); }).catch(() => setCategoriesLoading(false));
-        userService.getAllSellers().then(data => setSellers(data.map(s => ({ ...s, totalProducts: s.total_products, brandColor: s.brand_color, joinedDate: s.joined_date, storeName: s.store_name })))).catch(console.error);
-    }, []);
+    const [showAllCategories, setShowAllCategories] = useState(false);
+    const categoriesLoading = productsLoading;
+    const isLoading = productsLoading;
+
     const carouselRef = useRef(null);
     const featuredRef = useRef(null);
     const sellersRef = useRef(null);
@@ -101,10 +132,42 @@ export default function Homepage() {
                             { Icon: Sun, color: 'text-amber-300', size: 36, left: '16%', delay: '27s', duration: '49s' },
                             { Icon: Anchor, color: 'text-slate-600', size: 28, left: '8%', delay: '39s', duration: '67s' },
                             { Icon: Umbrella, color: 'text-teal-400', size: 32, left: '72%', delay: '23s', duration: '52s' },
+                            
+                            /* Desktop Only Extra Density */
+                            { Icon: ShoppingBag, color: 'text-pink-300', size: 20, left: '2%', delay: '2s', duration: '55s', desktopOnly: true },
+                            { Icon: Heart, color: 'text-rose-300', size: 30, left: '13%', delay: '15s', duration: '48s', desktopOnly: true },
+                            { Icon: Star, color: 'text-amber-300', size: 18, left: '26%', delay: '5s', duration: '60s', desktopOnly: true },
+                            { Icon: Zap, color: 'text-yellow-300', size: 28, left: '37%', delay: '20s', duration: '50s', desktopOnly: true },
+                            { Icon: Coffee, color: 'text-amber-500', size: 22, left: '49%', delay: '8s', duration: '65s', desktopOnly: true },
+                            { Icon: Music, color: 'text-pink-300', size: 32, left: '61%', delay: '22s', duration: '57s', desktopOnly: true },
+                            { Icon: Camera, color: 'text-fuchsia-300', size: 25, left: '74%', delay: '11s', duration: '62s', desktopOnly: true },
+                            { Icon: Box, color: 'text-slate-400', size: 35, left: '84%', delay: '25s', duration: '53s', desktopOnly: true },
+                            { Icon: Leaf, color: 'text-emerald-300', size: 16, left: '95%', delay: '3s', duration: '58s', desktopOnly: true },
+                            { Icon: Sun, color: 'text-amber-200', size: 28, left: '4%', delay: '18s', duration: '46s', desktopOnly: true },
+                            { Icon: Watch, color: 'text-lime-300', size: 24, left: '17%', delay: '7s', duration: '63s', desktopOnly: true },
+                            { Icon: Shirt, color: 'text-indigo-300', size: 29, left: '29%', delay: '26s', duration: '51s', desktopOnly: true },
+                            { Icon: Glasses, color: 'text-sky-300', size: 21, left: '41%', delay: '14s', duration: '59s', desktopOnly: true },
+                            { Icon: Compass, color: 'text-blue-400', size: 34, left: '53%', delay: '1s', duration: '66s', desktopOnly: true },
+                            { Icon: Flame, color: 'text-orange-400', size: 26, left: '64%', delay: '23s', duration: '49s', desktopOnly: true },
+                            { Icon: Umbrella, color: 'text-teal-300', size: 31, left: '77%', delay: '10s', duration: '56s', desktopOnly: true },
+                            { Icon: Gamepad2, color: 'text-purple-400', size: 23, left: '89%', delay: '28s', duration: '44s', desktopOnly: true },
+                            { Icon: Crown, color: 'text-yellow-500', size: 27, left: '97%', delay: '6s', duration: '61s', desktopOnly: true },
+                            { Icon: Monitor, color: 'text-sky-400', size: 33, left: '9%', delay: '21s', duration: '54s', desktopOnly: true },
+                            { Icon: Headphones, color: 'text-violet-400', size: 19, left: '21%', delay: '12s', duration: '67s', desktopOnly: true },
+                            { Icon: Smartphone, color: 'text-cyan-400', size: 30, left: '34%', delay: '27s', duration: '52s', desktopOnly: true },
+                            { Icon: Sofa, color: 'text-teal-500', size: 25, left: '44%', delay: '9s', duration: '60s', desktopOnly: true },
+                            { Icon: Brush, color: 'text-fuchsia-500', size: 28, left: '56%', delay: '19s', duration: '47s', desktopOnly: true },
+                            { Icon: Scissors, color: 'text-slate-500', size: 22, left: '69%', delay: '4s', duration: '64s', desktopOnly: true },
+                            { Icon: Bell, color: 'text-yellow-500', size: 35, left: '81%', delay: '24s', duration: '50s', desktopOnly: true },
+                            { Icon: Anchor, color: 'text-slate-500', size: 24, left: '91%', delay: '13s', duration: '55s', desktopOnly: true },
+                            { Icon: Moon, color: 'text-indigo-400', size: 29, left: '6%', delay: '29s', duration: '45s', desktopOnly: true },
+                            { Icon: Zap, color: 'text-amber-400', size: 18, left: '19%', delay: '2s', duration: '68s', desktopOnly: true },
+                            { Icon: Star, color: 'text-rose-400', size: 32, left: '31%', delay: '16s', duration: '53s', desktopOnly: true },
+                            { Icon: ShieldCheck, color: 'text-purple-400', size: 26, left: '46%', delay: '10s', duration: '62s', desktopOnly: true },
                         ].map((item, i) => (
                             <div 
                                 key={i}
-                                className="absolute bottom-[-100px] animate-float-up"
+                                className={`absolute bottom-[-100px] animate-float-up ${item.desktopOnly ? 'hidden md:block' : ''}`}
                                 style={{
                                     left: item.left,
                                     animationDelay: item.delay,

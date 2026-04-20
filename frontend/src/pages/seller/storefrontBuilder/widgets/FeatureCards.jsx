@@ -20,8 +20,8 @@ export default function FeatureCards({ title, cards = [] }) {
                     <a
                         key={i}
                         href={card.link || '#'}
-                        className="group relative aspect-[4/3] rounded-2xl overflow-hidden"
-                        style={{ borderRadius: 'var(--seller-radius, 0.75rem)' }}
+                        className="group relative aspect-[4/3] overflow-hidden"
+                        style={{ borderRadius: 'var(--seller-widget-radius, 1rem)' }}
                     >
                         <img
                             src={card.imageUrl}

@@ -1,9 +1,16 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Star, Package, SlidersHorizontal, Grid3X3, LayoutList } from 'lucide-react';
-import { sellers } from '../../data/mockData';
-
+import { 
+    Loader2, 
+    Search, 
+    SlidersHorizontal, 
+    Grid3X3, 
+    LayoutList, 
+    Star, 
+    Package 
+} from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useProduct } from '../../context/ProductContext';
 
 const SORT_OPTIONS = [
     { value: 'popular', label: 'Most Popular' },
@@ -15,9 +22,13 @@ const SORT_OPTIONS = [
 
 export default function ShopsPage() {
     const { t } = useTranslation();
+    const { sellers, isLoading: contextLoading } = useProduct();
     const [searchQuery, setSearchQuery] = useState('');
     const [sortBy, setSortBy] = useState('popular');
     const [viewMode, setViewMode] = useState('grid'); // grid | list
+
+    const isLoading = contextLoading;
+    const error = null; // Error handling handled by context
 
     const filteredSellers = useMemo(() => {
         let result = [...sellers];
@@ -26,30 +37,46 @@ export default function ShopsPage() {
         if (searchQuery.trim()) {
             const q = searchQuery.toLowerCase();
             result = result.filter(
-                (s) => s.name.toLowerCase().includes(q) || s.description?.toLowerCase().includes(q)
+                (s) => ((s.store_name || s.name) || '').toLowerCase().includes(q) || (s.description || '').toLowerCase().includes(q)
             );
         }
 
         // Sort
         switch (sortBy) {
             case 'rating':
-                result.sort((a, b) => b.rating - a.rating);
+                result.sort((a, b) => (b.rating || 0) - (a.rating || 0));
                 break;
             case 'products':
-                result.sort((a, b) => b.totalProducts - a.totalProducts);
+                result.sort((a, b) => (b.total_products || 0) - (a.total_products || 0));
                 break;
             case 'newest':
-                result.sort((a, b) => new Date(b.joinedDate) - new Date(a.joinedDate));
+                result.sort((a, b) => new Date(b.joined_date || b.created_at) - new Date(a.joined_date || a.created_at));
                 break;
             case 'name-asc':
-                result.sort((a, b) => a.name.localeCompare(b.name));
+                result.sort((a, b) => (a.store_name || a.name).localeCompare(b.store_name || b.name));
                 break;
             default: // popular — by rating * products
-                result.sort((a, b) => (b.rating * b.totalProducts) - (a.rating * a.totalProducts));
+                result.sort((a, b) => ((b.rating || 0) * (b.total_products || 0)) - ((a.rating || 0) * (a.total_products || 0)));
         }
 
         return result;
-    }, [searchQuery, sortBy]);
+    }, [searchQuery, sortBy, sellers]);
+
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-[50vh]">
+                <Loader2 className="animate-spin text-brand-primary" size={32} />
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="flex items-center justify-center min-h-[50vh]">
+                <p className="text-red-500 font-medium">{error}</p>
+            </div>
+        );
+    }
 
     return (
         <div className="animate-fade-in">
@@ -132,36 +159,46 @@ export default function ShopsPage() {
                         {filteredSellers.map((seller) => (
                             <Link
                                 key={seller.id}
-                                to={`/${seller.slug}`}
+                                to={`/${seller.slug || seller.id}`}
                                 className="group bg-white rounded-2xl border border-border-soft overflow-hidden
                                            transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-brand-primary/20"
                             >
                                 {/* Banner */}
-                                <div className="relative h-28 overflow-hidden">
-                                    <img
-                                        src={seller.banner}
-                                        alt={seller.name}
-                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                    />
+                                <div className="relative h-28 overflow-hidden bg-surface-bg">
+                                    {seller.banner ? (
+                                        <img
+                                            src={seller.banner}
+                                            alt={seller.store_name || seller.name}
+                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full bg-gradient-to-r from-gray-200 to-gray-300" />
+                                    )}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                                 </div>
 
                                 {/* Info */}
                                 <div className="relative px-4 pb-4">
-                                    <div className="w-14 h-14 rounded-xl overflow-hidden border-[3px] border-white shadow-lg bg-white -mt-7 relative z-10">
-                                        <img src={seller.logo} alt={seller.name} className="w-full h-full object-cover" />
+                                    <div className="w-14 h-14 rounded-xl overflow-hidden border-[3px] border-white shadow-lg bg-surface-bg -mt-7 relative z-10 flex items-center justify-center">
+                                        {seller.logo ? (
+                                            <img src={seller.logo} alt={seller.store_name || seller.name} className="w-full h-full object-cover" />
+                                        ) : (
+                                            <Package size={24} className="text-text-muted" />
+                                        )}
                                     </div>
                                     <h3 className="font-semibold text-sm text-text-primary mt-2 group-hover:text-brand-primary transition-colors">
-                                        {seller.name}
+                                        {seller.store_name || seller.name}
                                     </h3>
-                                    <p className="text-[11px] text-text-muted mt-0.5 line-clamp-2 leading-relaxed">{seller.description}</p>
+                                    <p className="text-[11px] text-text-muted mt-0.5 line-clamp-2 leading-relaxed">
+                                        {seller.description || 'Welcome to my Toroongo shop!'}
+                                    </p>
                                     <div className="flex items-center justify-between mt-3 pt-3 border-t border-border-soft/50">
                                         <div className="flex items-center gap-1">
                                             <Star size={12} className="fill-amber-400 text-amber-400" />
-                                            <span className="text-xs font-semibold text-text-primary">{seller.rating}</span>
+                                            <span className="text-xs font-semibold text-text-primary">{Number(seller.rating || 0).toFixed(1)}</span>
                                         </div>
                                         <span className="text-[11px] text-text-muted flex items-center gap-1">
-                                            <Package size={11} /> {seller.totalProducts} products
+                                            <Package size={11} /> {seller.total_products || 0} products
                                         </span>
                                     </div>
                                 </div>
@@ -176,24 +213,28 @@ export default function ShopsPage() {
                         {filteredSellers.map((seller) => (
                             <Link
                                 key={seller.id}
-                                to={`/${seller.slug}`}
+                                to={`/${seller.slug || seller.id}`}
                                 className="group flex items-center gap-4 sm:gap-5 bg-white rounded-2xl border border-border-soft p-4
                                            transition-all duration-300 hover:shadow-lg hover:border-brand-primary/20"
                             >
-                                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden border border-border-soft bg-white flex-shrink-0">
-                                    <img src={seller.logo} alt={seller.name} className="w-full h-full object-cover" />
+                                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden border border-border-soft bg-surface-bg flex-shrink-0 flex items-center justify-center">
+                                    {seller.logo ? (
+                                        <img src={seller.logo} alt={seller.store_name || seller.name} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <Package size={24} className="text-text-muted" />
+                                    )}
                                 </div>
                                 <div className="flex-1 min-w-0">
                                     <h3 className="text-sm font-semibold text-text-primary group-hover:text-brand-primary transition-colors truncate">
-                                        {seller.name}
+                                        {seller.store_name || seller.name}
                                     </h3>
-                                    <p className="text-xs text-text-muted mt-0.5 line-clamp-1">{seller.description}</p>
+                                    <p className="text-xs text-text-muted mt-0.5 line-clamp-1">{seller.description || 'Welcome to my Toroongo shop!'}</p>
                                     <div className="flex items-center gap-3 mt-2">
                                         <div className="flex items-center gap-1">
                                             <Star size={11} className="fill-amber-400 text-amber-400" />
-                                            <span className="text-xs font-semibold text-text-primary">{seller.rating}</span>
+                                            <span className="text-xs font-semibold text-text-primary">{Number(seller.rating || 0).toFixed(1)}</span>
                                         </div>
-                                        <span className="text-[11px] text-text-muted">{seller.totalProducts} products</span>
+                                        <span className="text-[11px] text-text-muted">{seller.total_products || 0} products</span>
                                     </div>
                                 </div>
                                 <div className="hidden sm:block text-xs font-medium text-brand-primary group-hover:translate-x-0.5 transition-transform">
