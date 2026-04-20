@@ -2,7 +2,10 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
     ArrowRight, ChevronLeft, ChevronRight, ChevronUp, ChevronDown, Sparkles, TrendingUp, Zap,
-    ShieldCheck, Truck, RotateCcw, Star, Store, Clock, Percent, Quote, MessageCircle
+    ShieldCheck, Truck, RotateCcw, Star, Store, Clock, Percent, Quote, MessageCircle, Search,
+    ShoppingBag, Heart, Tag, Gift, Smartphone, Camera, Headphones, Laptop, Monitor, Watch,
+    Shirt, Coffee, Box, ThumbsUp, Medal, Crown, Music, Video, Gamepad2, Mic,
+    Sofa, Scissors, Glasses, Brush, Award, Bell, Bookmark, Compass, Flame, Leaf, Moon, Sun, Anchor, Umbrella
 } from 'lucide-react';
 import ProductCard from '../../components/product/ProductCard';
 import ProductCardSkeleton from '../../components/product/ProductCardSkeleton';
@@ -45,126 +48,142 @@ export default function Homepage() {
     return (
         <div className="animate-fade-in bg-white">
             {/* ═══════════════════════════════════════════════════════
-          HERO BANNER — Modern Premium White Theme
+          HERO BANNER — Redesigned Premium Theme
           ═══════════════════════════════════════════════════════ */}
             <section className="relative w-full overflow-hidden bg-slate-50 border-b border-border-soft">
-                {/* Animated soft bg elements */}
-                <div className="absolute inset-0 opacity-40">
-                    <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-primary/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/4" />
-                    <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-secondary/10 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/4" />
+                {/* Animated soft bg elements & Flowing Icons */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                    <div className="absolute inset-0 opacity-40">
+                        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-primary/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/4" />
+                        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-secondary/10 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/4" />
+                    </div>
+                    
+                    {/* Floating Icons */}
+                    <div className="absolute inset-0 opacity-20">
+                        {[
+                            { Icon: Star, color: 'text-amber-500', size: 24, left: '10%', delay: '0s', duration: '45s' },
+                            { Icon: Clock, color: 'text-blue-500', size: 32, left: '25%', delay: '4s', duration: '50s' },
+                            { Icon: Percent, color: 'text-green-500', size: 28, left: '40%', delay: '12s', duration: '48s' },
+                            { Icon: ShieldCheck, color: 'text-purple-500', size: 20, left: '55%', delay: '8s', duration: '55s' },
+                            { Icon: Zap, color: 'text-yellow-500', size: 36, left: '70%', delay: '15s', duration: '42s' },
+                            { Icon: Truck, color: 'text-red-500', size: 26, left: '85%', delay: '21s', duration: '47s' },
+                            { Icon: ShoppingBag, color: 'text-pink-500', size: 30, left: '15%', delay: '7s', duration: '52s' },
+                            { Icon: Heart, color: 'text-rose-500', size: 22, left: '35%', delay: '18s', duration: '40s' },
+                            { Icon: Tag, color: 'text-emerald-500', size: 28, left: '60%', delay: '3s', duration: '60s' },
+                            { Icon: Gift, color: 'text-indigo-500', size: 34, left: '80%', delay: '26s', duration: '46s' },
+                            { Icon: Smartphone, color: 'text-cyan-500', size: 24, left: '5%', delay: '11s', duration: '58s' },
+                            { Icon: Camera, color: 'text-fuchsia-500', size: 28, left: '20%', delay: '34s', duration: '44s' },
+                            { Icon: Headphones, color: 'text-violet-500', size: 32, left: '45%', delay: '10s', duration: '65s' },
+                            { Icon: Laptop, color: 'text-orange-500', size: 36, left: '65%', delay: '22s', duration: '53s' },
+                            { Icon: Monitor, color: 'text-sky-500', size: 26, left: '90%', delay: '13s', duration: '62s' },
+                            { Icon: Watch, color: 'text-lime-500', size: 22, left: '30%', delay: '38s', duration: '41s' },
+                            { Icon: Shirt, color: 'text-indigo-400', size: 30, left: '50%', delay: '25s', duration: '56s' },
+                            { Icon: Coffee, color: 'text-amber-600', size: 24, left: '75%', delay: '17s', duration: '49s' },
+                            { Icon: Box, color: 'text-slate-500', size: 28, left: '12%', delay: '32s', duration: '51s' },
+                            { Icon: ThumbsUp, color: 'text-teal-500', size: 20, left: '88%', delay: '19s', duration: '57s' },
+                            { Icon: Medal, color: 'text-yellow-600', size: 34, left: '38%', delay: '41s', duration: '68s' },
+                            { Icon: Crown, color: 'text-amber-400', size: 38, left: '58%', delay: '5s', duration: '72s' },
+                            { Icon: Music, color: 'text-pink-400', size: 26, left: '82%', delay: '24s', duration: '45s' },
+                            { Icon: Video, color: 'text-blue-400', size: 32, left: '18%', delay: '43s', duration: '59s' },
+                            { Icon: Gamepad2, color: 'text-purple-600', size: 30, left: '48%', delay: '35s', duration: '61s' },
+                            { Icon: Mic, color: 'text-rose-400', size: 24, left: '68%', delay: '29s', duration: '43s' },
+                            { Icon: Sofa, color: 'text-teal-600', size: 32, left: '7%', delay: '16s', duration: '60s' },
+                            { Icon: Scissors, color: 'text-slate-400', size: 22, left: '28%', delay: '2s', duration: '54s' },
+                            { Icon: Glasses, color: 'text-sky-400', size: 26, left: '42%', delay: '20s', duration: '47s' },
+                            { Icon: Brush, color: 'text-fuchsia-400', size: 24, left: '52%', delay: '28s', duration: '64s' },
+                            { Icon: Award, color: 'text-orange-400', size: 34, left: '62%', delay: '40s', duration: '52s' },
+                            { Icon: Bell, color: 'text-yellow-400', size: 28, left: '78%', delay: '14s', duration: '48s' },
+                            { Icon: Bookmark, color: 'text-red-400', size: 24, left: '92%', delay: '30s', duration: '55s' },
+                            { Icon: Compass, color: 'text-blue-600', size: 30, left: '33%', delay: '36s', duration: '63s' },
+                            { Icon: Flame, color: 'text-orange-600', size: 28, left: '47%', delay: '9s', duration: '41s' },
+                            { Icon: Leaf, color: 'text-emerald-400', size: 26, left: '67%', delay: '45s', duration: '50s' },
+                            { Icon: Moon, color: 'text-indigo-300', size: 24, left: '87%', delay: '31s', duration: '58s' },
+                            { Icon: Sun, color: 'text-amber-300', size: 36, left: '16%', delay: '27s', duration: '49s' },
+                            { Icon: Anchor, color: 'text-slate-600', size: 28, left: '8%', delay: '39s', duration: '67s' },
+                            { Icon: Umbrella, color: 'text-teal-400', size: 32, left: '72%', delay: '23s', duration: '52s' },
+                        ].map((item, i) => (
+                            <div 
+                                key={i}
+                                className="absolute bottom-[-100px] animate-float-up"
+                                style={{
+                                    left: item.left,
+                                    animationDelay: item.delay,
+                                    animationDuration: item.duration,
+                                }}
+                            >
+                                <item.Icon className={`${item.color} opacity-70`} size={item.size} />
+                            </div>
+                        ))}
+                    </div>
                 </div>
 
-                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
-                    <div className="grid lg:grid-cols-2 gap-12 items-center">
-                        {/* Left — content */}
-                        <div>
-                            <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-primary/10 border border-brand-primary/20 rounded-full mb-6">
-                                <Sparkles size={14} className="text-brand-primary" />
-                                <span className="text-brand-primary text-xs font-semibold tracking-wide uppercase">{t('home.hero.badge', 'Toroongo Marketplace')}</span>
-                            </div>
-
-                            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-6 leading-[1.1] tracking-tight whitespace-pre-line">
-                                {t('home.heroTitle', 'Discover amazing products')}
-                            </h1>
-
-                            <p className="text-lg text-slate-600 mb-8 leading-relaxed max-w-lg whitespace-pre-line">
-                                {t('home.heroSubtitle', 'Shop from thousands of curated sellers. Quality products, secure payments, and fast delivery — all in one place.')}
-                            </p>
-
-                            <div className="flex flex-wrap gap-4 mb-10">
-                                <Link
-                                    to="/products"
-                                    className="inline-flex items-center gap-2 px-8 py-4 bg-brand-primary text-white font-bold
-                                       rounded-2xl hover:bg-brand-secondary transition-all duration-300 shadow-xl shadow-brand-primary/20
-                                       hover:shadow-brand-secondary/20 hover:-translate-y-0.5"
-                                >
-                                    {t('home.cta', 'Explore Products')} <ArrowRight size={18} />
-                                </Link>
-                                <Link
-                                    to="/sell"
-                                    className="inline-flex items-center gap-2 px-8 py-4 bg-white text-slate-700 font-bold
-                                       rounded-2xl hover:bg-slate-50 transition-all duration-300 border border-slate-200
-                                       hover:border-brand-primary/30"
-                                >
-                                    {t('home.sellCta', 'Start Selling')}
-                                </Link>
-                            </div>
-
-                            {/* Trust stats */}
-                            <div className="flex flex-wrap gap-10">
-                                <div className="flex flex-col">
-                                    <span className="text-3xl font-extrabold text-slate-900">10K+</span>
-                                    <span className="text-sm text-slate-500 font-medium">{t('home.stats.products', 'Products')}</span>
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-3xl font-extrabold text-slate-900">500+</span>
-                                    <span className="text-sm text-slate-500 font-medium">{t('home.stats.sellers', 'Sellers')}</span>
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-3xl font-extrabold text-slate-900">50K+</span>
-                                    <span className="text-sm text-slate-500 font-medium">{t('home.stats.buyers', 'Happy Buyers')}</span>
-                                </div>
-                            </div>
+                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-24 lg:py-32">
+                    <div className="max-w-3xl mx-auto text-center">
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-brand-primary/10 border border-brand-primary/20 rounded-full mb-6 sm:mb-8">
+                            <Sparkles size={14} className="text-brand-primary" />
+                            <span className="text-brand-primary text-[10px] sm:text-xs font-semibold tracking-wide uppercase">{t('home.hero.badge', 'Toroongo Marketplace')}</span>
                         </div>
 
-                        {/* Right — Premium visual elements */}
-                        <div className="hidden lg:flex flex-col gap-6">
-                            {/* Featured review card */}
-                            <div className="bg-white/80 backdrop-blur-xl border border-white p-7 rounded-[2rem] shadow-2xl shadow-slate-200/50">
-                                <div className="flex items-center gap-1 mb-4">
-                                    {[...Array(5)].map((_, i) => (
-                                        <Star key={i} size={16} className="fill-amber-400 text-amber-400" />
-                                    ))}
-                                </div>
-                                <p className="text-slate-700 text-base leading-relaxed mb-6 font-medium italic">
-                                    {t('home.hero.reviewText', '"Best marketplace I\'ve used. Found amazing products from verified sellers, and everything arrived exactly as described. The customer service is outstanding!"')}
-                                </p>
-                                <div className="flex items-center gap-4">
-                                    <img
-                                        src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=80&h=80"
-                                        alt="Sarah M."
-                                        className="w-12 h-12 rounded-full object-cover ring-4 ring-brand-primary/10"
-                                    />
-                                    <div>
-                                        <p className="text-slate-900 font-bold text-base">{t('home.hero.reviewName', 'Sarah Mitchell')}</p>
-                                        <p className="text-slate-500 text-xs font-semibold">{t('home.hero.reviewRole', 'Verified Buyer — purchased 12 items')}</p>
-                                    </div>
-                                </div>
-                            </div>
+                        <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-4 sm:mb-6 leading-[1.2] sm:leading-[1.1] tracking-tight">
+                            {t('home.heroTitle', 'Discover amazing products')}
+                        </h1>
 
-                            {/* Stats row with glassmorphism */}
-                            <div className="grid grid-cols-2 gap-6">
-                                <div className="bg-white/70 backdrop-blur-lg border border-white p-6 rounded-[2rem] shadow-xl shadow-slate-200/40">
-                                    <div className="flex -space-x-2 mb-4">
-                                        {[
-                                            'photo-1507003211169-0a1dd7228f2d',
-                                            'photo-1438761681033-6461ffad8d80',
-                                            'photo-1472099645785-5658abf4ff4e',
-                                        ].map((photo, i) => (
-                                            <img
-                                                key={i}
-                                                src={`https://images.unsplash.com/${photo}?auto=format&fit=crop&q=80&w=50&h=50`}
-                                                alt=""
-                                                className="w-9 h-9 rounded-full border-2 border-white object-cover"
-                                            />
-                                        ))}
-                                        <div className="w-9 h-9 rounded-full border-2 border-white bg-brand-primary text-white flex items-center justify-center text-[10px] font-bold">
-                                            +50K
-                                        </div>
-                                    </div>
-                                    <p className="text-slate-900 font-bold text-sm">{t('home.stats.trusted', 'Trusted by 50K+')}</p>
-                                    <p className="text-slate-500 text-xs mt-0.5">{t('home.stats.satisfied', 'Satisfied buyers')}</p>
-                                </div>
+                        <p className="text-sm sm:text-lg text-slate-600 mb-8 sm:mb-10 leading-relaxed max-w-2xl mx-auto px-4 sm:px-0">
+                            {t('home.heroSubtitle', 'Shop from thousands of curated sellers. Quality products, secure payments, and fast delivery — all in one place.')}
+                        </p>
 
-                                <div className="bg-white/70 backdrop-blur-lg border border-white p-6 rounded-[2rem] shadow-xl shadow-slate-200/40">
-                                    <div className="flex items-center gap-2 mb-3">
-                                        <div className="w-2.5 h-2.5 bg-green-500 rounded-full animate-ping" />
-                                        <span className="text-green-600 text-xs font-bold uppercase tracking-wider">{t('home.stats.live', 'Live Activity')}</span>
-                                    </div>
-                                    <p className="text-slate-900 font-bold text-lg leading-tight">{t('home.stats.orderCount', '2.3K Orders')}</p>
-                                    <p className="text-slate-500 text-xs mt-0.5">{t('home.stats.orders', 'Placed in 24h')}</p>
-                                </div>
-                            </div>
+                        <form onSubmit={(e) => { e.preventDefault(); const val = e.target.elements.search.value; if(val) window.location.href = `/products?search=${encodeURIComponent(val)}`; }} 
+                              className="flex items-center max-w-2xl mx-auto mb-10 bg-white p-1.5 sm:p-2 rounded-full shadow-2xl shadow-slate-200/40 border border-slate-100 transition-all focus-within:ring-4 focus-within:ring-brand-primary/10">
+                            <input
+                                type="text"
+                                name="search"
+                                placeholder={t('home.hero.searchPlaceholder', 'What are you looking for today?')}
+                                className="flex-1 pl-6 sm:pl-8 pr-4 py-3 sm:py-4 text-slate-700 bg-transparent outline-none w-full text-base placeholder:text-slate-400"
+                            />
+                            <button
+                                type="submit"
+                                className="h-10 w-10 sm:h-14 sm:w-14 bg-brand-primary text-white 
+                                       rounded-full hover:bg-brand-secondary transition-all duration-300 shadow-lg shadow-brand-primary/20 flex items-center justify-center flex-shrink-0"
+                                aria-label={t('home.hero.searchBtn', 'Search')}
+                            >
+                                <Search size={20} />
+                            </button>
+                        </form>
+
+                        <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 px-4 sm:px-0">
+                            <Link
+                                to="/shops"
+                                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 sm:py-4 bg-white text-slate-900 font-bold
+                                   rounded-full hover:bg-slate-50 transition-all duration-300 border border-slate-200
+                                   shadow-sm hover:shadow-md hover:-translate-y-0.5"
+                            >
+                                {t('home.hero.storesBtn', 'Browse Stores')}
+                            </Link>
+                            <Link
+                                to="/sell"
+                                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 sm:py-4 bg-transparent text-slate-500 font-semibold
+                                   rounded-full hover:text-brand-primary transition-all duration-300"
+                            >
+                                {t('home.sellCta', 'Start Selling')} <ArrowRight size={16} />
+                            </Link>
+                        </div>
+                        
+                        {/* Trust stats below buttons for extra detail */}
+                        <div className="flex flex-wrap items-center justify-center gap-8 mt-12 bg-white/60 backdrop-blur-md rounded-3xl py-6 px-4 border border-white max-w-2xl mx-auto hidden sm:flex">
+                             <div className="flex flex-col items-center">
+                                  <span className="text-2xl font-extrabold text-slate-900">10K+</span>
+                                  <span className="text-sm text-slate-500 font-medium">{t('home.stats.products', 'Products')}</span>
+                             </div>
+                             <div className="w-px h-8 bg-slate-200"></div>
+                             <div className="flex flex-col items-center">
+                                  <span className="text-2xl font-extrabold text-slate-900">500+</span>
+                                  <span className="text-sm text-slate-500 font-medium">{t('home.stats.sellers', 'Sellers')}</span>
+                             </div>
+                             <div className="w-px h-8 bg-slate-200"></div>
+                             <div className="flex flex-col items-center">
+                                  <span className="text-2xl font-extrabold text-slate-900">50K+</span>
+                                  <span className="text-sm text-slate-500 font-medium">{t('home.stats.buyers', 'Happy Buyers')}</span>
+                             </div>
                         </div>
                     </div>
                 </div>

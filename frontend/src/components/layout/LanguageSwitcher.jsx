@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Globe, Check } from 'lucide-react';
+import { Languages, Check } from 'lucide-react';
 
 const LANGUAGES = [
     { code: 'en', label: 'English' },
@@ -55,7 +55,7 @@ export default function LanguageSwitcher() {
                 className="flex items-center gap-2 p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors"
                 aria-label="Change Language"
             >
-                <Globe size={20} />
+                <Languages size={20} />
                 <span className="hidden lg:block text-sm font-medium uppercase tracking-wider">{currentLang.code}</span>
             </button>
 

@@ -52,6 +52,26 @@ export default function Checkout() {
         setter((prev) => ({ ...prev, [field]: value }));
     };
 
+    const validateShipping = () => {
+        const { firstName, lastName, email, phone, address, city, state, zip } = shipping;
+        if (!firstName || !lastName || !email || !phone || !address || !city || !state || !zip) {
+            alert(t('checkout.fillFields', 'Please fill in all shipping fields.'));
+            return false;
+        }
+        return true;
+    };
+
+    const validatePayment = () => {
+        if (paymentMethod === 'credit_card') {
+            const { nameOnCard, cardNumber, expiry, cvv } = payment;
+            if (!nameOnCard || !cardNumber || !expiry || !cvv) {
+                alert(t('checkout.fillFields', 'Please fill in all payment fields.'));
+                return false;
+            }
+        }
+        return true;
+    };
+
     const inputClass = `w-full px-4 py-3 text-sm bg-white border border-border-soft rounded-xl
     focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-colors
     placeholder:text-text-muted/50`;
@@ -92,6 +112,21 @@ export default function Checkout() {
             alert(t('checkout.orderFailed', 'Order failed: ') + error.message);
         }
     };
+
+    if (!user) {
+        return (
+            <div className="max-w-md mx-auto px-4 py-16 text-center animate-fade-in">
+                <div className="w-16 h-16 bg-brand-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Lock size={24} className="text-brand-primary" />
+                </div>
+                <h2 className="text-2xl font-bold text-text-primary mb-2">{t('checkout.loginRequiredTitle', 'Login Required')}</h2>
+                <p className="text-text-muted mb-6">{t('checkout.loginRequiredMsg', 'Please log in to your account to continue securely with your checkout.')}</p>
+                <Link to="/login" state={{ from: '/checkout' }} className="inline-flex items-center justify-center w-full py-3.5 bg-brand-primary text-white font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
+                    {t('checkout.loginButton', 'Login to Continue')}
+                </Link>
+            </div>
+        );
+    }
 
     return (
         <div className="animate-fade-in">
@@ -155,7 +190,7 @@ export default function Checkout() {
                                 </div>
 
                                 <button
-                                    onClick={() => setStep(2)}
+                                    onClick={() => { if (validateShipping()) setStep(2); }}
                                     className="w-full py-3.5 bg-brand-primary text-white font-semibold rounded-xl
                            hover:bg-brand-secondary transition-colors flex items-center justify-center gap-2"
                                 >
@@ -230,7 +265,7 @@ export default function Checkout() {
                                         {t('checkout.back', 'Back')}
                                     </button>
                                     <button
-                                        onClick={() => setStep(3)}
+                                        onClick={() => { if (validatePayment()) setStep(3); }}
                                         className="flex-1 py-3.5 bg-brand-primary text-white font-semibold rounded-xl
                              hover:bg-brand-secondary transition-colors flex items-center justify-center gap-2"
                                     >

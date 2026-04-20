@@ -6,27 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="5ed57508-28a7-4665-a420-ceaf18205174" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/locales/ar/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/locales/ar/translation.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/locales/bn/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/locales/bn/translation.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/locales/en/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/locales/en/translation.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/locales/hi/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/locales/hi/translation.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/locales/id/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/locales/id/translation.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/locales/ms/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/locales/ms/translation.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/locales/ne/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/locales/ne/translation.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/Navbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/buyer/SearchResults.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/buyer/SearchResults.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/buyer/ShopsPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/buyer/ShopsPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend_crm/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend_crm/public/locales/ar/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/public/locales/ar/translation.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend_crm/public/locales/bn/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/public/locales/bn/translation.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend_crm/public/locales/en/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/public/locales/en/translation.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend_crm/public/locales/hi/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/public/locales/hi/translation.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend_crm/public/locales/id/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/public/locales/id/translation.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend_crm/public/locales/ms/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/public/locales/ms/translation.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend_crm/public/locales/ne/translation.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/public/locales/ne/translation.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend_crm/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/src/index.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +21,7 @@
     <selectedModels>
       <entry key="chat-panel" value="Gemini 3.1 Pro" />
       <entry key="agent-panel" value="Gemini 3.1 Pro" />
+      <entry key="edit-panel" value="GPT-5 mini" />
     </selectedModels>
   </component>
   <component name="Git.Settings">
@@ -110,7 +90,8 @@
       <workItem from="1772784849050" duration="49000" />
       <workItem from="1772795231841" duration="1026000" />
       <workItem from="1772796742207" duration="6041000" />
-      <workItem from="1775414876868" duration="2977000" />
+      <workItem from="1775414876868" duration="3126000" />
+      <workItem from="1775643595970" duration="17000" />
     </task>
     <servers />
   </component>

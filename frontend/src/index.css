@@ -25,6 +25,28 @@
   --animate-fade-in: fadeIn 0.4s ease-out;
   --animate-slide-up: slideUp 0.4s ease-out;
   --animate-slide-in-right: slideInRight 0.3s ease-out;
+  --animate-float-up: floatUp linear infinite;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(100px) rotate(0deg);
+    opacity: 0;
+  }
+  5% {
+    opacity: 0.8;
+  }
+  25% {
+    opacity: 0.8;
+  }
+  35% {
+    transform: translateY(-1200px) rotate(360deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(-1200px) rotate(360deg);
+    opacity: 0;
+  }
 }
 
 @layer base {
