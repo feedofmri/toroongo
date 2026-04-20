@@ -4,12 +4,24 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\HeroBanner;
+use Illuminate\Support\Facades\DB;
 
 class SystemController extends Controller
 {
     public function categories()
     {
-        return response()->json(Category::all());
+        // Compute live product counts per category slug
+        $productCounts = DB::table('products')
+            ->select('category', DB::raw('count(*) as count'))
+            ->groupBy('category')
+            ->pluck('count', 'category');
+
+        $categories = Category::all()->map(function ($cat) use ($productCounts) {
+            $cat->productCount = (int) ($productCounts[$cat->slug] ?? 0);
+            return $cat;
+        });
+
+        return response()->json($categories);
     }
 
     public function heroBanners()

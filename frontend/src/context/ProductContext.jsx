@@ -43,8 +43,13 @@ export function ProductProvider({ children }) {
                 joinedDate: s.joined_date || s.created_at
             }));
 
+            const mappedCategories = categoriesData.map(c => ({
+                ...c,
+                productCount: c.productCount ?? c.product_count ?? 0,
+            }));
+
             setProducts(mappedProducts);
-            setCategories(categoriesData);
+            setCategories(mappedCategories);
             setSellers(mappedSellers);
             setHeroBanners(bannersData);
             setFilteredProducts(mappedProducts);
