@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Models\User;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -71,6 +72,16 @@ class MessageController extends Controller
             'sender_id' => $request->user()->id,
             'receiver_id' => $data['receiver_id'],
             'text' => $data['text'],
+        ]);
+
+        // Create Notification for Receiver
+        Notification::create([
+            'user_id' => $data['receiver_id'],
+            'type' => 'message',
+            'title' => 'New Message',
+            'message' => "You have received a new message from " . $request->user()->name . ".",
+            'link' => $request->user()->role === 'seller' ? '/account/messages' : '/seller/messages',
+            'data' => ['message_id' => $msg->id, 'sender_id' => $request->user()->id]
         ]);
 
         return response()->json($msg, 201);

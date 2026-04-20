@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { User, MapPin, CreditCard, Bell, Plus, Pencil, Trash2 } from 'lucide-react';
+import { User, MapPin, CreditCard, Bell, Plus, Pencil, Trash2, Loader2 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { userService } from '../../services';
 
 const MOCK_ADDRESSES = [
     { id: 1, label: 'Home', name: 'John Doe', address: '123 Main Street', city: 'New York', state: 'NY', zip: '10001', phone: '+1 (555) 123-4567', isDefault: true },
@@ -16,11 +17,47 @@ const MOCK_PAYMENTS = [
 
 export default function AccountSettings() {
     const { t } = useTranslation();
-    const { user } = useAuth();
+    const { user, updateUser } = useAuth();
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const initialTab = searchParams.get('tab') || 'profile';
     const [activeTab, setActiveTab] = useState(initialTab);
+
+    // Notification State
+    const [notificationPrefs, setNotificationPrefs] = useState({
+        orderUpdates: true,
+        promotions: true,
+        sellerMessages: true,
+        wishlistAlerts: false
+    });
+    const [isSaving, setIsSaving] = useState(false);
+
+    useEffect(() => {
+        if (user?.buyer_settings?.notifications) {
+            setNotificationPrefs({
+                ...notificationPrefs,
+                ...user.buyer_settings.notifications
+            });
+        }
+    }, [user]);
+
+    const handleSaveNotifications = async () => {
+        setIsSaving(true);
+        try {
+            const currentSettings = user?.buyer_settings || {};
+            const updatedUser = await userService.updateProfile(user.id, {
+                buyer_settings: {
+                    ...currentSettings,
+                    notifications: notificationPrefs
+                }
+            });
+            updateUser(updatedUser);
+        } catch (error) {
+            console.error('Failed to save notification preferences:', error);
+        } finally {
+            setIsSaving(false);
+        }
+    };
 
     const tabs = [
         { key: 'profile', label: t('account.profile'), icon: User },
@@ -81,7 +118,7 @@ export default function AccountSettings() {
                     </div>
                     <div>
                         <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.phone')}</label>
-                        <input type="tel" defaultValue="+1 (555) 123-4567" className={inputClass} />
+                        <input type="tel" defaultValue={user?.phone || "+1 (555) 123-4567"} className={inputClass} />
                     </div>
                     <button className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
                         {t('account.saveChanges')}
@@ -178,10 +215,20 @@ export default function AccountSettings() {
                                 <p className="text-sm font-medium text-text-primary">{item.label}</p>
                                 <p className="text-xs text-text-muted mt-0.5">{item.desc}</p>
                             </div>
-                            <input type="checkbox" defaultChecked={idx < 3} className="accent-brand-primary mt-0.5 w-4 h-4" />
+                            <input 
+                                type="checkbox" 
+                                checked={notificationPrefs[item.key]} 
+                                onChange={(e) => setNotificationPrefs({...notificationPrefs, [item.key]: e.target.checked})}
+                                className="accent-brand-primary mt-0.5 w-4 h-4" 
+                            />
                         </label>
                     ))}
-                    <button className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
+                    <button 
+                        onClick={handleSaveNotifications}
+                        disabled={isSaving}
+                        className="flex items-center gap-2 px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-70"
+                    >
+                        {isSaving && <Loader2 size={16} className="animate-spin" />}
                         {t('account.savePrefs')}
                     </button>
                 </div>

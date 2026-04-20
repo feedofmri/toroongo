@@ -27,6 +27,7 @@ class UserController extends Controller
             'slug' => "nullable|string|unique:users,slug,{$user->id}",
             'phone' => 'nullable|string',
             'seller_settings' => 'nullable|array',
+            'buyer_settings' => 'nullable|array',
             'location' => 'nullable|string',
             'rating' => 'nullable|numeric|min:0|max:5',
             'total_products' => 'nullable|integer|min:0',

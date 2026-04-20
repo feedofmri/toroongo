@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -53,8 +54,47 @@ class OrderController extends Controller
                 'quantity' => $item['quantity'],
                 'price_at_purchase' => $item['price_at_purchase'],
             ]);
+            
             // Deduct stock
-            Product::where('id', $item['product_id'])->decrement('stock', $item['quantity']);
+            $product = Product::find($item['product_id']);
+            if ($product) {
+                $product->decrement('stock', $item['quantity']);
+                
+                // Low stock alert for seller
+                if ($product->stock <= 5) {
+                    Notification::create([
+                        'user_id' => $product->seller_id,
+                        'type' => 'inventory',
+                        'title' => 'Low Stock Alert',
+                        'message' => "Product \"{$product->title}\" is running low (only {$product->stock} left).",
+                        'link' => '/seller/products',
+                        'data' => ['product_id' => $product->id]
+                    ]);
+                }
+            }
+        }
+
+        // Notification for Buyer
+        Notification::create([
+            'user_id' => $user->id,
+            'type' => 'order',
+            'title' => 'Order Confirmed',
+            'message' => "Your order #{$order->id} has been placed successfully.",
+            'link' => '/account/orders',
+            'data' => ['order_id' => $order->id]
+        ]);
+
+        // Notification for Sellers
+        $sellerIds = collect($data['items'])->pluck('seller_id')->unique();
+        foreach ($sellerIds as $sellerId) {
+            Notification::create([
+                'user_id' => $sellerId,
+                'type' => 'order',
+                'title' => 'New Order Received',
+                'message' => "You have received a new order (#{$order->id}).",
+                'link' => '/seller/orders',
+                'data' => ['order_id' => $order->id]
+            ]);
         }
 
         return response()->json($order->load('items'), 201);
@@ -95,6 +135,17 @@ class OrderController extends Controller
         $data = $request->validate(['status' => 'required|in:processing,shipped,delivered,cancelled']);
         $order = Order::findOrFail($id);
         $order->update(['status' => $data['status']]);
+
+        // Notification for Buyer
+        Notification::create([
+            'user_id' => $order->buyer_id,
+            'type' => 'order',
+            'title' => 'Order Status Updated',
+            'message' => "Your order #{$order->id} status has been changed to " . ucfirst($data['status']) . ".",
+            'link' => '/account/orders',
+            'data' => ['order_id' => $order->id, 'status' => $data['status']]
+        ]);
+
         return response()->json($order);
     }
 
@@ -115,6 +166,19 @@ class OrderController extends Controller
         // Restore stock
         foreach ($order->items as $item) {
             Product::where('id', $item->product_id)->increment('stock', $item->quantity);
+        }
+
+        // Notification for Sellers
+        $sellerIds = $order->items->pluck('seller_id')->unique();
+        foreach ($sellerIds as $sellerId) {
+            Notification::create([
+                'user_id' => $sellerId,
+                'type' => 'order',
+                'title' => 'Order Cancelled',
+                'message' => "Order #{$order->id} has been cancelled by the buyer.",
+                'link' => '/seller/orders',
+                'data' => ['order_id' => $order->id, 'reason' => $data['reason']]
+            ]);
         }
 
         return response()->json($order);

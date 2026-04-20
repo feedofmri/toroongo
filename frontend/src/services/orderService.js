@@ -1,5 +1,28 @@
 import { api } from './api';
 
+const _transformOrder = (o) => {
+    if (!o) return null;
+    return {
+        ...o,
+        buyerId: o.buyer_id,
+        shippingAddress: o.shipping_address,
+        paymentMethod: o.payment_method,
+        shippingCost: o.shipping_cost,
+        subtotal: o.subtotal,
+        tax: o.tax,
+        total: o.total,
+        cancellationReason: o.cancellation_reason,
+        createdAt: o.created_at,
+        updatedAt: o.updated_at,
+        items: (o.items || []).map(i => ({
+            ...i,
+            productId: i.product_id,
+            sellerId: i.seller_id,
+            priceAtPurchase: i.price_at_purchase,
+        })),
+    };
+};
+
 export const orderService = {
     async createOrder(orderData) {
         return await api('/orders', {
@@ -18,44 +41,18 @@ export const orderService = {
     },
 
     async getOrderById(id) {
-        return await api(`/orders/${id}`);
+        const order = await api(`/orders/${id}`);
+        return _transformOrder(order);
     },
 
     async getUserOrders(userId) {
         const orders = await api('/orders/my');
-        // Transform to match frontend expected shape
-        return orders.map(o => ({
-            ...o,
-            buyerId: o.buyer_id,
-            shippingAddress: o.shipping_address,
-            paymentMethod: o.payment_method,
-            shippingCost: o.shipping_cost,
-            cancellationReason: o.cancellation_reason,
-            createdAt: o.created_at,
-            updatedAt: o.updated_at,
-            items: (o.items || []).map(i => ({
-                ...i,
-                productId: i.product_id,
-                sellerId: i.seller_id,
-                priceAtPurchase: i.price_at_purchase,
-            })),
-        }));
+        return (orders || []).map(_transformOrder);
     },
 
     async getSellerOrders(sellerId) {
         const orders = await api('/orders/seller');
-        return orders.map(o => ({
-            ...o,
-            buyerId: o.buyer_id,
-            createdAt: o.created_at,
-            updatedAt: o.updated_at,
-            items: (o.items || []).map(i => ({
-                ...i,
-                productId: i.product_id,
-                sellerId: i.seller_id,
-                priceAtPurchase: i.price_at_purchase,
-            })),
-        }));
+        return (orders || []).map(_transformOrder);
     },
 
     async updateOrderStatus(orderId, newStatus) {

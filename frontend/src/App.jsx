@@ -1,8 +1,21 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import FloatingMessage from './components/message/FloatingMessage';
 import ScrollToTop from './components/ScrollToTop';
+
+function NavigationLogger() {
+  const location = useLocation();
+  useEffect(() => {
+    if (location.pathname === '/account/messages' || location.pathname === '/seller/messages') {
+      console.warn('DEBUG: Navigation to messages detected!', location.pathname + location.search);
+      console.trace('Navigation Trace:');
+    } else {
+      console.log('DEBUG: Path changed to', location.pathname);
+    }
+  }, [location]);
+  return null;
+}
 
 // ─── Layouts ─────────────────────────────────────────────────
 import BuyerLayout from './components/layout/BuyerLayout';
@@ -121,6 +134,7 @@ function App() {
 
   return (
     <Router>
+      <NavigationLogger />
       <ScrollToTop />
       <Routes>
         {/* ── Buyer Experience ──────────────────────────────── */}

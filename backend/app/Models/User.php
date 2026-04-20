@@ -16,7 +16,7 @@ class User extends Authenticatable
         'name', 'email', 'password', 'role', 'avatar',
         'store_name', 'description', 'logo', 'banner',
         'rating', 'total_products', 'brand_color', 'slug', 'joined_date',
-        'phone', 'seller_settings', 'location',
+        'phone', 'seller_settings', 'buyer_settings', 'location',
     ];
 
     protected $hidden = ['password', 'remember_token'];
@@ -29,6 +29,7 @@ class User extends Authenticatable
             'password' => 'hashed',
             'rating' => 'float',
             'seller_settings' => 'array',
+            'buyer_settings' => 'array',
         ];
     }
 
@@ -40,4 +41,5 @@ class User extends Authenticatable
     public function cartItems() { return $this->hasMany(CartItem::class); }
     public function sentMessages() { return $this->hasMany(Message::class, 'sender_id'); }
     public function receivedMessages() { return $this->hasMany(Message::class, 'receiver_id'); }
+    public function notifications() { return $this->hasMany(Notification::class); }
 }

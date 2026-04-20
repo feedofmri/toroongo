@@ -176,7 +176,7 @@ export default function SellerDashboard() {
                                 const customerName = order.shippingAddress ? `${order.shippingAddress.firstName} ${order.shippingAddress.lastName}` : 'Guest';
                                 return (
                                     <tr key={order.id} className="hover:bg-surface-bg/50 transition-colors">
-                                        <td className="px-6 py-3.5 text-sm font-medium text-text-primary">TRG-{order.id.split('-')[0].toUpperCase()}</td>
+                                        <td className="px-6 py-3.5 text-sm font-medium text-text-primary">TRG-{String(order.id).split('-')[0].toUpperCase()}</td>
                                         <td className="px-6 py-3.5 text-sm text-text-muted">{customerName}</td>
                                         <td className="px-6 py-3.5 text-sm text-text-muted">
                                             <span className="line-clamp-1">{order.items.length > 0 ? `${order.items[0].quantity}x items` : 'N/A'}</span>

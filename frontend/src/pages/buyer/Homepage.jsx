@@ -216,7 +216,7 @@ export default function Homepage() {
                         <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 px-4 sm:px-0">
                             <Link
                                 to="/shops"
-                                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 sm:py-4 bg-white text-slate-900 font-bold
+                                className="hidden md:inline-flex items-center justify-center gap-2 px-8 py-3.5 sm:py-4 bg-white text-slate-900 font-bold
                                    rounded-full hover:bg-slate-50 transition-all duration-300 border border-slate-200
                                    shadow-sm hover:shadow-md hover:-translate-y-0.5"
                             >
@@ -224,7 +224,7 @@ export default function Homepage() {
                             </Link>
                             <Link
                                 to="/sell"
-                                className="inline-flex items-center justify-center gap-2 px-8 py-3.5 sm:py-4 bg-transparent text-slate-500 font-semibold
+                                className="hidden md:inline-flex items-center justify-center gap-2 px-8 py-3.5 sm:py-4 bg-transparent text-slate-500 font-semibold
                                    rounded-full hover:text-brand-primary transition-all duration-300"
                             >
                                 {t('home.sellCta', 'Start Selling')} <ArrowRight size={16} />

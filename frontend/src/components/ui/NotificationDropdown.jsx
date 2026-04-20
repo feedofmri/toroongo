@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Bell, Check, CheckCircle2, ChevronRight, AlertCircle, ShoppingBag, Store, Tag } from 'lucide-react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Bell, Check, CheckCircle2, AlertCircle, ShoppingBag, Tag, MessageSquare, X, Loader2 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useNotifications } from '../../contexts/NotificationContext';
 
@@ -11,11 +11,13 @@ const getIconForType = (type) => {
         case 'system': return <Bell size={18} className="text-gray-500" />;
         case 'inventory': return <AlertCircle size={18} className="text-amber-500" />;
         case 'security': return <AlertCircle size={18} className="text-red-500" />;
+        case 'message': return <MessageSquare size={18} className="text-purple-500" />;
         default: return <Bell size={18} className="text-text-muted" />;
     }
 };
 
 const formatTimeAgo = (timestamp) => {
+    if (!timestamp) return '';
     const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto' });
     const elapsed = Date.now() - new Date(timestamp).getTime();
 
@@ -37,9 +39,13 @@ const formatTimeAgo = (timestamp) => {
 };
 
 export default function NotificationDropdown({ onClose }) {
-    const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotifications();
+    const { notifications, unreadCount, markAsRead, markAllAsRead, deleteNotification, isLoading, refreshNotifications } = useNotifications();
     const { user } = useAuth();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        refreshNotifications(1);
+    }, [refreshNotifications]);
 
     const handleNotificationClick = (notification) => {
         if (!notification.read) {
@@ -49,6 +55,11 @@ export default function NotificationDropdown({ onClose }) {
             navigate(notification.link);
             if (onClose) onClose();
         }
+    };
+
+    const handleDelete = (e, id) => {
+        e.stopPropagation();
+        deleteNotification(id);
     };
 
     return (
@@ -62,6 +73,7 @@ export default function NotificationDropdown({ onClose }) {
                             {unreadCount} New
                         </span>
                     )}
+                    {isLoading && <Loader2 size={12} className="animate-spin text-brand-primary" />}
                 </div>
                 {unreadCount > 0 && (
                     <button
@@ -77,7 +89,7 @@ export default function NotificationDropdown({ onClose }) {
             </div>
 
             {/* List */}
-            <div className="max-h-[70vh] overflow-y-auto overscroll-contain">
+            <div className="max-h-[70vh] overflow-y-auto overscroll-contain scrollbar-hide">
                 {notifications.length === 0 ? (
                     <div className="p-8 text-center flex flex-col items-center">
                         <div className="w-12 h-12 bg-surface-bg rounded-full flex items-center justify-center mb-3">
@@ -92,7 +104,7 @@ export default function NotificationDropdown({ onClose }) {
                             <div
                                 key={notification.id}
                                 onClick={() => handleNotificationClick(notification)}
-                                className={`p-4 hover:bg-surface-bg transition-colors cursor-pointer relative ${!notification.read ? 'bg-brand-primary/[0.02]' : ''}`}
+                                className={`group p-4 hover:bg-surface-bg transition-colors cursor-pointer relative ${!notification.read ? 'bg-brand-primary/[0.02]' : ''}`}
                             >
                                 {/* Unread Indicator */}
                                 {!notification.read && (
@@ -108,9 +120,17 @@ export default function NotificationDropdown({ onClose }) {
                                             <p className={`text-sm ${!notification.read ? 'font-bold text-text-primary' : 'font-medium text-text-primary'}`}>
                                                 {notification.title}
                                             </p>
-                                            <span className="text-[10px] text-text-muted whitespace-nowrap flex-shrink-0 mt-0.5">
-                                                {formatTimeAgo(notification.timestamp)}
-                                            </span>
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-[10px] text-text-muted whitespace-nowrap flex-shrink-0 mt-0.5">
+                                                    {formatTimeAgo(notification.created_at || notification.timestamp)}
+                                                </span>
+                                                <button 
+                                                    onClick={(e) => handleDelete(e, notification.id)}
+                                                    className="opacity-0 group-hover:opacity-100 p-1 hover:bg-red-50 hover:text-red-500 rounded transition-all"
+                                                >
+                                                    <X size={12} />
+                                                </button>
+                                            </div>
                                         </div>
                                         <p className="text-xs text-text-muted line-clamp-2 leading-relaxed">
                                             {notification.message}
@@ -134,7 +154,7 @@ export default function NotificationDropdown({ onClose }) {
                             if (user?.role === 'seller') {
                                 navigate('/seller/settings?tab=notifications');
                             } else if (user?.role === 'admin') {
-                                navigate('/admin'); // Admin doesn't have a specific settings page yet
+                                navigate('/admin'); 
                             } else {
                                 navigate('/account/settings?tab=notifications');
                             }

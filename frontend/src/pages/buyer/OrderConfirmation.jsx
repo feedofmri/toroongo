@@ -28,7 +28,7 @@ export default function OrderConfirmation() {
             .catch(console.error);
     }, [user]);
 
-    const orderNumber = latestOrder ? 'TRG-' + latestOrder.id.split('-')[0].toUpperCase() : 'TRG-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+    const orderNumber = latestOrder ? 'TRG-' + String(latestOrder.id).split('-')[0].toUpperCase() : 'TRG-' + Math.random().toString(36).substring(2, 8).toUpperCase();
     const createdAt = latestOrder ? new Date(latestOrder.createdAt) : new Date();
     const estimatedDelivery = new Date(createdAt.getTime() + 7 * 24 * 60 * 60 * 1000)
         .toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });

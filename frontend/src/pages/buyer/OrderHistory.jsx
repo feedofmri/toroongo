@@ -15,6 +15,9 @@ const STATUS_CONFIG = {
     cancelled: { icon: XCircle, color: 'text-red-600 bg-red-50' },
 };
 
+import OrderDetailModal from '../../components/ui/OrderDetailModal';
+import ReviewModal from '../../components/ui/ReviewModal';
+
 export default function OrderHistory() {
     const { t } = useTranslation();
     const { user } = useAuth();
@@ -25,6 +28,9 @@ export default function OrderHistory() {
     const [cancellingOrder, setCancellingOrder] = useState(null);
     const [cancelReason, setCancelReason] = useState('');
     const [isCancelling, setIsCancelling] = useState(false);
+    const [selectedOrderId, setSelectedOrderId] = useState(null);
+    const [reviewingProduct, setReviewingProduct] = useState(null);
+    const [activeOrderId, setActiveOrderId] = useState(null);
 
     const fetchOrders = () => {
         if (user) {
@@ -100,7 +106,7 @@ export default function OrderHistory() {
                             {/* Order header */}
                             <div className="px-5 py-3 bg-surface-bg border-b border-border-soft flex flex-wrap items-center justify-between gap-3">
                                 <div className="flex items-center gap-4 text-sm">
-                                    <span className="font-semibold text-text-primary">{t('orders.orderNo', { id: order.id.split('-')[0].toUpperCase() })}</span>
+                                    <span className="font-semibold text-text-primary">{t('orders.orderNo', { id: String(order.id).split('-')[0].toUpperCase() })}</span>
                                     <span className="text-text-muted">
                                         {new Date(order.createdAt).toLocaleDateString(t('common.dateLocale') || 'en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                                     </span>
@@ -127,6 +133,17 @@ export default function OrderHistory() {
                                                 <p className="text-xs text-text-muted mt-0.5">{t('orders.soldBy', { seller: pInfo.sellerId })} · {t('orders.qty')}: {item.quantity}</p>
                                                 <p className="text-sm font-semibold text-text-primary mt-1">{formatPrice((item.priceAtPurchase))}</p>
                                             </div>
+                                            {order.status === 'delivered' && (
+                                                <button
+                                                    onClick={() => {
+                                                        setReviewingProduct(pInfo);
+                                                        setActiveOrderId(order.id);
+                                                    }}
+                                                    className="flex-shrink-0 self-center px-3 py-1.5 text-xs font-semibold text-brand-primary bg-brand-primary/10 rounded-lg hover:bg-brand-primary/20 transition-colors"
+                                                >
+                                                    {t('orders.rateProduct', 'Rate Product')}
+                                                </button>
+                                            )}
                                         </div>
                                     )
                                 })}
@@ -151,7 +168,10 @@ export default function OrderHistory() {
                                             <Truck size={13} /> {t('orders.track')}
                                         </button>
                                     )}
-                                    <button className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-text-muted border border-border-soft rounded-lg hover:bg-surface-bg transition-colors">
+                                    <button 
+                                        onClick={() => setSelectedOrderId(order.id)}
+                                        className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-text-muted border border-border-soft rounded-lg hover:bg-surface-bg transition-colors"
+                                    >
                                         <Eye size={13} /> {t('orders.details')}
                                     </button>
                                 </div>
@@ -205,6 +225,26 @@ export default function OrderHistory() {
                     </div>
                 </div>
             )}
+            {/* Details Modal */}
+            <OrderDetailModal 
+                orderId={selectedOrderId} 
+                onClose={() => setSelectedOrderId(null)} 
+            />
+
+            {/* Review Modal */}
+            <ReviewModal 
+                isOpen={!!reviewingProduct}
+                onClose={() => {
+                    setReviewingProduct(null);
+                    setActiveOrderId(null);
+                }}
+                product={reviewingProduct}
+                orderId={activeOrderId}
+                onReviewSubmitted={() => {
+                    // Maybe show a success toast or update UI
+                    fetchOrders();
+                }}
+            />
         </div>
     );
 }

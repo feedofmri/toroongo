@@ -146,13 +146,6 @@ function MediaGallery({ product }) {
         </div>
     );
 }
-
-const MOCK_REVIEWS = [
-    { id: 1, name: 'Sarah M.', rating: 5, date: '2 weeks ago', text: 'Absolutely love this product! Quality is amazing and it arrived faster than expected. Definitely worth the price.' },
-    { id: 2, name: 'James K.', rating: 4, date: '1 month ago', text: 'Great quality overall. Minor issue with packaging but the product itself is perfect. Would buy again.' },
-    { id: 3, name: 'Emily R.', rating: 5, date: '3 weeks ago', text: 'This exceeded my expectations. The build quality is top notch and it looks even better in person.' },
-];
-
 export default function ProductDetail() {
     const { t } = useTranslation();
     const { slug } = useParams();
@@ -174,6 +167,18 @@ export default function ProductDetail() {
     const [messageText, setMessageText] = useState('');
     const [sendingMessage, setSendingMessage] = useState(false);
     const [messageSent, setMessageSent] = useState(false);
+    const [reviews, setReviews] = useState([]);
+    const [loadingReviews, setLoadingReviews] = useState(false);
+
+    useEffect(() => {
+        if (product) {
+            setLoadingReviews(true);
+            reviewService.getProductReviews(product.id)
+                .then(data => setReviews(data))
+                .catch(console.error)
+                .finally(() => setLoadingReviews(false));
+        }
+    }, [product]);
 
     if (!product) {
         return (
@@ -205,11 +210,7 @@ export default function ProductDetail() {
         try {
             await messageService.sendMessage(user.id, product.sellerId, `Re: ${product.title}\n\n${messageText}`);
             setMessageSent(true);
-            setTimeout(() => {
-                setShowMessageModal(false);
-                setMessageSent(false);
-                setMessageText('');
-            }, 2000);
+            // We don't automatically redirect, but we'll show the button in the modal
         } catch (error) {
             console.error(error);
         } finally {
@@ -247,7 +248,7 @@ export default function ProductDetail() {
                             to={`/${resolveSellerSlug(product.sellerId)}`}
                             className="text-sm text-brand-primary font-medium hover:text-brand-secondary transition-colors mb-2"
                         >
-                            {product.seller}
+                            {product.seller || product.seller_name}
                         </Link>
 
                         {/* Title */}
@@ -446,7 +447,7 @@ export default function ProductDetail() {
                                     <>
                                         <p>
                                             Experience the perfect combination of innovation and craftsmanship with the {product.title}.
-                                            Meticulously designed by {product.seller}, this product sets a new standard in its category.
+                                            Meticulously designed by {product.seller_name || product.seller}, this product sets a new standard in its category.
                                         </p>
                                         <p>
                                             Key features include premium build quality, advanced technology integration, and ergonomic design.
@@ -489,23 +490,43 @@ export default function ProductDetail() {
                         </div>
                     ) : (
                         <div className="max-w-3xl space-y-6">
-                            {MOCK_REVIEWS.map((review) => (
-                                <div key={review.id} className="p-5 bg-surface-bg rounded-xl">
-                                    <div className="flex items-center justify-between mb-2">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-9 h-9 bg-brand-primary/10 rounded-full flex items-center justify-center">
-                                                <span className="text-sm font-semibold text-brand-primary">{review.name.charAt(0)}</span>
-                                            </div>
-                                            <div>
-                                                <p className="text-sm font-medium text-text-primary">{review.name}</p>
-                                                <p className="text-xs text-text-muted">{review.date}</p>
-                                            </div>
-                                        </div>
-                                        <StarRating rating={review.rating} size={12} />
-                                    </div>
-                                    <p className="text-sm text-text-muted leading-relaxed">{review.text}</p>
+                            {loadingReviews ? (
+                                <div className="flex justify-center py-10">
+                                    <Loader2 className="animate-spin text-brand-primary" size={32} />
                                 </div>
-                            ))}
+                            ) : reviews.length > 0 ? (
+                                reviews.map((review) => (
+                                    <div key={review.id} className="p-5 bg-surface-bg rounded-xl border border-border-soft">
+                                        <div className="flex items-center justify-between mb-3">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-10 h-10 bg-brand-primary/10 rounded-full flex items-center justify-center overflow-hidden border border-brand-primary/20">
+                                                    {review.user?.avatar ? (
+                                                        <img src={review.user.avatar} alt="" className="w-full h-full object-cover" />
+                                                    ) : (
+                                                        <span className="text-sm font-semibold text-brand-primary">{review.user?.name?.charAt(0) || 'U'}</span>
+                                                    )}
+                                                </div>
+                                                <div>
+                                                    <p className="text-sm font-bold text-text-primary">{review.user?.name || 'Anonymous User'}</p>
+                                                    <p className="text-[10px] text-text-muted">
+                                                        {new Date(review.created_at).toLocaleDateString(t('common.dateLocale') || 'en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <StarRating rating={review.rating} size={12} />
+                                        </div>
+                                        <p className="text-sm text-text-primary leading-relaxed bg-white/50 p-4 rounded-lg border border-border-soft/50 italic">
+                                            "{review.comment}"
+                                        </p>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="text-center py-12 bg-surface-bg rounded-2xl border border-dashed border-border-soft">
+                                    <MessageSquare size={40} className="mx-auto text-text-muted/30 mb-3" />
+                                    <p className="text-text-primary font-medium">{t('product.noReviewsYet', 'No reviews yet')}</p>
+                                    <p className="text-sm text-text-muted mt-1">{t('product.noReviewsDesc', 'Be the first to share your experience after purchasing.')}</p>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
@@ -538,7 +559,25 @@ export default function ProductDetail() {
                                         <ShieldCheck size={24} />
                                     </div>
                                     <h4 className="font-bold text-text-primary mb-2">{t('product.messageSent')}</h4>
-                                    <p className="text-sm text-text-muted">{t('product.messageSentDesc')}</p>
+                                    <p className="text-sm text-text-muted mb-6">{t('product.messageSentDesc')}</p>
+                                    <div className="flex flex-col gap-2">
+                                        <button 
+                                            onClick={() => navigate(`/account/messages?userId=${product.sellerId}`)}
+                                            className="w-full py-3 bg-brand-primary text-white text-sm font-bold rounded-xl hover:bg-brand-secondary transition-colors"
+                                        >
+                                            Go to Inbox
+                                        </button>
+                                        <button 
+                                            onClick={() => {
+                                                setShowMessageModal(false);
+                                                setMessageSent(false);
+                                                setMessageText('');
+                                            }}
+                                            className="w-full py-3 text-sm font-bold text-text-muted hover:text-text-primary transition-colors"
+                                        >
+                                            Continue Shopping
+                                        </button>
+                                    </div>
                                 </div>
                             ) : (
                                 <>

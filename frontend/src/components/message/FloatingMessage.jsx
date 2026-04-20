@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { MessageSquare, X, Send, ChevronLeft, Search } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { messageService } from '../../services';
@@ -49,8 +50,13 @@ export default function FloatingMessage() {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
 
-    // Don't render if not logged in
-    if (!user) return null;
+    const location = useLocation();
+
+    // Don't render if not logged in OR if on dashboard/account pages
+    const hideOnPaths = ['/account', '/seller'];
+    const shouldHide = hideOnPaths.some(path => location.pathname.startsWith(path));
+
+    if (!user || shouldHide) return null;
 
     const handleSelectConversation = async (convo) => {
         setActiveConvo(convo);
@@ -103,7 +109,7 @@ export default function FloatingMessage() {
         <>
             {/* Floating Action Button */}
             <button
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={(e) => { e.stopPropagation(); setIsOpen(!isOpen); }}
                 data-debug="hook-fix-v1"
                 className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-brand-primary text-white rounded-full shadow-2xl
                            hover:bg-brand-secondary transition-all duration-300 flex items-center justify-center

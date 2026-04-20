@@ -111,11 +111,7 @@ export default function SellerLayout() {
         try {
             await messageService.sendMessage(user.id, seller.id, messageText);
             setMessageSent(true);
-            setTimeout(() => {
-                setShowMessageModal(false);
-                setMessageSent(false);
-                setMessageText('');
-            }, 2000);
+            // Modal stays open with the success message and new buttons
         } catch (error) {
             console.error(error);
         } finally {
@@ -480,7 +476,26 @@ export default function SellerLayout() {
                                         <ShieldCheck size={24} />
                                     </div>
                                     <h4 className="font-bold text-text-primary mb-2">Message Sent!</h4>
-                                    <p className="text-sm text-text-muted">The store will respond to you shortly via the Message Center.</p>
+                                    <p className="text-sm text-text-muted mb-6">The store will respond to you shortly via the Message Center.</p>
+                                    <div className="flex flex-col gap-2">
+                                        <button 
+                                            onClick={() => navigate(`/account/messages?userId=${seller.id}`)}
+                                            className="w-full py-3 bg-brand-primary text-white text-sm font-bold rounded-xl hover:bg-brand-secondary transition-colors"
+                                            style={{ backgroundColor: 'var(--seller-brand)' }}
+                                        >
+                                            Go to Inbox
+                                        </button>
+                                        <button 
+                                            onClick={() => {
+                                                setShowMessageModal(false);
+                                                setMessageSent(false);
+                                                setMessageText('');
+                                            }}
+                                            className="w-full py-3 text-sm font-bold text-text-muted hover:text-text-primary transition-colors"
+                                        >
+                                            Stay at Shop
+                                        </button>
+                                    </div>
                                 </div>
                             ) : (
                                 <>

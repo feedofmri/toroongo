@@ -12,6 +12,8 @@ use App\Http\Controllers\Api\CartController;
 use App\Http\Controllers\Api\WishlistController;
 use App\Http\Controllers\Api\SystemController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\ReviewController;
 
 // ── Public Routes ───────────────────────────────────
 Route::post('/auth/register', [AuthController::class, 'register']);
@@ -22,6 +24,7 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::get('/products/{id}', [ProductController::class, 'show']);
 Route::get('/products/seller/{sellerId}', [ProductController::class, 'bySeller']);
 Route::get('/products/category/{slug}', [ProductController::class, 'byCategory']);
+Route::get('/products/{id}/reviews', [ReviewController::class, 'index']);
 
 // Public blog endpoints
 Route::get('/blogs', [BlogController::class, 'index']);
@@ -64,6 +67,12 @@ Route::middleware('auth:sanctum')->group(function () {
         // Wishlist
         Route::get('/wishlist', [WishlistController::class, 'index']);
         Route::post('/wishlist', [WishlistController::class, 'toggle']);
+
+        // Reviews (buyer actions)
+        Route::post('/reviews', [ReviewController::class, 'store']);
+        Route::get('/reviews/my', [ReviewController::class, 'myReviews']);
+        Route::put('/reviews/{review}', [ReviewController::class, 'update']);
+        Route::delete('/reviews/{review}', [ReviewController::class, 'destroy']);
     });
 
     // ── Seller Specific Routes ────────────────────
@@ -81,6 +90,9 @@ Route::middleware('auth:sanctum')->group(function () {
         // Orders (seller management)
         Route::get('/orders/seller', [OrderController::class, 'sellerOrders']);
         Route::put('/orders/{id}/status', [OrderController::class, 'updateStatus']);
+
+        // Reviews (seller feedback)
+        Route::get('/reviews/seller', [ReviewController::class, 'sellerReviews']);
     });
 
     // ── General Authenticated Routes ──────────────
@@ -111,6 +123,13 @@ Route::middleware('auth:sanctum')->group(function () {
     // Settings
     Route::get('/admin/settings', [AdminController::class, 'getSettings']);
     Route::post('/admin/settings', [AdminController::class, 'updateSettings']);
+
+    // Notifications
+    Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::get('/notifications/unread-count', [NotificationController::class, 'unreadCount']);
+    Route::put('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+    Route::put('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
+    Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);
 });
 
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Search, ChevronDown, Eye, Truck, CheckCircle, Clock, Package } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
@@ -6,6 +6,7 @@ import { orderService } from '../../services';
 import { formatPrice } from '../../utils/currency';
 import { useProduct } from '../../context/ProductContext';
 import Skeleton from '../../components/ui/Skeleton';
+import OrderDetailModal from '../../components/ui/OrderDetailModal';
 
 const STATUS_CONFIG = {
     processing: { labelKey: 'processing', icon: Clock, style: 'text-amber-600 bg-amber-50' },
@@ -21,6 +22,7 @@ export default function OrderManagement() {
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState('all');
     const [search, setSearch] = useState('');
+    const [selectedOrderId, setSelectedOrderId] = useState(null);
 
     React.useEffect(() => {
         if (user) {
@@ -35,7 +37,7 @@ export default function OrderManagement() {
 
     const filtered = orders.filter((o) => {
         const matchesFilter = filter === 'all' || o.status === filter;
-        const matchesSearch = o.id.toLowerCase().includes(search.toLowerCase()) ||
+        const matchesSearch = String(o.id).toLowerCase().includes(search.toLowerCase()) ||
             (o.shippingAddress?.firstName || '').toLowerCase().includes(search.toLowerCase());
         return matchesFilter && matchesSearch;
     });
@@ -121,7 +123,7 @@ export default function OrderManagement() {
 
                                 return (
                                     <tr key={order.id} className="hover:bg-surface-bg/50 transition-colors">
-                                        <td className="px-5 py-3.5 text-sm font-semibold text-text-primary">TRG-{order.id.split('-')[0].toUpperCase()}</td>
+                                        <td className="px-5 py-3.5 text-sm font-semibold text-text-primary">TRG-{String(order.id).split('-')[0].toUpperCase()}</td>
                                         <td className="px-5 py-3.5 text-sm text-text-muted">
                                             {new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                                         </td>
@@ -140,7 +142,10 @@ export default function OrderManagement() {
                                             </span>
                                         </td>
                                         <td className="px-5 py-3.5 text-right">
-                                            <button className="text-xs font-medium text-brand-primary hover:text-brand-secondary transition-colors">
+                                            <button 
+                                                onClick={() => setSelectedOrderId(order.id)}
+                                                className="text-xs font-medium text-brand-primary hover:text-brand-secondary transition-colors"
+                                            >
                                                 {t('sellerOrders.table.view')}
                                             </button>
                                         </td>
@@ -158,6 +163,12 @@ export default function OrderManagement() {
                     </div>
                 )}
             </div>
+
+            {/* Details Modal */}
+            <OrderDetailModal 
+                orderId={selectedOrderId} 
+                onClose={() => setSelectedOrderId(null)} 
+            />
         </div>
     );
 }
