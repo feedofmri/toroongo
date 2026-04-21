@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
-import { useNotifications } from '../../contexts/NotificationContext';
+import { useNotifications } from '../../context/NotificationContext.jsx';
 import { useProduct } from '../../context/ProductContext';
 import NotificationDropdown from '../ui/NotificationDropdown';
 import LanguageSwitcher from './LanguageSwitcher';

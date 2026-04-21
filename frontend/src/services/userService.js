@@ -1,4 +1,4 @@
-import { api } from './api';
+import { api, USER_STORAGE_KEY } from './api';
 
 export const userService = {
     async getUserProfile(userId) {
@@ -11,7 +11,7 @@ export const userService = {
             body: JSON.stringify(updateData),
         });
         // Update localStorage copy
-        localStorage.setItem('toroongo_user', JSON.stringify(user));
+        localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
         return user;
     },
 

@@ -5,7 +5,52 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5ed57508-28a7-4665-a420-ceaf18205174" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/cleanup.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/deploy.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/.env.example" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/context/AuthProvider.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/context/NotificationProvider.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend_crm/.env.example" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend_crm/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend_crm/src/config/env.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend_crm/src/context/AuthProvider.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend_crm/src/contexts/NotificationProvider.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.env.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/config/cors.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/config/cors.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/config/sanctum.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/config/sanctum.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/create_db.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/storage/framework/cache/data/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/storage/framework/sessions/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/storage/framework/views/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/add_imports.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/replace.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/replace.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/scripts/audit_all_platform.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/scripts/audit_all_results.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/scripts/audit_platform.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/scripts/audit_results.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/scripts/audit_total_platform.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/scripts/audit_total_results.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/scripts/generate_mock_data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/scripts/output.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/scripts/update_mock_data.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/layout/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/layout/Navbar.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/ui/NotificationDropdown.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/ui/NotificationDropdown.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/context/AuthContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/context/AuthContext.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/contexts/NotificationContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/context/NotificationContext.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/main.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/main.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/authService.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/authService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/userService.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/userService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend_crm/src/context/AuthContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/src/context/AuthContext.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend_crm/src/contexts/NotificationContext.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/src/contexts/NotificationContext.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend_crm/src/main.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/src/main.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend_crm/src/services/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/src/services/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend_crm/src/services/authService.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/src/services/authService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend_crm/src/services/userService.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend_crm/src/services/userService.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,9 +64,9 @@
   </component>
   <component name="CopilotUserSelectedModel">
     <selectedModels>
-      <entry key="chat-panel" value="Gemini 3.1 Pro" />
-      <entry key="agent-panel" value="Gemini 3.1 Pro" />
       <entry key="edit-panel" value="GPT-5 mini" />
+      <entry key="chat-panel" value="GPT-5.3-Codex" />
+      <entry key="agent-panel" value="GPT-5.3-Codex" />
     </selectedModels>
   </component>
   <component name="Git.Settings">
@@ -51,25 +96,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "F:/Areas/Development/Projects/React/toroongo/frontend/src/assets/Boraq",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\Areas\Development\Projects\React\toroongo\frontend\src\assets\Boraq" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\Areas\Development\Projects\React\toroongo\frontend\src\context" />
       <recent name="F:\Areas\Development\Projects\React\toroongo\frontend\src\pages\seller" />
     </key>
   </component>
@@ -92,6 +142,7 @@
       <workItem from="1772796742207" duration="6041000" />
       <workItem from="1775414876868" duration="3126000" />
       <workItem from="1775643595970" duration="17000" />
+      <workItem from="1776727695541" duration="2144000" />
     </task>
     <servers />
   </component>

@@ -1,4 +1,4 @@
-import { api, setToken, clearToken } from './api';
+import { api, setToken, clearToken, TOKEN_STORAGE_KEY, USER_STORAGE_KEY } from './api';
 
 export const authService = {
     async login(email, password) {
@@ -7,7 +7,7 @@ export const authService = {
             body: JSON.stringify({ email, password }),
         });
         setToken(data.token);
-        localStorage.setItem('toroongo_user', JSON.stringify(data.user));
+        localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(data.user));
         return data.user;
     },
 
@@ -17,18 +17,18 @@ export const authService = {
             body: JSON.stringify({ name, email, password, role }),
         });
         setToken(data.token);
-        localStorage.setItem('toroongo_user', JSON.stringify(data.user));
+        localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(data.user));
         return data.user;
     },
 
     async logout() {
         try {
             await api('/auth/logout', { method: 'POST' });
-        } catch (e) {
+        } catch {
             // Ignore errors on logout
         }
         clearToken();
-        localStorage.removeItem('toroongo_user');
+        localStorage.removeItem(USER_STORAGE_KEY);
     },
 
     async me() {
@@ -37,13 +37,13 @@ export const authService = {
 
     getCurrentUser() {
         try {
-            return JSON.parse(localStorage.getItem('toroongo_user'));
+            return JSON.parse(localStorage.getItem(USER_STORAGE_KEY));
         } catch {
             return null;
         }
     },
 
     isAuthenticated() {
-        return !!localStorage.getItem('toroongo_token');
+        return !!localStorage.getItem(TOKEN_STORAGE_KEY);
     }
 };

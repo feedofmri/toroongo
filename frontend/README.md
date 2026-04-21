@@ -1,16 +1,24 @@
-# React + Vite
+# Toroongo Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + Vite storefront client.
 
-Currently, two official plugins are available:
+## Environment setup
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+1. Copy `.env.example` to `.env`.
+2. Update backend URL values for your environment.
 
-## React Compiler
+### Variables
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- `VITE_API_BASE_URL`: Backend origin, without trailing slash.
+- `VITE_API_PREFIX`: API prefix used by the client (default `/api`).
+- `VITE_STORAGE_PREFIX`: Prefix for localStorage fallback auth keys.
+- `VITE_AUTH_TOKEN_STORAGE_KEY`: Token storage key override.
+- `VITE_AUTH_USER_STORAGE_KEY`: User storage key override.
+- `VITE_USE_CREDENTIALS`: Set `true` only for cookie-based auth.
 
-## Expanding the ESLint configuration
+## Scripts
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `npm run dev`: Start dev server.
+- `npm run build`: Build production bundle.
+- `npm run preview`: Preview production bundle.
+- `npm run lint`: Run ESLint.

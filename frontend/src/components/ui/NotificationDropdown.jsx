@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Bell, Check, CheckCircle2, AlertCircle, ShoppingBag, Tag, MessageSquare, X, Loader2 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { useNotifications } from '../../contexts/NotificationContext';
+import { useNotifications } from '../../context/NotificationContext.jsx';
 
 const getIconForType = (type) => {
     switch (type) {

@@ -4,8 +4,8 @@ import './index.css'
 import App from './App.jsx'
 import './i18n'; // Import i18n config
 
-import { AuthProvider } from './context/AuthContext'
-import { NotificationProvider } from './contexts/NotificationContext'
+import { AuthProvider } from './context/AuthProvider'
+import { NotificationProvider } from './contexts/NotificationProvider'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

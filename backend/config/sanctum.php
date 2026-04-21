@@ -2,8 +2,18 @@
 
 use Laravel\Sanctum\Sanctum;
 
-return [
+$statefulDomains = array_map(
+    'trim',
+    explode(',', env('SANCTUM_STATEFUL_DOMAINS', sprintf(
+        '%s%s',
+        'localhost,localhost:5173,localhost:5174,127.0.0.1,127.0.0.1:5173,127.0.0.1:5174,127.0.0.1:8000,::1,',
+        Sanctum::currentApplicationUrlWithPort(),
+    )))
+);
 
+$statefulDomains = array_values(array_filter($statefulDomains, static fn (string $domain) => $domain !== ''));
+
+return [
     /*
     |--------------------------------------------------------------------------
     | Stateful Domains
@@ -15,12 +25,7 @@ return [
     |
     */
 
-    'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', sprintf(
-        '%s%s',
-        'localhost,localhost:3000,127.0.0.1,127.0.0.1:8000,::1',
-        Sanctum::currentApplicationUrlWithPort(),
-        // Sanctum::currentRequestHost(),
-    ))),
+    'stateful' => $statefulDomains,
 
     /*
     |--------------------------------------------------------------------------
@@ -80,5 +85,4 @@ return [
         'encrypt_cookies' => Illuminate\Cookie\Middleware\EncryptCookies::class,
         'validate_csrf_token' => Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class,
     ],
-
 ];
