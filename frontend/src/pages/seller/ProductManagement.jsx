@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Search, Pencil, Trash2, Eye, Package, ChevronDown, Loader } from 'lucide-react';
+import { Plus, Search, Pencil, Trash2, Eye, Package, ChevronDown, Loader, Lock } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useSubscription } from '../../context/SubscriptionContext';
 import { productService } from '../../services';
 import Skeleton from '../../components/ui/Skeleton';
 import { formatPrice } from '../../utils/currency';
 import ProductFormModal from './ProductFormModal';
+import UpgradePrompt from '../../components/subscription/UpgradePrompt';
 
 const STATUS_STYLES = {
     active: 'text-green-600 bg-green-50',
@@ -34,6 +36,9 @@ export default function ProductManagement() {
     const [editProduct, setEditProduct] = useState(null);
     const [deletingId, setDeletingId] = useState(null);
     const [deleteConfirm, setDeleteConfirm] = useState(null);
+
+    const { currentPlan, getPlanLimits, refreshSubscription } = useSubscription();
+    const { productLimit: planLimit, productCount: planProductCount, canAddProduct } = getPlanLimits();
 
     const fetchProducts = () => {
         if (user) {
@@ -107,14 +112,44 @@ export default function ProductManagement() {
     return (
         <div className="animate-fade-in">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-                <h2 className="text-2xl font-bold text-text-primary">{t('sellerProducts.title')}</h2>
+                <div>
+                    <h2 className="text-2xl font-bold text-text-primary">{t('sellerProducts.title')}</h2>
+                    {planLimit && (
+                        <p className="text-sm text-text-muted mt-1">
+                            {products.length} / {planLimit} products used
+                        </p>
+                    )}
+                </div>
                 <button 
-                    onClick={() => { setEditProduct(null); setIsModalOpen(true); }}
-                    className="flex items-center gap-2 px-4 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors"
+                    onClick={() => { 
+                        if (!canAddProduct) return;
+                        setEditProduct(null); 
+                        setIsModalOpen(true); 
+                    }}
+                    disabled={!canAddProduct}
+                    className={`flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-colors ${
+                        canAddProduct 
+                            ? 'bg-brand-primary text-white hover:bg-brand-secondary'
+                            : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    }`}
+                    title={!canAddProduct ? 'Product limit reached. Upgrade your plan.' : ''}
                 >
-                    <Plus size={16} /> {t('sellerProducts.addProduct')}
+                    {canAddProduct ? <Plus size={16} /> : <Lock size={16} />}
+                    {t('sellerProducts.addProduct')}
                 </button>
             </div>
+
+            {/* Product Limit Warning */}
+            {planLimit && !canAddProduct && (
+                <div className="mb-6">
+                    <UpgradePrompt
+                        currentPlan={currentPlan}
+                        feature="Unlimited Products"
+                        message={`You've reached your ${planLimit}-product limit. Upgrade to unlock unlimited product listings.`}
+                        variant="banner"
+                    />
+                </div>
+            )}
 
             {/* Filters */}
             <div className="flex flex-col sm:flex-row gap-3 mb-6">

@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { DollarSign, TrendingUp, Package, ShoppingBag, ArrowUp, ArrowDown, Eye } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { DollarSign, TrendingUp, Package, ShoppingBag, ArrowUp, ArrowDown, Eye, Crown, Sparkles, ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
+import { useSubscription } from '../../context/SubscriptionContext';
 import { orderService, productService } from '../../services';
 import { formatPrice } from '../../utils/currency';
+import { PLANS, getNextPlan } from '../../data/planConfig';
+import PlanBadge from '../../components/subscription/PlanBadge';
+import PlanFeaturesWidget from '../../components/subscription/PlanFeaturesWidget';
 
 const STATUS_STYLES = {
     processing: 'text-amber-600 bg-amber-50',
@@ -28,6 +33,57 @@ function MiniBarChart() {
                     </span>
                 </div>
             ))}
+        </div>
+    );
+}
+
+function PlanSummaryCard() {
+    const { currentPlan, planDetails, nextPlan, productCount, productLimit } = useSubscription();
+    const nextPlanData = nextPlan ? PLANS[nextPlan] : null;
+
+    return (
+        <div className="mb-6">
+            <div className="bg-white rounded-2xl border border-border-soft p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                    <div
+                        className="w-12 h-12 rounded-xl flex items-center justify-center"
+                        style={{ backgroundColor: `${planDetails.color}15` }}
+                    >
+                        <Crown size={20} style={{ color: planDetails.color }} />
+                    </div>
+                    <div>
+                        <div className="flex items-center gap-2">
+                            <span className="text-sm font-semibold text-text-primary">
+                                {planDetails.name} Plan
+                            </span>
+                            <PlanBadge plan={currentPlan} size="sm" showIcon={false} />
+                        </div>
+                        <p className="text-xs text-text-muted mt-0.5">
+                            {productLimit
+                                ? `${productCount}/${productLimit} products used`
+                                : `${productCount} products (Unlimited)`}
+                        </p>
+                    </div>
+                </div>
+                <div className="flex items-center gap-3">
+                    {nextPlanData && (
+                        <Link
+                            to="/seller/subscription"
+                            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-brand-primary to-brand-secondary text-white text-sm font-semibold rounded-xl hover:shadow-lg hover:shadow-brand-primary/20 transition-all"
+                        >
+                            <Sparkles size={14} />
+                            Upgrade to {nextPlanData.name}
+                            <ArrowRight size={14} />
+                        </Link>
+                    )}
+                    <Link
+                        to="/seller/subscription"
+                        className="px-4 py-2 border border-border-soft text-text-muted text-sm font-medium rounded-xl hover:border-brand-primary hover:text-brand-primary transition-colors"
+                    >
+                        Manage Plan
+                    </Link>
+                </div>
+            </div>
         </div>
     );
 }
@@ -99,6 +155,14 @@ export default function SellerDashboard() {
     return (
         <div className="animate-fade-in">
             <h2 className="text-2xl font-bold text-text-primary mb-6">{t('sellerDashboard.nav.dashboard')}</h2>
+
+            {/* Plan Summary + Upgrade CTA */}
+            <PlanSummaryCard />
+
+            {/* Plan Features Overview */}
+            <div className="mb-8">
+                <PlanFeaturesWidget />
+            </div>
 
             {/* Stats Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">

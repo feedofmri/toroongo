@@ -503,7 +503,7 @@ export default function SearchResults() {
                         {isLoading ? (
                             <div className={viewMode === 'list'
                                 ? 'space-y-4'
-                                : 'grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'}>
+                                : 'grid gap-4 sm:gap-5 grid-cols-2 lg:grid-cols-4'}>
                                 {[...Array(ITEMS_PER_PAGE)].map((_, i) => (
                                     <ProductCardSkeleton key={i} />
                                 ))}
@@ -512,7 +512,7 @@ export default function SearchResults() {
                             <>
                                 <div className={viewMode === 'list'
                                     ? 'space-y-4'
-                                    : 'grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'}>
+                                    : 'grid gap-4 sm:gap-5 grid-cols-2 lg:grid-cols-4'}>
                                     {loadedProducts.map((product) => (
                                         <ProductCard key={product.id} product={product} layout={viewMode} />
                                     ))}

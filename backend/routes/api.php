@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\AddressController;
+use App\Http\Controllers\Api\SubscriptionController;
 
 // ── Public Routes ───────────────────────────────────
 Route::post('/auth/register', [AuthController::class, 'register']);
@@ -100,6 +101,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // Reviews (seller feedback)
         Route::get('/reviews/seller', [ReviewController::class, 'sellerReviews']);
+
+        // Subscription management
+        Route::get('/subscription/current', [SubscriptionController::class, 'current']);
+        Route::get('/subscription/plans', [SubscriptionController::class, 'plans']);
+        Route::post('/subscription/upgrade', [SubscriptionController::class, 'upgrade']);
+        Route::post('/subscription/downgrade', [SubscriptionController::class, 'downgrade']);
+        Route::get('/subscription/history', [SubscriptionController::class, 'history']);
     });
 
     // ── General Authenticated Routes ──────────────

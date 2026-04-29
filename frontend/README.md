@@ -19,6 +19,16 @@ React + Vite storefront client.
 ## Scripts
 
 - `npm run dev`: Start dev server.
-- `npm run build`: Build production bundle.
+- `npm run build`: Build production bundle and generate `dist/.htaccess`.
 - `npm run preview`: Preview production bundle.
 - `npm run lint`: Run ESLint.
+
+## cPanel deployment (new.toroongo.com)
+
+Use these production values in `.env`:
+
+- `VITE_API_BASE_URL=https://api.toroongo.com`
+- `VITE_API_PREFIX=/api`
+- `VITE_USE_CREDENTIALS=false` (token auth mode)
+
+Build output now auto-generates `dist/.htaccess` for SPA routing on Apache/cPanel.

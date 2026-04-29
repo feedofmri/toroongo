@@ -1,9 +1,11 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Store, Paintbrush, Globe, Bell, Link2, CheckCircle2, XCircle, Loader2, ExternalLink, BookOpen, FileText, Info } from 'lucide-react';
+import { Store, Paintbrush, Globe, Bell, Link2, CheckCircle2, XCircle, Loader2, ExternalLink, BookOpen, FileText, Info, Lock, Code, Sparkles, Eye, Banknote } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
+import { useSubscription } from '../../context/SubscriptionContext';
 import { userService } from '../../services';
+import UpgradePrompt from '../../components/subscription/UpgradePrompt';
 
 // Reserved slugs that cannot be taken as shop usernames (matches static routes & system paths)
 const RESERVED_SLUGS = [
@@ -57,6 +59,7 @@ function checkSlugAvailability(slug, currentSellerId, sellersList) {
 export default function SellerSettings() {
     const { t } = useTranslation();
     const { user, updateUser } = useAuth();
+    const { canAccess, currentPlan } = useSubscription();
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const initialTab = searchParams.get('tab') || 'store';
@@ -205,6 +208,9 @@ export default function SellerSettings() {
         { key: 'store', label: t('sellerSettings.tabs.store'), icon: Store },
         { key: 'branding', label: t('sellerSettings.tabs.branding'), icon: Paintbrush },
         { key: 'content', label: 'Store Content', icon: BookOpen },
+        { key: 'whitelabel', label: 'White-Label', icon: Eye, locked: !canAccess('whitelabel') },
+        { key: 'currency', label: 'Multi-Currency', icon: Banknote, locked: !canAccess('currency') },
+        { key: 'customcode', label: 'Custom Code', icon: Code, locked: !canAccess('css') },
         { key: 'shipping', label: t('sellerSettings.tabs.shipping'), icon: Globe },
         { key: 'notifications', label: t('sellerSettings.tabs.notifications'), icon: Bell },
     ];
@@ -227,12 +233,13 @@ export default function SellerSettings() {
                     >
                         <tab.icon size={15} />
                         {tab.label}
+                        {tab.locked && <Lock size={11} className="text-text-muted/50" />}
                     </button>
                 ))}
             </div>
 
             {activeTab === 'store' && (
-                <div className="max-w-lg space-y-5">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
                     {/* ── Shop Username (the star feature) ─── */}
                     <div className="bg-white p-6 rounded-2xl border border-border-soft">
                         <div className="flex items-center gap-2 mb-4">
@@ -351,7 +358,8 @@ export default function SellerSettings() {
             )}
 
             {activeTab === 'branding' && (
-                <div className="max-w-lg space-y-5 bg-white p-6 rounded-2xl border border-border-soft">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
+                    <div className="space-y-5 bg-white p-6 rounded-2xl border border-border-soft">
                     <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.branding.title')}</h3>
                     <div>
                         <label className="block text-xs font-medium text-text-muted mb-1.5">Primary Brand Color</label>
@@ -372,11 +380,13 @@ export default function SellerSettings() {
                         {saveBrandingLoading ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
                         {t('sellerSettings.branding.save')}
                     </button>
+                    </div>
                 </div>
             )}
 
             {activeTab === 'shipping' && (
-                <div className="max-w-lg space-y-5 bg-white p-6 rounded-2xl border border-border-soft">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
+                    <div className="space-y-5 bg-white p-6 rounded-2xl border border-border-soft">
                     <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.shipping.title')}</h3>
                     <div>
                         <label className="block text-xs font-medium text-text-muted mb-1.5">Processing Time (days)</label>
@@ -401,11 +411,13 @@ export default function SellerSettings() {
                         {saveShippingLoading ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
                         {t('sellerSettings.shipping.save')}
                     </button>
+                    </div>
                 </div>
             )}
 
             {activeTab === 'notifications' && (
-                <div className="max-w-lg space-y-4 bg-white p-6 rounded-2xl border border-border-soft">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
+                    <div className="space-y-4 bg-white p-6 rounded-2xl border border-border-soft">
                     <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.notifications.title')}</h3>
                     {[
                         { key: 'new_orders', label: 'New orders', desc: 'Get notified when you receive a new order' },
@@ -426,11 +438,13 @@ export default function SellerSettings() {
                         {saveNotificationsLoading ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
                         {t('sellerSettings.notifications.save')}
                     </button>
+                    </div>
                 </div>
             )}
 
             {activeTab === 'content' && (
-                <div className="max-w-2xl space-y-6">
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
+                    <div className="space-y-6">
                     {/* About Store */}
                     <div className="bg-white p-6 rounded-2xl border border-border-soft space-y-5">
                         <div className="flex items-center gap-2 mb-1">
@@ -493,7 +507,9 @@ export default function SellerSettings() {
                             ))}
                         </div>
                     </div>
+                    </div>
 
+                    <div className="space-y-6">
                     {/* Store Policies */}
                     <div className="bg-white p-6 rounded-2xl border border-border-soft space-y-5">
                         <div className="flex items-center gap-2 mb-1">
@@ -556,7 +572,196 @@ export default function SellerSettings() {
                         {saveContentLoading ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
                         Save Store Content
                     </button>
+                    </div>
                 </div>
+            )}
+            {activeTab === 'whitelabel' && (
+                !canAccess('whitelabel') ? (
+                    <div className="py-8">
+                        <UpgradePrompt
+                            currentPlan={currentPlan}
+                            feature="White-Labeling"
+                            requiredPlan="business"
+                            message="Remove all Toroongo branding from your storefront. Your customers will see only your brand — no 'Powered by Toroongo' footer."
+                            variant="card"
+                        />
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
+                        <div className="bg-white p-6 rounded-2xl border border-border-soft space-y-5">
+                            <div className="flex items-center gap-2 mb-1">
+                                <Eye size={18} className="text-brand-primary" />
+                                <h3 className="text-lg font-semibold text-text-primary">White-Label Settings</h3>
+                            </div>
+                            <p className="text-xs text-text-muted">
+                                Control the Toroongo branding on your storefront. Your Business plan includes full white-labeling.
+                            </p>
+
+                            <label className="flex items-start justify-between p-4 border border-border-soft rounded-xl cursor-pointer hover:border-gray-300 transition-colors">
+                                <div>
+                                    <p className="text-sm font-medium text-text-primary">Remove "Powered by Toroongo" footer</p>
+                                    <p className="text-xs text-text-muted mt-0.5">Your storefront will show no Toroongo branding to customers</p>
+                                </div>
+                                <input type="checkbox" defaultChecked className="accent-brand-primary mt-0.5 w-4 h-4" />
+                            </label>
+
+                            <label className="flex items-start justify-between p-4 border border-border-soft rounded-xl cursor-pointer hover:border-gray-300 transition-colors">
+                                <div>
+                                    <p className="text-sm font-medium text-text-primary">Hide Toroongo from email templates</p>
+                                    <p className="text-xs text-text-muted mt-0.5">Order confirmations and notifications will use your brand only</p>
+                                </div>
+                                <input type="checkbox" defaultChecked className="accent-brand-primary mt-0.5 w-4 h-4" />
+                            </label>
+
+                            <label className="flex items-start justify-between p-4 border border-border-soft rounded-xl cursor-pointer hover:border-gray-300 transition-colors">
+                                <div>
+                                    <p className="text-sm font-medium text-text-primary">Custom favicon</p>
+                                    <p className="text-xs text-text-muted mt-0.5">Use your own favicon instead of the Toroongo icon</p>
+                                </div>
+                                <input type="checkbox" defaultChecked className="accent-brand-primary mt-0.5 w-4 h-4" />
+                            </label>
+
+                            <div className="pt-2">
+                                <div className="flex items-start gap-3 p-4 bg-green-50 rounded-xl border border-green-100">
+                                    <CheckCircle2 size={16} className="text-green-500 flex-shrink-0 mt-0.5" />
+                                    <div>
+                                        <p className="text-sm font-semibold text-green-800">White-Label Active</p>
+                                        <p className="text-xs text-green-600 mt-0.5">All Toroongo branding has been removed from your storefront.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
+                                Save White-Label Settings
+                            </button>
+                        </div>
+                    </div>
+                )
+            )}
+
+            {activeTab === 'customcode' && (
+                !canAccess('css') ? (
+                    <div className="py-8">
+                        <UpgradePrompt
+                            currentPlan={currentPlan}
+                            feature="Custom CSS/HTML Access"
+                            requiredPlan="enterprise"
+                            message="Inject custom CSS and HTML into your storefront for bespoke design. Create a truly unique shopping experience."
+                            variant="card"
+                        />
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
+                        <div className="bg-white p-6 rounded-2xl border border-border-soft space-y-5">
+                            <div className="flex items-center gap-2 mb-1">
+                                <Code size={18} className="text-brand-primary" />
+                                <h3 className="text-lg font-semibold text-text-primary">Custom CSS</h3>
+                            </div>
+                            <p className="text-xs text-text-muted">
+                                Add custom CSS to override storefront styles. Changes apply to your public storefront only.
+                            </p>
+                            <textarea
+                                rows={12}
+                                className={`${inputClass} resize-none font-mono text-xs leading-relaxed`}
+                                placeholder={`/* Your custom storefront CSS */\n\n.store-header {\n    background: linear-gradient(135deg, #667eea, #764ba2);\n}\n\n.product-card {\n    border-radius: 16px;\n    box-shadow: 0 4px 20px rgba(0,0,0,0.08);\n}`}
+                                defaultValue=""
+                            />
+                            <button className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
+                                Save Custom CSS
+                            </button>
+                        </div>
+
+                        <div className="bg-white p-6 rounded-2xl border border-border-soft space-y-5">
+                            <div className="flex items-center gap-2 mb-1">
+                                <Code size={18} className="text-brand-primary" />
+                                <h3 className="text-lg font-semibold text-text-primary">Custom HTML (Head Injection)</h3>
+                            </div>
+                            <p className="text-xs text-text-muted">
+                                Inject custom HTML into the &lt;head&gt; of your storefront. Useful for analytics scripts, meta tags, or third-party integrations.
+                            </p>
+                            <textarea
+                                rows={8}
+                                className={`${inputClass} resize-none font-mono text-xs leading-relaxed`}
+                                placeholder={`<!-- Custom head HTML -->\n<meta name="google-site-verification" content="..." />\n<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXX"></script>`}
+                                defaultValue=""
+                            />
+                            <div className="flex items-start gap-2 p-3 bg-amber-50 rounded-xl border border-amber-100">
+                                <Info size={14} className="text-amber-500 flex-shrink-0 mt-0.5" />
+                                <p className="text-xs text-amber-700">
+                                    <strong>Caution:</strong> Injecting invalid HTML or scripts may break your storefront. Test changes carefully.
+                                </p>
+                            </div>
+                            <button className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
+                                Save Custom HTML
+                            </button>
+                        </div>
+                    </div>
+                )
+            )}
+            {activeTab === 'currency' && (
+                !canAccess('currency') ? (
+                    <div className="py-8">
+                        <UpgradePrompt
+                            currentPlan={currentPlan}
+                            feature="Multi-Currency Support"
+                            requiredPlan="business"
+                            message="Automatically convert prices based on your visitor's location. Show prices in BDT, USD, MYR, AED, INR, and more."
+                            variant="card"
+                        />
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
+                        <div className="bg-white p-6 rounded-2xl border border-border-soft space-y-5">
+                            <div className="flex items-center gap-2 mb-1">
+                                <Banknote size={18} className="text-brand-primary" />
+                                <h3 className="text-lg font-semibold text-text-primary">Multi-Currency Settings</h3>
+                            </div>
+                            <p className="text-xs text-text-muted">
+                                Enable currencies for your store. Prices auto-convert based on the visitor's IP address.
+                            </p>
+
+                            <label className="flex items-start justify-between p-4 border border-brand-primary/20 bg-brand-primary/[0.03] rounded-xl cursor-pointer">
+                                <div>
+                                    <p className="text-sm font-medium text-text-primary">Auto-detect currency by IP</p>
+                                    <p className="text-xs text-text-muted mt-0.5">Automatically show prices in the visitor's local currency</p>
+                                </div>
+                                <input type="checkbox" defaultChecked className="accent-brand-primary mt-0.5 w-4 h-4" />
+                            </label>
+
+                            <div>
+                                <p className="text-xs font-bold text-text-muted uppercase tracking-wider mb-3">Enabled Currencies</p>
+                                <div className="space-y-2">
+                                    {[
+                                        { code: 'USD', name: 'US Dollar', symbol: '$', flag: '🇺🇸', enabled: true },
+                                        { code: 'BDT', name: 'Bangladeshi Taka', symbol: '৳', flag: '🇧🇩', enabled: true },
+                                        { code: 'INR', name: 'Indian Rupee', symbol: '₹', flag: '🇮🇳', enabled: true },
+                                        { code: 'MYR', name: 'Malaysian Ringgit', symbol: 'RM', flag: '🇲🇾', enabled: true },
+                                        { code: 'AED', name: 'UAE Dirham', symbol: 'د.إ', flag: '🇦🇪', enabled: false },
+                                        { code: 'NPR', name: 'Nepalese Rupee', symbol: 'Rs', flag: '🇳🇵', enabled: false },
+                                        { code: 'IDR', name: 'Indonesian Rupiah', symbol: 'Rp', flag: '🇮🇩', enabled: false },
+                                        { code: 'EUR', name: 'Euro', symbol: '€', flag: '🇪🇺', enabled: false },
+                                        { code: 'GBP', name: 'British Pound', symbol: '£', flag: '🇬🇧', enabled: false },
+                                    ].map(curr => (
+                                        <label key={curr.code} className="flex items-center justify-between p-3 border border-border-soft rounded-xl cursor-pointer hover:border-gray-300 transition-colors">
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-lg">{curr.flag}</span>
+                                                <div>
+                                                    <p className="text-sm font-medium text-text-primary">{curr.code} — {curr.name}</p>
+                                                    <p className="text-xs text-text-muted">{curr.symbol}</p>
+                                                </div>
+                                            </div>
+                                            <input type="checkbox" defaultChecked={curr.enabled} className="accent-brand-primary w-4 h-4" />
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <button className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
+                                Save Currency Settings
+                            </button>
+                        </div>
+                    </div>
+                )
             )}
         </div>
     );

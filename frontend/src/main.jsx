@@ -10,19 +10,22 @@ import { ProductProvider } from './context/ProductContext'
 import { WishlistProvider } from './context/WishlistContext'
 
 import { NotificationProvider } from './context/NotificationProvider.jsx'
+import { SubscriptionProvider } from './context/SubscriptionProvider.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
-      <NotificationProvider>
-        <WishlistProvider>
-          <ProductProvider>
-            <CartProvider>
-              <App />
-            </CartProvider>
-          </ProductProvider>
-        </WishlistProvider>
-      </NotificationProvider>
+      <SubscriptionProvider>
+        <NotificationProvider>
+          <WishlistProvider>
+            <ProductProvider>
+              <CartProvider>
+                <App />
+              </CartProvider>
+            </ProductProvider>
+          </WishlistProvider>
+        </NotificationProvider>
+      </SubscriptionProvider>
     </AuthProvider>
   </StrictMode>,
 )

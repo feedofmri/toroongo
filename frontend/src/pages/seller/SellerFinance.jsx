@@ -2,16 +2,35 @@ import React, { useState, useEffect } from 'react';
 import { DollarSign, TrendingUp, ArrowDown, Calendar, Download } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
+import { useSubscription } from '../../context/SubscriptionContext';
 import { orderService, productService } from '../../services';
 import Skeleton from '../../components/ui/Skeleton';
 import { formatPrice } from '../../utils/currency';
+import UpgradePrompt from '../../components/subscription/UpgradePrompt';
 
 export default function SellerFinance() {
     const { t } = useTranslation();
     const { user } = useAuth();
+    const { canAccess, currentPlan } = useSubscription();
     const [transactions, setTransactions] = useState([]);
     const [stats, setStats] = useState({ available: 0, pending: 0 });
     const [loading, setLoading] = useState(true);
+
+    // Gate check — Advanced Analytics / Finance requires Pro+
+    if (!canAccess('advanced_analytics')) {
+        return (
+            <div className="animate-fade-in py-12">
+                <UpgradePrompt
+                    currentPlan={currentPlan}
+                    feature="Finance & Advanced Analytics"
+                    requiredPlan="pro"
+                    message="Unlock advanced financial analytics with conversion funnels, detailed transaction tracking, and payout management. Upgrade to Pro."
+                    variant="card"
+                />
+            </div>
+        );
+    }
+
 
     useEffect(() => {
         if (!user) return;

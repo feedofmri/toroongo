@@ -35,6 +35,7 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => $data['password'],
             'role' => $data['role'] ?? 'buyer',
+            'plan' => ($data['role'] ?? 'buyer') === 'seller' ? 'starter' : null,
             'store_name' => $data['storeName'] ?? null,
             'slug' => $slug,
             'joined_date' => ($data['role'] ?? 'buyer') === 'seller' ? now() : null,

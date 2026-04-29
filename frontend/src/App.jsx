@@ -54,6 +54,17 @@ import SellerSettings from './pages/seller/SellerSettings';
 import SellerMessages from './pages/seller/SellerMessages';
 import BlogManagement from './pages/seller/BlogManagement';
 import BlogEditor from './pages/seller/BlogEditor';
+import SellerSubscription from './pages/seller/SellerSubscription';
+import SubscriptionHistory from './pages/seller/SubscriptionHistory';
+import DiscountManagement from './pages/seller/DiscountManagement';
+import StaffAccounts from './pages/seller/StaffAccounts';
+import CustomDomain from './pages/seller/CustomDomain';
+import SocialCommerce from './pages/seller/SocialCommerce';
+import AbandonedCarts from './pages/seller/AbandonedCarts';
+import ApiWebhooks from './pages/seller/ApiWebhooks';
+import AffiliateProgram from './pages/seller/AffiliateProgram';
+import BulkImportExport from './pages/seller/BulkImportExport';
+import AiToolsHub from './pages/seller/AiToolsHub';
 
 // ─── Storefront Builder ──────────────────────────────────────
 import { StorefrontBuilder } from './pages/seller/storefrontBuilder';
@@ -237,9 +248,20 @@ function App() {
           <Route path="finance" element={<SellerFinance />} />
           <Route path="messages" element={<SellerMessages />} />
           <Route path="settings" element={<SellerSettings />} />
+          <Route path="discounts" element={<DiscountManagement />} />
+          <Route path="abandoned-carts" element={<AbandonedCarts />} />
           <Route path="blogs" element={<BlogManagement />} />
           <Route path="blogs/new" element={<BlogEditor />} />
           <Route path="blogs/edit/:id" element={<BlogEditor />} />
+          <Route path="staff" element={<StaffAccounts />} />
+          <Route path="domain" element={<CustomDomain />} />
+          <Route path="social-commerce" element={<SocialCommerce />} />
+          <Route path="api" element={<ApiWebhooks />} />
+          <Route path="affiliates" element={<AffiliateProgram />} />
+          <Route path="import-export" element={<BulkImportExport />} />
+          <Route path="ai-tools" element={<AiToolsHub />} />
+          <Route path="subscription" element={<SellerSubscription />} />
+          <Route path="subscription/history" element={<SubscriptionHistory />} />
         </Route>
 
         {/* 404 - Should be at the very end */}

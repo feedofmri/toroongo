@@ -8,3 +8,4 @@ export * from './messageService';
 export * from './notificationService';
 export * from './reviewService';
 export * from './addressService';
+export * from './subscriptionService';

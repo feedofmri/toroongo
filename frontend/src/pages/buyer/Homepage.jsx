@@ -50,12 +50,12 @@ export default function Homepage() {
         }
     ];
     const { t } = useTranslation();
-    const { 
-        products: loadedProducts, 
-        categories: loadedCategories, 
-        sellers, 
+    const {
+        products: loadedProducts,
+        categories: loadedCategories,
+        sellers,
         heroBanners,
-        isLoading: productsLoading 
+        isLoading: productsLoading
     } = useProduct();
 
     const [showAllCategories, setShowAllCategories] = useState(false);
@@ -66,6 +66,88 @@ export default function Homepage() {
     const featuredRef = useRef(null);
     const sellersRef = useRef(null);
     const reviewsRef = useRef(null);
+
+    const heroFloatingIcons = [
+        { Icon: Star, color: 'text-amber-500', size: 24, left: '10%', delay: '0s', duration: '45s' },
+        { Icon: Clock, color: 'text-blue-500', size: 32, left: '25%', delay: '4s', duration: '50s' },
+        { Icon: Percent, color: 'text-green-500', size: 28, left: '40%', delay: '12s', duration: '48s' },
+        { Icon: ShieldCheck, color: 'text-purple-500', size: 20, left: '55%', delay: '8s', duration: '55s' },
+        { Icon: Zap, color: 'text-yellow-500', size: 36, left: '70%', delay: '15s', duration: '42s' },
+        { Icon: Truck, color: 'text-red-500', size: 26, left: '85%', delay: '21s', duration: '47s' },
+        { Icon: ShoppingBag, color: 'text-pink-500', size: 30, left: '15%', delay: '7s', duration: '52s' },
+        { Icon: Heart, color: 'text-rose-500', size: 22, left: '35%', delay: '18s', duration: '40s' },
+        { Icon: Tag, color: 'text-emerald-500', size: 28, left: '60%', delay: '3s', duration: '60s' },
+        { Icon: Gift, color: 'text-indigo-500', size: 34, left: '80%', delay: '26s', duration: '46s' },
+        { Icon: Smartphone, color: 'text-cyan-500', size: 24, left: '5%', delay: '11s', duration: '58s' },
+        { Icon: Camera, color: 'text-fuchsia-500', size: 28, left: '20%', delay: '34s', duration: '44s' },
+        { Icon: Headphones, color: 'text-violet-500', size: 32, left: '45%', delay: '10s', duration: '65s' },
+        { Icon: Laptop, color: 'text-orange-500', size: 36, left: '65%', delay: '22s', duration: '53s' },
+        { Icon: Monitor, color: 'text-sky-500', size: 26, left: '90%', delay: '13s', duration: '62s' },
+        { Icon: Watch, color: 'text-lime-500', size: 22, left: '30%', delay: '38s', duration: '41s' },
+        { Icon: Shirt, color: 'text-indigo-400', size: 30, left: '50%', delay: '25s', duration: '56s' },
+        { Icon: Coffee, color: 'text-amber-600', size: 24, left: '75%', delay: '17s', duration: '49s' },
+        { Icon: Box, color: 'text-slate-500', size: 28, left: '12%', delay: '32s', duration: '51s' },
+        { Icon: ThumbsUp, color: 'text-teal-500', size: 20, left: '88%', delay: '19s', duration: '57s' },
+        { Icon: Medal, color: 'text-yellow-600', size: 34, left: '38%', delay: '41s', duration: '68s' },
+        { Icon: Crown, color: 'text-amber-400', size: 38, left: '58%', delay: '5s', duration: '72s' },
+        { Icon: Music, color: 'text-pink-400', size: 26, left: '82%', delay: '24s', duration: '45s' },
+        { Icon: Video, color: 'text-blue-400', size: 32, left: '18%', delay: '43s', duration: '59s' },
+        { Icon: Gamepad2, color: 'text-purple-600', size: 30, left: '48%', delay: '35s', duration: '61s' },
+        { Icon: Mic, color: 'text-rose-400', size: 24, left: '68%', delay: '29s', duration: '43s' },
+        { Icon: Sofa, color: 'text-teal-600', size: 32, left: '7%', delay: '16s', duration: '60s' },
+        { Icon: Scissors, color: 'text-slate-400', size: 22, left: '28%', delay: '2s', duration: '54s' },
+        { Icon: Glasses, color: 'text-sky-400', size: 26, left: '42%', delay: '20s', duration: '47s' },
+        { Icon: Brush, color: 'text-fuchsia-400', size: 24, left: '52%', delay: '28s', duration: '64s' },
+        { Icon: Award, color: 'text-orange-400', size: 34, left: '62%', delay: '40s', duration: '52s' },
+        { Icon: Bell, color: 'text-yellow-400', size: 28, left: '78%', delay: '14s', duration: '48s' },
+        { Icon: Bookmark, color: 'text-red-400', size: 24, left: '92%', delay: '30s', duration: '55s' },
+        { Icon: Compass, color: 'text-blue-600', size: 30, left: '33%', delay: '36s', duration: '63s' },
+        { Icon: Flame, color: 'text-orange-600', size: 28, left: '47%', delay: '9s', duration: '41s' },
+        { Icon: Leaf, color: 'text-emerald-400', size: 26, left: '67%', delay: '45s', duration: '50s' },
+        { Icon: Moon, color: 'text-indigo-300', size: 24, left: '87%', delay: '31s', duration: '58s' },
+        { Icon: Sun, color: 'text-amber-300', size: 36, left: '16%', delay: '27s', duration: '49s' },
+        { Icon: Anchor, color: 'text-slate-600', size: 28, left: '8%', delay: '39s', duration: '67s' },
+        { Icon: Umbrella, color: 'text-teal-400', size: 32, left: '72%', delay: '23s', duration: '52s' },
+        { Icon: ShoppingBag, color: 'text-pink-300', size: 20, left: '2%', delay: '2s', duration: '55s', desktopOnly: true },
+        { Icon: Heart, color: 'text-rose-300', size: 30, left: '13%', delay: '15s', duration: '48s', desktopOnly: true },
+        { Icon: Star, color: 'text-amber-300', size: 18, left: '26%', delay: '5s', duration: '60s', desktopOnly: true },
+        { Icon: Zap, color: 'text-yellow-300', size: 28, left: '37%', delay: '20s', duration: '50s', desktopOnly: true },
+        { Icon: Coffee, color: 'text-amber-500', size: 22, left: '49%', delay: '8s', duration: '65s', desktopOnly: true },
+        { Icon: Music, color: 'text-pink-300', size: 32, left: '61%', delay: '22s', duration: '57s', desktopOnly: true },
+        { Icon: Camera, color: 'text-fuchsia-300', size: 25, left: '74%', delay: '11s', duration: '62s', desktopOnly: true },
+        { Icon: Box, color: 'text-slate-400', size: 35, left: '84%', delay: '25s', duration: '53s', desktopOnly: true },
+        { Icon: Leaf, color: 'text-emerald-300', size: 16, left: '95%', delay: '3s', duration: '58s', desktopOnly: true },
+        { Icon: Sun, color: 'text-amber-200', size: 28, left: '4%', delay: '18s', duration: '46s', desktopOnly: true },
+        { Icon: Watch, color: 'text-lime-300', size: 24, left: '17%', delay: '7s', duration: '63s', desktopOnly: true },
+        { Icon: Shirt, color: 'text-indigo-300', size: 29, left: '29%', delay: '26s', duration: '51s', desktopOnly: true },
+        { Icon: Glasses, color: 'text-sky-300', size: 21, left: '41%', delay: '14s', duration: '59s', desktopOnly: true },
+        { Icon: Compass, color: 'text-blue-400', size: 34, left: '53%', delay: '1s', duration: '66s', desktopOnly: true },
+        { Icon: Flame, color: 'text-orange-400', size: 26, left: '64%', delay: '23s', duration: '49s', desktopOnly: true },
+        { Icon: Umbrella, color: 'text-teal-300', size: 31, left: '77%', delay: '10s', duration: '56s', desktopOnly: true },
+        { Icon: Gamepad2, color: 'text-purple-400', size: 23, left: '89%', delay: '28s', duration: '44s', desktopOnly: true },
+        { Icon: Crown, color: 'text-yellow-500', size: 27, left: '97%', delay: '6s', duration: '61s', desktopOnly: true },
+        { Icon: Monitor, color: 'text-sky-400', size: 33, left: '9%', delay: '21s', duration: '54s', desktopOnly: true },
+        { Icon: Headphones, color: 'text-violet-400', size: 19, left: '21%', delay: '12s', duration: '67s', desktopOnly: true },
+        { Icon: Smartphone, color: 'text-cyan-400', size: 30, left: '34%', delay: '27s', duration: '52s', desktopOnly: true },
+        { Icon: Sofa, color: 'text-teal-500', size: 25, left: '44%', delay: '9s', duration: '60s', desktopOnly: true },
+        { Icon: Brush, color: 'text-fuchsia-500', size: 28, left: '56%', delay: '19s', duration: '47s', desktopOnly: true },
+        { Icon: Scissors, color: 'text-slate-500', size: 22, left: '69%', delay: '4s', duration: '64s', desktopOnly: true },
+        { Icon: Bell, color: 'text-yellow-500', size: 35, left: '81%', delay: '24s', duration: '50s', desktopOnly: true },
+        { Icon: Anchor, color: 'text-slate-500', size: 24, left: '91%', delay: '13s', duration: '55s', desktopOnly: true },
+        { Icon: Moon, color: 'text-indigo-400', size: 29, left: '6%', delay: '29s', duration: '45s', desktopOnly: true },
+        { Icon: Zap, color: 'text-amber-400', size: 18, left: '19%', delay: '2s', duration: '68s', desktopOnly: true },
+        { Icon: Star, color: 'text-rose-400', size: 32, left: '31%', delay: '16s', duration: '53s', desktopOnly: true },
+        { Icon: ShieldCheck, color: 'text-purple-400', size: 26, left: '46%', delay: '10s', duration: '62s', desktopOnly: true },
+    ];
+
+    const shiftIconLeft = (left, index) => {
+        const value = parseFloat(left);
+        if (Number.isNaN(value)) return left;
+        const offset = index % 2 === 0 ? 4 : -4;
+        return `${Math.min(98, Math.max(2, value + offset))}%`;
+    };
+
+    const twoRowProductScrollerClasses = 'grid grid-rows-2 grid-flow-col auto-cols-[220px] sm:auto-cols-[240px] lg:auto-cols-[260px] gap-5 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory';
 
     const scrollContainer = (ref, direction) => {
         if (!ref.current) return;
@@ -88,95 +170,39 @@ export default function Homepage() {
                         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-primary/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/4" />
                         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-secondary/10 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/4" />
                     </div>
-                    
+
                     {/* Floating Icons */}
-                    <div className="absolute inset-0 opacity-20">
-                        {[
-                            { Icon: Star, color: 'text-amber-500', size: 24, left: '10%', delay: '0s', duration: '45s' },
-                            { Icon: Clock, color: 'text-blue-500', size: 32, left: '25%', delay: '4s', duration: '50s' },
-                            { Icon: Percent, color: 'text-green-500', size: 28, left: '40%', delay: '12s', duration: '48s' },
-                            { Icon: ShieldCheck, color: 'text-purple-500', size: 20, left: '55%', delay: '8s', duration: '55s' },
-                            { Icon: Zap, color: 'text-yellow-500', size: 36, left: '70%', delay: '15s', duration: '42s' },
-                            { Icon: Truck, color: 'text-red-500', size: 26, left: '85%', delay: '21s', duration: '47s' },
-                            { Icon: ShoppingBag, color: 'text-pink-500', size: 30, left: '15%', delay: '7s', duration: '52s' },
-                            { Icon: Heart, color: 'text-rose-500', size: 22, left: '35%', delay: '18s', duration: '40s' },
-                            { Icon: Tag, color: 'text-emerald-500', size: 28, left: '60%', delay: '3s', duration: '60s' },
-                            { Icon: Gift, color: 'text-indigo-500', size: 34, left: '80%', delay: '26s', duration: '46s' },
-                            { Icon: Smartphone, color: 'text-cyan-500', size: 24, left: '5%', delay: '11s', duration: '58s' },
-                            { Icon: Camera, color: 'text-fuchsia-500', size: 28, left: '20%', delay: '34s', duration: '44s' },
-                            { Icon: Headphones, color: 'text-violet-500', size: 32, left: '45%', delay: '10s', duration: '65s' },
-                            { Icon: Laptop, color: 'text-orange-500', size: 36, left: '65%', delay: '22s', duration: '53s' },
-                            { Icon: Monitor, color: 'text-sky-500', size: 26, left: '90%', delay: '13s', duration: '62s' },
-                            { Icon: Watch, color: 'text-lime-500', size: 22, left: '30%', delay: '38s', duration: '41s' },
-                            { Icon: Shirt, color: 'text-indigo-400', size: 30, left: '50%', delay: '25s', duration: '56s' },
-                            { Icon: Coffee, color: 'text-amber-600', size: 24, left: '75%', delay: '17s', duration: '49s' },
-                            { Icon: Box, color: 'text-slate-500', size: 28, left: '12%', delay: '32s', duration: '51s' },
-                            { Icon: ThumbsUp, color: 'text-teal-500', size: 20, left: '88%', delay: '19s', duration: '57s' },
-                            { Icon: Medal, color: 'text-yellow-600', size: 34, left: '38%', delay: '41s', duration: '68s' },
-                            { Icon: Crown, color: 'text-amber-400', size: 38, left: '58%', delay: '5s', duration: '72s' },
-                            { Icon: Music, color: 'text-pink-400', size: 26, left: '82%', delay: '24s', duration: '45s' },
-                            { Icon: Video, color: 'text-blue-400', size: 32, left: '18%', delay: '43s', duration: '59s' },
-                            { Icon: Gamepad2, color: 'text-purple-600', size: 30, left: '48%', delay: '35s', duration: '61s' },
-                            { Icon: Mic, color: 'text-rose-400', size: 24, left: '68%', delay: '29s', duration: '43s' },
-                            { Icon: Sofa, color: 'text-teal-600', size: 32, left: '7%', delay: '16s', duration: '60s' },
-                            { Icon: Scissors, color: 'text-slate-400', size: 22, left: '28%', delay: '2s', duration: '54s' },
-                            { Icon: Glasses, color: 'text-sky-400', size: 26, left: '42%', delay: '20s', duration: '47s' },
-                            { Icon: Brush, color: 'text-fuchsia-400', size: 24, left: '52%', delay: '28s', duration: '64s' },
-                            { Icon: Award, color: 'text-orange-400', size: 34, left: '62%', delay: '40s', duration: '52s' },
-                            { Icon: Bell, color: 'text-yellow-400', size: 28, left: '78%', delay: '14s', duration: '48s' },
-                            { Icon: Bookmark, color: 'text-red-400', size: 24, left: '92%', delay: '30s', duration: '55s' },
-                            { Icon: Compass, color: 'text-blue-600', size: 30, left: '33%', delay: '36s', duration: '63s' },
-                            { Icon: Flame, color: 'text-orange-600', size: 28, left: '47%', delay: '9s', duration: '41s' },
-                            { Icon: Leaf, color: 'text-emerald-400', size: 26, left: '67%', delay: '45s', duration: '50s' },
-                            { Icon: Moon, color: 'text-indigo-300', size: 24, left: '87%', delay: '31s', duration: '58s' },
-                            { Icon: Sun, color: 'text-amber-300', size: 36, left: '16%', delay: '27s', duration: '49s' },
-                            { Icon: Anchor, color: 'text-slate-600', size: 28, left: '8%', delay: '39s', duration: '67s' },
-                            { Icon: Umbrella, color: 'text-teal-400', size: 32, left: '72%', delay: '23s', duration: '52s' },
-                            
-                            /* Desktop Only Extra Density */
-                            { Icon: ShoppingBag, color: 'text-pink-300', size: 20, left: '2%', delay: '2s', duration: '55s', desktopOnly: true },
-                            { Icon: Heart, color: 'text-rose-300', size: 30, left: '13%', delay: '15s', duration: '48s', desktopOnly: true },
-                            { Icon: Star, color: 'text-amber-300', size: 18, left: '26%', delay: '5s', duration: '60s', desktopOnly: true },
-                            { Icon: Zap, color: 'text-yellow-300', size: 28, left: '37%', delay: '20s', duration: '50s', desktopOnly: true },
-                            { Icon: Coffee, color: 'text-amber-500', size: 22, left: '49%', delay: '8s', duration: '65s', desktopOnly: true },
-                            { Icon: Music, color: 'text-pink-300', size: 32, left: '61%', delay: '22s', duration: '57s', desktopOnly: true },
-                            { Icon: Camera, color: 'text-fuchsia-300', size: 25, left: '74%', delay: '11s', duration: '62s', desktopOnly: true },
-                            { Icon: Box, color: 'text-slate-400', size: 35, left: '84%', delay: '25s', duration: '53s', desktopOnly: true },
-                            { Icon: Leaf, color: 'text-emerald-300', size: 16, left: '95%', delay: '3s', duration: '58s', desktopOnly: true },
-                            { Icon: Sun, color: 'text-amber-200', size: 28, left: '4%', delay: '18s', duration: '46s', desktopOnly: true },
-                            { Icon: Watch, color: 'text-lime-300', size: 24, left: '17%', delay: '7s', duration: '63s', desktopOnly: true },
-                            { Icon: Shirt, color: 'text-indigo-300', size: 29, left: '29%', delay: '26s', duration: '51s', desktopOnly: true },
-                            { Icon: Glasses, color: 'text-sky-300', size: 21, left: '41%', delay: '14s', duration: '59s', desktopOnly: true },
-                            { Icon: Compass, color: 'text-blue-400', size: 34, left: '53%', delay: '1s', duration: '66s', desktopOnly: true },
-                            { Icon: Flame, color: 'text-orange-400', size: 26, left: '64%', delay: '23s', duration: '49s', desktopOnly: true },
-                            { Icon: Umbrella, color: 'text-teal-300', size: 31, left: '77%', delay: '10s', duration: '56s', desktopOnly: true },
-                            { Icon: Gamepad2, color: 'text-purple-400', size: 23, left: '89%', delay: '28s', duration: '44s', desktopOnly: true },
-                            { Icon: Crown, color: 'text-yellow-500', size: 27, left: '97%', delay: '6s', duration: '61s', desktopOnly: true },
-                            { Icon: Monitor, color: 'text-sky-400', size: 33, left: '9%', delay: '21s', duration: '54s', desktopOnly: true },
-                            { Icon: Headphones, color: 'text-violet-400', size: 19, left: '21%', delay: '12s', duration: '67s', desktopOnly: true },
-                            { Icon: Smartphone, color: 'text-cyan-400', size: 30, left: '34%', delay: '27s', duration: '52s', desktopOnly: true },
-                            { Icon: Sofa, color: 'text-teal-500', size: 25, left: '44%', delay: '9s', duration: '60s', desktopOnly: true },
-                            { Icon: Brush, color: 'text-fuchsia-500', size: 28, left: '56%', delay: '19s', duration: '47s', desktopOnly: true },
-                            { Icon: Scissors, color: 'text-slate-500', size: 22, left: '69%', delay: '4s', duration: '64s', desktopOnly: true },
-                            { Icon: Bell, color: 'text-yellow-500', size: 35, left: '81%', delay: '24s', duration: '50s', desktopOnly: true },
-                            { Icon: Anchor, color: 'text-slate-500', size: 24, left: '91%', delay: '13s', duration: '55s', desktopOnly: true },
-                            { Icon: Moon, color: 'text-indigo-400', size: 29, left: '6%', delay: '29s', duration: '45s', desktopOnly: true },
-                            { Icon: Zap, color: 'text-amber-400', size: 18, left: '19%', delay: '2s', duration: '68s', desktopOnly: true },
-                            { Icon: Star, color: 'text-rose-400', size: 32, left: '31%', delay: '16s', duration: '53s', desktopOnly: true },
-                            { Icon: ShieldCheck, color: 'text-purple-400', size: 26, left: '46%', delay: '10s', duration: '62s', desktopOnly: true },
-                        ].map((item, i) => (
-                            <div 
-                                key={i}
+                    <div className="absolute inset-0 opacity-20 md:opacity-30">
+                        {heroFloatingIcons.map((item, i) => (
+                            <div
+                                key={`primary-${i}`}
                                 className={`absolute bottom-[-100px] animate-float-up ${item.desktopOnly ? 'hidden md:block' : ''}`}
                                 style={{
                                     left: item.left,
-                                    animationDelay: item.delay,
+                                    animationDelay: `-${parseFloat(item.delay)}s`,
                                     animationDuration: item.duration,
                                 }}
                             >
                                 <item.Icon className={`${item.color} opacity-70`} size={item.size} />
                             </div>
                         ))}
+
+                        {/* Extra desktop layer to keep wide screens visually dense */}
+                        {heroFloatingIcons
+                            .filter((item, i) => !item.desktopOnly && i % 2 === 0)
+                            .map((item, i) => (
+                                <div
+                                    key={`desktop-extra-${i}`}
+                                    className="hidden lg:block absolute bottom-[-180px] animate-float-up"
+                                    style={{
+                                        left: shiftIconLeft(item.left, i),
+                                        animationDelay: `-${parseFloat(item.delay) + 6 + (i % 4)}s`,
+                                        animationDuration: `${Math.max(34, parseFloat(item.duration) - 7)}s`,
+                                    }}
+                                >
+                                    <item.Icon className={`${item.color} opacity-55`} size={Math.max(16, item.size - 4)} />
+                                </div>
+                            ))}
                     </div>
                 </div>
 
@@ -223,11 +249,11 @@ export default function Homepage() {
                                 {t('home.hero.storesBtn', 'Browse Stores')}
                             </Link>
                             <Link
-                                to="/sell"
+                                to="/products"
                                 className="hidden md:inline-flex items-center justify-center gap-2 px-8 py-3.5 sm:py-4 bg-transparent text-slate-500 font-semibold
                                    rounded-full hover:text-brand-primary transition-all duration-300"
                             >
-                                {t('home.sellCta', 'Start Selling')} <ArrowRight size={16} />
+                                {t('home.hero.productsBtn', 'Browse Products')} <ArrowRight size={16} />
                             </Link>
                         </div>
                         
@@ -257,20 +283,20 @@ export default function Homepage() {
           ═══════════════════════════════════════════════════════ */}
             <section className="bg-white border-b border-border-soft">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                         {[
                             { icon: Truck, text: t('home.trust.shipping', 'Seller Shipping'), sub: t('home.trust.shippingSub', 'Price set by sellers') },
                             { icon: ShieldCheck, text: t('home.trust.secure', 'Secure Checkout'), sub: t('home.trust.secureSub', '256-bit SSL encryption') },
                             { icon: RotateCcw, text: t('home.trust.returns', '30-Day Returns'), sub: t('home.trust.returnsSub', 'No-hassle refunds') },
                             { icon: Clock, text: t('home.trust.support', '24/7 Support'), sub: t('home.trust.supportSub', 'We are always here') },
                         ].map((badge, idx) => (
-                            <div key={idx} className="flex items-center gap-4 justify-center md:justify-start">
-                                <div className="p-2.5 bg-slate-50 rounded-xl">
+                            <div key={idx} className="flex flex-col lg:flex-row items-center gap-2 lg:gap-4 justify-center lg:justify-start text-center lg:text-left">
+                                <div className="p-2.5 bg-slate-50 rounded-xl inline-flex items-center justify-center">
                                     <badge.icon size={20} className="text-brand-primary flex-shrink-0" />
                                 </div>
-                                <div>
-                                    <p className="text-sm font-bold text-slate-900">{badge.text}</p>
-                                    <p className="text-xs text-slate-500 font-medium">{badge.sub}</p>
+                                <div className="flex flex-col">
+                                    <p className="text-sm font-bold text-slate-900 leading-tight">{badge.text}</p>
+                                    <p className="text-xs text-slate-500 font-medium mt-0.5">{badge.sub}</p>
                                 </div>
                             </div>
                         ))}
@@ -343,9 +369,9 @@ export default function Homepage() {
                     </div>
 
                     {isLoading ? (
-                        <div className="flex gap-5 overflow-hidden">
-                            {[...Array(5)].map((_, i) => (
-                                <div key={i} className="min-w-[260px] max-w-[260px]">
+                        <div className={twoRowProductScrollerClasses}>
+                            {[...Array(8)].map((_, i) => (
+                                <div key={i} className="w-[220px] sm:w-[240px] lg:w-[260px] snap-start">
                                     <ProductCardSkeleton />
                                 </div>
                             ))}
@@ -353,10 +379,10 @@ export default function Homepage() {
                     ) : (
                         <div
                             ref={carouselRef}
-                            className="flex gap-5 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory"
+                            className={twoRowProductScrollerClasses}
                         >
                             {loadedProducts.map((product) => (
-                                <div key={product.id} className="min-w-[260px] max-w-[260px] snap-start">
+                                <div key={product.id} className="w-[220px] sm:w-[240px] lg:w-[260px] snap-start">
                                     <ProductCard product={product} />
                                 </div>
                             ))}
@@ -496,9 +522,9 @@ export default function Homepage() {
                     </div>
 
                     {isLoading ? (
-                        <div className="flex gap-5 overflow-hidden">
-                            {[...Array(5)].map((_, i) => (
-                                <div key={i} className="min-w-[260px] max-w-[260px]">
+                        <div className={twoRowProductScrollerClasses}>
+                            {[...Array(8)].map((_, i) => (
+                                <div key={i} className="w-[220px] sm:w-[240px] lg:w-[260px] snap-start">
                                     <ProductCardSkeleton />
                                 </div>
                             ))}
@@ -506,10 +532,10 @@ export default function Homepage() {
                     ) : (
                         <div
                             ref={featuredRef}
-                            className="flex gap-5 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory"
+                            className={twoRowProductScrollerClasses}
                         >
                             {loadedProducts.slice(0, 12).map((product) => (
-                                <div key={product.id} className="min-w-[260px] max-w-[260px] snap-start">
+                                <div key={product.id} className="w-[220px] sm:w-[240px] lg:w-[260px] snap-start">
                                     <ProductCard product={product} />
                                 </div>
                             ))}

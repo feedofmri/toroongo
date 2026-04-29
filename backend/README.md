@@ -57,3 +57,15 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## cPanel API deployment (api.toroongo.com)
+
+For production on cPanel subdomain:
+
+- Point `api.toroongo.com` document root to `backend/public`.
+- In `backend/.env`, set:
+  - `APP_URL=https://api.toroongo.com`
+  - `FRONTEND_URL=https://new.toroongo.com`
+  - `CORS_ALLOWED_ORIGINS=https://new.toroongo.com`
+  - Keep `CORS_SUPPORTS_CREDENTIALS=false` for token auth (`VITE_USE_CREDENTIALS=false`).
+- Keep Laravel's `backend/public/.htaccess` in place (it already routes all requests to `index.php` and forwards `Authorization` headers).
