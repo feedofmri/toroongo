@@ -203,7 +203,7 @@ export default function Navbar() {
                         {isAuthenticated && user?.role === 'buyer' && (
                             <Link 
                                 to="/account/messages" 
-                                onClick={(e) => console.log('DEBUG: Buyer Messages Link Clicked')}
+                                onClick={() => setMobileMenuOpen(false)}
                                 className="hidden sm:flex relative p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors" 
                                 aria-label="Messages"
                             >
@@ -215,7 +215,7 @@ export default function Navbar() {
                         {isAuthenticated && user?.role === 'seller' && (
                             <Link 
                                 to="/seller/messages" 
-                                onClick={(e) => console.log('DEBUG: Seller Messages Link Clicked')}
+                                onClick={() => setMobileMenuOpen(false)}
                                 className="hidden sm:flex relative p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors" 
                                 aria-label="Messages"
                             >
@@ -423,7 +423,7 @@ export default function Navbar() {
                                 <Link
                                     key={link.to}
                                     to={link.to}
-                                    onClick={(e) => console.log('DEBUG: Desktop Menu Link Clicked:', link.to)}
+                                    onClick={() => setMobileMenuOpen(false)}
                                     className={`flex items-center gap-1.5 px-3.5 py-1.5 text-sm font-medium rounded-lg transition-colors duration-200
                                         ${isActive
                                             ? 'text-brand-primary bg-brand-primary/8'
@@ -504,7 +504,6 @@ export default function Navbar() {
                                     key={link.to}
                                     to={link.to}
                                     onClick={() => {
-                                        console.log('DEBUG: Mobile Menu Link Clicked:', link.to);
                                         setMobileMenuOpen(false);
                                     }}
                                     className="flex items-center justify-between px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors"

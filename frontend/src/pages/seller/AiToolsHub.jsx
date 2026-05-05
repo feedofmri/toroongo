@@ -4,6 +4,7 @@ import {
     ShoppingBag, Megaphone, BarChart3, MessageSquare, TrendingUp,
     Brain, Loader2, CheckCircle, Copy, RefreshCw
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useSubscription } from '../../context/SubscriptionContext';
 import {
@@ -26,6 +27,8 @@ const AI_TOOL_ICONS = {
  * Interactive mock demo for AI Product Description Generator
  */
 function DescriptionGenerator() {
+    const { t } = useTranslation();
+    const [keywords, setKeywords] = useState('');
     const [keywords, setKeywords] = useState('');
     const [generating, setGenerating] = useState(false);
     const [result, setResult] = useState('');
@@ -48,13 +51,13 @@ function DescriptionGenerator() {
     return (
         <div className="space-y-4">
             <div>
-                <label className="block text-xs font-medium text-text-muted mb-1.5">Enter keywords or product name</label>
+                <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerAiHub.demo.keywordsLabel', 'Enter keywords or product name')}</label>
                 <div className="flex gap-2">
                     <input
                         type="text"
                         value={keywords}
                         onChange={(e) => setKeywords(e.target.value)}
-                        placeholder="e.g. leather messenger bag, handmade, vintage"
+                        placeholder={t('sellerAiHub.demo.keywordsPlaceholder', 'e.g. leather messenger bag, handmade, vintage')}
                         className="flex-1 px-4 py-3 text-sm bg-white border border-border-soft rounded-xl focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none"
                         onKeyDown={(e) => e.key === 'Enter' && handleGenerate()}
                     />
@@ -64,7 +67,7 @@ function DescriptionGenerator() {
                         className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-brand-primary to-brand-secondary text-white text-sm font-semibold rounded-xl hover:shadow-lg transition-all disabled:opacity-50"
                     >
                         {generating ? <Loader2 size={14} className="animate-spin" /> : <Sparkles size={14} />}
-                        Generate
+                        {t('sellerAiHub.demo.generate', 'Generate')}
                     </button>
                 </div>
             </div>
@@ -72,7 +75,7 @@ function DescriptionGenerator() {
                 <div className="p-4 bg-gradient-to-br from-brand-primary/[0.03] to-brand-secondary/[0.03] border border-brand-primary/10 rounded-xl animate-fade-in">
                     <div className="flex items-center justify-between mb-2">
                         <span className="text-[10px] font-bold text-brand-primary uppercase tracking-wider flex items-center gap-1">
-                            <Sparkles size={10} /> AI Generated
+                            <Sparkles size={10} /> {t('sellerAiHub.demo.aiGenerated', 'AI Generated')}
                         </span>
                         <div className="flex gap-1">
                             <button onClick={() => navigator.clipboard.writeText(result)} className="p-1.5 text-text-muted hover:text-brand-primary rounded transition-colors"><Copy size={12} /></button>
@@ -90,6 +93,8 @@ function DescriptionGenerator() {
  * Interactive mock demo for AI Image Enhancer
  */
 function ImageEnhancer() {
+    const { t } = useTranslation();
+    const [processing, setProcessing] = useState(false);
     const [processing, setProcessing] = useState(false);
     const [done, setDone] = useState(false);
 
@@ -103,21 +108,25 @@ function ImageEnhancer() {
         <div className="space-y-4">
             <div className="border-2 border-dashed border-border-soft rounded-xl p-8 text-center hover:border-gray-300 transition-colors">
                 <Image size={28} className="mx-auto text-text-muted/40 mb-2" />
-                <p className="text-sm text-text-muted mb-3">Drop a product image to enhance</p>
+                <p className="text-sm text-text-muted mb-3">{t('sellerAiHub.demo.imageDrop', 'Drop a product image to enhance')}</p>
                 <button
                     onClick={handleEnhance}
                     disabled={processing}
                     className="px-5 py-2.5 bg-gradient-to-r from-brand-primary to-brand-secondary text-white text-sm font-semibold rounded-xl hover:shadow-lg transition-all disabled:opacity-50"
                 >
-                    {processing ? <><Loader2 size={14} className="inline animate-spin mr-1" /> Processing...</> : 'Try Demo Enhancement'}
+                    {processing ? <><Loader2 size={14} className="inline animate-spin mr-1" /> {t('sellerAiHub.demo.processing', 'Processing...')}</> : t('sellerAiHub.demo.tryEnhancement', 'Try Demo Enhancement')}
                 </button>
             </div>
             {done && (
                 <div className="grid grid-cols-3 gap-3 animate-fade-in">
-                    {['Background Removed', 'Upscaled 2x', 'White Background'].map(label => (
-                        <div key={label} className="p-3 bg-surface-bg rounded-xl text-center">
+                    {[
+                        { label: t('sellerAiHub.demo.bgRemoved', 'Background Removed'), key: 'bgRemoved' },
+                        { label: t('sellerAiHub.demo.upscaled', 'Upscaled 2x'), key: 'upscaled' },
+                        { label: t('sellerAiHub.demo.whiteBg', 'White Background'), key: 'whiteBg' }
+                    ].map(item => (
+                        <div key={item.key} className="p-3 bg-surface-bg rounded-xl text-center">
                             <CheckCircle size={16} className="text-green-500 mx-auto mb-1" />
-                            <p className="text-xs font-medium text-text-primary">{label}</p>
+                            <p className="text-xs font-medium text-text-primary">{item.label}</p>
                         </div>
                     ))}
                 </div>
@@ -130,6 +139,8 @@ function ImageEnhancer() {
  * Mock demo for AI Auto-Translator
  */
 function AutoTranslator() {
+    const { t } = useTranslation();
+    const [translating, setTranslating] = useState(false);
     const [translating, setTranslating] = useState(false);
     const [translations, setTranslations] = useState([]);
 
@@ -153,7 +164,7 @@ function AutoTranslator() {
                 disabled={translating}
                 className="w-full flex items-center justify-center gap-2 px-5 py-3 bg-gradient-to-r from-brand-primary to-brand-secondary text-white text-sm font-semibold rounded-xl hover:shadow-lg transition-all disabled:opacity-50"
             >
-                {translating ? <><Loader2 size={14} className="animate-spin" /> Translating catalog...</> : <><Languages size={14} /> Translate Product Catalog</>}
+                {translating ? <><Loader2 size={14} className="animate-spin" /> {t('sellerAiHub.demo.translating', 'Translating catalog...')}</> : <><Languages size={14} /> {t('sellerAiHub.demo.translateBtn', 'Translate Product Catalog')}</>}
             </button>
             {translations.length > 0 && (
                 <div className="grid grid-cols-2 gap-2 animate-fade-in">
@@ -176,6 +187,7 @@ function AutoTranslator() {
  * Tool card for locked AI features
  */
 function LockedToolCard({ ai }) {
+    const { t } = useTranslation();
     const ToolIcon = AI_TOOL_ICONS[ai.title] || Brain;
     const planData = PLANS[ai.requiredPlan];
 
@@ -194,7 +206,7 @@ function LockedToolCard({ ai }) {
                         className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full"
                         style={{ backgroundColor: `${planData?.color}15`, color: planData?.color }}
                     >
-                        {planData?.name}+ required
+                        {t('sellerAiHub.tool.required', '{{plan}}+ required', { plan: planData?.name })}
                     </span>
                 </div>
             </div>
@@ -207,6 +219,7 @@ function LockedToolCard({ ai }) {
  * Tool card for unlocked AI features (interactive)
  */
 function UnlockedToolCard({ ai, tierKey }) {
+    const { t } = useTranslation();
     const [expanded, setExpanded] = useState(false);
     const ToolIcon = AI_TOOL_ICONS[ai.title] || Brain;
 
@@ -228,7 +241,7 @@ function UnlockedToolCard({ ai, tierKey }) {
                     <div>
                         <h4 className="text-sm font-semibold text-text-primary">{ai.title}</h4>
                         <span className="text-[9px] font-bold text-green-600 bg-green-50 uppercase tracking-wider px-1.5 py-0.5 rounded-full">
-                            ✓ Unlocked
+                            ✓ {t('sellerAiHub.tool.unlocked', 'Unlocked')}
                         </span>
                     </div>
                 </div>
@@ -242,7 +255,7 @@ function UnlockedToolCard({ ai, tierKey }) {
                         className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-semibold text-brand-primary bg-brand-primary/5 hover:bg-brand-primary/10 rounded-xl transition-colors"
                     >
                         <Sparkles size={12} />
-                        {expanded ? 'Close Tool' : 'Try It Now'}
+                        {expanded ? t('sellerAiHub.tool.close', 'Close Tool') : t('sellerAiHub.tool.tryIt', 'Try It Now')}
                     </button>
                     {expanded && (
                         <div className="mt-4 pt-4 border-t border-border-soft animate-fade-in">
@@ -253,7 +266,7 @@ function UnlockedToolCard({ ai, tierKey }) {
             ) : (
                 <div className="flex items-center gap-2 px-4 py-2.5 bg-surface-bg rounded-xl text-xs text-text-muted">
                     <CheckCircle size={12} className="text-green-500" />
-                    Active and running on your storefront
+                    {t('sellerAiHub.tool.activeRunning', 'Active and running on your storefront')}
                 </div>
             )}
         </div>
@@ -261,6 +274,7 @@ function UnlockedToolCard({ ai, tierKey }) {
 }
 
 export default function AiToolsHub() {
+    const { t } = useTranslation();
     const { currentPlan } = useSubscription();
     const unlockedAi = getCumulativeAiFeatures(currentPlan);
     const lockedAi = getLockedAiFeatures(currentPlan);
@@ -280,10 +294,10 @@ export default function AiToolsHub() {
             <div>
                 <h2 className="text-2xl font-bold text-text-primary flex items-center gap-2">
                     <Sparkles size={22} className="text-brand-primary" />
-                    AI Superpowers
+                    {t('sellerAiHub.title', 'AI Superpowers')}
                 </h2>
                 <p className="text-text-muted text-sm mt-1">
-                    {unlockedAi.length} AI tools unlocked • {lockedAi.length} available with upgrade
+                    {t('sellerAiHub.subtitle', '{{unlocked}} AI tools unlocked • {{locked}} available with upgrade', { unlocked: unlockedAi.length, locked: lockedAi.length })}
                 </p>
             </div>
 
@@ -292,7 +306,7 @@ export default function AiToolsHub() {
                 <div>
                     <h3 className="text-xs font-bold text-brand-primary uppercase tracking-wider mb-3 flex items-center gap-1.5">
                         <Sparkles size={11} />
-                        Your Active AI Tools
+                        {t('sellerAiHub.activeTitle', 'Your Active AI Tools')}
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {unlockedWithTier.map((ai, idx) => (
@@ -307,7 +321,7 @@ export default function AiToolsHub() {
                 <div>
                     <h3 className="text-xs font-bold text-text-muted uppercase tracking-wider mb-3 flex items-center gap-1.5">
                         <Lock size={11} />
-                        Available with Upgrade
+                        {t('sellerAiHub.availableTitle', 'Available with Upgrade')}
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {lockedAi.map((ai, idx) => (
@@ -320,7 +334,7 @@ export default function AiToolsHub() {
                         className="mt-4 flex items-center justify-center gap-2 w-full py-3 bg-gradient-to-r from-brand-primary to-brand-secondary text-white text-sm font-semibold rounded-xl hover:shadow-lg hover:shadow-brand-primary/20 transition-all"
                     >
                         <Sparkles size={14} />
-                        Unlock More AI Superpowers
+                        {t('sellerAiHub.unlockMore', 'Unlock More AI Superpowers')}
                         <ArrowRight size={14} />
                     </Link>
                 </div>

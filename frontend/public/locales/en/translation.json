@@ -1171,5 +1171,381 @@
     "shops": {
         "title": "Explore Shops",
         "subtitle": "Discover unique stores from independent sellers on Toroongo. Every shop is a curated experience."
+    },
+    "sellerSettings": {
+        "title": "Seller Settings",
+        "tabs": {
+            "store": "Store",
+            "branding": "Branding",
+            "country_currency": "Country & Currency",
+            "content": "Store Content",
+            "whitelabel": "White-Label",
+            "currency": "Multi-Currency",
+            "customcode": "Custom Code",
+            "shipping": "Shipping",
+            "notifications": "Notifications"
+        },
+        "username": {
+            "title": "Shop Username",
+            "desc": "Your shop's unique URL on Toroongo.",
+            "checking": "Checking availability...",
+            "available": "Username is available!",
+            "currentBtn": "Current Username",
+            "claim": "Claim Username",
+            "preview": "Preview your storefront"
+        },
+        "storeInfo": {
+            "title": "Store Information",
+            "name": "Shop Name",
+            "description": "Shop Description",
+            "email": "Public Email",
+            "phone": "Public Phone",
+            "location": "Location",
+            "save": "Save Store Info"
+        },
+        "countryCurrency": {
+            "title": "Country & Currency",
+            "desc": "Your country sets your store's currency. All product prices you enter will be stored in this currency and automatically converted for buyers worldwide.",
+            "important": "Important:",
+            "importantDesc": "Changing your currency will update the currency for all your existing products. Their stored prices will remain the same numbers, so you may want to review and update them to match the new currency.",
+            "save": "Save Country & Currency"
+        },
+        "branding": {
+            "title": "Branding & Appearance",
+            "color": "Primary Brand Color",
+            "logo": "Logo URL",
+            "banner": "Banner Image URL",
+            "save": "Save Branding"
+        },
+        "shipping": {
+            "title": "Shipping Settings",
+            "processing": "Processing Time (days)",
+            "threshold": "Free Shipping Threshold ($)",
+            "rate": "Standard Shipping Rate ($)",
+            "express": "Offer express shipping",
+            "expressDesc": "Allow customers to choose faster 2-3 day delivery",
+            "save": "Save Shipping Settings"
+        },
+        "notifications": {
+            "title": "Notification Preferences",
+            "newOrders": "New orders",
+            "newOrdersDesc": "Get notified when you receive a new order",
+            "orderUpdates": "Order updates",
+            "orderUpdatesDesc": "Status changes and delivery confirmations",
+            "customerMessages": "Customer messages",
+            "customerMessagesDesc": "When a buyer sends you a message",
+            "lowStock": "Low stock alerts",
+            "lowStockDesc": "When product stock falls below 5 units",
+            "payouts": "Payout notifications",
+            "payoutsDesc": "When payouts are processed to your bank",
+            "save": "Save Notification Preferences"
+        },
+        "content": {
+            "aboutTitle": "About Your Store",
+            "aboutDesc": "Tell your story. This will be displayed on the \"About\" tab of your storefront.",
+            "aboutPlaceholder": "Describe your store, your team, and your mission...",
+            "benefitsTitle": "Why Shop With Us",
+            "benefitsDesc": "Highlight what makes your store unique. These appear on your \"About\" page.",
+            "benefitNum": "Benefit #{{num}}",
+            "benefitPlaceholder": "Benefit Title",
+            "descPlaceholder": "Description...",
+            "policiesTitle": "Store Policies",
+            "policiesDesc": "Custom policies for your customers. Defaults will be shown if left blank.",
+            "shippingPolicy": "Shipping Policy",
+            "shippingPlaceholder": "Order processing times, shipping methods, areas covered...",
+            "returnsPolicy": "Return & Refund Policy",
+            "returnsPlaceholder": "Return windows, refund conditions, who pays for shipping...",
+            "warrantyPolicy": "Warranty Information",
+            "warrantyPlaceholder": "Product guarantee periods, coverage details...",
+            "faqPolicy": "Frequently Asked Questions (FAQ)",
+            "faqPlaceholder": "Common questions and answers for your buyers...",
+            "save": "Save Store Content"
+        },
+        "whitelabel": {
+            "title": "White-Label Settings",
+            "desc": "Control the Toroongo branding on your storefront. Your Business plan includes full white-labeling.",
+            "removeFooter": "Remove \"Powered by Toroongo\" footer",
+            "removeFooterDesc": "Your storefront will show no Toroongo branding to customers",
+            "hideEmail": "Hide Toroongo from email templates",
+            "hideEmailDesc": "Order confirmations and notifications will use your brand only",
+            "customFavicon": "Custom favicon",
+            "customFaviconDesc": "Use your own favicon instead of the Toroongo icon",
+            "activeTitle": "White-Label Active",
+            "activeDesc": "All Toroongo branding has been removed from your storefront.",
+            "save": "Save White-Label Settings"
+        },
+        "customcode": {
+            "cssTitle": "Custom CSS",
+            "cssDesc": "Add custom CSS to override storefront styles. Changes apply to your public storefront only.",
+            "cssPlaceholder": "/* Your custom storefront CSS */",
+            "cssSave": "Save Custom CSS",
+            "htmlTitle": "Custom HTML (Head Injection)",
+            "htmlDesc": "Inject custom HTML into the <head> of your storefront. Useful for analytics scripts, meta tags, or third-party integrations.",
+            "htmlPlaceholder": "<!-- Custom head HTML -->",
+            "htmlCaution": "Caution:",
+            "htmlCautionDesc": "Injecting invalid HTML or scripts may break your storefront. Test changes carefully.",
+            "htmlSave": "Save Custom HTML"
+        },
+        "currency": {
+            "title": "Multi-Currency Settings",
+            "desc": "Enable currencies for your store. Prices auto-convert based on the visitor's IP address.",
+            "autoDetect": "Auto-detect currency by IP",
+            "autoDetectDesc": "Automatically show prices in the visitor's local currency",
+            "enabledCurrencies": "Enabled Currencies",
+            "save": "Save Currency Settings"
+        }
+    },
+    "sellerPayment": {
+        "title": "Payment Options",
+        "subtitle": "Add the payment methods you accept. Buyers will see these at checkout.",
+        "addMethod": "Add Method",
+        "codTitle": "Cash on Delivery (Standard)",
+        "codBadge": "Default Active",
+        "codDesc": "Buyers can always choose to pay upon delivery. This method is managed by the system and doesn't require extra configuration.",
+        "noMethods": "No custom payment methods yet",
+        "noMethodsDesc": "Add bKash, Nagad, PayPal, or any other method you accept.",
+        "charge": "+{{count}}% charge",
+        "modal": {
+            "addTitle": "Add Payment Method",
+            "editTitle": "Edit Payment Method",
+            "type": "Payment Type",
+            "name": "Display Name *",
+            "namePlaceholder": "e.g. bKash Personal",
+            "idLabel": "Identifier Label",
+            "idLabelPlaceholder": "e.g. bKash Number, PayPal Email",
+            "idValue": "Your Account / Number / Email *",
+            "idValuePlaceholder": "e.g. 01712345678",
+            "serviceCharge": "Service Charge (%)",
+            "serviceChargeDesc": "Enter 0 for no extra charge.",
+            "instructions": "Instructions for Buyer",
+            "instructionsPlaceholder": "e.g. Send payment to the number above and share your transaction ID.",
+            "active": "Active (visible to buyers)",
+            "cancel": "Cancel",
+            "save": "Save Changes"
+        },
+        "confirmDelete": "Delete this payment method?"
+    },
+    "sellerAbandonedCarts": {
+        "title": "Abandoned Cart Recovery",
+        "subtitle": "Automatically recover lost sales with follow-up email sequences",
+        "stats": {
+            "abandoned": "Abandoned Carts",
+            "recovered": "Recovered",
+            "rate": "Recovery Rate",
+            "revenue": "Revenue Recovered"
+        },
+        "automation": {
+            "title": "Email Automation",
+            "active": "Active",
+            "paused": "Paused",
+            "reminder1": "1st Reminder",
+            "reminder2": "2nd Reminder",
+            "reminder3": "3rd Reminder",
+            "hourAfter": "1 hour after",
+            "hoursAfter": "{{count}} hours after",
+            "gentleDesc": "Gentle reminder with cart items",
+            "urgencyDesc": "Urgency + social proof",
+            "discountDesc": "{{percent}}% discount included",
+            "finalDesc": "Final reminder"
+        },
+        "filters": {
+            "all": "All",
+            "pending": "Pending",
+            "emailSent": "Email Sent",
+            "recovered": "Recovered",
+            "expired": "Expired"
+        },
+        "table": {
+            "customer": "Customer",
+            "items": "Items",
+            "value": "Value",
+            "abandoned": "Abandoned",
+            "emailsSent": "Emails Sent",
+            "status": "Status",
+            "action": "Action",
+            "sendNow": "Send Now",
+            "viewEmails": "View Emails",
+            "justNow": "Just now",
+            "hoursAgo": "{{count}}h ago",
+            "daysAgo": "{{count}}d ago"
+        }
+    },
+    "sellerProduct": {
+        "modal": {
+            "addTitle": "Add New Product",
+            "editTitle": "Edit Product",
+            "titleLabel": "Product Title *",
+            "titlePlaceholder": "e.g., Wireless Headphones",
+            "categoryLabel": "Category",
+            "categoryPlaceholder": "Select Category",
+            "descLabel": "Description",
+            "descPlaceholder": "Describe your product...",
+            "seoLabel": "Meta Description (SEO)",
+            "seoPlaceholder": "Short SEO description (max 160 characters)...",
+            "priceLabel": "Price *",
+            "originalPriceLabel": "Original Price",
+            "stockLabel": "Stock",
+            "variationsTitle": "Variations",
+            "addVariation": "+ Add variation group",
+            "variationsDesc": "Create variation groups (e.g., Size, Color) and add possible values. Variants can be selected by buyers on the product page.",
+            "noVariations": "No variations added.",
+            "groupNamePlaceholder": "Group name (e.g., Size)",
+            "remove": "Remove",
+            "addValuePlaceholder": "Add value and press Enter (e.g., Red)",
+            "variantPrice": "Price",
+            "variantImage": "Image URL",
+            "mediaTitle": "Product Media",
+            "mediaDesc": "Add image & video URLs. The first image will be used as the primary product image. Supports direct image links, MP4 videos, and YouTube URLs.",
+            "mediaPlaceholder": "https://example.com/image.jpg or YouTube URL",
+            "add": "Add",
+            "noMedia": "No media added yet",
+            "noMediaDesc": "Paste image or video URLs above to add product media",
+            "cancel": "Cancel",
+            "save": "Save Product",
+            "update": "Update Product",
+            "errorRequired": "Please fill all required fields",
+            "invalidUrl": "Please enter a valid URL",
+            "duplicateUrl": "This URL has already been added",
+            "badgeImage": "Image",
+            "badgeImagePlural": "images",
+            "badgeVideo": "Video",
+            "badgeVideoPlural": "videos",
+            "primary": "Primary",
+            "invalidUrlMsg": "Invalid URL"
+        }
+    },
+    "sellerDiscounts": {
+        "title": "Discounts",
+        "subtitle": "Create and manage discount codes for your store",
+        "createBtn": "Create Discount",
+        "stats": {
+            "active": "Active Discounts",
+            "usage": "Total Usage",
+            "savings": "Avg. Savings"
+        },
+        "form": {
+            "title": "Create New Discount",
+            "codeLabel": "Discount Code",
+            "codePlaceholder": "e.g. SUMMER25",
+            "typeLabel": "Discount Type",
+            "typePercentage": "Percentage Off",
+            "typeFixed": "Fixed Amount Off",
+            "valueLabel": "Value",
+            "minOrderLabel": "Minimum Order Value ($)",
+            "usageLimitLabel": "Usage Limit",
+            "usageLimitPlaceholder": "Unlimited",
+            "expiryLabel": "Expiry Date",
+            "createBtn": "Create Discount",
+            "cancel": "Cancel"
+        },
+        "searchPlaceholder": "Search discount codes...",
+        "table": {
+            "code": "Code",
+            "type": "Type",
+            "value": "Value",
+            "usage": "Usage",
+            "minOrder": "Min. Order",
+            "status": "Status",
+            "expires": "Expires",
+            "actions": "Actions",
+            "never": "Never",
+            "copyCode": "Copy code"
+        },
+        "status": {
+            "active": "active",
+            "expired": "expired",
+            "paused": "paused"
+        },
+        "noDiscounts": "No discount codes found",
+        "noDiscountsDesc": "Create your first discount code to get started",
+        "upgrade": {
+            "title": "Discount Rules",
+            "message": "Create discount codes and promotional offers to boost your sales. Upgrade to Pro to unlock this feature."
+        }
+    },
+    "sellerStaff": {
+        "title": "Staff Accounts",
+        "staffCount": "{{count}} / {{max}} staff members",
+        "staffCountUnlimited": "{{count}} staff members (Unlimited)",
+        "inviteBtn": "Invite Staff Member",
+        "limitReached": {
+            "title": "Staff limit reached",
+            "message": "Your Business plan supports up to {{max}} staff members. Upgrade to Enterprise for unlimited staff accounts."
+        },
+        "modal": {
+            "title": "Invite Staff Member",
+            "nameLabel": "Full Name",
+            "emailLabel": "Email Address",
+            "roleLabel": "Role",
+            "roleManager": "Manager — Full access",
+            "roleEditor": "Editor — Products & content",
+            "roleSupport": "Support — Orders & messages",
+            "roleViewer": "Viewer — Read-only",
+            "cancel": "Cancel",
+            "sendBtn": "Send Invite"
+        },
+        "searchPlaceholder": "Search staff members...",
+        "card": {
+            "lastActive": "Last active: {{time}}",
+            "remove": "Remove",
+            "permissions": "Permissions",
+            "initials": "Initials",
+            "justNow": "Just now",
+            "hoursAgo": "{{count}}h ago",
+            "daysAgo": "{{count}}d ago"
+        },
+        "roles": {
+            "manager": "Manager",
+            "editor": "Editor",
+            "support": "Support",
+            "viewer": "Viewer"
+        },
+        "status": {
+            "active": "Active",
+            "pending": "Pending",
+            "inactive": "Inactive"
+        },
+        "noStaff": "No staff members found",
+        "noStaffDesc": "Invite your first team member to get started",
+        "upgrade": {
+            "title": "Staff Accounts",
+            "message": "Add team members with role-based permissions to help manage your store. Upgrade to Business to unlock this feature."
+        },
+        "permissions": {
+            "orders": "Orders",
+            "products": "Products",
+            "analytics": "Analytics",
+            "messages": "Messages",
+            "blog": "Blog",
+            "settings": "Settings"
+        }
+    },
+    "sellerAiHub": {
+        "title": "AI Superpowers",
+        "subtitle": "{{unlocked}} AI tools unlocked • {{locked}} available with upgrade",
+        "activeTitle": "Your Active AI Tools",
+        "availableTitle": "Available with Upgrade",
+        "unlockMore": "Unlock More AI Superpowers",
+        "tool": {
+            "unlocked": "Unlocked",
+            "required": "{{plan}}+ required",
+            "tryIt": "Try It Now",
+            "close": "Close Tool",
+            "activeRunning": "Active and running on your storefront"
+        },
+        "demo": {
+            "keywordsLabel": "Enter keywords or product name",
+            "keywordsPlaceholder": "e.g. leather messenger bag, handmade, vintage",
+            "generate": "Generate",
+            "aiGenerated": "AI Generated",
+            "imageDrop": "Drop a product image to enhance",
+            "tryEnhancement": "Try Demo Enhancement",
+            "processing": "Processing...",
+            "bgRemoved": "Background Removed",
+            "upscaled": "Upscaled 2x",
+            "whiteBg": "White Background",
+            "translateBtn": "Translate Product Catalog",
+            "translating": "Translating catalog..."
+        }
     }
 }

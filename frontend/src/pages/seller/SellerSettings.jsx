@@ -230,15 +230,15 @@ export default function SellerSettings() {
     };
 
     const tabs = [
-        { key: 'store', label: t('sellerSettings.tabs.store'), icon: Store },
-        { key: 'branding', label: t('sellerSettings.tabs.branding'), icon: Paintbrush },
-        { key: 'country_currency', label: 'Country & Currency', icon: MapPin },
-        { key: 'content', label: 'Store Content', icon: BookOpen },
-        { key: 'whitelabel', label: 'White-Label', icon: Eye, locked: !canAccess('whitelabel') },
-        { key: 'currency', label: 'Multi-Currency', icon: Banknote, locked: !canAccess('currency') },
-        { key: 'customcode', label: 'Custom Code', icon: Code, locked: !canAccess('css') },
-        { key: 'shipping', label: t('sellerSettings.tabs.shipping'), icon: Globe },
-        { key: 'notifications', label: t('sellerSettings.tabs.notifications'), icon: Bell },
+        { key: 'store', label: t('sellerSettings.tabs.store', 'Store'), icon: Store },
+        { key: 'branding', label: t('sellerSettings.tabs.branding', 'Branding'), icon: Paintbrush },
+        { key: 'country_currency', label: t('sellerSettings.tabs.country_currency', 'Country & Currency'), icon: MapPin },
+        { key: 'content', label: t('sellerSettings.tabs.content', 'Store Content'), icon: BookOpen },
+        { key: 'whitelabel', label: t('sellerSettings.tabs.whitelabel', 'White-Label'), icon: Eye, locked: !canAccess('whitelabel') },
+        { key: 'currency', label: t('sellerSettings.tabs.currency', 'Multi-Currency'), icon: Banknote, locked: !canAccess('currency') },
+        { key: 'customcode', label: t('sellerSettings.tabs.customcode', 'Custom Code'), icon: Code, locked: !canAccess('css') },
+        { key: 'shipping', label: t('sellerSettings.tabs.shipping', 'Shipping'), icon: Globe },
+        { key: 'notifications', label: t('sellerSettings.tabs.notifications', 'Notifications'), icon: Bell },
     ];
 
     const inputClass = `w-full px-4 py-3 text-sm bg-white border border-border-soft rounded-xl
@@ -246,7 +246,7 @@ export default function SellerSettings() {
 
     return (
         <div className="animate-fade-in">
-            <h2 className="text-2xl font-bold text-text-primary mb-6">{t('sellerSettings.title')}</h2>
+            <h2 className="text-2xl font-bold text-text-primary mb-6">{t('sellerSettings.title', 'Seller Settings')}</h2>
 
             {/* Tabs */}
             <div className="flex gap-1 mb-6 overflow-x-auto scrollbar-hide pb-1">
@@ -270,10 +270,10 @@ export default function SellerSettings() {
                     <div className="bg-white p-6 rounded-2xl border border-border-soft">
                         <div className="flex items-center gap-2 mb-4">
                             <Link2 size={18} className="text-brand-primary" />
-                            <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.username.title')}</h3>
+                            <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.username.title', 'Shop Username')}</h3>
                         </div>
                         <p className="text-xs text-text-muted mb-4">
-                            {t('sellerSettings.username.desc')}{' '}
+                            {t('sellerSettings.username.desc', "Your shop's unique URL on Toroongo.")}{' '}
                             <span className="font-semibold text-text-primary">toroongo.com/{shopUsername || '...'}</span>
                         </p>
 
@@ -303,13 +303,13 @@ export default function SellerSettings() {
                                 {isChecking ? (
                                     <>
                                         <Loader2 size={13} className="text-gray-400 animate-spin" />
-                                        <span className="text-xs text-gray-400">Checking availability...</span>
+                                        <span className="text-xs text-gray-400">{t('sellerSettings.username.checking', 'Checking availability...')}</span>
                                     </>
                                 ) : shopUsername ? (
                                     slugStatus.available ? (
                                         <>
                                             <CheckCircle2 size={13} className="text-green-500" />
-                                            <span className="text-xs text-green-600 font-medium">{slugStatus.reason || 'Username is available!'}</span>
+                                            <span className="text-xs text-green-600 font-medium">{slugStatus.reason || t('sellerSettings.username.available', 'Username is available!')}</span>
                                         </>
                                     ) : (
                                         <>
@@ -328,7 +328,7 @@ export default function SellerSettings() {
                                     className="inline-flex items-center gap-1.5 text-xs font-medium text-brand-primary hover:text-brand-secondary transition-colors mt-1"
                                 >
                                     <ExternalLink size={11} />
-                                    Preview your storefront
+                                    {t('sellerSettings.username.preview', 'Preview your storefront')}
                                 </Link>
                             )}
                         </div>
@@ -343,19 +343,19 @@ export default function SellerSettings() {
                                 }`}
                         >
                             {isSaving ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
-                            {isSaving ? 'Claiming...' : shopUsername === currentSlug ? t('sellerSettings.username.currentBtn') : t('sellerSettings.username.claim')}
+                            {isSaving ? 'Claiming...' : shopUsername === currentSlug ? t('sellerSettings.username.currentBtn', 'Current Username') : t('sellerSettings.username.claim', 'Claim Username')}
                         </button>
                     </div>
 
                     {/* ── Store Info ─── */}
                     <div className="bg-white p-6 rounded-2xl border border-border-soft space-y-5">
-                        <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.storeInfo.title')}</h3>
+                        <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.storeInfo.title', 'Store Information')}</h3>
                         <div>
-                            <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.storeInfo.name')}</label>
+                            <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.storeInfo.name', 'Shop Name')}</label>
                             <input type="text" value={storeInfo.store_name} onChange={(e) => setStoreInfo({...storeInfo, store_name: e.target.value})} className={inputClass} />
                         </div>
                         <div>
-                            <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.storeInfo.description')}</label>
+                            <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.storeInfo.description', 'Shop Description')}</label>
                             <textarea
                                 rows={3}
                                 value={storeInfo.description}
@@ -364,20 +364,20 @@ export default function SellerSettings() {
                             />
                         </div>
                         <div>
-                            <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.storeInfo.email')}</label>
+                            <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.storeInfo.email', 'Public Email')}</label>
                             <input type="email" value={storeInfo.email} onChange={(e) => setStoreInfo({...storeInfo, email: e.target.value})} className={inputClass} />
                         </div>
                         <div>
-                            <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.storeInfo.phone')}</label>
+                            <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.storeInfo.phone', 'Public Phone')}</label>
                             <input type="tel" value={storeInfo.phone} onChange={(e) => setStoreInfo({...storeInfo, phone: e.target.value})} className={inputClass} />
                         </div>
                         <div>
-                            <label className="block text-xs font-medium text-text-muted mb-1.5">Location</label>
+                            <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.storeInfo.location', 'Location')}</label>
                             <input type="text" value={storeInfo.location} onChange={(e) => setStoreInfo({...storeInfo, location: e.target.value})} className={inputClass} placeholder="e.g. United States, New York" />
                         </div>
                         <button onClick={handleSaveStoreInfo} disabled={saveStoreInfoLoading} className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-70 disabled:cursor-not-allowed">
                             {saveStoreInfoLoading ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
-                            {t('sellerSettings.storeInfo.save')}
+                            {t('sellerSettings.storeInfo.save', 'Save Store Info')}
                         </button>
                     </div>
                 </div>
@@ -386,13 +386,13 @@ export default function SellerSettings() {
             {activeTab === 'country_currency' && (
                 <div className="max-w-lg space-y-5">
                     <div>
-                        <h3 className="text-lg font-semibold text-text-primary">Country & Currency</h3>
+                        <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.countryCurrency.title', 'Country & Currency')}</h3>
                         <p className="text-sm text-text-muted mt-1">
-                            Your country sets your store's currency. All product prices you enter will be stored in this currency and automatically converted for buyers worldwide.
+                            {t('sellerSettings.countryCurrency.desc', "Your country sets your store's currency. All product prices you enter will be stored in this currency and automatically converted for buyers worldwide.")}
                         </p>
                     </div>
                     <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl text-sm text-amber-800">
-                        <strong>Important:</strong> Changing your currency will update the currency for all your existing products. Their stored prices will remain the same numbers, so you may want to review and update them to match the new currency.
+                        <strong>{t('sellerSettings.countryCurrency.important', 'Important:')}</strong> {t('sellerSettings.countryCurrency.importantDesc', "Changing your currency will update the currency for all your existing products. Their stored prices will remain the same numbers, so you may want to review and update them to match the new currency.")}
                     </div>
                     <CountrySelector value={countryData} onChange={setCountryData} />
                     <button
@@ -401,7 +401,7 @@ export default function SellerSettings() {
                         className="flex items-center gap-2 px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-70"
                     >
                         {saveCountryLoading && <Loader2 size={16} className="animate-spin" />}
-                        Save Country & Currency
+                        {t('sellerSettings.countryCurrency.save', 'Save Country & Currency')}
                     </button>
                 </div>
             )}
@@ -409,25 +409,25 @@ export default function SellerSettings() {
             {activeTab === 'branding' && (
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
                     <div className="space-y-5 bg-white p-6 rounded-2xl border border-border-soft">
-                    <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.branding.title')}</h3>
+                    <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.branding.title', 'Branding & Appearance')}</h3>
                     <div>
-                        <label className="block text-xs font-medium text-text-muted mb-1.5">Primary Brand Color</label>
+                        <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.branding.color', 'Primary Brand Color')}</label>
                         <div className="flex items-center gap-3">
                             <input type="color" value={branding.brand_color} onChange={(e) => setBranding({...branding, brand_color: e.target.value})} className="w-10 h-10 rounded-lg border border-border-soft cursor-pointer" />
                             <input type="text" value={branding.brand_color} onChange={(e) => setBranding({...branding, brand_color: e.target.value})} className={inputClass} />
                         </div>
                     </div>
                     <div>
-                        <label className="block text-xs font-medium text-text-muted mb-1.5">Logo URL</label>
+                        <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.branding.logo', 'Logo URL')}</label>
                         <input type="url" value={branding.logo} onChange={(e) => setBranding({...branding, logo: e.target.value})} className={inputClass} />
                     </div>
                     <div>
-                        <label className="block text-xs font-medium text-text-muted mb-1.5">Banner Image URL</label>
+                        <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.branding.banner', 'Banner Image URL')}</label>
                         <input type="url" value={branding.banner} onChange={(e) => setBranding({...branding, banner: e.target.value})} className={inputClass} />
                     </div>
                     <button onClick={handleSaveBranding} disabled={saveBrandingLoading} className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-70 disabled:cursor-not-allowed">
                         {saveBrandingLoading ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
-                        {t('sellerSettings.branding.save')}
+                        {t('sellerSettings.branding.save', 'Save Branding')}
                     </button>
                     </div>
                 </div>
@@ -436,29 +436,29 @@ export default function SellerSettings() {
             {activeTab === 'shipping' && (
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
                     <div className="space-y-5 bg-white p-6 rounded-2xl border border-border-soft">
-                    <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.shipping.title')}</h3>
+                    <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.shipping.title', 'Shipping Settings')}</h3>
                     <div>
-                        <label className="block text-xs font-medium text-text-muted mb-1.5">Processing Time (days)</label>
+                        <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.shipping.processing', 'Processing Time (days)')}</label>
                         <input type="number" value={shipping.processing_time} onChange={(e) => setShipping({...shipping, processing_time: parseInt(e.target.value) || 0})} className={inputClass} />
                     </div>
                     <div>
-                        <label className="block text-xs font-medium text-text-muted mb-1.5">Free Shipping Threshold ($)</label>
+                        <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.shipping.threshold', 'Free Shipping Threshold ($)')}</label>
                         <input type="number" value={shipping.free_shipping_threshold} onChange={(e) => setShipping({...shipping, free_shipping_threshold: parseFloat(e.target.value) || 0})} className={inputClass} />
                     </div>
                     <div>
-                        <label className="block text-xs font-medium text-text-muted mb-1.5">Standard Shipping Rate ($)</label>
+                        <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.shipping.rate', 'Standard Shipping Rate ($)')}</label>
                         <input type="number" value={shipping.standard_shipping_rate} onChange={(e) => setShipping({...shipping, standard_shipping_rate: parseFloat(e.target.value) || 0})} step="0.01" className={inputClass} />
                     </div>
                     <label className="flex items-center gap-3 p-4 border border-border-soft rounded-xl cursor-pointer hover:border-gray-300">
                         <input type="checkbox" checked={shipping.offer_express_shipping} onChange={(e) => setShipping({...shipping, offer_express_shipping: e.target.checked})} className="accent-brand-primary w-4 h-4" />
                         <div>
-                            <p className="text-sm font-medium text-text-primary">Offer express shipping</p>
-                            <p className="text-xs text-text-muted">Allow customers to choose faster 2-3 day delivery</p>
+                            <p className="text-sm font-medium text-text-primary">{t('sellerSettings.shipping.express', 'Offer express shipping')}</p>
+                            <p className="text-xs text-text-muted">{t('sellerSettings.shipping.expressDesc', 'Allow customers to choose faster 2-3 day delivery')}</p>
                         </div>
                     </label>
                     <button onClick={() => handleSaveSettings('shipping', shipping, setSaveShippingLoading)} disabled={saveShippingLoading} className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-70 disabled:cursor-not-allowed">
                         {saveShippingLoading ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
-                        {t('sellerSettings.shipping.save')}
+                        {t('sellerSettings.shipping.save', 'Save Shipping Settings')}
                     </button>
                     </div>
                 </div>
@@ -467,13 +467,13 @@ export default function SellerSettings() {
             {activeTab === 'notifications' && (
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
                     <div className="space-y-4 bg-white p-6 rounded-2xl border border-border-soft">
-                    <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.notifications.title')}</h3>
+                    <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.notifications.title', 'Notification Preferences')}</h3>
                     {[
-                        { key: 'new_orders', label: 'New orders', desc: 'Get notified when you receive a new order' },
-                        { key: 'order_updates', label: 'Order updates', desc: 'Status changes and delivery confirmations' },
-                        { key: 'customer_messages', label: 'Customer messages', desc: 'When a buyer sends you a message' },
-                        { key: 'low_stock_alerts', label: 'Low stock alerts', desc: 'When product stock falls below 5 units' },
-                        { key: 'payout_notifications', label: 'Payout notifications', desc: 'When payouts are processed to your bank' },
+                        { key: 'new_orders', label: t('sellerSettings.notifications.newOrders', 'New orders'), desc: t('sellerSettings.notifications.newOrdersDesc', 'Get notified when you receive a new order') },
+                        { key: 'order_updates', label: t('sellerSettings.notifications.orderUpdates', 'Order updates'), desc: t('sellerSettings.notifications.orderUpdatesDesc', 'Status changes and delivery confirmations') },
+                        { key: 'customer_messages', label: t('sellerSettings.notifications.customerMessages', 'Customer messages'), desc: t('sellerSettings.notifications.customerMessagesDesc', 'When a buyer sends you a message') },
+                        { key: 'low_stock_alerts', label: t('sellerSettings.notifications.lowStock', 'Low stock alerts'), desc: t('sellerSettings.notifications.lowStockDesc', 'When product stock falls below 5 units') },
+                        { key: 'payout_notifications', label: t('sellerSettings.notifications.payouts', 'Payout notifications'), desc: t('sellerSettings.notifications.payoutsDesc', 'When payouts are processed to your bank') },
                     ].map((item) => (
                         <label key={item.key} className="flex items-start justify-between p-4 border border-border-soft rounded-xl cursor-pointer hover:border-gray-300 transition-colors">
                             <div>
@@ -485,7 +485,7 @@ export default function SellerSettings() {
                     ))}
                     <button onClick={() => handleSaveSettings('notifications', notifications, setSaveNotificationsLoading)} disabled={saveNotificationsLoading} className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-70 disabled:cursor-not-allowed">
                         {saveNotificationsLoading ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
-                        {t('sellerSettings.notifications.save')}
+                        {t('sellerSettings.notifications.save', 'Save Notification Preferences')}
                     </button>
                     </div>
                 </div>
@@ -498,10 +498,10 @@ export default function SellerSettings() {
                     <div className="bg-white p-6 rounded-2xl border border-border-soft space-y-5">
                         <div className="flex items-center gap-2 mb-1">
                             <Info size={18} className="text-brand-primary" />
-                            <h3 className="text-lg font-semibold text-text-primary">About Your Store</h3>
+                            <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.content.aboutTitle', 'About Your Store')}</h3>
                         </div>
                         <p className="text-xs text-text-muted">
-                            Tell your story. This will be displayed on the "About" tab of your storefront.
+                            {t('sellerSettings.content.aboutDesc', 'Tell your story. This will be displayed on the "About" tab of your storefront.')}
                         </p>
                         <div>
                             <textarea
@@ -509,7 +509,7 @@ export default function SellerSettings() {
                                 value={storeContent.about_content}
                                 onChange={(e) => setStoreContent({...storeContent, about_content: e.target.value})}
                                 className={`${inputClass} resize-none`}
-                                placeholder="Describe your store, your team, and your mission..."
+                                placeholder={t('sellerSettings.content.aboutPlaceholder', 'Describe your store, your team, and your mission...')}
                             />
                         </div>
                     </div>
@@ -518,17 +518,17 @@ export default function SellerSettings() {
                     <div className="bg-white p-6 rounded-2xl border border-border-soft space-y-5">
                         <div className="flex items-center gap-2 mb-1">
                             <CheckCircle2 size={18} className="text-brand-primary" />
-                            <h3 className="text-lg font-semibold text-text-primary">Why Shop With Us</h3>
+                            <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.content.benefitsTitle', 'Why Shop With Us')}</h3>
                         </div>
                         <p className="text-xs text-text-muted">
-                            Highlight what makes your store unique. These appear on your "About" page.
+                            {t('sellerSettings.content.benefitsDesc', 'Highlight what makes your store unique. These appear on your "About" page.')}
                         </p>
                         
                         <div className="space-y-4">
                             {storeContent.benefits.map((benefit, index) => (
                                 <div key={index} className="p-4 border border-border-soft rounded-xl space-y-3">
                                     <div className="flex justify-between items-center mb-1">
-                                        <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest">Benefit #{index + 1}</span>
+                                        <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest">{t('sellerSettings.content.benefitNum', 'Benefit #{{num}}', { num: index + 1 })}</span>
                                     </div>
                                     <input
                                         type="text"
@@ -539,7 +539,7 @@ export default function SellerSettings() {
                                             setStoreContent({...storeContent, benefits: newBenefits});
                                         }}
                                         className={inputClass}
-                                        placeholder="Benefit Title"
+                                        placeholder={t('sellerSettings.content.benefitPlaceholder', 'Benefit Title')}
                                     />
                                     <textarea
                                         rows={2}
@@ -550,7 +550,7 @@ export default function SellerSettings() {
                                             setStoreContent({...storeContent, benefits: newBenefits});
                                         }}
                                         className={`${inputClass} resize-none`}
-                                        placeholder="Description..."
+                                        placeholder={t('sellerSettings.content.descPlaceholder', 'Description...')}
                                     />
                                 </div>
                             ))}
@@ -563,51 +563,51 @@ export default function SellerSettings() {
                     <div className="bg-white p-6 rounded-2xl border border-border-soft space-y-5">
                         <div className="flex items-center gap-2 mb-1">
                             <FileText size={18} className="text-brand-primary" />
-                            <h3 className="text-lg font-semibold text-text-primary">Store Policies</h3>
+                            <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.content.policiesTitle', 'Store Policies')}</h3>
                         </div>
                         <p className="text-xs text-text-muted">
-                            Custom policies for your customers. Defaults will be shown if left blank.
+                            {t('sellerSettings.content.policiesDesc', 'Custom policies for your customers. Defaults will be shown if left blank.')}
                         </p>
                         
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-xs font-medium text-text-primary mb-1.5 uppercase tracking-wider">Shipping Policy</label>
+                                <label className="block text-xs font-medium text-text-primary mb-1.5 uppercase tracking-wider">{t('sellerSettings.content.shippingPolicy', 'Shipping Policy')}</label>
                                 <textarea
                                     rows={3}
                                     value={storeContent.policies.shipping}
                                     onChange={(e) => setStoreContent({...storeContent, policies: {...storeContent.policies, shipping: e.target.value}})}
                                     className={`${inputClass} resize-none`}
-                                    placeholder="Order processing times, shipping methods, areas covered..."
+                                    placeholder={t('sellerSettings.content.shippingPlaceholder', 'Order processing times, shipping methods, areas covered...')}
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-medium text-text-primary mb-1.5 uppercase tracking-wider">Return & Refund Policy</label>
+                                <label className="block text-xs font-medium text-text-primary mb-1.5 uppercase tracking-wider">{t('sellerSettings.content.returnsPolicy', 'Return & Refund Policy')}</label>
                                 <textarea
                                     rows={3}
                                     value={storeContent.policies.returns}
                                     onChange={(e) => setStoreContent({...storeContent, policies: {...storeContent.policies, returns: e.target.value}})}
                                     className={`${inputClass} resize-none`}
-                                    placeholder="Return windows, refund conditions, who pays for shipping..."
+                                    placeholder={t('sellerSettings.content.returnsPlaceholder', 'Return windows, refund conditions, who pays for shipping...')}
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-medium text-text-primary mb-1.5 uppercase tracking-wider">Warranty Information</label>
+                                <label className="block text-xs font-medium text-text-primary mb-1.5 uppercase tracking-wider">{t('sellerSettings.content.warrantyPolicy', 'Warranty Information')}</label>
                                 <textarea
                                     rows={3}
                                     value={storeContent.policies.warranty}
                                     onChange={(e) => setStoreContent({...storeContent, policies: {...storeContent.policies, warranty: e.target.value}})}
                                     className={`${inputClass} resize-none`}
-                                    placeholder="Product guarantee periods, coverage details..."
+                                    placeholder={t('sellerSettings.content.warrantyPlaceholder', 'Product guarantee periods, coverage details...')}
                                 />
                             </div>
                             <div>
-                                <label className="block text-xs font-medium text-text-primary mb-1.5 uppercase tracking-wider">Frequently Asked Questions (FAQ)</label>
+                                <label className="block text-xs font-medium text-text-primary mb-1.5 uppercase tracking-wider">{t('sellerSettings.content.faqPolicy', 'Frequently Asked Questions (FAQ)')}</label>
                                 <textarea
                                     rows={4}
                                     value={storeContent.policies.faq}
                                     onChange={(e) => setStoreContent({...storeContent, policies: {...storeContent.policies, faq: e.target.value}})}
                                     className={`${inputClass} resize-none`}
-                                    placeholder="Common questions and answers for your buyers..."
+                                    placeholder={t('sellerSettings.content.faqPlaceholder', 'Common questions and answers for your buyers...')}
                                 />
                             </div>
                         </div>
@@ -619,7 +619,7 @@ export default function SellerSettings() {
                         className="px-6 py-3 bg-brand-primary text-white text-sm font-bold rounded-xl hover:bg-brand-secondary transition-all shadow-lg shadow-brand-primary/20 disabled:opacity-70 disabled:cursor-not-allowed"
                     >
                         {saveContentLoading ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
-                        Save Store Content
+                        {t('sellerSettings.content.save', 'Save Store Content')}
                     </button>
                     </div>
                 </div>
@@ -640,32 +640,32 @@ export default function SellerSettings() {
                         <div className="bg-white p-6 rounded-2xl border border-border-soft space-y-5">
                             <div className="flex items-center gap-2 mb-1">
                                 <Eye size={18} className="text-brand-primary" />
-                                <h3 className="text-lg font-semibold text-text-primary">White-Label Settings</h3>
+                                <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.whitelabel.title', 'White-Label Settings')}</h3>
                             </div>
                             <p className="text-xs text-text-muted">
-                                Control the Toroongo branding on your storefront. Your Business plan includes full white-labeling.
+                                {t('sellerSettings.whitelabel.desc', 'Control the Toroongo branding on your storefront. Your Business plan includes full white-labeling.')}
                             </p>
 
                             <label className="flex items-start justify-between p-4 border border-border-soft rounded-xl cursor-pointer hover:border-gray-300 transition-colors">
                                 <div>
-                                    <p className="text-sm font-medium text-text-primary">Remove "Powered by Toroongo" footer</p>
-                                    <p className="text-xs text-text-muted mt-0.5">Your storefront will show no Toroongo branding to customers</p>
+                                    <p className="text-sm font-medium text-text-primary">{t('sellerSettings.whitelabel.removeFooter', 'Remove "Powered by Toroongo" footer')}</p>
+                                    <p className="text-xs text-text-muted mt-0.5">{t('sellerSettings.whitelabel.removeFooterDesc', 'Your storefront will show no Toroongo branding to customers')}</p>
                                 </div>
                                 <input type="checkbox" defaultChecked className="accent-brand-primary mt-0.5 w-4 h-4" />
                             </label>
 
                             <label className="flex items-start justify-between p-4 border border-border-soft rounded-xl cursor-pointer hover:border-gray-300 transition-colors">
                                 <div>
-                                    <p className="text-sm font-medium text-text-primary">Hide Toroongo from email templates</p>
-                                    <p className="text-xs text-text-muted mt-0.5">Order confirmations and notifications will use your brand only</p>
+                                    <p className="text-sm font-medium text-text-primary">{t('sellerSettings.whitelabel.hideEmail', 'Hide Toroongo from email templates')}</p>
+                                    <p className="text-xs text-text-muted mt-0.5">{t('sellerSettings.whitelabel.hideEmailDesc', 'Order confirmations and notifications will use your brand only')}</p>
                                 </div>
                                 <input type="checkbox" defaultChecked className="accent-brand-primary mt-0.5 w-4 h-4" />
                             </label>
 
                             <label className="flex items-start justify-between p-4 border border-border-soft rounded-xl cursor-pointer hover:border-gray-300 transition-colors">
                                 <div>
-                                    <p className="text-sm font-medium text-text-primary">Custom favicon</p>
-                                    <p className="text-xs text-text-muted mt-0.5">Use your own favicon instead of the Toroongo icon</p>
+                                    <p className="text-sm font-medium text-text-primary">{t('sellerSettings.whitelabel.customFavicon', 'Custom favicon')}</p>
+                                    <p className="text-xs text-text-muted mt-0.5">{t('sellerSettings.whitelabel.customFaviconDesc', 'Use your own favicon instead of the Toroongo icon')}</p>
                                 </div>
                                 <input type="checkbox" defaultChecked className="accent-brand-primary mt-0.5 w-4 h-4" />
                             </label>
@@ -674,8 +674,8 @@ export default function SellerSettings() {
                                 <div className="flex items-start gap-3 p-4 bg-green-50 rounded-xl border border-green-100">
                                     <CheckCircle2 size={16} className="text-green-500 flex-shrink-0 mt-0.5" />
                                     <div>
-                                        <p className="text-sm font-semibold text-green-800">White-Label Active</p>
-                                        <p className="text-xs text-green-600 mt-0.5">All Toroongo branding has been removed from your storefront.</p>
+                                        <p className="text-sm font-semibold text-green-800">{t('sellerSettings.whitelabel.activeTitle', 'White-Label Active')}</p>
+                                        <p className="text-xs text-green-600 mt-0.5">{t('sellerSettings.whitelabel.activeDesc', 'All Toroongo branding has been removed from your storefront.')}</p>
                                     </div>
                                 </div>
                             </div>
@@ -704,44 +704,44 @@ export default function SellerSettings() {
                         <div className="bg-white p-6 rounded-2xl border border-border-soft space-y-5">
                             <div className="flex items-center gap-2 mb-1">
                                 <Code size={18} className="text-brand-primary" />
-                                <h3 className="text-lg font-semibold text-text-primary">Custom CSS</h3>
+                                <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.customcode.cssTitle', 'Custom CSS')}</h3>
                             </div>
                             <p className="text-xs text-text-muted">
-                                Add custom CSS to override storefront styles. Changes apply to your public storefront only.
+                                {t('sellerSettings.customcode.cssDesc', 'Add custom CSS to override storefront styles. Changes apply to your public storefront only.')}
                             </p>
                             <textarea
                                 rows={12}
                                 className={`${inputClass} resize-none font-mono text-xs leading-relaxed`}
-                                placeholder={`/* Your custom storefront CSS */\n\n.store-header {\n    background: linear-gradient(135deg, #667eea, #764ba2);\n}\n\n.product-card {\n    border-radius: 16px;\n    box-shadow: 0 4px 20px rgba(0,0,0,0.08);\n}`}
+                                placeholder={t('sellerSettings.customcode.cssPlaceholder', '/* Your custom storefront CSS */')}
                                 defaultValue=""
                             />
                             <button className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
-                                Save Custom CSS
+                                {t('sellerSettings.customcode.cssSave', 'Save Custom CSS')}
                             </button>
                         </div>
 
                         <div className="bg-white p-6 rounded-2xl border border-border-soft space-y-5">
                             <div className="flex items-center gap-2 mb-1">
                                 <Code size={18} className="text-brand-primary" />
-                                <h3 className="text-lg font-semibold text-text-primary">Custom HTML (Head Injection)</h3>
+                                <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.customcode.htmlTitle', 'Custom HTML (Head Injection)')}</h3>
                             </div>
                             <p className="text-xs text-text-muted">
-                                Inject custom HTML into the &lt;head&gt; of your storefront. Useful for analytics scripts, meta tags, or third-party integrations.
+                                {t('sellerSettings.customcode.htmlDesc', 'Inject custom HTML into the <head> of your storefront. Useful for analytics scripts, meta tags, or third-party integrations.')}
                             </p>
                             <textarea
                                 rows={8}
                                 className={`${inputClass} resize-none font-mono text-xs leading-relaxed`}
-                                placeholder={`<!-- Custom head HTML -->\n<meta name="google-site-verification" content="..." />\n<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXX"></script>`}
+                                placeholder={t('sellerSettings.customcode.htmlPlaceholder', '<!-- Custom head HTML -->')}
                                 defaultValue=""
                             />
                             <div className="flex items-start gap-2 p-3 bg-amber-50 rounded-xl border border-amber-100">
                                 <Info size={14} className="text-amber-500 flex-shrink-0 mt-0.5" />
                                 <p className="text-xs text-amber-700">
-                                    <strong>Caution:</strong> Injecting invalid HTML or scripts may break your storefront. Test changes carefully.
+                                    <strong>{t('sellerSettings.customcode.htmlCaution', 'Caution:')}</strong> {t('sellerSettings.customcode.htmlCautionDesc', 'Injecting invalid HTML or scripts may break your storefront. Test changes carefully.')}
                                 </p>
                             </div>
                             <button className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
-                                Save Custom HTML
+                                {t('sellerSettings.customcode.htmlSave', 'Save Custom HTML')}
                             </button>
                         </div>
                     </div>
@@ -763,22 +763,22 @@ export default function SellerSettings() {
                         <div className="bg-white p-6 rounded-2xl border border-border-soft space-y-5">
                             <div className="flex items-center gap-2 mb-1">
                                 <Banknote size={18} className="text-brand-primary" />
-                                <h3 className="text-lg font-semibold text-text-primary">Multi-Currency Settings</h3>
+                                <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.currency.title', 'Multi-Currency Settings')}</h3>
                             </div>
                             <p className="text-xs text-text-muted">
-                                Enable currencies for your store. Prices auto-convert based on the visitor's IP address.
+                                {t('sellerSettings.currency.desc', 'Enable currencies for your store. Prices auto-convert based on the visitor\'s IP address.')}
                             </p>
 
                             <label className="flex items-start justify-between p-4 border border-brand-primary/20 bg-brand-primary/[0.03] rounded-xl cursor-pointer">
                                 <div>
-                                    <p className="text-sm font-medium text-text-primary">Auto-detect currency by IP</p>
-                                    <p className="text-xs text-text-muted mt-0.5">Automatically show prices in the visitor's local currency</p>
+                                    <p className="text-sm font-medium text-text-primary">{t('sellerSettings.currency.autoDetect', 'Auto-detect currency by IP')}</p>
+                                    <p className="text-xs text-text-muted mt-0.5">{t('sellerSettings.currency.autoDetectDesc', 'Automatically show prices in the visitor\'s local currency')}</p>
                                 </div>
                                 <input type="checkbox" defaultChecked className="accent-brand-primary mt-0.5 w-4 h-4" />
                             </label>
 
                             <div>
-                                <p className="text-xs font-bold text-text-muted uppercase tracking-wider mb-3">Enabled Currencies</p>
+                                <p className="text-xs font-bold text-text-muted uppercase tracking-wider mb-3">{t('sellerSettings.currency.enabledCurrencies', 'Enabled Currencies')}</p>
                                 <div className="space-y-2">
                                     {[
                                         { code: 'USD', name: 'US Dollar', symbol: '$', flag: '🇺🇸', enabled: true },
@@ -806,7 +806,7 @@ export default function SellerSettings() {
                             </div>
 
                             <button className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
-                                Save Currency Settings
+                                {t('sellerSettings.currency.save', 'Save Currency Settings')}
                             </button>
                         </div>
                     </div>

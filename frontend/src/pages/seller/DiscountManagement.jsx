@@ -3,6 +3,7 @@ import {
     Tag, Plus, Search, Percent, DollarSign, Calendar, Copy,
     ToggleLeft, ToggleRight, Trash2, Eye, TrendingUp, Users, ShoppingBag
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useSubscription } from '../../context/SubscriptionContext';
 import UpgradePrompt from '../../components/subscription/UpgradePrompt';
 
@@ -65,14 +66,15 @@ const STATUS_STYLES = {
 };
 
 function DiscountStats({ discounts }) {
+    const { t } = useTranslation();
     const active = discounts.filter(d => d.status === 'active').length;
     const totalUsage = discounts.reduce((sum, d) => sum + d.usageCount, 0);
     const avgSavings = 18.5; // mock
 
     const stats = [
-        { label: 'Active Discounts', value: active, icon: Tag, color: 'text-green-600', bg: 'bg-green-50' },
-        { label: 'Total Usage', value: totalUsage.toLocaleString(), icon: Users, color: 'text-blue-600', bg: 'bg-blue-50' },
-        { label: 'Avg. Savings', value: `$${avgSavings}`, icon: TrendingUp, color: 'text-purple-600', bg: 'bg-purple-50' },
+        { label: t('sellerDiscounts.stats.active', 'Active Discounts'), value: active, icon: Tag, color: 'text-green-600', bg: 'bg-green-50' },
+        { label: t('sellerDiscounts.stats.usage', 'Total Usage'), value: totalUsage.toLocaleString(), icon: Users, color: 'text-blue-600', bg: 'bg-blue-50' },
+        { label: t('sellerDiscounts.stats.savings', 'Avg. Savings'), value: `$${avgSavings}`, icon: TrendingUp, color: 'text-purple-600', bg: 'bg-purple-50' },
     ];
 
     return (
@@ -99,14 +101,15 @@ export default function DiscountManagement() {
     const [discounts, setDiscounts] = useState(MOCK_DISCOUNTS);
 
     // Gate check
+    const { t } = useTranslation();
     if (!canAccess('discount')) {
         return (
             <div className="animate-fade-in py-12">
                 <UpgradePrompt
                     currentPlan={currentPlan}
-                    feature="Discount Rules"
+                    feature={t('sellerDiscounts.upgrade.title', 'Discount Rules')}
                     requiredPlan="pro"
-                    message="Create discount codes and promotional offers to boost your sales. Upgrade to Pro to unlock this feature."
+                    message={t('sellerDiscounts.upgrade.message', 'Create discount codes and promotional offers to boost your sales. Upgrade to Pro to unlock this feature.')}
                     variant="card"
                 />
             </div>
@@ -134,9 +137,9 @@ export default function DiscountManagement() {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-bold text-text-primary">Discounts</h2>
+                    <h2 className="text-2xl font-bold text-text-primary">{t('sellerDiscounts.title', 'Discounts')}</h2>
                     <p className="text-text-muted text-sm mt-1">
-                        Create and manage discount codes for your store
+                        {t('sellerDiscounts.subtitle', 'Create and manage discount codes for your store')}
                     </p>
                 </div>
                 <button
@@ -144,7 +147,7 @@ export default function DiscountManagement() {
                     className="flex items-center gap-2 px-4 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors"
                 >
                     <Plus size={16} />
-                    Create Discount
+                    {t('sellerDiscounts.createBtn', 'Create Discount')}
                 </button>
             </div>
 
@@ -154,25 +157,25 @@ export default function DiscountManagement() {
             {/* Create Form (Expandable) */}
             {showCreateForm && (
                 <div className="bg-white rounded-2xl border border-border-soft p-6 animate-fade-in">
-                    <h3 className="text-lg font-semibold text-text-primary mb-4">Create New Discount</h3>
+                    <h3 className="text-lg font-semibold text-text-primary mb-4">{t('sellerDiscounts.form.title', 'Create New Discount')}</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-xs font-medium text-text-muted mb-1.5">Discount Code</label>
+                            <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerDiscounts.form.codeLabel', 'Discount Code')}</label>
                             <input
                                 type="text"
-                                placeholder="e.g. SUMMER25"
+                                placeholder={t('sellerDiscounts.form.codePlaceholder', 'e.g. SUMMER25')}
                                 className="w-full px-4 py-3 text-sm bg-white border border-border-soft rounded-xl focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-colors uppercase"
                             />
                         </div>
                         <div>
-                            <label className="block text-xs font-medium text-text-muted mb-1.5">Discount Type</label>
+                            <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerDiscounts.form.typeLabel', 'Discount Type')}</label>
                             <select className="w-full px-4 py-3 text-sm bg-white border border-border-soft rounded-xl focus:border-brand-primary outline-none">
-                                <option value="percentage">Percentage Off</option>
-                                <option value="fixed">Fixed Amount Off</option>
+                                <option value="percentage">{t('sellerDiscounts.form.typePercentage', 'Percentage Off')}</option>
+                                <option value="fixed">{t('sellerDiscounts.form.typeFixed', 'Fixed Amount Off')}</option>
                             </select>
                         </div>
                         <div>
-                            <label className="block text-xs font-medium text-text-muted mb-1.5">Value</label>
+                            <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerDiscounts.form.valueLabel', 'Value')}</label>
                             <input
                                 type="number"
                                 placeholder="25"
@@ -180,7 +183,7 @@ export default function DiscountManagement() {
                             />
                         </div>
                         <div>
-                            <label className="block text-xs font-medium text-text-muted mb-1.5">Minimum Order Value ($)</label>
+                            <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerDiscounts.form.minOrderLabel', 'Minimum Order Value ($)')}</label>
                             <input
                                 type="number"
                                 placeholder="0"
@@ -188,15 +191,15 @@ export default function DiscountManagement() {
                             />
                         </div>
                         <div>
-                            <label className="block text-xs font-medium text-text-muted mb-1.5">Usage Limit</label>
+                            <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerDiscounts.form.usageLimitLabel', 'Usage Limit')}</label>
                             <input
                                 type="number"
-                                placeholder="Unlimited"
+                                placeholder={t('sellerDiscounts.form.usageLimitPlaceholder', 'Unlimited')}
                                 className="w-full px-4 py-3 text-sm bg-white border border-border-soft rounded-xl focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-colors"
                             />
                         </div>
                         <div>
-                            <label className="block text-xs font-medium text-text-muted mb-1.5">Expiry Date</label>
+                            <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerDiscounts.form.expiryLabel', 'Expiry Date')}</label>
                             <input
                                 type="date"
                                 className="w-full px-4 py-3 text-sm bg-white border border-border-soft rounded-xl focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-colors"
@@ -205,13 +208,13 @@ export default function DiscountManagement() {
                     </div>
                     <div className="flex items-center gap-3 mt-5">
                         <button className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
-                            Create Discount
+                            {t('sellerDiscounts.form.createBtn', 'Create Discount')}
                         </button>
                         <button
                             onClick={() => setShowCreateForm(false)}
                             className="px-5 py-2.5 text-text-muted text-sm font-medium hover:text-text-primary transition-colors"
                         >
-                            Cancel
+                            {t('sellerDiscounts.form.cancel', 'Cancel')}
                         </button>
                     </div>
                 </div>
@@ -222,7 +225,7 @@ export default function DiscountManagement() {
                 <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
                 <input
                     type="text"
-                    placeholder="Search discount codes..."
+                    placeholder={t('sellerDiscounts.searchPlaceholder', 'Search discount codes...')}
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     className="w-full sm:w-80 pl-9 pr-3 py-2.5 text-sm bg-white border border-border-soft rounded-xl focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none"
@@ -235,14 +238,14 @@ export default function DiscountManagement() {
                     <table className="w-full">
                         <thead>
                             <tr className="bg-surface-bg text-left">
-                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">Code</th>
-                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">Type</th>
-                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">Value</th>
-                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">Usage</th>
-                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">Min. Order</th>
-                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">Status</th>
-                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">Expires</th>
-                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase text-right">Actions</th>
+                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">{t('sellerDiscounts.table.code', 'Code')}</th>
+                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">{t('sellerDiscounts.table.type', 'Type')}</th>
+                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">{t('sellerDiscounts.table.value', 'Value')}</th>
+                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">{t('sellerDiscounts.table.usage', 'Usage')}</th>
+                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">{t('sellerDiscounts.table.minOrder', 'Min. Order')}</th>
+                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">{t('sellerDiscounts.table.status', 'Status')}</th>
+                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase">{t('sellerDiscounts.table.expires', 'Expires')}</th>
+                                <th className="px-5 py-3 text-xs font-medium text-text-muted uppercase text-right">{t('sellerDiscounts.table.actions', 'Actions')}</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-border-soft">
@@ -256,7 +259,7 @@ export default function DiscountManagement() {
                                             <button
                                                 onClick={() => handleCopyCode(discount.code)}
                                                 className="p-1 text-text-muted hover:text-brand-primary transition-colors"
-                                                title="Copy code"
+                                                title={t('sellerDiscounts.table.copyCode', 'Copy code')}
                                             >
                                                 <Copy size={13} />
                                             </button>
@@ -279,13 +282,13 @@ export default function DiscountManagement() {
                                     </td>
                                     <td className="px-5 py-3.5">
                                         <span className={`text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${STATUS_STYLES[discount.status]}`}>
-                                            {discount.status}
+                                            {t(`sellerDiscounts.status.${discount.status}`, discount.status)}
                                         </span>
                                     </td>
                                     <td className="px-5 py-3.5 text-sm text-text-muted">
                                         {discount.expiresAt
                                             ? new Date(discount.expiresAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-                                            : 'Never'}
+                                            : t('sellerDiscounts.table.never', 'Never')}
                                     </td>
                                     <td className="px-5 py-3.5">
                                         <div className="flex items-center justify-end gap-1">
@@ -314,8 +317,8 @@ export default function DiscountManagement() {
                 {filteredDiscounts.length === 0 && (
                     <div className="text-center py-12">
                         <Tag size={32} className="mx-auto text-text-muted/40 mb-3" />
-                        <p className="text-text-primary font-medium">No discount codes found</p>
-                        <p className="text-sm text-text-muted mt-1">Create your first discount code to get started</p>
+                        <p className="text-text-primary font-medium">{t('sellerDiscounts.noDiscounts', 'No discount codes found')}</p>
+                        <p className="text-sm text-text-muted mt-1">{t('sellerDiscounts.noDiscountsDesc', 'Create your first discount code to get started')}</p>
                     </div>
                 )}
             </div>

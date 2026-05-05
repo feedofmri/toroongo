@@ -18,7 +18,6 @@ export default function GoogleCallback() {
                 await handleGoogleCallback(location.search);
                 navigate('/'); // Redirect to home on success
             } catch (error) {
-                console.error('Google Auth Error:', error);
                 navigate('/login?error=google_failed');
             }
         };

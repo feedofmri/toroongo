@@ -175,11 +175,6 @@ export default function SellerDashboard() {
             {/* Plan Summary + Upgrade CTA */}
             <PlanSummaryCard />
 
-            {/* Plan Features Overview */}
-            <div className="mb-8">
-                <PlanFeaturesWidget />
-            </div>
-
             {/* Stats Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 {displayStats.map((stat) => (
@@ -234,7 +229,7 @@ export default function SellerDashboard() {
             </div>
 
             {/* Recent Orders */}
-            <div className="bg-white rounded-2xl border border-border-soft overflow-hidden">
+            <div className="bg-white rounded-2xl border border-border-soft overflow-hidden mb-8">
                 <div className="px-6 py-4 border-b border-border-soft">
                     <h3 className="font-semibold text-text-primary">{t('sellerDashboard.recentOrders.title')}</h3>
                 </div>
@@ -277,6 +272,11 @@ export default function SellerDashboard() {
                         </tbody>
                     </table>
                 </div>
+            </div>
+
+            {/* Plan Features Overview (Moved to bottom) */}
+            <div className="mb-8">
+                <PlanFeaturesWidget />
             </div>
         </div>
     );

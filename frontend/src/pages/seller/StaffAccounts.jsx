@@ -3,6 +3,7 @@ import {
     Users, Plus, Search, Shield, Mail, Clock, MoreVertical,
     UserPlus, Settings, Eye, ShoppingBag, Package, Trash2, X
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useSubscription } from '../../context/SubscriptionContext';
 import UpgradePrompt from '../../components/subscription/UpgradePrompt';
 
@@ -70,13 +71,13 @@ function getInitials(name) {
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
 }
 
-function getTimeAgo(dateStr) {
+function getTimeAgo(dateStr, t) {
     const diff = Date.now() - new Date(dateStr).getTime();
     const hours = Math.floor(diff / 3600000);
-    if (hours < 1) return 'Just now';
-    if (hours < 24) return `${hours}h ago`;
+    if (hours < 1) return t('sellerStaff.card.justNow', 'Just now');
+    if (hours < 24) return t('sellerStaff.card.hoursAgo', '{{count}}h ago', { count: hours });
     const days = Math.floor(hours / 24);
-    if (days < 7) return `${days}d ago`;
+    if (days < 7) return t('sellerStaff.card.daysAgo', '{{count}}d ago', { count: days });
     return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 }
 
@@ -88,19 +89,27 @@ export default function StaffAccounts() {
     const [inviteForm, setInviteForm] = useState({ name: '', email: '', role: 'editor' });
 
     // Gate check
+    const { t } = useTranslation();
     if (!canAccess('staff')) {
         return (
             <div className="animate-fade-in py-12">
                 <UpgradePrompt
                     currentPlan={currentPlan}
-                    feature="Staff Accounts"
+                    feature={t('sellerStaff.upgrade.title', 'Staff Accounts')}
                     requiredPlan="business"
-                    message="Add team members with role-based permissions to help manage your store. Upgrade to Business to unlock this feature."
+                    message={t('sellerStaff.upgrade.message', 'Add team members with role-based permissions to help manage your store. Upgrade to Business to unlock this feature.')}
                     variant="card"
                 />
             </div>
         );
     }
+
+    const ROLE_STYLES = {
+        manager: { label: t('sellerStaff.roles.manager', 'Manager'), color: 'text-purple-600 bg-purple-50', icon: Shield },
+        editor: { label: t('sellerStaff.roles.editor', 'Editor'), color: 'text-blue-600 bg-blue-50', icon: Package },
+        support: { label: t('sellerStaff.roles.support', 'Support'), color: 'text-green-600 bg-green-50', icon: ShoppingBag },
+        viewer: { label: t('sellerStaff.roles.viewer', 'Viewer'), color: 'text-gray-600 bg-gray-100', icon: Eye },
+    };
 
     const maxStaff = canAccess('unlimited_staff') ? null : 5;
     const filteredStaff = staff.filter(s =>
@@ -134,11 +143,11 @@ export default function StaffAccounts() {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-bold text-text-primary">Staff Accounts</h2>
+                    <h2 className="text-2xl font-bold text-text-primary">{t('sellerStaff.title', 'Staff Accounts')}</h2>
                     <p className="text-text-muted text-sm mt-1">
                         {maxStaff
-                            ? `${staff.length} / ${maxStaff} staff members`
-                            : `${staff.length} staff members (Unlimited)`}
+                            ? t('sellerStaff.staffCount', '{{count}} / {{max}} staff members', { count: staff.length, max: maxStaff })
+                            : t('sellerStaff.staffCountUnlimited', '{{count}} staff members (Unlimited)', { count: staff.length })}
                     </p>
                 </div>
                 <button
@@ -151,7 +160,7 @@ export default function StaffAccounts() {
                     }`}
                 >
                     <UserPlus size={16} />
-                    Invite Staff Member
+                    {t('sellerStaff.inviteBtn', 'Invite Staff Member')}
                 </button>
             </div>
 
@@ -160,9 +169,9 @@ export default function StaffAccounts() {
                 <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
                     <Shield size={18} className="text-amber-500 flex-shrink-0 mt-0.5" />
                     <div>
-                        <p className="text-sm font-semibold text-amber-800">Staff limit reached</p>
+                        <p className="text-sm font-semibold text-amber-800">{t('sellerStaff.limitReached.title', 'Staff limit reached')}</p>
                         <p className="text-xs text-amber-600 mt-0.5">
-                            Your Business plan supports up to {maxStaff} staff members. Upgrade to Enterprise for unlimited staff accounts.
+                            {t('sellerStaff.limitReached.message', 'Your Business plan supports up to {{max}} staff members. Upgrade to Enterprise for unlimited staff accounts.', { max: maxStaff })}
                         </p>
                     </div>
                 </div>
@@ -174,7 +183,7 @@ export default function StaffAccounts() {
                     <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
                         <div className="p-6">
                             <div className="flex items-center justify-between mb-5">
-                                <h3 className="text-lg font-bold text-text-primary">Invite Staff Member</h3>
+                                <h3 className="text-lg font-bold text-text-primary">{t('sellerStaff.modal.title', 'Invite Staff Member')}</h3>
                                 <button
                                     onClick={() => setShowInvite(false)}
                                     className="p-2 text-text-muted hover:text-text-primary hover:bg-surface-bg rounded-xl transition-colors"
@@ -184,7 +193,7 @@ export default function StaffAccounts() {
                             </div>
                             <form onSubmit={handleInvite} className="space-y-4">
                                 <div>
-                                    <label className="block text-xs font-medium text-text-muted mb-1.5">Full Name</label>
+                                    <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerStaff.modal.nameLabel', 'Full Name')}</label>
                                     <input
                                         type="text"
                                         value={inviteForm.name}
@@ -195,7 +204,7 @@ export default function StaffAccounts() {
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-medium text-text-muted mb-1.5">Email Address</label>
+                                    <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerStaff.modal.emailLabel', 'Email Address')}</label>
                                     <input
                                         type="email"
                                         value={inviteForm.email}
@@ -206,16 +215,16 @@ export default function StaffAccounts() {
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-medium text-text-muted mb-1.5">Role</label>
+                                    <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerStaff.modal.roleLabel', 'Role')}</label>
                                     <select
                                         value={inviteForm.role}
                                         onChange={(e) => setInviteForm({ ...inviteForm, role: e.target.value })}
                                         className="w-full px-4 py-3 text-sm bg-white border border-border-soft rounded-xl focus:border-brand-primary outline-none"
                                     >
-                                        <option value="manager">Manager — Full access</option>
-                                        <option value="editor">Editor — Products & content</option>
-                                        <option value="support">Support — Orders & messages</option>
-                                        <option value="viewer">Viewer — Read-only</option>
+                                        <option value="manager">{t('sellerStaff.modal.roleManager', 'Manager — Full access')}</option>
+                                        <option value="editor">{t('sellerStaff.modal.roleEditor', 'Editor — Products & content')}</option>
+                                        <option value="support">{t('sellerStaff.modal.roleSupport', 'Support — Orders & messages')}</option>
+                                        <option value="viewer">{t('sellerStaff.modal.roleViewer', 'Viewer — Read-only')}</option>
                                     </select>
                                 </div>
                                 <div className="flex gap-3 pt-2">
@@ -224,14 +233,14 @@ export default function StaffAccounts() {
                                         onClick={() => setShowInvite(false)}
                                         className="flex-1 px-4 py-2.5 text-sm font-semibold text-text-primary bg-white border border-border-soft rounded-xl hover:bg-gray-50 transition-colors"
                                     >
-                                        Cancel
+                                        {t('sellerStaff.modal.cancel', 'Cancel')}
                                     </button>
                                     <button
                                         type="submit"
                                         className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-brand-primary rounded-xl hover:bg-brand-secondary transition-colors"
                                     >
                                         <Mail size={14} />
-                                        Send Invite
+                                        {t('sellerStaff.modal.sendBtn', 'Send Invite')}
                                     </button>
                                 </div>
                             </form>
@@ -245,7 +254,7 @@ export default function StaffAccounts() {
                 <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
                 <input
                     type="text"
-                    placeholder="Search staff members..."
+                    placeholder={t('sellerStaff.searchPlaceholder', 'Search staff members...')}
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     className="w-full sm:w-80 pl-9 pr-3 py-2.5 text-sm bg-white border border-border-soft rounded-xl focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none"
@@ -273,7 +282,7 @@ export default function StaffAccounts() {
                                 <button
                                     onClick={() => handleRemove(member.id)}
                                     className="p-1.5 text-text-muted hover:text-red-500 transition-colors rounded-lg hover:bg-red-50"
-                                    title="Remove"
+                                    title={t('sellerStaff.card.remove', 'Remove')}
                                 >
                                     <Trash2 size={14} />
                                 </button>
@@ -289,23 +298,23 @@ export default function StaffAccounts() {
                                     member.status === 'pending' ? 'text-amber-600 bg-amber-50' :
                                     'text-gray-500 bg-gray-100'
                                 }`}>
-                                    {member.status === 'active' ? '● Active' :
-                                     member.status === 'pending' ? '◌ Pending' : '○ Inactive'}
+                                    {member.status === 'active' ? `● ${t('sellerStaff.status.active', 'Active')}` :
+                                     member.status === 'pending' ? `◌ ${t('sellerStaff.status.pending', 'Pending')}` : `○ ${t('sellerStaff.status.inactive', 'Inactive')}`}
                                 </span>
                             </div>
 
                             <div className="flex items-center gap-1.5 text-[11px] text-text-muted">
                                 <Clock size={11} />
-                                Last active: {getTimeAgo(member.lastActive)}
+                                {t('sellerStaff.card.lastActive', 'Last active: {{time}}', { time: getTimeAgo(member.lastActive, t) })}
                             </div>
 
                             {/* Permissions */}
                             <div className="mt-3 pt-3 border-t border-border-soft">
-                                <p className="text-[10px] font-bold text-text-muted uppercase tracking-wider mb-2">Permissions</p>
+                                <p className="text-[10px] font-bold text-text-muted uppercase tracking-wider mb-2">{t('sellerStaff.card.permissions', 'Permissions')}</p>
                                 <div className="flex flex-wrap gap-1">
                                     {member.permissions.map(perm => (
                                         <span key={perm} className="text-[10px] font-medium text-text-muted bg-surface-bg px-2 py-0.5 rounded capitalize">
-                                            {perm}
+                                            {t(`sellerStaff.permissions.${perm}`, perm)}
                                         </span>
                                     ))}
                                 </div>
@@ -318,8 +327,8 @@ export default function StaffAccounts() {
             {filteredStaff.length === 0 && (
                 <div className="bg-white rounded-2xl border border-border-soft p-12 text-center">
                     <Users size={32} className="mx-auto text-text-muted/40 mb-3" />
-                    <p className="text-text-primary font-medium">No staff members found</p>
-                    <p className="text-sm text-text-muted mt-1">Invite your first team member to get started</p>
+                    <p className="text-text-primary font-medium">{t('sellerStaff.noStaff', 'No staff members found')}</p>
+                    <p className="text-sm text-text-muted mt-1">{t('sellerStaff.noStaffDesc', 'Invite your first team member to get started')}</p>
                 </div>
             )}
         </div>

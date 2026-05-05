@@ -78,11 +78,11 @@ function MediaPreview({ url, onRemove, index }) {
         >
           {isVideo ? (
             <>
-              <Video size={10} /> Video
+              <Video size={10} /> {t('sellerProduct.modal.badgeVideo', 'Video')}
             </>
           ) : (
             <>
-              <Image size={10} /> Image
+              <Image size={10} /> {t('sellerProduct.modal.badgeImage', 'Image')}
             </>
           )}
         </span>
@@ -92,7 +92,7 @@ function MediaPreview({ url, onRemove, index }) {
       {index === 0 && (
         <div className="absolute bottom-2 left-2">
           <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-brand-primary text-white">
-            Primary
+            {t('sellerProduct.modal.primary', 'Primary')}
           </span>
         </div>
       )}
@@ -248,12 +248,12 @@ export default function ProductFormModal({
     try {
       new URL(url);
     } catch {
-      setUrlError("Please enter a valid URL");
+      setUrlError(t('sellerProduct.modal.invalidUrl', 'Please enter a valid URL'));
       return;
     }
 
     if (mediaUrls.includes(url)) {
-      setUrlError("This URL has already been added");
+      setUrlError(t('sellerProduct.modal.duplicateUrl', 'This URL has already been added'));
       return;
     }
 
@@ -312,7 +312,7 @@ export default function ProductFormModal({
       } else {
         setError(
           err.message ||
-            `Failed to ${isEditMode ? "update" : "create"} product`,
+            t('sellerProduct.modal.errorSave', 'Failed to {{action}} product', { action: isEditMode ? 'update' : 'create' }),
         );
       }
     } finally {
@@ -331,7 +331,7 @@ export default function ProductFormModal({
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-border-soft">
           <h2 className="text-xl font-bold text-text-primary">
-            {isEditMode ? "Edit Product" : "Add New Product"}
+            {isEditMode ? t('sellerProduct.modal.editTitle', 'Edit Product') : t('sellerProduct.modal.addTitle', 'Add New Product')}
           </h2>
           <button
             onClick={onClose}
@@ -354,7 +354,7 @@ export default function ProductFormModal({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-text-primary mb-2">
-                  Product Title *
+                  {t('sellerProduct.modal.titleLabel', 'Product Title *')}
                 </label>
                 <input
                   type="text"
@@ -363,12 +363,12 @@ export default function ProductFormModal({
                   value={formData.title}
                   onChange={handleChange}
                   className="w-full px-4 py-2.5 bg-surface-bg border border-border-soft rounded-xl focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-all"
-                  placeholder="e.g., Wireless Headphones"
+                  placeholder={t('sellerProduct.modal.titlePlaceholder', 'e.g., Wireless Headphones')}
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-text-primary mb-2">
-                  Category
+                  {t('sellerProduct.modal.categoryLabel', 'Category')}
                 </label>
                 <select
                   name="category"
@@ -376,7 +376,7 @@ export default function ProductFormModal({
                   onChange={handleChange}
                   className="w-full px-4 py-2.5 bg-surface-bg border border-border-soft rounded-xl focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-all"
                 >
-                  <option value="">Select Category</option>
+                  <option value="">{t('sellerProduct.modal.categoryPlaceholder', 'Select Category')}</option>
                   {categories.map((c) => (
                     <option key={c.id} value={c.slug || c.name}>
                       {c.name}
@@ -389,7 +389,7 @@ export default function ProductFormModal({
             {/* Description */}
             <div>
               <label className="block text-sm font-medium text-text-primary mb-2">
-                Description
+                {t('sellerProduct.modal.descLabel', 'Description')}
               </label>
               <textarea
                 name="description"
@@ -397,14 +397,14 @@ export default function ProductFormModal({
                 onChange={handleChange}
                 rows="3"
                 className="w-full px-4 py-2.5 bg-surface-bg border border-border-soft rounded-xl focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-all resize-none"
-                placeholder="Describe your product..."
+                placeholder={t('sellerProduct.modal.descPlaceholder', 'Describe your product...')}
               />
             </div>
 
             {/* Meta Description */}
             <div>
               <label className="block text-sm font-medium text-text-primary mb-2">
-                Meta Description (SEO)
+                {t('sellerProduct.modal.seoLabel', 'Meta Description (SEO)')}
               </label>
               <textarea
                 name="meta_description"
@@ -413,7 +413,7 @@ export default function ProductFormModal({
                 rows="2"
                 maxLength="160"
                 className="w-full px-4 py-2.5 bg-surface-bg border border-border-soft rounded-xl focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-all resize-none"
-                placeholder="Short SEO description (max 160 characters)..."
+                placeholder={t('sellerProduct.modal.seoPlaceholder', 'Short SEO description (max 160 characters)...')}
               />
               <div className="flex justify-end mt-1">
                 <span
@@ -428,7 +428,7 @@ export default function ProductFormModal({
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               <div>
                 <label className="block text-sm font-medium text-text-primary mb-2">
-                  Price *
+                  {t('sellerProduct.modal.priceLabel', 'Price *')}
                 </label>
                 <input
                   type="number"
@@ -444,7 +444,7 @@ export default function ProductFormModal({
               </div>
               <div>
                 <label className="block text-sm font-medium text-text-primary mb-2">
-                  Original Price
+                  {t('sellerProduct.modal.originalPriceLabel', 'Original Price')}
                 </label>
                 <input
                   type="number"
@@ -459,7 +459,7 @@ export default function ProductFormModal({
               </div>
               <div>
                 <label className="block text-sm font-medium text-text-primary mb-2">
-                  Stock
+                  {t('sellerProduct.modal.stockLabel', 'Stock')}
                 </label>
                 <input
                   type="number"
@@ -478,24 +478,23 @@ export default function ProductFormModal({
             <div>
               <div className="flex items-center justify-between mb-2">
                 <label className="block text-sm font-medium text-text-primary">
-                  Variations
+                  {t('sellerProduct.modal.variationsTitle', 'Variations')}
                 </label>
                 <button
                   type="button"
                   onClick={addVariationGroup}
                   className="text-sm text-brand-primary font-semibold"
                 >
-                  + Add variation group
+                  {t('sellerProduct.modal.addVariation', '+ Add variation group')}
                 </button>
               </div>
               <p className="text-xs text-text-muted mb-3">
-                Create variation groups (e.g., Size, Color) and add possible
-                values. Variants can be selected by buyers on the product page.
+                {t('sellerProduct.modal.variationsDesc', 'Create variation groups (e.g., Size, Color) and add possible values. Variants can be selected by buyers on the product page.')}
               </p>
 
               {variations.length === 0 && (
                 <div className="border border-border-soft rounded-xl p-4 text-sm text-text-muted">
-                  No variations added.
+                  {t('sellerProduct.modal.noVariations', 'No variations added.')}
                 </div>
               )}
 
@@ -512,7 +511,7 @@ export default function ProductFormModal({
                         onChange={(e) =>
                           updateVariationName(gi, e.target.value)
                         }
-                        placeholder="Group name (e.g., Size)"
+                        placeholder={t('sellerProduct.modal.groupNamePlaceholder', 'Group name (e.g., Size)')}
                         className="flex-1 px-3 py-2 bg-surface-bg border border-border-soft rounded-xl"
                       />
                       <button
@@ -520,7 +519,7 @@ export default function ProductFormModal({
                         onClick={() => removeVariationGroup(gi)}
                         className="px-3 py-2 text-sm bg-red-50 text-red-600 rounded-xl"
                       >
-                        Remove
+                        {t('sellerProduct.modal.remove', 'Remove')}
                       </button>
                     </div>
 
@@ -528,7 +527,7 @@ export default function ProductFormModal({
                       <div className="flex gap-2">
                         <input
                           type="text"
-                          placeholder="Add value and press Enter (e.g., Red)"
+                          placeholder={t('sellerProduct.modal.addValuePlaceholder', 'Add value and press Enter (e.g., Red)')}
                           className="flex-1 px-3 py-2 bg-surface-bg border border-border-soft rounded-xl"
                           onKeyDown={(e) => {
                             if (e.key === "Enter") {
@@ -548,7 +547,7 @@ export default function ProductFormModal({
                               <div className="ml-2 flex items-center gap-2">
                                 <input
                                   type="number"
-                                  placeholder="Price"
+                                  placeholder={t('sellerProduct.modal.variantPrice', 'Price')}
                                   value={v.price ?? ""}
                                   onChange={(e) => {
                                     const val =
@@ -574,7 +573,7 @@ export default function ProductFormModal({
                                 />
                                 <input
                                   type="text"
-                                  placeholder="Image URL"
+                                  placeholder={t('sellerProduct.modal.variantImage', 'Image URL')}
                                   value={v.image_url ?? ""}
                                   onChange={(e) => {
                                     const val = e.target.value || null;
@@ -617,20 +616,18 @@ export default function ProductFormModal({
             <div>
               <div className="flex items-center justify-between mb-2">
                 <label className="block text-sm font-medium text-text-primary">
-                  Product Media
+                  {t('sellerProduct.modal.mediaTitle', 'Product Media')}
                 </label>
                 {mediaUrls.length > 0 && (
                   <span className="text-xs text-text-muted">
-                    {imageCount} {imageCount === 1 ? "image" : "images"}
+                    {imageCount} {imageCount === 1 ? t('sellerProduct.modal.badgeImage', 'image') : t('sellerProduct.modal.badgeImagePlural', 'images')}
                     {videoCount > 0 &&
-                      `, ${videoCount} ${videoCount === 1 ? "video" : "videos"}`}
+                      `, ${videoCount} ${videoCount === 1 ? t('sellerProduct.modal.badgeVideo', 'video') : t('sellerProduct.modal.badgeVideoPlural', 'videos')}`}
                   </span>
                 )}
               </div>
               <p className="text-xs text-text-muted mb-3">
-                Add image & video URLs. The first image will be used as the
-                primary product image. Supports direct image links, MP4 videos,
-                and YouTube URLs.
+                {t('sellerProduct.modal.mediaDesc', 'Add image & video URLs. The first image will be used as the primary product image. Supports direct image links, MP4 videos, and YouTube URLs.')}
               </p>
 
               {/* URL Input */}
@@ -660,7 +657,7 @@ export default function ProductFormModal({
                   className="flex items-center gap-1.5 px-4 py-2.5 bg-brand-primary text-white text-sm font-semibold
                                                rounded-xl hover:bg-brand-secondary transition-colors flex-shrink-0"
                 >
-                  <Plus size={16} /> Add
+                  <Plus size={16} /> {t('sellerProduct.modal.add', 'Add')}
                 </button>
               </div>
               {urlError && (
@@ -689,9 +686,9 @@ export default function ProductFormModal({
                       <Video size={18} className="text-purple-500" />
                     </div>
                   </div>
-                  <p className="text-sm text-text-muted">No media added yet</p>
+                  <p className="text-sm text-text-muted">{t('sellerProduct.modal.noMedia', 'No media added yet')}</p>
                   <p className="text-xs text-text-muted/70 mt-1">
-                    Paste image or video URLs above to add product media
+                    {t('sellerProduct.modal.noMediaDesc', 'Paste image or video URLs above to add product media')}
                   </p>
                 </div>
               )}
@@ -707,7 +704,7 @@ export default function ProductFormModal({
             disabled={loading}
             className="px-6 py-2.5 text-sm font-semibold text-text-primary bg-white border border-border-soft rounded-xl hover:bg-gray-50 transition-colors disabled:opacity-50"
           >
-            Cancel
+            {t('sellerProduct.modal.cancel', 'Cancel')}
           </button>
           <button
             form="productForm"
@@ -716,7 +713,7 @@ export default function ProductFormModal({
             className="flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-white bg-brand-primary rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-50"
           >
             {loading ? <Loader size={16} className="animate-spin" /> : null}
-            {isEditMode ? "Update Product" : "Save Product"}
+            {isEditMode ? t('sellerProduct.modal.update', 'Update Product') : t('sellerProduct.modal.save', 'Save Product')}
           </button>
         </div>
       </div>

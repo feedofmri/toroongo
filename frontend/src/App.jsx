@@ -11,25 +11,6 @@ import FloatingMessage from "./components/message/FloatingMessage";
 import ScrollToTop from "./components/ScrollToTop";
 import { detectAndSetGuestCurrency } from "./utils/currency";
 
-function NavigationLogger() {
-  const location = useLocation();
-  useEffect(() => {
-    if (
-      location.pathname === "/account/messages" ||
-      location.pathname === "/seller/messages"
-    ) {
-      console.warn(
-        "DEBUG: Navigation to messages detected!",
-        location.pathname + location.search,
-      );
-      console.trace("Navigation Trace:");
-    } else {
-      console.log("DEBUG: Path changed to", location.pathname);
-    }
-  }, [location]);
-  return null;
-}
-
 // ─── Layouts ─────────────────────────────────────────────────
 import BuyerLayout from "./components/layout/BuyerLayout";
 import BuyerDashboardLayout from "./components/layout/BuyerDashboardLayout";
@@ -121,15 +102,6 @@ function NotFoundPage() {
   );
 }
 
-const COUNTRY_LANGUAGE_MAP = {
-  BD: "bn", // Bangladesh -> Bengali
-  IN: "hi", // India -> Hindi
-  NP: "ne", // Nepal -> Nepali
-  ID: "id", // Indonesia -> Indonesian
-  MY: "ms", // Malaysia -> Malay
-  AE: "ar", // UAE -> Arabic
-};
-
 function App() {
   const { i18n } = useTranslation();
 
@@ -162,7 +134,6 @@ function App() {
 
   return (
     <Router>
-      <NavigationLogger />
       <ScrollToTop />
       <Routes>
         {/* ── Buyer Experience ──────────────────────────────── */}

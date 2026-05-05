@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Pencil, Trash2, Loader2, CreditCard, ToggleLeft, ToggleRight, X, Check, Smartphone, Building2, Coins, ShieldCheck, Truck } from 'lucide-react';
 import { paymentMethodService } from '../../services';
+import { useTranslation } from 'react-i18next';
 
 const PRESET_TYPES = [
     { type: 'bkash',   label: 'bKash',        identifierLabel: 'bKash Number',    icon: Smartphone,  color: 'text-pink-600', bg: 'bg-pink-50' },
@@ -17,6 +18,7 @@ const emptyForm = {
 };
 
 export default function PaymentOptions() {
+    const { t } = useTranslation();
     const [methods, setMethods] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showForm, setShowForm] = useState(false);
@@ -73,7 +75,7 @@ export default function PaymentOptions() {
 
     const handleSave = async () => {
         if (!form.label.trim() || !form.account_identifier.trim()) {
-            return setError('Label and account identifier are required.');
+            return setError(t('sellerPayment.modal.errorRequired', 'Label and account identifier are required.'));
         }
         setSaving(true);
         setError('');
@@ -97,7 +99,7 @@ export default function PaymentOptions() {
     };
 
     const handleDelete = async (id) => {
-        if (!window.confirm('Delete this payment method?')) return;
+        if (!window.confirm(t('sellerPayment.confirmDelete', 'Delete this payment method?'))) return;
         setDeletingId(id);
         try {
             await paymentMethodService.deleteMethod(id);
@@ -125,14 +127,14 @@ export default function PaymentOptions() {
         <div className="max-w-2xl mx-auto space-y-6 animate-fade-in">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-text-primary">Payment Options</h1>
+                    <h1 className="text-2xl font-bold text-text-primary">{t('sellerPayment.title', 'Payment Options')}</h1>
                     <p className="text-sm text-text-muted mt-1">
-                        Add the payment methods you accept. Buyers will see these at checkout.
+                        {t('sellerPayment.subtitle', 'Add the payment methods you accept. Buyers will see these at checkout.')}
                     </p>
                 </div>
                 <button onClick={openAdd}
                     className="flex items-center gap-2 px-4 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
-                    <Plus size={15} /> Add Method
+                    <Plus size={15} /> {t('sellerPayment.addMethod', 'Add Method')}
                 </button>
             </div>
 
@@ -143,11 +145,11 @@ export default function PaymentOptions() {
                 </div>
                 <div className="flex-1">
                     <div className="flex items-center gap-2">
-                        <p className="text-sm font-bold text-green-900">Cash on Delivery (Standard)</p>
-                        <span className="text-[10px] font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full uppercase tracking-wider">Default Active</span>
+                        <p className="text-sm font-bold text-green-900">{t('sellerPayment.codTitle', 'Cash on Delivery (Standard)')}</p>
+                        <span className="text-[10px] font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full uppercase tracking-wider">{t('sellerPayment.codBadge', 'Default Active')}</span>
                     </div>
                     <p className="text-xs text-green-700/80 mt-1 leading-relaxed">
-                        Buyers can always choose to pay upon delivery. This method is managed by the system and doesn't require extra configuration.
+                        {t('sellerPayment.codDesc', "Buyers can always choose to pay upon delivery. This method is managed by the system and doesn't require extra configuration.")}
                     </p>
                 </div>
             </div>
@@ -164,8 +166,8 @@ export default function PaymentOptions() {
             ) : methods.length === 0 ? (
                 <div className="text-center py-16 border-2 border-dashed border-border-soft rounded-2xl">
                     <CreditCard size={32} className="mx-auto text-text-muted mb-3" />
-                    <p className="text-sm font-medium text-text-primary">No custom payment methods yet</p>
-                    <p className="text-xs text-text-muted mt-1">Add bKash, Nagad, PayPal, or any other method you accept.</p>
+                    <p className="text-sm font-medium text-text-primary">{t('sellerPayment.noMethods', 'No custom payment methods yet')}</p>
+                    <p className="text-xs text-text-muted mt-1">{t('sellerPayment.noMethodsDesc', 'Add bKash, Nagad, PayPal, or any other method you accept.')}</p>
                 </div>
             ) : (
                 <div className="space-y-3">
@@ -182,7 +184,7 @@ export default function PaymentOptions() {
                                         <p className="text-sm font-bold text-text-primary">{m.label}</p>
                                         {m.service_charge_pct > 0 && (
                                             <span className="text-[10px] font-semibold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">
-                                                +{m.service_charge_pct}% charge
+                                                {t('sellerPayment.charge', '+{{count}}% charge', { count: m.service_charge_pct })}
                                             </span>
                                         )}
                                     </div>
@@ -221,7 +223,7 @@ export default function PaymentOptions() {
                     <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
                         <div className="flex items-center justify-between p-5 border-b border-border-soft">
                             <h2 className="text-lg font-bold text-text-primary">
-                                {editingId ? 'Edit Payment Method' : 'Add Payment Method'}
+                                {editingId ? t('sellerPayment.modal.editTitle', 'Edit Payment Method') : t('sellerPayment.modal.addTitle', 'Add Payment Method')}
                             </h2>
                             <button onClick={() => setShowForm(false)}
                                 className="p-1.5 rounded-lg hover:bg-surface-bg text-text-muted transition-colors">
@@ -232,7 +234,7 @@ export default function PaymentOptions() {
                         <div className="p-5 space-y-4">
                             {/* Preset type selector */}
                             <div>
-                                <p className="text-xs font-medium text-text-muted mb-2">Payment Type</p>
+                                <p className="text-xs font-medium text-text-muted mb-2">{t('sellerPayment.modal.type', 'Payment Type')}</p>
                                 <div className="grid grid-cols-3 gap-2">
                                     {PRESET_TYPES.map(p => (
                                         <button key={p.type} type="button"
@@ -251,40 +253,40 @@ export default function PaymentOptions() {
                             </div>
 
                             <div>
-                                <label className="text-xs font-medium text-text-muted block mb-1">Display Name *</label>
-                                <input type="text" value={form.label} placeholder="e.g. bKash Personal"
+                                <label className="text-xs font-medium text-text-muted block mb-1">{t('sellerPayment.modal.name', 'Display Name *')}</label>
+                                <input type="text" value={form.label} placeholder={t('sellerPayment.modal.namePlaceholder', 'e.g. bKash Personal')}
                                     onChange={e => setForm(p => ({ ...p, label: e.target.value }))}
                                     className={inputClass} />
                             </div>
 
                             <div>
-                                <label className="text-xs font-medium text-text-muted block mb-1">Identifier Label</label>
-                                <input type="text" value={form.identifier_label} placeholder="e.g. bKash Number, PayPal Email"
+                                <label className="text-xs font-medium text-text-muted block mb-1">{t('sellerPayment.modal.idLabel', 'Identifier Label')}</label>
+                                <input type="text" value={form.identifier_label} placeholder={t('sellerPayment.modal.idLabelPlaceholder', 'e.g. bKash Number, PayPal Email')}
                                     onChange={e => setForm(p => ({ ...p, identifier_label: e.target.value }))}
                                     className={inputClass} />
                             </div>
 
                             <div>
-                                <label className="text-xs font-medium text-text-muted block mb-1">Your Account / Number / Email *</label>
-                                <input type="text" value={form.account_identifier} placeholder="e.g. 01712345678"
+                                <label className="text-xs font-medium text-text-muted block mb-1">{t('sellerPayment.modal.idValue', 'Your Account / Number / Email *')}</label>
+                                <input type="text" value={form.account_identifier} placeholder={t('sellerPayment.modal.idValuePlaceholder', 'e.g. 01712345678')}
                                     onChange={e => setForm(p => ({ ...p, account_identifier: e.target.value }))}
                                     className={inputClass} />
                             </div>
 
                             <div>
-                                <label className="text-xs font-medium text-text-muted block mb-1">Service Charge (%)</label>
+                                <label className="text-xs font-medium text-text-muted block mb-1">{t('sellerPayment.modal.serviceCharge', 'Service Charge (%)')}</label>
                                 <input type="number" min="0" max="100" step="0.01"
                                     value={form.service_charge_pct}
                                     onChange={e => setForm(p => ({ ...p, service_charge_pct: e.target.value }))}
                                     className={inputClass} />
-                                <p className="text-[11px] text-text-muted mt-1">Enter 0 for no extra charge.</p>
+                                <p className="text-[11px] text-text-muted mt-1">{t('sellerPayment.modal.serviceChargeDesc', 'Enter 0 for no extra charge.')}</p>
                             </div>
 
                             <div>
-                                <label className="text-xs font-medium text-text-muted block mb-1">Instructions for Buyer</label>
+                                <label className="text-xs font-medium text-text-muted block mb-1">{t('sellerPayment.modal.instructions', 'Instructions for Buyer')}</label>
                                 <textarea value={form.instructions}
                                     onChange={e => setForm(p => ({ ...p, instructions: e.target.value }))}
-                                    placeholder="e.g. Send payment to the number above and share your transaction ID."
+                                    placeholder={t('sellerPayment.modal.instructionsPlaceholder', 'e.g. Send payment to the number above and share your transaction ID.')}
                                     rows={3}
                                     className={`${inputClass} resize-none`} />
                             </div>
@@ -295,7 +297,7 @@ export default function PaymentOptions() {
                                         ${form.is_active ? 'bg-brand-primary' : 'bg-gray-300'}`}>
                                     <div className={`w-4 h-4 bg-white rounded-full shadow transition-transform ${form.is_active ? 'translate-x-5' : 'translate-x-0'}`} />
                                 </div>
-                                <span className="text-sm text-text-primary">Active (visible to buyers)</span>
+                                <span className="text-sm text-text-primary">{t('sellerPayment.modal.active', 'Active (visible to buyers)')}</span>
                             </label>
 
                             {error && (
@@ -306,12 +308,12 @@ export default function PaymentOptions() {
                         <div className="flex gap-3 p-5 border-t border-border-soft">
                             <button onClick={() => setShowForm(false)}
                                 className="flex-1 py-2.5 text-sm font-medium text-text-muted border border-border-soft rounded-xl hover:bg-surface-bg transition-colors">
-                                Cancel
+                                {t('sellerPayment.modal.cancel', 'Cancel')}
                             </button>
                             <button onClick={handleSave} disabled={saving}
                                 className="flex-1 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors flex items-center justify-center gap-2 disabled:opacity-70">
                                 {saving ? <Loader2 size={15} className="animate-spin" /> : <Check size={15} />}
-                                {editingId ? 'Save Changes' : 'Add Method'}
+                                {editingId ? t('sellerPayment.modal.save', 'Save Changes') : t('sellerPayment.addMethod', 'Add Method')}
                             </button>
                         </div>
                     </div>

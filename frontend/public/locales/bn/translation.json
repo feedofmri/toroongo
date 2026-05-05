@@ -32,11 +32,12 @@
         "cat": {
             "electronics": "Electronics",
             "fashion": "Fashion",
-            "homeLiving": "Home & Living",
+            "homeLiving": "Home \u0026 Living",
             "beauty": "Beauty",
             "sports": "Sports",
             "books": "Books"
-        }
+        },
+        "orders": "Orders"
     },
     "common": {
         "viewAll": "সব দেখুন",
@@ -49,7 +50,15 @@
             "New": "নতুন",
             "BestSeller": "বেস্ট সেলার"
         },
-        "showLess": "কম দেখুন"
+        "showLess": "কম দেখুন",
+        "daysAgo": "{{count}} days ago",
+        "weeksAgo": "{{count}} week ago",
+        "daysAgo_plural": "{{count}} days ago",
+        "weeksAgo_plural": "{{count}} weeks ago",
+        "dateLocale": "en-US",
+        "notFound": "Page Not Found",
+        "notFoundDesc": "The page you\u0027re looking for doesn\u0027t exist or has been moved.",
+        "goHome": "Go Home"
     },
     "home": {
         "heroTitle": "সবকিছু কিনুন",
@@ -250,7 +259,9 @@
         "sendMessage": "মেসেজ পাঠান",
         "messageSent": "মেসেজ পাঠানো হয়েছে!",
         "messageSentDesc": "বিক্রেতা শীঘ্রই মেসেজ সেন্টারের মাধ্যমে আপনাকে উত্তর দেবেন।",
-        "home": "হোম"
+        "home": "হোম",
+        "unknownProduct": "Unknown Product",
+        "unknownSeller": "Unknown"
     },
     "cart": {
         "title": "শপিং কার্ট",
@@ -295,7 +306,7 @@
         "faq": [
             {
                 "q": "কিভাবে আমি আমার অর্ডার ট্র্যাক করব?",
-                "a": "আপনার সমস্ত কেনাকাটার রিয়েল-টাইম ট্র্যাকিং তথ্য দেখতে আমার অ্যাকাউন্ট > আমার অর্ডার-এ যান।"
+                "a": "আপনার সমস্ত কেনাকাটার রিয়েল-টাইম ট্র্যাকিং তথ্য দেখতে আমার অ্যাকাউন্ট \u003e আমার অর্ডার-এ যান।"
             },
             {
                 "q": "ফেরত নীতি কি?",
@@ -303,7 +314,7 @@
             },
             {
                 "q": "আমি কিভাবে বিক্রেতা হব?",
-                "a": "'টোরোঙ্গোতে বিক্রি করুন'-এ ক্লিক করুন এবং একটি ফ্রি বিক্রেতা অ্যাকাউন্ট তৈরি করুন। আপনি অবিলম্বে পণ্য তালিকাভুক্ত করা শুরু করতে পারেন।"
+                "a": "\u0027টোরোঙ্গোতে বিক্রি করুন\u0027-এ ক্লিক করুন এবং একটি ফ্রি বিক্রেতা অ্যাকাউন্ট তৈরি করুন। আপনি অবিলম্বে পণ্য তালিকাভুক্ত করা শুরু করতে পারেন।"
             },
             {
                 "q": "আমার পেমেন্ট তথ্য কি নিরাপদ?",
@@ -311,7 +322,7 @@
             },
             {
                 "q": "আমি কিভাবে একজন বিক্রেতার সাথে যোগাযোগ করব?",
-                "a": "বিক্রেতার স্টোর পেজে যান এবং 'মেসেজ' বৈশিষ্ট্যটি ব্যবহার করুন, অথবা আপনার অ্যাকাউন্ট মেসেজ সেকশনে এটি খুঁজে নিন।"
+                "a": "বিক্রেতার স্টোর পেজে যান এবং \u0027মেসেজ\u0027 বৈশিষ্ট্যটি ব্যবহার করুন, অথবা আপনার অ্যাকাউন্ট মেসেজ সেকশনে এটি খুঁজে নিন।"
             },
             {
                 "q": "আমি যদি একটি ত্রুটিপূর্ণ পণ্য পাই তবে কি হবে?",
@@ -396,7 +407,8 @@
             "mistake": "ভুল করে অর্ডার করেছি",
             "longDelivery": "ডেলিভারি সময় অনেক বেশি",
             "other": "অন্যান্য"
-        }
+        },
+        "cancelError": "Failed to cancel order: "
     },
     "account": {
         "profile": "প্রোফাইল",
@@ -698,6 +710,9 @@
             "status": "অবস্থা",
             "noOrders": "এখনো কোনো অর্ডার নেই",
             "loading": "ড্যাশবোর্ড লোড হচ্ছে..."
+        },
+        "badges": {
+            "premium": "Premium Seller"
         }
     },
     "sellerOrders": {
@@ -786,7 +801,47 @@
         "view": "দেখুন",
         "edit": "সম্পাদনা",
         "delete": "মুছে ফেলুন",
-        "views": "{{count}} ভিউ"
+        "views": "{{count}} ভিউ",
+        "saveFailed": "Failed to save blog",
+        "editor": {
+            "loading": "Loading editor...",
+            "newTitle": "Create New Post",
+            "editTitle": "Edit Blog Post",
+            "newSubtitle": "Share your knowledge with Toroongo",
+            "editSubtitle": "Updating your shared insights",
+            "preview": "Preview Post",
+            "backToEdit": "Back to Edit",
+            "publish": "Publish Post",
+            "update": "Update Post",
+            "untitled": "Untitled Post",
+            "summaryPlaceholder": "Post summary will appear here...",
+            "contentPlaceholder": "Start writing your content...",
+            "strategy": "Content Strategy",
+            "postTitle": "Post Title",
+            "titlePlaceholder": "e.g. 5 Strategies for High Conversion",
+            "shortSummary": "Short Summary",
+            "summaryHookPlaceholder": "A brief hook that appears in the blog feed...",
+            "fullContent": "Full Article Content",
+            "richText": "Rich Text Enabled",
+            "storyPlaceholder": "Tell your story...",
+            "metadata": "Metadata",
+            "category": "Category",
+            "theme": "Post Color Theme",
+            "coverImage": "Cover Image",
+            "imageUrl": "Image URL",
+            "noPreview": "No Preview Available",
+            "noPermission": "You do not have permission to edit this blog.",
+            "defaultAuthorInitials": "SE",
+            "defaultAuthor": "Your Store",
+            "urlPlaceholder": "https://..."
+        },
+        "categories": {
+            "tips": "Seller Tips",
+            "insights": "Industry Insight",
+            "guides": "Product Guide",
+            "stories": "Brand Story",
+            "updates": "Update"
+        }
     },
     "sellerFinance": {
         "title": "অর্থনীতি",
@@ -818,73 +873,102 @@
     },
     "sellerSettings": {
         "title": "স্টোর সেটিংস",
+        "subtitle": "আপনার স্টোরের পরিচয়, নীতিমালা এবং জনসমক্ষে প্রদর্শিত বিবরণগুলো পরিচালনা করুন।",
+        "saveSuccess": "স্টোর সেটিংস সফলভাবে আপডেট করা হয়েছে!",
+        "saveError": "সেটিংস সংরক্ষণ করতে ব্যর্থ হয়েছে। আবার চেষ্টা করুন।",
         "tabs": {
-            "store": "স্টোর তথ্য",
+            "general": "সাধারণ",
             "branding": "ব্র্যান্ডিং",
+            "policies": "নীতিমালা",
+            "seo": "SEO এবং সামাজিক",
+            "whitelabel": "হোয়াইট-লেবেল",
+            "currency": "মাল্টি-কারেন্সি",
+            "customcode": "কাস্টম কোড",
             "shipping": "শিপিং",
-            "notifications": "নোটিফিকেশন"
+            "notifications": "বিজ্ঞপ্তি"
         },
-        "username": {
-            "title": "শপ ইউজারনেম",
-            "desc": "আপনার অনন্য স্টোরফ্রন্ট URL। গ্রাহকরা আপনার শপ পাবেন এখানে: ",
-            "placeholder": "আপনার-শপ-নাম",
-            "checking": "পরীক্ষা করা হচ্ছে...",
-            "available": "ইউজারনেমটি খালি আছে!",
-            "current": "এটি আপনার বর্তমান ইউজারনেম",
-            "empty": "ইউজারনেম খালি হতে পারে না",
-            "preview": "আপনার স্টোরফ্রন্ট দেখুন",
-            "claim": "ইউজারনেমটি নিন",
-            "currentBtn": "বর্তমান ইউজারনেম"
-        },
-        "storeInfo": {
-            "title": "স্টোর তথ্য",
-            "name": "স্টোর নাম",
-            "description": "বিবরণ",
-            "email": "যোগাযোগের ইমেইল",
-            "phone": "ফোন",
-            "save": "পরিবর্তন সংরক্ষণ করুন"
+        "general": {
+            "storeName": "স্টোরের নাম",
+            "storeEmail": "স্টোর ইমেল (জনসমক্ষে দৃশ্যমান)",
+            "storePhone": "স্টোর ফোন",
+            "storeDescription": "স্টোর বিবরণ",
+            "storeDescriptionPlaceholder": "ক্রেতাদের বলুন আপনার স্টোরটি কী সম্পর্কে..."
         },
         "branding": {
-            "title": "ব্র্যান্ড কাস্টমাইজেশন",
-            "color": "ব্র্যান্ডের প্রাথমিক রং",
-            "logo": "লোগো URL",
-            "banner": "ব্যানার ইমেজ URL",
-            "save": "ব্র্যান্ডিং আপডেট করুন"
+            "logo": "স্টোর লোগো",
+            "banner": "স্টোর ব্যানার",
+            "theme": "থিম রঙ",
+            "upload": "ছবি আপলোড করুন"
+        },
+        "policies": {
+            "shipping": "শিপিং নীতিমালা",
+            "returns": "রিটার্ন নীতিমালা",
+            "privacy": "গোপনীয়তা নীতিমালা",
+            "placeholder": "আপনার নীতিমালা এখানে লিখুন..."
+        },
+        "seo": {
+            "metaTitle": "SEO মেটা শিরোনাম",
+            "metaDescription": "SEO মেটা বিবরণ",
+            "socialLinks": "সোশ্যাল মিডিয়া লিঙ্ক",
+            "facebook": "ফেসবুক",
+            "instagram": "ইনস্টাগ্রাম",
+            "twitter": "টুইটার (X)"
         },
         "shipping": {
             "title": "শিপিং সেটিংস",
-            "processing": "প্রসেসিং সময় (দিন)",
-            "threshold": "ফ্রি শিপিং থ্রেশহোল্ড ($)",
+            "processing": "প্রক্রিয়াকরণের সময় (দিন)",
+            "threshold": "ফ্রি শিপিং সীমা ($)",
             "rate": "স্ট্যান্ডার্ড শিপিং রেট ($)",
             "express": "এক্সপ্রেস শিপিং অফার করুন",
-            "expressDesc": "গ্রাহকদের দ্রুত ২-৩ দিনে ডেলিভারি পাওয়ার সুযোগ দিন",
-            "save": "শিপিং সংরক্ষণ করুন"
+            "expressDesc": "ক্রেতাদের দ্রুত ২-৩ দিনের ডেলিভারি বেছে নিতে দিন",
+            "save": "শিপিং সেটিংস সংরক্ষণ করুন"
         },
         "notifications": {
-            "title": "নোটিফিকেশন পছন্দসমূহ",
-            "save": "পছন্দসমূহ সংরক্ষণ করুন",
-            "items": {
-                "orders": {
-                    "label": "নতুন অর্ডার",
-                    "desc": "নতুন অর্ডার পেলে জানানো হবে"
-                },
-                "updates": {
-                    "label": "অর্ডার আপডেট",
-                    "desc": "অবস্থার পরিবর্তন এবং ডেলিভারি নিশ্চিতকরণ"
-                },
-                "messages": {
-                    "label": "গ্রাহকের বার্তা",
-                    "desc": "যখন কোনো ক্রেতা আপনাকে বার্তা পাঠাবেন"
-                },
-                "stock": {
-                    "label": "কম স্টক অ্যালার্ট",
-                    "desc": "যখন পণ্যের স্টক ৫ ইউনিটের নিচে নেমে যাবে"
-                },
-                "payouts": {
-                    "label": "পে-আউট নোটিফিকেশন",
-                    "desc": "যখন আপনার ব্যাংকে পে-আউট পাঠানো হবে"
-                }
-            }
+            "title": "বিজ্ঞপ্তি পছন্দসমূহ",
+            "newOrders": "নতুন অর্ডার",
+            "newOrdersDesc": "নতুন অর্ডার পেলে বিজ্ঞপ্তি পান",
+            "orderUpdates": "অর্ডার আপডেট",
+            "orderUpdatesDesc": "অবস্থার পরিবর্তন এবং ডেলিভারি নিশ্চিতকরণ",
+            "customerMessages": "গ্রাহকের বার্তা",
+            "customerMessagesDesc": "যখন একজন ক্রেতা আপনাকে বার্তা পাঠায়",
+            "lowStock": "কম স্টক সতর্কতা",
+            "lowStockDesc": "যখন পণ্যের স্টক ৫ ইউনিটের নিচে নেমে যায়",
+            "payouts": "পে-আউট বিজ্ঞপ্তি",
+            "payoutsDesc": "যখন পে-আউট আপনার ব্যাংকে প্রক্রিয়াকরণ করা হয়",
+            "save": "বিজ্ঞপ্তি পছন্দসমূহ সংরক্ষণ করুন"
+        },
+        "whitelabel": {
+            "title": "হোয়াইট-লেবেল সেটিংস",
+            "desc": "আপনার স্টোরফ্রন্টে তরঙ্গ ব্র্যান্ডিং নিয়ন্ত্রণ করুন। আপনার বিজনেস প্ল্যানে সম্পূর্ণ হোয়াইট-লেবেলিং অন্তর্ভুক্ত রয়েছে।",
+            "removeFooter": "ফুটার থেকে \"Powered by Toroongo\" সরান",
+            "removeFooterDesc": "আপনার স্টোরফ্রন্টে ক্রেতাদের কাছে কোনো তরঙ্গ ব্র্যান্ডিং দেখানো হবে না",
+            "hideEmail": "ইমেল টেমপ্লেট থেকে তরঙ্গ লুকান",
+            "hideEmailDesc": "অর্ডার নিশ্চিতকরণ এবং বিজ্ঞপ্তিগুলোতে কেবল আপনার ব্র্যান্ড ব্যবহার করা হবে",
+            "customFavicon": "কাস্টম ফেভিকন",
+            "customFaviconDesc": "তরঙ্গ আইকনের পরিবর্তে আপনার নিজস্ব ফেভিকন ব্যবহার করুন",
+            "activeTitle": "হোয়াইট-লেবেল সক্রিয়",
+            "activeDesc": "আপনার স্টোরফ্রন্ট থেকে সমস্ত তরঙ্গ ব্র্যান্ডিং সরানো হয়েছে।",
+            "save": "হোয়াইট-লেবেল সেটিংস সংরক্ষণ করুন"
+        },
+        "customcode": {
+            "cssTitle": "কাস্টম CSS",
+            "cssDesc": "স্টোরফ্রন্ট স্টাইল ওভাররাইড করতে কাস্টম CSS যোগ করুন। পরিবর্তনগুলো কেবল আপনার পাবলিক স্টোরফ্রন্টে প্রযোজ্য হবে।",
+            "cssPlaceholder": "/* আপনার কাস্টম স্টোরফ্রন্ট CSS */",
+            "cssSave": "কাস্টম CSS সংরক্ষণ করুন",
+            "htmlTitle": "কাস্টম HTML (হেড ইনজেকশন)",
+            "htmlDesc": "আপনার স্টোরফ্রন্টের <head>-এ কাস্টম HTML ইনজেক্ট করুন। অ্যানালিটিক্স স্ক্রিপ্ট, মেটা ট্যাগ বা থার্ড-পার্টি ইন্টিগ্রেশনের জন্য উপযোগী।",
+            "htmlPlaceholder": "<!-- কাস্টম হেড HTML -->",
+            "htmlCaution": "সতর্কতা:",
+            "htmlCautionDesc": "ভুল HTML বা স্ক্রিপ্ট ইনজেক্ট করলে আপনার স্টোরফ্রন্ট ভেঙে যেতে পারে। পরিবর্তনগুলো সাবধানে পরীক্ষা করুন।",
+            "htmlSave": "কাস্টম HTML সংরক্ষণ করুন"
+        },
+        "currency": {
+            "title": "মাল্টি-কারেন্সি সেটিংস",
+            "desc": "আপনার স্টোরের জন্য কারেন্সি সক্রিয় করুন। ভিজিটরের আইপি ঠিকানার ভিত্তিতে দাম স্বয়ংক্রিয়ভাবে পরিবর্তিত হবে।",
+            "autoDetect": "আইপি দ্বারা কারেন্সি স্বয়ংক্রিয়ভাবে শনাক্ত করুন",
+            "autoDetectDesc": "ভিজিটরের স্থানীয় কারেন্সিতে স্বয়ংক্রিয়ভাবে দাম দেখান",
+            "enabledCurrencies": "সক্রিয় কারেন্সি",
+            "save": "কারেন্সি সেটিংস সংরক্ষণ করুন"
         }
     },
     "pricing": {
@@ -1101,5 +1185,102 @@
         "contactSupport": "সাপোর্টে যোগাযোগ করুন",
         "contactStore": "{{name}}-এ যোগাযোগ করুন",
         "searchStore": "{{name}} অনুসন্ধান করুন..."
+    },
+    "sellerPayment": {
+        "title": "পেমেন্ট এবং পে-আউট",
+        "subtitle": "আপনার পেমেন্ট পদ্ধতি পরিচালনা করুন এবং আপনার উপার্জন উত্তোলন করুন।",
+        "balance": "বর্তমান ব্যালেন্স",
+        "withdraw": "তহবিল উত্তোলন",
+        "history": "লেনদেন ইতিহাস",
+        "methods": {
+            "title": "পে-আউট পদ্ধতি",
+            "add": "নতুন পদ্ধতি যোগ করুন",
+            "bank": "ব্যাংক অ্যাকাউন্ট",
+            "mobile": "মোবাইল ওয়ালেট (bKash/Nagad)"
+        },
+        "transactions": {
+            "date": "তারিখ",
+            "amount": "পরিমাণ",
+            "status": "অবস্থা",
+            "type": "ধরণ"
+        }
+    },
+    "sellerAbandonedCarts": {
+        "title": "পরিত্যক্ত কার্ট",
+        "subtitle": "কার্টে পণ্য ফেলে রাখা ক্রেতাদের সাথে যোগাযোগ করে হারানো বিক্রয় পুনরুদ্ধার করুন।",
+        "stats": {
+            "totalAbandoned": "মোট পরিত্যক্ত",
+            "recovered": "পুনরুদ্ধারকৃত",
+            "recoveryRate": "পুনরুদ্ধারের হার"
+        },
+        "table": {
+            "customer": "গ্রাহক",
+            "items": "আইটেম",
+            "value": "মূল্য",
+            "abandonedAt": "পরিত্যক্ত করার সময়",
+            "action": "অ্যাকশন",
+            "sendReminder": "রিমাইন্ডার পাঠান"
+        }
+    },
+    "shops": {
+        "title": "শপ এক্সপ্লোর করুন",
+        "subtitle": "তরঙ্গতে স্বতন্ত্র বিক্রেতাদের অনন্য সব স্টোর আবিষ্কার করুন। প্রতিটি দোকান একটি কিউরেটেড অভিজ্ঞতা।"
+    },
+    "sellerProduct": {
+        "title": "পণ্য ব্যবস্থাপনা",
+        "subtitle": "আপনার পণ্যের বিবরণ যোগ করুন বা সম্পাদনা করুন।",
+        "basicInfo": "মৌলিক তথ্য",
+        "pricingInventory": "মূল্য এবং ইনভেন্টরি",
+        "media": "মিডিয়া",
+        "variants": "ভ্যারিয়েন্ট",
+        "form": {
+            "name": "পণ্যের নাম",
+            "category": "বিভাগ",
+            "price": "মূল্য",
+            "comparePrice": "তুলনামূলক মূল্য (ডিসকাউন্ট)",
+            "stock": "স্টক",
+            "sku": "SKU",
+            "description": "বিবরণ"
+        }
+    },
+    "sellerDiscounts": {
+        "title": "ডিসকাউন্ট",
+        "subtitle": "কুপন কোড এবং প্রচারমূলক অফার তৈরি এবং পরিচালনা করুন।",
+        "createDiscount": "নতুন ডিসকাউন্ট তৈরি করুন",
+        "table": {
+            "code": "কোড",
+            "type": "ধরণ",
+            "value": "মান",
+            "usage": "ব্যবহার",
+            "expiry": "মেয়াদ",
+            "status": "অবস্থা"
+        }
+    },
+    "sellerStaff": {
+        "title": "স্টাফ ব্যবস্থাপনা",
+        "subtitle": "আপনার টিমের সদস্য এবং তাদের অনুমতি পরিচালনা করুন।",
+        "addMember": "স্টাফ মেম্বার যোগ করুন",
+        "table": {
+            "name": "নাম",
+            "email": "ইমেল",
+            "role": "ভুমিকা",
+            "status": "অবস্থা",
+            "actions": "অ্যাকশন"
+        },
+        "roles": {
+            "admin": "অ্যাডমিন",
+            "manager": "ম্যানেজার",
+            "support": "সাপোর্ট"
+        }
+    },
+    "sellerAiHub": {
+        "title": "AI হাব",
+        "subtitle": "আপনার স্টোর এবং বিক্রয় অপ্টিমাইজ করতে AI-এর শক্তি ব্যবহার করুন।",
+        "features": {
+            "descriptionGenerator": "বিবরণ জেনারেটর",
+            "imageEnhancer": "ইমেজ এনহ্যান্সার",
+            "salesForecasting": "সেলস ফোরকাস্টিং",
+            "sentimentAnalysis": "সেন্টিমেন্ট অ্যানালিসিস"
+        }
     }
 }
