@@ -112,7 +112,7 @@ function App() {
     if (isGuest) {
       detectAndSetGuestCurrency().then(result => {
         if (result?.suggestedLang && (!hasSetLanguage || hasSetLanguage === "en")) {
-           // Success
+          // Success
         }
       });
     }

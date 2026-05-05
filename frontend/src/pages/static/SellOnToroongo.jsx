@@ -65,9 +65,12 @@ export default function SellOnToroongo() {
                         ))}
                     </ul>
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <Link to="/pricing" className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-surface-bg text-text-primary border border-border-soft font-semibold rounded-xl hover:bg-gray-50 transition-colors w-full sm:w-auto">
+                        <button 
+                            onClick={() => alert('Under development')}
+                            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-surface-bg text-text-primary border border-border-soft font-semibold rounded-xl hover:bg-gray-50 transition-colors w-full sm:w-auto"
+                        >
                             {t('sell.pricing.viewPlans')}
-                        </Link>
+                        </button>
                         <Link to="/signup" className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-primary text-white font-semibold rounded-xl hover:bg-brand-secondary transition-colors w-full sm:w-auto">
                             {t('sell.pricing.signup')} <ArrowRight size={16} />
                         </Link>

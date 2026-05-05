@@ -67,14 +67,14 @@ function PlanSummaryCard() {
                 </div>
                 <div className="flex items-center gap-3">
                     {nextPlanData && (
-                        <Link
-                            to="/seller/subscription"
+                        <button
+                            onClick={() => alert('Under development')}
                             className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-brand-primary to-brand-secondary text-white text-sm font-semibold rounded-xl hover:shadow-lg hover:shadow-brand-primary/20 transition-all"
                         >
                             <Sparkles size={14} />
                             Upgrade to {nextPlanData.name}
                             <ArrowRight size={14} />
-                        </Link>
+                        </button>
                     )}
                     <Link
                         to="/seller/subscription"
@@ -128,7 +128,7 @@ export default function SellerDashboard() {
                         productSales[item.productId] = { sold: 0, revenue: 0 };
                     }
                     productSales[item.productId].sold += item.quantity;
-                    
+
                     const priceInSellerCurrency = convertCurrency(
                         item.priceAtPurchase || 0,
                         sellerCurrency,

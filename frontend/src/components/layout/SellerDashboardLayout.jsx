@@ -158,10 +158,9 @@ export default function SellerDashboardLayout() {
                 end={link.end}
                 className={({ isActive }) =>
                   `flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors
-                  ${
-                    isActive
-                      ? "bg-brand-primary text-white"
-                      : "text-text-muted hover:bg-surface-bg hover:text-text-primary"
+                  ${isActive
+                    ? "bg-brand-primary text-white"
+                    : "text-text-muted hover:bg-surface-bg hover:text-text-primary"
                   }`
                 }
               >
@@ -197,11 +196,10 @@ export default function SellerDashboardLayout() {
                 end={link.end}
                 className={({ isActive }) =>
                   `flex-shrink-0 flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold transition-all
-                                    ${
-                                      isActive
-                                        ? "bg-brand-primary text-white shadow-md shadow-brand-primary/20"
-                                        : "text-text-muted hover:bg-surface-bg hover:text-text-primary border border-transparent hover:border-border-soft"
-                                    }`
+                                    ${isActive
+                    ? "bg-brand-primary text-white shadow-md shadow-brand-primary/20"
+                    : "text-text-muted hover:bg-surface-bg hover:text-text-primary border border-transparent hover:border-border-soft"
+                  }`
                 }
               >
                 <link.icon size={14} />

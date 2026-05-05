@@ -28,12 +28,12 @@ export default function UpgradePrompt({
                 <span className="text-text-muted">
                     {message || `Upgrade to ${planData.name} to unlock ${feature}`}
                 </span>
-                <Link
-                    to="/seller/subscription"
+                <button
+                    onClick={() => alert('Under development')}
                     className="text-brand-primary font-semibold hover:text-brand-secondary transition-colors inline-flex items-center gap-1"
                 >
                     Upgrade <ArrowRight size={14} />
-                </Link>
+                </button>
             </div>
         );
     }
@@ -54,12 +54,12 @@ export default function UpgradePrompt({
                         </p>
                     </div>
                 </div>
-                <Link
-                    to="/seller/subscription"
+                <button
+                    onClick={() => alert('Under development')}
                     className="flex-shrink-0 px-4 py-2 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors"
                 >
                     Upgrade
-                </Link>
+                </button>
             </div>
         );
     }
@@ -76,14 +76,14 @@ export default function UpgradePrompt({
             <p className="text-sm text-text-muted mb-6 leading-relaxed">
                 {message || `This feature is available on the ${planData.name} plan and above. Upgrade now to unlock it.`}
             </p>
-            <Link
-                to="/seller/subscription"
+            <button
+                onClick={() => alert('Under development')}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-all hover:shadow-lg hover:shadow-brand-primary/20"
             >
                 <Sparkles size={16} />
                 Upgrade to {planData.name} — ${planData.price}/mo
                 <ArrowRight size={16} />
-            </Link>
+            </button>
         </div>
     );
 }

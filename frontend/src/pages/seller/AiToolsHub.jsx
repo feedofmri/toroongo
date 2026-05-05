@@ -29,7 +29,6 @@ const AI_TOOL_ICONS = {
 function DescriptionGenerator() {
     const { t } = useTranslation();
     const [keywords, setKeywords] = useState('');
-    const [keywords, setKeywords] = useState('');
     const [generating, setGenerating] = useState(false);
     const [result, setResult] = useState('');
 
@@ -95,7 +94,6 @@ function DescriptionGenerator() {
 function ImageEnhancer() {
     const { t } = useTranslation();
     const [processing, setProcessing] = useState(false);
-    const [processing, setProcessing] = useState(false);
     const [done, setDone] = useState(false);
 
     const handleEnhance = () => {
@@ -140,7 +138,6 @@ function ImageEnhancer() {
  */
 function AutoTranslator() {
     const { t } = useTranslation();
-    const [translating, setTranslating] = useState(false);
     const [translating, setTranslating] = useState(false);
     const [translations, setTranslations] = useState([]);
 

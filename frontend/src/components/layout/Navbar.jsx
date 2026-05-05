@@ -201,10 +201,10 @@ export default function Navbar() {
 
                         {/* Buyer Actions (desktop) */}
                         {isAuthenticated && user?.role === 'buyer' && (
-                            <Link 
-                                to="/account/messages" 
+                            <Link
+                                to="/account/messages"
                                 onClick={() => setMobileMenuOpen(false)}
-                                className="hidden sm:flex relative p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors" 
+                                className="hidden sm:flex relative p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors"
                                 aria-label="Messages"
                             >
                                 <MessageSquare size={20} />
@@ -213,10 +213,10 @@ export default function Navbar() {
 
                         {/* Seller Actions (desktop) */}
                         {isAuthenticated && user?.role === 'seller' && (
-                            <Link 
-                                to="/seller/messages" 
+                            <Link
+                                to="/seller/messages"
                                 onClick={() => setMobileMenuOpen(false)}
-                                className="hidden sm:flex relative p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors" 
+                                className="hidden sm:flex relative p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors"
                                 aria-label="Messages"
                             >
                                 <MessageSquare size={20} />
