@@ -9,6 +9,7 @@ import {
 import { useTranslation } from "react-i18next";
 import FloatingMessage from "./components/message/FloatingMessage";
 import ScrollToTop from "./components/ScrollToTop";
+import { detectAndSetGuestCurrency } from "./utils/currency";
 
 function NavigationLogger() {
   const location = useLocation();
@@ -50,6 +51,7 @@ import Wishlist from "./pages/buyer/Wishlist";
 import AccountSettings from "./pages/buyer/AccountSettings";
 import MessageCenter from "./pages/buyer/MessageCenter";
 import MyReviews from "./pages/buyer/MyReviews";
+import GoogleCallback from "./pages/GoogleCallback";
 
 // ─── Seller Storefront Pages ─────────────────────────────────
 import StoreHome from "./pages/seller/StoreHome";
@@ -69,6 +71,7 @@ import BlogEditor from "./pages/seller/BlogEditor";
 import SellerSubscription from "./pages/seller/SellerSubscription";
 import SubscriptionHistory from "./pages/seller/SubscriptionHistory";
 import ShippingAreas from "./pages/seller/ShippingAreas";
+import PaymentOptions from "./pages/seller/PaymentOptions";
 import DiscountManagement from "./pages/seller/DiscountManagement";
 import StaffAccounts from "./pages/seller/StaffAccounts";
 import CustomDomain from "./pages/seller/CustomDomain";
@@ -132,27 +135,22 @@ function App() {
 
   useEffect(() => {
     const hasSetLanguage = localStorage.getItem("i18nextLng");
+    const isGuest = !localStorage.getItem('toroongo_user');
 
-    // Only auto-detect if user hasn't actively saved a preference
-    if (!hasSetLanguage || hasSetLanguage === "en") {
-      const detectAndSetLanguage = async () => {
-        // Using a simple try/catch but pointing to a mock for now to prevent local dev CORS errors
-        // In a real production deployment, the server reverse proxy would handle geographic IP detection.
-        try {
-          // Read from localStorage first to respect user preference
-          const currentLang =
-            localStorage.getItem("i18nextLng") || i18n.language;
-
-          // Set RTL dir if default lang is Arabic
-          if (currentLang.startsWith("ar")) {
-            document.documentElement.dir = "rtl";
-            document.documentElement.lang = currentLang;
-          }
-        } catch (error) {
-          // Silently fallback without logging scary CORS errors
+    if (isGuest) {
+      detectAndSetGuestCurrency().then(result => {
+        if (result?.suggestedLang && (!hasSetLanguage || hasSetLanguage === "en")) {
+           // Success
         }
-      };
-      detectAndSetLanguage();
+      });
+    }
+
+    // Handle RTL
+    const currentLang = localStorage.getItem("i18nextLng") || i18n.language;
+    if (currentLang.startsWith("ar")) {
+      document.documentElement.dir = "rtl";
+    } else {
+      document.documentElement.dir = "ltr";
     }
   }, [i18n]);
 
@@ -211,6 +209,7 @@ function App() {
           <Route path="/login" element={<AuthPage />} />
           <Route path="/signup" element={<AuthPage />} />
           <Route path="/forgot-password" element={<AuthPage />} />
+          <Route path="/auth/google/callback" element={<GoogleCallback />} />
 
           {/* Buyer Dashboard */}
           <Route
@@ -254,7 +253,6 @@ function App() {
         </Route>
 
         {/* ── Seller Storefronts (toroongo.com/:username) ─── */}
-        {/* Outside BuyerLayout — storefronts have their own header/nav, no Toroongo navbar */}
         <Route path="/:slug" element={<SellerLayout />}>
           <Route index element={<StoreHome />} />
           <Route path="products" element={<StoreCatalog />} />
@@ -262,7 +260,7 @@ function App() {
           <Route path="policies" element={<StorePolicies />} />
         </Route>
 
-        {/* ── Storefront Builder (full-screen, outside dashboard layout) ── */}
+        {/* ── Storefront Builder ── */}
         <Route
           path="/seller/storefront-builder"
           element={
@@ -304,6 +302,7 @@ function App() {
           <Route path="import-export" element={<BulkImportExport />} />
           <Route path="ai-tools" element={<AiToolsHub />} />
           <Route path="shipping-areas" element={<ShippingAreas />} />
+          <Route path="payment-options" element={<PaymentOptions />} />
           <Route path="subscription" element={<SellerSubscription />} />
           <Route
             path="subscription/history"
@@ -311,7 +310,7 @@ function App() {
           />
         </Route>
 
-        {/* 404 - Should be at the very end */}
+        {/* 404 */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       <FloatingMessage />

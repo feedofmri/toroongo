@@ -21,7 +21,7 @@ class ShippingAreaController extends Controller
         }
 
         $areas = ShippingArea::query()
-            ->with(['seller:id,name,store_name'])
+            ->with(['seller:id,name,store_name,currency_code'])
             ->where('is_active', true)
             ->when(!empty($sellerIds), function ($query) use ($sellerIds) {
                 $query->whereIn('seller_id', $sellerIds);
@@ -38,6 +38,7 @@ class ShippingAreaController extends Controller
                     'name' => $area->name,
                     'country' => $area->country,
                     'fee' => $area->fee,
+                    'currency_code' => $area->seller?->currency_code ?: 'USD',
                     'is_active' => $area->is_active,
                 ];
             });

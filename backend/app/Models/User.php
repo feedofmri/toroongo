@@ -17,6 +17,7 @@ class User extends Authenticatable
         'store_name', 'description', 'logo', 'banner',
         'rating', 'total_products', 'brand_color', 'slug', 'joined_date',
         'phone', 'seller_settings', 'buyer_settings', 'location',
+        'country', 'currency_code', 'country_custom_name',
     ];
 
     protected $hidden = ['password', 'remember_token'];
@@ -44,6 +45,7 @@ class User extends Authenticatable
     public function notifications() { return $this->hasMany(Notification::class); }
     public function subscriptions() { return $this->hasMany(Subscription::class)->orderByDesc('created_at'); }
     public function shippingAreas() { return $this->hasMany(ShippingArea::class, 'seller_id'); }
+    public function paymentMethods() { return $this->hasMany(SellerPaymentMethod::class, 'seller_id'); }
 
     public function activeSubscription()
     {

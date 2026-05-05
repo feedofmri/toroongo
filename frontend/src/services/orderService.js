@@ -71,6 +71,9 @@ export const orderService = {
         shipping_address: orderData.shippingAddress,
         shipping_area_id: orderData.shippingAreaId || null,
         payment_method: orderData.paymentMethod,
+        buyer_currency_code: orderData.buyer_currency_code,
+        seller_currency_code: orderData.seller_currency_code,
+        payment_details: orderData.payment_details,
       }),
     });
   },

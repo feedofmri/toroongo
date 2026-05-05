@@ -13,7 +13,7 @@ import {
 import { useCart } from "../../context/CartContext";
 import { useProduct } from "../../context/ProductContext";
 import { resolveSellerSlug } from "../../utils/resolveSellerSlug";
-import { formatPrice } from "../../utils/currency";
+import { formatPrice, formatPriceInCurrency, getBuyerCurrencyCode } from "../../utils/currency";
 
 export default function ShoppingCart() {
   const { t } = useTranslation();
@@ -21,6 +21,7 @@ export default function ShoppingCart() {
     cart: cartItems,
     updateQuantity,
     removeFromCart: removeItem,
+    getCartTotal,
   } = useCart();
   const { products: allProducts, sellers } = useProduct();
 
@@ -46,13 +47,16 @@ export default function ShoppingCart() {
     return acc;
   }, {});
 
-  const subtotal = cartItems.reduce((sum, item) => {
-    const p = getProduct(item.id);
-    return sum + (p ? p.price * item.quantity : 0);
-  }, 0);
+  const subtotal = getCartTotal();
+  const buyerCode = getBuyerCurrencyCode();
 
   const discount = promoApplied ? subtotal * 0.1 : 0;
-  const shipping = subtotal > 50 ? 0 : 5.99;
+  
+  // Shipping thresholds should also be localized? 
+  // Let's assume 50 in current currency is the threshold for simplicity, 
+  // or convert a base 50 USD threshold.
+  const shippingThreshold = 50; 
+  const shipping = subtotal > shippingThreshold ? 0 : 5.99;
   const total = subtotal - discount + shipping;
 
   if (cartItems.length === 0) {
@@ -143,11 +147,11 @@ export default function ShoppingCart() {
                           </Link>
                           <div className="flex items-baseline gap-2 mt-1.5">
                             <span className="text-sm font-bold text-text-primary">
-                              {formatPrice(product.price)}
+                              {formatPrice(product.price, product.currency_code || 'USD')}
                             </span>
                             {product.originalPrice && (
                               <span className="text-xs text-text-muted line-through">
-                                {formatPrice(product.originalPrice)}
+                                {formatPrice(product.originalPrice, product.currency_code || 'USD')}
                               </span>
                             )}
                           </div>
@@ -246,14 +250,14 @@ export default function ShoppingCart() {
                 <div className="flex justify-between">
                   <span className="text-text-muted">{t("cart.subtotal")}</span>
                   <span className="font-medium text-text-primary">
-                    {formatPrice(subtotal)}
+                    {formatPriceInCurrency(subtotal, buyerCode)}
                   </span>
                 </div>
                 {promoApplied && (
                   <div className="flex justify-between text-green-600">
                     <span>{t("cart.promoDiscount")}</span>
                     <span className="font-medium">
-                      -{formatPrice(discount)}
+                      -{formatPriceInCurrency(discount, buyerCode)}
                     </span>
                   </div>
                 )}
@@ -264,7 +268,7 @@ export default function ShoppingCart() {
                   >
                     {shipping === 0
                       ? t("checkout.free")
-                      : `${formatPrice(shipping)}`}
+                      : `${formatPriceInCurrency(shipping, buyerCode)}`}
                   </span>
                 </div>
                 <div className="border-t border-border-soft pt-3 flex justify-between">
@@ -272,7 +276,7 @@ export default function ShoppingCart() {
                     {t("cart.total")}
                   </span>
                   <span className="text-xl font-bold text-text-primary">
-                    {formatPrice(total)}
+                    {formatPriceInCurrency(total, buyerCode)}
                   </span>
                 </div>
               </div>

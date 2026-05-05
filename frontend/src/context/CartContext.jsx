@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { convertCurrency, getBuyerCurrencyCode } from "../utils/currency";
 
 const CartContext = createContext();
 
@@ -74,7 +75,11 @@ export function CartProvider({ children }) {
   const clearCart = () => setCart([]);
 
   const getCartTotal = () => {
-    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+    const buyerCode = getBuyerCurrencyCode();
+    return cart.reduce((total, item) => {
+      const converted = convertCurrency(item.price, item.currency_code || 'USD', buyerCode);
+      return total + (converted * item.quantity);
+    }, 0);
   };
 
   const getCartCount = () => {

@@ -431,12 +431,12 @@ export default function ProductDetail() {
             {/* Price */}
             <div className="flex items-baseline gap-3 mb-6">
               <span className="text-3xl font-bold text-text-primary">
-                {formatPrice(selectedVariantPrice ?? product.price)}
+                {formatPrice(selectedVariantPrice ?? product.price, product.currency_code || 'USD')}
               </span>
               {product.originalPrice && (
                 <>
                   <span className="text-lg text-text-muted line-through">
-                    {formatPrice(product.originalPrice)}
+                    {formatPrice(product.originalPrice, product.currency_code || 'USD')}
                   </span>
                   <span className="text-sm font-semibold text-green-600 bg-green-50 px-2 py-1 rounded-lg">
                     Save {product.discount}%
@@ -802,161 +802,33 @@ export default function ProductDetail() {
                           )}
                         </div>
                         <div>
-                          <p className="text-sm font-bold text-text-primary">
-                            {review.user?.name || "Anonymous User"}
+                          <p className="text-sm font-semibold text-text-primary">
+                            {review.user?.name}
                           </p>
-                          <p className="text-[10px] text-text-muted">
-                            {new Date(review.created_at).toLocaleDateString(
-                              t("common.dateLocale") || "en-US",
-                              {
-                                year: "numeric",
-                                month: "short",
-                                day: "numeric",
-                              },
-                            )}
-                          </p>
+                          <div className="flex items-center gap-2">
+                            <StarRating rating={review.rating} showText={false} />
+                            <span className="text-[10px] text-text-muted">
+                              {new Date(review.created_at).toLocaleDateString()}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                      <StarRating rating={review.rating} size={12} />
                     </div>
-                    <p className="text-sm text-text-primary leading-relaxed bg-white/50 p-4 rounded-lg border border-border-soft/50 italic">
+                    <p className="text-sm text-text-muted italic leading-relaxed">
                       "{review.comment}"
                     </p>
-                    {review.media?.length > 0 && (
-                      <ReviewMedia media={review.media} />
-                    )}
+                    <ReviewMedia media={review.media} />
                   </div>
                 ))
               ) : (
-                <div className="text-center py-12 bg-surface-bg rounded-2xl border border-dashed border-border-soft">
-                  <MessageSquare
-                    size={40}
-                    className="mx-auto text-text-muted/30 mb-3"
-                  />
-                  <p className="text-text-primary font-medium">
-                    {t("product.noReviewsYet", "No reviews yet")}
-                  </p>
-                  <p className="text-sm text-text-muted mt-1">
-                    {t(
-                      "product.noReviewsDesc",
-                      "Be the first to share your experience after purchasing.",
-                    )}
-                  </p>
+                <div className="text-center py-10 bg-surface-bg rounded-2xl border border-dashed border-border-soft">
+                  <p className="text-text-muted text-sm">{t("product.noReviewsYet")}</p>
                 </div>
               )}
             </div>
           )}
         </div>
-
-        {/* ── Related Products ──────────────────────────────── */}
-        {relatedProducts.length > 0 && (
-          <section className="mt-16">
-            <h2 className="text-2xl font-bold text-text-primary tracking-tight mb-6">
-              {t("product.mayAlsoLike")}
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {relatedProducts.map((p) => (
-                <ProductCard key={p.id} product={p} />
-              ))}
-            </div>
-          </section>
-        )}
       </div>
-
-      {/* Message Seller Modal */}
-      {showMessageModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
-          <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden">
-            <div className="p-5 border-b border-border-soft flex justify-between items-center bg-surface-bg">
-              <h3 className="font-bold text-text-primary">
-                {t("product.contactSeller")}
-              </h3>
-              <button
-                onClick={() => setShowMessageModal(false)}
-                className="text-text-muted hover:text-text-primary text-xl"
-              >
-                &times;
-              </button>
-            </div>
-            <div className="p-5">
-              {messageSent ? (
-                <div className="text-center py-8">
-                  <div className="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <ShieldCheck size={24} />
-                  </div>
-                  <h4 className="font-bold text-text-primary mb-2">
-                    {t("product.messageSent")}
-                  </h4>
-                  <p className="text-sm text-text-muted mb-6">
-                    {t("product.messageSentDesc")}
-                  </p>
-                  <div className="flex flex-col gap-2">
-                    <button
-                      onClick={() =>
-                        navigate(`/account/messages?userId=${product.sellerId}`)
-                      }
-                      className="w-full py-3 bg-brand-primary text-white text-sm font-bold rounded-xl hover:bg-brand-secondary transition-colors"
-                    >
-                      Go to Inbox
-                    </button>
-                    <button
-                      onClick={() => {
-                        setShowMessageModal(false);
-                        setMessageSent(false);
-                        setMessageText("");
-                      }}
-                      className="w-full py-3 text-sm font-bold text-text-muted hover:text-text-primary transition-colors"
-                    >
-                      Continue Shopping
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <div className="flex items-center gap-3 mb-4 p-3 bg-surface-bg rounded-xl border border-border-soft">
-                    <img
-                      src={product.imageUrl || product.image_url}
-                      alt=""
-                      className="w-10 h-10 object-cover rounded-md"
-                    />
-                    <div>
-                      <p className="text-xs font-semibold text-text-primary leading-tight line-clamp-1">
-                        {product.title}
-                      </p>
-                      <p className="text-[10px] text-text-muted mt-0.5">
-                        {t("product.regardingItem")}
-                      </p>
-                    </div>
-                  </div>
-                  <textarea
-                    value={messageText}
-                    onChange={(e) => setMessageText(e.target.value)}
-                    placeholder={t("product.typeQuestion")}
-                    className="w-full h-32 p-3 text-sm border border-border-soft rounded-xl focus:border-brand-primary outline-none resize-none mb-4"
-                  />
-                  <div className="flex gap-3 justify-end">
-                    <button
-                      onClick={() => setShowMessageModal(false)}
-                      className="px-4 py-2 text-sm font-semibold text-text-muted hover:text-text-primary"
-                    >
-                      {t("product.cancel")}
-                    </button>
-                    <button
-                      onClick={handleSendMessage}
-                      disabled={!messageText.trim() || sendingMessage}
-                      className="px-5 py-2 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-50"
-                    >
-                      {sendingMessage
-                        ? t("orders.cancelling")
-                        : t("product.sendMessage")}
-                    </button>
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

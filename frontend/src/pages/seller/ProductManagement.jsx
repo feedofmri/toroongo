@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useSubscription } from '../../context/SubscriptionContext';
 import { productService } from '../../services';
 import Skeleton from '../../components/ui/Skeleton';
-import { formatPrice } from '../../utils/currency';
+import { formatPrice, formatPriceInCurrency } from '../../utils/currency';
 import ProductFormModal from './ProductFormModal';
 import UpgradePrompt from '../../components/subscription/UpgradePrompt';
 
@@ -216,7 +216,7 @@ export default function ProductManagement() {
                                         </div>
                                     </td>
                                     <td className="px-5 py-3.5 text-sm text-text-muted">{product.category}</td>
-                                    <td className="px-5 py-3.5 text-sm font-medium text-text-primary">{formatPrice(product.price)}</td>
+                                    <td className="px-5 py-3.5 text-sm font-medium text-text-primary">{formatPriceInCurrency(product.price, user?.currency_code)}</td>
                                     <td className="px-5 py-3.5 text-sm text-text-muted">{product.stock}</td>
                                     <td className="px-5 py-3.5">
                                         <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${STATUS_STYLES[product.status]}`}>

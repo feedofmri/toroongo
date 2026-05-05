@@ -38,6 +38,7 @@ export default function ProductCard({ product, layout = 'grid' }) {
         imageUrl: _imageUrl,
         image_url,
         badge,
+        currency_code,
     } = product;
 
     const imageUrl = _imageUrl || image_url;
@@ -113,11 +114,11 @@ export default function ProductCard({ product, layout = 'grid' }) {
 
                     <div className="mt-auto flex items-baseline gap-2">
                         <span className="text-lg font-bold text-text-primary">
-                            {formatPrice(price)}
+                            {formatPrice(price, currency_code || 'USD')}
                         </span>
                         {originalPrice && (
                             <span className="text-sm text-text-muted line-through">
-                                {formatPrice(originalPrice)}
+                                {formatPrice(originalPrice, currency_code || 'USD')}
                             </span>
                         )}
                         {discount > 0 && (
@@ -187,11 +188,11 @@ export default function ProductCard({ product, layout = 'grid' }) {
                 {/* Price */}
                 <div className="mt-auto flex items-baseline gap-2">
                     <span className="text-lg font-bold text-text-primary">
-                        {formatPrice(price)}
+                        {formatPrice(price, currency_code || 'USD')}
                     </span>
                     {originalPrice && (
                         <span className="text-sm text-text-muted line-through">
-                            {formatPrice(originalPrice)}
+                            {formatPrice(originalPrice, currency_code || 'USD')}
                         </span>
                     )}
                     {discount > 0 && (

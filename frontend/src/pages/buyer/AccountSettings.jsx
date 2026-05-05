@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { User, MapPin, CreditCard, Bell, Plus, Pencil, Trash2, Loader2, X } from 'lucide-react';
+import { User, MapPin, CreditCard, Bell, Plus, Pencil, Trash2, Loader2, X, Globe } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { userService, addressService } from '../../services';
+import CountrySelector from '../../components/ui/CountrySelector';
+import { setBuyerCurrencyCode } from '../../utils/currency';
 
 const MOCK_PAYMENTS = [
     { id: 1, type: 'Visa', last4: '4242', expiry: '12/27', isDefault: true },
@@ -46,6 +48,8 @@ export default function AccountSettings() {
     const [isSaving, setIsSaving] = useState(false);
     const [isSavingProfile, setIsSavingProfile] = useState(false);
     const [isSavingAddress, setIsSavingAddress] = useState(false);
+    const [isSavingCountry, setIsSavingCountry] = useState(false);
+    const [countryData, setCountryData] = useState({ country: '', currency_code: 'USD', country_custom_name: '' });
 
     useEffect(() => {
         if (user) {
@@ -54,6 +58,11 @@ export default function AccountSettings() {
                 lastName: user.name?.split(' ').slice(1).join(' ') || '',
                 email: user.email || '',
                 phone: user.phone || ''
+            });
+            setCountryData({
+                country: user.country || '',
+                currency_code: user.currency_code || 'USD',
+                country_custom_name: user.country_custom_name || '',
             });
 
             if (user.buyer_settings?.notifications) {
@@ -159,9 +168,28 @@ export default function AccountSettings() {
         }
     };
 
+    const handleSaveCountry = async () => {
+        setIsSavingCountry(true);
+        try {
+            const updatedUser = await userService.updateProfile(user.id, {
+                country: countryData.country || null,
+                currency_code: countryData.currency_code || 'USD',
+                country_custom_name: countryData.country_custom_name || null,
+            });
+            updateUser(updatedUser);
+            setBuyerCurrencyCode(countryData.currency_code || 'USD');
+            alert('Country & currency updated!');
+        } catch (err) {
+            alert('Failed to update: ' + err.message);
+        } finally {
+            setIsSavingCountry(false);
+        }
+    };
+
     const tabs = [
         { key: 'profile', label: t('account.profile'), icon: User },
         { key: 'addresses', label: t('account.addresses'), icon: MapPin },
+        { key: 'country', label: 'Country & Currency', icon: Globe },
         { key: 'payment', label: t('account.payment'), icon: CreditCard },
         { key: 'notifications', label: t('account.notifications'), icon: Bell },
     ];
@@ -247,6 +275,27 @@ export default function AccountSettings() {
                     >
                         {isSavingProfile && <Loader2 size={16} className="animate-spin" />}
                         {t('account.saveChanges')}
+                    </button>
+                </div>
+            )}
+
+            {/* Country & Currency Tab */}
+            {activeTab === 'country' && (
+                <div className="max-w-lg space-y-5">
+                    <div>
+                        <h3 className="text-lg font-semibold text-text-primary">Country & Currency</h3>
+                        <p className="text-sm text-text-muted mt-1">
+                            Your country determines which currency is used to display prices across the platform.
+                        </p>
+                    </div>
+                    <CountrySelector value={countryData} onChange={setCountryData} />
+                    <button
+                        onClick={handleSaveCountry}
+                        disabled={isSavingCountry}
+                        className="flex items-center gap-2 px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-70"
+                    >
+                        {isSavingCountry && <Loader2 size={16} className="animate-spin" />}
+                        Save Country & Currency
                     </button>
                 </div>
             )}

@@ -67,6 +67,7 @@ class ProductController extends Controller
         $user = $request->user();
         $data['seller_id'] = $user->id;
         $data['seller_name'] = $user->store_name ?? $user->name;
+        $data['currency_code'] = $user->currency_code ?? 'USD';
 
         if (isset($data['original_price']) && $data['original_price'] > 0) {
             $data['discount'] = round((($data['original_price'] - $data['price']) / $data['original_price']) * 100);

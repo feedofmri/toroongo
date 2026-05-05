@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { orderService } from "../../services/orderService";
-import { formatPrice } from "../../utils/currency";
+import { formatPrice, formatPriceInCurrency, convertCurrency } from "../../utils/currency";
 import { useProduct } from "../../context/ProductContext";
 
 const STATUS_CONFIG = {
@@ -203,7 +203,15 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
                           </p>
                           <p className="text-xs text-text-muted mt-1 uppercase font-semibold tracking-wide">
                             Qty: {item.quantity} ·{" "}
-                            {formatPrice(item.priceAtPurchase)} each
+                            {formatPriceInCurrency(
+                              convertCurrency(
+                                item.priceAtPurchase,
+                                order.seller_currency_code || 'USD',
+                                user?.currency_code || 'USD'
+                              ),
+                              user?.currency_code
+                            )}{" "}
+                            each
                           </p>
                           {item.variant?.length > 0 && (
                             <p className="text-xs text-text-muted mt-1">
@@ -216,7 +224,14 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
                             </p>
                           )}
                           <p className="text-sm font-bold text-brand-primary mt-1">
-                            {formatPrice(item.priceAtPurchase * item.quantity)}
+                            {formatPriceInCurrency(
+                              convertCurrency(
+                                item.priceAtPurchase * item.quantity,
+                                order.seller_currency_code || 'USD',
+                                user?.currency_code || 'USD'
+                              ),
+                              user?.currency_code
+                            )}
                           </p>
                         </div>
                       </div>
@@ -230,19 +245,40 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-text-muted">Subtotal</span>
                   <span className="font-semibold text-text-primary">
-                    {formatPrice(order.subtotal)}
+                    {formatPriceInCurrency(
+                      convertCurrency(
+                        order.subtotal,
+                        order.seller_currency_code || 'USD',
+                        user?.currency_code || 'USD'
+                      ),
+                      user?.currency_code
+                    )}
                   </span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-text-muted">Shipping Fee</span>
                   <span className="font-semibold text-text-primary">
-                    {formatPrice(order.shippingCost)}
+                    {formatPriceInCurrency(
+                      convertCurrency(
+                        order.shippingCost,
+                        order.seller_currency_code || 'USD',
+                        user?.currency_code || 'USD'
+                      ),
+                      user?.currency_code
+                    )}
                   </span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-text-muted">Estimated Tax</span>
                   <span className="font-semibold text-text-primary">
-                    {formatPrice(order.tax)}
+                    {formatPriceInCurrency(
+                      convertCurrency(
+                        order.tax,
+                        order.seller_currency_code || 'USD',
+                        user?.currency_code || 'USD'
+                      ),
+                      user?.currency_code
+                    )}
                   </span>
                 </div>
                 <div className="flex justify-between items-center pt-3 border-t border-border-soft">
@@ -250,7 +286,14 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
                     Total Amount
                   </span>
                   <span className="text-xl font-black text-brand-primary">
-                    {formatPrice(order.total)}
+                    {formatPriceInCurrency(
+                      convertCurrency(
+                        order.total,
+                        order.seller_currency_code || 'USD',
+                        user?.currency_code || 'USD'
+                      ),
+                      user?.currency_code
+                    )}
                   </span>
                 </div>
               </div>

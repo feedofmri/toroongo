@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { useSubscription } from '../../context/SubscriptionContext';
 import { orderService, productService } from '../../services';
-import { formatPrice } from '../../utils/currency';
+import { formatPrice, formatPriceInCurrency, convertCurrency } from '../../utils/currency';
 import { PLANS, getNextPlan } from '../../data/planConfig';
 import PlanBadge from '../../components/subscription/PlanBadge';
 import PlanFeaturesWidget from '../../components/subscription/PlanFeaturesWidget';
@@ -103,7 +103,14 @@ export default function SellerDashboard() {
             orderService.getSellerOrders(user.id),
             productService.getProductsBySeller(user.id)
         ]).then(([orders, products]) => {
-            const revenue = orders.reduce((sum, order) => sum + (order.subtotal || 0), 0);
+            const revenue = orders.reduce((sum, order) => {
+                return sum + convertCurrency(
+                    order.subtotal || 0,
+                    order.seller_currency_code || 'USD',
+                    user?.currency_code || 'USD'
+                );
+            }, 0);
+
             setStats({
                 revenue,
                 orderCount: orders.length,
@@ -113,12 +120,21 @@ export default function SellerDashboard() {
             // Calculate top products
             const productSales = {};
             orders.forEach(order => {
+                const sellerCurrency = order.seller_currency_code || 'USD';
+                const userCurrency = user?.currency_code || 'USD';
+
                 order.items.forEach(item => {
                     if (!productSales[item.productId]) {
                         productSales[item.productId] = { sold: 0, revenue: 0 };
                     }
                     productSales[item.productId].sold += item.quantity;
-                    productSales[item.productId].revenue += item.quantity * item.priceAtPurchase;
+                    
+                    const priceInSellerCurrency = convertCurrency(
+                        item.priceAtPurchase || 0,
+                        sellerCurrency,
+                        userCurrency
+                    );
+                    productSales[item.productId].revenue += item.quantity * priceInSellerCurrency;
                 });
             });
 
@@ -142,7 +158,7 @@ export default function SellerDashboard() {
     }, [user]);
 
     const displayStats = [
-        { label: t('sellerDashboard.stats.totalRevenue'), value: `${formatPrice(stats.revenue)}`, change: '+12.5%', up: true, icon: DollarSign },
+        { label: t('sellerDashboard.stats.totalRevenue'), value: formatPriceInCurrency(stats.revenue, user?.currency_code), change: '+12.5%', up: true, icon: DollarSign },
         { label: t('sellerDashboard.stats.totalOrders'), value: stats.orderCount, change: '+8.2%', up: true, icon: ShoppingBag },
         { label: t('sellerDashboard.stats.productsListed'), value: stats.productsCount, change: '+3', up: true, icon: Package },
         { label: t('sellerDashboard.stats.storeViews'), value: '12.4K', change: '-2.1%', up: false, icon: Eye },
@@ -208,7 +224,9 @@ export default function SellerDashboard() {
                                     <p className="text-sm font-medium text-text-primary truncate">{product.name}</p>
                                     <p className="text-xs text-text-muted">{product.sold} {t('sellerDashboard.topProducts.sold')}</p>
                                 </div>
-                                <span className="text-sm font-semibold text-text-primary">${product.revenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                                <span className="text-sm font-semibold text-text-primary">
+                                    {formatPriceInCurrency(product.revenue, user?.currency_code)}
+                                </span>
                             </div>
                         ))}
                     </div>
@@ -245,7 +263,9 @@ export default function SellerDashboard() {
                                         <td className="px-6 py-3.5 text-sm text-text-muted">
                                             <span className="line-clamp-1">{order.items.length > 0 ? `${order.items[0].quantity}x items` : 'N/A'}</span>
                                         </td>
-                                        <td className="px-6 py-3.5 text-sm font-medium text-text-primary">{formatPrice((order.subtotal || 0))}</td>
+                                        <td className="px-6 py-3.5 text-sm font-medium text-text-primary">
+                                            {formatPriceInCurrency(order.subtotal || 0, user?.currency_code)}
+                                        </td>
                                         <td className="px-6 py-3.5">
                                             <span className={`text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${STATUS_STYLES[order.status] || STATUS_STYLES.processing}`}>
                                                 {order.status}

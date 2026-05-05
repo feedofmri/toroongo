@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { AuthContext } from './AuthContext';
 import { authService } from '../services';
 import { TOKEN_STORAGE_KEY } from '../services/api';
+import { setBuyerCurrencyCode } from '../utils/currency';
 
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
@@ -16,6 +17,9 @@ export function AuthProvider({ children }) {
         if (storedUser && token) {
             setUser(storedUser);
             setIsAuthenticated(true);
+            if (storedUser.currency_code) {
+                setBuyerCurrencyCode(storedUser.currency_code, true);
+            }
         }
         setIsLoading(false);
     }, []);
@@ -59,10 +63,54 @@ export function AuthProvider({ children }) {
         }
     };
 
+    const sendOtp = async (email, type) => {
+        setIsLoading(true);
+        try {
+            return await authService.sendOtp(email, type);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const verifyOtp = async (email, otp, type) => {
+        setIsLoading(true);
+        try {
+            return await authService.verifyOtp(email, otp, type);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const loginWithGoogle = async () => {
+        setIsLoading(true);
+        try {
+            const url = await authService.getGoogleUrl();
+            window.location.href = url; // Redirect to Google
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleGoogleCallback = async (queryParams) => {
+        setIsLoading(true);
+        try {
+            const user = await authService.handleGoogleCallback(queryParams);
+            setUser(user);
+            setIsAuthenticated(true);
+            return user;
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, isLoading, login, register, logout, updateUser }}>
+        <AuthContext.Provider value={{ 
+            user, isAuthenticated, isLoading, 
+            login, register, logout, updateUser, 
+            sendOtp, verifyOtp, 
+            loginWithGoogle, handleGoogleCallback 
+        }}>
             {children}
         </AuthContext.Provider>
     );
 }
-

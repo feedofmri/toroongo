@@ -21,6 +21,7 @@ import {
   Link2,
   Upload,
   MapPin,
+  Wallet,
 } from "lucide-react";
 import { useSubscription } from "../../context/SubscriptionContext";
 import { SIDEBAR_FEATURE_MAP } from "../../data/planConfig";
@@ -98,6 +99,12 @@ const allSidebarLinks = [
     icon: MapPin,
     labelKey: "shippingAreas",
     fallbackLabel: "Shipping Areas",
+  },
+  {
+    to: "/seller/payment-options",
+    icon: Wallet,
+    labelKey: "paymentOptions",
+    fallbackLabel: "Payment Options",
   },
   {
     to: "/seller/storefront-builder",

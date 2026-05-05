@@ -1,11 +1,13 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Store, Paintbrush, Globe, Bell, Link2, CheckCircle2, XCircle, Loader2, ExternalLink, BookOpen, FileText, Info, Lock, Code, Sparkles, Eye, Banknote } from 'lucide-react';
+import { Store, Paintbrush, Globe, Bell, Link2, CheckCircle2, XCircle, Loader2, ExternalLink, BookOpen, FileText, Info, Lock, Code, Sparkles, Eye, Banknote, MapPin } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { useSubscription } from '../../context/SubscriptionContext';
 import { userService } from '../../services';
 import UpgradePrompt from '../../components/subscription/UpgradePrompt';
+import CountrySelector from '../../components/ui/CountrySelector';
+import { setBuyerCurrencyCode } from '../../utils/currency';
 
 // Reserved slugs that cannot be taken as shop usernames (matches static routes & system paths)
 const RESERVED_SLUGS = [
@@ -130,6 +132,12 @@ export default function SellerSettings() {
         ]
     });
     const [saveContentLoading, setSaveContentLoading] = useState(false);
+    const [countryData, setCountryData] = useState({
+        country: user?.country || '',
+        currency_code: user?.currency_code || 'USD',
+        country_custom_name: user?.country_custom_name || '',
+    });
+    const [saveCountryLoading, setSaveCountryLoading] = useState(false);
 
     const handleSaveStoreInfo = async () => {
         setSaveStoreInfoLoading(true);
@@ -204,9 +212,27 @@ export default function SellerSettings() {
         }
     };
 
+    const handleSaveCountry = async () => {
+        setSaveCountryLoading(true);
+        try {
+            const updatedUser = await userService.updateProfile(user.id, {
+                country: countryData.country || null,
+                currency_code: countryData.currency_code || 'USD',
+                country_custom_name: countryData.country_custom_name || null,
+            });
+            updateUser(updatedUser);
+            setBuyerCurrencyCode(countryData.currency_code || 'USD', true);
+        } catch (e) {
+            console.error('Failed to save country', e);
+        } finally {
+            setSaveCountryLoading(false);
+        }
+    };
+
     const tabs = [
         { key: 'store', label: t('sellerSettings.tabs.store'), icon: Store },
         { key: 'branding', label: t('sellerSettings.tabs.branding'), icon: Paintbrush },
+        { key: 'country_currency', label: 'Country & Currency', icon: MapPin },
         { key: 'content', label: 'Store Content', icon: BookOpen },
         { key: 'whitelabel', label: 'White-Label', icon: Eye, locked: !canAccess('whitelabel') },
         { key: 'currency', label: 'Multi-Currency', icon: Banknote, locked: !canAccess('currency') },
@@ -354,6 +380,29 @@ export default function SellerSettings() {
                             {t('sellerSettings.storeInfo.save')}
                         </button>
                     </div>
+                </div>
+            )}
+
+            {activeTab === 'country_currency' && (
+                <div className="max-w-lg space-y-5">
+                    <div>
+                        <h3 className="text-lg font-semibold text-text-primary">Country & Currency</h3>
+                        <p className="text-sm text-text-muted mt-1">
+                            Your country sets your store's currency. All product prices you enter will be stored in this currency and automatically converted for buyers worldwide.
+                        </p>
+                    </div>
+                    <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl text-sm text-amber-800">
+                        <strong>Important:</strong> Changing your currency will update the currency for all your existing products. Their stored prices will remain the same numbers, so you may want to review and update them to match the new currency.
+                    </div>
+                    <CountrySelector value={countryData} onChange={setCountryData} />
+                    <button
+                        onClick={handleSaveCountry}
+                        disabled={saveCountryLoading}
+                        className="flex items-center gap-2 px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-70"
+                    >
+                        {saveCountryLoading && <Loader2 size={16} className="animate-spin" />}
+                        Save Country & Currency
+                    </button>
                 </div>
             )}
 

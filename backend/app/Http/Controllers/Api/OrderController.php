@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\Notification;
 use App\Models\Review;
 use App\Models\ShippingArea;
+use App\Utils\CurrencyHelper;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -33,6 +34,9 @@ class OrderController extends Controller
             'shipping_address.zip' => 'nullable|string',
             'shipping_area_id' => 'nullable|exists:shipping_areas,id',
             'payment_method' => 'nullable|string',
+            'buyer_currency_code' => 'nullable|string|max:10',
+            'seller_currency_code' => 'nullable|string|max:10',
+            'payment_details' => 'nullable|array',
         ]);
 
         $user = $request->user();
@@ -65,6 +69,9 @@ class OrderController extends Controller
             'buyer_id' => $user->id,
             'shipping_address' => $data['shipping_address'] ?? null,
             'payment_method' => $data['payment_method'] ?? null,
+            'buyer_currency_code' => $data['buyer_currency_code'] ?? ($user->currency_code ?? 'USD'),
+            'seller_currency_code' => $data['seller_currency_code'] ?? null,
+            'payment_details' => $data['payment_details'] ?? null,
             'subtotal' => $subtotal,
             'shipping_cost' => $shippingCost,
             'tax' => $tax,
@@ -162,6 +169,7 @@ class OrderController extends Controller
 
         return response()->json([
             'shipping_cost' => $shippingResult['total'],
+            'currency_code' => $shippingResult['currency_code'] ?? 'USD',
             'breakdown' => $shippingResult['breakdown'],
         ]);
     }
@@ -181,15 +189,18 @@ class OrderController extends Controller
             }
 
             $fee = (float) $area->fee;
+            $currencyCode = $area->seller?->currency_code ?: 'USD';
 
             return [
                 'error' => false,
                 'total' => $fee,
+                'currency_code' => $currencyCode,
                 'breakdown' => [[
                     'seller_id' => $area->seller_id,
                     'area_id' => $area->id,
                     'area_name' => $area->name,
                     'fee' => $fee,
+                    'currency_code' => $currencyCode,
                 ]],
             ];
         }
@@ -224,16 +235,25 @@ class OrderController extends Controller
             }
 
             $fee = (float) $area->fee;
-            $total += $fee;
+            $seller = $area->seller;
+            $currencyCode = $seller?->currency_code ?: 'USD';
+            
+            // For the total, we need a consistent currency. 
+            // We'll use USD as the base for the 'total' field in the response if multiple sellers.
+            $feeInUsd = CurrencyHelper::convert($fee, $currencyCode, 'USD');
+            $total += $feeInUsd;
+
             $breakdown[] = [
                 'seller_id' => $sellerId,
                 'area_id' => $area->id,
                 'area_name' => $area->name,
                 'fee' => $fee,
+                'currency_code' => $currencyCode,
+                'fee_usd' => $feeInUsd,
             ];
         }
 
-        return ['error' => false, 'total' => $total, 'breakdown' => $breakdown];
+        return ['error' => false, 'total' => $total, 'currency_code' => 'USD', 'breakdown' => $breakdown];
     }
 
     public function myOrders(Request $request)
@@ -268,7 +288,8 @@ class OrderController extends Controller
 
         // Recalculate subtotal for seller's portion
         $orders->each(function ($order) {
-            $order->subtotal = $order->items->sum(fn($i) => $i->price_at_purchase * $i->quantity);
+            $sellerSubtotal = $order->items->sum(fn($i) => $i->price_at_purchase * $i->quantity);
+            $order->setAttribute('subtotal', $sellerSubtotal);
         });
 
         return response()->json($orders);

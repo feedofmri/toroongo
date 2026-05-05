@@ -11,42 +11,54 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:6',
-            'role' => 'in:buyer,seller',
-            'storeName' => 'nullable|string|max:255',
-        ]);
+        try {
+            $data = $request->validate([
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users',
+                'password' => 'required|string|min:6',
+                'role' => 'in:buyer,seller',
+                'storeName' => 'nullable|string|max:255',
+                'country' => 'nullable|string|max:10',
+                'currency_code' => 'nullable|string|max:10',
+                'country_custom_name' => 'nullable|string|max:100',
+            ]);
 
-        $slug = null;
-        if (isset($data['storeName']) && ($data['role'] ?? 'buyer') === 'seller') {
-            $slug = \Illuminate\Support\Str::slug($data['storeName']);
-            $originalSlug = $slug;
-            $counter = 1;
-            while (User::where('slug', $slug)->exists()) {
-                $slug = $originalSlug . '-' . $counter;
-                $counter++;
+            $slug = null;
+            if (isset($data['storeName']) && ($data['role'] ?? 'buyer') === 'seller') {
+                $slug = \Illuminate\Support\Str::slug($data['storeName']);
+                $originalSlug = $slug;
+                $counter = 1;
+                while (User::where('slug', $slug)->exists()) {
+                    $slug = $originalSlug . '-' . $counter;
+                    $counter++;
+                }
             }
+
+            $user = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => $data['password'],
+                'role' => $data['role'] ?? 'buyer',
+                'plan' => ($data['role'] ?? 'buyer') === 'seller' ? 'starter' : null,
+                'store_name' => $data['storeName'] ?? null,
+                'slug' => $slug,
+                'joined_date' => ($data['role'] ?? 'buyer') === 'seller' ? now() : null,
+                'country' => $data['country'] ?? null,
+                'currency_code' => $data['currency_code'] ?? 'USD',
+                'country_custom_name' => $data['country_custom_name'] ?? null,
+            ]);
+
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json([
+                'user' => $user->makeHidden('password'),
+                'token' => $token,
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Registration failed: ' . $e->getMessage(),
+            ], 500);
         }
-
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => $data['password'],
-            'role' => $data['role'] ?? 'buyer',
-            'plan' => ($data['role'] ?? 'buyer') === 'seller' ? 'starter' : null,
-            'store_name' => $data['storeName'] ?? null,
-            'slug' => $slug,
-            'joined_date' => ($data['role'] ?? 'buyer') === 'seller' ? now() : null,
-        ]);
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-            'user' => $user->makeHidden('password'),
-            'token' => $token,
-        ], 201);
     }
 
     public function login(Request $request)

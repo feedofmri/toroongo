@@ -10,3 +10,4 @@ export * from "./reviewService";
 export * from "./addressService";
 export * from "./subscriptionService";
 export * from "./shippingAreaService";
+export * from "./paymentMethodService";

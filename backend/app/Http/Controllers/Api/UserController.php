@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Utils\CurrencyHelper;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -32,9 +33,39 @@ class UserController extends Controller
             'rating' => 'nullable|numeric|min:0|max:5',
             'total_products' => 'nullable|integer|min:0',
             'joined_date' => 'nullable|date',
+            'country' => 'nullable|string|max:10',
+            'currency_code' => 'nullable|string|max:10',
+            'country_custom_name' => 'nullable|string|max:100',
         ]);
 
+        $oldCurrencyCode = $user->currency_code;
         $user->update($data);
+
+        // When a seller changes currency, update all their products and shipping areas
+        if (
+            isset($data['currency_code']) &&
+            $data['currency_code'] !== $oldCurrencyCode &&
+            $user->role === 'seller'
+        ) {
+            $newCode = $data['currency_code'];
+            $oldCode = $oldCurrencyCode ?: 'USD';
+
+            // Update products
+            $user->products->each(function ($product) use ($oldCode, $newCode) {
+                $product->update([
+                    'price' => CurrencyHelper::convert($product->price, $oldCode, $newCode),
+                    'original_price' => $product->original_price ? CurrencyHelper::convert($product->original_price, $oldCode, $newCode) : null,
+                    'currency_code' => $newCode,
+                ]);
+            });
+
+            // Update shipping areas
+            $user->shippingAreas->each(function ($area) use ($oldCode, $newCode) {
+                $area->update([
+                    'fee' => CurrencyHelper::convert($area->fee, $oldCode, $newCode),
+                ]);
+            });
+        }
 
         // Update localStorage copy on frontend
         return response()->json($user->makeHidden('password'));

@@ -3,7 +3,7 @@ import { Search, ChevronDown, Eye, Truck, CheckCircle, Clock, Package } from 'lu
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { orderService } from '../../services';
-import { formatPrice } from '../../utils/currency';
+import { formatPrice, formatPriceInCurrency, convertCurrency } from '../../utils/currency';
 import { useProduct } from '../../context/ProductContext';
 import Skeleton from '../../components/ui/Skeleton';
 import OrderDetailModal from '../../components/ui/OrderDetailModal';
@@ -143,7 +143,16 @@ export default function OrderManagement() {
                                             <span className="line-clamp-1">{productName}</span>
                                             {order.items.length > 1 && <span className="text-xs text-brand-primary">{t('sellerOrders.table.moreItems', { count: order.items.length - 1 })}</span>}
                                         </td>
-                                        <td className="px-5 py-3.5 text-sm font-medium text-text-primary">{formatPrice(order.subtotal || 0)}</td>
+                                        <td className="px-5 py-3.5 text-sm font-medium text-text-primary">
+                                            {formatPriceInCurrency(
+                                                convertCurrency(
+                                                    order.subtotal || 0,
+                                                    order.seller_currency_code || 'USD',
+                                                    user?.currency_code || 'USD'
+                                                ),
+                                                user?.currency_code
+                                            )}
+                                        </td>
                                         <td className="px-5 py-3.5">
                                             <span className={`flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full w-fit ${cfg.style}`}>
                                                 <cfg.icon size={11} /> {t(`sellerOrders.filters.${cfg.labelKey}`)}

@@ -17,10 +17,18 @@ use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\SubscriptionController;
 use App\Http\Controllers\Api\ShippingAreaController;
+use App\Http\Controllers\Api\SellerPaymentMethodController;
+use App\Http\Controllers\Api\OtpController;
 
 // ── Public Routes ───────────────────────────────────
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
+Route::post('/auth/send-otp', [OtpController::class, 'sendOtp']);
+Route::post('/auth/verify-otp', [OtpController::class, 'verifyOtp']);
+
+// Google Auth
+Route::get('/auth/google', [App\Http\Controllers\Api\GoogleAuthController::class, 'redirectToGoogle']);
+Route::get('/auth/google/callback', [App\Http\Controllers\Api\GoogleAuthController::class, 'handleGoogleCallback']);
 
 // Public product endpoints
 Route::get('/products', [ProductController::class, 'index']);
@@ -44,6 +52,9 @@ Route::get('/users/profile/{id}', [UserController::class, 'profile']);
 Route::get('/system/categories', [SystemController::class, 'categories']);
 Route::get('/system/hero-banners', [SystemController::class, 'heroBanners']);
 Route::get('/system/nav-categories', [SystemController::class, 'navCategories']);
+
+// Public: seller payment methods for checkout
+Route::post('/payment-methods/by-sellers', [SellerPaymentMethodController::class, 'publicBySellers']);
 
 // ── Authenticated Routes ────────────────────────────
 Route::middleware('auth:sanctum')->group(function () {
@@ -119,6 +130,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/shipping-areas', [ShippingAreaController::class, 'store']);
         Route::put('/shipping-areas/{id}', [ShippingAreaController::class, 'update']);
         Route::delete('/shipping-areas/{id}', [ShippingAreaController::class, 'destroy']);
+
+        // Payment methods (seller CRUD)
+        Route::get('/payment-methods', [SellerPaymentMethodController::class, 'index']);
+        Route::post('/payment-methods', [SellerPaymentMethodController::class, 'store']);
+        Route::put('/payment-methods/{id}', [SellerPaymentMethodController::class, 'update']);
+        Route::delete('/payment-methods/{id}', [SellerPaymentMethodController::class, 'destroy']);
     });
 
     // ── General Authenticated Routes ──────────────

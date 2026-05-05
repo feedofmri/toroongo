@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Plus, Pencil, Trash2, MapPin, Loader2 } from "lucide-react";
+import { Plus, Pencil, Trash2, MapPin, Loader2, Globe, Truck, Info } from "lucide-react";
 import { shippingAreaService } from "../../services";
+import { useAuth } from "../../context/AuthContext";
+import { formatPrice, formatPriceInCurrency } from "../../utils/currency";
 
 const emptyForm = {
   name: "",
@@ -12,12 +14,13 @@ const emptyForm = {
 
 export default function ShippingAreas() {
   const { t } = useTranslation();
+  const { user } = useAuth();
   const [areas, setAreas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
   const [editingArea, setEditingArea] = useState(null);
-  const [form, setForm] = useState(emptyForm);
+  const [form, setForm] = useState({ ...emptyForm, country: user?.country || 'BD' });
   const [error, setError] = useState(null);
 
   const loadAreas = async () => {
@@ -121,43 +124,54 @@ export default function ShippingAreas() {
           )}
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <input
-              value={form.name}
-              onChange={(e) => handleChange("name", e.target.value)}
-              placeholder="Area name"
-              className="w-full px-4 py-3 border border-border-soft rounded-xl text-sm outline-none focus:border-brand-primary"
-              required
-            />
-            <input
-              value={form.country}
-              onChange={(e) =>
-                handleChange("country", e.target.value.toUpperCase())
-              }
-              placeholder="Country code"
-              className="w-full px-4 py-3 border border-border-soft rounded-xl text-sm outline-none focus:border-brand-primary"
-              required
-              maxLength={5}
-            />
+            <div className="relative">
+              <MapPin size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
+              <input
+                value={form.name}
+                onChange={(e) => handleChange("name", e.target.value)}
+                placeholder="Area name (e.g. Dhaka City)"
+                className="w-full pl-10 pr-4 py-3 border border-border-soft rounded-xl text-sm outline-none focus:border-brand-primary"
+                required
+              />
+            </div>
+            <div className="relative">
+              <Globe size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
+              <input
+                value={form.country}
+                onChange={(e) =>
+                  handleChange("country", e.target.value.toUpperCase())
+                }
+                placeholder="Country code (e.g. BD)"
+                className="w-full pl-10 pr-4 py-3 border border-border-soft rounded-xl text-sm outline-none focus:border-brand-primary"
+                required
+                maxLength={5}
+              />
+            </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <input
-              type="number"
-              min="0"
-              step="0.01"
-              value={form.fee}
-              onChange={(e) => handleChange("fee", e.target.value)}
-              placeholder="Fee"
-              className="w-full px-4 py-3 border border-border-soft rounded-xl text-sm outline-none focus:border-brand-primary"
-              required
-            />
-            <label className="flex items-center gap-3 px-4 py-3 border border-border-soft rounded-xl text-sm text-text-primary">
+            <div className="relative">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-xs font-bold text-text-muted">
+                {user?.currency_code || 'USD'}
+              </div>
+              <input
+                type="number"
+                min="0"
+                step="0.01"
+                value={form.fee}
+                onChange={(e) => handleChange("fee", e.target.value)}
+                placeholder="Delivery Fee"
+                className="w-full pl-14 pr-4 py-3 border border-border-soft rounded-xl text-sm outline-none focus:border-brand-primary"
+                required
+              />
+            </div>
+            <label className="flex items-center gap-3 px-4 py-3 border border-border-soft rounded-xl text-sm text-text-primary cursor-pointer hover:bg-surface-bg transition-colors">
               <input
                 type="checkbox"
                 checked={form.is_active}
                 onChange={(e) => handleChange("is_active", e.target.checked)}
-                className="accent-brand-primary"
+                className="accent-brand-primary w-4 h-4"
               />
-              Active area
+              Active delivery zone
             </label>
           </div>
 
@@ -221,9 +235,11 @@ export default function ShippingAreas() {
                         {area.is_active ? "Active" : "Disabled"}
                       </span>
                     </div>
-                    <p className="text-sm text-text-muted">{area.country}</p>
-                    <p className="text-sm font-semibold text-text-primary mt-1">
-                      Fee: {Number(area.fee).toFixed(2)}
+                    <p className="text-sm text-text-muted flex items-center gap-1.5 mt-0.5">
+                      <Globe size={11} /> {area.country}
+                    </p>
+                    <p className="text-sm font-bold text-brand-primary mt-1.5">
+                      {formatPriceInCurrency(area.fee, user?.currency_code || 'USD')}
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
