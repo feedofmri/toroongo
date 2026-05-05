@@ -28,27 +28,37 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Health', 'slug' => 'health', 'icon' => 'Pill', 'product_count' => 19],
         ];
         foreach ($categories as $c) {
-            Category::create($c);
+            Category::updateOrCreate(['slug' => $c['slug']], $c);
         }
 
         // ── 2. Admin ─────────────────────────────────
-        $admin = User::create([
-            'name' => 'System Admin',
-            'email' => 'admin@toroongo.com',
-            'password' => 'password123',
-            'role' => 'admin',
-        ]);
+        $admin = User::updateOrCreate(
+            ['email' => 'admin@toroongo.com'],
+            [
+                'name' => 'System Admin',
+                'password' => 'password123',
+                'role' => 'admin',
+            ]
+        );
 
         // ── 3. Demo Buyer ────────────────────────────
-        $buyer = User::create([
-            'name' => 'Demo Buyer',
-            'email' => 'buyer@example.com',
-            'password' => 'password123',
-            'role' => 'buyer',
-        ]);
+        $buyer = User::updateOrCreate(
+            ['email' => 'buyer@example.com'],
+            [
+                'name' => 'Demo Buyer',
+                'password' => 'password123',
+                'role' => 'buyer',
+            ]
+        );
 
-        Address::create(['user_id' => $buyer->id, 'label' => 'Home', 'first_name' => 'Demo', 'last_name' => 'Buyer', 'email' => 'buyer@example.com', 'phone' => '+8801712345678', 'address' => '123 Main Street, Dhanmondi', 'city' => 'Dhaka', 'state' => 'Dhaka', 'zip' => '1209', 'country' => 'BD']);
-        Address::create(['user_id' => $buyer->id, 'label' => 'Office', 'first_name' => 'Demo', 'last_name' => 'Buyer', 'email' => 'office@example.com', 'phone' => '+8801812345679', 'address' => '45 Corporate Ave, Gulshan', 'city' => 'Dhaka', 'state' => 'Dhaka', 'zip' => '1212', 'country' => 'BD']);
+        Address::updateOrCreate(
+            ['user_id' => $buyer->id, 'label' => 'Home'],
+            ['first_name' => 'Demo', 'last_name' => 'Buyer', 'email' => 'buyer@example.com', 'phone' => '+8801712345678', 'address' => '123 Main Street, Dhanmondi', 'city' => 'Dhaka', 'state' => 'Dhaka', 'zip' => '1209', 'country' => 'BD']
+        );
+        Address::updateOrCreate(
+            ['user_id' => $buyer->id, 'label' => 'Office'],
+            ['first_name' => 'Demo', 'last_name' => 'Buyer', 'email' => 'office@example.com', 'phone' => '+8801812345679', 'address' => '45 Corporate Ave, Gulshan', 'city' => 'Dhaka', 'state' => 'Dhaka', 'zip' => '1212', 'country' => 'BD']
+        );
 
         // ── 4. Sellers ───────────────────────────────
         $sellersData = [
@@ -72,21 +82,23 @@ class DatabaseSeeder extends Seeder
         // Map old seller IDs to new DB IDs
         $sellerIdMap = []; // old "seller_X" => new DB id
         foreach ($sellersData as $i => $s) {
-            $seller = User::create([
-                'name' => $s['name'],
-                'email' => $s['email'],
-                'password' => 'password123',
-                'role' => 'seller',
-                'store_name' => $s['name'],
-                'description' => $s['description'],
-                'logo' => $s['logo'],
-                'banner' => $s['banner'],
-                'rating' => $s['rating'],
-                'total_products' => $s['total_products'],
-                'brand_color' => $s['brand_color'],
-                'slug' => $s['slug'],
-                'joined_date' => $s['joined_date'],
-            ]);
+            $seller = User::updateOrCreate(
+                ['email' => $s['email']],
+                [
+                    'name' => $s['name'],
+                    'password' => 'password123',
+                    'role' => 'seller',
+                    'store_name' => $s['name'],
+                    'description' => $s['description'],
+                    'logo' => $s['logo'],
+                    'banner' => $s['banner'],
+                    'rating' => $s['rating'],
+                    'total_products' => $s['total_products'],
+                    'brand_color' => $s['brand_color'],
+                    'slug' => $s['slug'],
+                    'joined_date' => $s['joined_date'],
+                ]
+            );
             $sellerIdMap['seller_' . ($i + 1)] = $seller->id;
         }
 
@@ -183,7 +195,7 @@ class DatabaseSeeder extends Seeder
         foreach ($blogsData as $i => $b) {
             $b['slug'] = \Str::slug($b['title']);
             $b['created_at'] = now()->subDays($i * 5);
-            Blog::create($b);
+            Blog::updateOrCreate(['slug' => $b['slug']], $b);
         }
 
         // ── 7. Messages ──────────────────────────────

@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\SubscriptionController;
+use App\Http\Controllers\Api\ShippingAreaController;
 
 // ── Public Routes ───────────────────────────────────
 Route::post('/auth/register', [AuthController::class, 'register']);
@@ -57,7 +58,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('role:buyer')->group(function () {
         // Orders (buyer actions)
         Route::post('/orders', [OrderController::class, 'store']);
+        Route::post('/orders/quote', [OrderController::class, 'quote']);
         Route::get('/orders/my', [OrderController::class, 'myOrders']);
+
+        // Shipping areas used during checkout
+        Route::get('/shipping-areas/checkout', [ShippingAreaController::class, 'checkoutAreas']);
 
         // Cart
         Route::get('/cart', [CartController::class, 'index']);
@@ -108,6 +113,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/subscription/upgrade', [SubscriptionController::class, 'upgrade']);
         Route::post('/subscription/downgrade', [SubscriptionController::class, 'downgrade']);
         Route::get('/subscription/history', [SubscriptionController::class, 'history']);
+
+        // Shipping areas
+        Route::get('/shipping-areas', [ShippingAreaController::class, 'index']);
+        Route::post('/shipping-areas', [ShippingAreaController::class, 'store']);
+        Route::put('/shipping-areas/{id}', [ShippingAreaController::class, 'update']);
+        Route::delete('/shipping-areas/{id}', [ShippingAreaController::class, 'destroy']);
     });
 
     // ── General Authenticated Routes ──────────────

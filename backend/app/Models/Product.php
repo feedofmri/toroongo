@@ -7,14 +7,14 @@ class Product extends Model
 {
     protected $fillable = [
         'title','slug','price','original_price','discount','description','meta_description','seller_id','seller_name',
-        'category','badge','image_url','images','stock','specifications','is_featured','rating','reviews',
+        'category','badge','image_url','images','variations','stock','specifications','is_featured','rating','reviews',
     ];
 
     protected function casts(): array
     {
         return [
             'price' => 'float', 'original_price' => 'float', 'rating' => 'float',
-            'images' => 'array', 'specifications' => 'array', 'is_featured' => 'boolean',
+            'images' => 'array', 'variations' => 'array', 'specifications' => 'array', 'is_featured' => 'boolean',
         ];
     }
 

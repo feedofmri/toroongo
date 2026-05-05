@@ -38,6 +38,8 @@ class ReviewController extends Controller
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'nullable|string|max:1000',
             'order_id' => 'nullable|exists:orders,id',
+            'media' => 'nullable|array',
+            'media.*' => 'string|max:2048',
         ]);
 
         $user = Auth::user();
@@ -72,6 +74,7 @@ class ReviewController extends Controller
                 'order_id' => $request->order_id,
                 'rating' => $request->rating,
                 'comment' => $request->comment,
+                'media' => $request->media ?? [],
                 'status' => 'published',
             ]);
 
@@ -139,6 +142,8 @@ class ReviewController extends Controller
         $request->validate([
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'nullable|string|max:1000',
+            'media' => 'nullable|array',
+            'media.*' => 'string|max:2048',
         ]);
 
         DB::beginTransaction();
@@ -146,6 +151,7 @@ class ReviewController extends Controller
             $review->update([
                 'rating' => $request->rating,
                 'comment' => $request->comment,
+                'media' => $request->media ?? $review->media,
             ]);
 
             // Update Product rating

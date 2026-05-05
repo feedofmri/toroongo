@@ -1,89 +1,102 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import FloatingMessage from './components/message/FloatingMessage';
-import ScrollToTop from './components/ScrollToTop';
+import React, { useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import FloatingMessage from "./components/message/FloatingMessage";
+import ScrollToTop from "./components/ScrollToTop";
 
 function NavigationLogger() {
   const location = useLocation();
   useEffect(() => {
-    if (location.pathname === '/account/messages' || location.pathname === '/seller/messages') {
-      console.warn('DEBUG: Navigation to messages detected!', location.pathname + location.search);
-      console.trace('Navigation Trace:');
+    if (
+      location.pathname === "/account/messages" ||
+      location.pathname === "/seller/messages"
+    ) {
+      console.warn(
+        "DEBUG: Navigation to messages detected!",
+        location.pathname + location.search,
+      );
+      console.trace("Navigation Trace:");
     } else {
-      console.log('DEBUG: Path changed to', location.pathname);
+      console.log("DEBUG: Path changed to", location.pathname);
     }
   }, [location]);
   return null;
 }
 
 // ─── Layouts ─────────────────────────────────────────────────
-import BuyerLayout from './components/layout/BuyerLayout';
-import BuyerDashboardLayout from './components/layout/BuyerDashboardLayout';
-import SellerLayout from './components/layout/SellerLayout';
-import SellerDashboardLayout from './components/layout/SellerDashboardLayout';
-import ProtectedRoute from './components/layout/ProtectedRoute';
+import BuyerLayout from "./components/layout/BuyerLayout";
+import BuyerDashboardLayout from "./components/layout/BuyerDashboardLayout";
+import SellerLayout from "./components/layout/SellerLayout";
+import SellerDashboardLayout from "./components/layout/SellerDashboardLayout";
+import ProtectedRoute from "./components/layout/ProtectedRoute";
 
 // ─── Buyer Pages ─────────────────────────────────────────────
-import Homepage from './pages/buyer/Homepage';
-import SearchResults from './pages/buyer/SearchResults';
-import ShopsPage from './pages/buyer/ShopsPage';
-import ProductDetail from './pages/buyer/ProductDetail';
-import ShoppingCart from './pages/buyer/ShoppingCart';
-import Checkout from './pages/buyer/Checkout';
-import OrderConfirmation from './pages/buyer/OrderConfirmation';
-import AuthPage from './pages/buyer/AuthPage';
-import OrderHistory from './pages/buyer/OrderHistory';
-import Wishlist from './pages/buyer/Wishlist';
-import AccountSettings from './pages/buyer/AccountSettings';
-import MessageCenter from './pages/buyer/MessageCenter';
-import MyReviews from './pages/buyer/MyReviews';
+import Homepage from "./pages/buyer/Homepage";
+import SearchResults from "./pages/buyer/SearchResults";
+import ShopsPage from "./pages/buyer/ShopsPage";
+import ProductDetail from "./pages/buyer/ProductDetail";
+import ShoppingCart from "./pages/buyer/ShoppingCart";
+import Checkout from "./pages/buyer/Checkout";
+import OrderConfirmation from "./pages/buyer/OrderConfirmation";
+import AuthPage from "./pages/buyer/AuthPage";
+import OrderHistory from "./pages/buyer/OrderHistory";
+import Wishlist from "./pages/buyer/Wishlist";
+import AccountSettings from "./pages/buyer/AccountSettings";
+import MessageCenter from "./pages/buyer/MessageCenter";
+import MyReviews from "./pages/buyer/MyReviews";
 
 // ─── Seller Storefront Pages ─────────────────────────────────
-import StoreHome from './pages/seller/StoreHome';
-import StoreCatalog from './pages/seller/StoreCatalog';
-import StoreAbout from './pages/seller/StoreAbout';
-import StorePolicies from './pages/seller/StorePolicies';
+import StoreHome from "./pages/seller/StoreHome";
+import StoreCatalog from "./pages/seller/StoreCatalog";
+import StoreAbout from "./pages/seller/StoreAbout";
+import StorePolicies from "./pages/seller/StorePolicies";
 
 // ─── Seller Dashboard Pages ──────────────────────────────────
-import SellerDashboard from './pages/seller/SellerDashboard';
-import ProductManagement from './pages/seller/ProductManagement';
-import OrderManagement from './pages/seller/OrderManagement';
-import SellerFinance from './pages/seller/SellerFinance';
-import SellerSettings from './pages/seller/SellerSettings';
-import SellerMessages from './pages/seller/SellerMessages';
-import BlogManagement from './pages/seller/BlogManagement';
-import BlogEditor from './pages/seller/BlogEditor';
-import SellerSubscription from './pages/seller/SellerSubscription';
-import SubscriptionHistory from './pages/seller/SubscriptionHistory';
-import DiscountManagement from './pages/seller/DiscountManagement';
-import StaffAccounts from './pages/seller/StaffAccounts';
-import CustomDomain from './pages/seller/CustomDomain';
-import SocialCommerce from './pages/seller/SocialCommerce';
-import AbandonedCarts from './pages/seller/AbandonedCarts';
-import ApiWebhooks from './pages/seller/ApiWebhooks';
-import AffiliateProgram from './pages/seller/AffiliateProgram';
-import BulkImportExport from './pages/seller/BulkImportExport';
-import AiToolsHub from './pages/seller/AiToolsHub';
+import SellerDashboard from "./pages/seller/SellerDashboard";
+import ProductManagement from "./pages/seller/ProductManagement";
+import OrderManagement from "./pages/seller/OrderManagement";
+import SellerFinance from "./pages/seller/SellerFinance";
+import SellerSettings from "./pages/seller/SellerSettings";
+import SellerMessages from "./pages/seller/SellerMessages";
+import BlogManagement from "./pages/seller/BlogManagement";
+import BlogEditor from "./pages/seller/BlogEditor";
+import SellerSubscription from "./pages/seller/SellerSubscription";
+import SubscriptionHistory from "./pages/seller/SubscriptionHistory";
+import ShippingAreas from "./pages/seller/ShippingAreas";
+import DiscountManagement from "./pages/seller/DiscountManagement";
+import StaffAccounts from "./pages/seller/StaffAccounts";
+import CustomDomain from "./pages/seller/CustomDomain";
+import SocialCommerce from "./pages/seller/SocialCommerce";
+import AbandonedCarts from "./pages/seller/AbandonedCarts";
+import ApiWebhooks from "./pages/seller/ApiWebhooks";
+import AffiliateProgram from "./pages/seller/AffiliateProgram";
+import BulkImportExport from "./pages/seller/BulkImportExport";
+import AiToolsHub from "./pages/seller/AiToolsHub";
 
 // ─── Storefront Builder ──────────────────────────────────────
-import { StorefrontBuilder } from './pages/seller/storefrontBuilder';
+import { StorefrontBuilder } from "./pages/seller/storefrontBuilder";
 
 // ─── Static / Legal Pages ────────────────────────────────────
-import AboutPage from './pages/static/AboutPage';
-import SellOnToroongo from './pages/static/SellOnToroongo';
-import HelpCenter from './pages/static/HelpCenter';
-import ContactPage from './pages/static/ContactPage';
-import { TermsOfService, PrivacyPolicy } from './pages/static/LegalPages';
-import CareersPage from './pages/static/CareersPage';
-import PressPage from './pages/static/PressPage';
-import BlogPage from './pages/static/BlogPage';
-import BlogDetail from './pages/static/BlogDetail';
-import ShippingPage from './pages/static/ShippingPage';
-import ReturnsPage from './pages/static/ReturnsPage';
-import DataPreferences from './pages/static/DataPreferences';
-import PricingPage from './pages/static/PricingPage';
-import SellerResources from './pages/static/SellerResources';
+import AboutPage from "./pages/static/AboutPage";
+import SellOnToroongo from "./pages/static/SellOnToroongo";
+import HelpCenter from "./pages/static/HelpCenter";
+import ContactPage from "./pages/static/ContactPage";
+import { TermsOfService, PrivacyPolicy } from "./pages/static/LegalPages";
+import CareersPage from "./pages/static/CareersPage";
+import PressPage from "./pages/static/PressPage";
+import BlogPage from "./pages/static/BlogPage";
+import BlogDetail from "./pages/static/BlogDetail";
+import ShippingPage from "./pages/static/ShippingPage";
+import ReturnsPage from "./pages/static/ReturnsPage";
+import DataPreferences from "./pages/static/DataPreferences";
+import PricingPage from "./pages/static/PricingPage";
+import SellerResources from "./pages/static/SellerResources";
 
 // ─── 404 ─────────────────────────────────────────────────────
 function NotFoundPage() {
@@ -91,49 +104,55 @@ function NotFoundPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
       <h1 className="text-6xl font-bold text-brand-primary mb-4">404</h1>
-      <p className="text-xl font-semibold text-text-primary mb-2">{t('common.notFound')}</p>
-      <p className="text-text-muted mb-6">{t('common.notFoundDesc')}</p>
-      <a href="/" className="px-6 py-3 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors inline-block">
-        {t('common.goHome')}
+      <p className="text-xl font-semibold text-text-primary mb-2">
+        {t("common.notFound")}
+      </p>
+      <p className="text-text-muted mb-6">{t("common.notFoundDesc")}</p>
+      <a
+        href="/"
+        className="px-6 py-3 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors inline-block"
+      >
+        {t("common.goHome")}
       </a>
     </div>
   );
 }
 
 const COUNTRY_LANGUAGE_MAP = {
-  'BD': 'bn', // Bangladesh -> Bengali
-  'IN': 'hi', // India -> Hindi
-  'NP': 'ne', // Nepal -> Nepali
-  'ID': 'id', // Indonesia -> Indonesian
-  'MY': 'ms', // Malaysia -> Malay
-  'AE': 'ar', // UAE -> Arabic
+  BD: "bn", // Bangladesh -> Bengali
+  IN: "hi", // India -> Hindi
+  NP: "ne", // Nepal -> Nepali
+  ID: "id", // Indonesia -> Indonesian
+  MY: "ms", // Malaysia -> Malay
+  AE: "ar", // UAE -> Arabic
 };
 
 function App() {
   const { i18n } = useTranslation();
 
   useEffect(() => {
-    const hasSetLanguage = localStorage.getItem('i18nextLng');
+    const hasSetLanguage = localStorage.getItem("i18nextLng");
 
     // Only auto-detect if user hasn't actively saved a preference
-    if (!hasSetLanguage || hasSetLanguage === 'en') {
-    const detectAndSetLanguage = async () => {
-      // Using a simple try/catch but pointing to a mock for now to prevent local dev CORS errors
-      // In a real production deployment, the server reverse proxy would handle geographic IP detection.
-      try {
+    if (!hasSetLanguage || hasSetLanguage === "en") {
+      const detectAndSetLanguage = async () => {
+        // Using a simple try/catch but pointing to a mock for now to prevent local dev CORS errors
+        // In a real production deployment, the server reverse proxy would handle geographic IP detection.
+        try {
           // Read from localStorage first to respect user preference
-          const currentLang = localStorage.getItem('i18nextLng') || i18n.language;
-          
+          const currentLang =
+            localStorage.getItem("i18nextLng") || i18n.language;
+
           // Set RTL dir if default lang is Arabic
-          if (currentLang.startsWith('ar')) {
-              document.documentElement.dir = 'rtl';
-              document.documentElement.lang = currentLang;
+          if (currentLang.startsWith("ar")) {
+            document.documentElement.dir = "rtl";
+            document.documentElement.lang = currentLang;
           }
-      } catch (error) {
+        } catch (error) {
           // Silently fallback without logging scary CORS errors
-      }
-    };
-    detectAndSetLanguage();
+        }
+      };
+      detectAndSetLanguage();
     }
   }, [i18n]);
 
@@ -155,26 +174,38 @@ function App() {
           <Route path="/search" element={<SearchResults />} />
           <Route path="/shops" element={<ShopsPage />} />
           <Route path="/product/:slug" element={<ProductDetail />} />
-          <Route path="/cart" element={
-            <ProtectedRoute allowedRoles={['buyer', 'admin']}>
-              <ShoppingCart />
-            </ProtectedRoute>
-          } />
-          <Route path="/checkout" element={
-            <ProtectedRoute allowedRoles={['buyer', 'admin']}>
-              <Checkout />
-            </ProtectedRoute>
-          } />
-          <Route path="/order-confirmation" element={
-            <ProtectedRoute allowedRoles={['buyer', 'admin']}>
-              <OrderConfirmation />
-            </ProtectedRoute>
-          } />
-          <Route path="/wishlist" element={
-            <ProtectedRoute allowedRoles={['buyer', 'admin']}>
-              <Wishlist />
-            </ProtectedRoute>
-          } />
+          <Route
+            path="/cart"
+            element={
+              <ProtectedRoute allowedRoles={["buyer", "admin"]}>
+                <ShoppingCart />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <ProtectedRoute allowedRoles={["buyer", "admin"]}>
+                <Checkout />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/order-confirmation"
+            element={
+              <ProtectedRoute allowedRoles={["buyer", "admin"]}>
+                <OrderConfirmation />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/wishlist"
+            element={
+              <ProtectedRoute allowedRoles={["buyer", "admin"]}>
+                <Wishlist />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Auth */}
           <Route path="/login" element={<AuthPage />} />
@@ -182,11 +213,14 @@ function App() {
           <Route path="/forgot-password" element={<AuthPage />} />
 
           {/* Buyer Dashboard */}
-          <Route path="/account" element={
-            <ProtectedRoute allowedRoles={['buyer', 'admin']}>
-              <BuyerDashboardLayout />
-            </ProtectedRoute>
-          }>
+          <Route
+            path="/account"
+            element={
+              <ProtectedRoute allowedRoles={["buyer", "admin"]}>
+                <BuyerDashboardLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<OrderHistory />} />
             <Route path="orders" element={<OrderHistory />} />
             <Route path="wishlist" element={<Wishlist />} />
@@ -229,19 +263,28 @@ function App() {
         </Route>
 
         {/* ── Storefront Builder (full-screen, outside dashboard layout) ── */}
-        <Route path="/seller/storefront-builder" element={
-          <ProtectedRoute allowedRoles={['seller', 'admin']}>
-            <StorefrontBuilder />
-          </ProtectedRoute>
-        } />
+        <Route
+          path="/seller/storefront-builder"
+          element={
+            <ProtectedRoute allowedRoles={["seller", "admin"]}>
+              <StorefrontBuilder />
+            </ProtectedRoute>
+          }
+        />
 
         {/* ── Seller Dashboard ──────────────────────────────── */}
-        <Route path="/seller/dashboard" element={<Navigate to="/seller" replace />} />
-        <Route path="/seller" element={
-          <ProtectedRoute allowedRoles={['seller', 'admin']}>
-            <SellerDashboardLayout />
-          </ProtectedRoute>
-        }>
+        <Route
+          path="/seller/dashboard"
+          element={<Navigate to="/seller" replace />}
+        />
+        <Route
+          path="/seller"
+          element={
+            <ProtectedRoute allowedRoles={["seller", "admin"]}>
+              <SellerDashboardLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<SellerDashboard />} />
           <Route path="products" element={<ProductManagement />} />
           <Route path="orders" element={<OrderManagement />} />
@@ -260,8 +303,12 @@ function App() {
           <Route path="affiliates" element={<AffiliateProgram />} />
           <Route path="import-export" element={<BulkImportExport />} />
           <Route path="ai-tools" element={<AiToolsHub />} />
+          <Route path="shipping-areas" element={<ShippingAreas />} />
           <Route path="subscription" element={<SellerSubscription />} />
-          <Route path="subscription/history" element={<SubscriptionHistory />} />
+          <Route
+            path="subscription/history"
+            element={<SubscriptionHistory />}
+          />
         </Route>
 
         {/* 404 - Should be at the very end */}

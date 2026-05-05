@@ -43,6 +43,7 @@ class User extends Authenticatable
     public function receivedMessages() { return $this->hasMany(Message::class, 'receiver_id'); }
     public function notifications() { return $this->hasMany(Notification::class); }
     public function subscriptions() { return $this->hasMany(Subscription::class)->orderByDesc('created_at'); }
+    public function shippingAreas() { return $this->hasMany(ShippingArea::class, 'seller_id'); }
 
     public function activeSubscription()
     {

@@ -1,0 +1,258 @@
+import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Plus, Pencil, Trash2, MapPin, Loader2 } from "lucide-react";
+import { shippingAreaService } from "../../services";
+
+const emptyForm = {
+  name: "",
+  country: "BD",
+  fee: "",
+  is_active: true,
+};
+
+export default function ShippingAreas() {
+  const { t } = useTranslation();
+  const [areas, setAreas] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
+  const [editingArea, setEditingArea] = useState(null);
+  const [form, setForm] = useState(emptyForm);
+  const [error, setError] = useState(null);
+
+  const loadAreas = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await shippingAreaService.getMyAreas();
+      setAreas(data || []);
+    } catch (err) {
+      setError(err.message || "Failed to load shipping areas.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadAreas();
+  }, []);
+
+  const handleChange = (field, value) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const resetForm = () => {
+    setEditingArea(null);
+    setForm(emptyForm);
+  };
+
+  const handleEdit = (area) => {
+    setEditingArea(area);
+    setForm({
+      name: area.name || "",
+      country: area.country || "BD",
+      fee: String(area.fee ?? ""),
+      is_active: !!area.is_active,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSaving(true);
+    setError(null);
+
+    const payload = {
+      ...form,
+      fee: Number(form.fee),
+    };
+
+    try {
+      if (editingArea) {
+        await shippingAreaService.updateArea(editingArea.id, payload);
+      } else {
+        await shippingAreaService.createArea(payload);
+      }
+      resetForm();
+      await loadAreas();
+    } catch (err) {
+      setError(err.message || "Failed to save shipping area.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Delete this shipping area?")) return;
+    setDeletingId(id);
+    setError(null);
+    try {
+      await shippingAreaService.deleteArea(id);
+      await loadAreas();
+    } catch (err) {
+      setError(err.message || "Failed to delete shipping area.");
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  return (
+    <div className="animate-fade-in space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold text-text-primary">Shipping Areas</h1>
+        <p className="text-sm text-text-muted mt-1">
+          Create delivery zones and set a fee for each area.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white border border-border-soft rounded-2xl p-5 space-y-4"
+        >
+          <div className="flex items-center gap-2 text-text-primary font-semibold">
+            <MapPin size={16} className="text-brand-primary" />
+            {editingArea ? "Edit Area" : "New Area"}
+          </div>
+
+          {error && (
+            <div className="p-3 rounded-xl bg-red-50 text-red-600 text-sm border border-red-100">
+              {error}
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <input
+              value={form.name}
+              onChange={(e) => handleChange("name", e.target.value)}
+              placeholder="Area name"
+              className="w-full px-4 py-3 border border-border-soft rounded-xl text-sm outline-none focus:border-brand-primary"
+              required
+            />
+            <input
+              value={form.country}
+              onChange={(e) =>
+                handleChange("country", e.target.value.toUpperCase())
+              }
+              placeholder="Country code"
+              className="w-full px-4 py-3 border border-border-soft rounded-xl text-sm outline-none focus:border-brand-primary"
+              required
+              maxLength={5}
+            />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              value={form.fee}
+              onChange={(e) => handleChange("fee", e.target.value)}
+              placeholder="Fee"
+              className="w-full px-4 py-3 border border-border-soft rounded-xl text-sm outline-none focus:border-brand-primary"
+              required
+            />
+            <label className="flex items-center gap-3 px-4 py-3 border border-border-soft rounded-xl text-sm text-text-primary">
+              <input
+                type="checkbox"
+                checked={form.is_active}
+                onChange={(e) => handleChange("is_active", e.target.checked)}
+                className="accent-brand-primary"
+              />
+              Active area
+            </label>
+          </div>
+
+          <div className="flex gap-3">
+            <button
+              type="submit"
+              disabled={saving}
+              className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-brand-primary text-white rounded-xl font-semibold hover:bg-brand-secondary transition-colors disabled:opacity-50"
+            >
+              {saving ? (
+                <Loader2 size={16} className="animate-spin" />
+              ) : (
+                <Plus size={16} />
+              )}
+              {editingArea ? "Update Area" : "Save Area"}
+            </button>
+            {editingArea && (
+              <button
+                type="button"
+                onClick={resetForm}
+                className="px-4 py-3 border border-border-soft rounded-xl font-semibold text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors"
+              >
+                Cancel
+              </button>
+            )}
+          </div>
+        </form>
+
+        <div className="bg-white border border-border-soft rounded-2xl p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-semibold text-text-primary">Saved Areas</h2>
+            <span className="text-xs text-text-muted">
+              {areas.length} total
+            </span>
+          </div>
+
+          {loading ? (
+            <div className="py-16 text-center text-text-muted">
+              <Loader2 size={20} className="animate-spin mx-auto mb-2" />
+              Loading areas...
+            </div>
+          ) : areas.length === 0 ? (
+            <div className="py-16 text-center text-text-muted border border-dashed border-border-soft rounded-xl">
+              No shipping areas yet.
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {areas.map((area) => (
+                <div
+                  key={area.id}
+                  className="p-4 rounded-xl border border-border-soft bg-surface-bg/30 flex items-start justify-between gap-3"
+                >
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-semibold text-text-primary">
+                        {area.name}
+                      </h3>
+                      <span
+                        className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${area.is_active ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"}`}
+                      >
+                        {area.is_active ? "Active" : "Disabled"}
+                      </span>
+                    </div>
+                    <p className="text-sm text-text-muted">{area.country}</p>
+                    <p className="text-sm font-semibold text-text-primary mt-1">
+                      Fee: {Number(area.fee).toFixed(2)}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => handleEdit(area)}
+                      className="p-2 rounded-lg border border-border-soft text-text-muted hover:text-brand-primary hover:border-brand-primary transition-colors"
+                      aria-label="Edit area"
+                    >
+                      <Pencil size={14} />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(area.id)}
+                      disabled={deletingId === area.id}
+                      className="p-2 rounded-lg border border-border-soft text-text-muted hover:text-red-500 hover:border-red-200 transition-colors disabled:opacity-50"
+                      aria-label="Delete area"
+                    >
+                      {deletingId === area.id ? (
+                        <Loader2 size={14} className="animate-spin" />
+                      ) : (
+                        <Trash2 size={14} />
+                      )}
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

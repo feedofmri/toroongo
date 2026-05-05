@@ -12,6 +12,7 @@ class Review extends Model
         'order_id',
         'rating',
         'comment',
+        'media',
         'status',
     ];
 
@@ -19,6 +20,7 @@ class Review extends Model
     {
         return [
             'rating' => 'integer',
+            'media' => 'array',
         ];
     }
 

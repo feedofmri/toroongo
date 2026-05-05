@@ -7,6 +7,7 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\Notification;
 use App\Models\Review;
+use App\Models\ShippingArea;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -19,7 +20,18 @@ class OrderController extends Controller
             'items.*.quantity' => 'required|integer|min:1',
             'items.*.seller_id' => 'required',
             'items.*.price_at_purchase' => 'required|numeric',
-            'shipping_address' => 'nullable|array',
+            'items.*.variant' => 'nullable|array',
+            'shipping_address' => 'required|array',
+            'shipping_address.firstName' => 'nullable|string',
+            'shipping_address.lastName' => 'nullable|string',
+            'shipping_address.email' => 'nullable|string',
+            'shipping_address.phone' => 'nullable|string',
+            'shipping_address.address' => 'nullable|string',
+            'shipping_address.country' => 'required|string',
+            'shipping_address.state' => 'required|string',
+            'shipping_address.city' => 'required|string',
+            'shipping_address.zip' => 'nullable|string',
+            'shipping_area_id' => 'nullable|exists:shipping_areas,id',
             'payment_method' => 'nullable|string',
         ]);
 
@@ -34,7 +46,19 @@ class OrderController extends Controller
         }
 
         $subtotal = collect($data['items'])->sum(fn($i) => $i['price_at_purchase'] * $i['quantity']);
-        $shippingCost = $subtotal > 50 ? 0 : 5.99;
+        $shippingResult = $this->calculateShipping(
+            $data['items'],
+            $data['shipping_address'],
+            $data['shipping_area_id'] ?? null
+        );
+        if ($shippingResult['error']) {
+            return response()->json([
+                'message' => 'No shipping area found for one or more sellers.',
+                'missing_seller_id' => $shippingResult['seller_id'],
+            ], 422);
+        }
+
+        $shippingCost = $shippingResult['total'];
         $tax = $subtotal * 0.08;
 
         $order = Order::create([
@@ -54,6 +78,7 @@ class OrderController extends Controller
                 'seller_id' => $item['seller_id'],
                 'quantity' => $item['quantity'],
                 'price_at_purchase' => $item['price_at_purchase'],
+                'variant' => $item['variant'] ?? null,
             ]);
             
             // Deduct stock
@@ -99,6 +124,116 @@ class OrderController extends Controller
         }
 
         return response()->json($order->load('items'), 201);
+    }
+
+    public function quote(Request $request)
+    {
+        $data = $request->validate([
+            'items' => 'required|array|min:1',
+            'items.*.product_id' => 'required|exists:products,id',
+            'items.*.quantity' => 'required|integer|min:1',
+            'items.*.seller_id' => 'required',
+            'items.*.price_at_purchase' => 'required|numeric',
+            'items.*.variant' => 'nullable|array',
+            'shipping_address' => 'required|array',
+            'shipping_address.firstName' => 'nullable|string',
+            'shipping_address.lastName' => 'nullable|string',
+            'shipping_address.email' => 'nullable|string',
+            'shipping_address.phone' => 'nullable|string',
+            'shipping_address.address' => 'nullable|string',
+            'shipping_address.country' => 'required|string',
+            'shipping_address.state' => 'required|string',
+            'shipping_address.city' => 'required|string',
+            'shipping_address.zip' => 'nullable|string',
+            'shipping_area_id' => 'nullable|exists:shipping_areas,id',
+        ]);
+
+        $shippingResult = $this->calculateShipping(
+            $data['items'],
+            $data['shipping_address'],
+            $data['shipping_area_id'] ?? null
+        );
+        if ($shippingResult['error']) {
+            return response()->json([
+                'message' => 'No shipping area found for one or more sellers.',
+                'missing_seller_id' => $shippingResult['seller_id'],
+            ], 422);
+        }
+
+        return response()->json([
+            'shipping_cost' => $shippingResult['total'],
+            'breakdown' => $shippingResult['breakdown'],
+        ]);
+    }
+
+    private function calculateShipping(array $items, array $shippingAddress, ?int $shippingAreaId = null): array
+    {
+        $sellerIds = collect($items)->pluck('seller_id')->unique();
+
+        if ($shippingAreaId) {
+            $area = ShippingArea::where('id', $shippingAreaId)
+                ->where('is_active', true)
+                ->whereIn('seller_id', $sellerIds)
+                ->first();
+
+            if (!$area) {
+                return ['error' => true, 'seller_id' => null];
+            }
+
+            $fee = (float) $area->fee;
+
+            return [
+                'error' => false,
+                'total' => $fee,
+                'breakdown' => [[
+                    'seller_id' => $area->seller_id,
+                    'area_id' => $area->id,
+                    'area_name' => $area->name,
+                    'fee' => $fee,
+                ]],
+            ];
+        }
+
+        $country = strtolower(trim($shippingAddress['country'] ?? ''));
+        $state = strtolower(trim($shippingAddress['state'] ?? ''));
+        $city = strtolower(trim($shippingAddress['city'] ?? ''));
+
+        $breakdown = [];
+        $total = 0.0;
+
+        foreach ($sellerIds as $sellerId) {
+            $baseQuery = ShippingArea::where('seller_id', $sellerId)
+                ->where('is_active', true)
+                ->whereRaw('LOWER(country) = ?', [$country])
+                ->whereRaw('LOWER(state) = ?', [$state]);
+
+            $area = (clone $baseQuery)
+                ->whereRaw('LOWER(city) = ?', [$city])
+                ->first();
+
+            if (!$area) {
+                $area = (clone $baseQuery)
+                    ->where(function ($query) {
+                        $query->whereNull('city')->orWhere('city', '*');
+                    })
+                    ->first();
+            }
+
+            if (!$area) {
+                return ['error' => true, 'seller_id' => $sellerId];
+            }
+
+            $fee = (float) $area->fee;
+            $total += $fee;
+            $breakdown[] = [
+                'seller_id' => $sellerId,
+                'area_id' => $area->id,
+                'area_name' => $area->name,
+                'fee' => $fee,
+            ];
+        }
+
+        return ['error' => false, 'total' => $total, 'breakdown' => $breakdown];
     }
 
     public function myOrders(Request $request)
