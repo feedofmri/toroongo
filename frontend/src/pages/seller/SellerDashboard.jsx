@@ -68,7 +68,7 @@ function PlanSummaryCard() {
                 <div className="flex items-center gap-3">
                     {nextPlanData && (
                         <button
-                            onClick={() => alert('Under development')}
+                            onClick={() => alert(t('common.underDevelopment', 'Under development'))}
                             className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-brand-primary to-brand-secondary text-white text-sm font-semibold rounded-xl hover:shadow-lg hover:shadow-brand-primary/20 transition-all"
                         >
                             <Sparkles size={14} />

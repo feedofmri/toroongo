@@ -29,7 +29,7 @@ export default function UpgradePrompt({
                     {message || `Upgrade to ${planData.name} to unlock ${feature}`}
                 </span>
                 <button
-                    onClick={() => alert('Under development')}
+                    onClick={() => alert(t('common.underDevelopment', 'Under development'))}
                     className="text-brand-primary font-semibold hover:text-brand-secondary transition-colors inline-flex items-center gap-1"
                 >
                     Upgrade <ArrowRight size={14} />
@@ -55,7 +55,7 @@ export default function UpgradePrompt({
                     </div>
                 </div>
                 <button
-                    onClick={() => alert('Under development')}
+                    onClick={() => alert(t('common.underDevelopment', 'Under development'))}
                     className="flex-shrink-0 px-4 py-2 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors"
                 >
                     Upgrade
@@ -77,7 +77,7 @@ export default function UpgradePrompt({
                 {message || `This feature is available on the ${planData.name} plan and above. Upgrade now to unlock it.`}
             </p>
             <button
-                onClick={() => alert('Under development')}
+                onClick={() => alert(t('common.underDevelopment', 'Under development'))}
                 className="inline-flex items-center gap-2 px-6 py-3 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-all hover:shadow-lg hover:shadow-brand-primary/20"
             >
                 <Sparkles size={16} />

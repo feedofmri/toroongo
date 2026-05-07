@@ -5,8 +5,24 @@
         "deals": "ऑफ़र",
         "blog": "ब्लॉग",
         "sell": "टोरोंगो पर बेचें",
+        "pricing": "मूल्य निर्धारण",
         "help": "सहायता",
         "search": "उत्पाद, विक्रेता, श्रेणियां खोजें...",
+        "dashboard": "डैशबोर्ड",
+        "myProducts": "मेरे उत्पाद",
+        "orders": "ऑर्डर",
+        "blogManager": "ब्लॉग प्रबंधक",
+        "storefront": "स्टोरफ़्रंट",
+        "helpCenter": "सहायता केंद्र",
+        "overview": "अवलोकन",
+        "users": "उपयोगकर्ता",
+        "sellers": "विक्रेता",
+        "categories": "श्रेणियाँ",
+        "platformBlog": "प्लेटफॉर्म ब्लॉग",
+        "myOrders": "मेरे ऑर्डर",
+        "myReviews": "मेरी समीक्षाएं",
+        "settings": "सेटिंग्स",
+        "signOut": "साइन आउट",
         "signIn": "साइन इन",
         "signInUp": "साइन इन / साइन अप",
         "shopHeader": "खरीदारी",
@@ -15,29 +31,13 @@
         "aboutUs": "हमारे बारे में",
         "contactUs": "संपर्क करें",
         "cat": {
-            "electronics": "Electronics",
-            "fashion": "Fashion",
-            "homeLiving": "Home \u0026 Living",
-            "beauty": "Beauty",
-            "sports": "Sports",
-            "books": "Books"
-        },
-        "pricing": "Pricing",
-        "dashboard": "Dashboard",
-        "myProducts": "My Products",
-        "orders": "Orders",
-        "blogManager": "Blog Manager",
-        "storefront": "Storefront",
-        "helpCenter": "Help Center",
-        "overview": "Overview",
-        "users": "Users",
-        "sellers": "Sellers",
-        "categories": "Categories",
-        "platformBlog": "Platform Blog",
-        "myOrders": "My Orders",
-        "myReviews": "My Reviews",
-        "settings": "Settings",
-        "signOut": "Sign out"
+            "electronics": "इलेक्ट्रॉनिक्स",
+            "fashion": "फैशन",
+            "homeLiving": "होम एंड लिविंग",
+            "beauty": "ब्यूटी",
+            "sports": "स्पोर्ट्स",
+            "books": "किताबें"
+        }
     },
     "home": {
         "heroTitle": "सब कुछ खरीदें",
@@ -194,91 +194,95 @@
         "weeksAgo": "{{count}} week ago",
         "daysAgo_plural": "{{count}} days ago",
         "weeksAgo_plural": "{{count}} weeks ago",
-        "dateLocale": "en-US",
-        "notFound": "Page Not Found",
-        "notFoundDesc": "The page you\u0027re looking for doesn\u0027t exist or has been moved.",
-        "goHome": "Go Home"
+        "dateLocale": "hi-IN",
+        "notFound": "पेज नहीं मिला",
+        "notFoundDesc": "आप जिस पेज की तलाश कर रहे हैं वह मौजूद नहीं है या हटा दिया गया है।",
+        "goHome": "होम पर जाएं",
+        "underDevelopment": "विकास के अधीन"
     },
     "pricing": {
         "title": "मूल्य निर्धारण और योजनाएं",
-        "subtitle": "अपने व्यवसाय के लिए सही टियर चुनें। कोई लेनदेन शुल्क नहीं।",
-        "month": "/ Month",
-        "mostPopular": "Most Popular",
-        "aiSuperpower": "AI Superpower",
-        "faqTitle": "Frequently Asked Questions",
+        "subtitle": "अपने व्यवसाय के लिए सही योजना चुनें। कोई लेनदेन शुल्क नहीं।",
+        "month": "/ माह",
+        "mostPopular": "सबसे लोकप्रिय",
+        "aiSuperpower": "AI सुपरपावर",
+        "faqTitle": "अक्सर पूछे जाने वाले प्रश्न",
         "cta": {
-            "free": "Start for Free",
-            "growth": "Get Growth",
-            "business": "Get Business",
-            "contact": "Contact Sales"
+            "free": "मुफ्त में शुरू करें",
+            "growth": "ग्रोथ लें",
+            "business": "बिजनेस लें",
+            "contact": "बिक्री से संपर्क करें",
+            "currentPlan": "वर्तमान योजना",
+            "upgrade": "अपग्रेड",
+            "downgrade": "डाउनग्रेड"
         },
         "plans": {
             "starter": {
-                "name": "Starter",
-                "desc": "Perfect for new sellers getting started.",
-                "ai": "AI Product Description Generator",
-                "aiDesc": "Instantly write engaging, SEO-friendly descriptions from a few keywords."
+                "name": "स्टार्टर",
+                "desc": "शुरुआत करने वाले नए विक्रेताओं के लिए बिल्कुल सही।",
+                "ai": "AI उत्पाद विवरण जनरेटर",
+                "aiDesc": "कुछ ही कीवर्ड से आकर्षक, SEO-अनुकूल विवरण तुरंत लिखें।"
             },
             "growth": {
-                "name": "Growth",
-                "desc": "For growing brands needing professional tools.",
-                "ai": "AI Image Enhancer",
-                "aiDesc": "Automatically remove basic backgrounds and replace them with pure white or brand colors."
+                "name": "ग्रोथ",
+                "desc": "पेशेवर उपकरणों की आवश्यकता वाले बढ़ते ब्रांडों के लिए।",
+                "ai": "AI इमेज एनहेंसर",
+                "aiDesc": "बुनियादी बैकग्राउंड को स्वचालित रूप से हटाएं और उन्हें शुद्ध सफेद या ब्रांड रंगों से बदलें।"
             },
             "business": {
-                "name": "Business",
-                "desc": "For established retailers scaling operations.",
-                "ai": "AI Support \u0026 Recommendations",
-                "aiDesc": "24/7 AI chatbot for buyer questions \u0026 smart \u0027Frequently Bought Together\u0027 recommendations."
+                "name": "बिजनेस",
+                "desc": "परिचालन को बढ़ाने वाले स्थापित खुदरा विक्रेताओं के लिए।",
+                "ai": "AI सपोर्ट और सिफारिशें",
+                "aiDesc": "खरीदार के सवालों के लिए 24/7 AI चैटबॉट और स्मार्ट 'अक्सर साथ खरीदे जाने वाले' उत्पाद की सिफारिशें।"
             },
             "enterprise": {
-                "name": "Enterprise",
-                "desc": "For power sellers with massive operations.",
-                "ai": "AI Forecasting \u0026 Sentiment",
-                "aiDesc": "Predict inventory run-outs and analyze hundreds of reviews for instant, actionable summaries."
+                "name": "एंटरप्राइज",
+                "desc": "बड़े परिचालन वाले पावर सेलर्स के लिए।",
+                "ai": "AI पूर्वानुमान और भावना विश्लेषण",
+                "aiDesc": "इन्वेंट्री की कमी की भविष्यवाणी करें और त्वरित सारांश के लिए सैकड़ों समीक्षाओं का विश्लेषण करें।"
             }
         },
         "features": {
-            "fee": "100% sales kept (0% fee)",
-            "subdomain": "Standard platform subdomain",
-            "builder": "Basic drag-and-drop builder",
-            "limit10": "Max 10 product listings",
-            "branding": "Mandatory Toroongo footer branding",
-            "support": "Standard community/KB support",
-            "domain": "Custom domain mapping",
-            "whiteLabel": "White-labeled experience (No branding)",
-            "limit100": "Max 100 product listings",
-            "staff2": "2 staff accounts",
-            "templates": "Premium layout templates",
-            "emailSupport": "Standard email customer support",
-            "limitUnlimited": "Unlimited product listings",
-            "blog": "Built-in blogging engine",
-            "cart": "Automated abandoned cart emails",
-            "analytics": "Sales analytics dashboard",
-            "staff5": "5 staff accounts with roles",
-            "liveChat": "Priority live chat support",
-            "api": "Full API access (accounting/ERP)",
-            "custom": "Custom CSS and HTML injection",
-            "warehouse": "Multi-warehouse inventory management",
-            "staffUnlimited": "Unlimited staff accounts",
-            "manager": "Dedicated account manager"
+            "fee": "100% बिक्री आपकी (0% शुल्क)",
+            "subdomain": "मानक प्लेटफॉर्म सबडोमेन",
+            "builder": "बेसिक ड्रैग-एंड-ड्रॉप बिल्डर",
+            "limit10": "अधिकतम 10 उत्पाद सूचियां",
+            "branding": "अनिवार्य टोरोंगो फुटर ब्रांडिंग",
+            "support": "मानक सामुदायिक सहायता",
+            "domain": "कस्टम डोमेन मैपिंग",
+            "whiteLabel": "व्हाइट-लेबल अनुभव (कोई ब्रांडिंग नहीं)",
+            "limit100": "अधिकतम 100 उत्पाद सूचियां",
+            "staff2": "2 स्टाफ खाते",
+            "templates": "प्रीमियम लेआउट टेम्पलेट",
+            "emailSupport": "मानक ईमेल ग्राहक सहायता",
+            "limitUnlimited": "असीमित उत्पाद सूचियां",
+            "blog": "इन-बिल्ट ब्लॉगिंग इंजन",
+            "cart": "स्वचालित परित्यक्त कार्ट ईमेल",
+            "analytics": "बिक्री विश्लेषण डैशबोर्ड",
+            "staff5": "भूमिकाओं के साथ 5 स्टाफ खाते",
+            "liveChat": "प्राथमिकता लाइव चैट सहायता",
+            "api": "पूर्ण API एक्सेस",
+            "custom": "कस्टम CSS और HTML इंजेक्शन",
+            "warehouse": "मल्टी-वेयरहाउस इन्वेंट्री प्रबंधन",
+            "staffUnlimited": "असीमित स्टाफ खाते",
+            "manager": "समर्पित खाता प्रबंधक"
         },
         "faq": {
             "fee": {
-                "q": "Are there any transaction fees?",
-                "a": "No! You keep 100% of your sales with 0% platform transaction fees on all plans."
+                "q": "क्या कोई लेनदेन शुल्क है?",
+                "a": "नहीं! आप अपनी बिक्री का 100% रखते हैं, सभी योजनाओं पर 0% प्लेटफॉर्म लेनदेन शुल्क है।"
             },
             "countries": {
-                "q": "Which countries do you support?",
-                "a": "Toroongo is a global platform accessible from anywhere in the world! However, our platform is specially tailored and friendly for sellers and buyers in 6 core markets: Bangladesh, Nepal, Malaysia, United Arab Emirates (UAE), Indonesia, and India."
+                "q": "आप किन देशों का समर्थन करते हैं?",
+                "a": "टोरोंगो दुनिया में कहीं से भी सुलभ एक वैश्विक मंच है! हालांकि, हमारा मंच विशेष रूप से 6 मुख्य बाजारों में विक्रेताओं और खरीदारों के लिए तैयार किया गया है: बांग्लादेश, नेपाल, मलेशिया, यूएई, इंडोनेशिया और भारत।"
             },
             "change": {
-                "q": "Can I change my plan later?",
-                "a": "Yes, you can upgrade or downgrade your plan at any time from your seller dashboard."
+                "q": "क्या मैं बाद में अपनी योजना बदल सकता हूँ?",
+                "a": "हाँ, आप अपने विक्रेता डैशबोर्ड से किसी भी समय अपनी योजना को अपग्रेड या डाउनग्रेड कर सकते हैं।"
             },
             "ai": {
-                "q": "How do the AI features work?",
-                "a": "Each tier unlocks powerful, easy-to-use AI tools designed specifically to save you time and increase your sales."
+                "q": "AI विशेषताएं कैसे काम करती हैं?",
+                "a": "प्रत्येक टियर शक्तिशाली, उपयोग में आसान AI उपकरणों को अनलॉक करता है जो विशेष रूप से आपका समय बचाने और आपकी बिक्री बढ़ाने के लिए डिज़ाइन किए गए हैं।"
             }
         }
     },
@@ -1417,88 +1421,88 @@
         }
     },
     "sellerStaff": {
-        "title": "Staff Accounts",
-        "staffCount": "{{count}} / {{max}} staff members",
-        "staffCountUnlimited": "{{count}} staff members (Unlimited)",
-        "inviteBtn": "Invite Staff Member",
+        "title": "स्टाफ खाते",
+        "staffCount": "{{count}} / {{max}} स्टाफ सदस्य",
+        "staffCountUnlimited": "{{count}} स्टाफ सदस्य (असीमित)",
+        "inviteBtn": "स्टाफ सदस्य को आमंत्रित करें",
         "limitReached": {
-            "title": "Staff limit reached",
-            "message": "Your Business plan supports up to {{max}} staff members. Upgrade to Enterprise for unlimited staff accounts."
+            "title": "स्टाफ सीमा समाप्त",
+            "message": "आपकी बिजनेस योजना {{max}} स्टाफ सदस्यों तक का समर्थन करती है। असीमित स्टाफ खातों के लिए एंटरप्राइज में अपग्रेड करें।"
         },
         "modal": {
-            "title": "Invite Staff Member",
-            "nameLabel": "Full Name",
-            "emailLabel": "Email Address",
-            "roleLabel": "Role",
-            "roleManager": "Manager — Full access",
-            "roleEditor": "Editor — Products \u0026 content",
-            "roleSupport": "Support — Orders \u0026 messages",
-            "roleViewer": "Viewer — Read-only",
-            "cancel": "Cancel",
-            "sendBtn": "Send Invite"
+            "title": "स्टाफ सदस्य को आमंत्रित करें",
+            "nameLabel": "पूरा नाम",
+            "emailLabel": "ईमेल पता",
+            "roleLabel": "भूमिका",
+            "roleManager": "प्रबंधक — पूर्ण पहुँच",
+            "roleEditor": "संपादक — उत्पाद और सामग्री",
+            "roleSupport": "सपोर्ट — ऑर्डर और संदेश",
+            "roleViewer": "दर्शक — केवल पढ़ने के लिए",
+            "cancel": "रद्द करें",
+            "sendBtn": "आमंत्रण भेजें"
         },
-        "searchPlaceholder": "Search staff members...",
+        "searchPlaceholder": "स्टाफ सदस्यों को खोजें...",
         "card": {
-            "lastActive": "Last active: {{time}}",
-            "remove": "Remove",
-            "permissions": "Permissions",
-            "initials": "Initials",
-            "justNow": "Just now",
-            "hoursAgo": "{{count}}h ago",
-            "daysAgo": "{{count}}d ago"
+            "lastActive": "पिछली बार सक्रिय: {{time}}",
+            "remove": "हटाएं",
+            "permissions": "अनुमतियां",
+            "initials": "आद्याक्षर",
+            "justNow": "अभी",
+            "hoursAgo": "{{count}} घंटे पहले",
+            "daysAgo": "{{count}} दिन पहले"
         },
         "roles": {
-            "manager": "Manager",
-            "editor": "Editor",
-            "support": "Support",
-            "viewer": "Viewer"
+            "manager": "प्रबंधक",
+            "editor": "संपादक",
+            "support": "सपोर्ट",
+            "viewer": "दर्शक"
         },
         "status": {
-            "active": "Active",
-            "pending": "Pending",
-            "inactive": "Inactive"
+            "active": "सक्रिय",
+            "pending": "लंबित",
+            "inactive": "निष्क्रिय"
         },
-        "noStaff": "No staff members found",
-        "noStaffDesc": "Invite your first team member to get started",
+        "noStaff": "कोई स्टाफ सदस्य नहीं मिला",
+        "noStaffDesc": "शुरू करने के लिए अपने पहले टीम सदस्य को आमंत्रित करें",
         "upgrade": {
-            "title": "Staff Accounts",
-            "message": "Add team members with role-based permissions to help manage your store. Upgrade to Business to unlock this feature."
+            "title": "स्टाफ खाते",
+            "message": "अपने स्टोर को प्रबंधित करने में सहायता के लिए भूमिका-आधारित अनुमतियों के साथ टीम के सदस्य जोड़ें। इस सुविधा को अनलॉक करने के लिए बिजनेस योजना में अपग्रेड करें।"
         },
         "permissions": {
-            "orders": "Orders",
-            "products": "Products",
-            "analytics": "Analytics",
-            "messages": "Messages",
-            "blog": "Blog",
-            "settings": "Settings"
+            "orders": "ऑर्डर",
+            "products": "उत्पाद",
+            "analytics": "विश्लेषण",
+            "messages": "संदेश",
+            "blog": "ब्लॉग",
+            "settings": "सेटिंग्स"
         }
     },
     "sellerAiHub": {
-        "title": "AI Superpowers",
-        "subtitle": "{{unlocked}} AI tools unlocked • {{locked}} available with upgrade",
-        "activeTitle": "Your Active AI Tools",
-        "availableTitle": "Available with Upgrade",
-        "unlockMore": "Unlock More AI Superpowers",
+        "title": "AI सुपरपावर",
+        "subtitle": "{{unlocked}} AI टूल अनलॉक • {{locked}} अपग्रेड के साथ उपलब्ध",
+        "activeTitle": "आपके सक्रिय AI टूल",
+        "availableTitle": "अपग्रेड के साथ उपलब्ध",
+        "unlockMore": "अधिक AI सुपरपावर अनलॉक करें",
         "tool": {
-            "unlocked": "Unlocked",
-            "required": "{{plan}}+ required",
-            "tryIt": "Try It Now",
-            "close": "Close Tool",
-            "activeRunning": "Active and running on your storefront"
+            "unlocked": "अनलॉक",
+            "required": "{{plan}}+ आवश्यक",
+            "tryIt": "अभी आज़माएं",
+            "close": "टूल बंद करें",
+            "activeRunning": "सक्रिय और आपके स्टोरफ्रंट पर चल रहा है"
         },
         "demo": {
-            "keywordsLabel": "Enter keywords or product name",
-            "keywordsPlaceholder": "e.g. leather messenger bag, handmade, vintage",
-            "generate": "Generate",
-            "aiGenerated": "AI Generated",
-            "imageDrop": "Drop a product image to enhance",
-            "tryEnhancement": "Try Demo Enhancement",
-            "processing": "Processing...",
-            "bgRemoved": "Background Removed",
-            "upscaled": "Upscaled 2x",
-            "whiteBg": "White Background",
-            "translateBtn": "Translate Product Catalog",
-            "translating": "Translating catalog..."
+            "keywordsLabel": "कीवर्ड या उत्पाद का नाम दर्ज करें",
+            "keywordsPlaceholder": "जैसे: चमड़े का मैसेंजर बैग, हस्तनिर्मित, विंटेज",
+            "generate": "जनरेट करें",
+            "aiGenerated": "AI द्वारा जनरेट किया गया",
+            "imageDrop": "बेहतर बनाने के लिए उत्पाद की छवि यहाँ छोड़ें",
+            "tryEnhancement": "डेमो एन्हांसमेंट आज़माएं",
+            "processing": "प्रसंस्करण...",
+            "bgRemoved": "बैकग्राउंड हटा दिया गया",
+            "upscaled": "2x अपस्केल किया गया",
+            "whiteBg": "सफेद बैकग्राउंड",
+            "translateBtn": "उत्पाद कैटलॉग का अनुवाद करें",
+            "translating": "कैटलॉग का अनुवाद किया जा रहा है..."
         }
     }
 }

@@ -44,10 +44,10 @@ export default function PricingPage() {
                 buttonAction = () => navigate('/seller/subscription');
             } else if (isUpgrade) {
                 buttonText = t('pricing.cta.upgrade', 'Upgrade');
-                buttonAction = () => alert('Under development');
+                buttonAction = () => alert(t('common.underDevelopment', 'Under development'));
             } else if (isDowngrade) {
                 buttonText = t('pricing.cta.downgrade', 'Downgrade');
-                buttonAction = () => alert('Under development');
+                buttonAction = () => alert(t('common.underDevelopment', 'Under development'));
             }
         }
 

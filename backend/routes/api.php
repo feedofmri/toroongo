@@ -52,6 +52,7 @@ Route::get('/users/profile/{id}', [UserController::class, 'profile']);
 Route::get('/system/categories', [SystemController::class, 'categories']);
 Route::get('/system/hero-banners', [SystemController::class, 'heroBanners']);
 Route::get('/system/nav-categories', [SystemController::class, 'navCategories']);
+Route::get('/system/detect-location', [SystemController::class, 'detectLocation']);
 
 // Public: seller payment methods for checkout
 Route::post('/payment-methods/by-sellers', [SellerPaymentMethodController::class, 'publicBySellers']);

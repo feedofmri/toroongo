@@ -197,7 +197,8 @@
                    "dateLocale": "id-ID",
                    "notFound": "Halaman Tidak Ditemukan",
                    "notFoundDesc": "Halaman yang Anda cari tidak ada atau telah dipindahkan.",
-                   "goHome": "Kembali ke Beranda"
+                   "goHome": "Kembali ke Beranda",
+                   "underDevelopment": "Sedang dalam pengembangan"
                },
     "pricing":  {
                     "title":  "Harga \u0026 Paket",
@@ -210,7 +211,10 @@
                                 "free": "Mulai Gratis",
                                 "growth": "Ambil Paket Growth",
                                 "business": "Ambil Paket Bisnis",
-                                "contact": "Hubungi Penjualan"
+                                "contact": "Hubungi Penjualan",
+                                "currentPlan": "Paket Saat Ini",
+                                "upgrade": "Upgrade",
+                                "downgrade": "Downgrade"
                             },
                     "plans": {
                                   "starter": {

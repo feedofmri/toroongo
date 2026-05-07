@@ -34,4 +34,48 @@ class SystemController extends Controller
         // Return categories formatted for navbar dropdown
         return response()->json(Category::select('id', 'name', 'slug', 'icon')->get());
     }
+
+    /**
+     * Detect user's country based on their IP address.
+     * This is used as a backend proxy to avoid CORS/Mixed Content issues on the frontend.
+     */
+    public function detectLocation(\Illuminate\Http\Request $request)
+    {
+        $ip = $request->ip();
+        
+        // Handle localhost/testing
+        if ($ip === '127.0.0.1' || $ip === '::1') {
+            return response()->json([
+                'status' => 'success',
+                'countryCode' => 'BD',
+                'country' => 'Bangladesh',
+                'ip' => $ip
+            ]);
+        }
+
+        try {
+            // Use ip-api.com (server-side call, so HTTP is fine and no CORS issues)
+            $response = \Illuminate\Support\Facades\Http::get("http://ip-api.com/json/{$ip}");
+            
+            if ($response->successful()) {
+                $data = $response->json();
+                return response()->json([
+                    'status' => 'success',
+                    'countryCode' => $data['countryCode'] ?? 'US',
+                    'country' => $data['country'] ?? 'United States',
+                    'ip' => $ip
+                ]);
+            }
+        } catch (\Exception $e) {
+            \Log::error('Location detection failed: ' . $e->getMessage());
+        }
+
+        // Fallback
+        return response()->json([
+            'status' => 'fallback',
+            'countryCode' => 'US',
+            'country' => 'United States',
+            'ip' => $ip
+        ]);
+    }
 }

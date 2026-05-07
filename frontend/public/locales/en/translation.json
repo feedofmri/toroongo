@@ -58,7 +58,8 @@
         "dateLocale": "en-US",
         "notFound": "Page Not Found",
         "notFoundDesc": "The page you're looking for doesn't exist or has been moved.",
-        "goHome": "Go Home"
+        "goHome": "Go Home",
+        "underDevelopment": "Under development"
     },
     "home": {
         "heroTitle": "Shop Everything",

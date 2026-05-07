@@ -18,6 +18,7 @@ class User extends Authenticatable
         'rating', 'total_products', 'brand_color', 'slug', 'joined_date',
         'phone', 'seller_settings', 'buyer_settings', 'location',
         'country', 'currency_code', 'country_custom_name',
+        'google_id', 'provider', 'email_verified_at',
     ];
 
     protected $hidden = ['password', 'remember_token'];

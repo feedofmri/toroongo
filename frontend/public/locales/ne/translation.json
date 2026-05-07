@@ -15,29 +15,29 @@
                 "aboutUs":  "हाम्रो बारेमा",
                 "contactUs":  "सम्पर्क गर्नुहोस्",
                 "cat":  {
-                            "electronics":  "Electronics",
-                            "fashion":  "Fashion",
-                            "homeLiving":  "Home \u0026 Living",
-                            "beauty":  "Beauty",
-                            "sports":  "Sports",
-                            "books":  "Books"
+                            "electronics":  "इलेक्ट्रोनिक्स",
+                            "fashion":  "फेसन",
+                            "homeLiving":  "होम र लिभिङ",
+                            "beauty":  "ब्युटी",
+                            "sports":  "स्पोर्ट्स",
+                            "books":  "पुस्तकहरू"
                         },
-                "pricing":  "Pricing",
-                "dashboard":  "Dashboard",
-                "myProducts":  "My Products",
-                "orders":  "Orders",
-                "blogManager":  "Blog Manager",
-                "storefront":  "Storefront",
-                "helpCenter":  "Help Center",
-                "overview":  "Overview",
-                "users":  "Users",
-                "sellers":  "Sellers",
-                "categories":  "Categories",
-                "platformBlog":  "Platform Blog",
-                "myOrders":  "My Orders",
-                "myReviews":  "My Reviews",
-                "settings":  "Settings",
-                "signOut":  "Sign out"
+                "pricing":  "मूल्य निर्धारण",
+                "dashboard":  "ड्यासबोर्ड",
+                "myProducts":  "मेरा उत्पादनहरू",
+                "orders":  "अर्डरहरू",
+                "blogManager":  "ब्लग प्रबन्धक",
+                "storefront":  "स्टोरफ्रन्ट",
+                "helpCenter":  "मद्दत केन्द्र",
+                "overview":  "अवलोकन",
+                "users":  "प्रयोगकर्ताहरू",
+                "sellers":  "विक्रेताहरू",
+                "categories":  "कोटिहरू",
+                "platformBlog":  "प्लेटफर्म ब्लग",
+                "myOrders":  "मेरा अर्डरहरू",
+                "myReviews":  "मेरा समीक्षाहरू",
+                "settings":  "सेटिङहरू",
+                "signOut":  "साइन आउट"
             },
     "home":  {
                  "heroTitle":  "सबै कुरा किनमेल गर्नुहोस्",
@@ -139,149 +139,145 @@
                      "shippingTo":  "शिपिंग ठेगाना",
                      "edit":  "सम्पादन",
                      "placeOrder":  "अर्डर राख्नुहोस्",
-                     "orderSummary":  "अर्डर सारांश",
-                     "items":  "सामानहरू",
-                     "subtotal":  "सबटोटल",
-                     "shippingCost":  "शिपिंग",
-                     "tax":  "अनुमानित कर",
-                     "total":  "कुल",
-                     "loginRequired":  "अर्डर राख्नको लागि कृपया लगइन गर्नुहोस्",
-                     "orderFailed":  "अर्डर असफल भयो: "
+                     "orderSummary": "अर्डर सारांश",
+                     "items": "सामानहरू",
+                     "subtotal": "सबटोटल",
+                     "shippingCost": "शिपिंग",
+                     "tax": "अनुमानित कर",
+                     "total": "कुल",
+                     "loginRequired": "अर्डर राख्नको लागि कृपया लगइन गर्नुहोस्",
+                     "orderFailed": "अर्डर असफल भयो: "
                  },
-    "orderConfirmation":  {
-                              "loading":  "तपाईंको अर्डर पुष्टि लोड हुँदैछ...",
-                              "title":  "अर्डर पुष्टि भयो!",
-                              "subtitle":  "तपाईंको खरिदको लागि धन्यवाद। हामीले तपाईंको अर्डर विवरणहरू सहितको पुष्टिकरण इमेल पठाएका छौं।",
-                              "orderNumber":  "अर्डर नम्बर",
-                              "copyOrderNumber":  "अर्डर नम्बर प्रतिलिपि गर्नुहोस्",
-                              "estimatedDelivery":  "अनुमानित डेलिभरी",
-                              "shippingTo":  "पठाइँदै",
-                              "defaultAddress":  "१२३ मेन स्ट्रिट, न्यूयोर्क, एनवाई १०००१",
-                              "payment":  "भुक्तानी",
-                              "defaultPayment":  "•••• ४२४२ मा समाप्त हुने भिसा",
-                              "subtotalPaid":  "कुल भुक्तान",
-                              "orderPlaced":  "अर्डर गरियो",
-                              "processing":  "प्रक्रियामा छ",
-                              "shipped":  "पठाइयो",
-                              "delivered":  "डेलिभर भयो",
-                              "trackOrder":  "अर्डर ट्र्याक गर्नुहोस्",
-                              "continueShopping":  "किनमेल जारी राख्नुहोस्"
-                          },
-    "reviews":  {
-                    "title":  "मेरा समीक्षाहरू",
-                    "subtitle":  "तपाईंका सबै उत्पादन समीक्षाहरू एकै ठाउँमा व्यवस्थापन गर्नुहोस्।",
-                    "noReviews":  "अझै कुनै समीक्षा छैन",
-                    "noReviewsDesc":  "तपाईंले खरिद गर्नुभएको उत्पादनहरूको लागि कुनै समीक्षा लेख्नुभएको छैन।",
-                    "viewOrderHistory":  "अर्डर इतिहास हेर्नुहोस्",
-                    "published":  "प्रकाशित",
-                    "pending":  "विचाराधीन",
-                    "editReview":  "समीक्षा सम्पादन गर्नुहोस्",
-                    "viewProduct":  "उत्पादन हेर्नुहोस्"
-                },
-    "common":  {
-                   "viewAll":  "सबै हेर्नुहोस्",
-                   "products":  "उत्पादनहरू",
-                   "seeAll":  "सबै हेर्नुहोस्",
-                   "wishlistAdd":  "इच्छासूचीमा थप्नुहोस्",
-                   "wishlistRemove":  "इच्छासूचीबाट हटाउनुहोस्",
-                   "badges":  {
-                                  "Sale":  "सेल",
-                                  "New":  "नयाँ",
-                                  "BestSeller":  "उत्कृष्ट विक्रेता"
-                              },
-                   "showLess":  "कम देखाउनुहोस्",
-                   "daysAgo":  "{{count}} days ago",
-                   "weeksAgo":  "{{count}} week ago",
-                   "daysAgo_plural":  "{{count}} days ago",
-                   "weeksAgo_plural":  "{{count}} weeks ago",
-                   "dateLocale":  "en-US",
-                   "notFound":  "Page Not Found",
-                   "notFoundDesc":  "The page you\u0027re looking for doesn\u0027t exist or has been moved.",
-                   "goHome":  "Go Home"
-               },
-    "pricing":  {
-                    "title":  "मूल्य निर्धारण र योजनाहरू",
-                    "subtitle":  "तपाईंको व्यवसायको लागि उत्तम टियर छनौट गर्नुहोस्। कुनै लेनदेन शुल्क छैन।",
-                    "month":  "/ Month",
-                    "mostPopular":  "Most Popular",
-                    "aiSuperpower":  "AI Superpower",
-                    "faqTitle":  "Frequently Asked Questions",
-                    "cta":  {
-                                "free":  "Start for Free",
-                                "growth":  "Get Growth",
-                                "business":  "Get Business",
-                                "contact":  "Contact Sales"
-                            },
-                    "plans":  {
-                                  "starter":  {
-                                                  "name":  "Starter",
-                                                  "desc":  "Perfect for new sellers getting started.",
-                                                  "ai":  "AI Product Description Generator",
-                                                  "aiDesc":  "Instantly write engaging, SEO-friendly descriptions from a few keywords."
-                                              },
-                                  "growth":  {
-                                                 "name":  "Growth",
-                                                 "desc":  "For growing brands needing professional tools.",
-                                                 "ai":  "AI Image Enhancer",
-                                                 "aiDesc":  "Automatically remove basic backgrounds and replace them with pure white or brand colors."
-                                             },
-                                  "business":  {
-                                                   "name":  "Business",
-                                                   "desc":  "For established retailers scaling operations.",
-                                                   "ai":  "AI Support \u0026 Recommendations",
-                                                   "aiDesc":  "24/7 AI chatbot for buyer questions \u0026 smart \u0027Frequently Bought Together\u0027 recommendations."
-                                               },
-                                  "enterprise":  {
-                                                     "name":  "Enterprise",
-                                                     "desc":  "For power sellers with massive operations.",
-                                                     "ai":  "AI Forecasting \u0026 Sentiment",
-                                                     "aiDesc":  "Predict inventory run-outs and analyze hundreds of reviews for instant, actionable summaries."
-                                                 }
-                              },
-                    "features":  {
-                                     "fee":  "100% sales kept (0% fee)",
-                                     "subdomain":  "Standard platform subdomain",
-                                     "builder":  "Basic drag-and-drop builder",
-                                     "limit10":  "Max 10 product listings",
-                                     "branding":  "Mandatory Toroongo footer branding",
-                                     "support":  "Standard community/KB support",
-                                     "domain":  "Custom domain mapping",
-                                     "whiteLabel":  "White-labeled experience (No branding)",
-                                     "limit100":  "Max 100 product listings",
-                                     "staff2":  "2 staff accounts",
-                                     "templates":  "Premium layout templates",
-                                     "emailSupport":  "Standard email customer support",
-                                     "limitUnlimited":  "Unlimited product listings",
-                                     "blog":  "Built-in blogging engine",
-                                     "cart":  "Automated abandoned cart emails",
-                                     "analytics":  "Sales analytics dashboard",
-                                     "staff5":  "5 staff accounts with roles",
-                                     "liveChat":  "Priority live chat support",
-                                     "api":  "Full API access (accounting/ERP)",
-                                     "custom":  "Custom CSS and HTML injection",
-                                     "warehouse":  "Multi-warehouse inventory management",
-                                     "staffUnlimited":  "Unlimited staff accounts",
-                                     "manager":  "Dedicated account manager"
-                                 },
-                    "faq":  {
-                                "fee":  {
-                                            "q":  "Are there any transaction fees?",
-                                            "a":  "No! You keep 100% of your sales with 0% platform transaction fees on all plans."
-                                        },
-                                "countries":  {
-                                                  "q":  "Which countries do you support?",
-                                                  "a":  "Toroongo is a global platform accessible from anywhere in the world! However, our platform is specially tailored and friendly for sellers and buyers in 6 core markets: Bangladesh, Nepal, Malaysia, United Arab Emirates (UAE), Indonesia, and India."
-                                              },
-                                "change":  {
-                                               "q":  "Can I change my plan later?",
-                                               "a":  "Yes, you can upgrade or downgrade your plan at any time from your seller dashboard."
-                                           },
-                                "ai":  {
-                                           "q":  "How do the AI features work?",
-                                           "a":  "Each tier unlocks powerful, easy-to-use AI tools designed specifically to save you time and increase your sales."
-                                       }
-                            }
-                },
+    "orderConfirmation": {
+        "loading": "तपाईंको अर्डर पुष्टि लोड हुँदैछ...",
+        "title": "अर्डर पुष्टि भयो!",
+        "subtitle": "तपाईंको खरिदको लागि धन्यवाद। हामीले तपाईंको अर्डर विवरणहरू सहितको पुष्टिकरण इमेल पठाएका छौं।",
+        "orderNumber": "अर्डर नम्बर",
+        "copyOrderNumber": "अर्डर नम्बर प्रतिलिपि गर्नुहोस्",
+        "estimatedDelivery": "अनुमानित डेलिभरी",
+        "shippingTo": "पठाइँदै",
+        "defaultAddress": "१२३ मेन स्ट्रिट, न्यूयोर्क, एनवाई १०००१",
+        "payment": "भुक्तानी",
+        "defaultPayment": "•••• ४२४२ मा समाप्त हुने भिसा",
+        "subtotalPaid": "कुल भुक्तान",
+        "orderPlaced": "अर्डर गरियो",
+        "processing": "प्रक्रियामा छ",
+        "shipped": "पठाइयो",
+        "delivered": "डेलिभर भयो",
+        "trackOrder": "अर्डर ट्र्याक गर्नुहोस्",
+        "continueShopping": "किनमेल जारी राख्नुहोस्"
+    },
+    "reviews": {
+        "title": "मेरा समीक्षाहरू",
+        "subtitle": "तपाईंका सबै उत्पादन समीक्षाहरू एकै ठाउँमा व्यवस्थापन गर्नुहोस्।",
+        "noReviews": "अझै कुनै समीक्षा छैन",
+        "noReviewsDesc": "तपाईंले खरिद गर्नुभएको उत्पादनहरूको लागि कुनै समीक्षा लेख्नुभएको छैन।",
+        "viewOrderHistory": "अर्डर इतिहास हेर्नुहोस्",
+        "published": "प्रकाशित",
+        "pending": "विचाराधीन",
+        "editReview": "समीक्षा सम्पादन गर्नुहोस्",
+        "viewProduct": "उत्पादन हेर्नुहोस्"
+    },
+    "common": {
+        "viewAll": "सबै हेर्नुहोस्",
+        "products": "उत्पादनहरू",
+        "seeAll": "सबै हेर्नुहोस्",
+        "wishlistAdd": "इच्छासूचीमा थप्नुहोस्",
+        "wishlistRemove": "इच्छासूचीबाट हटाउनुहोस्",
+        "badges": {
+            "Sale": "सेल",
+            "New": "नयाँ",
+            "BestSeller": "उत्कृष्ट विक्रेता"
+        },
+        "showLess": "कम देखाउनुहोस्",
+        "daysAgo": "{{count}} दिन पहिले",
+        "weeksAgo": "{{count}} हप्ता पहिले",
+        "daysAgo_plural": "{{count}} दिन पहिले",
+        "weeksAgo_plural": "{{count}} हप्ता पहिले",
+        "dateLocale": "ne-NP",
+        "notFound": "पृष्ठ फेला परेन",
+        "notFoundDesc": "तपाईंले खोजिरहनु भएको पृष्ठ उपलब्ध छैन वा सारिएको छ।",
+        "goHome": "होममा फर्कनुहोस्",
+        "underDevelopment": "विकासको क्रममा छ"
+    },
+    "pricing": {
+        "title": "मूल्य निर्धारण र योजनाहरू",
+        "subtitle": "तपाईंको व्यवसायको लागि उत्तम योजना छनौट गर्नुहोस्। कुनै लेनदेन शुल्क छैन।",
+        "month": "/ महिना",
+        "mostPopular": "सबैभन्दा लोकप्रिय",
+        "aiSuperpower": "AI सुपरपावर",
+        "faqTitle": "धैरै सोधिने प्रश्नहरू",
+        "cta": {
+            "free": "नि:शुल्क सुरु गर्नुहोस्",
+            "growth": "Growth लिनुहोस्",
+            "business": "Business लिनुहोस्",
+            "contact": "बिक्री टोलीलाई सम्पर्क गर्नुहोस्",
+            "currentPlan": "हालको योजना",
+            "upgrade": "अपग्रेड गर्नुहोस्",
+            "downgrade": "डाउनग्रेड गर्नुहोस्"
+        },
+        "plans": {
+            "starter": {
+                "name": "Starter",
+                "desc": "सुरुवात गर्दै गरेका नयाँ विक्रेताहरूका लागि उपयुक्त।"
+            },
+            "growth": {
+                "name": "Growth",
+                "desc": "व्यावसायिक उपकरणहरू आवश्यक पर्ने बढ्दो ब्रान्डहरूका लागि।"
+            },
+            "business": {
+                "name": "Business",
+                "desc": "अपरेसनहरू विस्तार गर्दै गरेका स्थापित खुद्रा विक्रेताहरूका लागि।"
+            },
+            "enterprise": {
+                "name": "Enterprise",
+                "desc": "विशाल अपरेसन भएका पावर विक्रेताहरूका लागि।"
+            }
+        },
+        "features": {
+            "fee": "१००% बिक्री राख्नुहोस् (०% शुल्क)",
+            "subdomain": "साधारण प्लेटफर्म सबडोमेन",
+            "builder": "साधारण ड्र्याग-एन्ड-ड्रप बिल्डर",
+            "limit10": "अधिकतम १० उत्पादन सूचीहरू",
+            "branding": "फुटरमा तोरोंगो ब्रान्डिङ अनिवार्य",
+            "support": "साधारण समुदाय समर्थन",
+            "domain": "कस्टम डोमेन म्यापिङ",
+            "whiteLabel": "ह्वाइट-लेबल अनुभव (कुनै ब्रान्डिङ छैन)",
+            "limit100": "अधिकतम १०० उत्पादन सूचीहरू",
+            "staff2": "२ स्टाफ खाताहरू",
+            "templates": "प्रिमियम लेआउट टेम्प्लेटहरू",
+            "emailSupport": "साधारण इमेल ग्राहक समर्थन",
+            "limitUnlimited": "असीमित उत्पादन सूचीहरू",
+            "blog": "भित्रै रहेको ब्लगिङ इन्जिन",
+            "cart": "स्वचालित कार्ट अलर्ट इमेलहरू",
+            "analytics": "बिक्री एनालिटिक्स ड्यासबोर्ड",
+            "staff5": "५ स्टाफ खाताहरू",
+            "liveChat": "प्राथमिकता लाइभ च्याट समर्थन",
+            "api": "पूर्ण API पहुँच",
+            "custom": "कस्टम CSS र HTML इन्जेक्सन",
+            "warehouse": "बहु-गोदाम इन्भेन्टरी व्यवस्थापन",
+            "staffUnlimited": "असीमित स्टाफ खाताहरू",
+            "manager": "समर्पित खाता प्रबन्धक"
+        },
+        "faq": {
+            "fee": {
+                "q": "के त्यहाँ कुनै लेनदेन शुल्क छ?",
+                "a": "छैन! तपाईंले सबै योजनाहरूमा ०% प्लेटफर्म लेनदेन शुल्कको साथ आफ्नो बिक्रीको १००% राख्नुहुन्छ।"
+            },
+            "countries": {
+                "q": "हामी कुन देशहरूलाई समर्थन गर्छौं?",
+                "a": "तोरोंगो एक विश्वव्यापी प्लेटफर्म हो जुन संसारको जुनसुकै ठाउँबाट पहुँच गर्न सकिन्छ! यद्यपि, हाम्रो प्लेटफर्म विशेष गरी ६ मुख्य बजारहरूमा विक्रेता र क्रेताहरूका लागि अनुकूल र मैत्री छ: बंगलादेश, नेपाल, मलेसिया, संयुक्त अरब इमिरेट्स (UAE), इन्डोनेसिया र भारत।"
+            },
+            "change": {
+                "q": "के म पछि मेरो योजना परिवर्तन गर्न सक्छु?",
+                "a": "हो, तपाईं आफ्नो विक्रेता ड्यासबोर्डबाट कुनै पनि समयमा आफ्नो योजना अपग्रेड वा डाउनग्रेड गर्न सक्नुहुन्छ।"
+            },
+            "ai": {
+                "q": "AI सुविधाहरूले कसरी काम गर्छ?",
+                "a": "प्रत्येक टियरले शक्तिशाली, प्रयोग गर्न सजिलो AI उपकरणहरू अनलक गर्दछ जुन विशेष रूपमा तपाईंको समय बचत गर्न र तपाईंको बिक्री बढाउन डिजाइन गरिएको हो।"
+            }
+        }
+    },
     "search":  {
                    "resultsFor":  "\"{{query}}\" को लागि नतिजाहरू",
                    "allProducts":  "सबै उत्पादनहरू",

@@ -1,4 +1,5 @@
 import i18n from 'i18next';
+import { api } from '../services/api';
 
 // How many units of each currency equal 1 USD
 export const CURRENCY_RATES = {
@@ -131,12 +132,10 @@ export async function detectAndSetGuestCurrency() {
     if (isManual) return; // Respect user's active choice
 
     try {
-        // Use ip-api.com (HTTP) as it's more permissive for localhost than ipapi.co
-        const res = await fetch('http://ip-api.com/json').catch(() => null);
-        if (!res || !res.ok) return;
-
-        const data = await res.json();
-        if (data && data.status === 'success') {
+        // Use our own backend endpoint to avoid CORS/Mixed Content issues
+        const data = await api('/system/detect-location').catch(() => null);
+        
+        if (data && data.countryCode) {
             const currency = COUNTRY_TO_CURRENCY[data.countryCode] || 'USD';
 
             // Update if different or not set
@@ -152,7 +151,7 @@ export async function detectAndSetGuestCurrency() {
             if (langMap[data.countryCode]) {
                 return {
                     suggestedLang: langMap[data.countryCode],
-                    country: data.country
+                    country: data.country || data.countryCode
                 };
             }
         }

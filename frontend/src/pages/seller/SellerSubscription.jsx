@@ -259,14 +259,14 @@ export default function SellerSubscription() {
                                         </div>
                                     ) : isUpgrade ? (
                                         <button
-                                            onClick={() => alert('Under development')}
+                                            onClick={() => alert(t('common.underDevelopment', 'Under development'))}
                                             className="w-full py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors flex items-center justify-center gap-2"
                                         >
                                             Upgrade <ArrowRight size={14} />
                                         </button>
                                     ) : (
                                         <button
-                                            onClick={() => alert('Under development')}
+                                            onClick={() => alert(t('common.underDevelopment', 'Under development'))}
                                             className="w-full py-2.5 bg-white border border-border-soft text-text-muted text-sm font-semibold rounded-xl hover:border-red-300 hover:text-red-500 transition-colors flex items-center justify-center gap-2"
                                         >
                                             <ArrowDown size={14} /> Downgrade

@@ -15,29 +15,29 @@
                 "aboutUs":  "Tentang Kami",
                 "contactUs":  "Hubungi Kami",
                 "cat":  {
-                            "electronics":  "Electronics",
-                            "fashion":  "Fashion",
-                            "homeLiving":  "Home \u0026 Living",
-                            "beauty":  "Beauty",
-                            "sports":  "Sports",
-                            "books":  "Books"
+                            "electronics":  "Elektronik",
+                            "fashion":  "Fesyen",
+                            "homeLiving":  "Rumah & Kediaman",
+                            "beauty":  "Kecantikan",
+                            "sports":  "Sukan",
+                            "books":  "Buku"
                         },
-                "pricing":  "Pricing",
-                "dashboard":  "Dashboard",
-                "myProducts":  "My Products",
-                "orders":  "Orders",
-                "blogManager":  "Blog Manager",
-                "storefront":  "Storefront",
-                "helpCenter":  "Help Center",
-                "overview":  "Overview",
-                "users":  "Users",
-                "sellers":  "Sellers",
-                "categories":  "Categories",
-                "platformBlog":  "Platform Blog",
-                "myOrders":  "My Orders",
-                "myReviews":  "My Reviews",
-                "settings":  "Settings",
-                "signOut":  "Sign out"
+                "pricing":  "Harga",
+                "dashboard":  "Papan Pemuka",
+                "myProducts":  "Produk Saya",
+                "orders":  "Pesanan",
+                "blogManager":  "Pengurus Blog",
+                "storefront":  "Etalase",
+                "helpCenter":  "Pusat Bantuan",
+                "overview":  "Gambaran Keseluruhan",
+                "users":  "Pengguna",
+                "sellers":  "Penjual",
+                "categories":  "Kategori",
+                "platformBlog":  "Blog Platform",
+                "myOrders":  "Pesanan Saya",
+                "myReviews":  "Ulasan Saya",
+                "settings":  "Tetapan",
+                "signOut":  "Log Keluar"
             },
     "home":  {
                  "heroTitle":  "Beli Segala-galanya",
@@ -190,95 +190,91 @@
                                   "BestSeller":  "Paling Laris"
                               },
                    "showLess":  "Kurang",
-                   "daysAgo":  "{{count}} days ago",
-                   "weeksAgo":  "{{count}} week ago",
-                   "daysAgo_plural":  "{{count}} days ago",
-                   "weeksAgo_plural":  "{{count}} weeks ago",
-                   "dateLocale":  "en-US",
-                   "notFound":  "Page Not Found",
-                   "notFoundDesc":  "The page you\u0027re looking for doesn\u0027t exist or has been moved.",
-                   "goHome":  "Go Home"
+                   "daysAgo":  "{{count}} hari lepas",
+                   "weeksAgo":  "{{count}} minggu lepas",
+                   "daysAgo_plural":  "{{count}} hari lepas",
+                   "weeksAgo_plural":  "{{count}} minggu lepas",
+                   "dateLocale":  "ms-MY",
+                   "notFound":  "Halaman Tidak Dijumpai",
+                   "notFoundDesc":  "Halaman yang anda cari tidak wujud atau telah dipindahkan.",
+                   "goHome":  "Kembali ke Laman Utama",
+                   "underDevelopment": "Dalam pembangunan"
                },
     "pricing":  {
                     "title":  "Harga \u0026 Pelan",
-                    "subtitle":  "Pilih peringkat yang sesuai untuk perniagaan anda. Tiada yuran transaksi.",
-                    "month":  "/ Month",
-                    "mostPopular":  "Most Popular",
-                    "aiSuperpower":  "AI Superpower",
-                    "faqTitle":  "Frequently Asked Questions",
+                    "subtitle":  "Pilih pelan yang sesuai untuk perniagaan anda. Tiada yuran transaksi.",
+                    "month":  "/ bulan",
+                    "mostPopular":  "Paling Popular",
+                    "aiSuperpower":  "Kuasa Super AI",
+                    "faqTitle":  "Soalan Lazim",
                     "cta":  {
-                                "free":  "Start for Free",
-                                "growth":  "Get Growth",
-                                "business":  "Get Business",
-                                "contact":  "Contact Sales"
+                                "free":  "Mula Percuma",
+                                "growth":  "Ambil Growth",
+                                "business":  "Ambil Business",
+                                "contact":  "Hubungi Jualan",
+                                "currentPlan": "Pelan Semasa",
+                                "upgrade": "Naik Taraf",
+                                "downgrade": "Turun Taraf"
                             },
                     "plans":  {
                                   "starter":  {
                                                   "name":  "Starter",
-                                                  "desc":  "Perfect for new sellers getting started.",
-                                                  "ai":  "AI Product Description Generator",
-                                                  "aiDesc":  "Instantly write engaging, SEO-friendly descriptions from a few keywords."
+                                                  "desc":  "Sesuai untuk penjual baharu yang baru bermula."
                                               },
                                   "growth":  {
                                                  "name":  "Growth",
-                                                 "desc":  "For growing brands needing professional tools.",
-                                                 "ai":  "AI Image Enhancer",
-                                                 "aiDesc":  "Automatically remove basic backgrounds and replace them with pure white or brand colors."
+                                                 "desc":  "Untuk jenama yang berkembang dan memerlukan alat profesional."
                                              },
                                   "business":  {
                                                    "name":  "Business",
-                                                   "desc":  "For established retailers scaling operations.",
-                                                   "ai":  "AI Support \u0026 Recommendations",
-                                                   "aiDesc":  "24/7 AI chatbot for buyer questions \u0026 smart \u0027Frequently Bought Together\u0027 recommendations."
+                                                   "desc":  "Untuk peruncit yang sudah mantap dan mengembangkan operasi."
                                                },
                                   "enterprise":  {
                                                      "name":  "Enterprise",
-                                                     "desc":  "For power sellers with massive operations.",
-                                                     "ai":  "AI Forecasting \u0026 Sentiment",
-                                                     "aiDesc":  "Predict inventory run-outs and analyze hundreds of reviews for instant, actionable summaries."
+                                                     "desc":  "Untuk penjual besar dengan operasi yang meluas."
                                                  }
                               },
                     "features":  {
-                                     "fee":  "100% sales kept (0% fee)",
-                                     "subdomain":  "Standard platform subdomain",
-                                     "builder":  "Basic drag-and-drop builder",
-                                     "limit10":  "Max 10 product listings",
-                                     "branding":  "Mandatory Toroongo footer branding",
-                                     "support":  "Standard community/KB support",
-                                     "domain":  "Custom domain mapping",
-                                     "whiteLabel":  "White-labeled experience (No branding)",
-                                     "limit100":  "Max 100 product listings",
-                                     "staff2":  "2 staff accounts",
-                                     "templates":  "Premium layout templates",
-                                     "emailSupport":  "Standard email customer support",
-                                     "limitUnlimited":  "Unlimited product listings",
-                                     "blog":  "Built-in blogging engine",
-                                     "cart":  "Automated abandoned cart emails",
-                                     "analytics":  "Sales analytics dashboard",
-                                     "staff5":  "5 staff accounts with roles",
-                                     "liveChat":  "Priority live chat support",
-                                     "api":  "Full API access (accounting/ERP)",
-                                     "custom":  "Custom CSS and HTML injection",
-                                     "warehouse":  "Multi-warehouse inventory management",
-                                     "staffUnlimited":  "Unlimited staff accounts",
-                                     "manager":  "Dedicated account manager"
+                                     "fee":  "100% hasil jualan disimpan (0% yuran)",
+                                     "subdomain":  "Subdomain platform standard",
+                                     "builder":  "Pembina tarik-dan-lepas asas",
+                                     "limit10":  "Maksimum 10 senarai produk",
+                                     "branding":  "Penjenamaan Toroongo di kaki halaman mandatori",
+                                     "support":  "Sokongan komuniti standard",
+                                     "domain":  "Pemetaan domain tersuai",
+                                     "whiteLabel":  "Pengalaman label putih (Tiada penjenamaan)",
+                                     "limit100":  "Maksimum 100 senarai produk",
+                                     "staff2":  "2 akaun staf",
+                                     "templates":  "Templat reka letak premium",
+                                     "emailSupport":  "Sokongan pelanggan e-mel standard",
+                                     "limitUnlimited":  "Senarai produk tanpa had",
+                                     "blog":  "Enjin blogging terbina dalam",
+                                     "cart":  "E-mel troli ditinggalkan automatik",
+                                     "analytics":  "Papan pemuka analitik jualan",
+                                     "staff5":  "5 akaun staf",
+                                     "liveChat":  "Sokongan sembang langsung utama",
+                                     "api":  "Akses API penuh",
+                                     "custom":  "Suntikan CSS dan HTML tersuai",
+                                     "warehouse":  "Pengurusan inventori berbilang gudang",
+                                     "staffUnlimited":  "Akaun staf tanpa had",
+                                     "manager":  "Pengurus akaun dedikasi"
                                  },
                     "faq":  {
                                 "fee":  {
-                                            "q":  "Are there any transaction fees?",
-                                            "a":  "No! You keep 100% of your sales with 0% platform transaction fees on all plans."
+                                            "q":  "Adakah terdapat yuran transaksi?",
+                                            "a":  "Tidak! Anda menyimpan 100% hasil jualan anda dengan 0% yuran transaksi platform untuk semua pelan."
                                         },
                                 "countries":  {
-                                                  "q":  "Which countries do you support?",
-                                                  "a":  "Toroongo is a global platform accessible from anywhere in the world! However, our platform is specially tailored and friendly for sellers and buyers in 6 core markets: Bangladesh, Nepal, Malaysia, United Arab Emirates (UAE), Indonesia, and India."
+                                                  "q":  "Negara mana yang kami sokong?",
+                                                  "a":  "Toroongo adalah platform global yang boleh diakses dari mana-mana sahaja di dunia! Walau bagaimanapun, platform kami disesuaikan khas dan mesra untuk penjual dan pembeli di 6 pasaran utama: Bangladesh, Nepal, Malaysia, Emiriah Arab Bersatu (UAE), Indonesia, dan India."
                                               },
                                 "change":  {
-                                               "q":  "Can I change my plan later?",
-                                               "a":  "Yes, you can upgrade or downgrade your plan at any time from your seller dashboard."
+                                               "q":  "Bolehkah saya menukar pelan saya kemudian?",
+                                               "a":  "Ya, anda boleh menaik taraf atau menurunkan taraf pelan anda pada bila-bila masa dari papan pemuka penjual anda."
                                            },
                                 "ai":  {
-                                           "q":  "How do the AI features work?",
-                                           "a":  "Each tier unlocks powerful, easy-to-use AI tools designed specifically to save you time and increase your sales."
+                                           "q":  "Bagaimana ciri AI berfungsi?",
+                                           "a":  "Setiap peringkat membuka kunci alat AI yang berkuasa dan mudah digunakan, direka khusus untuk menjimatkan masa anda dan meningkatkan jualan anda."
                                        }
                             }
                 },

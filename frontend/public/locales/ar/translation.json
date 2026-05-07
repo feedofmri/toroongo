@@ -15,29 +15,29 @@
                 "aboutUs":  "من نحن",
                 "contactUs":  "اتصل بنا",
                 "cat":  {
-                            "electronics":  "Electronics",
-                            "fashion":  "Fashion",
-                            "homeLiving":  "Home \u0026 Living",
-                            "beauty":  "Beauty",
-                            "sports":  "Sports",
-                            "books":  "Books"
+                            "electronics":  "الإلكترونيات",
+                            "fashion":  "الأزياء",
+                            "homeLiving":  "المنزل والمعيشة",
+                            "beauty":  "الجمال",
+                            "sports":  "الرياضة",
+                            "books":  "الكتب"
                         },
-                "pricing":  "Pricing",
-                "dashboard":  "Dashboard",
-                "myProducts":  "My Products",
-                "orders":  "Orders",
-                "blogManager":  "Blog Manager",
-                "storefront":  "Storefront",
-                "helpCenter":  "Help Center",
-                "overview":  "Overview",
-                "users":  "Users",
-                "sellers":  "Sellers",
-                "categories":  "Categories",
-                "platformBlog":  "Platform Blog",
-                "myOrders":  "My Orders",
-                "myReviews":  "My Reviews",
-                "settings":  "Settings",
-                "signOut":  "Sign out"
+                "pricing":  "الأسعار",
+                "dashboard":  "لوحة التحكم",
+                "myProducts":  "منتجاتي",
+                "orders":  "الطلبات",
+                "blogManager":  "مدير المدونة",
+                "storefront":  "واجهة المتجر",
+                "helpCenter":  "مركز المساعدة",
+                "overview":  "نظرة عامة",
+                "users":  "المستخدمين",
+                "sellers":  "البائعين",
+                "categories":  "الفئات",
+                "platformBlog":  "مدونة المنصة",
+                "myOrders":  "طلباتي",
+                "myReviews":  "مراجعاتي",
+                "settings":  "الإعدادات",
+                "signOut":  "تسجيل الخروج"
             },
     "home":  {
                  "heroTitle":  "تسوق كل شيء",
@@ -202,83 +202,86 @@
     "pricing":  {
                     "title":  "الأسعار والخطط",
                     "subtitle":  "اختر الباقة المثالية لعملك. لا توجد رسوم معاملات على الإطلاق.",
-                    "month":  "/ Month",
-                    "mostPopular":  "Most Popular",
-                    "aiSuperpower":  "AI Superpower",
-                    "faqTitle":  "Frequently Asked Questions",
+                    "month":  "/ شهرياً",
+                    "mostPopular":  "الأكثر شعبية",
+                    "aiSuperpower":  "قوى الذكاء الاصطناعي",
+                    "faqTitle":  "الأسئلة الشائعة",
                     "cta":  {
-                                "free":  "Start for Free",
-                                "growth":  "Get Growth",
-                                "business":  "Get Business",
-                                "contact":  "Contact Sales"
+                                "free":  "ابدأ مجاناً",
+                                "growth":  "احصل على باقة النمو",
+                                "business":  "احصل على باقة الأعمال",
+                                "contact":  "اتصل بالمبيعات",
+                                "currentPlan": "الخطة الحالية",
+                                "upgrade": "ترقية",
+                                "downgrade": "تخفيض"
                             },
                     "plans":  {
                                   "starter":  {
-                                                  "name":  "Starter",
-                                                  "desc":  "Perfect for new sellers getting started.",
-                                                  "ai":  "AI Product Description Generator",
-                                                  "aiDesc":  "Instantly write engaging, SEO-friendly descriptions from a few keywords."
+                                                  "name":  "المبتدئ",
+                                                  "desc":  "مثالية للبائعين الجدد في بداياتهم.",
+                                                  "ai":  "مولد أوصاف المنتجات بالذكاء الاصطناعي",
+                                                  "aiDesc":  "اكتب أوصافاً جذابة وصديقة لمحركات البحث فوراً من بضع كلمات مفتاحية."
                                               },
                                   "growth":  {
-                                                 "name":  "Growth",
-                                                 "desc":  "For growing brands needing professional tools.",
-                                                 "ai":  "AI Image Enhancer",
-                                                 "aiDesc":  "Automatically remove basic backgrounds and replace them with pure white or brand colors."
+                                                 "name":  "النمو",
+                                                 "desc":  "للعلامات التجارية المتنامية التي تحتاج أدوات احترافية.",
+                                                 "ai":  "محسن الصور بالذكاء الاصطناعي",
+                                                 "aiDesc":  "إزالة الخلفيات الأساسية تلقائياً واستبدالها باللون الأبيض النقي أو ألوان العلامة التجارية."
                                              },
                                   "business":  {
-                                                   "name":  "Business",
-                                                   "desc":  "For established retailers scaling operations.",
-                                                   "ai":  "AI Support \u0026 Recommendations",
-                                                   "aiDesc":  "24/7 AI chatbot for buyer questions \u0026 smart \u0027Frequently Bought Together\u0027 recommendations."
+                                                   "name":  "الأعمال",
+                                                   "desc":  "لتجار التجزئة الراسخين الذين يوسعون عملياتهم.",
+                                                   "ai":  "دعم وتوصيات بالذكاء الاصطناعي",
+                                                   "aiDesc":  "روبوت دردشة 24/7 لأسئلة المشترين وتوصيات ذكية 'غالباً ما يتم شراؤها معاً'."
                                                },
                                   "enterprise":  {
-                                                     "name":  "Enterprise",
-                                                     "desc":  "For power sellers with massive operations.",
-                                                     "ai":  "AI Forecasting \u0026 Sentiment",
-                                                     "aiDesc":  "Predict inventory run-outs and analyze hundreds of reviews for instant, actionable summaries."
+                                                     "name":  "المؤسسات",
+                                                     "desc":  "لكبار البائعين ذوي العمليات الضخمة.",
+                                                     "ai":  "تنبؤ وتحليل المشاعر بالذكاء الاصطناعي",
+                                                     "aiDesc":  "توقع نفاد المخزون وتحليل مئات المراجعات لملخصات فورية وقابلة للتنفيذ."
                                                  }
                               },
                     "features":  {
-                                     "fee":  "100% sales kept (0% fee)",
-                                     "subdomain":  "Standard platform subdomain",
-                                     "builder":  "Basic drag-and-drop builder",
-                                     "limit10":  "Max 10 product listings",
-                                     "branding":  "Mandatory Toroongo footer branding",
-                                     "support":  "Standard community/KB support",
-                                     "domain":  "Custom domain mapping",
-                                     "whiteLabel":  "White-labeled experience (No branding)",
-                                     "limit100":  "Max 100 product listings",
-                                     "staff2":  "2 staff accounts",
-                                     "templates":  "Premium layout templates",
-                                     "emailSupport":  "Standard email customer support",
-                                     "limitUnlimited":  "Unlimited product listings",
-                                     "blog":  "Built-in blogging engine",
-                                     "cart":  "Automated abandoned cart emails",
-                                     "analytics":  "Sales analytics dashboard",
-                                     "staff5":  "5 staff accounts with roles",
-                                     "liveChat":  "Priority live chat support",
-                                     "api":  "Full API access (accounting/ERP)",
-                                     "custom":  "Custom CSS and HTML injection",
-                                     "warehouse":  "Multi-warehouse inventory management",
-                                     "staffUnlimited":  "Unlimited staff accounts",
-                                     "manager":  "Dedicated account manager"
+                                     "fee":  "احتفظ بـ 100% من مبيعاتك (0% عمولة)",
+                                     "subdomain":  "نطاق فرعي قياسي للمنصة",
+                                     "builder":  "أداة بناء بسيطة بالسحب والإفلات",
+                                     "limit10":  "بحد أقصى 10 منتجات",
+                                     "branding":  "علامة تورونغو إلزامية في التذييل",
+                                     "support":  "دعم قياسي من المجتمع",
+                                     "domain":  "ربط نطاق خاص",
+                                     "whiteLabel":  "تجربة بدون علامة تجارية (White-label)",
+                                     "limit100":  "بحد أقصى 100 منتج",
+                                     "staff2":  "2 حسابات موظفين",
+                                     "templates":  "قوالب تخطيط مميزة",
+                                     "emailSupport":  "دعم قياسي عبر البريد الإلكتروني",
+                                     "limitUnlimited":  "عدد غير محدود من المنتجات",
+                                     "blog":  "محرك مدونة مدمج",
+                                     "cart":  "رسائل بريد إلكتروني تلقائية للسلال المتروكة",
+                                     "analytics":  "لوحة تحكم لتحليلات المبيعات",
+                                     "staff5":  "5 حسابات موظفين مع أدوار",
+                                     "liveChat":  "دعم دردشة مباشرة ذو أولوية",
+                                     "api":  "وصول كامل لواجهة برمجة التطبيقات (API)",
+                                     "custom":  "حقن CSS و HTML مخصص",
+                                     "warehouse":  "إدارة مخازن متعددة",
+                                     "staffUnlimited":  "عدد غير محدود من حسابات الموظفين",
+                                     "manager":  "مدير حساب مخصص"
                                  },
                     "faq":  {
                                 "fee":  {
-                                            "q":  "Are there any transaction fees?",
-                                            "a":  "No! You keep 100% of your sales with 0% platform transaction fees on all plans."
+                                            "q":  "هل هناك أي رسوم معاملات؟",
+                                            "a":  "لا! تحتفظ بـ 100% من مبيعاتك مع 0% رسوم معاملات للمنصة في جميع الخطط."
                                         },
                                 "countries":  {
-                                                  "q":  "Which countries do you support?",
-                                                  "a":  "Toroongo is a global platform accessible from anywhere in the world! However, our platform is specially tailored and friendly for sellers and buyers in 6 core markets: Bangladesh, Nepal, Malaysia, United Arab Emirates (UAE), Indonesia, and India."
+                                                  "q":  "ما هي الدول التي تدعمونها؟",
+                                                  "a":  "تورونغو هي منصة عالمية يمكن الوصول إليها من أي مكان في العالم! ومع ذلك، فإن منصتنا مصممة خصيصاً وصديقة للبائعين والمشترين في 6 أسواق رئيسية: بنغلاديش، نيبال، ماليزيا، الإمارات العربية المتحدة، إندونيسيا، والهند."
                                               },
                                 "change":  {
-                                               "q":  "Can I change my plan later?",
-                                               "a":  "Yes, you can upgrade or downgrade your plan at any time from your seller dashboard."
+                                               "q":  "هل يمكنني تغيير خطتي لاحقاً؟",
+                                               "a":  "نعم، يمكنك ترقية أو تخفيض خطتك في أي وقت من لوحة تحكم البائع الخاصة بك."
                                            },
                                 "ai":  {
-                                           "q":  "How do the AI features work?",
-                                           "a":  "Each tier unlocks powerful, easy-to-use AI tools designed specifically to save you time and increase your sales."
+                                           "q":  "كيف تعمل ميزات الذكاء الاصطناعي؟",
+                                           "a":  "تفتح كل فئة أدوات ذكاء اصطناعي قوية وسهلة الاستخدام مصممة خصيصاً لتوفير وقتك وزيادة مبيعاتك."
                                        }
                             }
                 },
@@ -1410,96 +1413,96 @@
                                            "expired":  "expired",
                                            "paused":  "paused"
                                        },
-                            "noDiscounts":  "No discount codes found",
-                            "noDiscountsDesc":  "Create your first discount code to get started",
+                            "noDiscounts":  "لم يتم العثور على رموز خصم",
+                            "noDiscountsDesc":  "قم بإنشاء أول رمز خصم لك للبدء",
                             "upgrade":  {
-                                            "title":  "Discount Rules",
-                                            "message":  "Create discount codes and promotional offers to boost your sales. Upgrade to Pro to unlock this feature."
+                                            "title":  "قواعد الخصم",
+                                            "message":  "قم بإنشاء رموز خصم وعروض ترويجية لزيادة مبيعاتك. قم بالترقية إلى باقة النمو لفتح هذه الميزة."
                                         }
                         },
     "sellerStaff":  {
-                        "title":  "Staff Accounts",
-                        "staffCount":  "{{count}} / {{max}} staff members",
-                        "staffCountUnlimited":  "{{count}} staff members (Unlimited)",
-                        "inviteBtn":  "Invite Staff Member",
+                        "title":  "حسابات الموظفين",
+                        "staffCount":  "{{count}} / {{max}} من الموظفين",
+                        "staffCountUnlimited":  "{{count}} من الموظفين (غير محدود)",
+                        "inviteBtn":  "دعوة موظف جديد",
                         "limitReached":  {
-                                             "title":  "Staff limit reached",
-                                             "message":  "Your Business plan supports up to {{max}} staff members. Upgrade to Enterprise for unlimited staff accounts."
+                                             "title":  "تم الوصول إلى حد الموظفين",
+                                             "message":  "تدعم خطة الأعمال الخاصة بك ما يصل إلى {{max}} من الموظفين. قم بالترقية إلى باقة المؤسسات للحصول على حسابات موظفين غير محدودة."
                                          },
                         "modal":  {
-                                      "title":  "Invite Staff Member",
-                                      "nameLabel":  "Full Name",
-                                      "emailLabel":  "Email Address",
-                                      "roleLabel":  "Role",
-                                      "roleManager":  "Manager — Full access",
-                                      "roleEditor":  "Editor — Products \u0026 content",
-                                      "roleSupport":  "Support — Orders \u0026 messages",
-                                      "roleViewer":  "Viewer — Read-only",
-                                      "cancel":  "Cancel",
-                                      "sendBtn":  "Send Invite"
+                                      "title":  "دعوة موظف جديد",
+                                      "nameLabel":  "الاسم الكامل",
+                                      "emailLabel":  "عنوان البريد الإلكتروني",
+                                      "roleLabel":  "الدور",
+                                      "roleManager":  "مدير — وصول كامل",
+                                      "roleEditor":  "محرر — المنتجات والمحتوى",
+                                      "roleSupport":  "دعم — الطلبات والرسائل",
+                                      "roleViewer":  "مشاهد — للقراءة فقط",
+                                      "cancel":  "إلغاء",
+                                      "sendBtn":  "إرسال الدعوة"
                                   },
-                        "searchPlaceholder":  "Search staff members...",
+                        "searchPlaceholder":  "البحث عن الموظفين...",
                         "card":  {
-                                     "lastActive":  "Last active: {{time}}",
-                                     "remove":  "Remove",
-                                     "permissions":  "Permissions",
-                                     "initials":  "Initials",
-                                     "justNow":  "Just now",
-                                     "hoursAgo":  "{{count}}h ago",
-                                     "daysAgo":  "{{count}}d ago"
+                                     "lastActive":  "آخر نشاط: {{time}}",
+                                     "remove":  "إزالة",
+                                     "permissions":  "الأذونات",
+                                     "initials":  "الأحرف الأولى",
+                                     "justNow":  "الآن",
+                                     "hoursAgo":  "منذ {{count}} ساعة",
+                                     "daysAgo":  "منذ {{count}} يوم"
                                  },
                         "roles":  {
-                                      "manager":  "Manager",
-                                      "editor":  "Editor",
-                                      "support":  "Support",
-                                      "viewer":  "Viewer"
+                                      "manager":  "مدير",
+                                      "editor":  "محرر",
+                                      "support":  "دعم",
+                                      "viewer":  "مشاهد"
                                   },
                         "status":  {
-                                       "active":  "Active",
-                                       "pending":  "Pending",
-                                       "inactive":  "Inactive"
+                                       "active":  "نشط",
+                                       "pending":  "قيد الانتظار",
+                                       "inactive":  "غير نشط"
                                    },
-                        "noStaff":  "No staff members found",
-                        "noStaffDesc":  "Invite your first team member to get started",
+                        "noStaff":  "لم يتم العثور على موظفين",
+                        "noStaffDesc":  "قم بدعوة أول عضو في فريقك للبدء",
                         "upgrade":  {
-                                        "title":  "Staff Accounts",
-                                        "message":  "Add team members with role-based permissions to help manage your store. Upgrade to Business to unlock this feature."
+                                        "title":  "حسابات الموظفين",
+                                        "message":  "أضف أعضاء الفريق مع أذونات قائمة على الأدوار للمساعدة في إدارة متجرك. قم بالترقية إلى باقة النمو لفتح هذه الميزة."
                                     },
                         "permissions":  {
-                                            "orders":  "Orders",
-                                            "products":  "Products",
-                                            "analytics":  "Analytics",
-                                            "messages":  "Messages",
-                                            "blog":  "Blog",
-                                            "settings":  "Settings"
+                                            "orders":  "الطلبات",
+                                            "products":  "المنتجات",
+                                            "analytics":  "التحليلات",
+                                            "messages":  "الرسائل",
+                                            "blog":  "المدونة",
+                                            "settings":  "الإعدادات"
                                         }
                     },
     "sellerAiHub":  {
-                        "title":  "AI Superpowers",
-                        "subtitle":  "{{unlocked}} AI tools unlocked • {{locked}} available with upgrade",
-                        "activeTitle":  "Your Active AI Tools",
-                        "availableTitle":  "Available with Upgrade",
-                        "unlockMore":  "Unlock More AI Superpowers",
+                        "title":  "قوى الذكاء الاصطناعي",
+                        "subtitle":  "{{unlocked}} أدوات مفعلة • {{locked}} متوفرة مع الترقية",
+                        "activeTitle":  "أدوات الذكاء الاصطناعي النشطة",
+                        "availableTitle":  "متوفر مع الترقية",
+                        "unlockMore":  "فتح المزيد من قوى الذكاء الاصطناعي",
                         "tool":  {
-                                     "unlocked":  "Unlocked",
-                                     "required":  "{{plan}}+ required",
-                                     "tryIt":  "Try It Now",
-                                     "close":  "Close Tool",
-                                     "activeRunning":  "Active and running on your storefront"
+                                     "unlocked":  "مفعلة",
+                                     "required":  "يتطلب {{plan}} فأعلى",
+                                     "tryIt":  "جربه الآن",
+                                     "close":  "إغلاق الأداة",
+                                     "activeRunning":  "نشط ويعمل على واجهة متجرك"
                                  },
                         "demo":  {
-                                     "keywordsLabel":  "Enter keywords or product name",
-                                     "keywordsPlaceholder":  "e.g. leather messenger bag, handmade, vintage",
-                                     "generate":  "Generate",
-                                     "aiGenerated":  "AI Generated",
-                                     "imageDrop":  "Drop a product image to enhance",
-                                     "tryEnhancement":  "Try Demo Enhancement",
-                                     "processing":  "Processing...",
-                                     "bgRemoved":  "Background Removed",
-                                     "upscaled":  "Upscaled 2x",
-                                     "whiteBg":  "White Background",
-                                     "translateBtn":  "Translate Product Catalog",
-                                     "translating":  "Translating catalog..."
+                                     "keywordsLabel":  "أدخل الكلمات المفتاحية أو اسم المنتج",
+                                     "keywordsPlaceholder":  "مثلاً: حقيبة جلدية، مصنوعة يدوياً، كلاسيكية",
+                                     "generate":  "توليد",
+                                     "aiGenerated":  "تم توليده بالذكاء الاصطناعي",
+                                     "imageDrop":  "أفلت صورة المنتج لتحسينها",
+                                     "tryEnhancement":  "تجربة تحسين العرض",
+                                     "processing":  "جاري المعالجة...",
+                                     "bgRemoved":  "تمت إزالة الخلفية",
+                                     "upscaled":  "تم التكبير 2x",
+                                     "whiteBg":  "خلفية بيضاء",
+                                     "translateBtn":  "ترجمة كتالوج المنتجات",
+                                     "translating":  "جاري ترجمة الكتالوج..."
                                  }
                     }
 }

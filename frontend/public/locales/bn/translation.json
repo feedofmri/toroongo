@@ -30,14 +30,14 @@
         "aboutUs": "আমাদের সম্পর্কে",
         "contactUs": "যোগাযোগ করুন",
         "cat": {
-            "electronics": "Electronics",
-            "fashion": "Fashion",
-            "homeLiving": "Home \u0026 Living",
-            "beauty": "Beauty",
-            "sports": "Sports",
-            "books": "Books"
+            "electronics": "ইলেকট্রনিক্স",
+            "fashion": "ফ্যাশন",
+            "homeLiving": "হোম অ্যান্ড লিভিং",
+            "beauty": "বিউটি",
+            "sports": "স্পোর্টস",
+            "books": "বই"
         },
-        "orders": "Orders"
+        "orders": "অর্ডার"
     },
     "common": {
         "viewAll": "সব দেখুন",
@@ -55,10 +55,11 @@
         "weeksAgo": "{{count}} week ago",
         "daysAgo_plural": "{{count}} days ago",
         "weeksAgo_plural": "{{count}} weeks ago",
-        "dateLocale": "en-US",
-        "notFound": "Page Not Found",
-        "notFoundDesc": "The page you\u0027re looking for doesn\u0027t exist or has been moved.",
-        "goHome": "Go Home"
+        "dateLocale": "bn-BD",
+        "notFound": "পৃষ্ঠাটি পাওয়া যায়নি",
+        "notFoundDesc": "আপনি যে পৃষ্ঠাটি খুঁজছেন তা নেই অথবা সরিয়ে ফেলা হয়েছে।",
+        "goHome": "হোমে ফিরে যান",
+        "underDevelopment": "উন্নয়নাধীন"
     },
     "home": {
         "heroTitle": "সবকিছু কিনুন",
@@ -678,10 +679,20 @@
             "dashboard": "ড্যাশবোর্ড",
             "products": "পণ্যসমূহ",
             "orders": "অর্ডারসমূহ",
+            "discounts": "ডিসকাউন্ট",
+            "abandonedCarts": "পরিত্যক্ত কার্ট",
             "blogPosts": "ব্লগ পোস্ট",
+            "staff": "স্টাফ",
+            "domain": "ডোমেইন",
+            "socialCommerce": "সোশ্যাল কমার্স",
             "finance": "অর্থায়ন",
-            "messages": "বার্তা",
+            "apiWebhooks": "API ও ওয়েবহুক",
+            "affiliates": "অ্যাফিলিয়েট",
+            "importExport": "ইমপোর্ট / এক্সপোর্ট",
+            "aiTools": "AI টুলস",
+            "messages": "মেসেজ",
             "storefront": "স্টোরফ্রন্ট",
+            "subscription": "সাবস্ক্রিপশন",
             "settings": "সেটিংস",
             "viewStore": "আমার স্টোর দেখুন"
         },
@@ -1256,31 +1267,149 @@
             "status": "অবস্থা"
         }
     },
-    "sellerStaff": {
-        "title": "স্টাফ ব্যবস্থাপনা",
-        "subtitle": "আপনার টিমের সদস্য এবং তাদের অনুমতি পরিচালনা করুন।",
-        "addMember": "স্টাফ মেম্বার যোগ করুন",
-        "table": {
-            "name": "নাম",
-            "email": "ইমেল",
-            "role": "ভুমিকা",
-            "status": "অবস্থা",
-            "actions": "অ্যাকশন"
+    "sellerStaff":  {
+                        "title":  "স্টাফ অ্যাকাউন্ট",
+                        "staffCount":  "{{count}} / {{max}} জন স্টাফ",
+                        "staffCountUnlimited":  "{{count}} জন স্টাফ (সীমাহীন)",
+                        "inviteBtn":  "স্টাফ মেম্বার ইনভাইট করুন",
+                        "limitReached":  {
+                                             "title":  "স্টাফ সীমা পৌঁছেছে",
+                                             "message":  "আপনার বিজনেস প্ল্যান {{max}} জন পর্যন্ত স্টাফ সাপোর্ট করে। সীমাহীন স্টাফ অ্যাকাউন্টের জন্য এন্টারপ্রাইজে আপগ্রেড করুন।"
+                                         },
+                        "modal":  {
+                                      "title":  "স্টাফ মেম্বার ইনভাইট করুন",
+                                      "nameLabel":  "পুরো নাম",
+                                      "emailLabel":  "ইমেল ঠিকানা",
+                                      "roleLabel":  "ভূমিকা",
+                                      "roleManager":  "ম্যানেজার — সম্পূর্ণ অ্যাক্সেস",
+                                      "roleEditor":  "এডিটর — পণ্য ও কন্টেন্ট",
+                                      "roleSupport":  "সাপোর্ট — অর্ডার ও মেসেজ",
+                                      "roleViewer":  "ভিউয়ার — শুধু দেখার জন্য",
+                                      "cancel":  "বাতিল",
+                                      "sendBtn":  "ইনভাইট পাঠান"
+                                  },
+                        "searchPlaceholder":  "স্টাফ মেম্বার খুঁজুন...",
+                        "card":  {
+                                     "lastActive":  "শেষ সক্রিয়: {{time}}",
+                                     "remove":  "সরান",
+                                     "permissions":  "অনুমতি",
+                                     "initials":  "আদ্যক্ষর",
+                                     "justNow":  "এইমাত্র",
+                                     "hoursAgo":  "{{count}} ঘণ্টা আগে",
+                                     "daysAgo":  "{{count}} দিন আগে"
+                                 },
+                        "roles":  {
+                                      "manager":  "ম্যানেজার",
+                                      "editor":  "এডিটর",
+                                      "support":  "সাপোর্ট",
+                                      "viewer":  "ভিউয়ার"
+                                  },
+                        "status":  {
+                                       "active":  "সক্রিয়",
+                                       "pending":  "পেন্ডিং",
+                                       "inactive":  "নিষ্ক্রিয়"
+                                   },
+                        "noStaff":  "কোনো স্টাফ মেম্বার পাওয়া যায়নি",
+                        "noStaffDesc":  "শুরু করতে আপনার প্রথম টিম মেম্বারকে ইনভাইট করুন",
+                        "upgrade":  {
+                                        "title":  "স্টাফ অ্যাকাউন্ট",
+                                        "message":  "আপনার স্টোর পরিচালনায় সহায়তা করতে ভূমিকা-ভিত্তিক অনুমতি সহ টিমের সদস্য যোগ করুন। এই ফিচারটি আনলক করতে বিজনেস প্ল্যানে আপগ্রেড করুন।"
+                                    },
+                        "permissions":  {
+                                            "orders":  "অর্ডার",
+                                            "products":  "পণ্য",
+                                            "analytics":  "বিশ্লেষণ",
+                                            "messages":  "মেসেজ",
+                                            "blog":  "ব্লগ",
+                                            "settings":  "সেটিংস"
+                                        }
+                    },
+    "sellerAiHub":  {
+                        "title":  "AI সুপারপাওয়ার",
+                        "subtitle":  "{{unlocked}}টি AI টুল আনলক করা হয়েছে • {{locked}}টি আপগ্রেডের সাথে উপলব্ধ",
+                        "activeTitle":  "আপনার সক্রিয় AI টুলস",
+                        "availableTitle":  "আপগ্রেডের সাথে উপলব্ধ",
+                        "unlockMore":  "আরও AI সুপারপাওয়ার আনলক করুন",
+                        "tool":  {
+                                     "unlocked":  "আনলক করা হয়েছে",
+                                     "required":  "{{plan}}+ প্রয়োজন",
+                                     "tryIt":  "এখনই চেষ্টা করুন",
+                                     "close":  "টুল বন্ধ করুন",
+                                     "activeRunning":  "আপনার স্টোরফ্রন্টে সক্রিয় এবং চলছে"
+                                 },
+                        "demo":  {
+                                     "keywordsLabel":  "কীওয়ার্ড বা পণ্যের নাম লিখুন",
+                                     "keywordsPlaceholder":  "যেমন: চামড়ার মেসেঞ্জার ব্যাগ, হাতে তৈরি, ভিনটেজ",
+                                     "generate":  "জেনারেট করুন",
+                                     "aiGenerated":  "AI দ্বারা তৈরি",
+                                     "imageDrop":  "উন্নত করতে পণ্যের ছবি এখানে ফেলুন",
+                                     "tryEnhancement":  "ডেমো এনহ্যান্সমেন্ট চেষ্টা করুন",
+                                     "processing":  "প্রসেসিং হচ্ছে...",
+                                     "bgRemoved":  "ব্যাকগ্রাউন্ড সরানো হয়েছে",
+                                     "upscaled":  "২ গুণ বড় করা হয়েছে",
+                                     "whiteBg":  "সাদা ব্যাকগ্রাউন্ড",
+                                     "translateBtn":  "পণ্য ক্যাটালগ অনুবাদ করুন",
+                                     "translating":  "ক্যাটালগ অনুবাদ করা হচ্ছে..."
+                                 }
+                    },
+    "pricing": {
+        "title": "মূল্য এবং পরিকল্পনা",
+        "subtitle": "আপনার ব্যবসার জন্য নিখুঁত পরিকল্পনা চয়ন করুন। কোনো লেনদেন ফি নেই।",
+        "month": "/ মাস",
+        "mostPopular": "সবচেয়ে জনপ্রিয়",
+        "aiSuperpower": "AI সুপারপাওয়ার",
+        "faqTitle": "সচরাচর জিজ্ঞাসিত প্রশ্নাবলী",
+        "cta": {
+            "free": "বিনামূল্যে শুরু করুন",
+            "growth": "গ্রোথ নিন",
+            "business": "বিজনেস নিন",
+            "contact": "বিক্রয়ের জন্য যোগাযোগ করুন",
+            "currentPlan": "বর্তমান পরিকল্পনা",
+            "upgrade": "আপগ্রেড",
+            "downgrade": "ডাউনগ্রেড"
         },
-        "roles": {
-            "admin": "অ্যাডমিন",
-            "manager": "ম্যানেজার",
-            "support": "সাপোর্ট"
-        }
-    },
-    "sellerAiHub": {
-        "title": "AI হাব",
-        "subtitle": "আপনার স্টোর এবং বিক্রয় অপ্টিমাইজ করতে AI-এর শক্তি ব্যবহার করুন।",
+        "plans": {
+            "starter": {
+                "name": "স্টার্টার",
+                "desc": "নতুন বিক্রেতাদের জন্য নিখুঁত।"
+            },
+            "growth": {
+                "name": "গ্রোথ",
+                "desc": "পেশাদার টুলের প্রয়োজন এমন ক্রমবর্ধমান ব্র্যান্ডের জন্য।"
+            },
+            "business": {
+                "name": "বিজনেস",
+                "desc": "অপারেশন স্কেল করছে এমন প্রতিষ্ঠিত খুচরা বিক্রেতাদের জন্য।"
+            },
+            "enterprise": {
+                "name": "এন্টারপ্রাইজ",
+                "desc": "বিশাল অপারেশন সহ পাওয়ার বিক্রেতাদের জন্য।"
+            }
+        },
         "features": {
-            "descriptionGenerator": "বিবরণ জেনারেটর",
-            "imageEnhancer": "ইমেজ এনহ্যান্সার",
-            "salesForecasting": "সেলস ফোরকাস্টিং",
-            "sentimentAnalysis": "সেন্টিমেন্ট অ্যানালিসিস"
+            "fee": "১০০% বিক্রয় আপনার (০% ফি)",
+            "subdomain": "স্ট্যান্ডার্ড প্ল্যাটফর্ম সাবডোমেইন",
+            "builder": "বেসিক ড্র্যাগ-অ্যান্ড-ড্রপ বিল্ডার",
+            "limit10": "সর্বোচ্চ ১০টি পণ্য তালিকা",
+            "branding": "বাধ্যতামূলক টোরোঙ্গো ফুটার ব্র্যান্ডিং",
+            "support": "স্ট্যান্ডার্ড কমিউনিটি সাপোর্ট",
+            "domain": "কাস্টম ডোমেইন ম্যাপিং",
+            "whiteLabel": "হোয়াইট-লেবেল অভিজ্ঞতা (কোনো ব্র্যান্ডিং নেই)",
+            "limit100": "সর্বোচ্চ ১০০টি পণ্য তালিকা",
+            "staff2": "২টি স্টাফ অ্যাকাউন্ট",
+            "templates": "প্রিমিয়াম লেআউট টেমপ্লেট",
+            "emailSupport": "ইমেল গ্রাহক সাপোর্ট",
+            "limitUnlimited": "সীমাহীন পণ্য তালিকা",
+            "blog": "ইন-বিল্ট ব্লগিং ইঞ্জিন",
+            "cart": "স্বয়ংক্রিয় পরিত্যক্ত কার্ট ইমেল",
+            "analytics": "বিক্রয় বিশ্লেষণ ড্যাশবোর্ড",
+            "staff5": "৫টি স্টাফ অ্যাকাউন্ট",
+            "liveChat": "অগ্রাধিকার লাইভ চ্যাট সাপোর্ট",
+            "api": "সম্পূর্ণ API অ্যাক্সেস",
+            "custom": "কাস্টম CSS এবং HTML ইনজেকশন",
+            "warehouse": "মাল্টি-ওয়্যারহাউস ইনভেন্টরি ম্যানেজমেন্ট",
+            "staffUnlimited": "সীমাহীন স্টাফ অ্যাকাউন্ট",
+            "manager": "ডেডিকেটেড অ্যাকাউন্ট ম্যানেজার"
         }
     }
 }
