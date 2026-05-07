@@ -71,7 +71,8 @@ import AboutPage from "./pages/static/AboutPage";
 import SellOnToroongo from "./pages/static/SellOnToroongo";
 import HelpCenter from "./pages/static/HelpCenter";
 import ContactPage from "./pages/static/ContactPage";
-import { TermsOfService, PrivacyPolicy } from "./pages/static/LegalPages";
+import { TermsOfService, PrivacyPolicy, CookiePolicy, SellerAgreement, SocialImpact } from "./pages/static/LegalPages";
+
 import CareersPage from "./pages/static/CareersPage";
 import PressPage from "./pages/static/PressPage";
 import BlogPage from "./pages/static/BlogPage";
@@ -203,7 +204,9 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/careers" element={<CareersPage />} />
           <Route path="/press" element={<PressPage />} />
+          <Route path="/impact" element={<SocialImpact />} />
           <Route path="/blog" element={<BlogPage />} />
+
           <Route path="/blog/:slug" element={<BlogDetail />} />
 
           {/* Static Pages — Customer Service */}
@@ -220,7 +223,10 @@ function App() {
           {/* Static Pages — Legal */}
           <Route path="/terms" element={<TermsOfService />} />
           <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/cookies" element={<CookiePolicy />} />
+          <Route path="/seller-agreement" element={<SellerAgreement />} />
           <Route path="/data-preferences" element={<DataPreferences />} />
+
         </Route>
 
         {/* ── Seller Storefronts (toroongo.com/:username) ─── */}

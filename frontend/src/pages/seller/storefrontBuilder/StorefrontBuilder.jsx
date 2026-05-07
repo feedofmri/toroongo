@@ -60,20 +60,24 @@ export default function StorefrontBuilder() {
         }
     };
 
-    const handleSave = useCallback(() => {
+    const handleSave = useCallback(async () => {
         const config = getConfig();
-        saveStorefrontConfig(sellerId, config);
+        await saveStorefrontConfig(sellerId, config);
         markSaved();
     }, [getConfig, markSaved, sellerId]);
 
     // Load saved config on mount
     useEffect(() => {
-        const saved = getStorefrontConfig(sellerId);
-        if (saved) {
-            loadConfig(saved, sellerId);
-        } else {
-            loadConfig(null, sellerId);
-        }
+        let cancelled = false;
+        getStorefrontConfig(sellerId).then((saved) => {
+            if (cancelled) return;
+            if (saved && saved.widgets && saved.widgets.length > 0) {
+                loadConfig(saved, sellerId);
+            } else {
+                loadConfig(null, sellerId);
+            }
+        });
+        return () => { cancelled = true; };
     }, [loadConfig, sellerId]);
 
     // Keyboard shortcuts

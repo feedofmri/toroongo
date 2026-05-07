@@ -4,8 +4,10 @@ import {
     Search, ShoppingCart, User, Menu, X, Heart, LogOut,
     Store, HelpCircle, Newspaper, Tag, Percent, Package,
     ChevronRight, LayoutDashboard, Settings, ShoppingBag,
-    Bell, MessageSquare, Users, Star, MapPin, Paintbrush
+    Bell, MessageSquare, Users, Star, MapPin, Paintbrush,
+    Info, PhoneCall
 } from 'lucide-react';
+
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
@@ -70,8 +72,8 @@ const MOBILE_SHOP_LINKS = [
 const MOBILE_INFO_LINKS = [
     { to: '/blog', label: 'nav.blog', icon: Newspaper, default: 'Blog' },
     { to: '/help', label: 'nav.help', icon: HelpCircle, default: 'Help Center' },
-    { to: '/about', label: 'nav.aboutUs', icon: null, default: 'About Us' },
-    { to: '/contact', label: 'nav.contactUs', icon: null, default: 'Contact' },
+    { to: '/about', label: 'nav.aboutUs', icon: Info, default: 'About Us' },
+    { to: '/contact', label: 'nav.contactUs', icon: PhoneCall, default: 'Contact' },
 ];
 
 export default function Navbar() {

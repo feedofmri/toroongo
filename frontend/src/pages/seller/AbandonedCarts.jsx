@@ -7,64 +7,6 @@ import { useSubscription } from '../../context/SubscriptionContext';
 import { useTranslation } from 'react-i18next';
 import UpgradePrompt from '../../components/subscription/UpgradePrompt';
 
-const MOCK_CARTS = [
-    {
-        id: 1,
-        customer: 'Sarah M.',
-        email: 's***@gmail.com',
-        items: 3,
-        total: 89.99,
-        abandonedAt: '2026-04-29T14:30:00',
-        status: 'recovered',
-        emailsSent: 2,
-        recoveredAt: '2026-04-29T18:15:00',
-    },
-    {
-        id: 2,
-        customer: 'David K.',
-        email: 'd***@yahoo.com',
-        items: 1,
-        total: 45.00,
-        abandonedAt: '2026-04-29T12:00:00',
-        status: 'email_sent',
-        emailsSent: 1,
-        recoveredAt: null,
-    },
-    {
-        id: 3,
-        customer: 'Aisha R.',
-        email: 'a***@outlook.com',
-        items: 5,
-        total: 234.50,
-        abandonedAt: '2026-04-28T22:45:00',
-        status: 'pending',
-        emailsSent: 0,
-        recoveredAt: null,
-    },
-    {
-        id: 4,
-        customer: 'Michael C.',
-        email: 'm***@gmail.com',
-        items: 2,
-        total: 67.00,
-        abandonedAt: '2026-04-28T16:20:00',
-        status: 'expired',
-        emailsSent: 3,
-        recoveredAt: null,
-    },
-    {
-        id: 5,
-        customer: 'Lisa W.',
-        email: 'l***@gmail.com',
-        items: 1,
-        total: 29.99,
-        abandonedAt: '2026-04-28T10:15:00',
-        status: 'recovered',
-        emailsSent: 1,
-        recoveredAt: '2026-04-28T14:30:00',
-    },
-];
-
 const STATUS_MAP = {
     recovered:  { label: 'Recovered',   color: 'text-green-600 bg-green-50',  icon: CheckCircle },
     email_sent: { label: 'Email Sent',  color: 'text-blue-600 bg-blue-50',    icon: Send },
@@ -86,6 +28,7 @@ export default function AbandonedCarts() {
     const { t } = useTranslation();
     const { canAccess, currentPlan } = useSubscription();
     const [filter, setFilter] = useState('all');
+    const [carts] = useState([]);
     const [emailSettings, setEmailSettings] = useState({
         enabled: true,
         firstEmail: 1,  // hours
@@ -109,10 +52,10 @@ export default function AbandonedCarts() {
         );
     }
 
-    const filtered = filter === 'all' ? MOCK_CARTS : MOCK_CARTS.filter(c => c.status === filter);
-    const recovered = MOCK_CARTS.filter(c => c.status === 'recovered');
+    const filtered = filter === 'all' ? carts : carts.filter(c => c.status === filter);
+    const recovered = carts.filter(c => c.status === 'recovered');
     const recoveredValue = recovered.reduce((s, c) => s + c.total, 0);
-    const recoveryRate = ((recovered.length / MOCK_CARTS.length) * 100).toFixed(0);
+    const recoveryRate = carts.length > 0 ? ((recovered.length / carts.length) * 100).toFixed(0) : '0';
 
     return (
         <div className="animate-fade-in space-y-6">
@@ -126,7 +69,7 @@ export default function AbandonedCarts() {
             {/* Stats */}
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                 {[
-                    { label: t('sellerAbandonedCarts.stats.abandoned', 'Abandoned Carts'), value: MOCK_CARTS.length, icon: ShoppingCart, color: 'text-amber-600', bg: 'bg-amber-50' },
+                    { label: t('sellerAbandonedCarts.stats.abandoned', 'Abandoned Carts'), value: carts.length, icon: ShoppingCart, color: 'text-amber-600', bg: 'bg-amber-50' },
                     { label: t('sellerAbandonedCarts.stats.recovered', 'Recovered'), value: recovered.length, icon: CheckCircle, color: 'text-green-600', bg: 'bg-green-50' },
                     { label: t('sellerAbandonedCarts.stats.rate', 'Recovery Rate'), value: `${recoveryRate}%`, icon: TrendingUp, color: 'text-blue-600', bg: 'bg-blue-50' },
                     { label: t('sellerAbandonedCarts.stats.revenue', 'Revenue Recovered'), value: `$${recoveredValue.toFixed(2)}`, icon: DollarSign, color: 'text-purple-600', bg: 'bg-purple-50' },

@@ -6,6 +6,7 @@ import {
 import { useSubscription } from '../../context/SubscriptionContext';
 import { useAuth } from '../../context/AuthContext';
 import UpgradePrompt from '../../components/subscription/UpgradePrompt';
+import aiService from '../../services/aiService';
 
 const DNS_RECORDS = [
     { type: 'CNAME', name: 'www', value: 'shops.toroongo.com', status: 'verified' },
@@ -43,12 +44,20 @@ export default function CustomDomain() {
         setIsVerifying(true);
         setDomainStatus('checking');
 
-        // Mock verification
-        setTimeout(() => {
-            setDomainStatus('verified');
+        try {
+            const data = await aiService.verifyDomain(customDomain);
+            if (data.status === 'verified') {
+                setDomainStatus('verified');
+                setShowDnsInstructions(true);
+            } else {
+                setDomainStatus('failed');
+            }
+        } catch (error) {
+            console.error('Failed to verify domain:', error);
+            setDomainStatus('failed');
+        } finally {
             setIsVerifying(false);
-            setShowDnsInstructions(true);
-        }, 2000);
+        }
     };
 
     const handleCopy = (text) => {

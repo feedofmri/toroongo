@@ -9,6 +9,7 @@ import { useProduct } from "../../context/ProductContext";
 import { useAuth } from "../../context/AuthContext";
 import { orderService, addressService, shippingAreaService, paymentMethodService } from "../../services";
 import { formatPrice, formatPriceInCurrency, getBuyerCurrencyCode, convertCurrency } from "../../utils/currency";
+import { PLATFORM_CONFIG } from "../../config/constants";
 
 export default function Checkout() {
   const { t } = useTranslation();
@@ -124,7 +125,7 @@ export default function Checkout() {
     return convertCurrency(shippingQuote.total, shippingQuote.currency_code || 'USD', getBuyerCurrencyCode());
   }, [shippingQuote.total, shippingQuote.currency_code]);
 
-  const tax = subtotal * 0.08;
+  const tax = subtotal * (PLATFORM_CONFIG.DEFAULT_TAX_RATE || 0.08);
   const total = subtotal + shippingCostInBuyerCurrency + tax;
 
   // Service charge for selected custom method
@@ -210,7 +211,7 @@ export default function Checkout() {
     const firstProduct = allProducts.find(pr => String(pr.id) === String(cartSummary[0]?.id));
     const sellerCurrencyCode = firstProduct?.currency_code || 'USD';
 
-    let paymentDesc = "Cash on Delivery";
+    let paymentDesc = t('checkout.cod', 'Cash on Delivery');
     let paymentDetailsPayload = null;
     if (selectedMethod) {
       paymentDesc = `${selectedMethod.label} (${selectedMethod.account_identifier})`;
@@ -347,7 +348,9 @@ export default function Checkout() {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <h3 className="text-sm font-semibold text-text-primary">{t("checkout.shippingArea", "Shipping Area")}</h3>
-                    <span className="text-xs text-text-muted">{shippingAreas.length} option{shippingAreas.length === 1 ? "" : "s"}</span>
+                    <span className="text-xs text-text-muted">
+                        {t('checkout.shippingOptionsCount', { count: shippingAreas.length })}
+                    </span>
                   </div>
                   {shippingAreas.length === 0 ? (
                     <div className="p-4 rounded-xl border border-border-soft bg-surface-bg text-sm text-text-muted">
@@ -382,7 +385,7 @@ export default function Checkout() {
             {/* ── Step 2: Payment ── */}
             {step === 2 && (
               <div className="space-y-6">
-                <h2 className="text-xl font-bold text-text-primary">Payment Method</h2>
+                <h2 className="text-xl font-bold text-text-primary">{t('checkout.paymentMethod', 'Payment Method')}</h2>
 
                 <div className="space-y-3">
                   {/* Cash on Delivery - always present */}
@@ -392,7 +395,7 @@ export default function Checkout() {
                     <Truck size={18} className={paymentMethod === "cod" ? "text-brand-primary" : "text-text-muted"} />
                     <div>
                       <p className="text-sm font-medium text-text-primary">{t("checkout.cod", "Cash on Delivery")}</p>
-                      <p className="text-xs text-text-muted">Pay when your order arrives. No advance needed.</p>
+                      <p className="text-xs text-text-muted">{t('checkout.codSub', 'Pay when your order arrives. No advance needed.')}</p>
                     </div>
                   </label>
 
@@ -431,7 +434,7 @@ export default function Checkout() {
                   <div className="space-y-4 animate-fade-in">
                     {selectedMethod.instructions && (
                       <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl text-sm text-blue-800">
-                        <p className="font-semibold mb-1">Payment Instructions</p>
+                        <p className="font-semibold mb-1">{t('checkout.paymentInstructions', 'Payment Instructions')}</p>
                         <p>{selectedMethod.instructions}</p>
                       </div>
                     )}

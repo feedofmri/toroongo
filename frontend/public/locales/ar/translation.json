@@ -122,13 +122,13 @@
                      "paymentDetails":  "تفاصيل الدفع",
                      "creditCard":  "بطاقة الائتمان",
                      "cod":  "الدفع عند الاستلام",
-                     "bkash":  "bKash",
-                     "nagad":  "Nagad",
-                     "paypal":  "PayPal",
+                     "bkash":  "بكاش",
+                     "nagad":  "نجاد",
+                     "paypal":  "باي بال",
                      "secureInfo":  "معلومات الدفع الخاصة بك مشفرة وآمنة.",
                      "nameOnCard":  "الاسم على البطاقة",
                      "cardNumber":  "رقم البطاقة",
-                     "expiry":  "MM / YY",
+                     "expiry":  "مم / ص",
                      "cvv":  "CVV",
                      "bkashNagadDesc":  "يرجى إدخال رقم حساب {{method}} الخاص بك. سنرسل رمز التحقق (OTP) للتأكيد.",
                      "paypalDesc":  "سيتم توجيهك إلى PayPal لإكمال عملية الشراء بأمان بعد النقر على \"مراجعة الطلب\".",
@@ -158,14 +158,14 @@
                               "shippingTo":  "الشحن إلى",
                               "defaultAddress":  "123 شارع رئيسي، نيويورك، 10001",
                               "payment":  "الدفع",
-                              "defaultPayment":  "فيزا تنتهي بـ •••• 4242",
                               "subtotalPaid":  "إجمالي المدفوع",
                               "orderPlaced":  "تم وضع الطلب",
                               "processing":  "قيد المعالجة",
                               "shipped":  "تم الشحن",
                               "delivered":  "تم التوصيل",
                               "trackOrder":  "تتبع الطلب",
-                              "continueShopping":  "مواصلة التسوق"
+                              "continueShopping":  "مواصلة التسوق",
+                              "paymentProcessed":  "Payment Processed"
                           },
     "reviews":  {
                     "title":  "مراجعاتي",
@@ -190,14 +190,15 @@
                                   "BestSeller":  "الأكثر مبيعاً"
                               },
                    "showLess":  "عرض أقل",
-                   "daysAgo":  "{{count}} days ago",
-                   "weeksAgo":  "{{count}} week ago",
-                   "daysAgo_plural":  "{{count}} days ago",
-                   "weeksAgo_plural":  "{{count}} weeks ago",
+                   "daysAgo":  "منذ {{count}} أيام",
+                   "weeksAgo":  "{{count}} منذ أسبوع",
+                   "daysAgo_plural":  "منذ {{count}} أيام",
+                   "weeksAgo_plural":  "{{count}} منذ أسابيع",
                    "dateLocale":  "en-US",
-                   "notFound":  "Page Not Found",
-                   "notFoundDesc":  "The page you\u0027re looking for doesn\u0027t exist or has been moved.",
-                   "goHome":  "Go Home"
+                   "notFound":  "لم يتم العثور على الصفحة",
+                   "notFoundDesc":  "الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
+                   "goHome":  "العودة إلى المنزل",
+                   "underDevelopment":  "قيد التطوير"
                },
     "pricing":  {
                     "title":  "الأسعار والخطط",
@@ -211,9 +212,9 @@
                                 "growth":  "احصل على باقة النمو",
                                 "business":  "احصل على باقة الأعمال",
                                 "contact":  "اتصل بالمبيعات",
-                                "currentPlan": "الخطة الحالية",
-                                "upgrade": "ترقية",
-                                "downgrade": "تخفيض"
+                                "currentPlan":  "الخطة الحالية",
+                                "upgrade":  "ترقية",
+                                "downgrade":  "تخفيض"
                             },
                     "plans":  {
                                   "starter":  {
@@ -232,7 +233,7 @@
                                                    "name":  "الأعمال",
                                                    "desc":  "لتجار التجزئة الراسخين الذين يوسعون عملياتهم.",
                                                    "ai":  "دعم وتوصيات بالذكاء الاصطناعي",
-                                                   "aiDesc":  "روبوت دردشة 24/7 لأسئلة المشترين وتوصيات ذكية 'غالباً ما يتم شراؤها معاً'."
+                                                   "aiDesc":  "روبوت دردشة 24/7 لأسئلة المشترين وتوصيات ذكية \u0027غالباً ما يتم شراؤها معاً\u0027."
                                                },
                                   "enterprise":  {
                                                      "name":  "المؤسسات",
@@ -346,8 +347,8 @@
                     "messageSent":  "تم إرسال الرسالة!",
                     "messageSentDesc":  "سيرد عليك البائع قريباً عبر مركز الرسائل.",
                     "home":  "الرئيسية",
-                    "unknownProduct":  "Unknown Product",
-                    "unknownSeller":  "Unknown"
+                    "unknownProduct":  "منتج غير معروف",
+                    "unknownSeller":  "مجهول"
                 },
     "cart":  {
                  "title":  "سلة التسوق",
@@ -491,7 +492,7 @@
                    "delivered":  "تم التوصيل",
                    "cancelled":  "تم الإلغاء",
                    "loading":  "جاري تحميل الطلبات...",
-                   "orderNo":  "TRG-{{id}}",
+                   "orderNo":  "TRG-{{معرف}}",
                    "soldBy":  "يباع بواسطة {{seller}}",
                    "total":  "الإجمالي:",
                    "cancelOrder":  "إلغاء الطلب",
@@ -513,7 +514,7 @@
                                    "longDelivery":  "وقت التسليم المتوقع طويل جداً",
                                    "other":  "آخر"
                                },
-                   "cancelError":  "Failed to cancel order: "
+                   "cancelError":  "فشل في إلغاء الطلب:"
                },
     "account":  {
                     "profile":  "الملف الشخصي",
@@ -622,7 +623,65 @@
                                                        "content":  "يمكنك طلب الوصول إلى بياناتك الشخصية أو تصحيحها أو حذفها في أي وقت."
                                                    }
                                                ]
-                              }
+                              },
+                  "impact":  {
+                                 "title":  "التأثير الاجتماعي",
+                                 "sections":  [
+                                                  {
+                                                      "title":  "التزامنا",
+                                                      "content":  "تلتزم Toroongo بتمكين المبدعين المستقلين والشركات الصغيرة. نحن نؤمن بوجود نظام بيئي عادل وشفاف وشامل للتجارة الإلكترونية."
+                                                  },
+                                                  {
+                                                      "title":  "الاستدامة",
+                                                      "content":  "نحن نعمل على تقليل البصمة الكربونية لدينا وتشجيع الممارسات المستدامة بين البائعين لدينا وشركاء الخدمات اللوجستية."
+                                                  },
+                                                  {
+                                                      "title":  "تمكين المجتمع",
+                                                      "content":  "من خلال منصتنا، نقدم الأدوات الرقمية والتعليم للمجتمعات المحرومة، مما يساعدهم على المشاركة في الاقتصاد الرقمي العالمي."
+                                                  }
+                                              ],
+                                 "lastUpdated":  "آخر تحديث: مايو 2026"
+                             },
+                  "cookies":  {
+                                  "title":  "سياسة ملفات تعريف الارتباط",
+                                  "lastUpdated":  "آخر تحديث: مايو 2026",
+                                  "sections":  [
+                                                   {
+                                                       "content":  "ملفات تعريف الارتباط هي ملفات نصية صغيرة مخزنة على جهازك وتساعدنا على تذكر تفضيلاتك، وتحليل حركة مرور الموقع، وتخصيص المحتوى.",
+                                                       "title":  "1. ما هي ملفات تعريف الارتباط"
+                                                   },
+                                                   {
+                                                       "content":  "نحن نستخدم ملفات تعريف الارتباط الأساسية لوظائف النظام الأساسي، وملفات تعريف الارتباط المفضلة لإعداداتك، وملفات تعريف الارتباط التحليلية لفهم كيفية استخدامك لموقعنا.",
+                                                       "title":  "2. كيف نستخدم ملفات تعريف الارتباط"
+                                                   },
+                                                   {
+                                                       "title":  "3. إدارة ملفات تعريف الارتباط",
+                                                       "content":  "يمكنك إدارة أو تعطيل ملفات تعريف الارتباط من خلال إعدادات المتصفح الخاص بك. ومع ذلك، قد لا تعمل بعض أجزاء النظام الأساسي بشكل صحيح بدونها."
+                                                   }
+                                               ]
+                              },
+                  "sellerAgreement":  {
+                                          "lastUpdated":  "آخر تحديث: مايو 2026",
+                                          "sections":  [
+                                                           {
+                                                               "title":  "1. التزامات البائع",
+                                                               "content":  "باعتبارك بائعًا، فإنك توافق على تقديم معلومات دقيقة عن المنتج، والحفاظ على المخزون، وتلبية الطلبات خلال وقت المعالجة المحدد."
+                                                           },
+                                                           {
+                                                               "title":  "2. رسوم المنصة",
+                                                               "content":  "لا تفرض Toroongo أي رسوم على المعاملات. يدفع البائعون فقط رسوم الاشتراك للخطة التي اختاروها (Starter أو Growth أو Business أو Enterprise)."
+                                                           },
+                                                           {
+                                                               "title":  "3. المحتوى والملكية الفكرية",
+                                                               "content":  "أنت تحتفظ بملكية المحتوى الخاص بك، ولكنك تمنح Toroongo ترخيصًا غير حصري لعرضه بغرض تشغيل السوق."
+                                                           },
+                                                           {
+                                                               "content":  "يجوز لأي من الطرفين إنهاء هذه الاتفاقية في أي وقت. تحتفظ Toroongo بالحق في تعليق الحسابات التي تنتهك إرشادات مجتمعنا.",
+                                                               "title":  "4. الإنهاء"
+                                                           }
+                                                       ],
+                                          "title":  "اتفاقية البائع"
+                                      }
               },
     "sell":  {
                  "hero":  {
@@ -820,20 +879,20 @@
                                                     }
                                  },
                      "sellerManaged":  {
-                                           "title":  "Seller-Managed Shipping",
-                                           "desc":  "Toroongo is a marketplace where each seller is responsible for setting their own shipping rates and delivery methods. Shipping costs and estimated delivery times are determined by the seller and will be clearly displayed on the product page and during checkout."
+                                           "title":  "الشحن الذي يديره البائع",
+                                           "desc":  "Toroongo هو سوق حيث يكون كل بائع مسؤولاً عن تحديد أسعار الشحن وطرق التسليم الخاصة به. يتم تحديد تكاليف الشحن وأوقات التسليم المقدرة من قبل البائع وسيتم عرضها بوضوح على صفحة المنتج وأثناء الدفع."
                                        },
                      "cost":  {
-                                  "title":  "Shipping Costs",
-                                  "desc":  "Shipping fees vary depending on the seller, the item weight, and your delivery location. Some sellers may offer free shipping for orders above a certain amount, while others may have flat rates or calculated costs."
+                                  "title":  "تكاليف الشحن",
+                                  "desc":  "تختلف رسوم الشحن حسب البائع ووزن السلعة وموقع التسليم الخاص بك. قد يقدم بعض البائعين شحنًا مجانيًا للطلبات التي تزيد عن مبلغ معين، بينما قد يقدم البعض الآخر أسعارًا ثابتة أو تكاليف محسوبة."
                               },
                      "tracking":  {
-                                      "title":  "Order Tracking",
-                                      "desc":  "Once your order is shipped, the seller will provide a tracking number. You can monitor your shipment through the dashboard under \"My Orders.\" If you have any questions about your delivery, you can message the seller directly."
+                                      "title":  "تتبع الطلب",
+                                      "desc":  "بمجرد شحن طلبك، سيزودك البائع برقم التتبع. يمكنك مراقبة شحنتك من خلال لوحة التحكم ضمن \"طلباتي\". إذا كان لديك أي أسئلة حول التسليم، يمكنك مراسلة البائع مباشرة."
                                   },
                      "global":  {
-                                    "title":  "Global \u0026 Regional Delivery",
-                                    "desc":  "While Toroongo has a strong presence in core markets like Bangladesh, Nepal, India, UAE, Indonesia, and Malaysia, our sellers can ship to almost any location globally. Please check the seller\u0027s individual store policies for international shipping availability."
+                                    "title":  "التسليم العالمي والإقليمي",
+                                    "desc":  "على الرغم من أن Toroongo تتمتع بحضور قوي في الأسواق الأساسية مثل بنغلاديش ونيبال والهند والإمارات العربية المتحدة وإندونيسيا وماليزيا، إلا أن البائعين لدينا يمكنهم الشحن إلى أي مكان تقريبًا على مستوى العالم. يرجى التحقق من سياسات المتجر الفردي للبائع لمعرفة مدى توفر الشحن الدولي."
                                 }
                  },
     "dataPreferences":  {
@@ -865,7 +924,47 @@
                             "more":  "موارد إضافية",
                             "ready":  "مستعد لبدء البيع؟",
                             "readyDesc":  "أنشئ حساب بائع مجاني اليوم.",
-                            "getStarted":  "ابدأ الآن"
+                            "getStarted":  "ابدأ الآن",
+                            "guidesList":  {
+                                               "g3":  {
+                                                          "title":  "تحسين محركات البحث العالمية والتعريب",
+                                                          "desc":  "ترجمة الكتالوج الخاص بك تلقائيًا إلى أكثر من 7 لغات."
+                                                      },
+                                               "g1":  {
+                                                          "title":  "الإعداد المدعوم بالذكاء الاصطناعي",
+                                                          "desc":  "أطلق متجرك في دقائق معدودة باستخدام AI Storefront Builder."
+                                                      },
+                                               "g2":  {
+                                                          "desc":  "إزالة الخلفيات وصور المنتجات الراقية تلقائيًا.",
+                                                          "title":  "تحسين الصورة بالذكاء الاصطناعي"
+                                                      },
+                                               "g4":  {
+                                                          "title":  "المركز اللوجستي العالمي",
+                                                          "desc":  "اشحن بسلاسة إلى بنجلاديش ونيبال والإمارات العربية المتحدة وخارجها."
+                                                      },
+                                               "g5":  {
+                                                          "title":  "التنبؤ بالمبيعات",
+                                                          "desc":  "استخدم الذكاء الاصطناعي للتنبؤ باحتياجات المخزون وتحليل الاتجاهات."
+                                                      },
+                                               "g6":  {
+                                                          "title":  "نموذج العمولة الصفرية",
+                                                          "desc":  "تعرف على كيفية الحفاظ على 100% من إيراداتك مع 0% رسوم معاملات."
+                                                      }
+                                           },
+                            "resourcesList":  {
+                                                  "r1":  {
+                                                             "desc":  "أتقن المنصة من خلال دروس فيديو متقدمة.",
+                                                             "title":  "أكاديمية تورونجو"
+                                                         },
+                                                  "r2":  {
+                                                             "title":  "مركز البائع العالمي",
+                                                             "desc":  "تواصل مع البائعين في أكثر من 6 دول."
+                                                         },
+                                                  "r3":  {
+                                                             "title":  "توثيق النظام",
+                                                             "desc":  "تعمق في الذكاء الاصطناعي وواجهات برمجة التطبيقات اللوجستية الخاصة بنا."
+                                                         }
+                                              }
                         },
     "sellerDashboard":  {
                             "title":  "مركز البائع",
@@ -878,7 +977,17 @@
                                         "messages":  "الرسائل",
                                         "storefront":  "واجهة المتجر",
                                         "settings":  "الإعدادات",
-                                        "viewStore":  "عرض متجري"
+                                        "viewStore":  "عرض متجري",
+                                        "staff":  "طاقم عمل",
+                                        "domain":  "اِختِصاص",
+                                        "discounts":  "خصومات",
+                                        "affiliates":  "الشركات التابعة",
+                                        "subscription":  "الاشتراك",
+                                        "apiWebhooks":  "واجهة برمجة التطبيقات وخطافات الويب",
+                                        "importExport":  "استيراد / تصدير",
+                                        "abandonedCarts":  "عربات مهجورة",
+                                        "aiTools":  "أدوات الذكاء الاصطناعي",
+                                        "socialCommerce":  "التجارة الاجتماعية"
                                     },
                             "stats":  {
                                           "totalRevenue":  "إجمالي الإيرادات",
@@ -907,7 +1016,7 @@
                                                  "loading":  "جاري تحميل لوحة القيادة..."
                                              },
                             "badges":  {
-                                           "premium":  "Premium Seller"
+                                           "premium":  "بائع مميز"
                                        }
                         },
     "sellerOrders":  {
@@ -915,14 +1024,18 @@
                          "stats":  {
                                        "pending":  "قيد الانتظار",
                                        "shipped":  "تم الشحن",
-                                       "completed":  "مكتمل"
+                                       "completed":  "مكتمل",
+                                       "returned":  "عاد",
+                                       "refunded":  "ردها"
                                    },
                          "filters":  {
                                          "searchPlaceholder":  "البحث برقم الطلب أو العميل...",
                                          "allStatus":  "كل الحالات",
                                          "processing":  "جاري المعالجة",
                                          "shipped":  "تم الشحن",
-                                         "delivered":  "تم التوصيل"
+                                         "delivered":  "تم التوصيل",
+                                         "returned":  "عاد",
+                                         "refunded":  "ردها"
                                      },
                          "table":  {
                                        "order":  "الطلب",
@@ -1022,396 +1135,398 @@
                   "searchStore":  "ابحث في {{name}}..."
               },
     "sellerSettings":  {
-                           "title":  "Seller Settings",
+                           "title":  "إعدادات البائع",
                            "tabs":  {
-                                        "store":  "Store",
-                                        "branding":  "Branding",
-                                        "country_currency":  "Country \u0026 Currency",
-                                        "content":  "Store Content",
-                                        "whitelabel":  "White-Label",
-                                        "currency":  "Multi-Currency",
-                                        "customcode":  "Custom Code",
-                                        "shipping":  "Shipping",
-                                        "notifications":  "Notifications"
+                                        "store":  "محل",
+                                        "branding":  "العلامة التجارية",
+                                        "country_currency":  "البلد والعملة",
+                                        "content":  "محتوى المتجر",
+                                        "whitelabel":  "العلامة البيضاء",
+                                        "currency":  "متعدد العملات",
+                                        "customcode":  "رمز مخصص",
+                                        "shipping":  "شحن",
+                                        "notifications":  "إشعارات"
                                     },
                            "username":  {
-                                            "title":  "Shop Username",
-                                            "desc":  "Your shop\u0027s unique URL on Toroongo.",
-                                            "checking":  "Checking availability...",
-                                            "available":  "Username is available!",
-                                            "currentBtn":  "Current Username",
-                                            "claim":  "Claim Username",
-                                            "preview":  "Preview your storefront"
+                                            "title":  "اسم مستخدم المتجر",
+                                            "desc":  "عنوان URL الفريد لمتجرك على Toroongo.",
+                                            "checking":  "جارٍ التحقق من التوفر...",
+                                            "available":  "اسم المستخدم متاح!",
+                                            "currentBtn":  "اسم المستخدم الحالي",
+                                            "claim":  "المطالبة باسم المستخدم",
+                                            "preview":  "قم بمعاينة واجهة متجرك"
                                         },
                            "storeInfo":  {
-                                             "title":  "Store Information",
-                                             "name":  "Shop Name",
-                                             "description":  "Shop Description",
-                                             "email":  "Public Email",
-                                             "phone":  "Public Phone",
-                                             "location":  "Location",
-                                             "save":  "Save Store Info"
+                                             "title":  "معلومات المتجر",
+                                             "name":  "اسم المحل",
+                                             "description":  "وصف المتجر",
+                                             "email":  "البريد الإلكتروني العام",
+                                             "phone":  "الهاتف العام",
+                                             "location":  "موقع",
+                                             "save":  "حفظ معلومات المتجر"
                                          },
                            "countryCurrency":  {
-                                                   "title":  "Country \u0026 Currency",
-                                                   "desc":  "Your country sets your store\u0027s currency. All product prices you enter will be stored in this currency and automatically converted for buyers worldwide.",
-                                                   "important":  "Important:",
-                                                   "importantDesc":  "Changing your currency will update the currency for all your existing products. Their stored prices will remain the same numbers, so you may want to review and update them to match the new currency.",
-                                                   "save":  "Save Country \u0026 Currency"
+                                                   "title":  "البلد والعملة",
+                                                   "desc":  "تحدد دولتك عملة متجرك. سيتم تخزين جميع أسعار المنتجات التي تدخلها بهذه العملة وسيتم تحويلها تلقائيًا للمشترين في جميع أنحاء العالم.",
+                                                   "important":  "مهم:",
+                                                   "importantDesc":  "سيؤدي تغيير عملتك إلى تحديث العملة لجميع منتجاتك الحالية. ستظل أسعارها المخزنة كما هي، لذا قد ترغب في مراجعتها وتحديثها لتتناسب مع العملة الجديدة.",
+                                                   "save":  "حفظ البلد والعملة"
                                                },
                            "branding":  {
-                                            "title":  "Branding \u0026 Appearance",
-                                            "color":  "Primary Brand Color",
-                                            "logo":  "Logo URL",
-                                            "banner":  "Banner Image URL",
-                                            "save":  "Save Branding"
+                                            "title":  "العلامة التجارية والمظهر",
+                                            "color":  "اللون الأساسي للعلامة التجارية",
+                                            "logo":  "عنوان URL للشعار",
+                                            "banner":  "عنوان URL لصورة البانر",
+                                            "save":  "حفظ العلامة التجارية"
                                         },
                            "shipping":  {
-                                            "title":  "Shipping Settings",
-                                            "processing":  "Processing Time (days)",
-                                            "threshold":  "Free Shipping Threshold ($)",
-                                            "rate":  "Standard Shipping Rate ($)",
-                                            "express":  "Offer express shipping",
-                                            "expressDesc":  "Allow customers to choose faster 2-3 day delivery",
-                                            "save":  "Save Shipping Settings"
+                                            "title":  "إعدادات الشحن",
+                                            "processing":  "وقت المعالجة (أيام)",
+                                            "threshold":  "حد الشحن المجاني ($)",
+                                            "rate":  "سعر الشحن القياسي ($)",
+                                            "express":  "عرض الشحن السريع",
+                                            "expressDesc":  "اسمح للعملاء باختيار التسليم بشكل أسرع خلال 2-3 أيام",
+                                            "save":  "حفظ إعدادات الشحن"
                                         },
                            "notifications":  {
-                                                 "title":  "Notification Preferences",
-                                                 "newOrders":  "New orders",
-                                                 "newOrdersDesc":  "Get notified when you receive a new order",
-                                                 "orderUpdates":  "Order updates",
-                                                 "orderUpdatesDesc":  "Status changes and delivery confirmations",
-                                                 "customerMessages":  "Customer messages",
-                                                 "customerMessagesDesc":  "When a buyer sends you a message",
-                                                 "lowStock":  "Low stock alerts",
-                                                 "lowStockDesc":  "When product stock falls below 5 units",
-                                                 "payouts":  "Payout notifications",
-                                                 "payoutsDesc":  "When payouts are processed to your bank",
-                                                 "save":  "Save Notification Preferences"
+                                                 "title":  "تفضيلات الإخطار",
+                                                 "newOrders":  "أوامر جديدة",
+                                                 "newOrdersDesc":  "احصل على إشعار عندما تتلقى طلبًا جديدًا",
+                                                 "orderUpdates":  "تحديثات النظام",
+                                                 "orderUpdatesDesc":  "تغييرات الحالة وتأكيدات التسليم",
+                                                 "customerMessages":  "رسائل العملاء",
+                                                 "customerMessagesDesc":  "عندما يرسل لك المشتري رسالة",
+                                                 "lowStock":  "تنبيهات انخفاض المخزون",
+                                                 "lowStockDesc":  "عندما ينخفض ​​مخزون المنتج إلى أقل من 5 وحدات",
+                                                 "payouts":  "إشعارات الدفع",
+                                                 "payoutsDesc":  "عندما تتم معالجة الدفعات إلى البنك الذي تتعامل معه",
+                                                 "save":  "حفظ تفضيلات الإخطار"
                                              },
                            "content":  {
-                                           "aboutTitle":  "About Your Store",
-                                           "aboutDesc":  "Tell your story. This will be displayed on the \"About\" tab of your storefront.",
-                                           "aboutPlaceholder":  "Describe your store, your team, and your mission...",
-                                           "benefitsTitle":  "Why Shop With Us",
-                                           "benefitsDesc":  "Highlight what makes your store unique. These appear on your \"About\" page.",
-                                           "benefitNum":  "Benefit #{{num}}",
-                                           "benefitPlaceholder":  "Benefit Title",
-                                           "descPlaceholder":  "Description...",
-                                           "policiesTitle":  "Store Policies",
-                                           "policiesDesc":  "Custom policies for your customers. Defaults will be shown if left blank.",
-                                           "shippingPolicy":  "Shipping Policy",
-                                           "shippingPlaceholder":  "Order processing times, shipping methods, areas covered...",
-                                           "returnsPolicy":  "Return \u0026 Refund Policy",
-                                           "returnsPlaceholder":  "Return windows, refund conditions, who pays for shipping...",
-                                           "warrantyPolicy":  "Warranty Information",
-                                           "warrantyPlaceholder":  "Product guarantee periods, coverage details...",
-                                           "faqPolicy":  "Frequently Asked Questions (FAQ)",
-                                           "faqPlaceholder":  "Common questions and answers for your buyers...",
-                                           "save":  "Save Store Content"
+                                           "aboutTitle":  "حول متجرك",
+                                           "aboutDesc":  "أخبر قصتك. سيتم عرض هذا في علامة التبويب \"حول\" في واجهة متجرك.",
+                                           "aboutPlaceholder":  "صف متجرك، فريقك، ومهمتك...",
+                                           "benefitsTitle":  "لماذا تتسوق معنا",
+                                           "benefitsDesc":  "سلط الضوء على ما يجعل متجرك فريدًا. تظهر هذه في صفحة \"حول\" الخاصة بك.",
+                                           "benefitNum":  "فائدة #{{num}}",
+                                           "benefitPlaceholder":  "عنوان المنفعة",
+                                           "descPlaceholder":  "وصف...",
+                                           "policiesTitle":  "سياسات المتجر",
+                                           "policiesDesc":  "سياسات مخصصة لعملائك. سيتم عرض الإعدادات الافتراضية إذا تركت فارغة.",
+                                           "shippingPolicy":  "سياسة الشحن",
+                                           "shippingPlaceholder":  "أوقات معالجة الطلب، طرق الشحن، المناطق المغطاة...",
+                                           "returnsPolicy":  "سياسة الإرجاع والاسترداد",
+                                           "returnsPlaceholder":  "نوافذ الإرجاع، شروط الاسترداد، من يدفع ثمن الشحن...",
+                                           "warrantyPolicy":  "معلومات الضمان",
+                                           "warrantyPlaceholder":  "فترات ضمان المنتج وتفاصيل التغطية...",
+                                           "faqPolicy":  "الأسئلة المتداولة (الأسئلة الشائعة)",
+                                           "faqPlaceholder":  "الأسئلة والأجوبة الشائعة للمشترين...",
+                                           "save":  "حفظ محتوى المتجر"
                                        },
                            "whitelabel":  {
-                                              "title":  "White-Label Settings",
-                                              "desc":  "Control the Toroongo branding on your storefront. Your Business plan includes full white-labeling.",
-                                              "removeFooter":  "Remove \"Powered by Toroongo\" footer",
-                                              "removeFooterDesc":  "Your storefront will show no Toroongo branding to customers",
-                                              "hideEmail":  "Hide Toroongo from email templates",
-                                              "hideEmailDesc":  "Order confirmations and notifications will use your brand only",
-                                              "customFavicon":  "Custom favicon",
-                                              "customFaviconDesc":  "Use your own favicon instead of the Toroongo icon",
-                                              "activeTitle":  "White-Label Active",
-                                              "activeDesc":  "All Toroongo branding has been removed from your storefront.",
-                                              "save":  "Save White-Label Settings"
+                                              "title":  "إعدادات التسمية البيضاء",
+                                              "desc":  "تحكم في العلامة التجارية Toroongo على واجهة متجرك. تشتمل خطة عملك على العلامات البيضاء الكاملة.",
+                                              "removeFooter":  "قم بإزالة تذييل \"مدعوم من Toroongo\".",
+                                              "removeFooterDesc":  "لن تظهر واجهة متجرك أي علامة تجارية لشركة Toroongo للعملاء",
+                                              "hideEmail":  "إخفاء Toroongo من قوالب البريد الإلكتروني",
+                                              "hideEmailDesc":  "ستستخدم تأكيدات الطلب والإشعارات علامتك التجارية فقط",
+                                              "customFavicon":  "الرمز المفضل المخصص",
+                                              "customFaviconDesc":  "استخدم الرمز المفضل لديك بدلاً من رمز Toroongo",
+                                              "activeTitle":  "العلامة البيضاء نشطة",
+                                              "activeDesc":  "تمت إزالة جميع العلامات التجارية لـ Toroongo من واجهة متجرك.",
+                                              "save":  "حفظ إعدادات التسمية البيضاء"
                                           },
                            "customcode":  {
-                                              "cssTitle":  "Custom CSS",
-                                              "cssDesc":  "Add custom CSS to override storefront styles. Changes apply to your public storefront only.",
-                                              "cssPlaceholder":  "/* Your custom storefront CSS */",
-                                              "cssSave":  "Save Custom CSS",
-                                              "htmlTitle":  "Custom HTML (Head Injection)",
-                                              "htmlDesc":  "Inject custom HTML into the \u003chead\u003e of your storefront. Useful for analytics scripts, meta tags, or third-party integrations.",
-                                              "htmlPlaceholder":  "\u003c!-- Custom head HTML --\u003e",
-                                              "htmlCaution":  "Caution:",
-                                              "htmlCautionDesc":  "Injecting invalid HTML or scripts may break your storefront. Test changes carefully.",
-                                              "htmlSave":  "Save Custom HTML"
+                                              "cssTitle":  "CSS مخصص",
+                                              "cssDesc":  "أضف CSS مخصصًا لتجاوز أنماط واجهة المتجر. تنطبق التغييرات على واجهة المتجر العامة الخاصة بك فقط.",
+                                              "cssPlaceholder":  "/* CSS لواجهة المتجر المخصصة */",
+                                              "cssSave":  "حفظ CSS المخصص",
+                                              "htmlTitle":  "HTML مخصص (حقن الرأس)",
+                                              "htmlDesc":  "قم بإدخال HTML مخصص في \u003chead\u003e لواجهة متجرك. مفيد للبرامج النصية التحليلية، أو العلامات الوصفية، أو عمليات تكامل الجهات الخارجية.",
+                                              "htmlPlaceholder":  "\u003c!-- HTML للرأس المخصص --\u003e",
+                                              "htmlCaution":  "حذر:",
+                                              "htmlCautionDesc":  "قد يؤدي إدخال HTML أو نصوص برمجية غير صالحة إلى إتلاف واجهة متجرك. اختبار التغييرات بعناية.",
+                                              "htmlSave":  "حفظ HTML المخصص"
                                           },
                            "currency":  {
-                                            "title":  "Multi-Currency Settings",
-                                            "desc":  "Enable currencies for your store. Prices auto-convert based on the visitor\u0027s IP address.",
-                                            "autoDetect":  "Auto-detect currency by IP",
-                                            "autoDetectDesc":  "Automatically show prices in the visitor\u0027s local currency",
-                                            "enabledCurrencies":  "Enabled Currencies",
-                                            "save":  "Save Currency Settings"
+                                            "title":  "إعدادات العملات المتعددة",
+                                            "desc":  "تمكين العملات لمتجرك. يتم تحويل الأسعار تلقائيًا بناءً على عنوان IP الخاص بالزائر.",
+                                            "autoDetect":  "الكشف التلقائي عن العملة عن طريق IP",
+                                            "autoDetectDesc":  "عرض الأسعار تلقائيًا بالعملة المحلية للزائر",
+                                            "enabledCurrencies":  "العملات الممكّنة",
+                                            "save":  "حفظ إعدادات العملة"
                                         }
                        },
     "sellerPayment":  {
-                          "title":  "Payment Options",
-                          "subtitle":  "Add the payment methods you accept. Buyers will see these at checkout.",
-                          "addMethod":  "Add Method",
-                          "codTitle":  "Cash on Delivery (Standard)",
-                          "codBadge":  "Default Active",
-                          "codDesc":  "Buyers can always choose to pay upon delivery. This method is managed by the system and doesn\u0027t require extra configuration.",
-                          "noMethods":  "No custom payment methods yet",
-                          "noMethodsDesc":  "Add bKash, Nagad, PayPal, or any other method you accept.",
-                          "charge":  "+{{count}}% charge",
+                          "title":  "خيارات الدفع",
+                          "subtitle":  "أضف طرق الدفع التي تقبلها. سوف يرى المشترون هذه عند الخروج.",
+                          "addMethod":  "إضافة طريقة",
+                          "codTitle":  "الدفع عند التسليم (قياسي)",
+                          "codBadge":  "افتراضي نشط",
+                          "codDesc":  "يمكن للمشترين دائمًا اختيار الدفع عند التسليم. تتم إدارة هذه الطريقة بواسطة النظام ولا تتطلب تكوينًا إضافيًا.",
+                          "noMethods":  "لا توجد طرق دفع مخصصة حتى الآن",
+                          "noMethodsDesc":  "أضف bKash أو Nagad أو PayPal أو أي طريقة أخرى تقبلها.",
+                          "charge":  "+{{count}}% رسوم",
                           "modal":  {
-                                        "addTitle":  "Add Payment Method",
-                                        "editTitle":  "Edit Payment Method",
-                                        "type":  "Payment Type",
-                                        "name":  "Display Name *",
-                                        "namePlaceholder":  "e.g. bKash Personal",
-                                        "idLabel":  "Identifier Label",
-                                        "idLabelPlaceholder":  "e.g. bKash Number, PayPal Email",
-                                        "idValue":  "Your Account / Number / Email *",
-                                        "idValuePlaceholder":  "e.g. 01712345678",
-                                        "serviceCharge":  "Service Charge (%)",
-                                        "serviceChargeDesc":  "Enter 0 for no extra charge.",
-                                        "instructions":  "Instructions for Buyer",
-                                        "instructionsPlaceholder":  "e.g. Send payment to the number above and share your transaction ID.",
-                                        "active":  "Active (visible to buyers)",
-                                        "cancel":  "Cancel",
-                                        "save":  "Save Changes"
+                                        "addTitle":  "أضف طريقة الدفع",
+                                        "editTitle":  "تعديل طريقة الدفع",
+                                        "type":  "نوع الدفع",
+                                        "name":  "اسم العرض *",
+                                        "namePlaceholder":  "على سبيل المثال بكاش الشخصية",
+                                        "idLabel":  "تسمية معرف",
+                                        "idLabelPlaceholder":  "على سبيل المثال رقم bKash، البريد الإلكتروني PayPal",
+                                        "idValue":  "حسابك / رقمك / بريدك الإلكتروني *",
+                                        "idValuePlaceholder":  "على سبيل المثال 01712345678",
+                                        "serviceCharge":  "رسوم الخدمة (%)",
+                                        "serviceChargeDesc":  "أدخل 0 بدون أي رسوم إضافية.",
+                                        "instructions":  "تعليمات للمشتري",
+                                        "instructionsPlaceholder":  "على سبيل المثال أرسل الدفعة إلى الرقم أعلاه وشارك معرف المعاملة الخاصة بك.",
+                                        "active":  "نشط (مرئي للمشترين)",
+                                        "cancel":  "يلغي",
+                                        "save":  "حفظ التغييرات"
                                     },
-                          "confirmDelete":  "Delete this payment method?"
+                          "confirmDelete":  "هل تريد حذف طريقة الدفع هذه؟"
                       },
     "sellerAbandonedCarts":  {
-                                 "title":  "Abandoned Cart Recovery",
-                                 "subtitle":  "Automatically recover lost sales with follow-up email sequences",
+                                 "title":  "استرداد العربة المهجورة",
+                                 "subtitle":  "يمكنك استرداد المبيعات المفقودة تلقائيًا من خلال تسلسلات البريد الإلكتروني للمتابعة",
                                  "stats":  {
-                                               "abandoned":  "Abandoned Carts",
-                                               "recovered":  "Recovered",
-                                               "rate":  "Recovery Rate",
-                                               "revenue":  "Revenue Recovered"
+                                               "abandoned":  "عربات مهجورة",
+                                               "recovered":  "تعافى",
+                                               "rate":  "معدل الاسترداد",
+                                               "revenue":  "تم استرداد الإيرادات"
                                            },
                                  "automation":  {
-                                                    "title":  "Email Automation",
-                                                    "active":  "Active",
-                                                    "paused":  "Paused",
-                                                    "reminder1":  "1st Reminder",
-                                                    "reminder2":  "2nd Reminder",
-                                                    "reminder3":  "3rd Reminder",
-                                                    "hourAfter":  "1 hour after",
-                                                    "hoursAfter":  "{{count}} hours after",
-                                                    "gentleDesc":  "Gentle reminder with cart items",
-                                                    "urgencyDesc":  "Urgency + social proof",
-                                                    "discountDesc":  "{{percent}}% discount included",
-                                                    "finalDesc":  "Final reminder"
+                                                    "title":  "أتمتة البريد الإلكتروني",
+                                                    "active":  "نشيط",
+                                                    "paused":  "متوقف مؤقتًا",
+                                                    "reminder1":  "التذكير الأول",
+                                                    "reminder2":  "التذكير الثاني",
+                                                    "reminder3":  "التذكير الثالث",
+                                                    "hourAfter":  "بعد 1 ساعة",
+                                                    "hoursAfter":  "{{count}} بعد ساعات",
+                                                    "gentleDesc":  "تذكير لطيف مع عناصر السلة",
+                                                    "urgencyDesc":  "إلحاح + إثبات اجتماعي",
+                                                    "discountDesc":  "تم تضمين خصم بنسبة {{percent}}%",
+                                                    "finalDesc":  "تذكير نهائي"
                                                 },
                                  "filters":  {
-                                                 "all":  "All",
-                                                 "pending":  "Pending",
-                                                 "emailSent":  "Email Sent",
-                                                 "recovered":  "Recovered",
-                                                 "expired":  "Expired"
+                                                 "all":  "الجميع",
+                                                 "pending":  "قيد الانتظار",
+                                                 "emailSent":  "تم إرسال البريد الإلكتروني",
+                                                 "recovered":  "تعافى",
+                                                 "expired":  "منتهي الصلاحية"
                                              },
                                  "table":  {
-                                               "customer":  "Customer",
-                                               "items":  "Items",
-                                               "value":  "Value",
-                                               "abandoned":  "Abandoned",
-                                               "emailsSent":  "Emails Sent",
-                                               "status":  "Status",
-                                               "action":  "Action",
-                                               "sendNow":  "Send Now",
-                                               "viewEmails":  "View Emails",
-                                               "justNow":  "Just now",
-                                               "hoursAgo":  "{{count}}h ago",
-                                               "daysAgo":  "{{count}}d ago"
+                                               "customer":  "عميل",
+                                               "items":  "أغراض",
+                                               "value":  "قيمة",
+                                               "abandoned":  "متروك",
+                                               "emailsSent":  "رسائل البريد الإلكتروني المرسلة",
+                                               "status":  "حالة",
+                                               "action":  "فعل",
+                                               "sendNow":  "أرسل الآن",
+                                               "viewEmails":  "عرض رسائل البريد الإلكتروني",
+                                               "justNow":  "الآن",
+                                               "hoursAgo":  "{{عدد}} منذ ساعة",
+                                               "daysAgo":  "{{عدد}} منذ"
                                            }
                              },
     "sellerBlogs":  {
-                        "title":  "Blog Management",
-                        "subtitle":  "Create and manage your store\u0027s blog posts.",
-                        "createNew":  "Create New Post",
-                        "searchPlaceholder":  "Search posts...",
-                        "loading":  "Loading your blogs...",
+                        "title":  "إدارة المدونة",
+                        "subtitle":  "إنشاء وإدارة منشورات مدونة متجرك.",
+                        "createNew":  "إنشاء مشاركة جديدة",
+                        "searchPlaceholder":  "بحث في المشاركات...",
+                        "loading":  "جارٍ تحميل مدوناتك...",
                         "empty":  {
-                                      "title":  "No blog posts found",
-                                      "searchNoMatch":  "No posts matching \"{{query}}\". Try a different search term.",
-                                      "subtitle":  "You haven\u0027t created any blog posts yet. Start by creating your first post to engage with your customers.",
-                                      "clearSearch":  "Clear Search",
-                                      "createFirst":  "Create First Post"
+                                      "title":  "لم يتم العثور على مشاركات مدونة",
+                                      "searchNoMatch":  "لا يوجد أي مشاركات تطابق \"{{query}}\". حاول استخدام مصطلح بحث مختلف.",
+                                      "subtitle":  "لم تقم بإنشاء أية مشاركات مدونة حتى الآن. ابدأ بإنشاء منشورك الأول للتفاعل مع عملائك.",
+                                      "clearSearch":  "مسح البحث",
+                                      "createFirst":  "إنشاء المشاركة الأولى"
                                   },
-                        "deleteConfirm":  "Are you sure you want to delete this blog post?",
-                        "deleteFailed":  "Failed to delete blog",
-                        "saveFailed":  "Failed to save blog",
+                        "deleteConfirm":  "هل أنت متأكد أنك تريد حذف مشاركة المدونة هذه؟",
+                        "deleteFailed":  "فشل حذف المدونة",
+                        "saveFailed":  "فشل حفظ المدونة",
                         "editor":  {
-                                       "loading":  "Loading editor...",
-                                       "newTitle":  "Create New Post",
-                                       "editTitle":  "Edit Blog Post",
-                                       "newSubtitle":  "Share your knowledge with Toroongo",
-                                       "editSubtitle":  "Updating your shared insights",
-                                       "preview":  "Preview Post",
-                                       "backToEdit":  "Back to Edit",
-                                       "publish":  "Publish Post",
-                                       "update":  "Update Post",
-                                       "untitled":  "Untitled Post",
-                                       "summaryPlaceholder":  "Post summary will appear here...",
-                                       "contentPlaceholder":  "Start writing your content...",
-                                       "strategy":  "Content Strategy",
-                                       "postTitle":  "Post Title",
-                                       "titlePlaceholder":  "e.g. 5 Strategies for High Conversion",
-                                       "shortSummary":  "Short Summary",
-                                       "summaryHookPlaceholder":  "A brief hook that appears in the blog feed...",
-                                       "fullContent":  "Full Article Content",
-                                       "richText":  "Rich Text Enabled",
-                                       "storyPlaceholder":  "Tell your story...",
-                                       "metadata":  "Metadata",
-                                       "category":  "Category",
-                                       "theme":  "Post Color Theme",
-                                       "coverImage":  "Cover Image",
-                                       "imageUrl":  "Image URL",
-                                       "noPreview":  "No Preview Available",
-                                       "noPermission":  "You do not have permission to edit this blog.",
+                                       "loading":  "جارٍ تحميل المحرر...",
+                                       "newTitle":  "إنشاء مشاركة جديدة",
+                                       "editTitle":  "تحرير مشاركة المدونة",
+                                       "newSubtitle":  "شارك معلوماتك مع Toroongo",
+                                       "editSubtitle":  "تحديث الرؤى المشتركة الخاصة بك",
+                                       "preview":  "معاينة المشاركة",
+                                       "backToEdit":  "العودة إلى التحرير",
+                                       "publish":  "نشر المنشور",
+                                       "update":  "تحديث المشاركة",
+                                       "untitled":  "مشاركة بدون عنوان",
+                                       "summaryPlaceholder":  "سيظهر ملخص المشاركة هنا...",
+                                       "contentPlaceholder":  "ابدأ بكتابة المحتوى الخاص بك...",
+                                       "strategy":  "استراتيجية المحتوى",
+                                       "postTitle":  "عنوان المشاركة",
+                                       "titlePlaceholder":  "على سبيل المثال 5 استراتيجيات للتحويل العالي",
+                                       "shortSummary":  "ملخص قصير",
+                                       "summaryHookPlaceholder":  "رابط مختصر يظهر في خلاصة المدونة...",
+                                       "fullContent":  "محتوى المقال كاملا",
+                                       "richText":  "تم تمكين النص المنسق",
+                                       "storyPlaceholder":  "احكي قصتك...",
+                                       "metadata":  "البيانات الوصفية",
+                                       "category":  "فئة",
+                                       "theme":  "موضوع آخر اللون",
+                                       "coverImage":  "صورة الغلاف",
+                                       "imageUrl":  "عنوان URL للصورة",
+                                       "noPreview":  "لا تتوفر معاينة",
+                                       "noPermission":  "ليس لديك الإذن لتحرير هذه المدونة.",
                                        "defaultAuthorInitials":  "SE",
-                                       "defaultAuthor":  "Your Store",
+                                       "defaultAuthor":  "متجرك",
                                        "urlPlaceholder":  "https://..."
                                    },
                         "categories":  {
-                                           "tips":  "Seller Tips",
-                                           "insights":  "Industry Insight",
-                                           "guides":  "Product Guide",
-                                           "stories":  "Brand Story",
-                                           "updates":  "Update"
+                                           "tips":  "نصائح البائع",
+                                           "insights":  "رؤية الصناعة",
+                                           "guides":  "دليل المنتج",
+                                           "stories":  "قصة العلامة التجارية",
+                                           "updates":  "تحديث"
                                        },
                         "table":  {
-                                      "details":  "Post Details",
-                                      "category":  "Category",
-                                      "status":  "Status",
-                                      "actions":  "Actions",
-                                      "publishedOn":  "Published on {{date}}"
+                                      "details":  "تفاصيل المشاركة",
+                                      "category":  "فئة",
+                                      "status":  "حالة",
+                                      "actions":  "الإجراءات",
+                                      "publishedOn":  "تم النشر بتاريخ {{date}}"
                                   },
                         "status":  {
-                                       "published":  "Published"
+                                       "published":  "تم النشر"
                                    },
-                        "view":  "View",
-                        "edit":  "Edit",
-                        "delete":  "Delete",
-                        "views":  "{{count}} views"
+                        "view":  "منظر",
+                        "edit":  "يحرر",
+                        "delete":  "يمسح",
+                        "views":  "{{عدد}} مشاهدة"
                     },
     "sellerFinance":  {
-                          "title":  "Finance",
-                          "exportCsv":  "Export CSV",
+                          "title":  "تمويل",
+                          "exportCsv":  "تصدير CSV",
                           "stats":  {
-                                        "available":  "Available Balance",
-                                        "pending":  "Pending Settlement",
-                                        "nextPayout":  "Next Payout"
+                                        "available":  "الرصيد المتاح",
+                                        "pending":  "في انتظار التسوية",
+                                        "nextPayout":  "الدفعة التالية"
                                     },
                           "transactions":  {
-                                               "title":  "Recent Transactions",
+                                               "title":  "المعاملات الأخيرة",
                                                "table":  {
-                                                             "id":  "Transaction",
-                                                             "date":  "Date",
-                                                             "type":  "Type",
-                                                             "description":  "Description",
-                                                             "amount":  "Amount",
-                                                             "fee":  "Fee",
-                                                             "net":  "Net",
-                                                             "loading":  "Loading transactions...",
-                                                             "noTransactions":  "No transactions yet."
+                                                             "id":  "عملية",
+                                                             "date":  "تاريخ",
+                                                             "type":  "يكتب",
+                                                             "description":  "وصف",
+                                                             "amount":  "كمية",
+                                                             "fee":  "مصاريف",
+                                                             "net":  "شبكة",
+                                                             "loading":  "جارٍ تحميل المعاملات...",
+                                                             "noTransactions":  "لا توجد معاملات حتى الآن."
                                                          },
                                                "types":  {
-                                                             "sale":  "Sale",
-                                                             "payout":  "Payout"
+                                                             "sale":  "أُوكَازيُون",
+                                                             "payout":  "الدفع"
                                                          }
                                            },
-                          "payoutInfo":  "Weekly payout → Bank ****{{lastFour}}"
+                          "payoutInfo":  "الدفع الأسبوعي → البنك ****{{lastFour}}"
                       },
     "sellerMessages":  {
-                           "title":  "Messages",
-                           "searchPlaceholder":  "Search...",
-                           "loading":  "Loading messages...",
-                           "select":  "Select a conversation",
-                           "selectDesc":  "Choose a customer message to reply.",
-                           "typePlaceholder":  "Type a reply..."
+                           "title":  "رسائل",
+                           "searchPlaceholder":  "يبحث...",
+                           "loading":  "جارٍ تحميل الرسائل...",
+                           "select":  "حدد محادثة",
+                           "selectDesc":  "اختر رسالة العميل للرد عليها.",
+                           "typePlaceholder":  "اكتب الرد..."
                        },
     "shops":  {
-                  "title":  "Explore Shops",
-                  "subtitle":  "Discover unique stores from independent sellers on Toroongo. Every shop is a curated experience."
+                  "title":  "اكتشف المتاجر",
+                  "subtitle":  "اكتشف متاجر فريدة من البائعين المستقلين على Toroongo. كل متجر هو تجربة منسقة."
               },
     "sellerProduct":  {
                           "modal":  {
-                                        "addTitle":  "Add New Product",
-                                        "editTitle":  "Edit Product",
-                                        "titleLabel":  "Product Title *",
-                                        "titlePlaceholder":  "e.g., Wireless Headphones",
-                                        "categoryLabel":  "Category",
-                                        "categoryPlaceholder":  "Select Category",
-                                        "descLabel":  "Description",
-                                        "descPlaceholder":  "Describe your product...",
-                                        "seoLabel":  "Meta Description (SEO)",
-                                        "seoPlaceholder":  "Short SEO description (max 160 characters)...",
-                                        "priceLabel":  "Price *",
-                                        "originalPriceLabel":  "Original Price",
-                                        "stockLabel":  "Stock",
-                                        "variationsTitle":  "Variations",
-                                        "addVariation":  "+ Add variation group",
-                                        "variationsDesc":  "Create variation groups (e.g., Size, Color) and add possible values. Variants can be selected by buyers on the product page.",
-                                        "noVariations":  "No variations added.",
-                                        "groupNamePlaceholder":  "Group name (e.g., Size)",
-                                        "remove":  "Remove",
-                                        "addValuePlaceholder":  "Add value and press Enter (e.g., Red)",
-                                        "variantPrice":  "Price",
-                                        "variantImage":  "Image URL",
-                                        "mediaTitle":  "Product Media",
-                                        "mediaDesc":  "Add image \u0026 video URLs. The first image will be used as the primary product image. Supports direct image links, MP4 videos, and YouTube URLs.",
-                                        "mediaPlaceholder":  "https://example.com/image.jpg or YouTube URL",
-                                        "add":  "Add",
-                                        "noMedia":  "No media added yet",
-                                        "noMediaDesc":  "Paste image or video URLs above to add product media",
-                                        "cancel":  "Cancel",
-                                        "save":  "Save Product",
-                                        "update":  "Update Product",
-                                        "errorRequired":  "Please fill all required fields",
-                                        "invalidUrl":  "Please enter a valid URL",
-                                        "duplicateUrl":  "This URL has already been added",
-                                        "badgeImage":  "Image",
-                                        "badgeVideo":  "Video",
-                                        "primary":  "Primary",
-                                        "invalidUrlMsg":  "Invalid URL"
+                                        "addTitle":  "إضافة منتج جديد",
+                                        "editTitle":  "تحرير المنتج",
+                                        "titleLabel":  "عنوان المنتج *",
+                                        "titlePlaceholder":  "على سبيل المثال، سماعات الرأس اللاسلكية",
+                                        "categoryLabel":  "فئة",
+                                        "categoryPlaceholder":  "حدد الفئة",
+                                        "descLabel":  "وصف",
+                                        "descPlaceholder":  "وصف المنتج الخاص بك...",
+                                        "seoLabel":  "الوصف التعريفي (SEO)",
+                                        "seoPlaceholder":  "وصف قصير لتحسين محركات البحث (160 حرفًا كحد أقصى)...",
+                                        "priceLabel":  "سعر *",
+                                        "originalPriceLabel":  "السعر الأصلي",
+                                        "stockLabel":  "مخزون",
+                                        "variationsTitle":  "الاختلافات",
+                                        "addVariation":  "+ إضافة مجموعة متنوعة",
+                                        "variationsDesc":  "قم بإنشاء مجموعات التباين (على سبيل المثال، الحجم واللون) وأضف القيم المحتملة. يمكن للمشترين اختيار المتغيرات على صفحة المنتج.",
+                                        "noVariations":  "لم تتم إضافة أي اختلافات.",
+                                        "groupNamePlaceholder":  "اسم المجموعة (على سبيل المثال، الحجم)",
+                                        "remove":  "يزيل",
+                                        "addValuePlaceholder":  "أضف قيمة واضغط على Enter (على سبيل المثال، Red)",
+                                        "variantPrice":  "سعر",
+                                        "variantImage":  "عنوان URL للصورة",
+                                        "mediaTitle":  "وسائل الإعلام المنتج",
+                                        "mediaDesc":  "أضف عناوين URL للصور والفيديو. سيتم استخدام الصورة الأولى كصورة المنتج الأساسية. يدعم روابط الصور المباشرة ومقاطع فيديو MP4 وعناوين URL على YouTube.",
+                                        "mediaPlaceholder":  "https://example.com/image.jpg أو عنوان URL على YouTube",
+                                        "add":  "يضيف",
+                                        "noMedia":  "لم تتم إضافة أي وسائط حتى الآن",
+                                        "noMediaDesc":  "الصق عناوين URL للصورة أو الفيديو أعلاه لإضافة وسائط المنتج",
+                                        "cancel":  "يلغي",
+                                        "save":  "حفظ المنتج",
+                                        "update":  "تحديث المنتج",
+                                        "errorRequired":  "يرجى ملء كافة الحقول المطلوبة",
+                                        "invalidUrl":  "الرجاء إدخال عنوان URL صالح",
+                                        "duplicateUrl":  "تمت إضافة عنوان URL هذا بالفعل",
+                                        "badgeImage":  "صورة",
+                                        "badgeVideo":  "فيديو",
+                                        "primary":  "أساسي",
+                                        "invalidUrlMsg":  "عنوان URL غير صالح",
+                                        "badgeImagePlural":  "الصور",
+                                        "badgeVideoPlural":  "أشرطة الفيديو"
                                     }
                       },
     "sellerDiscounts":  {
-                            "title":  "Discounts",
-                            "subtitle":  "Create and manage discount codes for your store",
-                            "createBtn":  "Create Discount",
+                            "title":  "خصومات",
+                            "subtitle":  "إنشاء وإدارة رموز الخصم لمتجرك",
+                            "createBtn":  "إنشاء الخصم",
                             "stats":  {
-                                          "active":  "Active Discounts",
-                                          "usage":  "Total Usage",
-                                          "savings":  "Avg. Savings"
+                                          "active":  "الخصومات النشطة",
+                                          "usage":  "الاستخدام الإجمالي",
+                                          "savings":  "متوسط الادخار"
                                       },
                             "form":  {
-                                         "title":  "Create New Discount",
-                                         "codeLabel":  "Discount Code",
-                                         "codePlaceholder":  "e.g. SUMMER25",
-                                         "typeLabel":  "Discount Type",
-                                         "typePercentage":  "Percentage Off",
-                                         "typeFixed":  "Fixed Amount Off",
-                                         "valueLabel":  "Value",
-                                         "minOrderLabel":  "Minimum Order Value ($)",
-                                         "usageLimitLabel":  "Usage Limit",
-                                         "usageLimitPlaceholder":  "Unlimited",
-                                         "expiryLabel":  "Expiry Date",
-                                         "createBtn":  "Create Discount",
-                                         "cancel":  "Cancel"
+                                         "title":  "إنشاء خصم جديد",
+                                         "codeLabel":  "رمز الخصم",
+                                         "codePlaceholder":  "على سبيل المثال الصيف25",
+                                         "typeLabel":  "نوع الخصم",
+                                         "typePercentage":  "النسبة المئوية معطلة",
+                                         "typeFixed":  "المبلغ الثابت معطل",
+                                         "valueLabel":  "قيمة",
+                                         "minOrderLabel":  "الحد الأدنى لقيمة الطلب ($)",
+                                         "usageLimitLabel":  "حد الاستخدام",
+                                         "usageLimitPlaceholder":  "غير محدود",
+                                         "expiryLabel":  "تاريخ انتهاء الصلاحية",
+                                         "createBtn":  "إنشاء الخصم",
+                                         "cancel":  "يلغي"
                                      },
-                            "searchPlaceholder":  "Search discount codes...",
+                            "searchPlaceholder":  "البحث عن اكواد الخصم...",
                             "table":  {
-                                          "code":  "Code",
-                                          "type":  "Type",
-                                          "value":  "Value",
-                                          "usage":  "Usage",
-                                          "minOrder":  "Min. Order",
-                                          "status":  "Status",
-                                          "expires":  "Expires",
-                                          "actions":  "Actions",
-                                          "never":  "Never",
-                                          "copyCode":  "Copy code"
+                                          "code":  "شفرة",
+                                          "type":  "يكتب",
+                                          "value":  "قيمة",
+                                          "usage":  "الاستخدام",
+                                          "minOrder":  "دقيقة. طلب",
+                                          "status":  "حالة",
+                                          "expires":  "تنتهي",
+                                          "actions":  "الإجراءات",
+                                          "never":  "أبداً",
+                                          "copyCode":  "نسخ الرمز"
                                       },
                             "status":  {
-                                           "active":  "active",
-                                           "expired":  "expired",
-                                           "paused":  "paused"
+                                           "active":  "نشيط",
+                                           "expired":  "منتهي الصلاحية",
+                                           "paused":  "متوقف مؤقتا"
                                        },
                             "noDiscounts":  "لم يتم العثور على رموز خصم",
                             "noDiscountsDesc":  "قم بإنشاء أول رمز خصم لك للبدء",

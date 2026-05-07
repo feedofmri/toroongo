@@ -83,7 +83,7 @@ export default function OrderConfirmation() {
                         </div>
                         <div>
                             <p className="text-xs text-text-muted uppercase tracking-wider mb-1">{t('orderConfirmation.payment', 'Payment')}</p>
-                            <p className="text-sm text-text-primary">{latestOrder?.paymentMethod || t('orderConfirmation.defaultPayment', 'Visa ending in •••• 4242')}</p>
+                            <p className="text-sm text-text-primary">{latestOrder?.paymentMethod || t('orderConfirmation.paymentProcessed')}</p>
                         </div>
                     </div>
 

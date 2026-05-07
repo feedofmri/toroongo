@@ -10,6 +10,7 @@ import { useSubscription } from '../../context/SubscriptionContext';
 import {
     AI_FEATURES, PLANS, PLAN_ORDER, getPlanIndex, getCumulativeAiFeatures, getLockedAiFeatures
 } from '../../data/planConfig';
+import aiService from '../../services/aiService';
 
 const AI_TOOL_ICONS = {
     'AI Product Description Generator': Wand2,
@@ -32,19 +33,18 @@ function DescriptionGenerator() {
     const [generating, setGenerating] = useState(false);
     const [result, setResult] = useState('');
 
-    const handleGenerate = () => {
+    const handleGenerate = async () => {
         if (!keywords.trim()) return;
         setGenerating(true);
         setResult('');
-        setTimeout(() => {
-            setResult(
-                `Introducing our premium ${keywords} — meticulously crafted for those who demand excellence. ` +
-                `Built with sustainable materials and innovative design, this product delivers an unmatched experience. ` +
-                `Whether you're a seasoned professional or just starting out, you'll appreciate the attention to detail ` +
-                `and superior quality that sets this apart from the competition. Order today and experience the difference!`
-            );
+        try {
+            const data = await aiService.generateDescription(keywords);
+            setResult(data);
+        } catch (error) {
+            console.error('Failed to generate description:', error);
+        } finally {
             setGenerating(false);
-        }, 1500);
+        }
     };
 
     return (
@@ -96,10 +96,17 @@ function ImageEnhancer() {
     const [processing, setProcessing] = useState(false);
     const [done, setDone] = useState(false);
 
-    const handleEnhance = () => {
+    const handleEnhance = async () => {
         setProcessing(true);
         setDone(false);
-        setTimeout(() => { setProcessing(false); setDone(true); }, 2000);
+        try {
+            await aiService.enhanceImage();
+            setDone(true);
+        } catch (error) {
+            console.error('Failed to enhance image:', error);
+        } finally {
+            setProcessing(false);
+        }
     };
 
     return (
@@ -141,17 +148,16 @@ function AutoTranslator() {
     const [translating, setTranslating] = useState(false);
     const [translations, setTranslations] = useState([]);
 
-    const handleTranslate = () => {
+    const handleTranslate = async () => {
         setTranslating(true);
-        setTimeout(() => {
-            setTranslations([
-                { lang: '🇧🇩 Bengali', sample: 'প্রিমিয়াম চামড়ার মেসেঞ্জার ব্যাগ' },
-                { lang: '🇮🇳 Hindi', sample: 'प्रीमियम चमड़े का मैसेंजर बैग' },
-                { lang: '🇲🇾 Malay', sample: 'Beg Utusan Kulit Premium' },
-                { lang: '🇦🇪 Arabic', sample: 'حقيبة ساعي جلدية فاخرة' },
-            ]);
+        try {
+            const data = await aiService.translateCatalog();
+            setTranslations(data);
+        } catch (error) {
+            console.error('Failed to translate catalog:', error);
+        } finally {
             setTranslating(false);
-        }, 1500);
+        }
     };
 
     return (

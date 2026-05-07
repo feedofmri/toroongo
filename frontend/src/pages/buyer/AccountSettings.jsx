@@ -3,14 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { User, MapPin, CreditCard, Bell, Plus, Pencil, Trash2, Loader2, X, Globe } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { userService, addressService } from '../../services';
+import { userService, addressService, paymentMethodService } from '../../services';
 import CountrySelector from '../../components/ui/CountrySelector';
 import { setBuyerCurrencyCode } from '../../utils/currency';
-
-const MOCK_PAYMENTS = [
-    { id: 1, type: 'Visa', last4: '4242', expiry: '12/27', isDefault: true },
-    { id: 2, type: 'Mastercard', last4: '8888', expiry: '06/28', isDefault: false },
-];
 
 export default function AccountSettings() {
     const { t } = useTranslation();
@@ -19,6 +14,8 @@ export default function AccountSettings() {
     const searchParams = new URLSearchParams(location.search);
     const initialTab = searchParams.get('tab') || 'profile';
     const [activeTab, setActiveTab] = useState(initialTab);
+    const [paymentMethods, setPaymentMethods] = useState([]);
+    const [loadingPayments, setLoadingPayments] = useState(false);
 
     // Notification State
     const [notificationPrefs, setNotificationPrefs] = useState({
@@ -121,6 +118,23 @@ export default function AccountSettings() {
         setIsAddressModalOpen(true);
     };
 
+    useEffect(() => {
+        if (user && activeTab === 'payment') {
+            const fetchPayments = async () => {
+                setLoadingPayments(true);
+                try {
+                    const data = await paymentMethodService.getMyMethods();
+                    setPaymentMethods(data || []);
+                } catch (err) {
+                    console.error('Failed to fetch payment methods:', err);
+                } finally {
+                    setLoadingPayments(false);
+                }
+            };
+            fetchPayments();
+        }
+    }, [user, activeTab]);
+
     const handleSaveAddress = async (e) => {
         e.preventDefault();
         setIsSavingAddress(true);
@@ -141,7 +155,7 @@ export default function AccountSettings() {
     };
 
     const handleDeleteAddress = async (id) => {
-        if (!window.confirm('Are you sure you want to remove this address?')) return;
+        if (!window.confirm(t('account.confirmDeleteAddress', 'Are you sure you want to remove this address?'))) return;
         try {
             await addressService.deleteAddress(id);
             await fetchAddresses();
@@ -189,7 +203,7 @@ export default function AccountSettings() {
     const tabs = [
         { key: 'profile', label: t('account.profile'), icon: User },
         { key: 'addresses', label: t('account.addresses'), icon: MapPin },
-        { key: 'country', label: 'Country & Currency', icon: Globe },
+        { key: 'country', label: t('account.countryCurrency', 'Country & Currency'), icon: Globe },
         { key: 'payment', label: t('account.payment'), icon: CreditCard },
         { key: 'notifications', label: t('account.notifications'), icon: Bell },
     ];
@@ -283,9 +297,9 @@ export default function AccountSettings() {
             {activeTab === 'country' && (
                 <div className="max-w-lg space-y-5">
                     <div>
-                        <h3 className="text-lg font-semibold text-text-primary">Country & Currency</h3>
+                        <h3 className="text-lg font-semibold text-text-primary">{t('account.countryCurrency', 'Country & Currency')}</h3>
                         <p className="text-sm text-text-muted mt-1">
-                            Your country determines which currency is used to display prices across the platform.
+                            {t('account.countryCurrencyDesc', 'Your country determines which currency is used to display prices across the platform.')}
                         </p>
                     </div>
                     <CountrySelector value={countryData} onChange={setCountryData} />
@@ -295,7 +309,7 @@ export default function AccountSettings() {
                         className="flex items-center gap-2 px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-70"
                     >
                         {isSavingCountry && <Loader2 size={16} className="animate-spin" />}
-                        Save Country & Currency
+                        {t('account.saveCountryCurrency', 'Save Country & Currency')}
                     </button>
                 </div>
             )}
@@ -316,7 +330,7 @@ export default function AccountSettings() {
                     {loadingAddresses ? (
                         <div className="flex flex-col items-center justify-center py-12">
                             <Loader2 size={32} className="text-brand-primary animate-spin mb-4" />
-                            <p className="text-sm text-text-muted">Loading addresses...</p>
+                            <p className="text-sm text-text-muted">{t('account.loadingAddresses', 'Loading addresses...')}</p>
                         </div>
                     ) : addresses.length > 0 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -347,12 +361,12 @@ export default function AccountSettings() {
                     ) : (
                         <div className="text-center py-12 border-2 border-dashed border-border-soft rounded-2xl">
                             <MapPin size={40} className="text-text-muted/30 mx-auto mb-3" />
-                            <p className="text-sm text-text-muted font-medium">No saved addresses yet.</p>
+                            <p className="text-sm text-text-muted font-medium">{t('account.noAddresses', 'No saved addresses yet.')}</p>
                             <button 
                                 onClick={() => handleOpenAddressModal()}
                                 className="mt-4 text-xs font-bold text-brand-primary hover:underline"
                             >
-                                Add your first shipping address
+                                {t('account.addFirstAddress', 'Add your first shipping address')}
                             </button>
                         </div>
                     )}
@@ -365,7 +379,7 @@ export default function AccountSettings() {
                     <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden flex flex-col animate-scale-up">
                         <div className="px-6 py-4 border-b border-border-soft flex items-center justify-between bg-surface-bg">
                             <h3 className="font-bold text-text-primary">
-                                {editingAddress ? 'Edit Address' : 'Add New Address'}
+                                {editingAddress ? t('account.editAddress', 'Edit Address') : t('account.addNewAddress', 'Add New Address')}
                             </h3>
                             <button onClick={() => setIsAddressModalOpen(false)} className="p-1 text-text-muted hover:text-text-primary transition-colors">
                                 <X size={20} />
@@ -373,7 +387,7 @@ export default function AccountSettings() {
                         </div>
                         <form onSubmit={handleSaveAddress} className="p-6 space-y-4">
                             <div>
-                                <label className="block text-xs font-medium text-text-muted mb-1.5">Address Label (e.g. Home, Office)</label>
+                                <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.addressLabel', 'Address Label (e.g. Home, Office)')}</label>
                                 <input 
                                     type="text" required value={addressForm.label} 
                                     onChange={(e) => setAddressForm({...addressForm, label: e.target.value})} className={inputClass} 
@@ -381,14 +395,14 @@ export default function AccountSettings() {
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-xs font-medium text-text-muted mb-1.5">First Name</label>
+                                    <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.firstName')}</label>
                                     <input 
                                         type="text" required value={addressForm.first_name} 
                                         onChange={(e) => setAddressForm({...addressForm, first_name: e.target.value})} className={inputClass} 
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-medium text-text-muted mb-1.5">Last Name</label>
+                                    <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.lastName')}</label>
                                     <input 
                                         type="text" required value={addressForm.last_name} 
                                         onChange={(e) => setAddressForm({...addressForm, last_name: e.target.value})} className={inputClass} 
@@ -397,14 +411,14 @@ export default function AccountSettings() {
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-xs font-medium text-text-muted mb-1.5">Email</label>
+                                    <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.email')}</label>
                                     <input 
                                         type="email" value={addressForm.email} 
                                         onChange={(e) => setAddressForm({...addressForm, email: e.target.value})} className={inputClass} 
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-medium text-text-muted mb-1.5">Phone</label>
+                                    <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.phone')}</label>
                                     <input 
                                         type="tel" required value={addressForm.phone} 
                                         onChange={(e) => setAddressForm({...addressForm, phone: e.target.value})} className={inputClass} 
@@ -412,7 +426,7 @@ export default function AccountSettings() {
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-xs font-medium text-text-muted mb-1.5">Street Address</label>
+                                <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.streetAddress', 'Street Address')}</label>
                                 <input 
                                     type="text" required value={addressForm.address} 
                                     onChange={(e) => setAddressForm({...addressForm, address: e.target.value})} className={inputClass} 
@@ -420,21 +434,21 @@ export default function AccountSettings() {
                             </div>
                             <div className="grid grid-cols-3 gap-4">
                                 <div className="col-span-1">
-                                    <label className="block text-xs font-medium text-text-muted mb-1.5">City</label>
+                                    <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.city', 'City')}</label>
                                     <input 
                                         type="text" required value={addressForm.city} 
                                         onChange={(e) => setAddressForm({...addressForm, city: e.target.value})} className={inputClass} 
                                     />
                                 </div>
                                 <div className="col-span-1">
-                                    <label className="block text-xs font-medium text-text-muted mb-1.5">State</label>
+                                    <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.state', 'State')}</label>
                                     <input 
                                         type="text" value={addressForm.state} 
                                         onChange={(e) => setAddressForm({...addressForm, state: e.target.value})} className={inputClass} 
                                     />
                                 </div>
                                 <div className="col-span-1">
-                                    <label className="block text-xs font-medium text-text-muted mb-1.5">ZIP Code</label>
+                                    <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.zip', 'ZIP Code')}</label>
                                     <input 
                                         type="text" required value={addressForm.zip} 
                                         onChange={(e) => setAddressForm({...addressForm, zip: e.target.value})} className={inputClass} 
@@ -446,14 +460,14 @@ export default function AccountSettings() {
                                     type="button" onClick={() => setIsAddressModalOpen(false)}
                                     className="flex-1 py-3 text-sm font-bold text-text-muted bg-surface-bg rounded-xl hover:text-text-primary transition-colors"
                                 >
-                                    Cancel
+                                    {t('common.cancel', 'Cancel')}
                                 </button>
                                 <button 
                                     type="submit" disabled={isSavingAddress}
                                     className="flex-[2] py-3 bg-brand-primary text-white text-sm font-bold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
                                 >
                                     {isSavingAddress && <Loader2 size={16} className="animate-spin" />}
-                                    {editingAddress ? 'Update Address' : 'Save Address'}
+                                    {editingAddress ? t('account.updateAddress', 'Update Address') : t('account.saveAddress', 'Save Address')}
                                 </button>
                             </div>
                         </form>
@@ -471,30 +485,45 @@ export default function AccountSettings() {
                         </button>
                     </div>
                     <div className="space-y-3">
-                        {MOCK_PAYMENTS.map((card) => (
-                            <div key={card.id} className="flex items-center justify-between p-5 border border-border-soft rounded-xl">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-12 h-8 bg-surface-bg rounded-lg flex items-center justify-center border border-border-soft">
-                                        <CreditCard size={18} className="text-text-muted" />
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-medium text-text-primary">
-                                            {card.type} •••• {card.last4}
-                                            {card.isDefault && (
-                                                <span className="ml-2 text-[10px] font-semibold text-brand-primary bg-brand-primary/10 px-2 py-0.5 rounded-full">
-                                                    {t('account.default')}
-                                                </span>
-                                            )}
-                                        </p>
-                                        <p className="text-xs text-text-muted">{t('account.expires', { date: card.expiry })}</p>
-                                    </div>
-                                </div>
-                                <div className="flex gap-2">
-                                    <button className="text-xs font-medium text-text-muted hover:text-brand-primary transition-colors">{t('account.edit')}</button>
-                                    <button className="text-xs font-medium text-text-muted hover:text-red-500 transition-colors">{t('account.remove')}</button>
-                                </div>
+                        {loadingPayments ? (
+                            <div className="flex flex-col items-center justify-center py-12">
+                                <Loader2 size={24} className="text-brand-primary animate-spin mb-2" />
+                                <p className="text-sm text-text-muted">Loading payment methods...</p>
                             </div>
-                        ))}
+                        ) : paymentMethods.length > 0 ? (
+                            paymentMethods.map((card) => (
+                                <div key={card.id} className="flex items-center justify-between p-5 border border-border-soft rounded-xl">
+                                    <div className="flex items-center gap-4">
+                                        <div className="w-12 h-8 bg-surface-bg rounded-lg flex items-center justify-center border border-border-soft">
+                                            <CreditCard size={18} className="text-text-muted" />
+                                        </div>
+                                        <div>
+                                            <p className="text-sm font-medium text-text-primary">
+                                                {card.type} •••• {card.last4}
+                                                {card.isDefault && (
+                                                    <span className="ml-2 text-[10px] font-semibold text-brand-primary bg-brand-primary/10 px-2 py-0.5 rounded-full">
+                                                        {t('account.default')}
+                                                    </span>
+                                                )}
+                                            </p>
+                                            <p className="text-xs text-text-muted">{t('account.expires', { date: card.expiry })}</p>
+                                        </div>
+                                    </div>
+                                    <div className="flex gap-2">
+                                        <button className="text-xs font-medium text-text-muted hover:text-brand-primary transition-colors">{t('account.edit')}</button>
+                                        <button className="text-xs font-medium text-text-muted hover:text-red-500 transition-colors">{t('account.remove')}</button>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="text-center py-12 bg-surface-bg/30 rounded-2xl border border-dashed border-border-soft">
+                                <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+                                    <CreditCard size={24} className="text-text-muted" />
+                                </div>
+                                <h4 className="text-sm font-bold text-text-primary mb-1">No payment methods found</h4>
+                                <p className="text-xs text-text-muted max-w-[200px] mx-auto">Add a card or bank account to speed up your checkout process.</p>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}

@@ -9,16 +9,13 @@ import { formatPrice, formatPriceInCurrency, convertCurrency } from '../../utils
 import { PLANS, getNextPlan } from '../../data/planConfig';
 import PlanBadge from '../../components/subscription/PlanBadge';
 import PlanFeaturesWidget from '../../components/subscription/PlanFeaturesWidget';
+import { PLATFORM_CONFIG, STATUS_STYLES } from '../../config/constants';
 
-const STATUS_STYLES = {
-    processing: 'text-amber-600 bg-amber-50',
-    shipped: 'text-blue-600 bg-blue-50',
-    delivered: 'text-green-600 bg-green-50',
-};
+// Status styles moved to constants.js
 
 // Simple bar chart component
-function MiniBarChart() {
-    const bars = [65, 80, 45, 90, 70, 85, 60, 95, 75, 88, 92, 78];
+function MiniBarChart({ data = [] }) {
+    const bars = data.length > 0 ? data : [65, 80, 45, 90, 70, 85, 60, 95, 75, 88, 92, 78];
     const max = Math.max(...bars);
     return (
         <div className="flex items-end gap-1.5 h-32">
@@ -38,6 +35,7 @@ function MiniBarChart() {
 }
 
 function PlanSummaryCard() {
+    const { t } = useTranslation();
     const { currentPlan, planDetails, nextPlan, productCount, productLimit } = useSubscription();
     const nextPlanData = nextPlan ? PLANS[nextPlan] : null;
 
@@ -68,7 +66,7 @@ function PlanSummaryCard() {
                 <div className="flex items-center gap-3">
                     {nextPlanData && (
                         <button
-                            onClick={() => alert(t('common.underDevelopment', 'Under development'))}
+                            onClick={() => navigate('/seller/subscription')}
                             className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-brand-primary to-brand-secondary text-white text-sm font-semibold rounded-xl hover:shadow-lg hover:shadow-brand-primary/20 transition-all"
                         >
                             <Sparkles size={14} />
@@ -159,9 +157,9 @@ export default function SellerDashboard() {
 
     const displayStats = [
         { label: t('sellerDashboard.stats.totalRevenue'), value: formatPriceInCurrency(stats.revenue, user?.currency_code), change: '+12.5%', up: true, icon: DollarSign },
-        { label: t('sellerDashboard.stats.totalOrders'), value: stats.orderCount, change: '+8.2%', up: true, icon: ShoppingBag },
-        { label: t('sellerDashboard.stats.productsListed'), value: stats.productsCount, change: '+3', up: true, icon: Package },
-        { label: t('sellerDashboard.stats.storeViews'), value: '12.4K', change: '-2.1%', up: false, icon: Eye },
+        { label: t('sellerDashboard.stats.totalOrders'), value: stats.orderCount, change: stats.orderCount > 0 ? '+100%' : '0%', up: true, icon: ShoppingBag },
+        { label: t('sellerDashboard.stats.productsListed'), value: stats.productsCount, change: `+${stats.productsCount}`, up: true, icon: Package },
+        { label: t('sellerDashboard.stats.storeViews'), value: user?.store_views || '0', change: '0%', up: true, icon: Eye },
     ];
 
     if (loading) {
@@ -201,7 +199,7 @@ export default function SellerDashboard() {
                         <h3 className="font-semibold text-text-primary">{t('sellerDashboard.revenueOverview.title')}</h3>
                         <span className="text-xs text-text-muted bg-surface-bg px-2.5 py-1 rounded-lg">{t('sellerDashboard.revenueOverview.last12Months')}</span>
                     </div>
-                    <MiniBarChart />
+                    <MiniBarChart data={stats.monthlyRevenue || []} />
                 </div>
 
                 {/* Top Products */}
@@ -253,7 +251,7 @@ export default function SellerDashboard() {
                                 const customerName = order.shippingAddress ? `${order.shippingAddress.firstName} ${order.shippingAddress.lastName}` : 'Guest';
                                 return (
                                     <tr key={order.id} className="hover:bg-surface-bg/50 transition-colors">
-                                        <td className="px-6 py-3.5 text-sm font-medium text-text-primary">TRG-{String(order.id).split('-')[0].toUpperCase()}</td>
+                                        <td className="px-6 py-3.5 text-sm font-medium text-text-primary">{PLATFORM_CONFIG.ORDER_ID_PREFIX}{String(order.id).split('-')[0].toUpperCase()}</td>
                                         <td className="px-6 py-3.5 text-sm text-text-muted">{customerName}</td>
                                         <td className="px-6 py-3.5 text-sm text-text-muted">
                                             <span className="line-clamp-1">{order.items.length > 0 ? `${order.items[0].quantity}x items` : 'N/A'}</span>

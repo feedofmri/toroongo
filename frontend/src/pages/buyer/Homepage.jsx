@@ -15,41 +15,11 @@ import { useProduct } from '../../context/ProductContext';
 
 import { useTranslation } from 'react-i18next';
 import { formatPrice } from '../../utils/currency';
+import { getTestimonials } from '../../data/testimonials';
 
 export default function Homepage() {
-    const testimonials = [
-        {
-            id: 1,
-            name: "Emily R.",
-            role: "Fashion Blogger",
-            text: "Toroongo has completely changed how I shop for unique pieces. The variety of sellers is incredible and the quality always exceeds expectations!",
-            rating: 5,
-            avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150&h=150",
-            date: "2 weeks ago",
-            purchased: "Classic Silk Dress"
-        },
-        {
-            id: 2,
-            name: "Michael T.",
-            role: "Tech Enthusiast",
-            text: "I found exclusive gadgets here that I couldn't find anywhere else. The support from sellers is top-notch and delivery was faster than expected.",
-            rating: 5,
-            avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150&h=150",
-            date: "1 month ago",
-            purchased: "Wireless Noise-Cancelling Headphones"
-        },
-        {
-            id: 3,
-            name: "Sarah J.",
-            role: "Home Decorator",
-            text: "The artisan collection on Toroongo is simply stunning. My home feels so much more personal with the handcrafted items I've discovered here.",
-            rating: 5,
-            avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&q=80&w=150&h=150",
-            date: "3 weeks ago",
-            purchased: "Hand-Woven Textures Rug"
-        }
-    ];
     const { t } = useTranslation();
+    const testimonials = getTestimonials(t);
     const {
         products: loadedProducts,
         categories: loadedCategories,
@@ -260,17 +230,17 @@ export default function Homepage() {
                         {/* Trust stats below buttons for extra detail */}
                         <div className="flex flex-wrap items-center justify-center gap-8 mt-12 bg-white/60 backdrop-blur-md rounded-3xl py-6 px-4 border border-white max-w-2xl mx-auto hidden sm:flex">
                              <div className="flex flex-col items-center">
-                                  <span className="text-2xl font-extrabold text-slate-900">10K+</span>
+                                  <span className="text-2xl font-extrabold text-slate-900">{t('home.stats.productsCount', '10K+')}</span>
                                   <span className="text-sm text-slate-500 font-medium">{t('home.stats.products', 'Products')}</span>
                              </div>
                              <div className="w-px h-8 bg-slate-200"></div>
                              <div className="flex flex-col items-center">
-                                  <span className="text-2xl font-extrabold text-slate-900">500+</span>
+                                  <span className="text-2xl font-extrabold text-slate-900">{t('home.stats.sellersCount', '500+')}</span>
                                   <span className="text-sm text-slate-500 font-medium">{t('home.stats.sellers', 'Sellers')}</span>
                              </div>
                              <div className="w-px h-8 bg-slate-200"></div>
                              <div className="flex flex-col items-center">
-                                  <span className="text-2xl font-extrabold text-slate-900">50K+</span>
+                                  <span className="text-2xl font-extrabold text-slate-900">{t('home.stats.buyersCount', '50K+')}</span>
                                   <span className="text-sm text-slate-500 font-medium">{t('home.stats.buyers', 'Happy Buyers')}</span>
                              </div>
                         </div>

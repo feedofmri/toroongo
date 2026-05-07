@@ -37,11 +37,14 @@ export default function SellerSubscription() {
     const [showDowngradeConfirm, setShowDowngradeConfirm] = useState(false);
     const [actionMessage, setActionMessage] = useState(null);
 
-    const handleUpgradeSuccess = async (plan) => {
+    const handleUpgradeSuccess = async (plan, result) => {
         await refreshSubscription();
         setUpgradeTarget(null);
-        setActionMessage({ type: 'success', text: `Successfully upgraded to ${PLANS[plan].name}!` });
-        setTimeout(() => setActionMessage(null), 5000);
+        setActionMessage({ 
+            type: result?.subscription?.status === 'pending_verification' ? 'info' : 'success', 
+            text: result?.message || `Successfully upgraded to ${PLANS[plan].name}!` 
+        });
+        setTimeout(() => setActionMessage(null), 8000);
     };
 
     const handleDowngrade = async () => {
@@ -259,14 +262,17 @@ export default function SellerSubscription() {
                                         </div>
                                     ) : isUpgrade ? (
                                         <button
-                                            onClick={() => alert(t('common.underDevelopment', 'Under development'))}
+                                            onClick={() => setUpgradeTarget(planKey)}
                                             className="w-full py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors flex items-center justify-center gap-2"
                                         >
                                             Upgrade <ArrowRight size={14} />
                                         </button>
                                     ) : (
                                         <button
-                                            onClick={() => alert(t('common.underDevelopment', 'Under development'))}
+                                            onClick={() => {
+                                                setDowngradeTarget(planKey);
+                                                setShowDowngradeConfirm(true);
+                                            }}
                                             className="w-full py-2.5 bg-white border border-border-soft text-text-muted text-sm font-semibold rounded-xl hover:border-red-300 hover:text-red-500 transition-colors flex items-center justify-center gap-2"
                                         >
                                             <ArrowDown size={14} /> Downgrade

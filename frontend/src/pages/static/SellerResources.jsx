@@ -7,19 +7,21 @@ export default function SellerResources() {
     const { t } = useTranslation();
 
     const GUIDES = [
-        { icon: BookOpen, title: t('sellerResources.guidesList.g1.title', 'Getting Started Guide'), desc: t('sellerResources.guidesList.g1.desc', 'Everything you need to set up your store.'), tag: 'Beginner' },
-        { icon: Camera, title: t('sellerResources.guidesList.g2.title', 'Product Photography'), desc: t('sellerResources.guidesList.g2.desc', 'Tips for taking professional photos.'), tag: 'Marketing' },
-        { icon: TrendingUp, title: t('sellerResources.guidesList.g3.title', 'SEO for Sellers'), desc: t('sellerResources.guidesList.g3.desc', 'Optimize your listings for search.'), tag: 'Marketing' },
-        { icon: Package, title: t('sellerResources.guidesList.g4.title', 'Shipping Best Practices'), desc: t('sellerResources.guidesList.g4.desc', 'How to pack and ship efficiently.'), tag: 'Operations' },
-        { icon: BarChart3, title: t('sellerResources.guidesList.g5.title', 'Understanding Analytics'), desc: t('sellerResources.guidesList.g5.desc', 'Use data to grow your business.'), tag: 'Analytics' },
-        { icon: FileText, title: t('sellerResources.guidesList.g6.title', 'Writing Product Descriptions'), desc: t('sellerResources.guidesList.g6.desc', 'Craft descriptions that convert.'), tag: 'Content' },
+        { icon: BookOpen, title: t('sellerResources.guidesList.g1.title', 'AI-Powered Setup'), desc: t('sellerResources.guidesList.g1.desc', 'Launch your store in minutes with our AI Storefront Builder.'), tag: 'Setup' },
+        { icon: Camera, title: t('sellerResources.guidesList.g2.title', 'AI Image Enhancement'), desc: t('sellerResources.guidesList.g2.desc', 'Automatically remove backgrounds and upscale product photos.'), tag: 'AI Tools' },
+        { icon: TrendingUp, title: t('sellerResources.guidesList.g3.title', 'Global SEO & Localization'), desc: t('sellerResources.guidesList.g3.desc', 'Automatically translate your catalog into 7+ languages.'), tag: 'Marketing' },
+        { icon: Package, title: t('sellerResources.guidesList.g4.title', 'Global Logistics Hub'), desc: t('sellerResources.guidesList.g4.desc', 'Seamlessly ship to Bangladesh, Nepal, UAE, and beyond.'), tag: 'Logistics' },
+        { icon: BarChart3, title: t('sellerResources.guidesList.g5.title', 'Sales Forecasting'), desc: t('sellerResources.guidesList.g5.desc', 'Use AI to predict inventory needs and trend analysis.'), tag: 'Analytics' },
+        { icon: FileText, title: t('sellerResources.guidesList.g6.title', 'Zero Commission Model'), desc: t('sellerResources.guidesList.g6.desc', 'Learn how to keep 100% of your revenue with 0% transaction fees.'), tag: 'Finance' },
     ];
 
+
     const RESOURCES = [
-        { icon: Video, title: t('sellerResources.resourcesList.r1.title', 'Video Tutorials'), desc: t('sellerResources.resourcesList.r1.desc', 'Step-by-step video guides.'), cta: t('common.watchNow', 'Watch Now') },
-        { icon: MessageSquare, title: t('sellerResources.resourcesList.r2.title', 'Seller Community'), desc: t('sellerResources.resourcesList.r2.desc', 'Connect with other sellers.'), cta: t('common.joinForum', 'Join Forum') },
-        { icon: FileText, title: t('sellerResources.resourcesList.r3.title', 'Help Documentation'), desc: t('sellerResources.resourcesList.r3.desc', 'Detailed help docs.'), cta: t('common.readDocs', 'Read Docs') },
+        { icon: Video, title: t('sellerResources.resourcesList.r1.title', 'Toroongo Academy'), desc: t('sellerResources.resourcesList.r1.desc', 'Master the platform with video masterclasses.'), cta: t('common.watchNow', 'Start Learning') },
+        { icon: MessageSquare, title: t('sellerResources.resourcesList.r2.title', 'Global Seller Hub'), desc: t('sellerResources.resourcesList.r2.desc', 'Network with sellers across 6+ countries.'), cta: t('common.joinForum', 'Join Community') },
+        { icon: FileText, title: t('sellerResources.resourcesList.r3.title', 'System Documentation'), desc: t('sellerResources.resourcesList.r3.desc', 'Deep dive into our AI and Logistics APIs.'), cta: t('common.readDocs', 'View Docs') },
     ];
+
     return (
         <div className="animate-fade-in">
             <div className="bg-gradient-to-br from-brand-primary to-brand-secondary text-white py-16">

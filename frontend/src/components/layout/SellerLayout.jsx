@@ -34,7 +34,7 @@ export default function SellerLayout() {
     const [searchQuery, setSearchQuery] = useState('');
     const userDropdownRef = useRef(null);
 
-    // Fetch seller and products from real API instead of mockData
+    // Fetch seller and products from API
     useEffect(() => {
         const fetchSellerData = async () => {
             setIsLoading(true);

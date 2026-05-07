@@ -8,17 +8,9 @@ import { userService } from '../../services';
 import UpgradePrompt from '../../components/subscription/UpgradePrompt';
 import CountrySelector from '../../components/ui/CountrySelector';
 import { setBuyerCurrencyCode } from '../../utils/currency';
+import { RESERVED_SLUGS, PLATFORM_CONFIG } from '../../config/constants';
 
-// Reserved slugs that cannot be taken as shop usernames (matches static routes & system paths)
-const RESERVED_SLUGS = [
-    'search', 'products', 'product', 'shops', 'cart', 'checkout', 'order-confirmation', 'wishlist',
-    'login', 'signup', 'forgot-password', 'account',
-    'about', 'careers', 'press', 'blog',
-    'help', 'shipping', 'returns', 'contact',
-    'sell', 'terms', 'privacy', 'data-preferences',
-    'seller', 'admin', 'api', 'app', 'www', 'shop',
-    'toroongo', 'settings', 'dashboard', 'explore', 'discover',
-];
+// RESERVED_SLUGS moved to constants.js
 
 /**
  * Check if a slug is available (not taken by another seller and not reserved).
@@ -125,10 +117,10 @@ export default function SellerSettings() {
             faq: user?.seller_settings?.policies?.faq || '',
         },
         benefits: user?.seller_settings?.benefits || [
-            { title: 'Quality Guaranteed', desc: 'Every product undergoes rigorous quality checks before reaching you.' },
-            { title: 'Fast & Reliable Shipping', desc: 'We partner with trusted carriers to get your order to you quickly.' },
-            { title: 'Exceptional Support', desc: 'Our dedicated team is always ready to help with any questions or concerns.' },
-            { title: 'Easy Returns', desc: 'Not satisfied? Return any product within 30 days for a full refund.' },
+            { title: t('sellerSettings.content.defaultBenefits.quality.title', 'Quality Guaranteed'), desc: t('sellerSettings.content.defaultBenefits.quality.desc', 'Every product undergoes rigorous quality checks before reaching you.') },
+            { title: t('sellerSettings.content.defaultBenefits.shipping.title', 'Fast & Reliable Shipping'), desc: t('sellerSettings.content.defaultBenefits.shipping.desc', 'We partner with trusted carriers to get your order to you quickly.') },
+            { title: t('sellerSettings.content.defaultBenefits.support.title', 'Exceptional Support'), desc: t('sellerSettings.content.defaultBenefits.support.desc', 'Our dedicated team is always ready to help with any questions or concerns.') },
+            { title: t('sellerSettings.content.defaultBenefits.returns.title', 'Easy Returns'), desc: t('sellerSettings.content.defaultBenefits.returns.desc', 'Not satisfied? Return any product within 30 days for a full refund.') },
         ]
     });
     const [saveContentLoading, setSaveContentLoading] = useState(false);
@@ -181,21 +173,35 @@ export default function SellerSettings() {
     };
 
     // Debounced slug check
-    const checkSlug = useCallback((value) => {
+    const checkSlug = useCallback(async (value) => {
         const slug = value.toLowerCase().replace(/[^a-z0-9-]/g, '').replace(/--+/g, '-');
         setShopUsername(slug);
+        
         if (!slug) {
             setSlugStatus({ available: false, reason: 'Username cannot be empty' });
             return;
         }
+
+        // Basic client side validation before API call
+        const localCheck = checkSlugAvailability(slug, currentSellerId, allSellers);
+        if (!localCheck.available) {
+            setSlugStatus(localCheck);
+            return;
+        }
+
         setIsChecking(true);
-        // Simulate async check (would be API call in production)
-        setTimeout(() => {
-            const result = checkSlugAvailability(slug, currentSellerId, allSellers);
-            setSlugStatus(result);
+        try {
+            const result = await userService.checkSlug(slug, currentSellerId);
+            setSlugStatus({ 
+                available: result.available, 
+                reason: result.available ? (slug === currentSlug ? 'This is your current username' : 'Username is available!') : 'Already taken' 
+            });
+        } catch (error) {
+            console.error('Slug check failed:', error);
+        } finally {
             setIsChecking(false);
-        }, 400);
-    }, [currentSellerId, allSellers]);
+        }
+    }, [currentSellerId, allSellers, currentSlug]);
 
     const handleClaimUsername = async () => {
         if (!slugStatus.available || shopUsername === currentSlug) return;

@@ -106,4 +106,10 @@ export const orderService = {
       body: JSON.stringify({ reason }),
     });
   },
+  async requestReturn(orderId, reason) {
+    return await api(`/orders/${orderId}/request-return`, {
+      method: "PUT",
+      body: JSON.stringify({ reason }),
+    });
+  },
 };

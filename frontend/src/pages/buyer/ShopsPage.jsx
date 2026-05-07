@@ -12,16 +12,17 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useProduct } from '../../context/ProductContext';
 
-const SORT_OPTIONS = [
-    { value: 'popular', label: 'Most Popular' },
-    { value: 'rating', label: 'Highest Rated' },
-    { value: 'products', label: 'Most Products' },
-    { value: 'newest', label: 'Newest' },
-    { value: 'name-asc', label: 'A – Z' },
-];
+// SORT_OPTIONS moved inside component for localization
 
 export default function ShopsPage() {
     const { t } = useTranslation();
+    const SORT_OPTIONS = [
+        { value: 'popular', label: t('shops.sort.popular', 'Most Popular') },
+        { value: 'rating', label: t('shops.sort.rating', 'Highest Rated') },
+        { value: 'products', label: t('shops.sort.productsCount', 'Most Products') },
+        { value: 'newest', label: t('shops.sort.newest', 'Newest') },
+        { value: 'name-asc', label: t('shops.sort.nameAsc', 'A – Z') },
+    ];
     const { sellers, isLoading: contextLoading } = useProduct();
     const [searchQuery, setSearchQuery] = useState('');
     const [sortBy, setSortBy] = useState('popular');
@@ -98,7 +99,7 @@ export default function ShopsPage() {
                         <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none" />
                         <input
                             type="text"
-                            placeholder="Search shops by name..."
+                            placeholder={t('shops.searchPlaceholder', 'Search shops by name...') }
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             className="w-full pl-10 pr-4 py-2.5 text-sm rounded-xl bg-white border border-border-soft
@@ -142,14 +143,14 @@ export default function ShopsPage() {
 
                 {/* Results count */}
                 <p className="text-xs text-text-muted mb-5">
-                    {filteredSellers.length} {filteredSellers.length === 1 ? 'shop' : 'shops'} found
+                    {t('shops.resultsCount', { count: filteredSellers.length })}
                 </p>
 
                 {/* No results */}
                 {filteredSellers.length === 0 && (
                     <div className="text-center py-16">
-                        <p className="text-lg font-semibold text-text-primary mb-2">No shops found</p>
-                        <p className="text-sm text-text-muted">Try a different search term.</p>
+                        <p className="text-lg font-semibold text-text-primary mb-2">{t('shops.noResults', 'No shops found')}</p>
+                        <p className="text-sm text-text-muted">{t('shops.noResultsDesc', 'Try a different search term.')}</p>
                     </div>
                 )}
 
@@ -190,7 +191,7 @@ export default function ShopsPage() {
                                         {seller.store_name || seller.name}
                                     </h3>
                                     <p className="text-[11px] text-text-muted mt-0.5 line-clamp-2 leading-relaxed">
-                                        {seller.description || 'Welcome to my Toroongo shop!'}
+                                        {seller.description || t('shops.defaultDescription', 'Welcome to my Toroongo shop!')}
                                     </p>
                                     <div className="flex items-center justify-between mt-3 pt-3 border-t border-border-soft/50">
                                         <div className="flex items-center gap-1">
@@ -228,7 +229,7 @@ export default function ShopsPage() {
                                     <h3 className="text-sm font-semibold text-text-primary group-hover:text-brand-primary transition-colors truncate">
                                         {seller.store_name || seller.name}
                                     </h3>
-                                    <p className="text-xs text-text-muted mt-0.5 line-clamp-1">{seller.description || 'Welcome to my Toroongo shop!'}</p>
+                                    <p className="text-xs text-text-muted mt-0.5 line-clamp-1">{seller.description || t('shops.defaultDescription', 'Welcome to my Toroongo shop!')}</p>
                                     <div className="flex items-center gap-3 mt-2">
                                         <div className="flex items-center gap-1">
                                             <Star size={11} className="fill-amber-400 text-amber-400" />

@@ -7,6 +7,7 @@ import { orderService, productService } from '../../services';
 import Skeleton from '../../components/ui/Skeleton';
 import { formatPrice } from '../../utils/currency';
 import UpgradePrompt from '../../components/subscription/UpgradePrompt';
+import { PLATFORM_CONFIG } from '../../config/constants';
 
 export default function SellerFinance() {
     const { t } = useTranslation();
@@ -43,8 +44,8 @@ export default function SellerFinance() {
             let pending = 0;
             const txns = [];
 
-            // We apply a standard 10% platform fee
-            const FEE_RATE = 0.10;
+            // We apply a standard platform fee
+            const FEE_RATE = PLATFORM_CONFIG.DEFAULT_FEE_RATE;
 
             orders.forEach(order => {
                 const amount = order.subtotal || 0;
@@ -76,19 +77,6 @@ export default function SellerFinance() {
                 });
             });
 
-            // Add a mock payout just for visual completeness if there are transactions
-            if (txns.length > 0) {
-                txns.push({
-                    id: 'TXN-PAYOUT-001',
-                    date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
-                    type: 'Payout',
-                    description: 'Weekly payout → Bank ****4567',
-                    amount: -1245.60,
-                    fee: 0,
-                    net: -1245.60,
-                    status: 'completed'
-                });
-            }
 
             // Sort by date descending
             txns.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -140,7 +128,7 @@ export default function SellerFinance() {
                         <span className="text-sm text-text-muted">Next Payout</span>
                     </div>
                     <p className="text-2xl font-bold text-text-primary">
-                        {new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                        {new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString(t('common.locale', 'en-US'), { month: 'short', day: 'numeric' })}
                     </p>
                     <p className="text-xs text-text-muted mt-0.5">Est. {formatPrice(stats.available)}</p>
                 </div>
@@ -177,7 +165,7 @@ export default function SellerFinance() {
                                 <tr key={txn.id} className="hover:bg-surface-bg/50 transition-colors">
                                     <td className="px-5 py-3.5 text-sm font-medium text-text-primary">{txn.id}</td>
                                     <td className="px-5 py-3.5 text-sm text-text-muted">
-                                        {new Date(txn.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                                        {new Date(txn.date).toLocaleDateString(t('common.locale', 'en-US'), { month: 'short', day: 'numeric' })}
                                     </td>
                                     <td className="px-5 py-3.5">
                                         <span className={`text-xs font-semibold px-2 py-0.5 rounded-full

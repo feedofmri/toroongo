@@ -180,7 +180,7 @@
         "shippingTo": "Shipping To",
         "defaultAddress": "123 Main Street, New York, NY 10001",
         "payment": "Payment",
-        "defaultPayment": "Visa ending in •••• 4242",
+        "paymentProcessed": "Payment Processed",
         "subtotalPaid": "Subtotal Paid",
         "orderPlaced": "Order Placed",
         "processing": "Processing",
@@ -387,12 +387,17 @@
         "shipped": "Shipped",
         "delivered": "Delivered",
         "cancelled": "Cancelled",
+        "return_requested": "Return Requested",
+        "returned": "Returned",
+        "refunded": "Refunded",
         "loading": "Loading orders...",
         "orderNo": "TRG-{{id}}",
         "soldBy": "Sold by {{seller}}",
         "total": "Total:",
         "cancelOrder": "Cancel Order",
+        "requestReturn": "Request Return",
         "cancelError": "Failed to cancel order: ",
+        "returnError": "Failed to request return: ",
         "track": "Track",
         "details": "Details",
         "noOrders": "No orders found",
@@ -403,12 +408,19 @@
         "keepOrder": "Keep Order",
         "confirmCancel": "Confirm Cancellation",
         "cancelling": "Cancelling...",
+        "returnTitle": "Request Return",
+        "returnDesc": "Please select a reason for returning this item. Our team will review your request shortly.",
+        "confirmReturn": "Confirm Return",
+        "returning": "Processing...",
         "qty": "Qty",
         "reasons": {
             "changedMind": "Changed my mind",
             "betterPrice": "Found a better price elsewhere",
             "mistake": "Ordered by mistake",
             "longDelivery": "Expected delivery time is too long",
+            "defective": "Item is defective or damaged",
+            "wrongItem": "Received wrong item",
+            "notAsDescribed": "Item not as described",
             "other": "Other"
         }
     },
@@ -519,8 +531,67 @@
                     "content": "You may request access to, correction of, or deletion of your personal data at any time."
                 }
             ]
+        },
+        "impact": {
+            "title": "Social Impact",
+            "lastUpdated": "Last updated: May 2026",
+            "sections": [
+                {
+                    "title": "Our Commitment",
+                    "content": "Toroongo is committed to empowering independent creators and small businesses. We believe in a fair, transparent, and inclusive e-commerce ecosystem."
+                },
+                {
+                    "title": "Sustainability",
+                    "content": "We are working towards minimizing our carbon footprint and encouraging sustainable practices among our sellers and logistics partners."
+                },
+                {
+                    "title": "Community Empowerment",
+                    "content": "Through our platform, we provide digital tools and education to underserved communities, helping them participate in the global digital economy."
+                }
+            ]
+        },
+        "cookies": {
+            "title": "Cookie Policy",
+            "lastUpdated": "Last updated: May 2026",
+            "sections": [
+                {
+                    "title": "1. What Are Cookies",
+                    "content": "Cookies are small text files stored on your device that help us remember your preferences, analyze site traffic, and personalize content."
+                },
+                {
+                    "title": "2. How We Use Cookies",
+                    "content": "We use essential cookies for platform functionality, preference cookies for your settings, and analytical cookies to understand how you use our site."
+                },
+                {
+                    "title": "3. Managing Cookies",
+                    "content": "You can manage or disable cookies through your browser settings. However, some parts of the platform may not function correctly without them."
+                }
+            ]
+        },
+        "sellerAgreement": {
+            "title": "Seller Agreement",
+            "lastUpdated": "Last updated: May 2026",
+            "sections": [
+                {
+                    "title": "1. Seller Obligations",
+                    "content": "As a seller, you agree to provide accurate product information, maintain inventory, and fulfill orders within the specified processing time."
+                },
+                {
+                    "title": "2. Platform Fees",
+                    "content": "Toroongo charges no transaction fees. Sellers only pay the subscription fee for their chosen plan (Starter, Growth, Business, or Enterprise)."
+                },
+                {
+                    "title": "3. Content & Intellectual Property",
+                    "content": "You retain ownership of your content, but grant Toroongo a non-exclusive license to display it for the purpose of operating the marketplace."
+                },
+                {
+                    "title": "4. Termination",
+                    "content": "Either party may terminate this agreement at any time. Toroongo reserves the right to suspend accounts that violate our community guidelines."
+                }
+            ]
         }
     },
+
     "returns": {
         "title": "Returns & Refunds",
         "subtitle": "We want you to love every purchase. If something is not right, we make returns easy.",
@@ -669,11 +740,52 @@
         "title": "Seller Resources",
         "subtitle": "Guides, tutorials, and tools to help you succeed.",
         "guides": "Seller Guides",
+        "guidesList": {
+            "g1": {
+                "title": "AI-Powered Setup",
+                "desc": "Launch your store in minutes with our AI Storefront Builder."
+            },
+            "g2": {
+                "title": "AI Image Enhancement",
+                "desc": "Automatically remove backgrounds and upscale product photos."
+            },
+            "g3": {
+                "title": "Global SEO & Localization",
+                "desc": "Automatically translate your catalog into 7+ languages."
+            },
+            "g4": {
+                "title": "Global Logistics Hub",
+                "desc": "Seamlessly ship to Bangladesh, Nepal, UAE, and beyond."
+            },
+            "g5": {
+                "title": "Sales Forecasting",
+                "desc": "Use AI to predict inventory needs and trend analysis."
+            },
+            "g6": {
+                "title": "Zero Commission Model",
+                "desc": "Learn how to keep 100% of your revenue with 0% transaction fees."
+            }
+        },
         "more": "More Resources",
+        "resourcesList": {
+            "r1": {
+                "title": "Toroongo Academy",
+                "desc": "Master the platform with video masterclasses."
+            },
+            "r2": {
+                "title": "Global Seller Hub",
+                "desc": "Network with sellers across 6+ countries."
+            },
+            "r3": {
+                "title": "System Documentation",
+                "desc": "Deep dive into our AI and Logistics APIs."
+            }
+        },
         "ready": "Ready to Start Selling?",
         "readyDesc": "Create your free seller account today.",
         "getStarted": "Get Started"
     },
+
     "sellerDashboard": {
         "title": "Seller Hub",
         "nav": {
@@ -732,15 +844,23 @@
         "stats": {
             "pending": "Pending",
             "shipped": "Shipped",
-            "completed": "Completed"
+            "completed": "Completed",
+            "return_requested": "Return Requested",
+            "returned": "Returned",
+            "refunded": "Refunded"
         },
+
         "filters": {
             "searchPlaceholder": "Search by order ID or customer...",
             "allStatus": "All Status",
             "processing": "Processing",
             "shipped": "Shipped",
-            "delivered": "Delivered"
+            "delivered": "Delivered",
+            "return_requested": "Return Requested",
+            "returned": "Returned",
+            "refunded": "Refunded"
         },
+
         "table": {
             "order": "Order",
             "date": "Date",
@@ -1324,7 +1444,13 @@
             "cancel": "Cancel",
             "save": "Save Changes"
         },
-        "confirmDelete": "Delete this payment method?"
+        "confirmDelete": "Delete this payment method?",
+        "upgrade": {
+            "title": "Payment Submitted! 🚀",
+            "message": "We have received your payment details. Please wait while our team verifies your transaction. Your plan will be updated automatically once verified.",
+            "instructions": "Please send payment to the following bKash number using the 'Send Money' or 'Payment' option:",
+            "waitMessage": "This usually takes 15-30 minutes."
+        }
     },
     "sellerAbandonedCarts": {
         "title": "Abandoned Cart Recovery",

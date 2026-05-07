@@ -7,50 +7,6 @@ import { useTranslation } from 'react-i18next';
 import { useSubscription } from '../../context/SubscriptionContext';
 import UpgradePrompt from '../../components/subscription/UpgradePrompt';
 
-// Mock staff data
-const MOCK_STAFF = [
-    {
-        id: 1,
-        name: 'Sarah Johnson',
-        email: 'sarah@store.com',
-        role: 'manager',
-        avatar: null,
-        lastActive: '2026-04-29T14:30:00',
-        status: 'active',
-        permissions: ['orders', 'products', 'analytics', 'settings'],
-    },
-    {
-        id: 2,
-        name: 'Michael Chen',
-        email: 'michael@store.com',
-        role: 'editor',
-        avatar: null,
-        lastActive: '2026-04-29T10:15:00',
-        status: 'active',
-        permissions: ['products', 'blog'],
-    },
-    {
-        id: 3,
-        name: 'Aisha Rahman',
-        email: 'aisha@store.com',
-        role: 'support',
-        avatar: null,
-        lastActive: '2026-04-28T18:45:00',
-        status: 'active',
-        permissions: ['orders', 'messages'],
-    },
-    {
-        id: 4,
-        name: 'David Kim',
-        email: 'david@store.com',
-        role: 'viewer',
-        avatar: null,
-        lastActive: '2026-04-25T09:00:00',
-        status: 'inactive',
-        permissions: ['analytics'],
-    },
-];
-
 const ROLE_STYLES = {
     manager: { label: 'Manager', color: 'text-purple-600 bg-purple-50', icon: Shield },
     editor: { label: 'Editor', color: 'text-blue-600 bg-blue-50', icon: Package },
@@ -83,7 +39,7 @@ function getTimeAgo(dateStr, t) {
 
 export default function StaffAccounts() {
     const { canAccess, currentPlan } = useSubscription();
-    const [staff, setStaff] = useState(MOCK_STAFF);
+    const [staff, setStaff] = useState([]);
     const [search, setSearch] = useState('');
     const [showInvite, setShowInvite] = useState(false);
     const [inviteForm, setInviteForm] = useState({ name: '', email: '', role: 'editor' });

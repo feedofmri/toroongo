@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { footerLinks } from '../../data/mockData';
 import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import logoColourful from '../../assets/Logo/logo_colourful.png';

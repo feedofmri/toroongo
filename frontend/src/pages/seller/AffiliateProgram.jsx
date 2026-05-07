@@ -6,65 +6,11 @@ import {
 import { useSubscription } from '../../context/SubscriptionContext';
 import UpgradePrompt from '../../components/subscription/UpgradePrompt';
 
-const MOCK_AFFILIATES = [
-    {
-        id: 1,
-        name: 'TechReview Blog',
-        email: 'partner@techreview.com',
-        code: 'TECHREV15',
-        commission: 15,
-        clicks: 1842,
-        conversions: 67,
-        revenue: 2340.00,
-        earned: 351.00,
-        status: 'active',
-        joined: '2026-02-15',
-    },
-    {
-        id: 2,
-        name: 'Fashion Forward',
-        email: 'collab@fashionfw.com',
-        code: 'FASHION10',
-        commission: 10,
-        clicks: 956,
-        conversions: 34,
-        revenue: 1567.00,
-        earned: 156.70,
-        status: 'active',
-        joined: '2026-03-01',
-    },
-    {
-        id: 3,
-        name: 'Deal Hunter YT',
-        email: 'deals@yt-hunter.com',
-        code: 'HUNTER20',
-        commission: 20,
-        clicks: 3201,
-        conversions: 89,
-        revenue: 4120.00,
-        earned: 824.00,
-        status: 'active',
-        joined: '2026-01-20',
-    },
-    {
-        id: 4,
-        name: 'Lifestyle With Sara',
-        email: 'sara@lifestyle.com',
-        code: 'SARA12',
-        commission: 12,
-        clicks: 445,
-        conversions: 12,
-        revenue: 560.00,
-        earned: 67.20,
-        status: 'pending',
-        joined: '2026-04-10',
-    },
-];
-
 export default function AffiliateProgram() {
     const { canAccess, currentPlan } = useSubscription();
     const [search, setSearch] = useState('');
     const [showInvite, setShowInvite] = useState(false);
+    const [affiliates] = useState([]);
 
     if (!canAccess('affiliate')) {
         return (
@@ -80,12 +26,12 @@ export default function AffiliateProgram() {
         );
     }
 
-    const filtered = MOCK_AFFILIATES.filter(a =>
+    const filtered = affiliates.filter(a =>
         a.name.toLowerCase().includes(search.toLowerCase())
     );
-    const totalRevenue = MOCK_AFFILIATES.reduce((s, a) => s + a.revenue, 0);
-    const totalEarned = MOCK_AFFILIATES.reduce((s, a) => s + a.earned, 0);
-    const totalConversions = MOCK_AFFILIATES.reduce((s, a) => s + a.conversions, 0);
+    const totalRevenue = affiliates.reduce((s, a) => s + a.revenue, 0);
+    const totalEarned = affiliates.reduce((s, a) => s + a.earned, 0);
+    const totalConversions = affiliates.reduce((s, a) => s + a.conversions, 0);
 
     return (
         <div className="animate-fade-in space-y-6">
@@ -108,7 +54,7 @@ export default function AffiliateProgram() {
             {/* Stats */}
             <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                 {[
-                    { label: 'Active Affiliates', value: MOCK_AFFILIATES.filter(a => a.status === 'active').length, icon: Users, color: 'text-green-600', bg: 'bg-green-50' },
+                    { label: 'Active Affiliates', value: affiliates.filter(a => a.status === 'active').length, icon: Users, color: 'text-green-600', bg: 'bg-green-50' },
                     { label: 'Total Conversions', value: totalConversions, icon: TrendingUp, color: 'text-blue-600', bg: 'bg-blue-50' },
                     { label: 'Revenue Generated', value: `$${totalRevenue.toLocaleString()}`, icon: DollarSign, color: 'text-purple-600', bg: 'bg-purple-50' },
                     { label: 'Commissions Paid', value: `$${totalEarned.toLocaleString()}`, icon: BarChart3, color: 'text-amber-600', bg: 'bg-amber-50' },

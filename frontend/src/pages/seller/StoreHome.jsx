@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useOutletContext, Link } from 'react-router-dom';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles, Loader2 } from 'lucide-react';
 import ProductCard from '../../components/product/ProductCard';
 import { useDelayedLoad } from '../../hooks/useDelayedLoad';
 import ProductCardSkeleton from '../../components/product/ProductCardSkeleton';
@@ -11,9 +11,26 @@ export default function StoreHome() {
     const { seller, sellerProducts } = useOutletContext();
     const { data: loadedProducts, isLoading } = useDelayedLoad(sellerProducts, 700);
 
-    // Try to load saved storefront config for this seller
-    const sellerId = seller?.id ? (String(seller.id).startsWith('seller_') ? seller.id : `seller_${seller.id}`) : null;
-    const savedConfig = sellerId ? getStorefrontConfig(sellerId) : null;
+    const [savedConfig, setSavedConfig] = useState(null);
+    const [configLoading, setConfigLoading] = useState(true);
+
+    // Fetch storefront config from backend
+    useEffect(() => {
+        if (!seller?.id) return;
+        const sellerId = String(seller.id).startsWith('seller_') ? seller.id : `seller_${seller.id}`;
+        setConfigLoading(true);
+        getStorefrontConfig(sellerId).then((config) => {
+            setSavedConfig(config);
+        }).finally(() => setConfigLoading(false));
+    }, [seller?.id]);
+
+    if (configLoading) {
+        return (
+            <div className="flex items-center justify-center min-h-[40vh]">
+                <Loader2 className="animate-spin text-text-muted" size={28} />
+            </div>
+        );
+    }
 
     // If there's a saved storefront config with widgets, render it
     if (savedConfig && savedConfig.widgets && savedConfig.widgets.length > 0) {

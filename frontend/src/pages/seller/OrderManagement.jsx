@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Search, ChevronDown, Eye, Truck, CheckCircle, Clock, Package } from 'lucide-react';
+import { Search, ChevronDown, Eye, Truck, CheckCircle, Clock, Package, RotateCcw, CreditCard } from 'lucide-react';
+
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 import { orderService } from '../../services';
@@ -7,12 +8,17 @@ import { formatPrice, formatPriceInCurrency, convertCurrency } from '../../utils
 import { useProduct } from '../../context/ProductContext';
 import Skeleton from '../../components/ui/Skeleton';
 import OrderDetailModal from '../../components/ui/OrderDetailModal';
+import { PLATFORM_CONFIG } from '../../config/constants';
 
 const STATUS_CONFIG = {
     processing: { labelKey: 'processing', icon: Clock, style: 'text-amber-600 bg-amber-50' },
     shipped: { labelKey: 'shipped', icon: Truck, style: 'text-blue-600 bg-blue-50' },
     delivered: { labelKey: 'delivered', icon: CheckCircle, style: 'text-green-600 bg-green-50' },
+    returned: { labelKey: 'returned', icon: RotateCcw, style: 'text-purple-600 bg-purple-50' },
+    refunded: { labelKey: 'refunded', icon: CreditCard, style: 'text-indigo-600 bg-indigo-50' },
+    return_requested: { labelKey: 'return_requested', icon: RotateCcw, style: 'text-red-600 bg-red-50' },
 };
+
 
 export default function OrderManagement() {
     const { t } = useTranslation();
@@ -60,11 +66,16 @@ export default function OrderManagement() {
             <h2 className="text-2xl font-bold text-text-primary mb-6">{t('sellerOrders.title')}</h2>
 
             {/* Stats row */}
-            <div className="grid grid-cols-3 gap-4 mb-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+
                 {[
                     { label: t('sellerOrders.stats.pending'), count: orders.filter((o) => o.status === 'processing').length, color: 'text-amber-600' },
                     { label: t('sellerOrders.stats.shipped'), count: orders.filter((o) => o.status === 'shipped').length, color: 'text-blue-600' },
                     { label: t('sellerOrders.stats.completed'), count: orders.filter((o) => o.status === 'delivered').length, color: 'text-green-600' },
+                    { label: t('sellerOrders.stats.return_requested'), count: orders.filter((o) => o.status === 'return_requested').length, color: 'text-red-600' },
+                    { label: t('sellerOrders.stats.returned'), count: orders.filter((o) => o.status === 'returned').length, color: 'text-purple-600' },
+                    { label: t('sellerOrders.stats.refunded'), count: orders.filter((o) => o.status === 'refunded').length, color: 'text-indigo-600' },
+
                 ].map((stat) => (
                     <div key={stat.label} className="bg-white p-4 rounded-xl border border-border-soft text-center">
                         <p className={`text-2xl font-bold ${stat.color}`}>{stat.count}</p>
@@ -97,6 +108,10 @@ export default function OrderManagement() {
                         <option value="processing">{t('sellerOrders.filters.processing')}</option>
                         <option value="shipped">{t('sellerOrders.filters.shipped')}</option>
                         <option value="delivered">{t('sellerOrders.filters.delivered')}</option>
+                        <option value="return_requested">{t('sellerOrders.filters.return_requested')}</option>
+                        <option value="returned">{t('sellerOrders.filters.returned')}</option>
+                        <option value="refunded">{t('sellerOrders.filters.refunded')}</option>
+
                     </select>
                     <ChevronDown size={14} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none" />
                 </div>
@@ -131,9 +146,9 @@ export default function OrderManagement() {
 
                                 return (
                                     <tr key={order.id} className="hover:bg-surface-bg/50 transition-colors">
-                                        <td className="px-5 py-3.5 text-sm font-semibold text-text-primary">TRG-{String(order.id).split('-')[0].toUpperCase()}</td>
+                                        <td className="px-5 py-3.5 text-sm font-semibold text-text-primary">{PLATFORM_CONFIG.ORDER_ID_PREFIX}{String(order.id).split('-')[0].toUpperCase()}</td>
                                         <td className="px-5 py-3.5 text-sm text-text-muted">
-                                            {new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                                            {new Date(order.createdAt).toLocaleDateString(t('common.locale', 'en-US'), { month: 'short', day: 'numeric' })}
                                         </td>
                                         <td className="px-5 py-3.5">
                                             <p className="text-sm font-medium text-text-primary">{customerName}</p>

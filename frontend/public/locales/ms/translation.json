@@ -17,7 +17,7 @@
                 "cat":  {
                             "electronics":  "Elektronik",
                             "fashion":  "Fesyen",
-                            "homeLiving":  "Rumah & Kediaman",
+                            "homeLiving":  "Rumah \u0026 Kediaman",
                             "beauty":  "Kecantikan",
                             "sports":  "Sukan",
                             "books":  "Buku"
@@ -137,11 +137,11 @@
                      "reviewOrder":  "Semak Pesanan",
                      "reviewTitle":  "Semak Pesanan Anda",
                      "shippingTo":  "Penghantaran ke",
-                     "edit":  "Edit",
+                     "edit":  "Sunting",
                      "placeOrder":  "Buat Pesanan",
                      "orderSummary":  "Ringkasan Pesanan",
                      "items":  "item",
-                     "subtotal":  "Subtotal",
+                     "subtotal":  "Jumlah kecil",
                      "shippingCost":  "Penghantaran",
                      "tax":  "Anggaran Cukai",
                      "total":  "Jumlah",
@@ -158,14 +158,14 @@
                               "shippingTo":  "Dihantar Ke",
                               "defaultAddress":  "123 Main Street, New York, NY 10001",
                               "payment":  "Pembayaran",
-                              "defaultPayment":  "Visa berakhir dengan •••• 4242",
                               "subtotalPaid":  "Sub-jumlah Dibayar",
                               "orderPlaced":  "Pesanan Dibuat",
                               "processing":  "Diproses",
                               "shipped":  "Dihantar",
                               "delivered":  "Diterima",
                               "trackOrder":  "Jejak Pesanan",
-                              "continueShopping":  "Teruskan Membeli-belah"
+                              "continueShopping":  "Teruskan Membeli-belah",
+                              "paymentProcessed":  "Payment Processed"
                           },
     "reviews":  {
                     "title":  "Ulasan Saya",
@@ -185,7 +185,7 @@
                    "wishlistAdd":  "Tambah ke wishlist",
                    "wishlistRemove":  "Keluarkan dari wishlist",
                    "badges":  {
-                                  "Sale":  "Sale",
+                                  "Sale":  "Jualan",
                                   "New":  "Baru",
                                   "BestSeller":  "Paling Laris"
                               },
@@ -198,7 +198,7 @@
                    "notFound":  "Halaman Tidak Dijumpai",
                    "notFoundDesc":  "Halaman yang anda cari tidak wujud atau telah dipindahkan.",
                    "goHome":  "Kembali ke Laman Utama",
-                   "underDevelopment": "Dalam pembangunan"
+                   "underDevelopment":  "Dalam pembangunan"
                },
     "pricing":  {
                     "title":  "Harga \u0026 Pelan",
@@ -212,26 +212,34 @@
                                 "growth":  "Ambil Growth",
                                 "business":  "Ambil Business",
                                 "contact":  "Hubungi Jualan",
-                                "currentPlan": "Pelan Semasa",
-                                "upgrade": "Naik Taraf",
-                                "downgrade": "Turun Taraf"
+                                "currentPlan":  "Pelan Semasa",
+                                "upgrade":  "Naik Taraf",
+                                "downgrade":  "Turun Taraf"
                             },
                     "plans":  {
                                   "starter":  {
-                                                  "name":  "Starter",
-                                                  "desc":  "Sesuai untuk penjual baharu yang baru bermula."
+                                                  "name":  "Pemula",
+                                                  "desc":  "Sesuai untuk penjual baharu yang baru bermula.",
+                                                  "ai":  "Penjana Penerangan Produk AI",
+                                                  "aiDesc":  "Tulis penerangan yang menarik dan mesra SEO daripada beberapa kata kunci."
                                               },
                                   "growth":  {
-                                                 "name":  "Growth",
-                                                 "desc":  "Untuk jenama yang berkembang dan memerlukan alat profesional."
+                                                 "name":  "Pertumbuhan",
+                                                 "desc":  "Untuk jenama yang berkembang dan memerlukan alat profesional.",
+                                                 "ai":  "Penambah Imej AI",
+                                                 "aiDesc":  "Alih keluar latar belakang asas secara automatik dan gantikannya dengan warna putih tulen atau jenama."
                                              },
                                   "business":  {
-                                                   "name":  "Business",
-                                                   "desc":  "Untuk peruncit yang sudah mantap dan mengembangkan operasi."
+                                                   "name":  "Perniagaan",
+                                                   "desc":  "Untuk peruncit yang sudah mantap dan mengembangkan operasi.",
+                                                   "ai":  "Sokongan \u0026 Pengesyoran AI",
+                                                   "aiDesc":  "Chatbot AI 24/7 untuk soalan pembeli \u0026 cadangan pintar \u0027Kerap Dibeli Bersama\u0027."
                                                },
                                   "enterprise":  {
-                                                     "name":  "Enterprise",
-                                                     "desc":  "Untuk penjual besar dengan operasi yang meluas."
+                                                     "name":  "Perusahaan",
+                                                     "desc":  "Untuk penjual besar dengan operasi yang meluas.",
+                                                     "ai":  "Ramalan \u0026 Sentimen AI",
+                                                     "aiDesc":  "Ramalkan kehabisan inventori dan analisis beratus-ratus ulasan untuk mendapatkan ringkasan segera yang boleh diambil tindakan."
                                                  }
                               },
                     "features":  {
@@ -339,8 +347,8 @@
                     "messageSent":  "Mesej Dihantar!",
                     "messageSentDesc":  "Penjual akan membalas anda tidak lama lagi melalui Pusat Mesej.",
                     "home":  "Laman Utama",
-                    "unknownProduct":  "Unknown Product",
-                    "unknownSeller":  "Unknown"
+                    "unknownProduct":  "Produk Tidak Diketahui",
+                    "unknownSeller":  "Tidak diketahui"
                 },
     "cart":  {
                  "title":  "Troli Membeli-belah",
@@ -353,7 +361,7 @@
                  "orderSummary":  "Ringkasan Pesanan",
                  "promoCode":  "Kod Promo",
                  "apply":  "Gunakan",
-                 "subtotal":  "Subtotal",
+                 "subtotal":  "Jumlah kecil",
                  "promoDiscount":  "Diskon Promo (10%)",
                  "shipping":  "Penghantaran",
                  "total":  "Jumlah",
@@ -506,7 +514,7 @@
                                    "longDelivery":  "Masa penghantaran yang dijangka terlalu lama",
                                    "other":  "Lain-lain"
                                },
-                   "cancelError":  "Failed to cancel order: "
+                   "cancelError":  "Gagal membatalkan pesanan:"
                },
     "account":  {
                     "profile":  "Profil",
@@ -615,7 +623,65 @@
                                                        "content":  "Anda boleh meminta akses, pembetulan, atau penghapusan data peribadi anda pada bila-bila masa."
                                                    }
                                                ]
-                              }
+                              },
+                  "impact":  {
+                                 "title":  "Kesan Sosial",
+                                 "lastUpdated":  "Kemas kini terakhir: Mei 2026",
+                                 "sections":  [
+                                                  {
+                                                      "title":  "Komitmen Kami",
+                                                      "content":  "Toroongo komited untuk memperkasakan pencipta bebas dan perniagaan kecil. Kami percaya kepada ekosistem e-dagang yang adil, telus dan inklusif."
+                                                  },
+                                                  {
+                                                      "title":  "Kelestarian",
+                                                      "content":  "Kami sedang berusaha ke arah meminimumkan jejak karbon kami dan menggalakkan amalan mampan di kalangan penjual dan rakan kongsi logistik kami."
+                                                  },
+                                                  {
+                                                      "title":  "Pemerkasaan Komuniti",
+                                                      "content":  "Melalui platform kami, kami menyediakan alatan digital dan pendidikan kepada komuniti yang kurang mendapat perkhidmatan, membantu mereka mengambil bahagian dalam ekonomi digital global."
+                                                  }
+                                              ]
+                             },
+                  "cookies":  {
+                                  "title":  "Dasar Kuki",
+                                  "lastUpdated":  "Kemas kini terakhir: Mei 2026",
+                                  "sections":  [
+                                                   {
+                                                       "title":  "1. Apa Itu Kuki",
+                                                       "content":  "Kuki ialah fail teks kecil yang disimpan pada peranti anda yang membantu kami mengingati pilihan anda, menganalisis trafik tapak dan memperibadikan kandungan."
+                                                   },
+                                                   {
+                                                       "title":  "2. Cara Kami Menggunakan Kuki",
+                                                       "content":  "Kami menggunakan kuki penting untuk kefungsian platform, kuki keutamaan untuk tetapan anda dan kuki analitik untuk memahami cara anda menggunakan tapak kami."
+                                                   },
+                                                   {
+                                                       "title":  "3. Menguruskan Kuki",
+                                                       "content":  "Anda boleh mengurus atau melumpuhkan kuki melalui tetapan penyemak imbas anda. Walau bagaimanapun, sesetengah bahagian platform mungkin tidak berfungsi dengan betul tanpanya."
+                                                   }
+                                               ]
+                              },
+                  "sellerAgreement":  {
+                                          "lastUpdated":  "Kemas kini terakhir: Mei 2026",
+                                          "title":  "Perjanjian Penjual",
+                                          "sections":  [
+                                                           {
+                                                               "content":  "Sebagai penjual, anda bersetuju untuk memberikan maklumat produk yang tepat, mengekalkan inventori dan memenuhi pesanan dalam masa pemprosesan yang ditetapkan.",
+                                                               "title":  "1. Kewajipan Penjual"
+                                                           },
+                                                           {
+                                                               "title":  "2. Yuran Platform",
+                                                               "content":  "Toroongo tidak mengenakan yuran transaksi. Penjual hanya membayar yuran langganan untuk pelan pilihan mereka (Pemula, Pertumbuhan, Perniagaan atau Perusahaan)."
+                                                           },
+                                                           {
+                                                               "title":  "3. Kandungan \u0026 Harta Intelek",
+                                                               "content":  "Anda mengekalkan pemilikan kandungan anda, tetapi memberikan Toroongo lesen bukan eksklusif untuk memaparkannya bagi tujuan mengendalikan pasaran."
+                                                           },
+                                                           {
+                                                               "title":  "4. Penamatan",
+                                                               "content":  "Mana-mana pihak boleh menamatkan perjanjian ini pada bila-bila masa. Toroongo berhak untuk menggantung akaun yang melanggar garis panduan komuniti kami."
+                                                           }
+                                                       ]
+                                      }
               },
     "sell":  {
                  "hero":  {
@@ -771,63 +837,71 @@
                   "download":  "Muat Turun Kit Media",
                   "readMore":  "Baca Lagi"
               },
-    "shipping": {
-        "title": "Penghantaran & Penghantaran",
-        "subtitle": "Semua yang anda perlu tahu tentang cara pesanan anda dihantar.",
-        "options": {
-            "standard": {
-                "title": "Penghantaran Standard",
-                "time": "5-7 hari perniagaan",
-                "price": "Percuma melebihi $50"
-            },
-            "express": {
-                "title": "Penghantaran Ekspres",
-                "time": "2-3 hari perniagaan",
-                "price": "Dari $9.99"
-            },
-            "international": {
-                "title": "Antarabangsa",
-                "time": "7-14 hari perniagaan",
-                "price": "Dari $14.99"
-            }
-        },
-        "details": {
-            "processing": {
-                "title": "Pemprosesan Pesanan",
-                "desc": "Pesanan biasanya diproses dalam masa 1-2 hari perniagaan. Anda akan menerima e-mel pengesahan sebaik sahaja pesanan anda dihantar."
-            },
-            "tracking": {
-                "title": "Menjejaki Pesanan Anda",
-                "desc": "Sebaik sahaja pesanan anda dihantar, anda boleh menjejaki dalam masa nyata melalui papan pemuka akaun anda."
-            },
-            "global": {
-                "title": "Penghantaran Global & Pasaran Teras",
-                "desc1": "Kami adalah pasaran global yang boleh diakses di mana-mana sahaja. Pesanan antarabangsa mungkin tertakluk kepada duti kastam.",
-                "coreTitle": "Pasaran Teras:",
-                "coreDesc": "Kami sangat menumpukan pada 6 pasaran teras kami: Bangladesh, Nepal, Malaysia, UAE, Indonesia, dan India."
-            },
-            "protection": {
-                "title": "Perlindungan Penghantaran",
-                "desc": "Semua penghantaran diinsuranskan terhadap kehilangan dan kerosakan semasa transit."
-            }
-        },
-        "sellerManaged": {
-            "title": "Penghantaran Diuruskan Penjual",
-            "desc": "Toroongo adalah pasaran di mana setiap penjual bertanggungjawab untuk menetapkan kadar penghantaran dan kaedah penghantaran mereka sendiri. Kos penghantaran dan anggaran masa penghantaran ditentukan oleh penjual dan akan dipaparkan dengan jelas pada halaman produk dan semasa pembayaran."
-        },
-        "cost": {
-            "title": "Kos Penghantaran",
-            "desc": "Yuran penghantaran berbeza-beza bergantung kepada penjual, berat item, dan lokasi penghantaran anda. Sesetengah penjual mungkin menawarkan penghantaran percuma untuk pesanan melebihi jumlah tertentu."
-        },
-        "tracking_desc": {
-            "title": "Penjejakan Pesanan",
-            "desc": "Sebaik sahaja pesanan anda dihantar, penjual akan memberikan nombor penjejakan. Anda boleh memantau penghantaran anda melalui papan pemuka di bawah \"Pesanan Saya\"."
-        },
-        "global_regional": {
-            "title": "Penghantaran Global & Serantau",
-            "desc": "Walaupun Toroongo mempunyai kehadiran yang kuat di pasaran teras, penjual kami boleh menghantar ke hampir mana-mana lokasi di seluruh dunia."
-        }
-    },
+    "shipping":  {
+                     "title":  "Penghantaran \u0026 Penghantaran",
+                     "subtitle":  "Semua yang anda perlu tahu tentang cara pesanan anda dihantar.",
+                     "options":  {
+                                     "standard":  {
+                                                      "title":  "Penghantaran Standard",
+                                                      "time":  "5-7 hari perniagaan",
+                                                      "price":  "Percuma melebihi $50"
+                                                  },
+                                     "express":  {
+                                                     "title":  "Penghantaran Ekspres",
+                                                     "time":  "2-3 hari perniagaan",
+                                                     "price":  "Dari $9.99"
+                                                 },
+                                     "international":  {
+                                                           "title":  "Antarabangsa",
+                                                           "time":  "7-14 hari perniagaan",
+                                                           "price":  "Dari $14.99"
+                                                       }
+                                 },
+                     "details":  {
+                                     "processing":  {
+                                                        "title":  "Pemprosesan Pesanan",
+                                                        "desc":  "Pesanan biasanya diproses dalam masa 1-2 hari perniagaan. Anda akan menerima e-mel pengesahan sebaik sahaja pesanan anda dihantar."
+                                                    },
+                                     "tracking":  {
+                                                      "title":  "Menjejaki Pesanan Anda",
+                                                      "desc":  "Sebaik sahaja pesanan anda dihantar, anda boleh menjejaki dalam masa nyata melalui papan pemuka akaun anda."
+                                                  },
+                                     "global":  {
+                                                    "title":  "Penghantaran Global \u0026 Pasaran Teras",
+                                                    "desc1":  "Kami adalah pasaran global yang boleh diakses di mana-mana sahaja. Pesanan antarabangsa mungkin tertakluk kepada duti kastam.",
+                                                    "coreTitle":  "Pasaran Teras:",
+                                                    "coreDesc":  "Kami sangat menumpukan pada 6 pasaran teras kami: Bangladesh, Nepal, Malaysia, UAE, Indonesia, dan India."
+                                                },
+                                     "protection":  {
+                                                        "title":  "Perlindungan Penghantaran",
+                                                        "desc":  "Semua penghantaran diinsuranskan terhadap kehilangan dan kerosakan semasa transit."
+                                                    }
+                                 },
+                     "sellerManaged":  {
+                                           "title":  "Penghantaran Diuruskan Penjual",
+                                           "desc":  "Toroongo adalah pasaran di mana setiap penjual bertanggungjawab untuk menetapkan kadar penghantaran dan kaedah penghantaran mereka sendiri. Kos penghantaran dan anggaran masa penghantaran ditentukan oleh penjual dan akan dipaparkan dengan jelas pada halaman produk dan semasa pembayaran."
+                                       },
+                     "cost":  {
+                                  "title":  "Kos Penghantaran",
+                                  "desc":  "Yuran penghantaran berbeza-beza bergantung kepada penjual, berat item, dan lokasi penghantaran anda. Sesetengah penjual mungkin menawarkan penghantaran percuma untuk pesanan melebihi jumlah tertentu."
+                              },
+                     "tracking_desc":  {
+                                           "title":  "Penjejakan Pesanan",
+                                           "desc":  "Sebaik sahaja pesanan anda dihantar, penjual akan memberikan nombor penjejakan. Anda boleh memantau penghantaran anda melalui papan pemuka di bawah \"Pesanan Saya\"."
+                                       },
+                     "global_regional":  {
+                                             "title":  "Penghantaran Global \u0026 Serantau",
+                                             "desc":  "Walaupun Toroongo mempunyai kehadiran yang kuat di pasaran teras, penjual kami boleh menghantar ke hampir mana-mana lokasi di seluruh dunia."
+                                         },
+                     "tracking":  {
+                                      "title":  "Penjejakan Pesanan",
+                                      "desc":  "Setelah pesanan anda dihantar, penjual akan memberikan nombor penjejakan. Anda boleh memantau penghantaran anda melalui papan pemuka di bawah \"Pesanan Saya.\" Jika anda mempunyai sebarang pertanyaan tentang penghantaran anda, anda boleh menghantar mesej terus kepada penjual."
+                                  },
+                     "global":  {
+                                    "title":  "Penghantaran Global \u0026 Serantau",
+                                    "desc":  "Walaupun Toroongo mempunyai kehadiran yang kukuh dalam pasaran teras seperti Bangladesh, Nepal, India, UAE, Indonesia dan Malaysia, penjual kami boleh menghantar ke hampir mana-mana lokasi di seluruh dunia. Sila semak dasar kedai individu penjual untuk ketersediaan penghantaran antarabangsa."
+                                }
+                 },
     "dataPreferences":  {
                             "title":  "Keutamaan Data",
                             "lastUpdated":  "Kemas kini terakhir: 1 Mac, 2026",
@@ -857,109 +931,163 @@
                             "more":  "Sumber Lain",
                             "ready":  "Bersedia untuk Mula Menjual?",
                             "readyDesc":  "Buat akaun penjual percuma anda hari ini.",
-                            "getStarted":  "Mulakan"
+                            "getStarted":  "Mulakan",
+                            "guidesList":  {
+                                               "g2":  {
+                                                          "title":  "Peningkatan Imej AI",
+                                                          "desc":  "Alih keluar latar belakang dan foto produk kelas atas secara automatik."
+                                                      },
+                                               "g1":  {
+                                                          "title":  "Persediaan Dikuasakan AI",
+                                                          "desc":  "Lancarkan kedai anda dalam beberapa minit dengan AI Storefront Builder kami."
+                                                      },
+                                               "g3":  {
+                                                          "desc":  "Terjemah katalog anda secara automatik ke dalam 7+ bahasa.",
+                                                          "title":  "SEO \u0026 Penyetempatan Global"
+                                                      },
+                                               "g4":  {
+                                                          "title":  "Hab Logistik Global",
+                                                          "desc":  "Hantar dengan lancar ke Bangladesh, Nepal, UAE dan seterusnya."
+                                                      },
+                                               "g6":  {
+                                                          "title":  "Model Komisen Sifar",
+                                                          "desc":  "Ketahui cara mengekalkan 100% hasil anda dengan 0% yuran transaksi."
+                                                      },
+                                               "g5":  {
+                                                          "title":  "Ramalan Jualan",
+                                                          "desc":  "Gunakan AI untuk meramalkan keperluan inventori dan analisis trend."
+                                                      }
+                                           },
+                            "resourcesList":  {
+                                                  "r2":  {
+                                                             "title":  "Hab Penjual Global",
+                                                             "desc":  "Rangkaian dengan penjual di 6+ negara."
+                                                         },
+                                                  "r1":  {
+                                                             "title":  "Akademi Toroongo",
+                                                             "desc":  "Kuasai platform dengan kelas induk video."
+                                                         },
+                                                  "r3":  {
+                                                             "title":  "Dokumentasi Sistem",
+                                                             "desc":  "Menyelam lebih dalam ke dalam AI dan API Logistik kami."
+                                                         }
+                                              }
                         },
-    "sellerDashboard": {
-        "title": "Hub Penjual",
-        "nav": {
-            "dashboard": "Papan Pemuka",
-            "products": "Produk",
-            "orders": "Pesanan",
-            "blogPosts": "Siaran Blog",
-            "finance": "Kewangan",
-            "messages": "Mesej",
-            "storefront": "Etalase",
-            "settings": "Tetapan",
-            "viewStore": "Lihat Kedai Saya"
-        },
-        "stats": {
-            "totalRevenue": "Jumlah Hasil",
-            "totalOrders": "Jumlah Pesanan",
-            "productsListed": "Produk Disenaraikan",
-            "storeViews": "Paparan Kedai",
-            "vsLastMonth": "berbanding bulan lepas"
-        },
-        "revenueOverview": {
-            "title": "Gambaran Keseluruhan Hasil",
-            "last12Months": "12 bulan terakhir"
-        },
-        "topProducts": {
-            "title": "Produk Teratas",
-            "sold": "dijual",
-            "noSales": "Tiada jualan lagi."
-        },
-        "recentOrders": {
-            "title": "Pesanan Terkini",
-            "order": "Pesanan",
-            "customer": "Pelanggan",
-            "product": "Produk",
-            "total": "Jumlah",
-            "status": "Status",
-            "noOrders": "Tiada pesanan lagi",
-            "loading": "Memuatkan papan pemuka..."
-        },
-        "badges": {
-            "premium": "Penjual Premium"
-        }
-    },
-    "sellerOrders": {
-        "title": "Pesanan",
-        "stats": {
-            "pending": "Belum Selesai",
-            "shipped": "Dihantar",
-            "completed": "Selesai"
-        },
-        "filters": {
-            "searchPlaceholder": "Cari mengikut ID pesanan atau pelanggan...",
-            "allStatus": "Semua Status",
-            "processing": "Pemprosesan",
-            "shipped": "Dihantar",
-            "delivered": "Diterima"
-        },
-        "table": {
-            "order": "Pesanan",
-            "date": "Tarikh",
-            "customer": "Pelanggan",
-            "product": "Produk",
-            "total": "Jumlah",
-            "status": "Status",
-            "action": "Tindakan",
-            "view": "Lihat",
-            "loading": "Memuatkan pesanan...",
-            "noOrders": "Tiada pesanan dijumpai",
-            "itemsCount": "{{count}} item",
-            "moreItems": "+{{count}} lagi"
-        }
-    },
-    "sellerProducts": {
-        "title": "Produk",
-        "addProduct": "Tambah Produk",
-        "filters": {
-            "searchPlaceholder": "Cari produk...",
-            "allStatus": "Semua Status"
-        },
-        "status": {
-            "active": "Aktif",
-            "lowStock": "Stok Rendah",
-            "outOfStock": "Tiada Stok",
-            "draft": "Draf"
-        },
-        "table": {
-            "product": "Produk",
-            "category": "Kategori",
-            "price": "Harga",
-            "stock": "Stok",
-            "status": "Status",
-            "actions": "Tindakan",
-            "loading": "Memuatkan produk...",
-            "noProducts": "Tiada produk dijumpai"
-        },
-        "actions": {
-            "view": "Lihat",
-            "edit": "Sunting",
-            "delete": "Padam"
-        }
-    },
+    "sellerDashboard":  {
+                            "title":  "Hub Penjual",
+                            "nav":  {
+                                        "dashboard":  "Papan Pemuka",
+                                        "products":  "Produk",
+                                        "orders":  "Pesanan",
+                                        "blogPosts":  "Siaran Blog",
+                                        "finance":  "Kewangan",
+                                        "messages":  "Mesej",
+                                        "storefront":  "Etalase",
+                                        "settings":  "Tetapan",
+                                        "viewStore":  "Lihat Kedai Saya",
+                                        "discounts":  "Diskaun",
+                                        "staff":  "Kakitangan",
+                                        "domain":  "Domain",
+                                        "socialCommerce":  "Perdagangan Sosial",
+                                        "affiliates":  "Ahli gabungan",
+                                        "subscription":  "Langganan",
+                                        "aiTools":  "Alat AI",
+                                        "abandonedCarts":  "Troli Terbengkalai",
+                                        "apiWebhooks":  "API \u0026 Webhooks",
+                                        "importExport":  "Import / Eksport"
+                                    },
+                            "stats":  {
+                                          "totalRevenue":  "Jumlah Hasil",
+                                          "totalOrders":  "Jumlah Pesanan",
+                                          "productsListed":  "Produk Disenaraikan",
+                                          "storeViews":  "Paparan Kedai",
+                                          "vsLastMonth":  "berbanding bulan lepas"
+                                      },
+                            "revenueOverview":  {
+                                                    "title":  "Gambaran Keseluruhan Hasil",
+                                                    "last12Months":  "12 bulan terakhir"
+                                                },
+                            "topProducts":  {
+                                                "title":  "Produk Teratas",
+                                                "sold":  "dijual",
+                                                "noSales":  "Tiada jualan lagi."
+                                            },
+                            "recentOrders":  {
+                                                 "title":  "Pesanan Terkini",
+                                                 "order":  "Pesanan",
+                                                 "customer":  "Pelanggan",
+                                                 "product":  "Produk",
+                                                 "total":  "Jumlah",
+                                                 "status":  "Status",
+                                                 "noOrders":  "Tiada pesanan lagi",
+                                                 "loading":  "Memuatkan papan pemuka..."
+                                             },
+                            "badges":  {
+                                           "premium":  "Penjual Premium"
+                                       }
+                        },
+    "sellerOrders":  {
+                         "title":  "Pesanan",
+                         "stats":  {
+                                       "pending":  "Belum Selesai",
+                                       "shipped":  "Dihantar",
+                                       "completed":  "Selesai",
+                                       "returned":  "Dipulangkan",
+                                       "refunded":  "Dipulangkan"
+                                   },
+                         "filters":  {
+                                         "searchPlaceholder":  "Cari mengikut ID pesanan atau pelanggan...",
+                                         "allStatus":  "Semua Status",
+                                         "processing":  "Pemprosesan",
+                                         "shipped":  "Dihantar",
+                                         "delivered":  "Diterima",
+                                         "returned":  "Dipulangkan",
+                                         "refunded":  "Dipulangkan"
+                                     },
+                         "table":  {
+                                       "order":  "Pesanan",
+                                       "date":  "Tarikh",
+                                       "customer":  "Pelanggan",
+                                       "product":  "Produk",
+                                       "total":  "Jumlah",
+                                       "status":  "Status",
+                                       "action":  "Tindakan",
+                                       "view":  "Lihat",
+                                       "loading":  "Memuatkan pesanan...",
+                                       "noOrders":  "Tiada pesanan dijumpai",
+                                       "itemsCount":  "{{count}} item",
+                                       "moreItems":  "+{{count}} lagi"
+                                   }
+                     },
+    "sellerProducts":  {
+                           "title":  "Produk",
+                           "addProduct":  "Tambah Produk",
+                           "filters":  {
+                                           "searchPlaceholder":  "Cari produk...",
+                                           "allStatus":  "Semua Status"
+                                       },
+                           "status":  {
+                                          "active":  "Aktif",
+                                          "lowStock":  "Stok Rendah",
+                                          "outOfStock":  "Tiada Stok",
+                                          "draft":  "Draf"
+                                      },
+                           "table":  {
+                                         "product":  "Produk",
+                                         "category":  "Kategori",
+                                         "price":  "Harga",
+                                         "stock":  "Stok",
+                                         "status":  "Status",
+                                         "actions":  "Tindakan",
+                                         "loading":  "Memuatkan produk...",
+                                         "noProducts":  "Tiada produk dijumpai"
+                                     },
+                           "actions":  {
+                                           "view":  "Lihat",
+                                           "edit":  "Sunting",
+                                           "delete":  "Padam"
+                                       }
+                       },
     "footer":  {
                    "sections":  {
                                     "sell":  "Jual di Toroongo",
@@ -1007,494 +1135,496 @@
                   "home":  "Laman Utama",
                   "products":  "Produk",
                   "about":  "Perihal",
-"policies":  "Polisi",
+                  "policies":  "Polisi",
                   "poweredBy":  "Dikuasakan oleh",
                   "contactSupport":  "Hubungi Sokongan",
                   "contactStore":  "Hubungi {{name}}",
                   "searchStore":  "Cari {{name}}..."
               },
-    "sellerSettings": {
-        "title": "Tetapan Penjual",
-        "tabs": {
-            "store": "Kedai",
-            "branding": "Penjenamaan",
-            "country_currency": "Negara & Mata Wang",
-            "content": "Kandungan Kedai",
-            "whitelabel": "White-Label",
-            "currency": "Pelbagai Mata Wang",
-            "customcode": "Kod Tersuai",
-            "shipping": "Penghantaran",
-            "notifications": "Pemberitahuan"
-        },
-        "username": {
-            "title": "Nama Pengguna Kedai",
-            "desc": "URL unik kedai anda di Toroongo.",
-            "checking": "Menyemak ketersediaan...",
-            "available": "Nama pengguna tersedia!",
-            "currentBtn": "Nama Pengguna Semasa",
-            "claim": "Tuntut Nama Pengguna",
-            "preview": "Pratonton etalase anda"
-        },
-        "storeInfo": {
-            "title": "Maklumat Kedai",
-            "name": "Nama Kedai",
-            "description": "Penerangan Kedai",
-            "email": "E-mel Awam",
-            "phone": "Telefon Awam",
-            "location": "Lokasi",
-            "save": "Simpan Maklumat Kedai"
-        },
-        "countryCurrency": {
-            "title": "Negara & Mata Wang",
-            "desc": "Negara anda menetapkan mata wang kedai anda. Semua harga produk yang anda masukkan akan disimpan dalam mata wang ini dan ditukar secara automatik untuk pembeli di seluruh dunia.",
-            "important": "Penting:",
-            "importantDesc": "Menukar mata wang anda akan mengemas kini mata wang untuk semua produk sedia ada anda. Harga yang disimpan akan kekal dengan nombor yang sama, jadi anda mungkin mahu menyemak dan mengemas kininya untuk sepadan dengan mata wang baharu.",
-            "save": "Simpan Negara & Mata Wang"
-        },
-        "branding": {
-            "title": "Penjenamaan & Penampilan",
-            "color": "Warna Jenama Utama",
-            "logo": "URL Logo",
-            "banner": "URL Imej Sepanduk",
-            "save": "Simpan Penjenamaan"
-        },
-        "shipping": {
-            "title": "Tetapan Penghantaran",
-            "processing": "Masa Pemprosesan (hari)",
-            "threshold": "Ambang Penghantaran Percuma ($)",
-            "rate": "Kadar Penghantaran Standard ($)",
-            "express": "Tawarkan penghantaran ekspres",
-            "expressDesc": "Benarkan pelanggan memilih penghantaran 2-3 hari yang lebih pantas",
-            "save": "Simpan Tetapan Penghantaran"
-        },
-        "notifications": {
-            "title": "Keutamaan Pemberitahuan",
-            "newOrders": "Pesanan baru",
-            "newOrdersDesc": "Dapatkan pemberitahuan apabila anda menerima pesanan baru",
-            "orderUpdates": "Kemas kini pesanan",
-            "orderUpdatesDesc": "Perubahan status dan pengesahan penghantaran",
-            "customerMessages": "Mesej pelanggan",
-            "customerMessagesDesc": "Apabila pembeli menghantar mesej kepada anda",
-            "lowStock": "Amaran stok rendah",
-            "lowStockDesc": "Apabila stok produk jatuh di bawah 5 unit",
-            "payouts": "Pemberitahuan pembayaran",
-            "payoutsDesc": "Apabila pembayaran diproses ke bank anda",
-            "save": "Simpan Keutamaan Pemberitahuan"
-        },
-        "content": {
-            "aboutTitle": "Mengenai Kedai Anda",
-            "aboutDesc": "Ceritakan kisah anda. Ini akan dipaparkan pada tab \"Mengenai\" etalase anda.",
-            "aboutPlaceholder": "Terangkan kedai anda, pasukan anda, dan misi anda...",
-            "benefitsTitle": "Sebab Membeli-belah Dengan Kami",
-            "benefitsDesc": "Serlahkan apa yang membuatkan kedai anda unik. Ini muncul di halaman \"Mengenai\" anda.",
-            "benefitNum": "Manfaat #{{num}}",
-            "benefitPlaceholder": "Tajuk Manfaat",
-            "descPlaceholder": "Penerangan...",
-            "policiesTitle": "Polisi Kedai",
-            "policiesDesc": "Polisi tersuai untuk pelanggan anda. Nilai lalai akan ditunjukkan jika dibiarkan kosong.",
-            "shippingPolicy": "Polisi Penghantaran",
-            "shippingPlaceholder": "Masa pemprosesan pesanan, kaedah penghantaran, kawasan yang diliputi...",
-            "returnsPolicy": "Polisi Pemulangan & Bayaran Balik",
-            "returnsPlaceholder": "Tempoh pemulangan, syarat bayaran balik, siapa yang membayar penghantaran...",
-            "warrantyPolicy": "Maklumat Waranti",
-            "warrantyPlaceholder": "Tempoh jaminan produk, butiran perlindungan...",
-            "faqPolicy": "Soalan Lazim (FAQ)",
-            "faqPlaceholder": "Soalan dan jawapan biasa untuk pembeli anda...",
-            "save": "Simpan Kandungan Kedai"
-        },
-        "whitelabel": {
-            "title": "Tetapan White-Label",
-            "desc": "Kawal penjenamaan Toroongo pada etalase anda. Pelan Perniagaan anda termasuk white-labeling penuh.",
-            "removeFooter": "Alih keluar pengepala \"Dikuasakan oleh Toroongo\"",
-            "removeFooterDesc": "Etalase anda tidak akan menunjukkan penjenamaan Toroongo kepada pelanggan",
-            "hideEmail": "Sembunyikan Toroongo daripada templat e-mel",
-            "hideEmailDesc": "Pengesahan pesanan dan pemberitahuan akan menggunakan jenama anda sahaja",
-            "customFavicon": "Favicon tersuai",
-            "customFaviconDesc": "Gunakan favicon anda sendiri dan bukannya ikon Toroongo",
-            "activeTitle": "White-Label Aktif",
-            "activeDesc": "Semua penjenamaan Toroongo telah dialih keluar daripada etalase anda.",
-            "save": "Simpan Tetapan White-Label"
-        },
-        "customcode": {
-            "cssTitle": "CSS Tersuai",
-            "cssDesc": "Tambah CSS tersuai untuk mengatasi gaya etalase. Perubahan hanya dikenakan pada etalase awam anda.",
-            "cssPlaceholder": "/* CSS etalase tersuai anda */",
-            "cssSave": "Simpan CSS Tersuai",
-            "htmlTitle": "HTML Tersuai (Suntikan Head)",
-            "htmlDesc": "Suntik HTML tersuai ke dalam <head> etalase anda. Berguna untuk skrip analitik, tag meta, atau integrasi pihak ketiga.",
-            "htmlPlaceholder": "<!-- HTML head tersuai -->",
-            "htmlCaution": "Amaran:",
-            "htmlCautionDesc": "Menyuntik HTML atau skrip yang tidak sah mungkin merosakkan etalase anda. Uji perubahan dengan teliti.",
-            "htmlSave": "Simpan HTML Tersuai"
-        },
-        "currency": {
-            "title": "Tetapan Pelbagai Mata Wang",
-            "desc": "Dayakan mata wang untuk kedai anda. Harga ditukar secara automatik berdasarkan alamat IP pelawat.",
-            "autoDetect": "Kesan mata wang secara automatik mengikut IP",
-            "autoDetectDesc": "Tunjukkan harga secara automatik dalam mata wang tempatan pelawat",
-            "enabledCurrencies": "Mata Wang yang Didayakan",
-            "save": "Simpan Tetapan Mata Wang"
-        }
-    },
-    "sellerPayment": {
-        "title": "Pilihan Pembayaran",
-        "subtitle": "Tambah kaedah pembayaran yang anda terima. Pembeli akan melihat ini semasa pembayaran.",
-        "addMethod": "Tambah Kaedah",
-        "codTitle": "Tunai semasa Penghantaran (Standard)",
-        "codBadge": "Aktif Secara Lalai",
-        "codDesc": "Pembeli sentiasa boleh memilih untuk membayar semasa penghantaran. Kaedah ini diuruskan oleh sistem dan tidak memerlukan konfigurasi tambahan.",
-        "noMethods": "Tiada kaedah pembayaran tersuai lagi",
-        "noMethodsDesc": "Tambah bKash, Nagad, PayPal, atau mana-mana kaedah lain yang anda terima.",
-        "charge": "+{{count}}% caj",
-        "modal": {
-            "addTitle": "Tambah Kaedah Pembayaran",
-            "editTitle": "Sunting Kaedah Pembayaran",
-            "type": "Jenis Pembayaran",
-            "name": "Nama Paparan *",
-            "namePlaceholder": "cth. bKash Peribadi",
-            "idLabel": "Label Pengecam",
-            "idLabelPlaceholder": "cth. Nombor bKash, E-mel PayPal",
-            "idValue": "Akaun / Nombor / E-mel Anda *",
-            "idValuePlaceholder": "cth. 01712345678",
-            "serviceCharge": "Caj Perkhidmatan (%)",
-            "serviceChargeDesc": "Masukkan 0 untuk tiada caj tambahan.",
-            "instructions": "Arahan untuk Pembeli",
-            "instructionsPlaceholder": "cth. Hantar pembayaran ke nombor di atas dan kongsi ID transaksi anda.",
-            "active": "Aktif (kelihatan kepada pembeli)",
-            "cancel": "Batal",
-            "save": "Simpan Perubahan"
-        },
-        "confirmDelete": "Padam kaedah pembayaran ini?"
-    },
-    "sellerAbandonedCarts": {
-        "title": "Pemulihan Troli Terbiar",
-        "subtitle": "Pulihkan jualan yang hilang secara automatik dengan urutan e-mel susulan",
-        "stats": {
-            "abandoned": "Troli Terbiar",
-            "recovered": "Dipulihkan",
-            "rate": "Kadar Pemulihan",
-            "revenue": "Hasil Dipulihkan"
-        },
-        "automation": {
-            "title": "Automatik E-mel",
-            "active": "Aktif",
-            "paused": "Dijeda",
-            "reminder1": "Peringatan Pertama",
-            "reminder2": "Peringatan Ke-2",
-            "reminder3": "Peringatan Ke-3",
-            "hourAfter": "1 jam selepas",
-            "hoursAfter": "{{count}} jam selepas",
-            "gentleDesc": "Peringatan mesra dengan item troli",
-            "urgencyDesc": "Kesegeraan + bukti sosial",
-            "discountDesc": "{{percent}}% diskaun disertakan",
-            "finalDesc": "Peringatan terakhir"
-        },
-        "filters": {
-            "all": "Semua",
-            "pending": "Belum Selesai",
-            "emailSent": "E-mel Dihantar",
-            "recovered": "Dipulihkan",
-            "expired": "Tamat Tempoh"
-        },
-        "table": {
-            "customer": "Pelanggan",
-            "items": "Item",
-            "value": "Nilai",
-            "abandoned": "Terbiar",
-            "emailsSent": "E-mel Dihantar",
-            "status": "Status",
-            "action": "Tindakan",
-            "sendNow": "Hantar Sekarang",
-            "viewEmails": "Lihat E-mel",
-            "justNow": "Baru sahaja",
-            "hoursAgo": "{{count}}j lalu",
-            "daysAgo": "{{count}}h lalu"
-        }
-    },
-    "sellerBlogs": {
-        "title": "Pengurusan Blog",
-        "subtitle": "Cipta dan urus siaran blog kedai anda.",
-        "createNew": "Cipta Siaran Baru",
-        "searchPlaceholder": "Cari siaran...",
-        "loading": "Memuatkan blog anda...",
-        "empty": {
-            "title": "Tiada siaran blog ditemui",
-            "searchNoMatch": "Tiada siaran yang sepadan dengan \"{{query}}\". Cuba istilah carian lain.",
-            "subtitle": "Anda belum mencipta sebarang siaran blog lagi. Mula dengan mencipta siaran pertama anda untuk berinteraksi dengan pelanggan anda.",
-            "clearSearch": "Kosongkan Carian",
-            "createFirst": "Cipta Siaran Pertama"
-        },
-        "deleteConfirm": "Adakah anda pasti mahu memadam siaran blog ini?",
-        "deleteFailed": "Gagal memadam blog",
-        "saveFailed": "Gagal menyimpan blog",
-        "editor": {
-            "loading": "Memuatkan editor...",
-            "newTitle": "Cipta Siaran Baru",
-            "editTitle": "Sunting Siaran Blog",
-            "newSubtitle": "Kongsi pengetahuan anda dengan Toroongo",
-            "editSubtitle": "Mengemas kini pandangan yang anda kongsi",
-            "preview": "Pratonton Siaran",
-            "backToEdit": "Kembali ke Sunting",
-            "publish": "Terbitkan Siaran",
-            "update": "Kemas Kini Siaran",
-            "untitled": "Siaran Tanpa Tajuk",
-            "summaryPlaceholder": "Ringkasan siaran akan muncul di sini...",
-            "contentPlaceholder": "Mula menulis kandungan anda...",
-            "strategy": "Strategi Kandungan",
-            "postTitle": "Tajuk Siaran",
-            "titlePlaceholder": "cth. 5 Strategi untuk Penukaran Tinggi",
-            "shortSummary": "Ringkasan Pendek",
-            "summaryHookPlaceholder": "Cangkuk ringkas yang muncul dalam suapan blog...",
-            "fullContent": "Kandungan Artikel Penuh",
-            "richText": "Teks Kaya Didayakan",
-            "storyPlaceholder": "Ceritakan kisah anda...",
-            "metadata": "Metadata",
-            "category": "Kategori",
-            "theme": "Tema Warna Siaran",
-            "coverImage": "Imej Kulit",
-            "imageUrl": "URL Imej",
-            "noPreview": "Tiada Pratonton Tersedia",
-            "noPermission": "Anda tidak mempunyai kebenaran untuk menyunting blog ini.",
-            "defaultAuthorInitials": "PK",
-            "defaultAuthor": "Kedai Anda",
-            "urlPlaceholder": "https://..."
-        },
-        "categories": {
-            "tips": "Petua Penjual",
-            "insights": "Wawasan Industri",
-            "guides": "Panduan Produk",
-            "stories": "Kisah Jenama",
-            "updates": "Kemas Kini"
-        },
-        "table": {
-            "details": "Butiran Siaran",
-            "category": "Kategori",
-            "status": "Status",
-            "actions": "Tindakan",
-            "publishedOn": "Diterbitkan pada {{date}}"
-        },
-        "status": {
-            "published": "Diterbitkan"
-        },
-        "view": "Lihat",
-        "edit": "Sunting",
-        "delete": "Padam",
-        "views": "{{count}} paparan"
-    },
-    "sellerFinance": {
-        "title": "Kewangan",
-        "exportCsv": "Eksport CSV",
-        "stats": {
-            "available": "Baki Tersedia",
-            "pending": "Penyelesaian Belum Selesai",
-            "nextPayout": "Pembayaran Seterusnya"
-        },
-        "transactions": {
-            "title": "Transaksi Terkini",
-            "table": {
-                "id": "Transaksi",
-                "date": "Tarikh",
-                "type": "Jenis",
-                "description": "Penerangan",
-                "amount": "Jumlah",
-                "fee": "Yuran",
-                "net": "Bersih",
-                "loading": "Memuatkan transaksi...",
-                "noTransactions": "Tiada transaksi lagi."
-            },
-            "types": {
-                "sale": "Jualan",
-                "payout": "Pembayaran"
-            }
-        },
-        "payoutInfo": "Pembayaran mingguan → Bank ****{{lastFour}}"
-    },
-    "sellerMessages": {
-        "title": "Mesej",
-        "searchPlaceholder": "Cari...",
-        "loading": "Memuatkan mesej...",
-        "select": "Pilih perbualan",
-        "selectDesc": "Pilih mesej pelanggan untuk membalas.",
-        "typePlaceholder": "Taip jawapan..."
-    },
-    "shops": {
-        "title": "Teroka Kedai",
-        "subtitle": "Temui kedai unik daripada penjual bebas di Toroongo. Setiap kedai adalah pengalaman yang dipilih susun."
-    },
-    "sellerProduct": {
-        "modal": {
-            "addTitle": "Tambah Produk Baru",
-            "editTitle": "Sunting Produk",
-            "titleLabel": "Tajuk Produk *",
-            "titlePlaceholder": "cth., Fon Kepala Wayarles",
-            "categoryLabel": "Kategori",
-            "categoryPlaceholder": "Pilih Kategori",
-            "descLabel": "Penerangan",
-            "descPlaceholder": "Terangkan produk anda...",
-            "seoLabel": "Penerangan Meta (SEO)",
-            "seoPlaceholder": "Penerangan SEO pendek (maks 160 aksara)...",
-            "priceLabel": "Harga *",
-            "originalPriceLabel": "Harga Asal",
-            "stockLabel": "Stok",
-            "variationsTitle": "Variasi",
-            "addVariation": "+ Tambah kumpulan variasi",
-            "variationsDesc": "Cipta kumpulan variasi (cth., Saiz, Warna) dan tambah nilai yang mungkin. Varian boleh dipilih oleh pembeli pada halaman produk.",
-            "noVariations": "Tiada variasi ditambah.",
-            "groupNamePlaceholder": "Nama kumpulan (cth., Saiz)",
-            "remove": "Alih Keluar",
-            "addValuePlaceholder": "Tambah nilai dan tekan Enter (cth., Merah)",
-            "variantPrice": "Harga",
-            "variantImage": "URL Imej",
-            "mediaTitle": "Media Produk",
-            "mediaDesc": "Tambah URL imej & video. Imej pertama akan digunakan sebagai imej produk utama. Menyokong pautan imej langsung, video MP4, dan URL YouTube.",
-            "mediaPlaceholder": "https://example.com/image.jpg atau URL YouTube",
-            "add": "Tambah",
-            "noMedia": "Tiada media ditambah lagi",
-            "noMediaDesc": "Tampal URL imej atau video di atas untuk menambah media produk",
-            "cancel": "Batal",
-            "save": "Simpan Produk",
-            "update": "Kemas Kini Produk",
-            "errorRequired": "Sila isi semua ruangan yang diperlukan",
-            "invalidUrl": "Sila masukkan URL yang sah",
-            "duplicateUrl": "URL ini telah pun ditambah",
-            "badgeImage": "Imej",
-            "badgeVideo": "Video",
-            "primary": "Utama",
-            "invalidUrlMsg": "URL tidak sah"
-        }
-    },
-    "sellerDiscounts": {
-        "title": "Diskaun",
-        "subtitle": "Cipta dan urus kod diskaun untuk kedai anda",
-        "createBtn": "Cipta Diskaun",
-        "stats": {
-            "active": "Diskaun Aktif",
-            "usage": "Jumlah Penggunaan",
-            "savings": "Purata Penjimatan"
-        },
-        "form": {
-            "title": "Cipta Diskaun Baru",
-            "codeLabel": "Kod Diskaun",
-            "codePlaceholder": "cth. SUMMER25",
-            "typeLabel": "Jenis Diskaun",
-            "typePercentage": "Peratusan Diskaun",
-            "typeFixed": "Jumlah Tetap Diskaun",
-            "valueLabel": "Nilai",
-            "minOrderLabel": "Nilai Pesanan Minimum ($)",
-            "usageLimitLabel": "Had Penggunaan",
-            "usageLimitPlaceholder": "Tanpa Had",
-            "expiryLabel": "Tarikh Tamat Tempoh",
-            "createBtn": "Cipta Diskaun",
-            "cancel": "Batal"
-        },
-        "searchPlaceholder": "Cari kod diskaun...",
-        "table": {
-            "code": "Kod",
-            "type": "Jenis",
-            "value": "Nilai",
-            "usage": "Penggunaan",
-            "minOrder": "Pesanan Min.",
-            "status": "Status",
-            "expires": "Tamat Tempoh",
-            "actions": "Tindakan",
-            "never": "Tidak Pernah",
-            "copyCode": "Salin kod"
-        },
-        "status": {
-            "active": "aktif",
-            "expired": "tamat tempoh",
-            "paused": "dijeda"
-        },
-        "noDiscounts": "Tiada kod diskaun ditemui",
-        "noDiscountsDesc": "Cipta kod diskaun pertama anda untuk bermula",
-        "upgrade": {
-            "title": "Peraturan Diskaun",
-            "message": "Cipta kod diskaun dan tawaran promosi untuk meningkatkan jualan anda. Naik taraf ke Pro untuk membuka ciri ini."
-        }
-    },
-    "sellerStaff": {
-        "title": "Akaun Kakitangan",
-        "staffCount": "{{count}} / {{max}} ahli kakitangan",
-        "staffCountUnlimited": "{{count}} ahli kakitangan (Tanpa Had)",
-        "inviteBtn": "Jemput Ahli Kakitangan",
-        "limitReached": {
-            "title": "Had kakitangan dicapai",
-            "message": "Pelan Perniagaan anda menyokong sehingga {{max}} ahli kakitangan. Naik taraf ke Enterprise untuk akaun kakitangan tanpa had."
-        },
-        "modal": {
-            "title": "Jemput Ahli Kakitangan",
-            "nameLabel": "Nama Penuh",
-            "emailLabel": "Alamat E-mel",
-            "roleLabel": "Peranan",
-            "roleManager": "Pengurus — Akses penuh",
-            "roleEditor": "Editor — Produk & kandungan",
-            "roleSupport": "Sokongan — Pesanan & mesej",
-            "roleViewer": "Pemerhati — Baca sahaja",
-            "cancel": "Batal",
-            "sendBtn": "Hantar Jemputan"
-        },
-        "searchPlaceholder": "Cari ahli kakitangan...",
-        "card": {
-            "lastActive": "Aktif terakhir: {{time}}",
-            "remove": "Alih Keluar",
-            "permissions": "Kebenaran",
-            "initials": "Inisial",
-            "justNow": "Baru sahaja",
-            "hoursAgo": "{{count}}j lalu",
-            "daysAgo": "{{count}}h lalu"
-        },
-        "roles": {
-            "manager": "Pengurus",
-            "editor": "Editor",
-            "support": "Sokongan",
-            "viewer": "Pemerhati"
-        },
-        "status": {
-            "active": "Aktif",
-            "pending": "Belum Selesai",
-            "inactive": "Tidak Aktif"
-        },
-        "noStaff": "Tiada ahli kakitangan ditemui",
-        "noStaffDesc": "Jemput ahli pasukan pertama anda untuk bermula",
-        "upgrade": {
-            "title": "Akaun Kakitangan",
-            "message": "Tambah ahli pasukan dengan kebenaran berasaskan peranan untuk membantu mengurus kedai anda. Naik taraf ke Perniagaan untuk membuka ciri ini."
-        },
-        "permissions": {
-            "orders": "Pesanan",
-            "products": "Produk",
-            "analytics": "Analitik",
-            "messages": "Mesej",
-            "blog": "Blog",
-            "settings": "Tetapan"
-        }
-    },
-    "sellerAiHub": {
-        "title": "Kuasa Super AI",
-        "subtitle": "{{unlocked}} alat AI dibuka • {{locked}} tersedia dengan naik taraf",
-        "activeTitle": "Alat AI Aktif Anda",
-        "availableTitle": "Tersedia dengan Naik Taraf",
-        "unlockMore": "Buka Lebih Banyak Kuasa Super AI",
-        "tool": {
-            "unlocked": "Dibuka",
-            "required": "{{plan}}+ diperlukan",
-            "tryIt": "Cuba Sekarang",
-            "close": "Tutup Alat",
-            "activeRunning": "Aktif dan berjalan di etalase anda"
-        },
-        "demo": {
-            "keywordsLabel": "Masukkan kata kunci atau nama produk",
-            "keywordsPlaceholder": "cth. beg messenger kulit, buatan tangan, vintaj",
-            "generate": "Jana",
-            "aiGenerated": "Dijana AI",
-            "imageDrop": "Gugurkan imej produk untuk ditingkatkan",
-            "tryEnhancement": "Cuba Demo Peningkatan",
-            "processing": "Memproses...",
-            "bgRemoved": "Latar Belakang Dibuang",
-            "upscaled": "Ditingkatkan 2x",
-            "whiteBg": "Latar Belakang Putih",
-            "translateBtn": "Terjemah Katalog Produk",
-            "translating": "Menterjemah katalog..."
-        }
-    }
+    "sellerSettings":  {
+                           "title":  "Tetapan Penjual",
+                           "tabs":  {
+                                        "store":  "Kedai",
+                                        "branding":  "Penjenamaan",
+                                        "country_currency":  "Negara \u0026 Mata Wang",
+                                        "content":  "Kandungan Kedai",
+                                        "whitelabel":  "Label Putih",
+                                        "currency":  "Pelbagai Mata Wang",
+                                        "customcode":  "Kod Tersuai",
+                                        "shipping":  "Penghantaran",
+                                        "notifications":  "Pemberitahuan"
+                                    },
+                           "username":  {
+                                            "title":  "Nama Pengguna Kedai",
+                                            "desc":  "URL unik kedai anda di Toroongo.",
+                                            "checking":  "Menyemak ketersediaan...",
+                                            "available":  "Nama pengguna tersedia!",
+                                            "currentBtn":  "Nama Pengguna Semasa",
+                                            "claim":  "Tuntut Nama Pengguna",
+                                            "preview":  "Pratonton etalase anda"
+                                        },
+                           "storeInfo":  {
+                                             "title":  "Maklumat Kedai",
+                                             "name":  "Nama Kedai",
+                                             "description":  "Penerangan Kedai",
+                                             "email":  "E-mel Awam",
+                                             "phone":  "Telefon Awam",
+                                             "location":  "Lokasi",
+                                             "save":  "Simpan Maklumat Kedai"
+                                         },
+                           "countryCurrency":  {
+                                                   "title":  "Negara \u0026 Mata Wang",
+                                                   "desc":  "Negara anda menetapkan mata wang kedai anda. Semua harga produk yang anda masukkan akan disimpan dalam mata wang ini dan ditukar secara automatik untuk pembeli di seluruh dunia.",
+                                                   "important":  "Penting:",
+                                                   "importantDesc":  "Menukar mata wang anda akan mengemas kini mata wang untuk semua produk sedia ada anda. Harga yang disimpan akan kekal dengan nombor yang sama, jadi anda mungkin mahu menyemak dan mengemas kininya untuk sepadan dengan mata wang baharu.",
+                                                   "save":  "Simpan Negara \u0026 Mata Wang"
+                                               },
+                           "branding":  {
+                                            "title":  "Penjenamaan \u0026 Penampilan",
+                                            "color":  "Warna Jenama Utama",
+                                            "logo":  "URL Logo",
+                                            "banner":  "URL Imej Sepanduk",
+                                            "save":  "Simpan Penjenamaan"
+                                        },
+                           "shipping":  {
+                                            "title":  "Tetapan Penghantaran",
+                                            "processing":  "Masa Pemprosesan (hari)",
+                                            "threshold":  "Ambang Penghantaran Percuma ($)",
+                                            "rate":  "Kadar Penghantaran Standard ($)",
+                                            "express":  "Tawarkan penghantaran ekspres",
+                                            "expressDesc":  "Benarkan pelanggan memilih penghantaran 2-3 hari yang lebih pantas",
+                                            "save":  "Simpan Tetapan Penghantaran"
+                                        },
+                           "notifications":  {
+                                                 "title":  "Keutamaan Pemberitahuan",
+                                                 "newOrders":  "Pesanan baru",
+                                                 "newOrdersDesc":  "Dapatkan pemberitahuan apabila anda menerima pesanan baru",
+                                                 "orderUpdates":  "Kemas kini pesanan",
+                                                 "orderUpdatesDesc":  "Perubahan status dan pengesahan penghantaran",
+                                                 "customerMessages":  "Mesej pelanggan",
+                                                 "customerMessagesDesc":  "Apabila pembeli menghantar mesej kepada anda",
+                                                 "lowStock":  "Amaran stok rendah",
+                                                 "lowStockDesc":  "Apabila stok produk jatuh di bawah 5 unit",
+                                                 "payouts":  "Pemberitahuan pembayaran",
+                                                 "payoutsDesc":  "Apabila pembayaran diproses ke bank anda",
+                                                 "save":  "Simpan Keutamaan Pemberitahuan"
+                                             },
+                           "content":  {
+                                           "aboutTitle":  "Mengenai Kedai Anda",
+                                           "aboutDesc":  "Ceritakan kisah anda. Ini akan dipaparkan pada tab \"Mengenai\" etalase anda.",
+                                           "aboutPlaceholder":  "Terangkan kedai anda, pasukan anda, dan misi anda...",
+                                           "benefitsTitle":  "Sebab Membeli-belah Dengan Kami",
+                                           "benefitsDesc":  "Serlahkan apa yang membuatkan kedai anda unik. Ini muncul di halaman \"Mengenai\" anda.",
+                                           "benefitNum":  "Manfaat #{{num}}",
+                                           "benefitPlaceholder":  "Tajuk Manfaat",
+                                           "descPlaceholder":  "Penerangan...",
+                                           "policiesTitle":  "Polisi Kedai",
+                                           "policiesDesc":  "Polisi tersuai untuk pelanggan anda. Nilai lalai akan ditunjukkan jika dibiarkan kosong.",
+                                           "shippingPolicy":  "Polisi Penghantaran",
+                                           "shippingPlaceholder":  "Masa pemprosesan pesanan, kaedah penghantaran, kawasan yang diliputi...",
+                                           "returnsPolicy":  "Polisi Pemulangan \u0026 Bayaran Balik",
+                                           "returnsPlaceholder":  "Tempoh pemulangan, syarat bayaran balik, siapa yang membayar penghantaran...",
+                                           "warrantyPolicy":  "Maklumat Waranti",
+                                           "warrantyPlaceholder":  "Tempoh jaminan produk, butiran perlindungan...",
+                                           "faqPolicy":  "Soalan Lazim (FAQ)",
+                                           "faqPlaceholder":  "Soalan dan jawapan biasa untuk pembeli anda...",
+                                           "save":  "Simpan Kandungan Kedai"
+                                       },
+                           "whitelabel":  {
+                                              "title":  "Tetapan White-Label",
+                                              "desc":  "Kawal penjenamaan Toroongo pada etalase anda. Pelan Perniagaan anda termasuk white-labeling penuh.",
+                                              "removeFooter":  "Alih keluar pengepala \"Dikuasakan oleh Toroongo\"",
+                                              "removeFooterDesc":  "Etalase anda tidak akan menunjukkan penjenamaan Toroongo kepada pelanggan",
+                                              "hideEmail":  "Sembunyikan Toroongo daripada templat e-mel",
+                                              "hideEmailDesc":  "Pengesahan pesanan dan pemberitahuan akan menggunakan jenama anda sahaja",
+                                              "customFavicon":  "Favicon tersuai",
+                                              "customFaviconDesc":  "Gunakan favicon anda sendiri dan bukannya ikon Toroongo",
+                                              "activeTitle":  "White-Label Aktif",
+                                              "activeDesc":  "Semua penjenamaan Toroongo telah dialih keluar daripada etalase anda.",
+                                              "save":  "Simpan Tetapan White-Label"
+                                          },
+                           "customcode":  {
+                                              "cssTitle":  "CSS Tersuai",
+                                              "cssDesc":  "Tambah CSS tersuai untuk mengatasi gaya etalase. Perubahan hanya dikenakan pada etalase awam anda.",
+                                              "cssPlaceholder":  "/* CSS etalase tersuai anda */",
+                                              "cssSave":  "Simpan CSS Tersuai",
+                                              "htmlTitle":  "HTML Tersuai (Suntikan Head)",
+                                              "htmlDesc":  "Suntik HTML tersuai ke dalam \u003chead\u003e etalase anda. Berguna untuk skrip analitik, tag meta, atau integrasi pihak ketiga.",
+                                              "htmlPlaceholder":  "\u003c!-- HTML head tersuai --\u003e",
+                                              "htmlCaution":  "Amaran:",
+                                              "htmlCautionDesc":  "Menyuntik HTML atau skrip yang tidak sah mungkin merosakkan etalase anda. Uji perubahan dengan teliti.",
+                                              "htmlSave":  "Simpan HTML Tersuai"
+                                          },
+                           "currency":  {
+                                            "title":  "Tetapan Pelbagai Mata Wang",
+                                            "desc":  "Dayakan mata wang untuk kedai anda. Harga ditukar secara automatik berdasarkan alamat IP pelawat.",
+                                            "autoDetect":  "Kesan mata wang secara automatik mengikut IP",
+                                            "autoDetectDesc":  "Tunjukkan harga secara automatik dalam mata wang tempatan pelawat",
+                                            "enabledCurrencies":  "Mata Wang yang Didayakan",
+                                            "save":  "Simpan Tetapan Mata Wang"
+                                        }
+                       },
+    "sellerPayment":  {
+                          "title":  "Pilihan Pembayaran",
+                          "subtitle":  "Tambah kaedah pembayaran yang anda terima. Pembeli akan melihat ini semasa pembayaran.",
+                          "addMethod":  "Tambah Kaedah",
+                          "codTitle":  "Tunai semasa Penghantaran (Standard)",
+                          "codBadge":  "Aktif Secara Lalai",
+                          "codDesc":  "Pembeli sentiasa boleh memilih untuk membayar semasa penghantaran. Kaedah ini diuruskan oleh sistem dan tidak memerlukan konfigurasi tambahan.",
+                          "noMethods":  "Tiada kaedah pembayaran tersuai lagi",
+                          "noMethodsDesc":  "Tambah bKash, Nagad, PayPal, atau mana-mana kaedah lain yang anda terima.",
+                          "charge":  "+{{count}}% caj",
+                          "modal":  {
+                                        "addTitle":  "Tambah Kaedah Pembayaran",
+                                        "editTitle":  "Sunting Kaedah Pembayaran",
+                                        "type":  "Jenis Pembayaran",
+                                        "name":  "Nama Paparan *",
+                                        "namePlaceholder":  "cth. bKash Peribadi",
+                                        "idLabel":  "Label Pengecam",
+                                        "idLabelPlaceholder":  "cth. Nombor bKash, E-mel PayPal",
+                                        "idValue":  "Akaun / Nombor / E-mel Anda *",
+                                        "idValuePlaceholder":  "cth. 01712345678",
+                                        "serviceCharge":  "Caj Perkhidmatan (%)",
+                                        "serviceChargeDesc":  "Masukkan 0 untuk tiada caj tambahan.",
+                                        "instructions":  "Arahan untuk Pembeli",
+                                        "instructionsPlaceholder":  "cth. Hantar pembayaran ke nombor di atas dan kongsi ID transaksi anda.",
+                                        "active":  "Aktif (kelihatan kepada pembeli)",
+                                        "cancel":  "Batal",
+                                        "save":  "Simpan Perubahan"
+                                    },
+                          "confirmDelete":  "Padam kaedah pembayaran ini?"
+                      },
+    "sellerAbandonedCarts":  {
+                                 "title":  "Pemulihan Troli Terbiar",
+                                 "subtitle":  "Pulihkan jualan yang hilang secara automatik dengan urutan e-mel susulan",
+                                 "stats":  {
+                                               "abandoned":  "Troli Terbiar",
+                                               "recovered":  "Dipulihkan",
+                                               "rate":  "Kadar Pemulihan",
+                                               "revenue":  "Hasil Dipulihkan"
+                                           },
+                                 "automation":  {
+                                                    "title":  "Automatik E-mel",
+                                                    "active":  "Aktif",
+                                                    "paused":  "Dijeda",
+                                                    "reminder1":  "Peringatan Pertama",
+                                                    "reminder2":  "Peringatan Ke-2",
+                                                    "reminder3":  "Peringatan Ke-3",
+                                                    "hourAfter":  "1 jam selepas",
+                                                    "hoursAfter":  "{{count}} jam selepas",
+                                                    "gentleDesc":  "Peringatan mesra dengan item troli",
+                                                    "urgencyDesc":  "Kesegeraan + bukti sosial",
+                                                    "discountDesc":  "{{percent}}% diskaun disertakan",
+                                                    "finalDesc":  "Peringatan terakhir"
+                                                },
+                                 "filters":  {
+                                                 "all":  "Semua",
+                                                 "pending":  "Belum Selesai",
+                                                 "emailSent":  "E-mel Dihantar",
+                                                 "recovered":  "Dipulihkan",
+                                                 "expired":  "Tamat Tempoh"
+                                             },
+                                 "table":  {
+                                               "customer":  "Pelanggan",
+                                               "items":  "Item",
+                                               "value":  "Nilai",
+                                               "abandoned":  "Terbiar",
+                                               "emailsSent":  "E-mel Dihantar",
+                                               "status":  "Status",
+                                               "action":  "Tindakan",
+                                               "sendNow":  "Hantar Sekarang",
+                                               "viewEmails":  "Lihat E-mel",
+                                               "justNow":  "Baru sahaja",
+                                               "hoursAgo":  "{{count}}j lalu",
+                                               "daysAgo":  "{{count}}h lalu"
+                                           }
+                             },
+    "sellerBlogs":  {
+                        "title":  "Pengurusan Blog",
+                        "subtitle":  "Cipta dan urus siaran blog kedai anda.",
+                        "createNew":  "Cipta Siaran Baru",
+                        "searchPlaceholder":  "Cari siaran...",
+                        "loading":  "Memuatkan blog anda...",
+                        "empty":  {
+                                      "title":  "Tiada siaran blog ditemui",
+                                      "searchNoMatch":  "Tiada siaran yang sepadan dengan \"{{query}}\". Cuba istilah carian lain.",
+                                      "subtitle":  "Anda belum mencipta sebarang siaran blog lagi. Mula dengan mencipta siaran pertama anda untuk berinteraksi dengan pelanggan anda.",
+                                      "clearSearch":  "Kosongkan Carian",
+                                      "createFirst":  "Cipta Siaran Pertama"
+                                  },
+                        "deleteConfirm":  "Adakah anda pasti mahu memadam siaran blog ini?",
+                        "deleteFailed":  "Gagal memadam blog",
+                        "saveFailed":  "Gagal menyimpan blog",
+                        "editor":  {
+                                       "loading":  "Memuatkan editor...",
+                                       "newTitle":  "Cipta Siaran Baru",
+                                       "editTitle":  "Sunting Siaran Blog",
+                                       "newSubtitle":  "Kongsi pengetahuan anda dengan Toroongo",
+                                       "editSubtitle":  "Mengemas kini pandangan yang anda kongsi",
+                                       "preview":  "Pratonton Siaran",
+                                       "backToEdit":  "Kembali ke Sunting",
+                                       "publish":  "Terbitkan Siaran",
+                                       "update":  "Kemas Kini Siaran",
+                                       "untitled":  "Siaran Tanpa Tajuk",
+                                       "summaryPlaceholder":  "Ringkasan siaran akan muncul di sini...",
+                                       "contentPlaceholder":  "Mula menulis kandungan anda...",
+                                       "strategy":  "Strategi Kandungan",
+                                       "postTitle":  "Tajuk Siaran",
+                                       "titlePlaceholder":  "cth. 5 Strategi untuk Penukaran Tinggi",
+                                       "shortSummary":  "Ringkasan Pendek",
+                                       "summaryHookPlaceholder":  "Cangkuk ringkas yang muncul dalam suapan blog...",
+                                       "fullContent":  "Kandungan Artikel Penuh",
+                                       "richText":  "Teks Kaya Didayakan",
+                                       "storyPlaceholder":  "Ceritakan kisah anda...",
+                                       "metadata":  "Metadata",
+                                       "category":  "Kategori",
+                                       "theme":  "Tema Warna Siaran",
+                                       "coverImage":  "Imej Kulit",
+                                       "imageUrl":  "URL Imej",
+                                       "noPreview":  "Tiada Pratonton Tersedia",
+                                       "noPermission":  "Anda tidak mempunyai kebenaran untuk menyunting blog ini.",
+                                       "defaultAuthorInitials":  "PK",
+                                       "defaultAuthor":  "Kedai Anda",
+                                       "urlPlaceholder":  "https://..."
+                                   },
+                        "categories":  {
+                                           "tips":  "Petua Penjual",
+                                           "insights":  "Wawasan Industri",
+                                           "guides":  "Panduan Produk",
+                                           "stories":  "Kisah Jenama",
+                                           "updates":  "Kemas Kini"
+                                       },
+                        "table":  {
+                                      "details":  "Butiran Siaran",
+                                      "category":  "Kategori",
+                                      "status":  "Status",
+                                      "actions":  "Tindakan",
+                                      "publishedOn":  "Diterbitkan pada {{date}}"
+                                  },
+                        "status":  {
+                                       "published":  "Diterbitkan"
+                                   },
+                        "view":  "Lihat",
+                        "edit":  "Sunting",
+                        "delete":  "Padam",
+                        "views":  "{{count}} paparan"
+                    },
+    "sellerFinance":  {
+                          "title":  "Kewangan",
+                          "exportCsv":  "Eksport CSV",
+                          "stats":  {
+                                        "available":  "Baki Tersedia",
+                                        "pending":  "Penyelesaian Belum Selesai",
+                                        "nextPayout":  "Pembayaran Seterusnya"
+                                    },
+                          "transactions":  {
+                                               "title":  "Transaksi Terkini",
+                                               "table":  {
+                                                             "id":  "Transaksi",
+                                                             "date":  "Tarikh",
+                                                             "type":  "Jenis",
+                                                             "description":  "Penerangan",
+                                                             "amount":  "Jumlah",
+                                                             "fee":  "Yuran",
+                                                             "net":  "Bersih",
+                                                             "loading":  "Memuatkan transaksi...",
+                                                             "noTransactions":  "Tiada transaksi lagi."
+                                                         },
+                                               "types":  {
+                                                             "sale":  "Jualan",
+                                                             "payout":  "Pembayaran"
+                                                         }
+                                           },
+                          "payoutInfo":  "Pembayaran mingguan → Bank ****{{lastFour}}"
+                      },
+    "sellerMessages":  {
+                           "title":  "Mesej",
+                           "searchPlaceholder":  "Cari...",
+                           "loading":  "Memuatkan mesej...",
+                           "select":  "Pilih perbualan",
+                           "selectDesc":  "Pilih mesej pelanggan untuk membalas.",
+                           "typePlaceholder":  "Taip jawapan..."
+                       },
+    "shops":  {
+                  "title":  "Teroka Kedai",
+                  "subtitle":  "Temui kedai unik daripada penjual bebas di Toroongo. Setiap kedai adalah pengalaman yang dipilih susun."
+              },
+    "sellerProduct":  {
+                          "modal":  {
+                                        "addTitle":  "Tambah Produk Baru",
+                                        "editTitle":  "Sunting Produk",
+                                        "titleLabel":  "Tajuk Produk *",
+                                        "titlePlaceholder":  "cth., Fon Kepala Wayarles",
+                                        "categoryLabel":  "Kategori",
+                                        "categoryPlaceholder":  "Pilih Kategori",
+                                        "descLabel":  "Penerangan",
+                                        "descPlaceholder":  "Terangkan produk anda...",
+                                        "seoLabel":  "Penerangan Meta (SEO)",
+                                        "seoPlaceholder":  "Penerangan SEO pendek (maks 160 aksara)...",
+                                        "priceLabel":  "Harga *",
+                                        "originalPriceLabel":  "Harga Asal",
+                                        "stockLabel":  "Stok",
+                                        "variationsTitle":  "Variasi",
+                                        "addVariation":  "+ Tambah kumpulan variasi",
+                                        "variationsDesc":  "Cipta kumpulan variasi (cth., Saiz, Warna) dan tambah nilai yang mungkin. Varian boleh dipilih oleh pembeli pada halaman produk.",
+                                        "noVariations":  "Tiada variasi ditambah.",
+                                        "groupNamePlaceholder":  "Nama kumpulan (cth., Saiz)",
+                                        "remove":  "Alih Keluar",
+                                        "addValuePlaceholder":  "Tambah nilai dan tekan Enter (cth., Merah)",
+                                        "variantPrice":  "Harga",
+                                        "variantImage":  "URL Imej",
+                                        "mediaTitle":  "Media Produk",
+                                        "mediaDesc":  "Tambah URL imej \u0026 video. Imej pertama akan digunakan sebagai imej produk utama. Menyokong pautan imej langsung, video MP4, dan URL YouTube.",
+                                        "mediaPlaceholder":  "https://example.com/image.jpg atau URL YouTube",
+                                        "add":  "Tambah",
+                                        "noMedia":  "Tiada media ditambah lagi",
+                                        "noMediaDesc":  "Tampal URL imej atau video di atas untuk menambah media produk",
+                                        "cancel":  "Batal",
+                                        "save":  "Simpan Produk",
+                                        "update":  "Kemas Kini Produk",
+                                        "errorRequired":  "Sila isi semua ruangan yang diperlukan",
+                                        "invalidUrl":  "Sila masukkan URL yang sah",
+                                        "duplicateUrl":  "URL ini telah pun ditambah",
+                                        "badgeImage":  "Imej",
+                                        "badgeVideo":  "Video",
+                                        "primary":  "Utama",
+                                        "invalidUrlMsg":  "URL tidak sah",
+                                        "badgeImagePlural":  "imej",
+                                        "badgeVideoPlural":  "video"
+                                    }
+                      },
+    "sellerDiscounts":  {
+                            "title":  "Diskaun",
+                            "subtitle":  "Cipta dan urus kod diskaun untuk kedai anda",
+                            "createBtn":  "Cipta Diskaun",
+                            "stats":  {
+                                          "active":  "Diskaun Aktif",
+                                          "usage":  "Jumlah Penggunaan",
+                                          "savings":  "Purata Penjimatan"
+                                      },
+                            "form":  {
+                                         "title":  "Cipta Diskaun Baru",
+                                         "codeLabel":  "Kod Diskaun",
+                                         "codePlaceholder":  "cth. SUMMER25",
+                                         "typeLabel":  "Jenis Diskaun",
+                                         "typePercentage":  "Peratusan Diskaun",
+                                         "typeFixed":  "Jumlah Tetap Diskaun",
+                                         "valueLabel":  "Nilai",
+                                         "minOrderLabel":  "Nilai Pesanan Minimum ($)",
+                                         "usageLimitLabel":  "Had Penggunaan",
+                                         "usageLimitPlaceholder":  "Tanpa Had",
+                                         "expiryLabel":  "Tarikh Tamat Tempoh",
+                                         "createBtn":  "Cipta Diskaun",
+                                         "cancel":  "Batal"
+                                     },
+                            "searchPlaceholder":  "Cari kod diskaun...",
+                            "table":  {
+                                          "code":  "Kod",
+                                          "type":  "Jenis",
+                                          "value":  "Nilai",
+                                          "usage":  "Penggunaan",
+                                          "minOrder":  "Pesanan Min.",
+                                          "status":  "Status",
+                                          "expires":  "Tamat Tempoh",
+                                          "actions":  "Tindakan",
+                                          "never":  "Tidak Pernah",
+                                          "copyCode":  "Salin kod"
+                                      },
+                            "status":  {
+                                           "active":  "aktif",
+                                           "expired":  "tamat tempoh",
+                                           "paused":  "dijeda"
+                                       },
+                            "noDiscounts":  "Tiada kod diskaun ditemui",
+                            "noDiscountsDesc":  "Cipta kod diskaun pertama anda untuk bermula",
+                            "upgrade":  {
+                                            "title":  "Peraturan Diskaun",
+                                            "message":  "Cipta kod diskaun dan tawaran promosi untuk meningkatkan jualan anda. Naik taraf ke Pro untuk membuka ciri ini."
+                                        }
+                        },
+    "sellerStaff":  {
+                        "title":  "Akaun Kakitangan",
+                        "staffCount":  "{{count}} / {{max}} ahli kakitangan",
+                        "staffCountUnlimited":  "{{count}} ahli kakitangan (Tanpa Had)",
+                        "inviteBtn":  "Jemput Ahli Kakitangan",
+                        "limitReached":  {
+                                             "title":  "Had kakitangan dicapai",
+                                             "message":  "Pelan Perniagaan anda menyokong sehingga {{max}} ahli kakitangan. Naik taraf ke Enterprise untuk akaun kakitangan tanpa had."
+                                         },
+                        "modal":  {
+                                      "title":  "Jemput Ahli Kakitangan",
+                                      "nameLabel":  "Nama Penuh",
+                                      "emailLabel":  "Alamat E-mel",
+                                      "roleLabel":  "Peranan",
+                                      "roleManager":  "Pengurus — Akses penuh",
+                                      "roleEditor":  "Editor — Produk \u0026 kandungan",
+                                      "roleSupport":  "Sokongan — Pesanan \u0026 mesej",
+                                      "roleViewer":  "Pemerhati — Baca sahaja",
+                                      "cancel":  "Batal",
+                                      "sendBtn":  "Hantar Jemputan"
+                                  },
+                        "searchPlaceholder":  "Cari ahli kakitangan...",
+                        "card":  {
+                                     "lastActive":  "Aktif terakhir: {{time}}",
+                                     "remove":  "Alih Keluar",
+                                     "permissions":  "Kebenaran",
+                                     "initials":  "Inisial",
+                                     "justNow":  "Baru sahaja",
+                                     "hoursAgo":  "{{count}}j lalu",
+                                     "daysAgo":  "{{count}}h lalu"
+                                 },
+                        "roles":  {
+                                      "manager":  "Pengurus",
+                                      "editor":  "Editor",
+                                      "support":  "Sokongan",
+                                      "viewer":  "Pemerhati"
+                                  },
+                        "status":  {
+                                       "active":  "Aktif",
+                                       "pending":  "Belum Selesai",
+                                       "inactive":  "Tidak Aktif"
+                                   },
+                        "noStaff":  "Tiada ahli kakitangan ditemui",
+                        "noStaffDesc":  "Jemput ahli pasukan pertama anda untuk bermula",
+                        "upgrade":  {
+                                        "title":  "Akaun Kakitangan",
+                                        "message":  "Tambah ahli pasukan dengan kebenaran berasaskan peranan untuk membantu mengurus kedai anda. Naik taraf ke Perniagaan untuk membuka ciri ini."
+                                    },
+                        "permissions":  {
+                                            "orders":  "Pesanan",
+                                            "products":  "Produk",
+                                            "analytics":  "Analitik",
+                                            "messages":  "Mesej",
+                                            "blog":  "Blog",
+                                            "settings":  "Tetapan"
+                                        }
+                    },
+    "sellerAiHub":  {
+                        "title":  "Kuasa Super AI",
+                        "subtitle":  "{{unlocked}} alat AI dibuka • {{locked}} tersedia dengan naik taraf",
+                        "activeTitle":  "Alat AI Aktif Anda",
+                        "availableTitle":  "Tersedia dengan Naik Taraf",
+                        "unlockMore":  "Buka Lebih Banyak Kuasa Super AI",
+                        "tool":  {
+                                     "unlocked":  "Dibuka",
+                                     "required":  "{{plan}}+ diperlukan",
+                                     "tryIt":  "Cuba Sekarang",
+                                     "close":  "Tutup Alat",
+                                     "activeRunning":  "Aktif dan berjalan di etalase anda"
+                                 },
+                        "demo":  {
+                                     "keywordsLabel":  "Masukkan kata kunci atau nama produk",
+                                     "keywordsPlaceholder":  "cth. beg messenger kulit, buatan tangan, vintaj",
+                                     "generate":  "Jana",
+                                     "aiGenerated":  "Dijana AI",
+                                     "imageDrop":  "Gugurkan imej produk untuk ditingkatkan",
+                                     "tryEnhancement":  "Cuba Demo Peningkatan",
+                                     "processing":  "Memproses...",
+                                     "bgRemoved":  "Latar Belakang Dibuang",
+                                     "upscaled":  "Ditingkatkan 2x",
+                                     "whiteBg":  "Latar Belakang Putih",
+                                     "translateBtn":  "Terjemah Katalog Produk",
+                                     "translating":  "Menterjemah katalog..."
+                                 }
+                    }
 }

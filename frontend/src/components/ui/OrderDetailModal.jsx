@@ -10,7 +10,9 @@ import {
   CreditCard,
   ChevronRight,
   Loader2,
+  RotateCcw,
 } from "lucide-react";
+
 import { useAuth } from "../../context/AuthContext";
 import { orderService } from "../../services/orderService";
 import { formatPrice, formatPriceInCurrency, convertCurrency } from "../../utils/currency";
@@ -28,8 +30,12 @@ const STATUS_CONFIG = {
     color: "text-green-600 bg-green-50",
     label: "Delivered",
   },
+  return_requested: { icon: RotateCcw, color: "text-purple-600 bg-purple-50", label: "Return Requested" },
+  returned: { icon: RotateCcw, color: "text-purple-600 bg-purple-50", label: "Returned" },
+  refunded: { icon: CreditCard, color: "text-indigo-600 bg-indigo-50", label: "Refunded" },
   cancelled: { icon: X, color: "text-red-600 bg-red-50", label: "Cancelled" },
 };
+
 
 export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
   const { t } = useTranslation();
@@ -167,7 +173,7 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
                         Payment Method
                       </p>
                       <p className="text-sm font-medium text-text-primary">
-                        {order.paymentMethod || "Credit Card"}
+                        {order.paymentMethod || t('common.notSpecified')}
                       </p>
                       <p className="text-sm text-text-muted mt-0.5">
                         Paid securely via Toroongo Pay
@@ -303,8 +309,9 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
             <div className="p-6 pt-0 sm:p-8 sm:pt-0 bg-white space-y-4">
               {/* Seller Status Controls */}
               {user?.role === "seller" &&
-                order.status !== "delivered" &&
+                order.status !== "refunded" &&
                 order.status !== "cancelled" && (
+
                   <div className="p-5 bg-surface-bg border border-border-soft rounded-2xl">
                     <h4 className="text-sm font-bold text-text-primary mb-3">
                       Seller Management
@@ -347,9 +354,51 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
                           Mark as Delivered
                         </button>
                       )}
+                      {(order.status === "delivered" || order.status === "shipped" || order.status === "return_requested") && (
+                        <button
+                          onClick={() => handleStatusChange("returned")}
+                          disabled={updatingStatus}
+                          className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-purple-50 text-purple-600 text-xs font-bold border border-purple-100 rounded-xl hover:bg-purple-100 transition-all disabled:opacity-50"
+                        >
+                          Mark as Returned
+                        </button>
+                      )}
+                      {(order.status === "returned" || order.status === "return_requested") && (
+                        <button
+                          onClick={() => handleStatusChange("refunded")}
+                          disabled={updatingStatus}
+                          className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 text-white text-xs font-bold rounded-xl hover:bg-indigo-700 transition-all disabled:opacity-50"
+                        >
+                          Issue Refund
+                        </button>
+                      )}
+
                     </div>
                   </div>
                 )}
+              
+              {/* Buyer Return Request */}
+              {user?.role === "buyer" && order.status === "delivered" && (
+                <div className="p-5 bg-purple-50 border border-purple-100 rounded-2xl mb-4">
+                  <h4 className="text-sm font-bold text-purple-900 mb-2">
+                    Need to return this?
+                  </h4>
+                  <p className="text-xs text-purple-700 mb-3">
+                    If you're not satisfied, you can request a return within 30 days of delivery.
+                  </p>
+                  <button
+                    onClick={() => {
+                      // We can either open a separate modal or just navigate/redirect.
+                      // For now, let's suggest using the order history button which is already implemented.
+                      alert("Please use the 'Request Return' button on your Order History page to provide a reason for return.");
+                    }}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-purple-600 text-white text-xs font-bold rounded-xl hover:bg-purple-700 transition-all"
+                  >
+                    <RotateCcw size={14} />
+                    How to Return
+                  </button>
+                </div>
+              )}
 
               <button
                 onClick={onClose}

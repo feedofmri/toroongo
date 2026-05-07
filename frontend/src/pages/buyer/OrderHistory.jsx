@@ -10,6 +10,8 @@ import {
   ChevronDown,
   XCircle,
   X,
+  RotateCcw,
+  CreditCard,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { orderService } from "../../services";
@@ -22,6 +24,9 @@ const STATUS_CONFIG = {
   shipped: { icon: Truck, color: "text-blue-600 bg-blue-50" },
   delivered: { icon: CheckCircle, color: "text-green-600 bg-green-50" },
   cancelled: { icon: XCircle, color: "text-red-600 bg-red-50" },
+  return_requested: { icon: RotateCcw, color: "text-purple-600 bg-purple-50" },
+  returned: { icon: RotateCcw, color: "text-purple-600 bg-purple-50" },
+  refunded: { icon: CreditCard, color: "text-indigo-600 bg-indigo-50" },
 };
 
 import OrderDetailModal from "../../components/ui/OrderDetailModal";
@@ -40,6 +45,9 @@ export default function OrderHistory() {
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [reviewingProduct, setReviewingProduct] = useState(null);
   const [activeOrderId, setActiveOrderId] = useState(null);
+  const [returningOrder, setReturningOrder] = useState(null);
+  const [returnReason, setReturnReason] = useState("");
+  const [isReturning, setIsReturning] = useState(false);
 
   const fetchOrders = () => {
     if (user) {
@@ -69,6 +77,21 @@ export default function OrderHistory() {
       alert(t("orders.cancelError") + error.message);
     } finally {
       setIsCancelling(false);
+    }
+  };
+  
+  const handleRequestReturn = async () => {
+    if (!returningOrder || !returnReason) return;
+    setIsReturning(true);
+    try {
+      await orderService.requestReturn(returningOrder, returnReason);
+      setReturningOrder(null);
+      setReturnReason("");
+      fetchOrders();
+    } catch (error) {
+      alert(t("orders.returnError") + error.message);
+    } finally {
+      setIsReturning(false);
     }
   };
 
@@ -233,6 +256,14 @@ export default function OrderHistory() {
                         <XCircle size={13} /> {t("orders.cancelOrder")}
                       </button>
                     )}
+                    {order.status === "delivered" && (
+                      <button
+                        onClick={() => setReturningOrder(order.id)}
+                        className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-purple-600 border border-purple-200 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors"
+                      >
+                        <RotateCcw size={13} /> {t("orders.requestReturn")}
+                      </button>
+                    )}
                     {order.status === "shipped" && (
                       <button className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-brand-primary bg-brand-primary/10 rounded-lg hover:bg-brand-primary/15 transition-colors">
                         <Truck size={13} /> {t("orders.track")}
@@ -319,6 +350,67 @@ export default function OrderHistory() {
                 {isCancelling
                   ? t("orders.cancelling")
                   : t("orders.confirmCancel")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {/* Return Modal */}
+      {returningOrder && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
+          <div className="bg-surface-bg w-full max-w-md rounded-2xl p-6 shadow-xl border border-border-soft flex flex-col">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-bold text-text-primary">
+                {t("orders.returnTitle")}
+              </h3>
+              <button
+                onClick={() => setReturningOrder(null)}
+                className="p-1 text-text-muted hover:text-text-primary rounded-lg hover:bg-gray-100"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            <p className="text-sm text-text-muted mb-4">
+              {t("orders.returnDesc")}
+            </p>
+
+            <select
+              value={returnReason}
+              onChange={(e) => setReturnReason(e.target.value)}
+              className="w-full mb-6 p-3 bg-white border border-border-soft rounded-xl text-sm focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none"
+            >
+              <option value="">{t("orders.selectReason")}</option>
+              <option value="Item is defective or damaged">
+                {t("orders.reasons.defective")}
+              </option>
+              <option value="Received wrong item">
+                {t("orders.reasons.wrongItem")}
+              </option>
+              <option value="Item not as described">
+                {t("orders.reasons.notAsDescribed")}
+              </option>
+              <option value="Changed my mind">
+                {t("orders.reasons.changedMind")}
+              </option>
+              <option value="Other">{t("orders.reasons.other")}</option>
+            </select>
+
+            <div className="flex gap-3 justify-end mt-auto">
+              <button
+                onClick={() => setReturningOrder(null)}
+                className="px-4 py-2 bg-gray-100 text-gray-700 text-sm font-semibold rounded-lg hover:bg-gray-200"
+              >
+                {t("common.cancel") || "Cancel"}
+              </button>
+              <button
+                onClick={handleRequestReturn}
+                disabled={!returnReason || isReturning}
+                className="px-4 py-2 bg-purple-600 text-white text-sm font-semibold rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              >
+                {isReturning
+                  ? t("orders.returning")
+                  : t("orders.confirmReturn")}
               </button>
             </div>
           </div>

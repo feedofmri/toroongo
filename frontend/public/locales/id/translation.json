@@ -3,7 +3,7 @@
                 "products":  "Produk",
                 "stores":  "Toko",
                 "deals":  "Penawaran",
-                "blog":  "Blog",
+                "blog":  "blog",
                 "sell":  "Jual di Toroongo",
                 "help":  "Bantuan",
                 "search":  "Cari produk, penjual, kategori...",
@@ -15,29 +15,29 @@
                 "aboutUs":  "Tentang Kami",
                 "contactUs":  "Hubungi Kami",
                 "cat":  {
-                            "electronics": "Elektronik",
-                            "fashion": "Mode",
-                            "homeLiving": "Rumah \u0026 Gaya Hidup",
-                            "beauty": "Kecantikan",
-                            "sports": "Olahraga",
-                            "books": "Buku"
+                            "electronics":  "Elektronik",
+                            "fashion":  "Mode",
+                            "homeLiving":  "Rumah \u0026 Gaya Hidup",
+                            "beauty":  "Kecantikan",
+                            "sports":  "Olahraga",
+                            "books":  "Buku"
                         },
-                "pricing": "Harga",
-                "dashboard": "Dasbor",
-                "myProducts": "Produk Saya",
-                "orders": "Pesanan",
-                "blogManager": "Manajer Blog",
-                "storefront": "Etalase",
-                "helpCenter": "Pusat Bantuan",
-                "overview": "Ikhtisar",
-                "users": "Pengguna",
-                "sellers": "Penjual",
-                "categories": "Kategori",
-                "platformBlog": "Blog Platform",
-                "myOrders": "Pesanan Saya",
-                "myReviews": "Ulasan Saya",
-                "settings": "Pengaturan",
-                "signOut": "Keluar"
+                "pricing":  "Harga",
+                "dashboard":  "Dasbor",
+                "myProducts":  "Produk Saya",
+                "orders":  "Pesanan",
+                "blogManager":  "Manajer Blog",
+                "storefront":  "Etalase",
+                "helpCenter":  "Pusat Bantuan",
+                "overview":  "Ikhtisar",
+                "users":  "Pengguna",
+                "sellers":  "Penjual",
+                "categories":  "Kategori",
+                "platformBlog":  "Blog Platform",
+                "myOrders":  "Pesanan Saya",
+                "myReviews":  "Ulasan Saya",
+                "settings":  "Pengaturan",
+                "signOut":  "Keluar"
             },
     "home":  {
                  "heroTitle":  "Belanja Semuanya",
@@ -99,7 +99,7 @@
                                 }
              },
     "checkout":  {
-                     "title":  "Checkout",
+                     "title":  "Check-out",
                      "shipping":  "Pengiriman",
                      "payment":  "Pembayaran",
                      "review":  "Ulasan",
@@ -156,16 +156,16 @@
                               "copyOrderNumber":  "Salin nomor pesanan",
                               "estimatedDelivery":  "Estimasi Pengiriman",
                               "shippingTo":  "Dikirim Ke",
-                              "defaultAddress":  "123 Main Street, New York, NY 10001",
+                              "defaultAddress":  "123 Jalan Utama, New York, NY 10001",
                               "payment":  "Pembayaran",
-                              "defaultPayment":  "Visa berakhiran •••• 4242",
                               "subtotalPaid":  "Subtotal Dibayar",
                               "orderPlaced":  "Pesanan Dibuat",
                               "processing":  "Diproses",
                               "shipped":  "Dikirim",
                               "delivered":  "Diterima",
                               "trackOrder":  "Lacak Pesanan",
-                              "continueShopping":  "Lanjutkan Belanja"
+                              "continueShopping":  "Lanjutkan Belanja",
+                              "paymentProcessed":  "Payment Processed"
                           },
     "reviews":  {
                     "title":  "Ulasan Saya",
@@ -185,104 +185,104 @@
                    "wishlistAdd":  "Tambah ke wishlist",
                    "wishlistRemove":  "Hapus dari wishlist",
                    "badges":  {
-                                  "Sale":  "Sale",
+                                  "Sale":  "Penjualan",
                                   "New":  "Baru",
                                   "BestSeller":  "Terlaris"
                               },
                    "showLess":  "Tampilkan Lebih Sedikit",
-                   "daysAgo": "{{count}} hari yang lalu",
-                   "weeksAgo": "{{count}} minggu yang lalu",
-                   "daysAgo_plural": "{{count}} hari yang lalu",
-                   "weeksAgo_plural": "{{count}} minggu yang lalu",
-                   "dateLocale": "id-ID",
-                   "notFound": "Halaman Tidak Ditemukan",
-                   "notFoundDesc": "Halaman yang Anda cari tidak ada atau telah dipindahkan.",
-                   "goHome": "Kembali ke Beranda",
-                   "underDevelopment": "Sedang dalam pengembangan"
+                   "daysAgo":  "{{count}} hari yang lalu",
+                   "weeksAgo":  "{{count}} minggu yang lalu",
+                   "daysAgo_plural":  "{{count}} hari yang lalu",
+                   "weeksAgo_plural":  "{{count}} minggu yang lalu",
+                   "dateLocale":  "id-ID",
+                   "notFound":  "Halaman Tidak Ditemukan",
+                   "notFoundDesc":  "Halaman yang Anda cari tidak ada atau telah dipindahkan.",
+                   "goHome":  "Kembali ke Beranda",
+                   "underDevelopment":  "Sedang dalam pengembangan"
                },
     "pricing":  {
                     "title":  "Harga \u0026 Paket",
                     "subtitle":  "Pilih paket yang tepat untuk bisnis Anda. Tanpa biaya transaksi.",
-                    "month": "/ Bulan",
-                    "mostPopular": "Paling Populer",
-                    "aiSuperpower": "Kekuatan Super AI",
-                    "faqTitle": "Pertanyaan yang Sering Diajukan",
-                    "cta": {
-                                "free": "Mulai Gratis",
-                                "growth": "Ambil Paket Growth",
-                                "business": "Ambil Paket Bisnis",
-                                "contact": "Hubungi Penjualan",
-                                "currentPlan": "Paket Saat Ini",
-                                "upgrade": "Upgrade",
-                                "downgrade": "Downgrade"
+                    "month":  "/ Bulan",
+                    "mostPopular":  "Paling Populer",
+                    "aiSuperpower":  "Kekuatan Super AI",
+                    "faqTitle":  "Pertanyaan yang Sering Diajukan",
+                    "cta":  {
+                                "free":  "Mulai Gratis",
+                                "growth":  "Ambil Paket Growth",
+                                "business":  "Ambil Paket Bisnis",
+                                "contact":  "Hubungi Penjualan",
+                                "currentPlan":  "Paket Saat Ini",
+                                "upgrade":  "Upgrade",
+                                "downgrade":  "Downgrade"
                             },
-                    "plans": {
-                                  "starter": {
-                                                  "name": "Starter",
-                                                  "desc": "Sangat cocok untuk penjual baru yang baru memulai.",
-                                                  "ai": "Generator Deskripsi Produk AI",
-                                                  "aiDesc": "Tulis deskripsi yang menarik dan ramah SEO secara instan dari beberapa kata kunci."
+                    "plans":  {
+                                  "starter":  {
+                                                  "name":  "Starter",
+                                                  "desc":  "Sangat cocok untuk penjual baru yang baru memulai.",
+                                                  "ai":  "Generator Deskripsi Produk AI",
+                                                  "aiDesc":  "Tulis deskripsi yang menarik dan ramah SEO secara instan dari beberapa kata kunci."
                                               },
-                                  "growth": {
-                                                 "name": "Growth",
-                                                 "desc": "Untuk merek yang sedang berkembang yang membutuhkan alat profesional.",
-                                                 "ai": "Peningkat Gambar AI",
-                                                 "aiDesc": "Hapus latar belakang dasar secara otomatis dan ganti dengan putih bersih atau warna merek."
+                                  "growth":  {
+                                                 "name":  "Pertumbuhan",
+                                                 "desc":  "Untuk merek yang sedang berkembang yang membutuhkan alat profesional.",
+                                                 "ai":  "Peningkat Gambar AI",
+                                                 "aiDesc":  "Hapus latar belakang dasar secara otomatis dan ganti dengan putih bersih atau warna merek."
                                              },
-                                  "business": {
-                                                   "name": "Bisnis",
-                                                   "desc": "Untuk pengecer mapan yang menskalakan operasi.",
-                                                   "ai": "Dukungan \u0026 Rekomendasi AI",
-                                                   "aiDesc": "Chatbot AI 24/7 untuk pertanyaan pembeli \u0026 rekomendasi cerdas 'Sering Dibeli Bersama'."
+                                  "business":  {
+                                                   "name":  "Bisnis",
+                                                   "desc":  "Untuk pengecer mapan yang menskalakan operasi.",
+                                                   "ai":  "Dukungan \u0026 Rekomendasi AI",
+                                                   "aiDesc":  "Chatbot AI 24/7 untuk pertanyaan pembeli \u0026 rekomendasi cerdas \u0027Sering Dibeli Bersama\u0027."
                                                },
-                                  "enterprise": {
-                                                     "name": "Enterprise",
-                                                     "desc": "Untuk penjual besar dengan operasi masif.",
-                                                     "ai": "Peramalan \u0026 Sentimen AI",
-                                                     "aiDesc": "Prediksi kehabisan inventaris dan analisis ratusan ulasan untuk ringkasan instan yang dapat ditindaklanjuti."
+                                  "enterprise":  {
+                                                     "name":  "Perusahaan",
+                                                     "desc":  "Untuk penjual besar dengan operasi masif.",
+                                                     "ai":  "Peramalan \u0026 Sentimen AI",
+                                                     "aiDesc":  "Prediksi kehabisan inventaris dan analisis ratusan ulasan untuk ringkasan instan yang dapat ditindaklanjuti."
                                                  }
                               },
-                    "features": {
-                                     "fee": "100% hasil penjualan untuk Anda (biaya 0%)",
-                                     "subdomain": "Subdomain platform standar",
-                                     "builder": "Pembangun seret-dan-lepas dasar",
-                                     "limit10": "Maksimal 10 daftar produk",
-                                     "branding": "Branding Toroongo wajib di footer",
-                                     "support": "Dukungan komunitas/KB standar",
-                                     "domain": "Pemetaan domain kustom",
-                                     "whiteLabel": "Pengalaman label putih (Tanpa branding)",
-                                     "limit100": "Maksimal 100 daftar produk",
-                                     "staff2": "2 akun staf",
-                                     "templates": "Template tata letak premium",
-                                     "emailSupport": "Dukungan pelanggan email standar",
-                                     "limitUnlimited": "Daftar produk tidak terbatas",
-                                     "blog": "Mesin blogging bawaan",
-                                     "cart": "Email keranjang yang ditinggalkan otomatis",
-                                     "analytics": "Dasbor analitik penjualan",
-                                     "staff5": "5 akun staf dengan peran",
-                                     "liveChat": "Dukungan obrolan langsung prioritas",
-                                     "api": "Akses API penuh (akuntansi/ERP)",
-                                     "custom": "Injeksi CSS dan HTML kustom",
-                                     "warehouse": "Manajemen inventaris multi-gudang",
-                                     "staffUnlimited": "Akun staf tidak terbatas",
-                                     "manager": "Manajer akun khusus"
+                    "features":  {
+                                     "fee":  "100% hasil penjualan untuk Anda (biaya 0%)",
+                                     "subdomain":  "Subdomain platform standar",
+                                     "builder":  "Pembangun seret-dan-lepas dasar",
+                                     "limit10":  "Maksimal 10 daftar produk",
+                                     "branding":  "Branding Toroongo wajib di footer",
+                                     "support":  "Dukungan komunitas/KB standar",
+                                     "domain":  "Pemetaan domain kustom",
+                                     "whiteLabel":  "Pengalaman label putih (Tanpa branding)",
+                                     "limit100":  "Maksimal 100 daftar produk",
+                                     "staff2":  "2 akun staf",
+                                     "templates":  "Template tata letak premium",
+                                     "emailSupport":  "Dukungan pelanggan email standar",
+                                     "limitUnlimited":  "Daftar produk tidak terbatas",
+                                     "blog":  "Mesin blogging bawaan",
+                                     "cart":  "Email keranjang yang ditinggalkan otomatis",
+                                     "analytics":  "Dasbor analitik penjualan",
+                                     "staff5":  "5 akun staf dengan peran",
+                                     "liveChat":  "Dukungan obrolan langsung prioritas",
+                                     "api":  "Akses API penuh (akuntansi/ERP)",
+                                     "custom":  "Injeksi CSS dan HTML kustom",
+                                     "warehouse":  "Manajemen inventaris multi-gudang",
+                                     "staffUnlimited":  "Akun staf tidak terbatas",
+                                     "manager":  "Manajer akun khusus"
                                  },
-                    "faq": {
-                                "fee": {
-                                            "q": "Apakah ada biaya transaksi?",
-                                            "a": "Tidak! Anda menyimpan 100% dari penjualan Anda dengan biaya transaksi platform 0% pada semua paket."
+                    "faq":  {
+                                "fee":  {
+                                            "q":  "Apakah ada biaya transaksi?",
+                                            "a":  "Tidak! Anda menyimpan 100% dari penjualan Anda dengan biaya transaksi platform 0% pada semua paket."
                                         },
-                                "countries": {
-                                                  "q": "Negara mana saja yang Anda dukung?",
-                                                  "a": "Toroongo adalah platform global yang dapat diakses dari mana saja di dunia! Namun, platform kami secara khusus disesuaikan dan ramah bagi penjual dan pembeli di 6 pasar utama: Bangladesh, Nepal, Malaysia, Uni Emirat Arab (UEA), Indonesia, dan India."
+                                "countries":  {
+                                                  "q":  "Negara mana saja yang Anda dukung?",
+                                                  "a":  "Toroongo adalah platform global yang dapat diakses dari mana saja di dunia! Namun, platform kami secara khusus disesuaikan dan ramah bagi penjual dan pembeli di 6 pasar utama: Bangladesh, Nepal, Malaysia, Uni Emirat Arab (UEA), Indonesia, dan India."
                                               },
-                                "change": {
-                                               "q": "Dapatkah saya mengubah paket saya nanti?",
-                                               "a": "Ya, Anda dapat meningkatkan atau menurunkan paket Anda kapan saja dari dasbor penjual Anda."
+                                "change":  {
+                                               "q":  "Dapatkah saya mengubah paket saya nanti?",
+                                               "a":  "Ya, Anda dapat meningkatkan atau menurunkan paket Anda kapan saja dari dasbor penjual Anda."
                                            },
-                                "ai": {
-                                           "q": "Bagaimana cara kerja fitur AI?",
-                                           "a": "Setiap tingkatan membuka alat AI yang kuat dan mudah digunakan yang dirancang khusus untuk menghemat waktu Anda dan meningkatkan penjualan Anda."
+                                "ai":  {
+                                           "q":  "Bagaimana cara kerja fitur AI?",
+                                           "a":  "Setiap tingkatan membuka alat AI yang kuat dan mudah digunakan yang dirancang khusus untuk menghemat waktu Anda dan meningkatkan penjualan Anda."
                                        }
                             }
                 },
@@ -299,7 +299,7 @@
                    "allCategories":  "Semua Kategori",
                    "priceRange":  "Rentang Harga",
                    "customRange":  "Rentang Kustom",
-                   "min":  "Min",
+                   "min":  "Minimal",
                    "max":  "Maks",
                    "onSaleOnly":  "Hanya Diskon",
                    "minRating":  "Rating Minimal",
@@ -390,7 +390,7 @@
     "contact":  {
                     "title":  "Hubungi Kami",
                     "subtitle":  "Punya pertanyaan? Kami ingin mendengar dari Anda.",
-                    "email":  "Email",
+                    "email":  "E-mail",
                     "phone":  "Telepon",
                     "address":  "Alamat",
                     "firstName":  "Nama Depan",
@@ -407,7 +407,7 @@
                  "faqTitle":  "Tanya Jawab (FAQ)",
                  "emailSupport":  "Dukungan Email",
                  "emailSupportDesc":  "Dapatkan balasan dalam waktu 24 jam",
-                 "liveChat":  "Live Chat",
+                 "liveChat":  "Obrolan Langsung",
                  "liveChatDesc":  "Chat dengan tim dukungan kami",
                  "faq":  [
                              {
@@ -514,7 +514,7 @@
                                    "longDelivery":  "Waktu pengiriman terlalu lama",
                                    "other":  "Lainnya"
                                },
-                   "cancelError":  "Failed to cancel order: "
+                   "cancelError":  "Gagal membatalkan pesanan:"
                },
     "account":  {
                     "profile":  "Profil",
@@ -525,13 +525,13 @@
                     "changePhoto":  "Ubah Foto",
                     "firstName":  "Nama Depan",
                     "lastName":  "Nama Belakang",
-                    "email":  "Email",
+                    "email":  "E-mail",
                     "phone":  "Telepon",
                     "saveChanges":  "Simpan Perubahan",
                     "savedAddresses":  "Alamat Tersimpan",
                     "addAddress":  "Tambah Alamat",
-                    "default":  "Default",
-                    "edit":  "Edit",
+                    "default":  "Bawaan",
+                    "edit":  "Sunting",
                     "remove":  "Hapus",
                     "paymentMethods":  "Metode Pembayaran",
                     "addCard":  "Tambah Kartu",
@@ -623,7 +623,65 @@
                                                        "content":  "Anda dapat meminta akses, koreksi, atau penghapusan data pribadi Anda kapan saja."
                                                    }
                                                ]
-                              }
+                              },
+                  "impact":  {
+                                 "sections":  [
+                                                  {
+                                                      "title":  "Komitmen kami",
+                                                      "content":  "Toroongo berkomitmen untuk memberdayakan pencipta independen dan usaha kecil. Kami percaya pada ekosistem e-commerce yang adil, transparan, dan inklusif."
+                                                  },
+                                                  {
+                                                      "title":  "Keberlanjutan",
+                                                      "content":  "Kami berupaya meminimalkan jejak karbon dan mendorong praktik berkelanjutan di antara penjual dan mitra logistik kami."
+                                                  },
+                                                  {
+                                                      "title":  "Pemberdayaan masyarakat",
+                                                      "content":  "Melalui platform kami, kami menyediakan alat dan pendidikan digital kepada komunitas yang kurang terlayani, membantu mereka berpartisipasi dalam ekonomi digital global."
+                                                  }
+                                              ],
+                                 "title":  "Dampak Sosial",
+                                 "lastUpdated":  "Terakhir diperbarui: Mei 2026"
+                             },
+                  "cookies":  {
+                                  "title":  "Kebijakan Cookie",
+                                  "lastUpdated":  "Terakhir diperbarui: Mei 2026",
+                                  "sections":  [
+                                                   {
+                                                       "title":  "1. Apa Itu Cookies",
+                                                       "content":  "Cookie adalah file teks kecil yang disimpan di perangkat Anda yang membantu kami mengingat preferensi Anda, menganalisis lalu lintas situs, dan mempersonalisasi konten."
+                                                   },
+                                                   {
+                                                       "content":  "Kami menggunakan cookie penting untuk fungsionalitas platform, cookie preferensi untuk pengaturan Anda, dan cookie analitis untuk memahami cara Anda menggunakan situs kami.",
+                                                       "title":  "2. Bagaimana Kami Menggunakan Cookie"
+                                                   },
+                                                   {
+                                                       "title":  "3. Mengelola Cookie",
+                                                       "content":  "Anda dapat mengelola atau menonaktifkan cookie melalui pengaturan browser Anda. Namun, beberapa bagian platform mungkin tidak berfungsi dengan baik tanpanya."
+                                                   }
+                                               ]
+                              },
+                  "sellerAgreement":  {
+                                          "lastUpdated":  "Terakhir diperbarui: Mei 2026",
+                                          "title":  "Perjanjian Penjual",
+                                          "sections":  [
+                                                           {
+                                                               "content":  "Sebagai penjual, Anda setuju untuk memberikan informasi produk yang akurat, menjaga inventaris, dan memenuhi pesanan dalam waktu pemrosesan yang ditentukan.",
+                                                               "title":  "1. Kewajiban Penjual"
+                                                           },
+                                                           {
+                                                               "title":  "2. Biaya Platform",
+                                                               "content":  "Toroongo tidak membebankan biaya transaksi. Penjual hanya membayar biaya berlangganan untuk paket pilihan mereka (Pemula, Pertumbuhan, Bisnis, atau Perusahaan)."
+                                                           },
+                                                           {
+                                                               "content":  "Anda tetap memiliki kepemilikan atas konten Anda, namun memberikan Toroongo lisensi non-eksklusif untuk menampilkannya untuk tujuan mengoperasikan pasar.",
+                                                               "title":  "3. Konten \u0026 Kekayaan Intelektual"
+                                                           },
+                                                           {
+                                                               "content":  "Salah satu pihak dapat mengakhiri perjanjian ini kapan saja. Toroongo berhak menangguhkan akun yang melanggar pedoman komunitas kami.",
+                                                               "title":  "4. Penghentian"
+                                                           }
+                                                       ]
+                                      }
               },
     "sell":  {
                  "hero":  {
@@ -645,7 +703,7 @@
                                              "desc":  "Jangkau pelanggan di 6+ negara dengan pengiriman otomatis dan penanganan mata uang."
                                          },
                                   "f4":  {
-                                             "title":  "AI Copilot",
+                                             "title":  "Kopilot AI",
                                              "desc":  "Hasilkan gambar, tulis salinan, dan prediksi inventaris dengan asisten AI Anda sendiri."
                                          }
                               },
@@ -782,41 +840,41 @@
     "shipping":  {
                      "title":  "Pengiriman \u0026 Pengantaran",
                      "subtitle":  "Semua yang perlu Anda ketahui tentang bagaimana pesanan Anda dikirim.",
-                     "options": {
-                                     "standard": {
-                                                      "title": "Pengiriman Standar",
-                                                      "time": "5-7 hari kerja",
-                                                      "price": "Gratis di atas $50"
+                     "options":  {
+                                     "standard":  {
+                                                      "title":  "Pengiriman Standar",
+                                                      "time":  "5-7 hari kerja",
+                                                      "price":  "Gratis di atas $50"
                                                   },
-                                     "express": {
-                                                     "title": "Pengiriman Ekspres",
-                                                     "time": "2-3 hari kerja",
-                                                     "price": "Mulai dari $9.99"
+                                     "express":  {
+                                                     "title":  "Pengiriman Ekspres",
+                                                     "time":  "2-3 hari kerja",
+                                                     "price":  "Mulai dari $9.99"
                                                  },
-                                     "international": {
-                                                           "title": "Internasional",
-                                                           "time": "7-14 hari kerja",
-                                                           "price": "Mulai dari $14.99"
+                                     "international":  {
+                                                           "title":  "Internasional",
+                                                           "time":  "7-14 hari kerja",
+                                                           "price":  "Mulai dari $14.99"
                                                        }
                                  },
-                     "details": {
-                                     "processing": {
-                                                        "title": "Pemrosesan Pesanan",
-                                                        "desc": "Pesanan biasanya diproses dalam 1-2 hari kerja. Anda akan menerima email konfirmasi setelah pesanan Anda dikirim."
+                     "details":  {
+                                     "processing":  {
+                                                        "title":  "Pemrosesan Pesanan",
+                                                        "desc":  "Pesanan biasanya diproses dalam 1-2 hari kerja. Anda akan menerima email konfirmasi setelah pesanan Anda dikirim."
                                                     },
-                                     "tracking": {
-                                                      "title": "Melacak Pesanan Anda",
-                                                      "desc": "Setelah pesanan Anda dikirim, Anda dapat melacaknya secara real-time melalui dasbor akun Anda."
+                                     "tracking":  {
+                                                      "title":  "Melacak Pesanan Anda",
+                                                      "desc":  "Setelah pesanan Anda dikirim, Anda dapat melacaknya secara real-time melalui dasbor akun Anda."
                                                   },
-                                     "global": {
-                                                    "title": "Pengiriman Global \u0026 Pasar Utama",
-                                                    "desc1": "Kami adalah pasar global yang dapat diakses di mana saja. Pesanan internasional mungkin dikenakan bea cukai.",
-                                                    "coreTitle": "Pasar Utama:",
-                                                    "coreDesc": "Kami sangat fokus pada 6 pasar utama kami: Bangladesh, Nepal, Malaysia, UEA, Indonesia, dan India."
+                                     "global":  {
+                                                    "title":  "Pengiriman Global \u0026 Pasar Utama",
+                                                    "desc1":  "Kami adalah pasar global yang dapat diakses di mana saja. Pesanan internasional mungkin dikenakan bea cukai.",
+                                                    "coreTitle":  "Pasar Utama:",
+                                                    "coreDesc":  "Kami sangat fokus pada 6 pasar utama kami: Bangladesh, Nepal, Malaysia, UEA, Indonesia, dan India."
                                                 },
-                                     "protection": {
-                                                        "title": "Perlindungan Pengiriman",
-                                                        "desc": "Semua pengiriman diasuransikan terhadap kehilangan dan kerusakan selama transit."
+                                     "protection":  {
+                                                        "title":  "Perlindungan Pengiriman",
+                                                        "desc":  "Semua pengiriman diasuransikan terhadap kehilangan dan kerusakan selama transit."
                                                     }
                                  },
                      "sellerManaged":  {
@@ -865,15 +923,52 @@
                             "more":  "Sumber Daya Lainnya",
                             "ready":  "Siap Mulai Berjualan?",
                             "readyDesc":  "Buat akun penjual gratis Anda hari ini.",
-                            "getStarted":  "Mulai"
+                            "getStarted":  "Mulai",
+                            "guidesList":  {
+                                               "g1":  {
+                                                          "desc":  "Luncurkan toko Anda dalam hitungan menit dengan AI Storefront Builder kami.",
+                                                          "title":  "Pengaturan yang Didukung AI"
+                                                      },
+                                               "g2":  {
+                                                          "desc":  "Hapus latar belakang dan foto produk kelas atas secara otomatis.",
+                                                          "title":  "Peningkatan Gambar AI"
+                                                      },
+                                               "g5":  {
+                                                          "title":  "Peramalan Penjualan",
+                                                          "desc":  "Gunakan AI untuk memprediksi kebutuhan inventaris dan analisis tren."
+                                                      },
+                                               "g4":  {
+                                                          "title":  "Pusat Logistik Global",
+                                                          "desc":  "Kirim dengan mulus ke Bangladesh, Nepal, UEA, dan sekitarnya."
+                                                      },
+                                               "g3":  {
+                                                          "desc":  "Terjemahkan katalog Anda secara otomatis ke dalam 7+ bahasa.",
+                                                          "title":  "SEO \u0026 Lokalisasi Global"
+                                                      },
+                                               "g6":  {
+                                                          "title":  "Model Komisi Nol",
+                                                          "desc":  "Pelajari cara mempertahankan 100% pendapatan Anda dengan biaya transaksi 0%."
+                                                      }
+                                           },
+                            "resourcesList":  {
+                                                  "r1":  {
+                                                             "title":  "Akademi Toroongo",
+                                                             "desc":  "Kuasai platform dengan kelas master video."
+                                                         },
+                                                  "r2":  {
+                                                             "title":  "Pusat Penjual Global",
+                                                             "desc":  "Jaringan dengan penjual di 6+ negara."
+                                                         },
+                                                  "r3":  {
+                                                             "title":  "Dokumentasi Sistem",
+                                                             "desc":  "Pelajari lebih dalam AI dan API Logistik kami."
+                                                         }
+                                              }
                         },
     "sellerDashboard":  {
-                            "title":  "Seller Hub",
+                            "title":  "Pusat Penjual",
                             "nav":  {
-                                        "dashboard":  "Dashboard",
-                                        "products":  "Products",
-                                        "orders":  "Orders",
-                                        "blogPosts":  "Blog Posts",
+                                        "dashboard":  "Dasbor",
                                         "products":  "Produk",
                                         "orders":  "Pesanan",
                                         "blogPosts":  "Postingan Blog",
@@ -881,7 +976,17 @@
                                         "messages":  "Pesan",
                                         "storefront":  "Toko",
                                         "settings":  "Pengaturan",
-                                        "viewStore":  "Lihat Toko Saya"
+                                        "viewStore":  "Lihat Toko Saya",
+                                        "importExport":  "Impor / Ekspor",
+                                        "discounts":  "Diskon",
+                                        "aiTools":  "Alat AI",
+                                        "domain":  "Domain",
+                                        "subscription":  "Berlangganan",
+                                        "affiliates":  "Afiliasi",
+                                        "staff":  "Staf",
+                                        "socialCommerce":  "Perdagangan Sosial",
+                                        "abandonedCarts":  "Gerobak Terbengkalai",
+                                        "apiWebhooks":  "API \u0026 Webhook"
                                     },
                             "stats":  {
                                           "totalRevenue":  "Total Pendapatan",
@@ -918,14 +1023,18 @@
                          "stats":  {
                                        "pending":  "Tertunda",
                                        "shipped":  "Dikirim",
-                                       "completed":  "Selesai"
+                                       "completed":  "Selesai",
+                                       "returned":  "Kembali",
+                                       "refunded":  "Dikembalikan"
                                    },
                          "filters":  {
                                          "searchPlaceholder":  "Cari berdasarkan ID pesanan atau pelanggan...",
                                          "allStatus":  "Semua Status",
                                          "processing":  "Sedang Diproses",
                                          "shipped":  "Dikirim",
-                                         "delivered":  "Terkirim"
+                                         "delivered":  "Terkirim",
+                                         "returned":  "Kembali",
+                                         "refunded":  "Dikembalikan"
                                      },
                          "table":  {
                                        "order":  "Pesanan",
@@ -1025,48 +1134,54 @@
                   "searchStore":  "Cari {{name}}..."
               },
     "sellerSettings":  {
-                           "title": "Pengaturan Toko",
-                           "subtitle": "Kelola identitas, kebijakan, dan detail publik toko Anda.",
-                           "saveSuccess": "Pengaturan toko berhasil diperbarui!",
-                           "saveError": "Gagal menyimpan pengaturan. Silakan coba lagi.",
+                           "title":  "Pengaturan Toko",
+                           "subtitle":  "Kelola identitas, kebijakan, dan detail publik toko Anda.",
+                           "saveSuccess":  "Pengaturan toko berhasil diperbarui!",
+                           "saveError":  "Gagal menyimpan pengaturan. Silakan coba lagi.",
                            "tabs":  {
                                         "general":  "Umum",
                                         "branding":  "Tampilan",
                                         "policies":  "Kebijakan",
                                         "seo":  "SEO \u0026 Sosial",
-                                        "whitelabel":  "White-Label",
+                                        "whitelabel":  "Label Putih",
                                         "currency":  "Multi-Mata Uang",
                                         "customcode":  "Kode Kustom",
                                         "shipping":  "Pengiriman",
-                                        "notifications":  "Notifikasi"
+                                        "notifications":  "Notifikasi",
+                                        "store":  "Toko",
+                                        "content":  "Simpan Konten",
+                                        "country_currency":  "Negara \u0026 Mata Uang"
                                     },
-                           "general": {
-                                          "storeName": "Nama Toko",
-                                          "storeEmail": "Email Toko (Dilihat Publik)",
-                                          "storePhone": "Telepon Toko",
-                                          "storeDescription": "Deskripsi Toko",
-                                          "storeDescriptionPlaceholder": "Beri tahu pembeli tentang apa toko Anda..."
-                                      },
-                           "branding": {
-                                           "logo": "Logo Toko",
-                                           "banner": "Banner Toko",
-                                           "theme": "Warna Tema",
-                                           "upload": "Unggah Gambar"
+                           "general":  {
+                                           "storeName":  "Nama Toko",
+                                           "storeEmail":  "Email Toko (Dilihat Publik)",
+                                           "storePhone":  "Telepon Toko",
+                                           "storeDescription":  "Deskripsi Toko",
+                                           "storeDescriptionPlaceholder":  "Beri tahu pembeli tentang apa toko Anda..."
                                        },
-                           "policies": {
-                                           "shipping": "Kebijakan Pengiriman",
-                                           "returns": "Kebijakan Pengembalian",
-                                           "privacy": "Kebijakan Privasi",
-                                           "placeholder": "Tulis kebijakan Anda di sini..."
-                                       },
-                           "seo": {
-                                      "metaTitle": "Judul Meta SEO",
-                                      "metaDescription": "Deskripsi Meta SEO",
-                                      "socialLinks": "Tautan Media Sosial",
-                                      "facebook": "Facebook",
-                                      "instagram": "Instagram",
-                                      "twitter": "Twitter (X)"
-                                  },
+                           "branding":  {
+                                            "logo":  "Logo Toko",
+                                            "banner":  "Banner Toko",
+                                            "theme":  "Warna Tema",
+                                            "upload":  "Unggah Gambar",
+                                            "color":  "Warna Merek Utama",
+                                            "save":  "Simpan Merek",
+                                            "title":  "Pencitraan Merek \u0026 Penampilan"
+                                        },
+                           "policies":  {
+                                            "shipping":  "Kebijakan Pengiriman",
+                                            "returns":  "Kebijakan Pengembalian",
+                                            "privacy":  "Kebijakan Privasi",
+                                            "placeholder":  "Tulis kebijakan Anda di sini..."
+                                        },
+                           "seo":  {
+                                       "metaTitle":  "Judul Meta SEO",
+                                       "metaDescription":  "Deskripsi Meta SEO",
+                                       "socialLinks":  "Tautan Media Sosial",
+                                       "facebook":  "Facebook",
+                                       "instagram":  "Instagram",
+                                       "twitter":  "Twitter (X)"
+                                   },
                            "shipping":  {
                                             "title":  "Pengaturan Pengiriman",
                                             "processing":  "Waktu Pemrosesan (hari)",
@@ -1122,7 +1237,53 @@
                                             "autoDetectDesc":  "Secara otomatis menampilkan harga dalam mata uang lokal pengunjung",
                                             "enabledCurrencies":  "Mata Uang Diaktifkan",
                                             "save":  "Simpan Pengaturan Mata Uang"
-                                        }
+                                        },
+                           "storeInfo":  {
+                                             "title":  "Informasi Toko",
+                                             "name":  "Nama Toko",
+                                             "description":  "Deskripsi Toko",
+                                             "location":  "Lokasi",
+                                             "email":  "Email Publik",
+                                             "phone":  "Telepon Umum",
+                                             "save":  "Simpan Info Toko"
+                                         },
+                           "username":  {
+                                            "claim":  "Klaim Nama Pengguna",
+                                            "preview":  "Pratinjau etalase Anda",
+                                            "checking":  "Memeriksa ketersediaan...",
+                                            "available":  "Nama pengguna tersedia!",
+                                            "title":  "Nama Pengguna Toko",
+                                            "currentBtn":  "Nama Pengguna Saat Ini",
+                                            "desc":  "URL unik toko Anda di Toroongo."
+                                        },
+                           "countryCurrency":  {
+                                                   "important":  "Penting:",
+                                                   "title":  "Negara \u0026 Mata Uang",
+                                                   "importantDesc":  "Mengubah mata uang Anda akan memperbarui mata uang untuk semua produk Anda yang ada. Harga yang disimpan akan tetap sama, jadi Anda mungkin ingin meninjau dan memperbaruinya agar sesuai dengan mata uang baru.",
+                                                   "save":  "Simpan Negara \u0026 Mata Uang",
+                                                   "desc":  "Negara Anda menentukan mata uang toko Anda. Semua harga produk yang Anda masukkan akan disimpan dalam mata uang ini dan otomatis dikonversi untuk pembeli di seluruh dunia."
+                                               },
+                           "content":  {
+                                           "aboutTitle":  "Tentang Toko Anda",
+                                           "aboutPlaceholder":  "Jelaskan toko Anda, tim Anda, dan misi Anda...",
+                                           "aboutDesc":  "Ceritakan kisah Anda. Ini akan ditampilkan di tab \"Tentang\" di etalase Anda.",
+                                           "descPlaceholder":  "Keterangan...",
+                                           "shippingPolicy":  "Kebijakan Pengiriman",
+                                           "returnsPolicy":  "Kebijakan Pengembalian \u0026 Pengembalian Dana",
+                                           "warrantyPolicy":  "Informasi Garansi",
+                                           "benefitNum":  "Manfaat #{{num}}",
+                                           "benefitPlaceholder":  "Judul Manfaat",
+                                           "policiesTitle":  "Kebijakan Toko",
+                                           "benefitsTitle":  "Mengapa Berbelanja Dengan Kami",
+                                           "faqPolicy":  "Pertanyaan yang Sering Diajukan (FAQ)",
+                                           "policiesDesc":  "Kebijakan khusus untuk pelanggan Anda. Default akan ditampilkan jika dibiarkan kosong.",
+                                           "benefitsDesc":  "Soroti apa yang membuat toko Anda unik. Ini muncul di halaman \"Tentang\" Anda.",
+                                           "returnsPlaceholder":  "Jendela pengembalian, ketentuan pengembalian dana, siapa yang membayar pengiriman...",
+                                           "shippingPlaceholder":  "Waktu pemrosesan pesanan, metode pengiriman, area yang dicakup...",
+                                           "save":  "Simpan Konten Toko",
+                                           "faqPlaceholder":  "Pertanyaan dan jawaban umum untuk pembeli Anda...",
+                                           "warrantyPlaceholder":  "Periode garansi produk, detail cakupan..."
+                                       }
                        },
     "sellerPayment":  {
                           "title":  "Opsi Pembayaran",
@@ -1155,13 +1316,16 @@
                           "confirmDelete":  "Hapus metode pembayaran ini?"
                       },
     "sellerAbandonedCarts":  {
-                                 "title": "Keranjang yang Ditinggalkan",
-                                 "subtitle": "Pulihkan penjualan yang hilang dengan menindaklanjuti pembeli yang meninggalkan item di keranjang.",
-                                 "stats": {
-                                              "totalAbandoned": "Total Ditinggalkan",
-                                              "recovered": "Berhasil Dipulihkan",
-                                              "recoveryRate": "Tingkat Pemulihan"
-                                          },
+                                 "title":  "Keranjang yang Ditinggalkan",
+                                 "subtitle":  "Pulihkan penjualan yang hilang dengan menindaklanjuti pembeli yang meninggalkan item di keranjang.",
+                                 "stats":  {
+                                               "totalAbandoned":  "Total Ditinggalkan",
+                                               "recovered":  "Berhasil Dipulihkan",
+                                               "recoveryRate":  "Tingkat Pemulihan",
+                                               "abandoned":  "Gerobak Terbengkalai",
+                                               "revenue":  "Pendapatan Dipulihkan",
+                                               "rate":  "Tingkat Pemulihan"
+                                           },
                                  "automation":  {
                                                     "title":  "Otomasi Email",
                                                     "active":  "Aktif",
@@ -1184,30 +1348,38 @@
                                                  "expired":  "Kedaluwarsa"
                                              },
                                  "table":  {
-                                               "customer": "Pelanggan",
-                                               "items": "Item",
-                                               "value": "Nilai",
-                                               "abandonedAt": "Ditinggalkan Pada",
-                                               "action": "Aksi",
-                                               "sendReminder": "Kirim Pengingat"
+                                               "customer":  "Pelanggan",
+                                               "items":  "Item",
+                                               "value":  "Nilai",
+                                               "abandonedAt":  "Ditinggalkan Pada",
+                                               "action":  "Aksi",
+                                               "sendReminder":  "Kirim Pengingat",
+                                               "abandoned":  "Ditinggalkan",
+                                               "status":  "Status",
+                                               "sendNow":  "Kirim Sekarang",
+                                               "justNow":  "Baru saja",
+                                               "hoursAgo":  "{{count}}jam yang lalu",
+                                               "viewEmails":  "Lihat Email",
+                                               "emailsSent":  "Email Terkirim",
+                                               "daysAgo":  "{{hitungan}}hari yang lalu"
                                            }
                              },
     "sellerBlogs":  {
-                        "title": "Manajemen Blog",
-                        "subtitle": "Buat dan kelola postingan blog toko Anda.",
-                        "createNew": "Buat Postingan Baru",
-                        "searchPlaceholder": "Cari postingan...",
-                        "loading": "Memuat blog Anda...",
-                        "empty": {
-                                     "title": "Tidak Ada Postingan Blog Ditemukan",
-                                     "searchNoMatch": "Tidak ada postingan yang cocok dengan \"{{query}}\". Coba kata kunci lain.",
-                                     "subtitle": "Anda belum membuat postingan blog apa pun. Mulai postingan pertama Anda untuk meningkatkan keterlibatan pelanggan.",
-                                     "clearSearch": "Hapus Pencarian",
-                                     "createFirst": "Buat Postingan Pertama"
-                                 },
-                        "deleteConfirm": "Apakah Anda yakin ingin menghapus postingan blog ini?",
-                        "deleteFailed": "Gagal menghapus blog",
-                        "saveFailed": "Gagal menyimpan blog",
+                        "title":  "Manajemen Blog",
+                        "subtitle":  "Buat dan kelola postingan blog toko Anda.",
+                        "createNew":  "Buat Postingan Baru",
+                        "searchPlaceholder":  "Cari postingan...",
+                        "loading":  "Memuat blog Anda...",
+                        "empty":  {
+                                      "title":  "Tidak Ada Postingan Blog Ditemukan",
+                                      "searchNoMatch":  "Tidak ada postingan yang cocok dengan \"{{query}}\". Coba kata kunci lain.",
+                                      "subtitle":  "Anda belum membuat postingan blog apa pun. Mulai postingan pertama Anda untuk meningkatkan keterlibatan pelanggan.",
+                                      "clearSearch":  "Hapus Pencarian",
+                                      "createFirst":  "Buat Postingan Pertama"
+                                  },
+                        "deleteConfirm":  "Apakah Anda yakin ingin menghapus postingan blog ini?",
+                        "deleteFailed":  "Gagal menghapus blog",
+                        "saveFailed":  "Gagal menyimpan blog",
                         "editor":  {
                                        "loading":  "Memuat editor...",
                                        "newTitle":  "Buat Postingan Baru",
@@ -1248,14 +1420,14 @@
                                            "updates":  "Pembaruan"
                                        },
                         "table":  {
-                                      "details": "Detail Postingan",
-                                      "category": "Kategori",
-                                      "status": "Status",
-                                      "actions": "Aksi",
-                                      "publishedOn": "Diterbitkan pada {{date}}"
+                                      "details":  "Detail Postingan",
+                                      "category":  "Kategori",
+                                      "status":  "Status",
+                                      "actions":  "Aksi",
+                                      "publishedOn":  "Diterbitkan pada {{date}}"
                                   },
                         "status":  {
-                                       "published": "Diterbitkan"
+                                       "published":  "Diterbitkan"
                                    },
                         "view":  "Lihat",
                         "edit":  "Ubah",
@@ -1263,18 +1435,21 @@
                         "views":  "{{count}} tayangan"
                     },
     "sellerFinance":  {
-                          "title": "Keuangan",
-                          "subtitle": "Lacak penghasilan, pengeluaran, dan riwayat pembayaran Anda.",
+                          "title":  "Keuangan",
+                          "subtitle":  "Lacak penghasilan, pengeluaran, dan riwayat pembayaran Anda.",
                           "exportCsv":  "Ekspor CSV",
                           "stats":  {
-                                        "totalEarnings": "Total Penghasilan",
-                                        "pendingPayouts": "Penarikan Tertunda",
-                                        "availableBalance": "Saldo Tersedia"
+                                        "totalEarnings":  "Total Penghasilan",
+                                        "pendingPayouts":  "Penarikan Tertunda",
+                                        "availableBalance":  "Saldo Tersedia",
+                                        "available":  "Saldo Tersedia",
+                                        "nextPayout":  "Pembayaran Berikutnya",
+                                        "pending":  "Penyelesaian yang Tertunda"
                                     },
-                          "charts": {
-                                        "revenueVsExpenses": "Pendapatan vs Pengeluaran",
-                                        "monthlyGrowth": "Pertumbuhan Bulanan"
-                                    },
+                          "charts":  {
+                                         "revenueVsExpenses":  "Pendapatan vs Pengeluaran",
+                                         "monthlyGrowth":  "Pertumbuhan Bulanan"
+                                     },
                           "transactions":  {
                                                "title":  "Transaksi Terbaru",
                                                "table":  {
@@ -1308,21 +1483,21 @@
                   "subtitle":  "Temukan toko unik dari penjual independen di Toroongo. Setiap toko adalah pengalaman yang dikurasi."
               },
     "sellerProduct":  {
-                          "title": "Manajemen Produk",
-                          "subtitle": "Tambah atau ubah detail produk Anda.",
-                          "basicInfo": "Informasi Dasar",
-                          "pricingInventory": "Harga \u0026 Inventaris",
-                          "media": "Media",
-                          "variants": "Varian",
-                          "form": {
-                                      "name": "Nama Produk",
-                                      "category": "Kategori",
-                                      "price": "Harga",
-                                      "comparePrice": "Harga Banding (Diskon)",
-                                      "stock": "Stok",
-                                      "sku": "SKU",
-                                      "description": "Deskripsi"
-                                  },
+                          "title":  "Manajemen Produk",
+                          "subtitle":  "Tambah atau ubah detail produk Anda.",
+                          "basicInfo":  "Informasi Dasar",
+                          "pricingInventory":  "Harga \u0026 Inventaris",
+                          "media":  "Media",
+                          "variants":  "Varian",
+                          "form":  {
+                                       "name":  "Nama Produk",
+                                       "category":  "Kategori",
+                                       "price":  "Harga",
+                                       "comparePrice":  "Harga Banding (Diskon)",
+                                       "stock":  "Stok",
+                                       "sku":  "SKU",
+                                       "description":  "Deskripsi"
+                                   },
                           "modal":  {
                                         "addTitle":  "Tambah Produk Baru",
                                         "editTitle":  "Ubah Produk",
@@ -1361,12 +1536,14 @@
                                         "badgeImage":  "Gambar",
                                         "badgeVideo":  "Video",
                                         "primary":  "Utama",
-                                        "invalidUrlMsg":  "URL Tidak Valid"
+                                        "invalidUrlMsg":  "URL Tidak Valid",
+                                        "badgeVideoPlural":  "video",
+                                        "badgeImagePlural":  "gambar"
                                     }
                       },
     "sellerDiscounts":  {
-                            "title": "Diskon",
-                            "subtitle": "Buat dan kelola kode kupon dan penawaran promosi.",
+                            "title":  "Diskon",
+                            "subtitle":  "Buat dan kelola kode kupon dan penawaran promosi.",
                             "createBtn":  "Buat Diskon Baru",
                             "stats":  {
                                           "active":  "Diskon Aktif",
@@ -1390,16 +1567,17 @@
                                      },
                             "searchPlaceholder":  "Cari kode diskon...",
                             "table":  {
-                                          "code": "Kode",
-                                          "type": "Tipe",
-                                          "value": "Nilai",
-                                          "usage": "Penggunaan",
+                                          "code":  "Kode",
+                                          "type":  "Tipe",
+                                          "value":  "Nilai",
+                                          "usage":  "Penggunaan",
                                           "minOrder":  "Min. Pesanan",
-                                          "status": "Status",
-                                          "expiry": "Kedaluwarsa",
+                                          "status":  "Status",
+                                          "expiry":  "Kedaluwarsa",
                                           "actions":  "Aksi",
                                           "never":  "Tidak Pernah",
-                                          "copyCode":  "Salin kode"
+                                          "copyCode":  "Salin kode",
+                                          "expires":  "Kedaluwarsa"
                                       },
                             "status":  {
                                            "active":  "aktif",
@@ -1414,9 +1592,9 @@
                                         }
                         },
     "sellerStaff":  {
-                        "title": "Manajemen Staf",
-                        "subtitle": "Kelola anggota tim Anda dan izin mereka.",
-                        "addMember": "Tambah Anggota Staf",
+                        "title":  "Manajemen Staf",
+                        "subtitle":  "Kelola anggota tim Anda dan izin mereka.",
+                        "addMember":  "Tambah Anggota Staf",
                         "staffCount":  "{{count}} / {{max}} anggota staf",
                         "staffCountUnlimited":  "{{count}} anggota staf (Tanpa Batas)",
                         "inviteBtn":  "Undang Anggota Staf",
@@ -1424,20 +1602,20 @@
                                              "title":  "Batas staf tercapai",
                                              "message":  "Paket Bisnis Anda mendukung hingga {{max}} anggota staf. Tingkatkan ke Enterprise untuk akun staf tanpa batas."
                                          },
-                        "table": {
-                                     "name": "Nama",
-                                     "email": "Email",
-                                     "role": "Peran",
-                                     "status": "Status",
-                                     "actions": "Aksi"
-                                 },
-                        "roles": {
-                                     "admin": "Admin",
-                                     "manager": "Manajer",
-                                     "support": "Dukungan",
-                                     "editor":  "Editor",
-                                     "viewer":  "Viewer"
-                                 },
+                        "table":  {
+                                      "name":  "Nama",
+                                      "email":  "Email",
+                                      "role":  "Peran",
+                                      "status":  "Status",
+                                      "actions":  "Aksi"
+                                  },
+                        "roles":  {
+                                      "admin":  "Admin",
+                                      "manager":  "Manajer",
+                                      "support":  "Dukungan",
+                                      "editor":  "Editor",
+                                      "viewer":  "Penonton"
+                                  },
                         "modal":  {
                                       "title":  "Undang Anggota Staf",
                                       "nameLabel":  "Nama Lengkap",
@@ -1476,22 +1654,22 @@
                                             "products":  "Produk",
                                             "analytics":  "Analitik",
                                             "messages":  "Pesan",
-                                            "blog":  "Blog",
+                                            "blog":  "blog",
                                             "settings":  "Pengaturan"
                                         }
                     },
     "sellerAiHub":  {
-                        "title": "AI Hub",
-                        "subtitle": "Gunakan kekuatan AI untuk mengoptimalkan toko dan penjualan Anda.",
+                        "title":  "AI Hub",
+                        "subtitle":  "Gunakan kekuatan AI untuk mengoptimalkan toko dan penjualan Anda.",
                         "activeTitle":  "Alat AI Aktif Anda",
                         "availableTitle":  "Tersedia dengan Upgrade",
                         "unlockMore":  "Buka Lebih Banyak Kekuatan AI",
-                        "features": {
-                                        "descriptionGenerator": "Generator Deskripsi",
-                                        "imageEnhancer": "Peningkat Gambar",
-                                        "salesForecasting": "Peramalan Penjualan",
-                                        "sentimentAnalysis": "Analisis Sentimen"
-                                    },
+                        "features":  {
+                                         "descriptionGenerator":  "Generator Deskripsi",
+                                         "imageEnhancer":  "Peningkat Gambar",
+                                         "salesForecasting":  "Peramalan Penjualan",
+                                         "sentimentAnalysis":  "Analisis Sentimen"
+                                     },
                         "tool":  {
                                      "unlocked":  "Terbuka",
                                      "required":  "{{plan}}+ diperlukan",

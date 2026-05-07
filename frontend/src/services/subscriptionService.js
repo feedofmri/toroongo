@@ -9,15 +9,10 @@ export const subscriptionService = {
         return await api('/subscription/plans');
     },
 
-    async upgradePlan({ plan, cardNumber, expiry, cvv }) {
+    async upgradePlan(paymentData) {
         return await api('/subscription/upgrade', {
             method: 'POST',
-            body: JSON.stringify({
-                plan,
-                card_number: cardNumber,
-                expiry,
-                cvv,
-            }),
+            body: JSON.stringify(paymentData),
         });
     },
 

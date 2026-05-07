@@ -1,39 +1,38 @@
 /**
  * Storefront config persistence helpers.
- * Stores/retrieves storefront JSON configs from localStorage, keyed by seller ID.
+ * Stores/retrieves storefront JSON configs from the backend API.
  */
 
-const STOREFRONT_CONFIGS_KEY = 'toroongo_storefront_configs';
+import { api } from '../../../../services/api';
 
 /**
  * Get a saved storefront config for a seller.
- * @param {string} sellerId
- * @returns {import('../schema/storefrontSchema.js').StorefrontSchema|null}
+ * @param {string|number} sellerId
+ * @returns {Promise<{theme: object|null, widgets: Array}>}
  */
-export function getStorefrontConfig(sellerId) {
+export async function getStorefrontConfig(sellerId) {
     try {
-        const raw = localStorage.getItem(STOREFRONT_CONFIGS_KEY);
-        if (raw) {
-            const configs = JSON.parse(raw);
-            return configs[sellerId] || null;
-        }
+        return await api(`/storefront/${sellerId}`);
     } catch (e) {
         console.error('Error loading storefront config:', e);
+        return { theme: null, widgets: [] };
     }
-    return null;
 }
 
 /**
- * Save a storefront config for a seller.
- * @param {string} sellerId
- * @param {import('../schema/storefrontSchema.js').StorefrontSchema} config
+ * Save a storefront config for the authenticated seller.
+ * @param {string} _sellerId  — unused, kept for API compat; backend uses auth user
+ * @param {object} config     — { theme, widgets }
  */
-export function saveStorefrontConfig(sellerId, config) {
+export async function saveStorefrontConfig(_sellerId, config) {
     try {
-        const raw = localStorage.getItem(STOREFRONT_CONFIGS_KEY);
-        const configs = raw ? JSON.parse(raw) : {};
-        configs[sellerId] = config;
-        localStorage.setItem(STOREFRONT_CONFIGS_KEY, JSON.stringify(configs));
+        return await api('/storefront', {
+            method: 'PUT',
+            body: JSON.stringify({
+                theme: config.theme || null,
+                widgets: config.widgets || [],
+            }),
+        });
     } catch (e) {
         console.error('Error saving storefront config:', e);
     }

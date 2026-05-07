@@ -6,44 +6,6 @@ import {
 import { useSubscription } from '../../context/SubscriptionContext';
 import UpgradePrompt from '../../components/subscription/UpgradePrompt';
 
-const MOCK_API_KEYS = [
-    {
-        id: 1,
-        name: 'Production Key',
-        key: 'trg_live_sk_a1b2c3d4e5f6g7h8i9j0',
-        created: '2026-03-15',
-        lastUsed: '2026-04-29T14:30:00',
-        status: 'active',
-    },
-    {
-        id: 2,
-        name: 'Test Key',
-        key: 'trg_test_sk_z9y8x7w6v5u4t3s2r1q0',
-        created: '2026-04-01',
-        lastUsed: '2026-04-28T10:00:00',
-        status: 'active',
-    },
-];
-
-const MOCK_WEBHOOKS = [
-    {
-        id: 1,
-        url: 'https://myerp.com/webhooks/toroongo/orders',
-        events: ['order.created', 'order.updated'],
-        status: 'active',
-        lastDelivery: '2026-04-29T14:30:00',
-        successRate: 99.8,
-    },
-    {
-        id: 2,
-        url: 'https://slack.com/hooks/T123/B456',
-        events: ['order.created'],
-        status: 'active',
-        lastDelivery: '2026-04-29T12:15:00',
-        successRate: 100,
-    },
-];
-
 const AVAILABLE_EVENTS = [
     'order.created', 'order.updated', 'order.cancelled', 'order.fulfilled',
     'product.created', 'product.updated', 'product.deleted',
@@ -54,6 +16,8 @@ export default function ApiWebhooks() {
     const { canAccess, currentPlan } = useSubscription();
     const [showKey, setShowKey] = useState({});
     const [showNewWebhook, setShowNewWebhook] = useState(false);
+    const [apiKeys] = useState([]);
+    const [webhooks] = useState([]);
 
     if (!canAccess('api')) {
         return (
@@ -96,7 +60,7 @@ export default function ApiWebhooks() {
                 </div>
 
                 <div className="space-y-3">
-                    {MOCK_API_KEYS.map(apiKey => (
+                    {apiKeys.map(apiKey => (
                         <div key={apiKey.id} className="flex items-center justify-between p-4 bg-surface-bg rounded-xl">
                             <div className="flex-1 min-w-0">
                                 <div className="flex items-center gap-2 mb-1">
@@ -182,7 +146,7 @@ export default function ApiWebhooks() {
                 )}
 
                 <div className="space-y-3">
-                    {MOCK_WEBHOOKS.map(webhook => (
+                    {webhooks.map(webhook => (
                         <div key={webhook.id} className="p-4 bg-surface-bg rounded-xl">
                             <div className="flex items-center justify-between mb-2">
                                 <code className="text-xs font-mono text-text-primary truncate max-w-[400px]">{webhook.url}</code>

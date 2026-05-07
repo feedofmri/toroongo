@@ -44,3 +44,52 @@ export function PrivacyPolicy() {
         </LegalPage>
     );
 }
+
+export function CookiePolicy() {
+    const { t } = useTranslation();
+    const sections = t('legal.cookies.sections', { returnObjects: true }) || [];
+
+    return (
+        <LegalPage title={t('legal.cookies.title')} lastUpdated={t('legal.cookies.lastUpdated')}>
+            {sections.map((section, idx) => (
+                <section key={idx}>
+                    <h2 className="text-lg font-semibold text-text-primary mb-2">{section.title}</h2>
+                    <p>{section.content}</p>
+                </section>
+            ))}
+        </LegalPage>
+    );
+}
+
+export function SellerAgreement() {
+    const { t } = useTranslation();
+    const sections = t('legal.sellerAgreement.sections', { returnObjects: true }) || [];
+
+    return (
+        <LegalPage title={t('legal.sellerAgreement.title')} lastUpdated={t('legal.sellerAgreement.lastUpdated')}>
+            {sections.map((section, idx) => (
+                <section key={idx}>
+                    <h2 className="text-lg font-semibold text-text-primary mb-2">{section.title}</h2>
+                    <p>{section.content}</p>
+                </section>
+            ))}
+        </LegalPage>
+    );
+}
+
+export function SocialImpact() {
+    const { t } = useTranslation();
+    const sections = t('legal.impact.sections', { returnObjects: true }) || [];
+
+    return (
+        <LegalPage title={t('legal.impact.title')} lastUpdated={t('legal.impact.lastUpdated')}>
+            {sections.map((section, idx) => (
+                <section key={idx}>
+                    <h2 className="text-lg font-semibold text-text-primary mb-2">{section.title}</h2>
+                    <p>{section.content}</p>
+                </section>
+            ))}
+        </LegalPage>
+    );
+}
+

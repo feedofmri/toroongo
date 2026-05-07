@@ -25,5 +25,12 @@ export const userService = {
 
     async getSellerBySlug(slug) {
         return await api(`/users/sellers/${slug}`);
+    },
+
+    async checkSlug(slug, currentId) {
+        return await api('/users/check-slug', {
+            method: 'POST',
+            body: JSON.stringify({ slug, current_id: currentId })
+        });
     }
 };

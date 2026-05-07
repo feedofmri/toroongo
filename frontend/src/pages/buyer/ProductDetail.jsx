@@ -451,7 +451,7 @@ export default function ProductDetail() {
             {variationGroups.length > 0 && (
               <div className="space-y-4 mb-6">
                 <h3 className="text-sm font-semibold text-text-primary">
-                  Variants
+                  {t('product.variants', 'Variants')}
                 </h3>
                 {variationGroups.map((variation) => (
                   <div key={variation.name} className="space-y-2">
@@ -531,10 +531,9 @@ export default function ProductDetail() {
             {/* Action buttons */}
             {user?.role === "seller" ? (
               <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 text-amber-800 text-sm">
-                <p className="font-semibold mb-1">Seller Account Detected</p>
+                <p className="font-semibold mb-1">{t('product.sellerAccountNotice', 'Seller Account Detected')}</p>
                 <p>
-                  To purchase products, please log in with a buyer account.
-                  Sellers are restricted from buying on the platform.
+                  {t('product.sellerAccountNoticeDesc', 'To purchase products, please log in with a buyer account. Sellers are restricted from buying on the platform.')}
                 </p>
               </div>
             ) : (
@@ -714,17 +713,10 @@ export default function ProductDetail() {
                 ) : (
                   <>
                     <p>
-                      Experience the perfect combination of innovation and
-                      craftsmanship with the {product.title}. Meticulously
-                      designed by {product.seller_name || product.seller}, this
-                      product sets a new standard in its category.
+                      {t('product.fallbackDesc1', 'Experience the perfect combination of innovation and craftsmanship with the {{title}}. Meticulously designed by {{seller}}, this product sets a new standard in its category.', { title: product.title, seller: product.seller_name || product.seller })}
                     </p>
                     <p>
-                      Key features include premium build quality, advanced
-                      technology integration, and ergonomic design. Whether
-                      you're a professional or an enthusiast, this product
-                      delivers exceptional performance that exceeds
-                      expectations.
+                      {t('product.fallbackDesc2', 'Key features include premium build quality, advanced technology integration, and ergonomic design. Whether you\'re a professional or an enthusiast, this product delivers exceptional performance that exceeds expectations.')}
                     </p>
                   </>
                 )}
@@ -762,11 +754,11 @@ export default function ProductDetail() {
                     {t("product.highlights")}
                   </h4>
                   <ul className="list-disc list-inside space-y-1.5 text-text-muted">
-                    <li>Premium materials and build quality</li>
-                    <li>Industry-leading performance</li>
-                    <li>Ergonomic and user-friendly design</li>
-                    <li>Full manufacturer warranty included</li>
-                    <li>Eco-friendly packaging</li>
+                    <li>{t('product.highlight1', 'Premium materials and build quality')}</li>
+                    <li>{t('product.highlight2', 'Industry-leading performance')}</li>
+                    <li>{t('product.highlight3', 'Ergonomic and user-friendly design')}</li>
+                    <li>{t('product.highlight4', 'Full manufacturer warranty included')}</li>
+                    <li>{t('product.highlight5', 'Eco-friendly packaging')}</li>
                   </ul>
                 </>
               )}

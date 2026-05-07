@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import { X, CreditCard, Lock, CheckCircle, Sparkles, ArrowRight, Shield } from 'lucide-react';
+import { X, Lock, CheckCircle, Sparkles, ArrowRight, Shield, Clock } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { PLANS } from '../../data/planConfig';
 import { subscriptionService } from '../../services';
 import { formatPrice } from '../../utils/currency';
 
 /**
- * UpgradeModal — Mock payment modal with credit card form.
+ * UpgradeModal — Payment modal with credit card form.
  */
 export default function UpgradeModal({ isOpen, onClose, targetPlan, currentPlan, onSuccess }) {
-    const [cardNumber, setCardNumber] = useState('');
-    const [expiry, setExpiry] = useState('');
-    const [cvv, setCvv] = useState('');
-    const [cardName, setCardName] = useState('');
+    const { t } = useTranslation();
+    const [bkashNumber, setBkashNumber] = useState('');
+    const [transactionId, setTransactionId] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [error, setError] = useState('');
@@ -21,61 +21,44 @@ export default function UpgradeModal({ isOpen, onClose, targetPlan, currentPlan,
     const planData = PLANS[targetPlan];
     const currentPlanData = PLANS[currentPlan];
 
-    const formatCardNumber = (value) => {
-        const digits = value.replace(/\D/g, '').slice(0, 16);
-        return digits.replace(/(\d{4})(?=\d)/g, '$1 ');
-    };
-
-    const formatExpiry = (value) => {
-        const digits = value.replace(/\D/g, '').slice(0, 4);
-        if (digits.length >= 3) {
-            return digits.slice(0, 2) + '/' + digits.slice(2);
-        }
-        return digits;
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
 
-        const rawCard = cardNumber.replace(/\s/g, '');
-        if (rawCard.length < 13) {
-            setError('Please enter a valid card number.');
+        if (bkashNumber.length < 10) {
+            setError('Please enter a valid bKash number.');
             return;
         }
-        if (expiry.length < 5) {
-            setError('Please enter a valid expiry date (MM/YY).');
-            return;
-        }
-        if (cvv.length < 3) {
-            setError('Please enter a valid CVV.');
+        if (transactionId.length < 5) {
+            setError('Please enter a valid Transaction ID.');
             return;
         }
 
         setIsProcessing(true);
         try {
-            await subscriptionService.upgradePlan({
+            const result = await subscriptionService.upgradePlan({
                 plan: targetPlan,
-                cardNumber: rawCard,
-                expiry,
-                cvv,
+                payment_method: 'bkash_manual',
+                bkash_number: bkashNumber,
+                transaction_id: transactionId,
             });
             setIsSuccess(true);
-            if (onSuccess) {
-                setTimeout(() => onSuccess(targetPlan), 2000);
-            }
+            // We don't automatically call onSuccess because it needs verification
+            // but for UI sake we can close after a while
+            setTimeout(() => {
+                if (onSuccess) onSuccess(targetPlan, result);
+                handleClose();
+            }, 5000);
         } catch (err) {
-            setError(err.message || 'Payment failed. Please try again.');
+            setError(err.message || 'Submission failed. Please try again.');
         } finally {
             setIsProcessing(false);
         }
     };
 
     const handleClose = () => {
-        setCardNumber('');
-        setExpiry('');
-        setCvv('');
-        setCardName('');
+        setBkashNumber('');
+        setTransactionId('');
         setIsProcessing(false);
         setIsSuccess(false);
         setError('');
@@ -96,20 +79,26 @@ export default function UpgradeModal({ isOpen, onClose, targetPlan, currentPlan,
                 {isSuccess ? (
                     /* ── Success State ──────────────────────────────── */
                     <div className="p-8 text-center">
-                        <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-green-50 flex items-center justify-center animate-bounce-subtle">
-                            <CheckCircle size={40} className="text-green-500" />
+                        <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-blue-50 flex items-center justify-center animate-bounce-subtle">
+                            <Clock size={40} className="text-blue-500" />
                         </div>
                         <h3 className="text-2xl font-bold text-text-primary mb-2">
-                            Welcome to {planData.name}! 🎉
+                            Payment Submitted! 🚀
                         </h3>
                         <p className="text-text-muted mb-6">
-                            Your plan has been upgraded successfully. All new features are now available.
+                            We have received your payment details. Please wait while our team verifies your transaction. Your plan will be updated automatically once verified.
                         </p>
-                        <div className="w-full bg-green-50 rounded-xl p-4">
-                            <p className="text-sm text-green-700 font-medium">
-                                Redirecting to your dashboard...
+                        <div className="w-full bg-blue-50 rounded-xl p-4">
+                            <p className="text-sm text-blue-700 font-medium">
+                                This usually takes 15-30 minutes.
                             </p>
                         </div>
+                        <button
+                            onClick={handleClose}
+                            className="mt-6 w-full py-3 bg-surface-bg text-text-primary font-semibold rounded-xl hover:bg-gray-100 transition-all"
+                        >
+                            Close
+                        </button>
                     </div>
                 ) : (
                     /* ── Payment Form ──────────────────────────────── */
@@ -130,24 +119,26 @@ export default function UpgradeModal({ isOpen, onClose, targetPlan, currentPlan,
                                 </div>
                             </div>
 
-                            {/* Plan Summary */}
-                            <div className="bg-surface-bg rounded-xl p-4 mb-6">
-                                <div className="flex items-center justify-between">
+                            {/* bKash Instructions */}
+                            <div className="bg-pink-50 border border-pink-100 rounded-2xl p-5 mb-6">
+                                <div className="flex items-center gap-2 mb-3">
+                                    <div className="w-6 h-6 bg-pink-600 rounded-full flex items-center justify-center text-white text-[10px] font-bold">b</div>
+                                    <h4 className="text-sm font-bold text-pink-900">bKash Manual Payment</h4>
+                                </div>
+                                <p className="text-xs text-pink-800 leading-relaxed mb-3">
+                                    Please send <strong>{formatPrice(planData.price)}</strong> to the following bKash number using the "Send Money" or "Payment" option:
+                                </p>
+                                <div className="bg-white/60 backdrop-blur-sm rounded-xl p-3 border border-pink-200 flex items-center justify-between">
                                     <div>
-                                        <p className="text-sm font-medium text-text-primary">{planData.name} Plan</p>
-                                        <p className="text-xs text-text-muted">Billed monthly</p>
+                                        <p className="text-[10px] uppercase tracking-wider font-bold text-pink-600">bKash Number</p>
+                                        <p className="text-lg font-black text-pink-900 tracking-tight">01620929190</p>
                                     </div>
-                                    <div className="text-right">
-                                        <p className="text-2xl font-bold text-text-primary">
-                                            {formatPrice(planData.price)}
-                                        </p>
-                                        <p className="text-xs text-text-muted">per month</p>
-                                    </div>
+                                    <div className="px-2 py-1 bg-pink-100 rounded text-[10px] font-bold text-pink-700 uppercase">Personal</div>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Card Form */}
+                        {/* Payment Details Form */}
                         <form onSubmit={handleSubmit} className="p-6 pt-0 space-y-4">
                             {error && (
                                 <div className="bg-red-50 text-red-600 text-sm p-3 rounded-xl border border-red-100">
@@ -157,13 +148,13 @@ export default function UpgradeModal({ isOpen, onClose, targetPlan, currentPlan,
 
                             <div>
                                 <label className="block text-sm font-medium text-text-primary mb-1.5">
-                                    Name on Card
+                                    Your bKash Number (Sender)
                                 </label>
                                 <input
                                     type="text"
-                                    value={cardName}
-                                    onChange={(e) => setCardName(e.target.value)}
-                                    placeholder="John Doe"
+                                    value={bkashNumber}
+                                    onChange={(e) => setBkashNumber(e.target.value.replace(/\D/g, ''))}
+                                    placeholder="e.g. 017XXXXXXXX"
                                     className="w-full px-4 py-3 bg-surface-bg border border-border-soft rounded-xl text-sm focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-all"
                                     required
                                 />
@@ -171,53 +162,18 @@ export default function UpgradeModal({ isOpen, onClose, targetPlan, currentPlan,
 
                             <div>
                                 <label className="block text-sm font-medium text-text-primary mb-1.5">
-                                    Card Number
+                                    Transaction ID
                                 </label>
                                 <div className="relative">
                                     <input
                                         type="text"
-                                        value={cardNumber}
-                                        onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
-                                        placeholder="4242 4242 4242 4242"
-                                        className="w-full pl-4 pr-12 py-3 bg-surface-bg border border-border-soft rounded-xl text-sm focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-all tracking-wider"
-                                        maxLength={19}
+                                        value={transactionId}
+                                        onChange={(e) => setTransactionId(e.target.value)}
+                                        placeholder="Enter the 10-character ID"
+                                        className="w-full pl-4 pr-12 py-3 bg-surface-bg border border-border-soft rounded-xl text-sm focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-all uppercase"
                                         required
                                     />
-                                    <CreditCard size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-text-muted" />
-                                </div>
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-text-primary mb-1.5">
-                                        Expiry Date
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={expiry}
-                                        onChange={(e) => setExpiry(formatExpiry(e.target.value))}
-                                        placeholder="MM/YY"
-                                        className="w-full px-4 py-3 bg-surface-bg border border-border-soft rounded-xl text-sm focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-all"
-                                        maxLength={5}
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-text-primary mb-1.5">
-                                        CVV
-                                    </label>
-                                    <div className="relative">
-                                        <input
-                                            type="text"
-                                            value={cvv}
-                                            onChange={(e) => setCvv(e.target.value.replace(/\D/g, '').slice(0, 4))}
-                                            placeholder="123"
-                                            className="w-full pl-4 pr-10 py-3 bg-surface-bg border border-border-soft rounded-xl text-sm focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-all"
-                                            maxLength={4}
-                                            required
-                                        />
-                                        <Lock size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-text-muted" />
-                                    </div>
+                                    <Shield size={18} className="absolute right-4 top-1/2 -translate-y-1/2 text-text-muted" />
                                 </div>
                             </div>
 
@@ -229,24 +185,21 @@ export default function UpgradeModal({ isOpen, onClose, targetPlan, currentPlan,
                                 {isProcessing ? (
                                     <>
                                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                        Processing...
+                                        Submitting...
                                     </>
                                 ) : (
                                     <>
-                                        Pay {formatPrice(planData.price)}/month
+                                        Submit Payment Details
                                         <ArrowRight size={16} />
                                     </>
                                 )}
                             </button>
 
                             <div className="flex items-center justify-center gap-2 text-xs text-text-muted pt-1">
-                                <Shield size={12} />
-                                <span>Secured with 256-bit SSL encryption</span>
+                                <Lock size={12} />
+                                <span>Secured verification process</span>
                             </div>
 
-                            <p className="text-[10px] text-text-muted/60 text-center">
-                                This is a mock payment for demonstration purposes. No real charges will be made.
-                            </p>
                         </form>
                     </>
                 )}
