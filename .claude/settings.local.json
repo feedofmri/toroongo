@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(php artisan *)"
+      "Bash(php artisan *)",
+      "Bash(Get-ChildItem -Path . -Directory)",
+      "Bash(Select-Object Name)",
+      "Bash(grep -E \"\\\\.\\(js|php|env\\)$\")",
+      "Bash(grep -E \"\\\\.\\(jsx|php\\)$\")"
     ]
   }
 }

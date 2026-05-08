@@ -88,4 +88,25 @@ export const authService = {
         persistCurrency(data.user);
         return data.user;
     },
+    
+    async forgotPassword(email) {
+        return await api('/auth/forgot-password', {
+            method: 'POST',
+            body: JSON.stringify({ email }),
+        });
+    },
+
+    async resetPassword({ email, otp, password, password_confirmation }) {
+        return await api('/auth/reset-password', {
+            method: 'POST',
+            body: JSON.stringify({ email, otp, password, password_confirmation }),
+        });
+    },
+
+    async changePassword({ current_password, password, password_confirmation }) {
+        return await api('/auth/change-password', {
+            method: 'POST',
+            body: JSON.stringify({ current_password, password, password_confirmation }),
+        });
+    },
 };

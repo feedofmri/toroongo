@@ -22,6 +22,12 @@ class User extends Authenticatable
     ];
 
     protected $hidden = ['password', 'remember_token'];
+    protected $appends = ['has_password'];
+
+    public function getHasPasswordAttribute()
+    {
+        return !empty($this->attributes['password']);
+    }
 
     protected function casts(): array
     {

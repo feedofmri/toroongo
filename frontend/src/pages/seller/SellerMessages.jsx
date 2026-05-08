@@ -145,7 +145,7 @@ export default function SellerMessages() {
             <div className="mb-6 flex items-center justify-between">
                 <div>
                     <h2 className="text-2xl font-bold text-text-primary">{t('sellerMessages.title', 'Customer Messages')}</h2>
-                    <p className="text-sm text-text-muted mt-1">Manage inquiries and support requests from your buyers.</p>
+                    <p className="text-sm text-text-muted mt-1">{t('sellerMessages.subtitle', 'Manage inquiries and support requests from your buyers.')}</p>
                 </div>
             </div>
 
@@ -167,11 +167,11 @@ export default function SellerMessages() {
                         {loading ? (
                             <div className="p-12 text-center">
                                 <Loader2 size={24} className="animate-spin text-brand-primary mx-auto mb-3" />
-                                <p className="text-sm text-text-muted">Loading...</p>
+                                <p className="text-sm text-text-muted">{t('common.loading', 'Loading...')}</p>
                             </div>
                         ) : conversations.length === 0 ? (
                             <div className="p-8 text-center">
-                                <p className="text-sm text-text-muted">No messages yet.</p>
+                                <p className="text-sm text-text-muted">{t('sellerMessages.noMessages', 'No messages yet.')}</p>
                             </div>
                         ) : (
                             conversations.map((convo) => (
@@ -188,7 +188,7 @@ export default function SellerMessages() {
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center justify-between mb-0.5">
                                             <span className={`text-sm truncate ${convo.unreadCount > 0 ? 'font-bold text-text-primary' : 'font-semibold text-text-primary'}`}>
-                                                {convo.otherUser?.name || 'Customer'}
+                                                {convo.otherUser?.name || t('common.customer', 'Customer')}
                                             </span>
                                             <span className="text-[10px] text-text-muted whitespace-nowrap ml-2">
                                                 {formatTime(convo.lastMessage?.createdAt)}
@@ -224,8 +224,8 @@ export default function SellerMessages() {
                                         <span className="text-sm font-bold text-brand-primary">{(activeConvo.otherUser?.name || 'C').charAt(0).toUpperCase()}</span>
                                     </div>
                                     <div>
-                                        <h3 className="text-sm font-bold text-text-primary">{activeConvo.otherUser?.name || 'Customer'}</h3>
-                                        <p className="text-[10px] text-green-500 font-bold uppercase tracking-wider">Buyer Account</p>
+                                        <h3 className="text-sm font-bold text-text-primary">{activeConvo.otherUser?.name || t('common.customer', 'Customer')}</h3>
+                                        <p className="text-[10px] text-green-500 font-bold uppercase tracking-wider">{t('sellerMessages.buyerAccount', 'Buyer Account')}</p>
                                     </div>
                                 </div>
                             </div>
@@ -247,7 +247,7 @@ export default function SellerMessages() {
                                                 <p className="leading-relaxed">{msg.text}</p>
                                                 <div className={`flex items-center gap-1.5 mt-1.5 ${isSeller ? 'text-white/60' : 'text-text-muted'}`}>
                                                     <span className="text-[10px]">{formatTime(msg.createdAt)}</span>
-                                                    {isSeller && msg.read && <span className="text-[10px] font-bold ml-1">Read</span>}
+                                                    {isSeller && msg.read && <span className="text-[10px] font-bold ml-1">{t('sellerMessages.read', 'Read')}</span>}
                                                 </div>
                                             </div>
                                         </div>
@@ -282,7 +282,7 @@ export default function SellerMessages() {
                             </div>
                             <h3 className="text-lg font-bold text-text-primary">{t('sellerMessages.select', 'Select a conversation')}</h3>
                             <p className="text-sm text-text-muted max-w-xs mx-auto mt-2">
-                                Choose a customer message from the list to view the history and send a reply.
+                                {t('sellerMessages.selectDesc', 'Choose a customer message from the list to view the history and send a reply.')}
                             </p>
                         </div>
                     )}

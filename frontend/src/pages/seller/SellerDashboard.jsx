@@ -52,14 +52,14 @@ function PlanSummaryCard() {
                     <div>
                         <div className="flex items-center gap-2">
                             <span className="text-sm font-semibold text-text-primary">
-                                {planDetails.name} Plan
+                                {t('subscription.planName', { name: planDetails.name })}
                             </span>
                             <PlanBadge plan={currentPlan} size="sm" showIcon={false} />
                         </div>
                         <p className="text-xs text-text-muted mt-0.5">
                             {productLimit
-                                ? `${productCount}/${productLimit} products used`
-                                : `${productCount} products (Unlimited)`}
+                                ? t('subscription.productsUsed', { count: productCount, limit: productLimit })
+                                : t('subscription.productsUnlimited', { count: productCount })}
                         </p>
                     </div>
                 </div>
@@ -70,7 +70,7 @@ function PlanSummaryCard() {
                             className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-brand-primary to-brand-secondary text-white text-sm font-semibold rounded-xl hover:shadow-lg hover:shadow-brand-primary/20 transition-all"
                         >
                             <Sparkles size={14} />
-                            Upgrade to {nextPlanData.name}
+                            {t('subscription.upgradeTo', { name: nextPlanData.name })}
                             <ArrowRight size={14} />
                         </button>
                     )}
@@ -78,7 +78,7 @@ function PlanSummaryCard() {
                         to="/seller/subscription"
                         className="px-4 py-2 border border-border-soft text-text-muted text-sm font-medium rounded-xl hover:border-brand-primary hover:text-brand-primary transition-colors"
                     >
-                        Manage Plan
+                        {t('subscription.managePlan')}
                     </Link>
                 </div>
             </div>
@@ -252,16 +252,16 @@ export default function SellerDashboard() {
                                 return (
                                     <tr key={order.id} className="hover:bg-surface-bg/50 transition-colors">
                                         <td className="px-6 py-3.5 text-sm font-medium text-text-primary">{PLATFORM_CONFIG.ORDER_ID_PREFIX}{String(order.id).split('-')[0].toUpperCase()}</td>
-                                        <td className="px-6 py-3.5 text-sm text-text-muted">{customerName}</td>
+                                        <td className="px-6 py-3.5 text-sm text-text-muted">{order.shippingAddress ? `${order.shippingAddress.firstName} ${order.shippingAddress.lastName}` : t('common.guest', 'Guest')}</td>
                                         <td className="px-6 py-3.5 text-sm text-text-muted">
-                                            <span className="line-clamp-1">{order.items.length > 0 ? `${order.items[0].quantity}x items` : 'N/A'}</span>
+                                            <span className="line-clamp-1">{order.items.length > 0 ? t('product.itemsCount', { count: order.items[0].quantity }) : t('common.na', 'N/A')}</span>
                                         </td>
                                         <td className="px-6 py-3.5 text-sm font-medium text-text-primary">
                                             {formatPriceInCurrency(order.subtotal || 0, user?.currency_code)}
                                         </td>
                                         <td className="px-6 py-3.5">
                                             <span className={`text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${STATUS_STYLES[order.status] || STATUS_STYLES.processing}`}>
-                                                {order.status}
+                                                {t(`sellerOrders.status.${order.status}`, order.status)}
                                             </span>
                                         </td>
                                     </tr>

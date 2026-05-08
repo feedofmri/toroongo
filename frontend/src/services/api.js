@@ -76,3 +76,78 @@ export async function api(endpoint, options = {}) {
 
   return data;
 }
+
+/**
+ * Upload files as multipart/form-data (for media uploads).
+ * Does NOT set Content-Type — browser handles multipart boundary.
+ * Supports progress tracking via onProgress callback.
+ */
+export async function apiUpload(endpoint, formData, { onProgress } = {}) {
+  const token = getToken();
+
+  if (onProgress) {
+    // Use XMLHttpRequest for progress tracking
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', `${API_BASE}${endpoint}`);
+
+      if (token) {
+        xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+      }
+      xhr.setRequestHeader('Accept', 'application/json');
+
+      if (useCredentials) {
+        xhr.withCredentials = true;
+      }
+
+      xhr.upload.addEventListener('progress', (e) => {
+        if (e.lengthComputable) {
+          onProgress(Math.round((e.loaded / e.total) * 100));
+        }
+      });
+
+      xhr.addEventListener('load', () => {
+        try {
+          const data = JSON.parse(xhr.responseText);
+          if (xhr.status >= 200 && xhr.status < 300) {
+            resolve(data);
+          } else {
+            const err = new Error(data?.message || 'Upload failed');
+            err.response = data;
+            err.status = xhr.status;
+            reject(err);
+          }
+        } catch {
+          reject(new Error('Failed to parse upload response'));
+        }
+      });
+
+      xhr.addEventListener('error', () => reject(new Error('Upload network error')));
+      xhr.addEventListener('abort', () => reject(new Error('Upload cancelled')));
+
+      xhr.send(formData);
+    });
+  }
+
+  // Simple fetch-based upload (no progress)
+  const res = await fetch(`${API_BASE}${endpoint}`, {
+    method: 'POST',
+    credentials: useCredentials ? 'include' : undefined,
+    headers: {
+      Accept: 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: formData,
+  });
+
+  const data = await res.json().catch(() => null);
+
+  if (!res.ok) {
+    const err = new Error(data?.message || 'Upload failed');
+    err.response = data;
+    err.status = res.status;
+    throw err;
+  }
+
+  return data;
+}

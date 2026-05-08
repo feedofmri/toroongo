@@ -1,20 +1,25 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Outlet, NavLink, Link, useParams, useNavigate } from 'react-router-dom';
+import { Outlet, NavLink, Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import {
     Store, Grid3X3, Info, FileText, Star, MessageSquare, ShieldCheck,
-    ShoppingCart, Heart, User, Search, LogOut, ChevronLeft, Menu, X, Loader2
+    ShoppingCart, Heart, User, Search, LogOut, ChevronLeft, Menu, X, Loader2,
+    Tag, Newspaper
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { resolveSellerTheme } from '../../theme/sellerTheme';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
+import LanguageSwitcher from './LanguageSwitcher';
 import { messageService } from '../../services';
 import { api } from '../../services/api';
 import iconColourful from '../../assets/Logo/icon_colourful.png';
 
 export default function SellerLayout() {
+    const { t } = useTranslation();
     const { slug } = useParams();
     const navigate = useNavigate();
+    const location = useLocation();
     
     const [seller, setSeller] = useState(null);
     const [sellerProducts, setSellerProducts] = useState([]);
@@ -126,10 +131,13 @@ export default function SellerLayout() {
     };
 
     const navLinks = [
-        { to: `/${slug}`, label: 'Home', icon: Store, end: true },
-        { to: `/${slug}/products`, label: 'Products', icon: Grid3X3 },
-        { to: `/${slug}/about`, label: 'About', icon: Info },
-        { to: `/${slug}/policies`, label: 'Policies', icon: FileText },
+        { name: t('storefront.nav.home'), href: `/${slug}`, icon: Store, end: true },
+        { name: t('storefront.nav.products'), href: `/${slug}/products`, icon: Grid3X3 },
+        { name: t('storefront.nav.deals'), href: `/${slug}/products?sale=true`, icon: Tag },
+        { name: t('storefront.nav.reviews'), href: `/${slug}/reviews`, icon: Star },
+        { name: t('storefront.nav.blog'), href: `/${slug}/blog`, icon: Newspaper },
+        { name: t('storefront.nav.about'), href: `/${slug}/about`, icon: Info },
+        { name: t('storefront.nav.policies'), href: `/${slug}/policies`, icon: FileText },
     ];
 
     return (
@@ -144,8 +152,8 @@ export default function SellerLayout() {
                         <div className="flex items-center gap-3 min-w-0">
                             <Link
                                 to="/"
-                                className="flex-shrink-0 p-1.5 rounded-lg text-text-muted hover:text-brand-primary hover:bg-surface-bg transition-colors"
-                                title="Back to Toroongo"
+                                className="hidden sm:flex flex-shrink-0 p-1.5 rounded-lg text-text-muted hover:text-brand-primary hover:bg-surface-bg transition-colors"
+                                title={t("product.home")}
                             >
                                 <img src={iconColourful} alt="Toroongo" className="w-6 h-6" />
                             </Link>
@@ -168,7 +176,7 @@ export default function SellerLayout() {
                                 <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none" />
                                 <input
                                     type="text"
-                                    placeholder={`Search ${seller.store_name || seller.name}...`}
+                                    placeholder={t("nav.search")}
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     onKeyDown={handleSearch}
@@ -220,6 +228,11 @@ export default function SellerLayout() {
                                 )}
                             </Link>
 
+                            {/* Language Switcher */}
+                            <div className="flex">
+                                <LanguageSwitcher />
+                            </div>
+
                             {/* Account / Sign in */}
                             <div className="relative" ref={userDropdownRef}>
                                 {isAuthenticated ? (
@@ -234,12 +247,12 @@ export default function SellerLayout() {
                                     </button>
                                 ) : (
                                     <Link
-                                        to="/login"
-                                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-sm font-semibold text-white transition-colors hover:opacity-90"
+                                        to={`/login?redirect=${encodeURIComponent(location.pathname + location.search)}`}
+                                        className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold text-white transition-colors hover:opacity-90"
                                         style={{ backgroundColor: 'var(--seller-brand)' }}
                                     >
                                         <User size={15} />
-                                        <span className="hidden sm:inline">Sign in</span>
+                                        <span className="hidden sm:inline">{t("nav.signInUp")}</span>
                                     </Link>
                                 )}
 
@@ -256,21 +269,21 @@ export default function SellerLayout() {
                                                 onClick={() => setUserDropdownOpen(false)}
                                                 className="block px-3 py-2 text-sm text-text-muted hover:text-brand-primary hover:bg-brand-primary/5 rounded-lg transition-colors"
                                             >
-                                                Dashboard
+                                                {t("nav.dashboard")}
                                             </Link>
                                             <Link
                                                 to="/wishlist"
                                                 onClick={() => setUserDropdownOpen(false)}
                                                 className="sm:hidden block px-3 py-2 text-sm text-text-muted hover:text-brand-primary hover:bg-brand-primary/5 rounded-lg transition-colors"
                                             >
-                                                Wishlist {wishlistCount > 0 && `(${wishlistCount})`}
+                                                {t("nav.wishlist")} {wishlistCount > 0 && `(${wishlistCount})`}
                                             </Link>
                                             <Link
                                                 to="/account/settings"
                                                 onClick={() => setUserDropdownOpen(false)}
                                                 className="block px-3 py-2 text-sm text-text-muted hover:text-brand-primary hover:bg-brand-primary/5 rounded-lg transition-colors"
                                             >
-                                                Settings
+                                                {t("nav.settings")}
                                             </Link>
                                         </div>
                                         <div className="p-2 border-t border-border-soft">
@@ -278,7 +291,7 @@ export default function SellerLayout() {
                                                 onClick={() => { logout(); setUserDropdownOpen(false); }}
                                                 className="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors flex items-center gap-2"
                                             >
-                                                <LogOut size={15} /> Sign out
+                                                <LogOut size={15} /> {t("nav.signOut")}
                                             </button>
                                         </div>
                                     </div>
@@ -330,54 +343,55 @@ export default function SellerLayout() {
                                         <span className="text-xs sm:text-sm text-white/90 font-medium">{seller.rating}</span>
                                     </div>
                                     <span className="text-xs text-white/50">·</span>
-                                    <span className="text-xs sm:text-sm text-white/70">{sellerProducts.length} products</span>
+                                    <span className="text-xs sm:text-sm text-white/70">{sellerProducts.length} {t("storefront.stats.products")}</span>
                                 </div>
                             </div>
                         </div>
                         <button
                             onClick={() => setShowMessageModal(true)}
-                            className="hidden sm:flex items-center gap-2 px-4 py-2 bg-white/95 backdrop-blur-sm text-slate-900 rounded-xl text-sm font-semibold hover:bg-white transition-colors shadow-lg"
+                            className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-white/95 backdrop-blur-sm text-slate-900 rounded-xl text-xs sm:text-sm font-semibold hover:bg-white transition-colors shadow-lg"
                         >
-                            <MessageSquare size={15} /> Contact
+                            <MessageSquare size={14} className="sm:w-[15px] sm:h-[15px]" /> {t("storefront.contact")}
                         </button>
                     </div>
                 </div>
             </div>
 
             {/* ══════════════════════════════════════════════════════
-                 SHOP NAVIGATION
+                 SHOP NAVIGATION (Desktop)
                  ══════════════════════════════════════════════════════ */}
-            <nav className="border-b border-border-soft bg-white sticky top-[56px] z-30">
+            <nav className="hidden sm:block border-b border-border-soft bg-white sticky top-[56px] z-30">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-11">
                         {/* Desktop nav links */}
                         <div className="flex items-center gap-0.5 overflow-x-auto scrollbar-hide">
-                            {navLinks.map((link) => (
-                                <NavLink
-                                    key={link.to}
-                                    to={link.to}
-                                    end={link.end}
-                                    className={({ isActive }) =>
-                                        `flex items-center gap-1.5 px-3.5 py-1.5 text-sm font-medium rounded-lg whitespace-nowrap transition-colors
-                                        ${isActive
-                                            ? 'text-white'
-                                            : 'text-text-muted hover:text-text-primary hover:bg-surface-bg'
-                                        }`
-                                    }
-                                    style={({ isActive }) => isActive ? { backgroundColor: 'var(--seller-brand)' } : {}}
-                                >
-                                    <link.icon size={14} />
-                                    {link.label}
-                                </NavLink>
-                            ))}
+                            {navLinks.map((link) => {
+                                const isActive = link.end 
+                                    ? location.pathname === link.href 
+                                    : (link.href.includes('?') 
+                                        ? (location.pathname + location.search).includes(link.href)
+                                        : (location.pathname === link.href && !location.search.includes('sale=true'))
+                                    );
+
+                                return (
+                                    <NavLink
+                                        key={link.href}
+                                        to={link.href}
+                                        className={() =>
+                                            `flex items-center gap-1.5 px-3.5 py-1.5 text-sm font-medium rounded-lg whitespace-nowrap transition-colors
+                                            ${isActive
+                                                ? 'text-white'
+                                                : 'text-text-muted hover:text-text-primary hover:bg-surface-bg'
+                                            }`
+                                        }
+                                        style={() => isActive ? { backgroundColor: 'var(--seller-brand)' } : {}}
+                                    >
+                                        <link.icon size={14} />
+                                        {link.name}
+                                    </NavLink>
+                                );
+                            })}
                         </div>
-                        {/* Contact on mobile */}
-                        <button
-                            onClick={() => setShowMessageModal(true)}
-                            className="sm:hidden flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors text-text-muted hover:text-text-primary hover:bg-surface-bg"
-                        >
-                            <MessageSquare size={13} /> Contact
-                        </button>
                     </div>
                 </div>
             </nav>
@@ -385,39 +399,53 @@ export default function SellerLayout() {
             {/* Mobile nav drawer */}
             {mobileNavOpen && (
                 <div className="sm:hidden border-b border-border-soft bg-white px-4 py-3 space-y-1 animate-fade-in shadow-sm">
+                    {/* Back to Toroongo */}
+                    <Link to="/" className="flex items-center gap-2.5 px-3 py-2 mb-1 text-sm font-medium text-text-muted hover:text-brand-primary hover:bg-surface-bg rounded-lg transition-colors">
+                        <img src={iconColourful} alt="Toroongo" className="w-4 h-4 opacity-80" />
+                        Toroongo.com
+                    </Link>
+
                     {/* Store Nav Links */}
                     <div className="pb-2 mb-2 border-b border-border-soft">
-                        <p className="px-3 text-[10px] font-bold text-text-muted uppercase tracking-wider mb-1">Store Navigation</p>
-                        {navLinks.map((link) => (
-                            <NavLink
-                                key={link.to}
-                                to={link.to}
-                                end={link.end}
-                                onClick={() => setMobileNavOpen(false)}
-                                className={({ isActive }) =>
-                                    `flex items-center gap-2.5 px-3 py-2.5 text-sm font-medium rounded-lg transition-colors
-                                    ${isActive
-                                        ? 'text-white'
-                                        : 'text-text-muted hover:text-text-primary hover:bg-surface-bg'
-                                    }`
-                                }
-                                style={({ isActive }) => isActive ? { backgroundColor: 'var(--seller-brand)' } : {}}
-                            >
-                                <link.icon size={16} />
-                                {link.label}
-                            </NavLink>
-                        ))}
+                        <p className="px-3 text-[10px] font-bold text-text-muted uppercase tracking-wider mb-1">{t("storefront.nav.storeNav")}</p>
+                        {navLinks.map((link) => {
+                            const isActive = link.end 
+                                ? location.pathname === link.href 
+                                : (link.href.includes('?') 
+                                    ? (location.pathname + location.search).includes(link.href)
+                                    : (location.pathname === link.href && !location.search.includes('sale=true'))
+                                );
+
+                            return (
+                                <NavLink
+                                    key={link.href}
+                                    to={link.href}
+                                    onClick={() => setMobileNavOpen(false)}
+                                    className={() =>
+                                        `flex items-center gap-2.5 px-3 py-2.5 text-sm font-medium rounded-lg transition-colors
+                                        ${isActive
+                                            ? 'text-white'
+                                            : 'text-text-muted hover:text-text-primary hover:bg-surface-bg'
+                                        }`
+                                    }
+                                    style={() => isActive ? { backgroundColor: 'var(--seller-brand)' } : {}}
+                                >
+                                    <link.icon size={16} />
+                                    {link.name}
+                                </NavLink>
+                            );
+                        })}
                     </div>
 
-                    <p className="px-3 text-[10px] font-bold text-text-muted uppercase tracking-wider mb-1">User Actions</p>
+                    <p className="px-3 text-[10px] font-bold text-text-muted uppercase tracking-wider mb-1">{t("storefront.nav.userActions")}</p>
                     <Link to="/wishlist" onClick={() => setMobileNavOpen(false)}
                           className="flex items-center gap-2.5 px-3 py-2.5 text-sm font-medium text-text-muted hover:text-text-primary hover:bg-surface-bg rounded-lg transition-colors">
-                        <Heart size={16} /> Wishlist {wishlistCount > 0 && <span className="ml-auto text-xs font-bold text-white px-1.5 py-0.5 rounded-full" style={{ backgroundColor: 'var(--seller-brand)' }}>{wishlistCount}</span>}
+                        <Heart size={16} /> {t("nav.wishlist", "Wishlist")} {wishlistCount > 0 && <span className="ml-auto text-xs font-bold text-white px-1.5 py-0.5 rounded-full" style={{ backgroundColor: 'var(--seller-brand)' }}>{wishlistCount}</span>}
                     </Link>
                     {!isAuthenticated && (
-                        <Link to="/login" onClick={() => setMobileNavOpen(false)}
+                        <Link to={`/login?redirect=${encodeURIComponent(location.pathname + location.search)}`} onClick={() => setMobileNavOpen(false)}
                               className="flex items-center gap-2.5 px-3 py-2.5 text-sm font-medium text-text-muted hover:text-text-primary hover:bg-surface-bg rounded-lg transition-colors">
-                            <User size={16} /> Sign in / Sign up
+                            <User size={16} /> {t("nav.signInUp")}
                         </Link>
                     )}
                 </div>
@@ -447,12 +475,12 @@ export default function SellerLayout() {
                             <span className="text-sm font-semibold text-text-primary">{seller.store_name || seller.name}</span>
                         </div>
                         <div className="flex items-center gap-4 text-xs text-text-muted">
-                            <NavLink to={`/${slug}/policies`} className="hover:text-text-primary transition-colors">Policies</NavLink>
-                            <NavLink to={`/${slug}/about`} className="hover:text-text-primary transition-colors">About</NavLink>
-                            <button onClick={() => setShowMessageModal(true)} className="hover:text-text-primary transition-colors">Contact</button>
+                            <NavLink to={`/${slug}/policies`} className="hover:text-text-primary transition-colors">{t("footer.policies")}</NavLink>
+                            <NavLink to={`/${slug}/about`} className="hover:text-text-primary transition-colors">{t("footer.about")}</NavLink>
+                            <button onClick={() => setShowMessageModal(true)} className="hover:text-text-primary transition-colors">{t("footer.contact")}</button>
                         </div>
                         <div className="flex items-center gap-1.5 text-xs text-text-muted">
-                            Powered by
+                            {t("footer.poweredBy")}
                             <Link to="/" className="font-semibold text-brand-primary hover:text-brand-secondary transition-colors">Toroongo</Link>
                         </div>
                     </div>
@@ -466,7 +494,9 @@ export default function SellerLayout() {
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
                     <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden text-text-primary">
                         <div className="p-5 border-b border-border-soft flex justify-between items-center bg-surface-bg">
-                            <h3 className="font-bold text-text-primary">Contact {seller.store_name || seller.name}</h3>
+                            <h3 className="font-bold text-text-primary">
+                                {t("product.contactStore", { store: seller.store_name || seller.name })}
+                            </h3>
                             <button onClick={() => setShowMessageModal(false)} className="text-text-muted hover:text-text-primary text-xl leading-none">&times;</button>
                         </div>
                         <div className="p-5">
@@ -475,15 +505,19 @@ export default function SellerLayout() {
                                     <div className="w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
                                         <ShieldCheck size={24} />
                                     </div>
-                                    <h4 className="font-bold text-text-primary mb-2">Message Sent!</h4>
-                                    <p className="text-sm text-text-muted mb-6">The store will respond to you shortly via the Message Center.</p>
+                                    <h4 className="font-bold text-text-primary mb-2">
+                                        {t("product.messageSent")}
+                                    </h4>
+                                    <p className="text-sm text-text-muted mb-6">
+                                        {t("product.messageSentDesc")}
+                                    </p>
                                     <div className="flex flex-col gap-2">
                                         <button 
                                             onClick={() => navigate(`/account/messages?userId=${seller.id}`)}
                                             className="w-full py-3 bg-brand-primary text-white text-sm font-bold rounded-xl hover:bg-brand-secondary transition-colors"
                                             style={{ backgroundColor: 'var(--seller-brand)' }}
                                         >
-                                            Go to Inbox
+                                            {t("messages.goToCenter")}
                                         </button>
                                         <button 
                                             onClick={() => {
@@ -493,7 +527,7 @@ export default function SellerLayout() {
                                             }}
                                             className="w-full py-3 text-sm font-bold text-text-muted hover:text-text-primary transition-colors"
                                         >
-                                            Stay at Shop
+                                            {t("product.stayAtShop", "Stay at Shop")}
                                         </button>
                                     </div>
                                 </div>
@@ -509,7 +543,7 @@ export default function SellerLayout() {
                                         </div>
                                         <div>
                                             <p className="text-xs font-semibold text-text-primary leading-tight line-clamp-1">{seller.store_name || seller.name}</p>
-                                            <p className="text-[10px] text-text-muted mt-0.5">Contact Support</p>
+                                            <p className="text-[10px] text-text-muted mt-0.5">{t("product.contactSupport")}</p>
                                         </div>
                                     </div>
                                     <textarea
@@ -519,14 +553,16 @@ export default function SellerLayout() {
                                         className="w-full h-32 p-3 text-sm border border-border-soft rounded-xl focus:border-brand-primary outline-none resize-none mb-4"
                                     />
                                     <div className="flex gap-3 justify-end">
-                                        <button onClick={() => setShowMessageModal(false)} className="px-4 py-2 text-sm font-semibold text-text-muted hover:text-text-primary">Cancel</button>
+                                        <button onClick={() => setShowMessageModal(false)} className="px-4 py-2 text-sm font-semibold text-text-muted hover:text-text-primary">
+                                            {t("product.cancel")}
+                                        </button>
                                         <button
                                             onClick={handleSendMessage}
                                             disabled={!messageText.trim() || sendingMessage}
                                             className="px-5 py-2 text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-50 hover:opacity-90"
                                             style={{ backgroundColor: 'var(--seller-brand)' }}
                                         >
-                                            {sendingMessage ? 'Sending...' : 'Send Message'}
+                                            {sendingMessage ? t("common.sending", "Sending...") : t("product.sendMessage")}
                                         </button>
                                     </div>
                                 </>

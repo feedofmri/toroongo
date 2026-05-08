@@ -22,12 +22,15 @@ use App\Http\Controllers\Api\AiController;
 use App\Http\Controllers\Api\OtpController;
 use App\Http\Controllers\Api\DiscountController;
 use App\Http\Controllers\Api\StorefrontController;
+use App\Http\Controllers\Api\UploadController;
 
 // ── Public Routes ───────────────────────────────────
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/send-otp', [OtpController::class, 'sendOtp']);
 Route::post('/auth/verify-otp', [OtpController::class, 'verifyOtp']);
+Route::post('/auth/forgot-password', [AuthController::class, 'forgotPassword']);
+Route::post('/auth/reset-password', [AuthController::class, 'resetPassword']);
 
 // Google Auth
 Route::get('/auth/google', [App\Http\Controllers\Api\GoogleAuthController::class, 'redirectToGoogle']);
@@ -69,6 +72,10 @@ Route::middleware('auth:sanctum')->group(function () {
     // Auth
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::get('/auth/me', [AuthController::class, 'me']);
+    Route::post('/auth/change-password', [AuthController::class, 'changePassword']);
+
+    // Media Upload (accessible to all authenticated users)
+    Route::post('/upload/media', [UploadController::class, 'store']);
 
     // User profile
     Route::put('/users/profile', [UserController::class, 'updateProfile']);

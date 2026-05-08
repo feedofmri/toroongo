@@ -21,13 +21,30 @@ export default function AuthPage() {
     // Check for errors in URL (e.g. from Google Callback)
     useEffect(() => {
         const params = new URLSearchParams(location.search);
-        if (params.get('error')) {
-            setError('Authentication failed. Please try again.');
+        const errorParam = params.get('error');
+        if (errorParam) {
+            if (errorParam === 'google_failed') {
+                setError('Authentication failed. Please try again.');
+            } else {
+                setError(decodeURIComponent(errorParam));
+            }
         }
-    }, [location]);
 
-    // step: 'form' | 'otp' | 'country'
-    const [step, setStep] = useState('form');
+        if (params.get('complete_profile') === 'true' && user) {
+            setSocialLoginMode(true);
+            setFormData(prev => ({
+                ...prev,
+                name: user.name || '',
+                email: user.email || '',
+                accountType: user.role || 'buyer',
+                storeName: user.store_name || '',
+            }));
+            setStep('country');
+        }
+    }, [location, user]);
+
+    // step: 'form' | 'otp' | 'country' | 'forgot_email' | 'forgot_otp' | 'forgot_reset'
+    const [step, setStep] = useState(isForgot ? 'forgot_email' : 'form');
     const [otpCode, setOtpCode] = useState('');
     const [socialLoginMode, setSocialLoginMode] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
@@ -37,6 +54,8 @@ export default function AuthPage() {
     const [countryData, setCountryData] = useState({
         country: '', currency_code: 'USD', country_custom_name: '',
     });
+
+    const { forgotPassword, resetPassword } = useAuth();
 
     const handleChange = (field, value) => {
         setError('');
@@ -82,14 +101,25 @@ export default function AuthPage() {
         setError('');
         try {
             if (socialLoginMode && user) {
+                // Validation for profile completion
+                if (formData.accountType === 'seller' && !formData.storeName.trim()) {
+                    return setError(t('auth.errorStoreName'));
+                }
+                if (!countryData.country) {
+                    return setError('Please select a country');
+                }
+
                 // If it was a social login, we just update the profile
                 const updatedUser = await userService.updateProfile(user.id, {
                     country: countryData.country || null,
                     currency_code: countryData.currency_code || 'USD',
                     country_custom_name: countryData.country_custom_name || null,
+                    store_name: formData.accountType === 'seller' ? formData.storeName.trim() : null,
                 });
                 updateUser(updatedUser);
-                navigate(updatedUser.role === 'seller' ? '/seller' : '/');
+                const params = new URLSearchParams(location.search);
+                const redirectPath = params.get('redirect');
+                navigate(redirectPath || (updatedUser.role === 'seller' ? '/seller' : '/'));
                 return;
             }
 
@@ -103,7 +133,9 @@ export default function AuthPage() {
                 currency_code: countryData.currency_code || 'USD',
                 country_custom_name: countryData.country_custom_name || null,
             });
-            navigate(formData.accountType === 'seller' ? '/seller' : '/');
+            const params = new URLSearchParams(location.search);
+            const redirectPath = params.get('redirect');
+            navigate(redirectPath || (formData.accountType === 'seller' ? '/seller' : '/'));
         } catch (err) {
             setError(err.message || t('auth.authError'));
             if (!socialLoginMode) setStep('form');
@@ -116,11 +148,22 @@ export default function AuthPage() {
         if (!formData.email || !formData.password) return setError(t('auth.errorRequired'));
         try {
             const user = await login(formData.email, formData.password);
-            if (!user.country) {
+            
+            const isSellerMissingInfo = user.role === 'seller' && (!user.store_name || !user.country);
+            const isBuyerMissingInfo = user.role === 'buyer' && !user.country;
+
+            if (isSellerMissingInfo || isBuyerMissingInfo) {
                 setSocialLoginMode(true);
+                setFormData(prev => ({
+                    ...prev,
+                    accountType: user.role,
+                    storeName: user.store_name || '',
+                }));
                 setStep('country');
             } else {
-                navigate('/');
+                const params = new URLSearchParams(location.search);
+                const redirectPath = params.get('redirect');
+                navigate(redirectPath || '/');
             }
         } catch (err) {
             setError(err.message || t('auth.authError'));
@@ -130,6 +173,13 @@ export default function AuthPage() {
     const handleSocialLogin = async (provider) => {
         if (provider === 'google') {
             try {
+                const params = new URLSearchParams(location.search);
+                const redirectPath = params.get('redirect');
+                if (redirectPath) {
+                    localStorage.setItem('auth_redirect', redirectPath);
+                }
+                localStorage.setItem('auth_role', formData.accountType);
+                localStorage.setItem('auth_intent', isLogin ? 'login' : 'signup');
                 await loginWithGoogle();
             } catch (err) {
                 setError('Failed to start Google login');
@@ -139,33 +189,135 @@ export default function AuthPage() {
         }
     };
 
+    const handleForgotEmail = async (e) => {
+        e.preventDefault();
+        setError('');
+        if (!formData.email) return setError(t('auth.errorRequired'));
+        try {
+            await forgotPassword(formData.email);
+            await sendOtp(formData.email, 'forgot_password');
+            setStep('forgot_otp');
+        } catch (err) {
+            setError(err.message || 'Email not found or error sending OTP');
+        }
+    };
+
+    const handleVerifyForgotOtp = async (e) => {
+        e.preventDefault();
+        setError('');
+        if (otpCode.length !== 6) return setError('Please enter the 6-digit code');
+        try {
+            await verifyOtp(formData.email, otpCode, 'forgot_password');
+            setStep('forgot_reset');
+        } catch (err) {
+            setError(err.message || 'Invalid verification code');
+        }
+    };
+
+    const handleResetPassword = async (e) => {
+        e.preventDefault();
+        setError('');
+        if (!formData.password) return setError(t('auth.errorRequired'));
+        if (formData.password !== formData.confirmPassword) return setError(t('auth.errorPasswordMatch'));
+        try {
+            await resetPassword({
+                email: formData.email,
+                otp: otpCode,
+                password: formData.password,
+                password_confirmation: formData.confirmPassword
+            });
+            alert('Password reset successful! You can now login.');
+            setStep('form');
+            navigate('/login');
+        } catch (err) {
+            setError(err.message || 'Failed to reset password');
+        }
+    };
+
     const inputClass = `w-full pl-11 pr-4 py-3 text-sm bg-white border border-border-soft rounded-xl
     focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-colors
     placeholder:text-text-muted/50`;
 
-    if (isForgot) {
+    if (step.startsWith('forgot_')) {
         return (
             <div className="animate-fade-in min-h-[70vh] flex items-center justify-center">
                 <div className="w-full max-w-md mx-auto px-4 py-16">
                     <div className="text-center mb-8">
                         <img src={iconColourful} alt="Toroongo" className="w-14 h-14 mx-auto mb-4" />
-                        <h1 className="text-2xl font-bold text-text-primary mb-2">{t('auth.resetPassword')}</h1>
-                        <p className="text-sm text-text-muted">{t('auth.resetDesc')}</p>
+                        <h1 className="text-2xl font-bold text-text-primary mb-2">
+                            {step === 'forgot_reset' ? 'Create New Password' : t('auth.resetPassword')}
+                        </h1>
+                        <p className="text-sm text-text-muted">
+                            {step === 'forgot_email' && t('auth.resetDesc')}
+                            {step === 'forgot_otp' && `We've sent a code to ${formData.email}`}
+                            {step === 'forgot_reset' && 'Enter your new secure password below.'}
+                        </p>
                     </div>
-                    <form onSubmit={e => e.preventDefault()} className="space-y-4">
-                        <div className="relative">
-                            <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
-                            <input type="email" placeholder={t('auth.emailAddress')} value={formData.email}
-                                onChange={e => handleChange('email', e.target.value)} className={inputClass} />
+
+                    {error && (
+                        <div className="p-3 rounded-lg bg-red-50 text-red-600 text-sm border border-red-100 mb-6 text-center">
+                            {error}
                         </div>
-                        <button type="submit"
-                            className="w-full py-3.5 bg-brand-primary text-white font-semibold rounded-xl hover:bg-brand-secondary transition-colors flex items-center justify-center gap-2">
-                            {t('auth.sendResetLink')} <ArrowRight size={16} />
-                        </button>
-                    </form>
+                    )}
+
+                    {step === 'forgot_email' && (
+                        <form onSubmit={handleForgotEmail} className="space-y-4">
+                            <div className="relative">
+                                <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
+                                <input type="email" placeholder={t('auth.emailAddress')} value={formData.email}
+                                    onChange={e => handleChange('email', e.target.value)} className={inputClass} />
+                            </div>
+                            <button type="submit" disabled={isLoading}
+                                className="w-full py-3.5 bg-brand-primary text-white font-semibold rounded-xl hover:bg-brand-secondary transition-colors flex items-center justify-center gap-2">
+                                {isLoading ? <Loader2 size={16} className="animate-spin" /> : t('auth.sendResetLink')} <ArrowRight size={16} />
+                            </button>
+                        </form>
+                    )}
+
+                    {step === 'forgot_otp' && (
+                        <form onSubmit={handleVerifyForgotOtp} className="space-y-6">
+                            <div className="relative">
+                                <input
+                                    type="text"
+                                    maxLength="6"
+                                    placeholder="000000"
+                                    value={otpCode}
+                                    onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ''))}
+                                    className="w-full text-center text-3xl tracking-[0.3em] font-bold py-4 bg-white border border-border-soft rounded-2xl focus:border-brand-primary focus:ring-4 focus:ring-brand-primary/10 outline-none transition-all"
+                                />
+                            </div>
+                            <button type="submit" disabled={isLoading || otpCode.length !== 6}
+                                className="w-full py-3.5 bg-brand-primary text-white font-semibold rounded-xl hover:bg-brand-secondary transition-colors flex items-center justify-center gap-2">
+                                {isLoading ? <Loader2 size={16} className="animate-spin" /> : 'Verify Code'}
+                            </button>
+                            <button type="button" onClick={() => setStep('forgot_email')} className="w-full text-sm text-text-muted hover:text-text-primary">
+                                Change Email
+                            </button>
+                        </form>
+                    )}
+
+                    {step === 'forgot_reset' && (
+                        <form onSubmit={handleResetPassword} className="space-y-4">
+                            <div className="relative">
+                                <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
+                                <input type="password" placeholder="New Password" value={formData.password}
+                                    onChange={e => handleChange('password', e.target.value)} className={inputClass} />
+                            </div>
+                            <div className="relative">
+                                <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
+                                <input type="password" placeholder="Confirm New Password" value={formData.confirmPassword}
+                                    onChange={e => handleChange('confirmPassword', e.target.value)} className={inputClass} />
+                            </div>
+                            <button type="submit" disabled={isLoading}
+                                className="w-full py-3.5 bg-brand-primary text-white font-semibold rounded-xl hover:bg-brand-secondary transition-colors flex items-center justify-center gap-2">
+                                {isLoading ? <Loader2 size={16} className="animate-spin" /> : 'Reset Password'}
+                            </button>
+                        </form>
+                    )}
+
                     <p className="mt-6 text-center text-sm text-text-muted">
                         {t('auth.rememberPassword')}{' '}
-                        <Link to="/login" className="text-brand-primary font-medium hover:text-brand-secondary">{t('auth.login')}</Link>
+                        <Link to="/login" onClick={() => { setStep('form'); navigate('/login'); }} className="text-brand-primary font-medium hover:text-brand-secondary">{t('auth.login')}</Link>
                     </p>
                 </div>
             </div>
@@ -255,6 +407,27 @@ export default function AuthPage() {
                             </div>
                         )}
 
+                        {socialLoginMode && formData.accountType === 'seller' && !user?.store_name && (
+                            <div className="mb-6">
+                                <label className="block text-xs font-semibold text-text-muted mb-2 ml-1">
+                                    {t('auth.storeName')}
+                                </label>
+                                <div className="relative">
+                                    <Store size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
+                                    <input 
+                                        type="text" 
+                                        placeholder={t('auth.storeName')} 
+                                        value={formData.storeName}
+                                        onChange={e => handleChange('storeName', e.target.value)} 
+                                        className={inputClass} 
+                                    />
+                                </div>
+                            </div>
+                        )}
+
+                        <label className="block text-xs font-semibold text-text-muted mb-2 ml-1">
+                            {t('account.countryCurrency', 'Select Country')}
+                        </label>
                         <CountrySelector value={countryData} onChange={setCountryData} />
 
                         <div className="mt-6 flex gap-3">
@@ -405,9 +578,9 @@ export default function AuthPage() {
 
                             {isLogin && (
                                 <div className="flex justify-end">
-                                    <Link to="/forgot-password" className="text-xs text-brand-primary font-medium hover:text-brand-secondary">
+                                    <button type="button" onClick={() => setStep('forgot_email')} className="text-xs text-brand-primary font-medium hover:text-brand-secondary">
                                         {t('auth.forgotPassword')}
-                                    </Link>
+                                    </button>
                                 </div>
                             )}
 
@@ -423,7 +596,7 @@ export default function AuthPage() {
 
                         <p className="mt-6 text-center text-sm text-text-muted">
                             {isLogin ? t('auth.dontHaveAccount') : t('auth.alreadyHaveAccount')}
-                            <Link to={isLogin ? '/signup' : '/login'}
+                            <Link to={isLogin ? `/signup${location.search}` : `/login${location.search}`}
                                 className="text-brand-primary font-medium hover:text-brand-secondary">
                                 {isLogin ? t('auth.signup') : t('auth.login')}
                             </Link>

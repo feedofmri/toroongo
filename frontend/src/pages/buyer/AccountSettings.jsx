@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { User, MapPin, CreditCard, Bell, Plus, Pencil, Trash2, Loader2, X, Globe } from 'lucide-react';
+import { User, MapPin, CreditCard, Bell, Plus, Pencil, Trash2, Loader2, X, Globe, Lock, Shield, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { userService, addressService, paymentMethodService } from '../../services';
 import CountrySelector from '../../components/ui/CountrySelector';
@@ -47,6 +47,39 @@ export default function AccountSettings() {
     const [isSavingAddress, setIsSavingAddress] = useState(false);
     const [isSavingCountry, setIsSavingCountry] = useState(false);
     const [countryData, setCountryData] = useState({ country: '', currency_code: 'USD', country_custom_name: '' });
+    const [saveSuccess, setSaveSuccess] = useState(null);
+    const [passwordData, setPasswordData] = useState({ currentPassword: '', password: '', confirmPassword: '' });
+    const [error, setError] = useState('');
+    const { changePassword } = useAuth();
+
+    const isProfileDirty = React.useMemo(() => {
+        if (!user) return false;
+        const currentFirst = user.name?.split(' ')[0] || '';
+        const currentLast = user.name?.split(' ').slice(1).join(' ') || '';
+        return profile.firstName !== currentFirst ||
+               profile.lastName !== currentLast ||
+               profile.email !== (user.email || '') ||
+               profile.phone !== (user.phone || '');
+    }, [profile, user]);
+
+    const isCountryDirty = React.useMemo(() => {
+        if (!user) return false;
+        return countryData.country !== (user.country || '') ||
+               countryData.currency_code !== (user.currency_code || 'USD') ||
+               countryData.country_custom_name !== (user.country_custom_name || '');
+    }, [countryData, user]);
+
+    const isNotificationsDirty = React.useMemo(() => {
+        if (!user) return false;
+        const n = user.buyer_settings?.notifications || {
+            orderUpdates: true, promotions: true, sellerMessages: true, wishlistAlerts: false
+        };
+        return notificationPrefs.orderUpdates !== n.orderUpdates ||
+               notificationPrefs.promotions !== n.promotions ||
+               notificationPrefs.sellerMessages !== n.sellerMessages ||
+               notificationPrefs.wishlistAlerts !== n.wishlistAlerts;
+    }, [notificationPrefs, user]);
+
 
     useEffect(() => {
         if (user) {
@@ -94,12 +127,14 @@ export default function AccountSettings() {
                 phone: profile.phone
             });
             updateUser(updatedUser);
-            alert('Profile updated successfully!');
+            // alert(t('account.profileUpdated', 'Profile updated successfully!'));
         } catch (error) {
             console.error('Failed to update profile:', error);
-            alert('Failed to update profile.');
+            // alert(t('account.profileUpdateError', 'Failed to update profile.'));
         } finally {
             setIsSavingProfile(false);
+            setSaveSuccess('profile');
+            setTimeout(() => setSaveSuccess(null), 3000);
         }
     };
 
@@ -148,14 +183,16 @@ export default function AccountSettings() {
             setIsAddressModalOpen(false);
         } catch (error) {
             console.error('Failed to save address:', error);
-            alert('Failed to save address.');
+            // alert(t('account.addressSaveError', 'Failed to save address.'));
         } finally {
             setIsSavingAddress(false);
+            setSaveSuccess('address');
+            setTimeout(() => setSaveSuccess(null), 3000);
         }
     };
 
     const handleDeleteAddress = async (id) => {
-        if (!window.confirm(t('account.confirmDeleteAddress', 'Are you sure you want to remove this address?'))) return;
+        if (!window.confirm(t('account.confirmDeleteAddress'))) return;
         try {
             await addressService.deleteAddress(id);
             await fetchAddresses();
@@ -179,6 +216,8 @@ export default function AccountSettings() {
             console.error('Failed to save notification preferences:', error);
         } finally {
             setIsSaving(false);
+            setSaveSuccess('notifications');
+            setTimeout(() => setSaveSuccess(null), 3000);
         }
     };
 
@@ -192,21 +231,48 @@ export default function AccountSettings() {
             });
             updateUser(updatedUser);
             setBuyerCurrencyCode(countryData.currency_code || 'USD');
-            alert('Country & currency updated!');
+            // alert(t('account.countryCurrencyUpdated', 'Country & currency updated!'));
         } catch (err) {
-            alert('Failed to update: ' + err.message);
+            // alert('Failed to update: ' + err.message);
         } finally {
             setIsSavingCountry(false);
+            setSaveSuccess('country');
+            setTimeout(() => setSaveSuccess(null), 3000);
         }
     };
 
     const tabs = [
         { key: 'profile', label: t('account.profile'), icon: User },
         { key: 'addresses', label: t('account.addresses'), icon: MapPin },
-        { key: 'country', label: t('account.countryCurrency', 'Country & Currency'), icon: Globe },
+        { key: 'country', label: t('account.countryCurrency'), icon: Globe },
         { key: 'payment', label: t('account.payment'), icon: CreditCard },
         { key: 'notifications', label: t('account.notifications'), icon: Bell },
+        { key: 'security', label: t('account.security', 'Security'), icon: Lock },
     ];
+
+    const handleCompletePasswordReset = async () => {
+        setIsSaving(true);
+        setError('');
+        if (passwordData.password !== passwordData.confirmPassword) {
+            setError(t('auth.errorPasswordMatch'));
+            setIsSaving(false);
+            return;
+        }
+        try {
+            await changePassword({
+                current_password: passwordData.currentPassword,
+                password: passwordData.password,
+                password_confirmation: passwordData.confirmPassword
+            });
+            setPasswordData({ currentPassword: '', password: '', confirmPassword: '' });
+            setSaveSuccess('security');
+            setTimeout(() => setSaveSuccess(null), 3000);
+        } catch (err) {
+            setError(err.message || 'Failed to change password');
+        } finally {
+            setIsSaving(false);
+        }
+    };
 
     const inputClass = `w-full px-4 py-3 text-sm bg-white border border-border-soft rounded-xl
     focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-colors
@@ -284,11 +350,21 @@ export default function AccountSettings() {
                     </div>
                     <button 
                         onClick={handleSaveProfile}
-                        disabled={isSavingProfile}
-                        className="flex items-center gap-2 px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-70"
+                        disabled={isSavingProfile || (!isProfileDirty && saveSuccess !== 'profile')}
+                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all
+                            ${saveSuccess === 'profile' 
+                                ? 'bg-gray-100 text-gray-600 border border-gray-200' 
+                                : isProfileDirty
+                                    ? 'bg-brand-primary text-white hover:bg-brand-secondary'
+                                    : 'bg-gray-50 text-gray-400 cursor-not-allowed'}
+                            disabled:opacity-70`}
                     >
-                        {isSavingProfile && <Loader2 size={16} className="animate-spin" />}
-                        {t('account.saveChanges')}
+                        {isSavingProfile ? <Loader2 size={16} className="animate-spin" /> : null}
+                        {saveSuccess === 'profile' ? (
+                            <><CheckCircle2 size={16} className="text-gray-500" /> {t('common.saved', 'Saved!')}</>
+                        ) : (
+                            t('account.saveChanges')
+                        )}
                     </button>
                 </div>
             )}
@@ -297,19 +373,29 @@ export default function AccountSettings() {
             {activeTab === 'country' && (
                 <div className="max-w-lg space-y-5">
                     <div>
-                        <h3 className="text-lg font-semibold text-text-primary">{t('account.countryCurrency', 'Country & Currency')}</h3>
+                        <h3 className="text-lg font-semibold text-text-primary">{t('account.countryCurrency')}</h3>
                         <p className="text-sm text-text-muted mt-1">
-                            {t('account.countryCurrencyDesc', 'Your country determines which currency is used to display prices across the platform.')}
+                            {t('account.countryCurrencyDesc')}
                         </p>
                     </div>
                     <CountrySelector value={countryData} onChange={setCountryData} />
                     <button
                         onClick={handleSaveCountry}
-                        disabled={isSavingCountry}
-                        className="flex items-center gap-2 px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-70"
+                        disabled={isSavingCountry || (!isCountryDirty && saveSuccess !== 'country')}
+                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all
+                            ${saveSuccess === 'country' 
+                                ? 'bg-gray-100 text-gray-600 border border-gray-200' 
+                                : isCountryDirty
+                                    ? 'bg-brand-primary text-white hover:bg-brand-secondary'
+                                    : 'bg-gray-50 text-gray-400 cursor-not-allowed'}
+                            disabled:opacity-70`}
                     >
-                        {isSavingCountry && <Loader2 size={16} className="animate-spin" />}
-                        {t('account.saveCountryCurrency', 'Save Country & Currency')}
+                        {isSavingCountry ? <Loader2 size={16} className="animate-spin" /> : null}
+                        {saveSuccess === 'country' ? (
+                            <><CheckCircle2 size={16} className="text-gray-500" /> {t('common.saved', 'Saved!')}</>
+                        ) : (
+                            t('account.saveCountryCurrency')
+                        )}
                     </button>
                 </div>
             )}
@@ -330,7 +416,7 @@ export default function AccountSettings() {
                     {loadingAddresses ? (
                         <div className="flex flex-col items-center justify-center py-12">
                             <Loader2 size={32} className="text-brand-primary animate-spin mb-4" />
-                            <p className="text-sm text-text-muted">{t('account.loadingAddresses', 'Loading addresses...')}</p>
+                            <p className="text-sm text-text-muted">{t('account.loadingAddresses')}</p>
                         </div>
                     ) : addresses.length > 0 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -361,12 +447,12 @@ export default function AccountSettings() {
                     ) : (
                         <div className="text-center py-12 border-2 border-dashed border-border-soft rounded-2xl">
                             <MapPin size={40} className="text-text-muted/30 mx-auto mb-3" />
-                            <p className="text-sm text-text-muted font-medium">{t('account.noAddresses', 'No saved addresses yet.')}</p>
+                            <p className="text-sm text-text-muted font-medium">{t('account.noAddresses')}</p>
                             <button 
                                 onClick={() => handleOpenAddressModal()}
                                 className="mt-4 text-xs font-bold text-brand-primary hover:underline"
                             >
-                                {t('account.addFirstAddress', 'Add your first shipping address')}
+                                {t('account.addFirstAddress')}
                             </button>
                         </div>
                     )}
@@ -379,7 +465,7 @@ export default function AccountSettings() {
                     <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden flex flex-col animate-scale-up">
                         <div className="px-6 py-4 border-b border-border-soft flex items-center justify-between bg-surface-bg">
                             <h3 className="font-bold text-text-primary">
-                                {editingAddress ? t('account.editAddress', 'Edit Address') : t('account.addNewAddress', 'Add New Address')}
+                                {editingAddress ? t('account.editAddress') : t('account.addNewAddress')}
                             </h3>
                             <button onClick={() => setIsAddressModalOpen(false)} className="p-1 text-text-muted hover:text-text-primary transition-colors">
                                 <X size={20} />
@@ -387,7 +473,7 @@ export default function AccountSettings() {
                         </div>
                         <form onSubmit={handleSaveAddress} className="p-6 space-y-4">
                             <div>
-                                <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.addressLabel', 'Address Label (e.g. Home, Office)')}</label>
+                                <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.addressLabel')}</label>
                                 <input 
                                     type="text" required value={addressForm.label} 
                                     onChange={(e) => setAddressForm({...addressForm, label: e.target.value})} className={inputClass} 
@@ -426,7 +512,7 @@ export default function AccountSettings() {
                                 </div>
                             </div>
                             <div>
-                                <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.streetAddress', 'Street Address')}</label>
+                                <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.streetAddress')}</label>
                                 <input 
                                     type="text" required value={addressForm.address} 
                                     onChange={(e) => setAddressForm({...addressForm, address: e.target.value})} className={inputClass} 
@@ -434,21 +520,21 @@ export default function AccountSettings() {
                             </div>
                             <div className="grid grid-cols-3 gap-4">
                                 <div className="col-span-1">
-                                    <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.city', 'City')}</label>
+                                    <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.city')}</label>
                                     <input 
                                         type="text" required value={addressForm.city} 
                                         onChange={(e) => setAddressForm({...addressForm, city: e.target.value})} className={inputClass} 
                                     />
                                 </div>
                                 <div className="col-span-1">
-                                    <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.state', 'State')}</label>
+                                    <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.state')}</label>
                                     <input 
                                         type="text" value={addressForm.state} 
                                         onChange={(e) => setAddressForm({...addressForm, state: e.target.value})} className={inputClass} 
                                     />
                                 </div>
                                 <div className="col-span-1">
-                                    <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.zip', 'ZIP Code')}</label>
+                                    <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.zip')}</label>
                                     <input 
                                         type="text" required value={addressForm.zip} 
                                         onChange={(e) => setAddressForm({...addressForm, zip: e.target.value})} className={inputClass} 
@@ -460,14 +546,21 @@ export default function AccountSettings() {
                                     type="button" onClick={() => setIsAddressModalOpen(false)}
                                     className="flex-1 py-3 text-sm font-bold text-text-muted bg-surface-bg rounded-xl hover:text-text-primary transition-colors"
                                 >
-                                    {t('common.cancel', 'Cancel')}
+                                    {t('common.cancel')}
                                 </button>
                                 <button 
                                     type="submit" disabled={isSavingAddress}
-                                    className="flex-[2] py-3 bg-brand-primary text-white text-sm font-bold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                                    className={`flex-[2] py-3 text-sm font-bold rounded-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2
+                                        ${saveSuccess === 'address' 
+                                            ? 'bg-gray-100 text-gray-600 border border-gray-200' 
+                                            : 'bg-brand-primary text-white hover:bg-brand-secondary'}`}
                                 >
-                                    {isSavingAddress && <Loader2 size={16} className="animate-spin" />}
-                                    {editingAddress ? t('account.updateAddress', 'Update Address') : t('account.saveAddress', 'Save Address')}
+                                    {isSavingAddress ? <Loader2 size={16} className="animate-spin" /> : null}
+                                    {saveSuccess === 'address' ? (
+                                        <><CheckCircle2 size={16} className="text-gray-500" /> {t('common.saved', 'Saved!')}</>
+                                    ) : (
+                                        editingAddress ? t('account.updateAddress') : t('account.saveAddress')
+                                    )}
                                 </button>
                             </div>
                         </form>
@@ -488,7 +581,7 @@ export default function AccountSettings() {
                         {loadingPayments ? (
                             <div className="flex flex-col items-center justify-center py-12">
                                 <Loader2 size={24} className="text-brand-primary animate-spin mb-2" />
-                                <p className="text-sm text-text-muted">Loading payment methods...</p>
+                                <p className="text-sm text-text-muted">{t('common.loading', 'Loading...')}</p>
                             </div>
                         ) : paymentMethods.length > 0 ? (
                             paymentMethods.map((card) => (
@@ -520,8 +613,8 @@ export default function AccountSettings() {
                                 <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
                                     <CreditCard size={24} className="text-text-muted" />
                                 </div>
-                                <h4 className="text-sm font-bold text-text-primary mb-1">No payment methods found</h4>
-                                <p className="text-xs text-text-muted max-w-[200px] mx-auto">Add a card or bank account to speed up your checkout process.</p>
+                                <h4 className="text-sm font-bold text-text-primary mb-1">{t('account.noPayments', 'No payment methods found')}</h4>
+                                <p className="text-xs text-text-muted max-w-[200px] mx-auto">{t('account.noPaymentsDesc', 'Add a card or bank account to speed up your checkout process.')}</p>
                             </div>
                         )}
                     </div>
@@ -553,12 +646,104 @@ export default function AccountSettings() {
                     ))}
                     <button 
                         onClick={handleSaveNotifications}
-                        disabled={isSaving}
-                        className="flex items-center gap-2 px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-70"
+                        disabled={isSaving || (!isNotificationsDirty && saveSuccess !== 'notifications')}
+                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all
+                            ${saveSuccess === 'notifications' 
+                                ? 'bg-gray-100 text-gray-600 border border-gray-200' 
+                                : isNotificationsDirty
+                                    ? 'bg-brand-primary text-white hover:bg-brand-secondary'
+                                    : 'bg-gray-50 text-gray-400 cursor-not-allowed'}
+                            disabled:opacity-70`}
                     >
-                        {isSaving && <Loader2 size={16} className="animate-spin" />}
-                        {t('account.savePrefs')}
+                        {isSaving ? <Loader2 size={16} className="animate-spin" /> : null}
+                        {saveSuccess === 'notifications' ? (
+                            <><CheckCircle2 size={16} className="text-gray-500" /> {t('common.saved', 'Saved!')}</>
+                        ) : (
+                            t('account.savePrefs')
+                        )}
                     </button>
+                </div>
+            )}
+
+            {/* Security Tab */}
+            {activeTab === 'security' && (
+                <div className="max-w-lg space-y-6">
+                    <div>
+                        <h3 className="text-lg font-semibold text-text-primary">{t('account.security', 'Security Settings')}</h3>
+                        <p className="text-sm text-text-muted mt-1">
+                            {t('account.securityDesc', 'Manage your account security and password.')}
+                        </p>
+                    </div>
+
+                    {error && (
+                        <div className="p-3 rounded-lg bg-red-50 text-red-600 text-sm border border-red-100">
+                            {error}
+                        </div>
+                    )}
+
+                    <div className="p-6 border border-border-soft rounded-2xl bg-surface-bg/30">
+                        <div className="flex items-center gap-4 mb-6">
+                            <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                                <Shield className="text-brand-primary" size={24} />
+                            </div>
+                            <div>
+                                <p className="text-sm font-bold text-text-primary">{t('account.password', 'Account Password')}</p>
+                                <p className="text-xs text-text-muted">{t('account.passwordLastChanged', 'Recommended to change password every 3 months')}</p>
+                            </div>
+                        </div>
+
+                        <div className="space-y-4">
+                            {user?.has_password !== false && (
+                                <div>
+                                    <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.currentPassword', 'Current Password')}</label>
+                                    <input
+                                        type="password"
+                                        placeholder={t('account.currentPasswordPlaceholder', 'Enter current password')}
+                                        value={passwordData.currentPassword}
+                                        onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
+                                        className={inputClass}
+                                    />
+                                </div>
+                            )}
+                            <div>
+                                <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.newPassword', 'New Password')}</label>
+                                <input
+                                    type="password"
+                                    placeholder={t('account.newPasswordPlaceholder', 'Min 8 characters')}
+                                    value={passwordData.password}
+                                    onChange={(e) => setPasswordData({ ...passwordData, password: e.target.value })}
+                                    className={inputClass}
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-medium text-text-muted mb-1.5">{t('account.confirmNewPassword', 'Confirm New Password')}</label>
+                                <input
+                                    type="password"
+                                    placeholder={t('account.confirmNewPasswordPlaceholder', 'Repeat new password')}
+                                    value={passwordData.confirmPassword}
+                                    onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
+                                    className={inputClass}
+                                />
+                            </div>
+                            <div className="pt-2">
+                                <button
+                                    onClick={handleCompletePasswordReset}
+                                    disabled={isSaving || (user?.has_password !== false && !passwordData.currentPassword) || !passwordData.password}
+                                    className="w-full py-3 bg-brand-primary text-white font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-50"
+                                >
+                                    {isSaving ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
+                                    {t('account.updatePassword', 'Update Password')}
+                                </button>
+                            </div>
+                        </div>
+
+                        {saveSuccess === 'security' && (
+                            <div className="mt-4 p-3 bg-green-50 border border-green-100 rounded-xl text-green-700 text-sm flex items-center gap-2">
+                                <CheckCircle2 size={16} />
+                                {t('account.passwordUpdated', 'Password updated successfully!')}
+                            </div>
+                        )}
+                    </div>
                 </div>
             )}
         </div>

@@ -28,6 +28,7 @@ export default function StorefrontBuilder() {
     const redoStack = useBuilderStore((s) => s.redoStack);
     const addWidget = useBuilderStore((s) => s.addWidget);
     const reorderWidgets = useBuilderStore((s) => s.reorderWidgets);
+    const [saveSuccess, setSaveSuccess] = React.useState(false);
 
     const { user } = useAuth();
 
@@ -64,6 +65,8 @@ export default function StorefrontBuilder() {
         const config = getConfig();
         await saveStorefrontConfig(sellerId, config);
         markSaved();
+        setSaveSuccess(true);
+        setTimeout(() => setSaveSuccess(false), 3000);
     }, [getConfig, markSaved, sellerId]);
 
     // Load saved config on mount
@@ -151,11 +154,25 @@ export default function StorefrontBuilder() {
                     </button>
                     <button
                         onClick={handleSave}
-                        className={`flex items-center gap-1.5 px-4 py-2 text-sm font-semibold text-white rounded-lg transition-colors
-                            ${isDirty ? 'bg-brand-primary hover:bg-brand-primary' : 'bg-gray-300 cursor-default'}`}
+                        className={`flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-lg transition-all
+                            ${saveSuccess 
+                                ? 'bg-gray-100 text-gray-600 border border-gray-200' 
+                                : (isDirty ? 'bg-brand-primary text-white hover:bg-brand-secondary' : 'bg-gray-50 text-gray-400 cursor-default')
+                            }`}
                     >
-                        <Save size={14} />
-                        <span className="hidden sm:inline">{isDirty ? 'Save' : 'Saved'}</span>
+                        {saveSuccess ? (
+                            <>
+                                <span className="flex items-center gap-1.5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-gray-500"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    <span className="hidden sm:inline">Saved!</span>
+                                </span>
+                            </>
+                        ) : (
+                            <>
+                                <Save size={14} />
+                                <span className="hidden sm:inline">{isDirty ? 'Save' : 'Saved'}</span>
+                            </>
+                        )}
                     </button>
                 </div>
             </header>

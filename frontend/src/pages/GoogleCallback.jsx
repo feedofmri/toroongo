@@ -15,10 +15,38 @@ export default function GoogleCallback() {
         const processCallback = async () => {
             processingRef.current = true;
             try {
-                await handleGoogleCallback(location.search);
-                navigate('/'); // Redirect to home on success
+                const savedRole = localStorage.getItem('auth_role') || 'buyer';
+                const savedIntent = localStorage.getItem('auth_intent') || 'signup';
+                const queryParams = location.search + 
+                    (location.search.includes('?') ? '&' : '?') + 
+                    `role=${savedRole}&intent=${savedIntent}`;
+                
+                const user = await handleGoogleCallback(queryParams);
+                
+                const savedRedirect = localStorage.getItem('auth_redirect');
+                localStorage.removeItem('auth_role');
+                localStorage.removeItem('auth_intent');
+
+                // Check if profile is complete
+                const isSellerMissingInfo = user.role === 'seller' && (!user.store_name || !user.country);
+                const isBuyerMissingInfo = user.role === 'buyer' && !user.country;
+
+                if (isSellerMissingInfo || isBuyerMissingInfo) {
+                    const redirectParam = savedRedirect ? `&redirect=${encodeURIComponent(savedRedirect)}` : '';
+                    navigate(`/signup?complete_profile=true${redirectParam}`);
+                    return;
+                }
+
+                if (savedRedirect) {
+                    localStorage.removeItem('auth_redirect');
+                    navigate(savedRedirect);
+                } else {
+                    navigate('/'); // Redirect to home on success
+                }
             } catch (error) {
-                navigate('/login?error=google_failed');
+                console.error('Google auth error:', error);
+                const errorMessage = error.response?.data?.message || error.message || 'google_failed';
+                navigate(`/login?error=${encodeURIComponent(errorMessage)}`);
             }
         };
 

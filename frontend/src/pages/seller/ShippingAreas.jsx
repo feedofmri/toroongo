@@ -22,6 +22,19 @@ export default function ShippingAreas() {
   const [editingArea, setEditingArea] = useState(null);
   const [form, setForm] = useState({ ...emptyForm, country: user?.country || 'BD' });
   const [error, setError] = useState(null);
+  const [saveSuccess, setSaveSuccess] = useState(false);
+
+  const isDirty = React.useMemo(() => {
+    if (editingArea) {
+      return form.name !== (editingArea.name || "") ||
+             form.country !== (editingArea.country || "BD") ||
+             Number(form.fee) !== Number(editingArea.fee || 0) ||
+             form.is_active !== !!editingArea.is_active;
+    }
+    return form.name !== "" ||
+           form.fee !== "";
+  }, [form, editingArea]);
+
 
   const loadAreas = async () => {
     setLoading(true);
@@ -81,6 +94,8 @@ export default function ShippingAreas() {
       setError(err.message || "Failed to save shipping area.");
     } finally {
       setSaving(false);
+      setSaveSuccess(true);
+      setTimeout(() => setSaveSuccess(false), 3000);
     }
   };
 
@@ -101,9 +116,9 @@ export default function ShippingAreas() {
   return (
     <div className="animate-fade-in space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-text-primary">Shipping Areas</h1>
+        <h1 className="text-2xl font-bold text-text-primary">{t('sellerShipping.title', 'Shipping Areas')}</h1>
         <p className="text-sm text-text-muted mt-1">
-          Create delivery zones and set a fee for each area.
+          {t('sellerShipping.subtitle', 'Create delivery zones and set a fee for each area.')}
         </p>
       </div>
 
@@ -114,7 +129,7 @@ export default function ShippingAreas() {
         >
           <div className="flex items-center gap-2 text-text-primary font-semibold">
             <MapPin size={16} className="text-brand-primary" />
-            {editingArea ? "Edit Area" : "New Area"}
+            {editingArea ? t('sellerShipping.form.editTitle', 'Edit Area') : t('sellerShipping.form.addTitle', 'New Area')}
           </div>
 
           {error && (
@@ -129,7 +144,7 @@ export default function ShippingAreas() {
               <input
                 value={form.name}
                 onChange={(e) => handleChange("name", e.target.value)}
-                placeholder="Area name (e.g. Dhaka City)"
+                placeholder={t('sellerShipping.form.namePlaceholder', 'Area name (e.g. Dhaka City)')}
                 className="w-full pl-10 pr-4 py-3 border border-border-soft rounded-xl text-sm outline-none focus:border-brand-primary"
                 required
               />
@@ -141,7 +156,7 @@ export default function ShippingAreas() {
                 onChange={(e) =>
                   handleChange("country", e.target.value.toUpperCase())
                 }
-                placeholder="Country code (e.g. BD)"
+                placeholder={t('sellerShipping.form.countryPlaceholder', 'Country code (e.g. BD)')}
                 className="w-full pl-10 pr-4 py-3 border border-border-soft rounded-xl text-sm outline-none focus:border-brand-primary"
                 required
                 maxLength={5}
@@ -159,7 +174,7 @@ export default function ShippingAreas() {
                 step="0.01"
                 value={form.fee}
                 onChange={(e) => handleChange("fee", e.target.value)}
-                placeholder="Delivery Fee"
+                placeholder={t('sellerShipping.form.feePlaceholder', 'Delivery Fee')}
                 className="w-full pl-14 pr-4 py-3 border border-border-soft rounded-xl text-sm outline-none focus:border-brand-primary"
                 required
               />
@@ -171,22 +186,29 @@ export default function ShippingAreas() {
                 onChange={(e) => handleChange("is_active", e.target.checked)}
                 className="accent-brand-primary w-4 h-4"
               />
-              Active delivery zone
+              {t('sellerShipping.form.active', 'Active delivery zone')}
             </label>
           </div>
 
           <div className="flex gap-3">
             <button
               type="submit"
-              disabled={saving}
-              className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 bg-brand-primary text-white rounded-xl font-semibold hover:bg-brand-secondary transition-colors disabled:opacity-50"
+              disabled={saving || (!isDirty && saveSuccess !== true)}
+              className={`flex-1 inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-semibold transition-all
+                ${saveSuccess 
+                    ? 'bg-gray-100 text-gray-600 border border-gray-200' 
+                    : isDirty 
+                        ? 'bg-brand-primary text-white hover:bg-brand-secondary'
+                        : 'bg-gray-50 text-gray-400 cursor-not-allowed'}`}
             >
               {saving ? (
                 <Loader2 size={16} className="animate-spin" />
+              ) : saveSuccess ? (
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-gray-500"><polyline points="20 6 9 17 4 12"></polyline></svg>
               ) : (
                 <Plus size={16} />
               )}
-              {editingArea ? "Update Area" : "Save Area"}
+              {saveSuccess ? t('common.saved', 'Saved!') : (editingArea ? t('sellerShipping.form.updateBtn', 'Update Area') : t('sellerShipping.form.saveBtn', 'Save Area'))}
             </button>
             {editingArea && (
               <button
@@ -194,7 +216,7 @@ export default function ShippingAreas() {
                 onClick={resetForm}
                 className="px-4 py-3 border border-border-soft rounded-xl font-semibold text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors"
               >
-                Cancel
+                {t('common.cancel', 'Cancel')}
               </button>
             )}
           </div>
@@ -202,20 +224,20 @@ export default function ShippingAreas() {
 
         <div className="bg-white border border-border-soft rounded-2xl p-5">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="font-semibold text-text-primary">Saved Areas</h2>
+            <h2 className="font-semibold text-text-primary">{t('sellerShipping.table.savedTitle', 'Saved Areas')}</h2>
             <span className="text-xs text-text-muted">
-              {areas.length} total
+              {t('sellerShipping.table.totalCount', '{{count}} total', { count: areas.length })}
             </span>
           </div>
 
           {loading ? (
             <div className="py-16 text-center text-text-muted">
               <Loader2 size={20} className="animate-spin mx-auto mb-2" />
-              Loading areas...
+              {t('sellerShipping.table.loading', 'Loading areas...')}
             </div>
           ) : areas.length === 0 ? (
             <div className="py-16 text-center text-text-muted border border-dashed border-border-soft rounded-xl">
-              No shipping areas yet.
+              {t('sellerShipping.table.noAreas', 'No shipping areas yet.')}
             </div>
           ) : (
             <div className="space-y-3">
@@ -232,7 +254,7 @@ export default function ShippingAreas() {
                       <span
                         className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${area.is_active ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"}`}
                       >
-                        {area.is_active ? "Active" : "Disabled"}
+                        {area.is_active ? t('sellerShipping.status.active', 'Active') : t('sellerShipping.status.disabled', 'Disabled')}
                       </span>
                     </div>
                     <p className="text-sm text-text-muted flex items-center gap-1.5 mt-0.5">

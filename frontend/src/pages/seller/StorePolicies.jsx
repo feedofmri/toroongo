@@ -1,99 +1,85 @@
 import React from 'react';
 import { useOutletContext } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Truck, RotateCcw, HelpCircle, ShieldCheck } from 'lucide-react';
 
-const POLICIES = [
-    {
-        icon: Truck,
-        title: 'Shipping Policy',
-        content: [
-            'Processing time: 1-3 business days',
-            'Standard Shipping: 5-7 business days',
-            'Express Shipping: 2-3 business days',
-            'Free standard shipping on orders over $50',
-            'We ship to all 50 US states and select international destinations',
-            'Tracking information will be provided via email once your order ships',
-        ],
-    },
-    {
-        icon: RotateCcw,
-        title: 'Return & Refund Policy',
-        content: [
-            'Items can be returned within 30 days of delivery',
-            'Products must be unused, unworn, and in original packaging',
-            'Refunds are processed within 5-7 business days after receiving the return',
-            'Return shipping costs are the responsibility of the buyer unless the item is defective',
-            'Sale items are eligible for store credit only',
-        ],
-    },
-    {
-        icon: ShieldCheck,
-        title: 'Warranty',
-        content: [
-            'All products come with a standard manufacturer warranty',
-            'Warranty period varies by product category',
-            'Defective items can be replaced free of charge within the warranty period',
-            'Contact us with your order number for warranty claims',
-        ],
-    },
-    {
-        icon: HelpCircle,
-        title: 'FAQ',
-        content: [
-            'Q: How do I track my order? — A: Once shipped, you will receive an email with tracking info.',
-            'Q: Can I cancel my order? — A: Orders can be cancelled within 24 hours of placement.',
-            'Q: Do you offer gift wrapping? — A: Yes! Select the gift wrap option during checkout.',
-            'Q: How do I contact support? — A: Use the message feature on Toroongo to reach us directly.',
-        ],
-    },
-];
-
 export default function StorePolicies() {
+    const { t } = useTranslation();
     const { seller } = useOutletContext();
+
+    const POLICIES = [
+        {
+            icon: Truck,
+            title: t('storefront.policies.shipping.title'),
+            key: 'shipping',
+            content: t('storefront.policies.shipping.defaults', { returnObjects: true }),
+        },
+        {
+            icon: RotateCcw,
+            title: t('storefront.policies.returns.title'),
+            key: 'returns',
+            content: t('storefront.policies.returns.defaults', { returnObjects: true }),
+        },
+        {
+            icon: ShieldCheck,
+            title: t('storefront.policies.warranty.title'),
+            key: 'warranty',
+            content: t('storefront.policies.warranty.defaults', { returnObjects: true }),
+        },
+        {
+            icon: HelpCircle,
+            title: t('storefront.policies.faq.title'),
+            key: 'faq',
+            content: t('storefront.policies.faq.defaults', { returnObjects: true }),
+        },
+    ];
     
-    // Merge custom policies with defaults
+    // Only show policies that the seller has explicitly provided
     const displayPolicies = POLICIES.map(policy => {
-        const key = policy.title.toLowerCase().includes('shipping') ? 'shipping' :
-                    policy.title.toLowerCase().includes('return') ? 'returns' :
-                    policy.title.toLowerCase().includes('warranty') ? 'warranty' :
-                    policy.title.toLowerCase().includes('faq') ? 'faq' : null;
-        
-        const customContent = key ? seller.seller_settings?.policies?.[key] : null;
+        const customContent = seller.seller_settings?.policies?.[policy.key];
         
         return {
             ...policy,
-            // If custom content exists, split by newline and use as list, otherwise use defaults
-            content: customContent ? customContent.split('\n').filter(line => line.trim() !== '') : policy.content
+            content: customContent ? customContent.split('\n').filter(line => line.trim() !== '') : []
         };
-    });
+    }).filter(policy => policy.content.length > 0);
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="max-w-3xl">
-                <h2 className="text-2xl font-bold text-text-primary mb-6">Store Policies</h2>
+                <h2 className="text-2xl font-bold text-text-primary mb-6">{t("storefront.policies.title")}</h2>
                 <p className="text-text-muted text-sm mb-8">
-                    {seller.store_name || seller.name}'s policies for shipping, returns, warranty, and frequently asked questions.
+                    {t("storefront.policies.description", { store: seller.store_name || seller.name })}
                 </p>
 
                 <div className="space-y-6">
-                    {displayPolicies.map((policy) => (
-                        <div key={policy.title} className="border border-border-soft rounded-2xl overflow-hidden shadow-sm">
-                            <div className="px-5 py-4 bg-surface-bg border-b border-border-soft flex items-center gap-3">
-                                <policy.icon size={18} style={{ color: 'var(--seller-brand)' }} />
-                                <h3 className="font-semibold text-text-primary">{policy.title}</h3>
+                    {displayPolicies.length > 0 ? (
+                        displayPolicies.map((policy) => (
+                            <div key={policy.title} className="border border-border-soft rounded-2xl overflow-hidden shadow-sm">
+                                <div className="px-5 py-4 bg-surface-bg border-b border-border-soft flex items-center gap-3">
+                                    <policy.icon size={18} style={{ color: 'var(--seller-brand)' }} />
+                                    <h3 className="font-semibold text-text-primary">{policy.title}</h3>
+                                </div>
+                                <div className="p-5 bg-white">
+                                    <ul className="space-y-3">
+                                        {Array.isArray(policy.content) && policy.content.map((item, idx) => (
+                                            <li key={idx} className="flex gap-3 text-sm text-text-muted leading-relaxed">
+                                                <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ backgroundColor: 'var(--seller-brand)' }} />
+                                                {item}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
                             </div>
-                            <div className="p-5 bg-white">
-                                <ul className="space-y-3">
-                                    {policy.content.map((item, idx) => (
-                                        <li key={idx} className="flex gap-3 text-sm text-text-muted leading-relaxed">
-                                            <span className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0" style={{ backgroundColor: 'var(--seller-brand)' }} />
-                                            {item}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
+                        ))
+                    ) : (
+                        <div className="p-12 border-2 border-dashed border-border-soft rounded-3xl text-center bg-white">
+                            <HelpCircle size={40} className="mx-auto mb-4 text-text-muted/30" />
+                            <p className="text-text-muted text-sm font-medium">
+                                {t("storefront.policies.noPolicies", "This store hasn't published any specific policies yet.")}
+                            </p>
                         </div>
-                    ))}
+                    )}
                 </div>
             </div>
         </div>

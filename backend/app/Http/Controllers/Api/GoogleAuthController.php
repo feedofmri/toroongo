@@ -70,6 +70,14 @@ class GoogleAuthController extends Controller
 
         try {
             $user = User::where('email', $googleUser->email)->first();
+            $intent = $request->query('intent', 'signup');
+
+            if (!$user && $intent === 'login') {
+                return response()->json([
+                    'message' => 'No account found with this Google email. Please sign up first.',
+                    'error_code' => 'ACCOUNT_NOT_FOUND'
+                ], 404);
+            }
 
             if ($user) {
                 \Log::info('Existing user found: ' . $user->email);
@@ -91,13 +99,19 @@ class GoogleAuthController extends Controller
                     $slug = $slug . '-' . Str::random(5);
                 }
 
+                $role = $request->query('role', 'buyer');
+                // Validate role
+                if (!in_array($role, ['buyer', 'seller'])) {
+                    $role = 'buyer';
+                }
+
                 $user = User::create([
                     'name' => $googleUser->name,
                     'email' => $googleUser->email,
                     'google_id' => $googleUser->id,
                     'provider' => 'google',
                     'password' => null,
-                    'role' => 'buyer',
+                    'role' => $role,
                     'avatar' => $googleUser->avatar,
                     'joined_date' => now(),
                     'email_verified_at' => now(),

@@ -156,7 +156,7 @@ export default function ShopsPage() {
 
                 {/* Grid View */}
                 {viewMode === 'grid' && filteredSellers.length > 0 && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                    <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
                         {filteredSellers.map((seller) => (
                             <Link
                                 key={seller.id}
@@ -199,7 +199,7 @@ export default function ShopsPage() {
                                             <span className="text-xs font-semibold text-text-primary">{Number(seller.rating || 0).toFixed(1)}</span>
                                         </div>
                                         <span className="text-[11px] text-text-muted flex items-center gap-1">
-                                            <Package size={11} /> {seller.total_products || 0} products
+                                            <Package size={11} /> {t('product.productsCount', { count: seller.total_products || 0 })}
                                         </span>
                                     </div>
                                 </div>
@@ -235,11 +235,11 @@ export default function ShopsPage() {
                                             <Star size={11} className="fill-amber-400 text-amber-400" />
                                             <span className="text-xs font-semibold text-text-primary">{Number(seller.rating || 0).toFixed(1)}</span>
                                         </div>
-                                        <span className="text-[11px] text-text-muted">{seller.total_products || 0} products</span>
+                                        <span className="text-[11px] text-text-muted">{t('product.productsCount', { count: seller.total_products || 0 })}</span>
                                     </div>
                                 </div>
                                 <div className="hidden sm:block text-xs font-medium text-brand-primary group-hover:translate-x-0.5 transition-transform">
-                                    Visit →
+                                    {t('common.visit')} →
                                 </div>
                             </Link>
                         ))}

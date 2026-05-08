@@ -7,6 +7,7 @@ import { useSubscription } from '../../context/SubscriptionContext';
 import { userService } from '../../services';
 import UpgradePrompt from '../../components/subscription/UpgradePrompt';
 import CountrySelector from '../../components/ui/CountrySelector';
+import MediaUploader from '../../components/ui/MediaUploader';
 import { setBuyerCurrencyCode } from '../../utils/currency';
 import { RESERVED_SLUGS, PLATFORM_CONFIG } from '../../config/constants';
 
@@ -21,19 +22,19 @@ import { RESERVED_SLUGS, PLATFORM_CONFIG } from '../../config/constants';
  */
 function checkSlugAvailability(slug, currentSellerId, sellersList) {
     if (!slug || slug.length < 3) {
-        return { available: false, reason: 'Must be at least 3 characters' };
+        return { available: false, reason: t('sellerSettings.slug.errorMin', 'Must be at least 3 characters') };
     }
     if (slug.length > 30) {
-        return { available: false, reason: 'Must be 30 characters or fewer' };
+        return { available: false, reason: t('sellerSettings.slug.errorMax', 'Must be 30 characters or fewer') };
     }
     if (!/^[a-z0-9][a-z0-9-]*[a-z0-9]$/.test(slug) && slug.length > 1) {
-        return { available: false, reason: 'Only lowercase letters, numbers, and hyphens. Cannot start/end with a hyphen.' };
+        return { available: false, reason: t('sellerSettings.slug.errorChars', 'Only lowercase letters, numbers, and hyphens. Cannot start/end with a hyphen.') };
     }
     if (/--/.test(slug)) {
-        return { available: false, reason: 'Cannot contain consecutive hyphens' };
+        return { available: false, reason: t('sellerSettings.slug.errorHyphens', 'Cannot contain consecutive hyphens') };
     }
     if (RESERVED_SLUGS.includes(slug)) {
-        return { available: false, reason: 'This username is reserved' };
+        return { available: false, reason: t('sellerSettings.slug.errorReserved', 'This username is reserved') };
     }
     // Check against existing sellers
     const takenBy = sellersList.find((s) => s.slug === slug);
@@ -43,9 +44,9 @@ function checkSlugAvailability(slug, currentSellerId, sellersList) {
             ? parseInt(currentSellerId.replace('seller_', ''))
             : parseInt(currentSellerId);
         if (takenBy.id === currentNumId) {
-            return { available: true, reason: 'This is your current username' };
+            return { available: true, reason: t('sellerSettings.slug.current', 'This is your current username') };
         }
-        return { available: false, reason: `Already taken by "${takenBy.name}"` };
+        return { available: false, reason: t('sellerSettings.slug.takenBy', 'Already taken by "{{name}}"', { name: takenBy.name }) };
     }
     return { available: true };
 }
@@ -65,7 +66,7 @@ export default function SellerSettings() {
 
     // Shop username state
     const [shopUsername, setShopUsername] = useState(currentSlug);
-    const [slugStatus, setSlugStatus] = useState({ available: true, reason: 'This is your current username' });
+    const [slugStatus, setSlugStatus] = useState({ available: true, reason: t('sellerSettings.slug.current', 'This is your current username') });
     const [isChecking, setIsChecking] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
     const [allSellers, setAllSellers] = useState([]);
@@ -116,12 +117,7 @@ export default function SellerSettings() {
             warranty: user?.seller_settings?.policies?.warranty || '',
             faq: user?.seller_settings?.policies?.faq || '',
         },
-        benefits: user?.seller_settings?.benefits || [
-            { title: t('sellerSettings.content.defaultBenefits.quality.title', 'Quality Guaranteed'), desc: t('sellerSettings.content.defaultBenefits.quality.desc', 'Every product undergoes rigorous quality checks before reaching you.') },
-            { title: t('sellerSettings.content.defaultBenefits.shipping.title', 'Fast & Reliable Shipping'), desc: t('sellerSettings.content.defaultBenefits.shipping.desc', 'We partner with trusted carriers to get your order to you quickly.') },
-            { title: t('sellerSettings.content.defaultBenefits.support.title', 'Exceptional Support'), desc: t('sellerSettings.content.defaultBenefits.support.desc', 'Our dedicated team is always ready to help with any questions or concerns.') },
-            { title: t('sellerSettings.content.defaultBenefits.returns.title', 'Easy Returns'), desc: t('sellerSettings.content.defaultBenefits.returns.desc', 'Not satisfied? Return any product within 30 days for a full refund.') },
-        ]
+        benefits: user?.seller_settings?.benefits || []
     });
     const [saveContentLoading, setSaveContentLoading] = useState(false);
     const [countryData, setCountryData] = useState({
@@ -130,6 +126,63 @@ export default function SellerSettings() {
         country_custom_name: user?.country_custom_name || '',
     });
     const [saveCountryLoading, setSaveCountryLoading] = useState(false);
+    const [saveSuccess, setSaveSuccess] = useState(null);
+    const [passwordData, setPasswordData] = useState({ currentPassword: '', password: '', confirmPassword: '' });
+    const [securityError, setSecurityError] = useState('');
+    const { changePassword } = useAuth();
+
+    // Dirty state checks
+    const isStoreInfoDirty = React.useMemo(() => {
+        return storeInfo.store_name !== (user?.store_name || user?.name || '') ||
+               storeInfo.description !== (user?.description || '') ||
+               storeInfo.email !== (user?.email || '') ||
+               storeInfo.phone !== (user?.phone || '') ||
+               storeInfo.location !== (user?.location || '');
+    }, [storeInfo, user]);
+
+    const isBrandingDirty = React.useMemo(() => {
+        return branding.brand_color !== (user?.brand_color || '#000000') ||
+               branding.logo !== (user?.logo || '') ||
+               branding.banner !== (user?.banner || '');
+    }, [branding, user]);
+
+    const isCountryDirty = React.useMemo(() => {
+        return countryData.country !== (user?.country || '') ||
+               countryData.currency_code !== (user?.currency_code || 'USD') ||
+               countryData.country_custom_name !== (user?.country_custom_name || '');
+    }, [countryData, user]);
+
+    const isShippingDirty = React.useMemo(() => {
+        const s = user?.seller_settings || {};
+        return shipping.processing_time !== (s.processing_time || 2) ||
+               shipping.free_shipping_threshold !== (s.free_shipping_threshold || 50) ||
+               shipping.standard_shipping_rate !== (s.standard_shipping_rate || 5.99) ||
+               shipping.offer_express_shipping !== (s.offer_express_shipping !== undefined ? s.offer_express_shipping : true);
+    }, [shipping, user]);
+
+    const isNotificationsDirty = React.useMemo(() => {
+        const n = user?.seller_settings?.notifications || {};
+        return notifications.new_orders !== (n.new_orders !== undefined ? n.new_orders : true) ||
+               notifications.order_updates !== (n.order_updates !== undefined ? n.order_updates : true) ||
+               notifications.customer_messages !== (n.customer_messages !== undefined ? n.customer_messages : true) ||
+               notifications.low_stock_alerts !== (n.low_stock_alerts !== undefined ? n.low_stock_alerts : true) ||
+               notifications.payout_notifications !== (n.payout_notifications !== undefined ? n.payout_notifications : false);
+    }, [notifications, user]);
+
+    const isContentDirty = React.useMemo(() => {
+        const c = user?.seller_settings || {};
+        const p = c.policies || {};
+        const b = c.benefits || [];
+        return storeContent.about_content !== (c.about_content || '') ||
+               storeContent.policies.shipping !== (p.shipping || '') ||
+               storeContent.policies.returns !== (p.returns || '') ||
+               storeContent.policies.warranty !== (p.warranty || '') ||
+               storeContent.policies.faq !== (p.faq || '') ||
+               JSON.stringify(storeContent.benefits) !== JSON.stringify(b);
+    }, [storeContent, user]);
+
+    const isUsernameDirty = shopUsername !== currentSlug;
+
 
     const handleSaveStoreInfo = async () => {
         setSaveStoreInfoLoading(true);
@@ -140,6 +193,8 @@ export default function SellerSettings() {
             console.error('Failed to save store info', e);
         } finally {
             setSaveStoreInfoLoading(false);
+            setSaveSuccess('store');
+            setTimeout(() => setSaveSuccess(null), 3000);
         }
     };
 
@@ -152,6 +207,8 @@ export default function SellerSettings() {
             console.error('Failed to save branding', e);
         } finally {
             setSaveBrandingLoading(false);
+            setSaveSuccess('branding');
+            setTimeout(() => setSaveSuccess(null), 3000);
         }
     };
 
@@ -169,6 +226,8 @@ export default function SellerSettings() {
             console.error(`Failed to save ${settingsType}`, e);
         } finally {
             setLoader(false);
+            setSaveSuccess(settingsType);
+            setTimeout(() => setSaveSuccess(null), 3000);
         }
     };
 
@@ -178,7 +237,7 @@ export default function SellerSettings() {
         setShopUsername(slug);
         
         if (!slug) {
-            setSlugStatus({ available: false, reason: 'Username cannot be empty' });
+            setSlugStatus({ available: false, reason: t('sellerSettings.slug.errorEmpty', 'Username cannot be empty') });
             return;
         }
 
@@ -194,7 +253,7 @@ export default function SellerSettings() {
             const result = await userService.checkSlug(slug, currentSellerId);
             setSlugStatus({ 
                 available: result.available, 
-                reason: result.available ? (slug === currentSlug ? 'This is your current username' : 'Username is available!') : 'Already taken' 
+                reason: result.available ? (slug === currentSlug ? t('sellerSettings.slug.current', 'This is your current username') : t('sellerSettings.username.available', 'Username is available!')) : t('sellerSettings.slug.taken', 'Already taken') 
             });
         } catch (error) {
             console.error('Slug check failed:', error);
@@ -209,12 +268,14 @@ export default function SellerSettings() {
         try {
             const updatedUser = await userService.updateProfile(user.id, { slug: shopUsername });
             updateUser(updatedUser);
-            setSlugStatus({ available: true, reason: 'This is your current username' });
+            setSlugStatus({ available: true, reason: t('sellerSettings.slug.current', 'This is your current username') });
         } catch (error) {
             console.error('Failed to update username:', error);
-            setSlugStatus({ available: false, reason: error.response?.data?.message || 'Failed to update username.' });
+            setSlugStatus({ available: false, reason: error.response?.data?.message || t('sellerSettings.username.updateError', 'Failed to update username.') });
         } finally {
             setIsSaving(false);
+            setSaveSuccess('username');
+            setTimeout(() => setSaveSuccess(null), 3000);
         }
     };
 
@@ -232,6 +293,8 @@ export default function SellerSettings() {
             console.error('Failed to save country', e);
         } finally {
             setSaveCountryLoading(false);
+            setSaveSuccess('country_currency');
+            setTimeout(() => setSaveSuccess(null), 3000);
         }
     };
 
@@ -245,7 +308,32 @@ export default function SellerSettings() {
         { key: 'customcode', label: t('sellerSettings.tabs.customcode', 'Custom Code'), icon: Code, locked: !canAccess('css') },
         { key: 'shipping', label: t('sellerSettings.tabs.shipping', 'Shipping'), icon: Globe },
         { key: 'notifications', label: t('sellerSettings.tabs.notifications', 'Notifications'), icon: Bell },
+        { key: 'security', label: t('sellerSettings.tabs.security', 'Security'), icon: Shield },
     ];
+
+    const handleCompletePasswordReset = async () => {
+        setIsSaving(true);
+        setSecurityError('');
+        if (passwordData.password !== passwordData.confirmPassword) {
+            setSecurityError(t('auth.errorPasswordMatch'));
+            setIsSaving(false);
+            return;
+        }
+        try {
+            await changePassword({
+                current_password: passwordData.currentPassword,
+                password: passwordData.password,
+                password_confirmation: passwordData.confirmPassword
+            });
+            setPasswordData({ currentPassword: '', password: '', confirmPassword: '' });
+            setSaveSuccess('security');
+            setTimeout(() => setSaveSuccess(null), 3000);
+        } catch (err) {
+            setSecurityError(err.message || 'Failed to change password');
+        } finally {
+            setIsSaving(false);
+        }
+    };
 
     const inputClass = `w-full px-4 py-3 text-sm bg-white border border-border-soft rounded-xl
     focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-colors`;
@@ -341,15 +429,21 @@ export default function SellerSettings() {
 
                         <button
                             onClick={handleClaimUsername}
-                            disabled={!slugStatus.available || shopUsername === currentSlug || isSaving}
-                            className={`mt-4 px-5 py-2.5 text-sm font-semibold rounded-xl transition-colors
-                                ${slugStatus.available && shopUsername !== currentSlug && !isSaving
-                                    ? 'bg-brand-primary text-white hover:bg-brand-secondary'
-                                    : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                            disabled={!slugStatus.available || !isUsernameDirty || isSaving}
+                            className={`mt-4 px-5 py-2.5 text-sm font-semibold rounded-xl transition-all
+                                ${saveSuccess === 'username' 
+                                    ? 'bg-gray-100 text-gray-600 border border-gray-200' 
+                                    : (slugStatus.available && isUsernameDirty && !isSaving
+                                        ? 'bg-brand-primary text-white hover:bg-brand-secondary'
+                                        : 'bg-gray-50 text-gray-400 cursor-not-allowed')
                                 }`}
                         >
                             {isSaving ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
-                            {isSaving ? 'Claiming...' : shopUsername === currentSlug ? t('sellerSettings.username.currentBtn', 'Current Username') : t('sellerSettings.username.claim', 'Claim Username')}
+                            {saveSuccess === 'username' ? (
+                                <span className="flex items-center gap-2"><CheckCircle2 size={16} className="text-gray-500" /> {t('common.saved', 'Saved!')}</span>
+                            ) : (
+                                isSaving ? t('sellerSettings.username.claiming', 'Claiming...') : shopUsername === currentSlug ? t('sellerSettings.username.currentBtn', 'Current Username') : t('sellerSettings.username.claim', 'Claim Username')
+                            )}
                         </button>
                     </div>
 
@@ -379,11 +473,25 @@ export default function SellerSettings() {
                         </div>
                         <div>
                             <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.storeInfo.location', 'Location')}</label>
-                            <input type="text" value={storeInfo.location} onChange={(e) => setStoreInfo({...storeInfo, location: e.target.value})} className={inputClass} placeholder="e.g. United States, New York" />
+                            <input type="text" value={storeInfo.location} onChange={(e) => setStoreInfo({...storeInfo, location: e.target.value})} className={inputClass} placeholder={t('sellerSettings.storeInfo.locationPlaceholder', 'e.g. United States, New York')} />
                         </div>
-                        <button onClick={handleSaveStoreInfo} disabled={saveStoreInfoLoading} className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-70 disabled:cursor-not-allowed">
+                        <button 
+                            onClick={handleSaveStoreInfo} 
+                            disabled={saveStoreInfoLoading || (!isStoreInfoDirty && saveSuccess !== 'store')} 
+                            className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all
+                                ${saveSuccess === 'store' 
+                                    ? 'bg-gray-100 text-gray-600 border border-gray-200' 
+                                    : isStoreInfoDirty 
+                                        ? 'bg-brand-primary text-white hover:bg-brand-secondary'
+                                        : 'bg-gray-50 text-gray-400 cursor-not-allowed'}
+                                disabled:opacity-70`}
+                        >
                             {saveStoreInfoLoading ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
-                            {t('sellerSettings.storeInfo.save', 'Save Store Info')}
+                            {saveSuccess === 'store' ? (
+                                <span className="flex items-center gap-2"><CheckCircle2 size={16} className="text-gray-500" /> {t('common.saved', 'Saved!')}</span>
+                            ) : (
+                                t('sellerSettings.storeInfo.save', 'Save Store Info')
+                            )}
                         </button>
                     </div>
                 </div>
@@ -403,11 +511,21 @@ export default function SellerSettings() {
                     <CountrySelector value={countryData} onChange={setCountryData} />
                     <button
                         onClick={handleSaveCountry}
-                        disabled={saveCountryLoading}
-                        className="flex items-center gap-2 px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-70"
+                        disabled={saveCountryLoading || (!isCountryDirty && saveSuccess !== 'country_currency')}
+                        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all
+                            ${saveSuccess === 'country_currency' 
+                                ? 'bg-gray-100 text-gray-600 border border-gray-200' 
+                                : isCountryDirty
+                                    ? 'bg-brand-primary text-white hover:bg-brand-secondary'
+                                    : 'bg-gray-50 text-gray-400 cursor-not-allowed'}
+                            disabled:opacity-70`}
                     >
                         {saveCountryLoading && <Loader2 size={16} className="animate-spin" />}
-                        {t('sellerSettings.countryCurrency.save', 'Save Country & Currency')}
+                        {saveSuccess === 'country_currency' ? (
+                            <><CheckCircle2 size={16} className="text-gray-500" /> {t('common.saved', 'Saved!')}</>
+                        ) : (
+                            t('sellerSettings.countryCurrency.save', 'Save Country & Currency')
+                        )}
                     </button>
                 </div>
             )}
@@ -424,16 +542,42 @@ export default function SellerSettings() {
                         </div>
                     </div>
                     <div>
-                        <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.branding.logo', 'Logo URL')}</label>
-                        <input type="url" value={branding.logo} onChange={(e) => setBranding({...branding, logo: e.target.value})} className={inputClass} />
+                        <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.branding.logo', 'Logo')}</label>
+                        <MediaUploader
+                            variant="compact"
+                            maxFiles={1}
+                            acceptVideo={false}
+                            value={branding.logo ? [branding.logo] : []}
+                            onChange={(urls) => setBranding({...branding, logo: urls[0] || ''})}
+                        />
                     </div>
                     <div>
-                        <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.branding.banner', 'Banner Image URL')}</label>
-                        <input type="url" value={branding.banner} onChange={(e) => setBranding({...branding, banner: e.target.value})} className={inputClass} />
+                        <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.branding.banner', 'Banner Image')}</label>
+                        <MediaUploader
+                            variant="compact"
+                            maxFiles={1}
+                            acceptVideo={false}
+                            value={branding.banner ? [branding.banner] : []}
+                            onChange={(urls) => setBranding({...branding, banner: urls[0] || ''})}
+                        />
                     </div>
-                    <button onClick={handleSaveBranding} disabled={saveBrandingLoading} className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-70 disabled:cursor-not-allowed">
+                    <button 
+                        onClick={handleSaveBranding} 
+                        disabled={saveBrandingLoading || (!isBrandingDirty && saveSuccess !== 'branding')} 
+                        className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all
+                            ${saveSuccess === 'branding' 
+                                ? 'bg-gray-100 text-gray-600 border border-gray-200' 
+                                : isBrandingDirty
+                                    ? 'bg-brand-primary text-white hover:bg-brand-secondary'
+                                    : 'bg-gray-50 text-gray-400 cursor-not-allowed'}
+                            disabled:opacity-70`}
+                    >
                         {saveBrandingLoading ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
-                        {t('sellerSettings.branding.save', 'Save Branding')}
+                        {saveSuccess === 'branding' ? (
+                            <span className="flex items-center gap-2"><CheckCircle2 size={16} className="text-gray-500" /> {t('common.saved', 'Saved!')}</span>
+                        ) : (
+                            t('sellerSettings.branding.save', 'Save Branding')
+                        )}
                     </button>
                     </div>
                 </div>
@@ -462,9 +606,23 @@ export default function SellerSettings() {
                             <p className="text-xs text-text-muted">{t('sellerSettings.shipping.expressDesc', 'Allow customers to choose faster 2-3 day delivery')}</p>
                         </div>
                     </label>
-                    <button onClick={() => handleSaveSettings('shipping', shipping, setSaveShippingLoading)} disabled={saveShippingLoading} className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-70 disabled:cursor-not-allowed">
+                    <button 
+                        onClick={() => handleSaveSettings('shipping', shipping, setSaveShippingLoading)} 
+                        disabled={saveShippingLoading || (!isShippingDirty && saveSuccess !== 'shipping')} 
+                        className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all
+                            ${saveSuccess === 'shipping' 
+                                ? 'bg-gray-100 text-gray-600 border border-gray-200' 
+                                : isShippingDirty
+                                    ? 'bg-brand-primary text-white hover:bg-brand-secondary'
+                                    : 'bg-gray-50 text-gray-400 cursor-not-allowed'}
+                            disabled:opacity-70`}
+                    >
                         {saveShippingLoading ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
-                        {t('sellerSettings.shipping.save', 'Save Shipping Settings')}
+                        {saveSuccess === 'shipping' ? (
+                            <span className="flex items-center gap-2"><CheckCircle2 size={16} className="text-gray-500" /> {t('common.saved', 'Saved!')}</span>
+                        ) : (
+                            t('sellerSettings.shipping.save', 'Save Shipping Settings')
+                        )}
                     </button>
                     </div>
                 </div>
@@ -489,9 +647,23 @@ export default function SellerSettings() {
                             <input type="checkbox" checked={notifications[item.key]} onChange={(e) => setNotifications({...notifications, [item.key]: e.target.checked})} className="accent-brand-primary mt-0.5 w-4 h-4" />
                         </label>
                     ))}
-                    <button onClick={() => handleSaveSettings('notifications', notifications, setSaveNotificationsLoading)} disabled={saveNotificationsLoading} className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-70 disabled:cursor-not-allowed">
+                    <button 
+                        onClick={() => handleSaveSettings('notifications', notifications, setSaveNotificationsLoading)} 
+                        disabled={saveNotificationsLoading || (!isNotificationsDirty && saveSuccess !== 'notifications')} 
+                        className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all
+                            ${saveSuccess === 'notifications' 
+                                ? 'bg-gray-100 text-gray-600 border border-gray-200' 
+                                : isNotificationsDirty
+                                    ? 'bg-brand-primary text-white hover:bg-brand-secondary'
+                                    : 'bg-gray-50 text-gray-400 cursor-not-allowed'}
+                            disabled:opacity-70`}
+                    >
                         {saveNotificationsLoading ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
-                        {t('sellerSettings.notifications.save', 'Save Notification Preferences')}
+                        {saveSuccess === 'notifications' ? (
+                            <span className="flex items-center gap-2"><CheckCircle2 size={16} className="text-gray-500" /> {t('common.saved', 'Saved!')}</span>
+                        ) : (
+                            t('sellerSettings.notifications.save', 'Save Notification Preferences')
+                        )}
                     </button>
                     </div>
                 </div>
@@ -532,7 +704,17 @@ export default function SellerSettings() {
                         
                         <div className="space-y-4">
                             {storeContent.benefits.map((benefit, index) => (
-                                <div key={index} className="p-4 border border-border-soft rounded-xl space-y-3">
+                                <div key={index} className="p-4 border border-border-soft rounded-xl space-y-3 relative group">
+                                    <button 
+                                        onClick={() => {
+                                            const newBenefits = [...storeContent.benefits];
+                                            newBenefits.splice(index, 1);
+                                            setStoreContent({...storeContent, benefits: newBenefits});
+                                        }}
+                                        className="absolute top-4 right-4 p-1.5 text-text-muted hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                                    >
+                                        <XCircle size={16} />
+                                    </button>
                                     <div className="flex justify-between items-center mb-1">
                                         <span className="text-[10px] font-bold text-text-muted uppercase tracking-widest">{t('sellerSettings.content.benefitNum', 'Benefit #{{num}}', { num: index + 1 })}</span>
                                     </div>
@@ -545,7 +727,7 @@ export default function SellerSettings() {
                                             setStoreContent({...storeContent, benefits: newBenefits});
                                         }}
                                         className={inputClass}
-                                        placeholder={t('sellerSettings.content.benefitPlaceholder', 'Benefit Title')}
+                                        placeholder={t('sellerSettings.content.benefitPlaceholder', 'Benefit Title (e.g. Fast Shipping)')}
                                     />
                                     <textarea
                                         rows={2}
@@ -560,6 +742,14 @@ export default function SellerSettings() {
                                     />
                                 </div>
                             ))}
+
+                            <button 
+                                onClick={() => setStoreContent({...storeContent, benefits: [...storeContent.benefits, { title: '', desc: '' }]})}
+                                className="w-full py-3 border-2 border-dashed border-border-soft rounded-xl text-sm font-medium text-text-muted hover:border-brand-primary hover:text-brand-primary transition-all flex items-center justify-center gap-2"
+                            >
+                                <Sparkles size={16} />
+                                {t('sellerSettings.content.addBenefit', 'Add Benefit')}
+                            </button>
                         </div>
                     </div>
                     </div>
@@ -572,7 +762,7 @@ export default function SellerSettings() {
                             <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.content.policiesTitle', 'Store Policies')}</h3>
                         </div>
                         <p className="text-xs text-text-muted">
-                            {t('sellerSettings.content.policiesDesc', 'Custom policies for your customers. Defaults will be shown if left blank.')}
+                            {t('sellerSettings.content.policiesDesc', 'Define your custom policies for shipping, returns, warranty, and FAQs.')}
                         </p>
                         
                         <div className="space-y-4">
@@ -621,11 +811,21 @@ export default function SellerSettings() {
 
                     <button 
                         onClick={() => handleSaveSettings('content', storeContent, setSaveContentLoading)} 
-                        disabled={saveContentLoading} 
-                        className="px-6 py-3 bg-brand-primary text-white text-sm font-bold rounded-xl hover:bg-brand-secondary transition-all shadow-lg shadow-brand-primary/20 disabled:opacity-70 disabled:cursor-not-allowed"
+                        disabled={saveContentLoading || (!isContentDirty && saveSuccess !== 'content')} 
+                        className={`px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-lg
+                            ${saveSuccess === 'content' 
+                                ? 'bg-gray-100 text-gray-600 border border-gray-200 shadow-none' 
+                                : isContentDirty
+                                    ? 'bg-brand-primary text-white hover:bg-brand-secondary shadow-brand-primary/20'
+                                    : 'bg-gray-50 text-gray-400 cursor-not-allowed shadow-none'}
+                            disabled:opacity-50`}
                     >
                         {saveContentLoading ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
-                        {t('sellerSettings.content.save', 'Save Store Content')}
+                        {saveSuccess === 'content' ? (
+                            <span className="flex items-center gap-2"><CheckCircle2 size={16} className="text-gray-500" /> {t('common.saved', 'Saved!')}</span>
+                        ) : (
+                            t('sellerSettings.content.save', 'Save Store Content')
+                        )}
                     </button>
                     </div>
                 </div>
@@ -635,9 +835,9 @@ export default function SellerSettings() {
                     <div className="py-8">
                         <UpgradePrompt
                             currentPlan={currentPlan}
-                            feature="White-Labeling"
+                            feature={t('sellerSettings.whitelabel.upgrade.title', 'White-Labeling')}
                             requiredPlan="business"
-                            message="Remove all Toroongo branding from your storefront. Your customers will see only your brand — no 'Powered by Toroongo' footer."
+                            message={t('sellerSettings.whitelabel.upgrade.message', "Remove all Toroongo branding from your storefront. Your customers will see only your brand — no 'Powered by Toroongo' footer.")}
                             variant="card"
                         />
                     </div>
@@ -686,8 +886,8 @@ export default function SellerSettings() {
                                 </div>
                             </div>
 
-                            <button className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
-                                Save White-Label Settings
+                             <button className="px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors">
+                                {t('sellerSettings.whitelabel.save', 'Save White-Label Settings')}
                             </button>
                         </div>
                     </div>
@@ -699,9 +899,9 @@ export default function SellerSettings() {
                     <div className="py-8">
                         <UpgradePrompt
                             currentPlan={currentPlan}
-                            feature="Custom CSS/HTML Access"
+                            feature={t('sellerSettings.customcode.upgrade.title', 'Custom CSS/HTML Access')}
                             requiredPlan="enterprise"
-                            message="Inject custom CSS and HTML into your storefront for bespoke design. Create a truly unique shopping experience."
+                            message={t('sellerSettings.customcode.upgrade.message', 'Inject custom CSS and HTML into your storefront for bespoke design. Create a truly unique shopping experience.')}
                             variant="card"
                         />
                     </div>
@@ -758,9 +958,9 @@ export default function SellerSettings() {
                     <div className="py-8">
                         <UpgradePrompt
                             currentPlan={currentPlan}
-                            feature="Multi-Currency Support"
+                            feature={t('sellerSettings.currency.upgrade.title', 'Multi-Currency Support')}
                             requiredPlan="business"
-                            message="Automatically convert prices based on your visitor's location. Show prices in BDT, USD, MYR, AED, INR, and more."
+                            message={t('sellerSettings.currency.upgrade.message', 'Automatically convert prices based on your visitor\'s location. Show prices in BDT, USD, MYR, AED, INR, and more.')}
                             variant="card"
                         />
                     </div>
@@ -817,6 +1017,86 @@ export default function SellerSettings() {
                         </div>
                     </div>
                 )
+            )}
+            {activeTab === 'security' && (
+                <div className="max-w-lg space-y-6">
+                    <div>
+                        <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.security.title', 'Security Settings')}</h3>
+                        <p className="text-sm text-text-muted mt-1">
+                            {t('sellerSettings.security.desc', 'Manage your account security and password.')}
+                        </p>
+                    </div>
+
+                    {securityError && (
+                        <div className="p-3 rounded-lg bg-red-50 text-red-600 text-sm border border-red-100">
+                            {securityError}
+                        </div>
+                    )}
+
+                    <div className="p-6 border border-border-soft rounded-2xl bg-surface-bg/30">
+                        <div className="flex items-center gap-4 mb-6">
+                            <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                                <Shield className="text-brand-primary" size={24} />
+                            </div>
+                            <div>
+                                <p className="text-sm font-bold text-text-primary">{t('sellerSettings.security.password', 'Account Password')}</p>
+                                <p className="text-xs text-text-muted">{t('sellerSettings.security.passwordLastChanged', 'Recommended to change password every 3 months')}</p>
+                            </div>
+                        </div>
+
+                        <div className="space-y-4">
+                            {user?.has_password !== false && (
+                                <div>
+                                    <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.security.currentPassword', 'Current Password')}</label>
+                                    <input
+                                        type="password"
+                                        placeholder={t('sellerSettings.security.currentPasswordPlaceholder', 'Enter current password')}
+                                        value={passwordData.currentPassword}
+                                        onChange={(e) => setPasswordData({ ...passwordData, currentPassword: e.target.value })}
+                                        className={inputClass}
+                                    />
+                                </div>
+                            )}
+                            <div>
+                                <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.security.newPassword', 'New Password')}</label>
+                                <input
+                                    type="password"
+                                    placeholder={t('sellerSettings.security.newPasswordPlaceholder', 'Min 8 characters')}
+                                    value={passwordData.password}
+                                    onChange={(e) => setPasswordData({ ...passwordData, password: e.target.value })}
+                                    className={inputClass}
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.security.confirmNewPassword', 'Confirm New Password')}</label>
+                                <input
+                                    type="password"
+                                    placeholder={t('sellerSettings.security.confirmNewPasswordPlaceholder', 'Repeat new password')}
+                                    value={passwordData.confirmPassword}
+                                    onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
+                                    className={inputClass}
+                                />
+                            </div>
+                            <div className="pt-2">
+                                <button
+                                    onClick={handleCompletePasswordReset}
+                                    disabled={isSaving || (user?.has_password !== false && !passwordData.currentPassword) || !passwordData.password}
+                                    className="w-full py-3 bg-brand-primary text-white font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-50"
+                                >
+                                    {isSaving ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
+                                    {t('sellerSettings.security.updatePassword', 'Update Password')}
+                                </button>
+                            </div>
+                        </div>
+
+                        {saveSuccess === 'security' && (
+                            <div className="mt-4 p-3 bg-green-50 border border-green-100 rounded-xl text-green-700 text-sm flex items-center gap-2">
+                                <CheckCircle2 size={16} />
+                                {t('sellerSettings.security.passwordUpdated', 'Password updated successfully!')}
+                            </div>
+                        )}
+                    </div>
+                </div>
             )}
         </div>
     );

@@ -16,6 +16,8 @@ import {
   Store,
   ExternalLink,
   Loader2,
+  X,
+  Send,
 } from "lucide-react";
 import StarRating from "../../components/ui/StarRating";
 import ProductCard from "../../components/product/ProductCard";
@@ -239,7 +241,7 @@ function MediaGallery({ product, selectedVariantValues }) {
                             : "bg-slate-800 text-white"
                     }`}
         >
-          {product.badge}
+          {t(`common.badges.${product.badge.replace(/\s+/g, '')}`, product.badge)}
         </span>
       )}
     </div>
@@ -351,7 +353,7 @@ export default function ProductDetail() {
 
   const handleSendMessage = async () => {
     if (!user || user.role !== "buyer") {
-      alert("Please log in as a buyer to send messages.");
+      alert(t("product.loginAsBuyerAlert"));
       return;
     }
     if (!messageText.trim()) return;
@@ -385,7 +387,7 @@ export default function ProductDetail() {
               to={`/products?category=${product.category || "all"}`}
               className="hover:text-brand-primary transition-colors capitalize"
             >
-              {(product.category || "Uncategorized").replace("-", " & ")}
+              {product.category ? product.category.replace("-", " & ") : t("common.uncategorized")}
             </Link>
             <ChevronRight size={14} />
             <span className="text-text-primary truncate max-w-[200px]">
@@ -439,7 +441,7 @@ export default function ProductDetail() {
                     {formatPrice(product.originalPrice, product.currency_code || 'USD')}
                   </span>
                   <span className="text-sm font-semibold text-green-600 bg-green-50 px-2 py-1 rounded-lg">
-                    Save {product.discount}%
+                    {t("product.saveDiscount", { discount: product.discount })}
                   </span>
                 </>
               )}
@@ -488,7 +490,7 @@ export default function ProductDetail() {
                 ))}
                 {selectedVariantLabel && (
                   <p className="text-xs text-text-muted">
-                    Selected: {selectedVariantLabel}
+                    {t("product.selectedLabel", { label: selectedVariantLabel })}
                   </p>
                 )}
               </div>
@@ -498,10 +500,7 @@ export default function ProductDetail() {
             <p className="text-text-muted text-sm leading-relaxed mb-6">
               {product.metaDescription ||
                 product.description ||
-                t(
-                  "product.noDescription",
-                  "Experience excellence with industry-leading features, superior build quality, and outstanding performance.",
-                )}
+                t("product.noDescription")}
             </p>
 
             {/* Quantity */}
@@ -627,7 +626,7 @@ export default function ProductDetail() {
                           </span>
                         </div>
                         <span className="text-[10px] text-text-muted">
-                          {sellerData.totalProducts || 0} products
+                          {t("product.productsCount", { count: sellerData.totalProducts || 0 })}
                         </span>
                       </div>
                     </div>
@@ -652,7 +651,7 @@ export default function ProductDetail() {
                   {t("product.freeShipping")}
                 </span>
                 <span className="text-[10px] text-text-muted">
-                  Seller area based shipping
+                  {t("product.freeShippingDesc")}
                 </span>
               </div>
               <div className="flex flex-col items-center p-3 bg-surface-bg rounded-xl text-center">
@@ -725,7 +724,7 @@ export default function ProductDetail() {
               {product.specifications && (
                 <div className="mt-8 border-t border-border-soft pt-6">
                   <h4 className="text-text-primary font-semibold mb-4 capitalize">
-                    {t("product.highlights", "Product Highlights")}
+                    {t("product.highlights")}
                   </h4>
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 list-disc list-inside text-text-muted">
                     {Array.isArray(product.specifications)
@@ -820,6 +819,123 @@ export default function ProductDetail() {
             </div>
           )}
         </div>
+
+        {/* Contact Seller Modal */}
+        {showMessageModal && (
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
+            <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl border border-border-soft overflow-hidden flex flex-col">
+              {/* Header */}
+              <div className="px-6 py-4 border-b border-border-soft flex items-center justify-between bg-surface-bg">
+                <h3 className="font-bold text-text-primary">
+                  {t("product.contactSeller")}
+                </h3>
+                <button
+                  onClick={() => {
+                    setShowMessageModal(false);
+                    setMessageSent(false);
+                    setMessageText("");
+                  }}
+                  className="p-1.5 text-text-muted hover:text-text-primary hover:bg-gray-100 rounded-lg transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+
+              <div className="p-6">
+                {messageSent ? (
+                  <div className="text-center py-6">
+                    <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Check size={32} />
+                    </div>
+                    <h4 className="text-xl font-bold text-text-primary mb-2">
+                      {t("product.messageSent")}
+                    </h4>
+                    <p className="text-text-muted text-sm mb-6">
+                      {t("product.messageSentDesc")}
+                    </p>
+                    <div className="flex flex-col gap-3">
+                      <button
+                        onClick={() => navigate("/account/messages")}
+                        className="w-full py-3 bg-brand-primary text-white font-bold rounded-xl hover:bg-brand-secondary transition-colors"
+                      >
+                        {t("messages.goToCenter", "Go to Message Center")}
+                      </button>
+                      <button
+                        onClick={() => {
+                          setShowMessageModal(false);
+                          setMessageSent(false);
+                          setMessageText("");
+                        }}
+                        className="w-full py-3 text-text-muted font-bold hover:text-text-primary transition-colors"
+                      >
+                        {t("common.close", "Close")}
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    {/* Product Context */}
+                    <div className="flex items-center gap-3 p-3 bg-surface-bg rounded-xl border border-border-soft mb-6">
+                      <img
+                        src={product.imageUrl || product.image_url}
+                        alt={product.title}
+                        className="w-12 h-12 object-cover rounded-lg border border-border-soft"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs text-text-muted uppercase tracking-wider font-semibold">
+                          {t("product.regardingItem")}
+                        </p>
+                        <p className="text-sm font-bold text-text-primary truncate">
+                          {product.title}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-text-primary mb-2">
+                          {t("messages.yourMessage", "Your Message")}
+                        </label>
+                        <textarea
+                          value={messageText}
+                          onChange={(e) => setMessageText(e.target.value)}
+                          placeholder={t("product.typeQuestion")}
+                          className="w-full h-32 px-4 py-3 bg-white border border-border-soft rounded-xl text-sm focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none resize-none transition-all"
+                          required
+                        />
+                      </div>
+
+                      <div className="flex gap-3 pt-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setShowMessageModal(false);
+                            setMessageText("");
+                          }}
+                          className="flex-1 px-4 py-3 text-sm font-bold text-text-muted hover:text-text-primary bg-surface-bg rounded-xl transition-colors"
+                        >
+                          {t("product.cancel")}
+                        </button>
+                        <button
+                          onClick={handleSendMessage}
+                          disabled={sendingMessage || !messageText.trim()}
+                          className="flex-[2] flex items-center justify-center gap-2 px-4 py-3 bg-brand-primary text-white text-sm font-bold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-brand-primary/20"
+                        >
+                          {sendingMessage ? (
+                            <Loader2 size={18} className="animate-spin" />
+                          ) : (
+                            <Send size={18} />
+                          )}
+                          {t("product.sendMessage")}
+                        </button>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

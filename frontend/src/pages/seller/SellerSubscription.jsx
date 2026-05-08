@@ -42,7 +42,7 @@ export default function SellerSubscription() {
         setUpgradeTarget(null);
         setActionMessage({ 
             type: result?.subscription?.status === 'pending_verification' ? 'info' : 'success', 
-            text: result?.message || `Successfully upgraded to ${PLANS[plan].name}!` 
+            text: result?.message || t('subscription.messages.upgradeSuccess', { name: PLANS[plan].name })
         });
         setTimeout(() => setActionMessage(null), 8000);
     };
@@ -56,11 +56,11 @@ export default function SellerSubscription() {
             setDowngradeTarget(null);
             setActionMessage({
                 type: 'info',
-                text: `Your plan will be downgraded to ${PLANS[downgradeTarget].name} at the end of your current billing cycle.`
+                text: t('subscription.messages.downgradeScheduled', { name: PLANS[downgradeTarget].name })
             });
             setTimeout(() => setActionMessage(null), 8000);
         } catch (err) {
-            setActionMessage({ type: 'error', text: err.message || 'Failed to downgrade plan.' });
+            setActionMessage({ type: 'error', text: err.message || t('subscription.messages.downgradeFailed') });
         } finally {
             setIsDowngrading(false);
         }
@@ -73,15 +73,15 @@ export default function SellerSubscription() {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-bold text-text-primary">Subscription & Plan</h2>
-                    <p className="text-text-muted text-sm mt-1">Manage your subscription and access premium features</p>
+                    <h2 className="text-2xl font-bold text-text-primary">{t('subscription.title')}</h2>
+                    <p className="text-text-muted text-sm mt-1">{t('subscription.subtitle')}</p>
                 </div>
                 <Link
                     to="/seller/subscription/history"
                     className="flex items-center gap-2 px-4 py-2.5 bg-white border border-border-soft text-sm font-medium text-text-primary rounded-xl hover:border-brand-primary hover:text-brand-primary transition-colors"
                 >
                     <History size={16} />
-                    Payment History
+                    {t('subscription.paymentHistory')}
                 </Link>
             </div>
 
@@ -113,7 +113,7 @@ export default function SellerSubscription() {
                             <div>
                                 <div className="flex items-center gap-3 mb-1">
                                     <h3 className="text-xl font-bold text-text-primary">
-                                        {planDetails.name} Plan
+                                        {t('subscription.planName', { name: planDetails.name })}
                                     </h3>
                                     <PlanBadge plan={currentPlan} size="md" />
                                 </div>
@@ -124,7 +124,7 @@ export default function SellerSubscription() {
                             <p className="text-3xl font-bold text-text-primary">
                                 {formatPrice(planDetails.price)}
                             </p>
-                            <p className="text-sm text-text-muted">per month</p>
+                            <p className="text-sm text-text-muted">{t('subscription.perMonth')}</p>
                         </div>
                     </div>
 
@@ -135,11 +135,11 @@ export default function SellerSubscription() {
                                 <Calendar size={16} className="text-text-muted" />
                             </div>
                             <div>
-                                <p className="text-xs text-text-muted">Next billing</p>
+                                <p className="text-xs text-text-muted">{t('subscription.nextBilling')}</p>
                                 <p className="text-sm font-semibold text-text-primary">
                                     {subscription?.expires_at
                                         ? new Date(subscription.expires_at).toLocaleDateString()
-                                        : currentPlan === 'starter' ? 'Free forever' : '—'}
+                                        : currentPlan === 'starter' ? t('subscription.freeForever') : '—'}
                                 </p>
                             </div>
                         </div>
@@ -148,11 +148,11 @@ export default function SellerSubscription() {
                                 <CreditCard size={16} className="text-text-muted" />
                             </div>
                             <div>
-                                <p className="text-xs text-text-muted">Payment method</p>
+                                <p className="text-xs text-text-muted">{t('subscription.paymentMethod')}</p>
                                 <p className="text-sm font-semibold text-text-primary">
                                     {subscription?.card_last_four
                                         ? `•••• ${subscription.card_last_four}`
-                                        : currentPlan === 'starter' ? 'No card needed' : '—'}
+                                        : currentPlan === 'starter' ? t('subscription.noCardNeeded') : subscription?.payment_method || '—'}
                                 </p>
                             </div>
                         </div>
@@ -161,11 +161,11 @@ export default function SellerSubscription() {
                                 <Clock size={16} className="text-text-muted" />
                             </div>
                             <div>
-                                <p className="text-xs text-text-muted">Products</p>
+                                <p className="text-xs text-text-muted">{t('nav.products')}</p>
                                 <p className="text-sm font-semibold text-text-primary">
                                     {productLimit
-                                        ? `${productCount} / ${productLimit} used`
-                                        : `${productCount} (Unlimited)`}
+                                        ? t('subscription.productsUsed', { count: productCount, limit: productLimit })
+                                        : t('subscription.productsUnlimited', { count: productCount })}
                                 </p>
                             </div>
                         </div>
@@ -175,7 +175,7 @@ export default function SellerSubscription() {
 
             {/* Plans Grid */}
             <div>
-                <h3 className="text-lg font-bold text-text-primary mb-4">Available Plans</h3>
+                <h3 className="text-lg font-bold text-text-primary mb-4">{t('subscription.availablePlans')}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
                     {PLAN_ORDER.map((planKey) => {
                         const plan = PLANS[planKey];
@@ -206,7 +206,7 @@ export default function SellerSubscription() {
                                         className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wide"
                                         style={{ backgroundColor: plan.color }}
                                     >
-                                        Current Plan
+                                        {t('subscription.currentPlanLabel')}
                                     </div>
                                 )}
 
@@ -227,7 +227,7 @@ export default function SellerSubscription() {
                                 {aiFeatures && aiFeatures.length > 0 && (
                                     <div className="mb-4 p-3 rounded-xl bg-gradient-to-br from-brand-primary/5 to-brand-secondary/5 border border-brand-primary/10">
                                         <h5 className="flex items-center gap-1.5 text-xs font-bold text-brand-primary mb-2">
-                                            <Sparkles size={12} /> AI Superpowers
+                                            <Sparkles size={12} /> {t('subscription.aiSuperpowers')}
                                         </h5>
                                         <div className="space-y-1.5">
                                             {aiFeatures.map((ai, idx) => (
@@ -258,14 +258,14 @@ export default function SellerSubscription() {
                                 <div className="mt-auto">
                                     {isCurrent ? (
                                         <div className="w-full py-2.5 text-center text-sm font-semibold text-text-muted bg-surface-bg rounded-xl">
-                                            Current Plan
+                                            {t('subscription.currentPlan')}
                                         </div>
                                     ) : isUpgrade ? (
                                         <button
                                             onClick={() => setUpgradeTarget(planKey)}
                                             className="w-full py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors flex items-center justify-center gap-2"
                                         >
-                                            Upgrade <ArrowRight size={14} />
+                                            {t('subscription.upgrade')} <ArrowRight size={14} />
                                         </button>
                                     ) : (
                                         <button
@@ -275,7 +275,7 @@ export default function SellerSubscription() {
                                             }}
                                             className="w-full py-2.5 bg-white border border-border-soft text-text-muted text-sm font-semibold rounded-xl hover:border-red-300 hover:text-red-500 transition-colors flex items-center justify-center gap-2"
                                         >
-                                            <ArrowDown size={14} /> Downgrade
+                                            <ArrowDown size={14} /> {t('subscription.downgrade')}
                                         </button>
                                     )}
                                 </div>
@@ -303,13 +303,13 @@ export default function SellerSubscription() {
                                 <ArrowDown size={22} className="text-amber-500" />
                             </div>
                             <h3 className="text-lg font-bold text-text-primary text-center mb-2">
-                                Downgrade to {PLANS[downgradeTarget].name}?
+                                {t('subscription.downgradeConfirmTitle', { name: PLANS[downgradeTarget].name })}
                             </h3>
                             <p className="text-sm text-text-muted text-center mb-2">
-                                Your plan will be downgraded at the <strong>end of your current billing cycle</strong>.
+                                {t('subscription.downgradeConfirmDesc')}
                             </p>
                             <p className="text-xs text-amber-600 text-center mb-6 bg-amber-50 rounded-lg p-2">
-                                ⚠️ You may lose access to some features when the downgrade takes effect.
+                                {t('subscription.downgradeWarning')}
                             </p>
                             <div className="flex gap-3">
                                 <button
@@ -320,7 +320,7 @@ export default function SellerSubscription() {
                                     disabled={isDowngrading}
                                     className="flex-1 px-4 py-2.5 text-sm font-semibold text-text-primary bg-white border border-border-soft rounded-xl hover:bg-gray-50 transition-colors disabled:opacity-50"
                                 >
-                                    Cancel
+                                    {t('subscription.cancel')}
                                 </button>
                                 <button
                                     onClick={handleDowngrade}
@@ -330,7 +330,7 @@ export default function SellerSubscription() {
                                     {isDowngrading && (
                                         <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                                     )}
-                                    Confirm Downgrade
+                                    {t('subscription.confirmDowngrade')}
                                 </button>
                             </div>
                         </div>

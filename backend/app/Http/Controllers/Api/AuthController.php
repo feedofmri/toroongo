@@ -100,4 +100,59 @@ class AuthController extends Controller
         $user->addresses = $user->addresses;
         return response()->json($user->makeHidden('password'));
     }
+
+    public function forgotPassword(Request $request)
+    {
+        $request->validate(['email' => 'required|email|exists:users,email']);
+        // OTP is sent via OtpController@sendOtp separately in frontend flow.
+        return response()->json(['message' => 'Email verified. Please check your inbox for OTP.']);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+            'otp' => 'required|string|size:6',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
+
+        $cacheKey = 'otp_forgot_password_' . $request->email;
+        $cachedOtp = \Illuminate\Support\Facades\Cache::get($cacheKey);
+
+        if (!$cachedOtp || $cachedOtp !== $request->otp) {
+            return response()->json(['message' => 'Invalid or expired OTP.'], 422);
+        }
+
+        $user = User::where('email', $request->email)->first();
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        \Illuminate\Support\Facades\Cache::forget($cacheKey);
+
+        return response()->json(['message' => 'Password reset successfully.']);
+    }
+
+    public function changePassword(Request $request)
+    {
+        $user = $request->user();
+
+        $rules = [
+            'password' => 'required|string|min:6|confirmed',
+        ];
+
+        if ($user->password) {
+            $rules['current_password'] = 'required';
+        }
+
+        $request->validate($rules);
+
+        if ($user->password && !Hash::check($request->current_password, $user->password)) {
+            return response()->json(['message' => 'The provided password does not match our records.'], 422);
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return response()->json(['message' => 'Password changed successfully.']);
+    }
 }

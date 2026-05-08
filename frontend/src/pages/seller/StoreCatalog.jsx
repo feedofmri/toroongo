@@ -1,19 +1,21 @@
 import React, { useState, useMemo } from 'react';
 import { useOutletContext } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Search, ChevronDown } from 'lucide-react';
 import ProductCard from '../../components/product/ProductCard';
 
-const SORT_OPTIONS = [
-    { value: 'relevance', label: 'Relevance' },
-    { value: 'price-asc', label: 'Price: Low to High' },
-    { value: 'price-desc', label: 'Price: High to Low' },
-    { value: 'rating', label: 'Highest Rated' },
-];
-
 export default function StoreCatalog() {
+    const { t } = useTranslation();
     const { sellerProducts } = useOutletContext();
     const [search, setSearch] = useState('');
     const [sortBy, setSortBy] = useState('relevance');
+
+    const SORT_OPTIONS = [
+        { value: 'relevance', label: t('storefront.catalog.sort.relevance') },
+        { value: 'price-asc', label: t('storefront.catalog.sort.priceAsc') },
+        { value: 'price-desc', label: t('storefront.catalog.sort.priceDesc') },
+        { value: 'rating', label: t('storefront.catalog.sort.rating') },
+    ];
 
     const filtered = useMemo(() => {
         let result = [...sellerProducts];
@@ -33,7 +35,7 @@ export default function StoreCatalog() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
                 <h2 className="text-xl font-bold text-text-primary">
-                    All Products <span className="text-text-muted font-normal text-base">({filtered.length})</span>
+                    {t("storefront.catalog.allProducts")} <span className="text-text-muted font-normal text-base">({filtered.length})</span>
                 </h2>
                 <div className="flex gap-3">
                     {/* Search */}
@@ -41,7 +43,7 @@ export default function StoreCatalog() {
                         <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
                         <input
                             type="text"
-                            placeholder="Search products..."
+                            placeholder={t("storefront.catalog.searchPlaceholder")}
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                             className="w-full pl-9 pr-3 py-2 text-sm bg-white border border-border-soft rounded-lg
@@ -66,15 +68,15 @@ export default function StoreCatalog() {
             </div>
 
             {filtered.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
                     {filtered.map((product) => (
                         <ProductCard key={product.id} product={product} />
                     ))}
                 </div>
             ) : (
                 <div className="text-center py-16">
-                    <p className="text-text-primary font-medium mb-1">No products found</p>
-                    <p className="text-sm text-text-muted">Try a different search term.</p>
+                    <p className="text-text-primary font-medium mb-1">{t("storefront.catalog.noProductsFound")}</p>
+                    <p className="text-sm text-text-muted">{t("storefront.catalog.tryDifferentSearch")}</p>
                 </div>
             )}
         </div>

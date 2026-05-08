@@ -5,11 +5,11 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
 
 const sidebarLinks = [
-    { to: '/account', icon: Package, label: 'My Orders', end: true },
-    { to: '/account/wishlist', icon: Heart, label: 'Wishlist' },
-    { to: '/account/reviews', icon: Star, label: 'My Reviews' },
-    { to: '/account/settings', icon: Settings, label: 'Settings' },
-    { to: '/account/messages', icon: MessageSquare, label: 'Messages' },
+    { to: '/account', icon: Package, labelKey: 'myOrders', end: true },
+    { to: '/account/wishlist', icon: Heart, labelKey: 'wishlist' },
+    { to: '/account/reviews', icon: Star, labelKey: 'myReviews' },
+    { to: '/account/settings', icon: Settings, labelKey: 'settings' },
+    { to: '/account/messages', icon: MessageSquare, labelKey: 'messages' },
 ];
 
 export default function BuyerDashboardLayout() {
@@ -34,7 +34,7 @@ export default function BuyerDashboardLayout() {
                         }
                     >
                         <link.icon size={16} />
-                        {link.label}
+                        {t(`buyerDashboard.nav.${link.labelKey}`)}
                     </NavLink>
                 ))}
             </nav>
@@ -58,7 +58,7 @@ export default function BuyerDashboardLayout() {
                                     }
                                 >
                                     <link.icon size={16} />
-                                    {link.label}
+                                    {t(`buyerDashboard.nav.${link.labelKey}`)}
                                 </NavLink>
                             ))}
                         </nav>

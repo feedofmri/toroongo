@@ -18,10 +18,10 @@ import ProductCard from '../../../../components/product/ProductCard';
  */
 export default function ProductGrid({ title, columns = 4, dataSource = 'featured', layoutStyle = 'grid', maxItems = 8, products = [] }) {
     const colClass = {
-        2: 'grid-cols-1 sm:grid-cols-2',
-        3: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
-        4: 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4',
-    }[columns] || 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4';
+        2: 'grid-cols-2',
+        3: 'grid-cols-2 lg:grid-cols-3',
+        4: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4',
+    }[columns] || 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4';
 
     // Filter products by dataSource type
     let filteredProducts = products;

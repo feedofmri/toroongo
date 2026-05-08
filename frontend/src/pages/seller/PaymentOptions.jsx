@@ -3,22 +3,23 @@ import { Plus, Pencil, Trash2, Loader2, CreditCard, ToggleLeft, ToggleRight, X, 
 import { paymentMethodService } from '../../services';
 import { useTranslation } from 'react-i18next';
 
-const PRESET_TYPES = [
-    { type: 'bkash',   label: 'bKash',        identifierLabel: 'bKash Number',    icon: Smartphone,  color: 'text-pink-600', bg: 'bg-pink-50' },
-    { type: 'nagad',   label: 'Nagad',         identifierLabel: 'Nagad Number',    icon: Smartphone,  color: 'text-orange-600', bg: 'bg-orange-50' },
-    { type: 'rocket',  label: 'Rocket',        identifierLabel: 'Rocket Number',   icon: Smartphone,  color: 'text-purple-600', bg: 'bg-purple-50' },
-    { type: 'paypal',  label: 'PayPal',        identifierLabel: 'PayPal Email',    icon: CreditCard,  color: 'text-blue-600', bg: 'bg-blue-50' },
-    { type: 'bank',    label: 'Bank Transfer', identifierLabel: 'Account Number',  icon: Building2,   color: 'text-emerald-600', bg: 'bg-emerald-50' },
-    { type: 'other',   label: 'Other',         identifierLabel: 'Account/Contact', icon: Coins,       color: 'text-amber-600', bg: 'bg-amber-50' },
-];
-
-const emptyForm = {
-    type: 'bkash', label: '', account_identifier: '', identifier_label: 'bKash Number',
-    service_charge_pct: '0', instructions: '', is_active: true,
-};
-
 export default function PaymentOptions() {
     const { t } = useTranslation();
+
+    const PRESET_TYPES = [
+        { type: 'bkash', label: 'bKash', identifierLabel: t('sellerPayment.modal.bkashNum', 'bKash Number'), icon: Smartphone, color: 'text-pink-600', bg: 'bg-pink-50' },
+        { type: 'nagad', label: 'Nagad', identifierLabel: t('sellerPayment.modal.nagadNum', 'Nagad Number'), icon: Smartphone, color: 'text-orange-600', bg: 'bg-orange-50' },
+        { type: 'rocket', label: 'Rocket', identifierLabel: t('sellerPayment.modal.rocketNum', 'Rocket Number'), icon: Smartphone, color: 'text-purple-600', bg: 'bg-purple-50' },
+        { type: 'paypal', label: 'PayPal', identifierLabel: t('sellerPayment.modal.paypalEmail', 'PayPal Email'), icon: CreditCard, color: 'text-blue-600', bg: 'bg-blue-50' },
+        { type: 'bank', label: t('sellerPayment.modal.bankTransfer', 'Bank Transfer'), identifierLabel: t('sellerPayment.modal.accountNum', 'Account Number'), icon: Building2, color: 'text-emerald-600', bg: 'bg-emerald-50' },
+        { type: 'other', label: t('sellerPayment.modal.other', 'Other'), identifierLabel: t('sellerPayment.modal.accountContact', 'Account/Contact'), icon: Coins, color: 'text-amber-600', bg: 'bg-amber-50' },
+    ];
+
+    const emptyForm = {
+        type: 'bkash', label: '', account_identifier: '', identifier_label: t('sellerPayment.modal.bkashNum', 'bKash Number'),
+        service_charge_pct: '0', instructions: '', is_active: true,
+    };
+
     const [methods, setMethods] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showForm, setShowForm] = useState(false);
@@ -27,6 +28,23 @@ export default function PaymentOptions() {
     const [saving, setSaving] = useState(false);
     const [deletingId, setDeletingId] = useState(null);
     const [error, setError] = useState('');
+    const [saveSuccess, setSaveSuccess] = useState(false);
+
+    const isDirty = React.useMemo(() => {
+        if (editingId) {
+            const m = methods.find(x => x.id === editingId);
+            if (!m) return false;
+            return form.type !== m.type ||
+                   form.label !== m.label ||
+                   form.account_identifier !== m.account_identifier ||
+                   form.identifier_label !== m.identifier_label ||
+                   Number(form.service_charge_pct) !== Number(m.service_charge_pct || 0) ||
+                   form.instructions !== (m.instructions || '') ||
+                   form.is_active !== m.is_active;
+        }
+        return form.label.trim() !== '' || form.account_identifier.trim() !== '';
+    }, [form, editingId, methods]);
+
 
     const load = async () => {
         setLoading(true);
@@ -89,8 +107,12 @@ export default function PaymentOptions() {
             } else {
                 await paymentMethodService.createMethod(payload);
             }
-            setShowForm(false);
-            load();
+            setSaveSuccess(true);
+            setTimeout(() => {
+                setShowForm(false);
+                setSaveSuccess(false);
+                load();
+            }, 1000);
         } catch (e) {
             setError(e.message);
         } finally {
@@ -310,10 +332,19 @@ export default function PaymentOptions() {
                                 className="flex-1 py-2.5 text-sm font-medium text-text-muted border border-border-soft rounded-xl hover:bg-surface-bg transition-colors">
                                 {t('sellerPayment.modal.cancel', 'Cancel')}
                             </button>
-                            <button onClick={handleSave} disabled={saving}
-                                className="flex-1 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors flex items-center justify-center gap-2 disabled:opacity-70">
-                                {saving ? <Loader2 size={15} className="animate-spin" /> : <Check size={15} />}
-                                {editingId ? t('sellerPayment.modal.save', 'Save Changes') : t('sellerPayment.addMethod', 'Add Method')}
+                             <button onClick={handleSave} disabled={saving || (!isDirty && !saveSuccess)}
+                                className={`flex-1 py-2.5 text-sm font-semibold rounded-xl transition-all flex items-center justify-center gap-2
+                                    ${saveSuccess 
+                                        ? 'bg-gray-100 text-gray-600 border border-gray-200' 
+                                        : isDirty
+                                            ? 'bg-brand-primary text-white hover:bg-brand-secondary'
+                                            : 'bg-gray-50 text-gray-400 cursor-not-allowed'}`}>
+                                {saving ? <Loader2 size={15} className="animate-spin" /> : (
+                                    saveSuccess 
+                                        ? <Check size={15} className="text-gray-500" /> 
+                                        : <Check size={15} />
+                                )}
+                                {saveSuccess ? t('common.saved', 'Saved!') : (editingId ? t('sellerPayment.modal.save', 'Save Changes') : t('sellerPayment.addMethod', 'Add Method'))}
                             </button>
                         </div>
                     </div>

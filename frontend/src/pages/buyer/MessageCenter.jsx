@@ -171,7 +171,7 @@ export default function MessageCenter() {
         <div className="animate-fade-in">
             <h2 className="text-2xl font-bold text-text-primary mb-6 flex items-center gap-2">
                 <MessageSquare className="text-brand-primary" />
-                {t('messages.title', 'Messages')}
+                {t('messages.title')}
             </h2>
 
             <div className="bg-white border border-border-soft rounded-3xl overflow-hidden shadow-sm flex h-[600px]">
@@ -182,7 +182,7 @@ export default function MessageCenter() {
                             <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
                             <input 
                                 type="text" 
-                                placeholder={t('messages.searchPlaceholder', 'Find a conversation...')} 
+                                placeholder={t('messages.searchPlaceholder')} 
                                 className="w-full pl-10 pr-4 py-2.5 text-sm bg-white border border-border-soft rounded-xl focus:border-brand-primary outline-none" 
                             />
                         </div>
@@ -192,11 +192,11 @@ export default function MessageCenter() {
                         {loading ? (
                             <div className="p-12 text-center">
                                 <Loader2 size={24} className="animate-spin text-brand-primary mx-auto mb-3" />
-                                <p className="text-sm text-text-muted">Loading...</p>
+                                <p className="text-sm text-text-muted">{t('common.loading', 'Loading...')}</p>
                             </div>
                         ) : conversations.length === 0 ? (
                             <div className="p-8 text-center">
-                                <p className="text-sm text-text-muted">No messages yet.</p>
+                                <p className="text-sm text-text-muted">{t('messages.noMessages')}</p>
                             </div>
                         ) : (
                             conversations.map((convo) => (
@@ -213,7 +213,7 @@ export default function MessageCenter() {
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center justify-between mb-0.5">
                                             <span className={`text-sm truncate ${convo.unreadCount > 0 ? 'font-bold text-text-primary' : 'font-semibold text-text-primary'}`}>
-                                                {convo.otherUser?.name || 'Unknown User'}
+                                                {convo.otherUser?.name || t('messages.unknownUser')}
                                             </span>
                                             <span className="text-[10px] text-text-muted">
                                                 {formatTime(convo.lastMessage?.createdAt)}
@@ -249,10 +249,10 @@ export default function MessageCenter() {
                                         <span className="text-sm font-bold text-brand-primary">{(activeConvo.otherUser?.name || 'U').charAt(0).toUpperCase()}</span>
                                     </div>
                                     <div>
-                                        <h3 className="text-sm font-bold text-text-primary">{activeConvo.otherUser?.name || 'Unknown User'}</h3>
+                                        <h3 className="text-sm font-bold text-text-primary">{activeConvo.otherUser?.name || t('messages.unknownUser')}</h3>
                                         <div className="flex items-center gap-1">
                                             <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                                            <p className="text-[10px] text-text-muted font-medium">Business Account</p>
+                                            <p className="text-[10px] text-text-muted font-medium">{t('messages.businessAccount')}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -287,7 +287,7 @@ export default function MessageCenter() {
                                 <form onSubmit={handleSendMessage} className="flex gap-2">
                                     <input 
                                         type="text" 
-                                        placeholder={t('messages.typeMessage', 'A message for the seller...')} 
+                                        placeholder={t('messages.typeMessage')} 
                                         value={newMessage} 
                                         onChange={(e) => setNewMessage(e.target.value)}
                                         className="flex-1 px-5 py-3 text-sm bg-surface-bg border border-border-soft rounded-2xl focus:border-brand-primary outline-none transition-all" 
@@ -307,9 +307,9 @@ export default function MessageCenter() {
                             <div className="w-16 h-16 bg-brand-primary/5 rounded-3xl flex items-center justify-center mb-4">
                                 <MessageSquare size={32} className="text-brand-primary/40" />
                             </div>
-                            <h3 className="text-lg font-bold text-text-primary">Your Messages</h3>
+                            <h3 className="text-lg font-bold text-text-primary">{t('messages.yourMessages')}</h3>
                             <p className="text-sm text-text-muted max-w-sm mx-auto mt-2">
-                                When you contact a seller regarding a product, your conversations will appear here. Select one to continue.
+                                {t('messages.yourMessagesDesc')}
                             </p>
                         </div>
                     )}

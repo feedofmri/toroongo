@@ -84,7 +84,7 @@
     <div class="wrapper">
         <div class="container">
             <div class="header">
-                <img src="<?php echo e(config('app.url')); ?>/logo.png" alt="Toroongo" style="height: 40px; width: auto;">
+                <div class="logo">Toroongo</div>
             </div>
             <div class="content">
                 <h1>Email Verification</h1>

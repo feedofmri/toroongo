@@ -16,19 +16,20 @@ const SORT_OPTIONS = [
     { value: 'newest', label: 'search.newest' },
 ];
 
-const PRICE_RANGES = [
-    { label: 'Under $25', min: 0, max: 25 },
-    { label: '$25 – $50', min: 25, max: 50 },
-    { label: '$50 – $100', min: 50, max: 100 },
-    { label: '$100 – $200', min: 100, max: 200 },
-    { label: '$200 – $500', min: 200, max: 500 },
-    { label: 'Over $500', min: 500, max: Infinity },
-];
-
 const ITEMS_PER_PAGE = 12;
 
 export default function SearchResults() {
     const { t } = useTranslation();
+
+    const PRICE_RANGES = [
+        { label: t('search.priceRanges.under25', 'Under $25'), min: 0, max: 25 },
+        { label: t('search.priceRanges.25to50', '$25 – $50'), min: 25, max: 50 },
+        { label: t('search.priceRanges.50to100', '$50 – $100'), min: 50, max: 100 },
+        { label: t('search.priceRanges.100to200', '$100 – $200'), min: 100, max: 200 },
+        { label: t('search.priceRanges.200to500', '$200 – $500'), min: 200, max: 500 },
+        { label: t('search.priceRanges.over500', 'Over $500'), min: 500, max: Infinity },
+    ];
+
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
     const categorySlug = searchParams.get('category');
@@ -131,7 +132,7 @@ export default function SearchResults() {
         }
 
         return result;
-    }, [allProducts, selectedCategory, onSaleOnly, selectedSeller, query, selectedPrice, customMinPrice, customMaxPrice, selectedRating, sortBy]);
+    }, [allProducts, selectedCategory, onSaleOnly, selectedSeller, query, selectedPrice, customMinPrice, customMaxPrice, selectedRating, sortBy, PRICE_RANGES]);
 
     // Pagination
     const totalPages = Math.ceil(filteredProducts.length / ITEMS_PER_PAGE);

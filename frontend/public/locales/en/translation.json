@@ -4,16 +4,16 @@
         "stores": "Stores",
         "deals": "Deals",
         "blog": "Blog",
-        "sell": "Sell on Toroongo",
+        "sell": "Sell",
         "pricing": "Pricing",
         "help": "Help",
+        "helpCenter": "Help Center",
         "search": "Search products, sellers, categories...",
         "dashboard": "Dashboard",
         "myProducts": "My Products",
         "orders": "Orders",
         "blogManager": "Blog Manager",
         "storefront": "Storefront",
-        "helpCenter": "Help Center",
         "overview": "Overview",
         "users": "Users",
         "sellers": "Sellers",
@@ -24,12 +24,13 @@
         "settings": "Settings",
         "signOut": "Sign out",
         "signIn": "Sign in",
-        "signInUp": "Sign in / Sign up",
+        "signInUp": "Sign in",
         "shopHeader": "Shop",
         "accountHeader": "Account",
         "moreHeader": "More",
         "aboutUs": "About Us",
         "contactUs": "Contact Us",
+        "wishlist": "Wishlist",
         "cat": {
             "electronics": "Electronics",
             "fashion": "Fashion",
@@ -59,7 +60,18 @@
         "notFound": "Page Not Found",
         "notFoundDesc": "The page you're looking for doesn't exist or has been moved.",
         "goHome": "Go Home",
-        "underDevelopment": "Under development"
+        "close": "Close",
+        "sending": "Sending...",
+        "underDevelopment": "Under development",
+        "guest": "Guest",
+        "na": "N/A",
+        "visit": "Visit",
+        "uncategorized": "Uncategorized",
+        "unknownProduct": "Unknown Product",
+        "customer": "Customer",
+        "loading": "Loading...",
+        "cancel": "Cancel",
+        "product": "Product"
     },
     "home": {
         "heroTitle": "Shop Everything",
@@ -198,9 +210,26 @@
         "published": "Published",
         "pending": "Pending",
         "editReview": "Edit Review",
-        "viewProduct": "View Product"
+        "viewProduct": "View Product",
+        "writeReview": "Write a Review",
+        "rateYourExperience": "How would you rate your experience?",
+        "ratingLabel": [
+            null,
+            "Poor",
+            "Fair",
+            "Good",
+            "Very Good",
+            "Excellent"
+        ],
+        "commentLabel": "Your Review",
+        "commentPlaceholder": "Tell others what you think about this product...",
+        "mediaLabel": "Photos or videos",
+        "mediaPlaceholder": "Paste an image or video URL",
+        "addMedia": "+ Add another",
+        "submit": "Submit Review",
+        "errorSubmitting": "Failed to submit review.",
+        "success": "Review submitted successfully!"
     },
-
     "search": {
         "resultsFor": "Results for \"{{query}}\"",
         "allProducts": "All Products",
@@ -247,7 +276,8 @@
         "soldBy": "Sold By",
         "visitShop": "Visit Shop",
         "freeShipping": "Free Shipping",
-        "freeShippingDesc": "Orders $50+",
+        "freeShippingDesc": "Seller area based shipping",
+        "productsCount": "{{count}} products",
         "buyerProtection": "Buyer Protection",
         "buyerProtectionDesc": "Money-back guarantee",
         "easyReturns": "Easy Returns",
@@ -263,7 +293,136 @@
         "sendMessage": "Send Message",
         "messageSent": "Message Sent!",
         "messageSentDesc": "The seller will respond to you shortly via the Message Center.",
-        "home": "Home"
+        "home": "Home",
+        "noDescription": "Experience excellence with industry-leading features, superior build quality, and outstanding performance.",
+        "sellerAccountNotice": "Seller Account Detected",
+        "sellerAccountNoticeDesc": "To purchase products, please log in with a buyer account. Sellers are restricted from buying on the platform.",
+        "fallbackDesc1": "Experience the perfect combination of innovation and craftsmanship with the {{title}}. Meticulously designed by {{seller}}, this product sets a new standard in its category.",
+        "fallbackDesc2": "Key features include premium build quality, advanced technology integration, and ergonomic design. Whether you're a professional or an enthusiast, this product delivers exceptional performance that exceeds expectations.",
+        "highlight1": "Premium materials and build quality",
+        "highlight2": "Industry-leading performance",
+        "highlight3": "Ergonomic and user-friendly design",
+        "highlight4": "Full manufacturer warranty included",
+        "highlight5": "Eco-friendly packaging",
+        "noReviewsYet": "No reviews yet.",
+        "loginAsBuyerAlert": "Please log in as a buyer to send messages.",
+        "saveDiscount": "Save {{discount}}%",
+        "variants": "Variants",
+        "selectedLabel": "Selected: {{label}}",
+        "contactStore": "Contact {{store}}",
+        "stayAtShop": "Stay at Shop",
+        "uncategorized": "Uncategorized",
+        "contactSupport": "Contact Support",
+        "itemsCount": "{{count}}x items"
+    },
+    "storefront": {
+        "contact": "Message",
+        "nav": {
+            "home": "Home",
+            "products": "Products",
+            "about": "About",
+            "policies": "Policies",
+            "reviews": "Reviews",
+            "blog": "Blog",
+            "deals": "Deals",
+            "storeNav": "Store Navigation",
+            "userActions": "User Actions"
+        },
+        "stats": {
+            "rating": "Rating",
+            "products": "Products",
+            "memberSince": "Member Since",
+            "location": "Location"
+        },
+        "home": {
+            "welcomeTo": "Welcome to",
+            "featuredProducts": "Featured Products",
+            "viewAll": "View All",
+            "aboutStore": "About {{store}}",
+            "learnMore": "Learn More",
+            "allProducts": "All Products"
+        },
+        "about": {
+            "title": "About {{store}}",
+            "defaultDescription": "Welcome to {{store}}. We are committed to providing the best products and service to our customers.",
+            "whyShopWithUs": "Why Shop With Us",
+            "benefits": {
+                "quality": {
+                    "title": "Premium Quality",
+                    "desc": "Handpicked products of the highest standard."
+                },
+                "shipping": {
+                    "title": "Fast Shipping",
+                    "desc": "Reliable delivery to your doorstep."
+                },
+                "support": {
+                    "title": "24/7 Support",
+                    "desc": "Dedicated assistance whenever you need it."
+                },
+                "returns": {
+                    "title": "Easy Returns",
+                    "desc": "Hassle-free 30-day return policy."
+                }
+            }
+        },
+        "stats": {
+            "rating": "Rating",
+            "products": "Products",
+            "memberSince": "Member Since",
+            "location": "Location"
+        },
+        "policies": {
+            "title": "Store Policies",
+            "description": "These policies apply to all orders placed with {{store}} via Toroongo.",
+            "shipping": {
+                "title": "Shipping Policy",
+                "defaults": [
+                    "Orders are processed within 24-48 hours",
+                    "Standard shipping delivery time: 3-5 business days",
+                    "Tracking information provided via email",
+                    "Free shipping on orders above $50"
+                ]
+            },
+            "returns": {
+                "title": "Return & Refund Policy",
+                "defaults": [
+                    "Returns accepted within 14 days of delivery",
+                    "Items must be in original condition with tags",
+                    "Refunds processed to original payment method",
+                    "Return shipping paid by customer"
+                ]
+            },
+            "warranty": {
+                "title": "Warranty Information",
+                "defaults": [
+                    "Standard 6-month manufacturer warranty",
+                    "Covers factory defects and malfunctions",
+                    "Does not cover physical damage or misuse",
+                    "Proof of purchase required for claims"
+                ]
+            },
+            "faq": {
+                "title": "Frequently Asked Questions",
+                "defaults": [
+                    "How do I track my order? You will receive an email with a tracking link.",
+                    "Do you ship internationally? Yes, we ship to selected countries.",
+                    "How can I contact support? Use the 'Message' button on our store profile.",
+                    "What payment methods do you accept? All major credit cards and Toroongo Wallet."
+                ]
+            }
+        },
+        "catalog": {
+            "allProducts": "All Products",
+            "searchPlaceholder": "Search in this store...",
+            "noProductsFound": "No products found matching your search.",
+            "tryDifferentSearch": "Try using different keywords or clearing filters.",
+            "sort": {
+                "relevance": "Relevance",
+                "priceAsc": "Price: Low to High",
+                "priceDesc": "Price: High to Low",
+                "rating": "Highest Rated"
+            }
+        }
     },
     "cart": {
         "title": "Shopping Cart",
@@ -381,7 +540,7 @@
         "removeFromWishlist": "Remove"
     },
     "orders": {
-        "title": "My Orders",
+        "title": "Order History",
         "allOrders": "All Orders",
         "processing": "Processing",
         "shipped": "Shipped",
@@ -390,43 +549,47 @@
         "return_requested": "Return Requested",
         "returned": "Returned",
         "refunded": "Refunded",
-        "loading": "Loading orders...",
-        "orderNo": "TRG-{{id}}",
+        "loading": "Loading your orders...",
+        "orderNo": "Order #{{id}}",
         "soldBy": "Sold by {{seller}}",
-        "total": "Total:",
+        "qty": "Qty",
+        "rateProduct": "Rate Product",
+        "total": "Total",
         "cancelOrder": "Cancel Order",
         "requestReturn": "Request Return",
-        "cancelError": "Failed to cancel order: ",
-        "returnError": "Failed to request return: ",
         "track": "Track",
         "details": "Details",
-        "noOrders": "No orders found",
-        "noOrdersDesc": "Try changing your filter or start shopping!",
+        "noOrders": "No orders yet",
+        "noOrdersDesc": "You haven't placed any orders yet. Start shopping to see them here!",
         "cancelTitle": "Cancel Order",
-        "cancelDesc": "Are you sure you want to cancel this order? Please select a reason for cancellation.",
-        "selectReason": "Select a reason...",
-        "keepOrder": "Keep Order",
-        "confirmCancel": "Confirm Cancellation",
-        "cancelling": "Cancelling...",
-        "returnTitle": "Request Return",
-        "returnDesc": "Please select a reason for returning this item. Our team will review your request shortly.",
-        "confirmReturn": "Confirm Return",
-        "returning": "Processing...",
-        "qty": "Qty",
+        "cancelDesc": "Are you sure you want to cancel this order? This action cannot be undone.",
+        "selectReason": "Select a reason",
         "reasons": {
             "changedMind": "Changed my mind",
             "betterPrice": "Found a better price elsewhere",
             "mistake": "Ordered by mistake",
             "longDelivery": "Expected delivery time is too long",
+            "other": "Other",
             "defective": "Item is defective or damaged",
             "wrongItem": "Received wrong item",
-            "notAsDescribed": "Item not as described",
-            "other": "Other"
-        }
+            "notAsDescribed": "Item not as described"
+        },
+        "keepOrder": "Keep Order",
+        "confirmCancel": "Confirm Cancellation",
+        "cancelling": "Cancelling...",
+        "returnTitle": "Request Return",
+        "returnDesc": "Please select a reason for returning this item. Our team will review your request.",
+        "returning": "Submitting...",
+        "confirmReturn": "Submit Request",
+        "cancelError": "Error cancelling order: ",
+        "returnError": "Error requesting return: "
     },
     "account": {
         "profile": "Profile",
         "addresses": "Addresses",
+        "countryCurrency": "Country & Currency",
+        "countryCurrencyDesc": "Your country determines which currency is used to display prices across the platform.",
+        "saveCountryCurrency": "Save Country & Currency",
         "payment": "Payment",
         "notifications": "Notifications",
         "profileInfo": "Profile Information",
@@ -438,12 +601,25 @@
         "saveChanges": "Save Changes",
         "savedAddresses": "Saved Addresses",
         "addAddress": "Add Address",
-        "default": "Default",
-        "edit": "Edit",
-        "remove": "Remove",
+        "loadingAddresses": "Loading addresses...",
+        "noAddresses": "No saved addresses yet.",
+        "addFirstAddress": "Add your first shipping address",
+        "editAddress": "Edit Address",
+        "addNewAddress": "Add New Address",
+        "addressLabel": "Address Label (e.g. Home, Office)",
+        "streetAddress": "Street Address",
+        "city": "City",
+        "state": "State",
+        "zip": "ZIP Code",
+        "updateAddress": "Update Address",
+        "saveAddress": "Save Address",
+        "confirmDeleteAddress": "Are you sure you want to remove this address?",
         "paymentMethods": "Payment Methods",
         "addCard": "Add Card",
+        "default": "Default",
         "expires": "Expires {{date}}",
+        "edit": "Edit",
+        "remove": "Remove",
         "notificationPrefs": "Notification Preferences",
         "orderUpdates": "Order updates",
         "orderUpdatesDesc": "Shipping confirmations and delivery alerts",
@@ -459,9 +635,16 @@
         "title": "Messages",
         "searchPlaceholder": "Search messages...",
         "loading": "Loading messages...",
+        "noMessages": "No messages yet.",
+        "unknownUser": "Unknown User",
+        "businessAccount": "Business Account",
+        "yourMessages": "Your Messages",
+        "yourMessagesDesc": "When you contact a seller regarding a product, your conversations will appear here. Select one to continue.",
         "emptyState": "Select a conversation",
         "emptyStateDesc": "Choose a seller to view your messages.",
-        "typeMessage": "Type a message..."
+        "typeMessage": "A message for the seller...",
+        "goToCenter": "Go to Message Center",
+        "yourMessage": "Your Message"
     },
     "blog": {
         "title": "Toroongo Blog",
@@ -591,7 +774,6 @@
             ]
         }
     },
-
     "returns": {
         "title": "Returns & Refunds",
         "subtitle": "We want you to love every purchase. If something is not right, we make returns easy.",
@@ -785,7 +967,6 @@
         "readyDesc": "Create your free seller account today.",
         "getStarted": "Get Started"
     },
-
     "sellerDashboard": {
         "title": "Seller Hub",
         "nav": {
@@ -796,18 +977,20 @@
             "abandonedCarts": "Abandoned Carts",
             "blogPosts": "Blog Posts",
             "staff": "Staff",
-            "domain": "Domain",
+            "domain": "Custom Domain",
             "socialCommerce": "Social Commerce",
             "finance": "Finance",
             "apiWebhooks": "API & Webhooks",
             "affiliates": "Affiliates",
-            "importExport": "Import / Export",
+            "importExport": "Import/Export",
             "aiTools": "AI Tools",
             "messages": "Messages",
+            "shippingAreas": "Shipping Areas",
+            "paymentOptions": "Payment Options",
             "storefront": "Storefront",
             "subscription": "Subscription",
             "settings": "Settings",
-            "viewStore": "View My Store"
+            "viewStore": "View Store"
         },
         "stats": {
             "totalRevenue": "Total Revenue",
@@ -849,7 +1032,6 @@
             "returned": "Returned",
             "refunded": "Refunded"
         },
-
         "filters": {
             "searchPlaceholder": "Search by order ID or customer...",
             "allStatus": "All Status",
@@ -860,7 +1042,6 @@
             "returned": "Returned",
             "refunded": "Refunded"
         },
-
         "table": {
             "order": "Order",
             "date": "Date",
@@ -874,7 +1055,43 @@
             "noOrders": "No orders found",
             "itemsCount": "{{count}}x items",
             "moreItems": "+{{count}} more"
+        },
+        "status": {
+            "pending": "Pending",
+            "processing": "Processing",
+            "shipped": "Shipped",
+            "delivered": "Delivered",
+            "completed": "Completed",
+            "cancelled": "Cancelled",
+            "return_requested": "Return Requested",
+            "returned": "Returned",
+            "refunded": "Refunded"
         }
+    },
+    "orderDetail": {
+        "title": "Order Details",
+        "shippingTo": "Shipping To",
+        "paymentMethod": "Payment Method",
+        "orderItems": "Order Items ({{count}})",
+        "subtotal": "Subtotal",
+        "shippingFee": "Shipping Fee",
+        "tax": "Estimated Tax",
+        "total": "Total Amount",
+        "sellerManagement": "Seller Management",
+        "markShipped": "Mark as Shipped",
+        "markDelivered": "Mark as Delivered",
+        "markReturned": "Mark as Returned",
+        "issueRefund": "Issue Refund",
+        "cancelOrder": "Cancel Order",
+        "returnPrompt": "Need to return this?",
+        "returnPromptDesc": "If you're not satisfied, you can request a return within 30 days of delivery.",
+        "howToReturn": "How to Return",
+        "close": "Close Details",
+        "notFound": "Order not found.",
+        "loading": "Loading order details...",
+        "paidSecurely": "Paid securely via Toroongo Pay",
+        "qty": "Qty",
+        "each": "each"
     },
     "sellerProducts": {
         "title": "Products",
@@ -903,6 +1120,56 @@
             "view": "View",
             "edit": "Edit",
             "delete": "Delete"
+        },
+        "productsUsed": "{{count}} / {{limit}} products used",
+        "upgrade": {
+            "unlimited": "Unlimited Products",
+            "message": "You've reached your {{limit}}-product limit. Upgrade to unlock unlimited product listings."
+        },
+        "delete": {
+            "title": "Delete Product",
+            "desc": "Are you sure you want to delete",
+            "warning": "This action cannot be undone."
+        },
+        "modal": {
+            "editTitle": "Edit Product",
+            "addTitle": "Add New Product",
+            "titleLabel": "Product Title *",
+            "titlePlaceholder": "e.g., Wireless Headphones",
+            "categoryLabel": "Category",
+            "categoryPlaceholder": "Select Category",
+            "descLabel": "Description",
+            "descPlaceholder": "Describe your product...",
+            "seoLabel": "Meta Description (SEO)",
+            "seoPlaceholder": "Short SEO description (max 160 characters)...",
+            "priceLabel": "Price *",
+            "originalPriceLabel": "Original Price",
+            "stockLabel": "Stock",
+            "variationsTitle": "Variations",
+            "addVariation": "+ Add variation group",
+            "variationsDesc": "Create variation groups (e.g., Size, Color) and add possible values. Variants can be selected by buyers on the product page.",
+            "noVariations": "No variations added.",
+            "groupNamePlaceholder": "Group name (e.g., Size)",
+            "remove": "Remove",
+            "addValuePlaceholder": "Add value and press Enter (e.g., Red)",
+            "variantPrice": "Price",
+            "variantImage": "Image URL",
+            "mediaTitle": "Product Media",
+            "mediaDesc": "Add image & video URLs. The first image will be used as the primary product image. Supports direct image links, MP4 videos, and YouTube URLs.",
+            "badgeImage": "image",
+            "badgeImagePlural": "images",
+            "badgeVideo": "video",
+            "badgeVideoPlural": "videos",
+            "add": "Add",
+            "noMedia": "No media added yet",
+            "noMediaDesc": "Paste image or video URLs above to add product media",
+            "cancel": "Cancel",
+            "update": "Update Product",
+            "save": "Save Product",
+            "primary": "Primary",
+            "invalidUrl": "Please enter a valid URL",
+            "duplicateUrl": "This URL has already been added",
+            "errorSave": "Failed to {{action}} product"
         }
     },
     "sellerBlogs": {
@@ -911,16 +1178,29 @@
         "createNew": "Create New Post",
         "searchPlaceholder": "Search posts...",
         "loading": "Loading your blogs...",
-        "empty": {
-            "title": "No blog posts found",
-            "searchNoMatch": "No posts matching \"{{query}}\". Try a different search term.",
-            "subtitle": "You haven't created any blog posts yet. Start by creating your first post to engage with your customers.",
-            "clearSearch": "Clear Search",
-            "createFirst": "Create First Post"
-        },
-        "deleteConfirm": "Are you sure you want to delete this blog post?",
-        "deleteFailed": "Failed to delete blog",
+        "deleteConfirm": "Are you sure you want to delete this post?",
+        "deleteFailed": "Failed to delete blog post.",
         "saveFailed": "Failed to save blog",
+        "table": {
+            "details": "Post Details",
+            "category": "Category",
+            "status": "Status",
+            "actions": "Actions",
+            "publishedOn": "Published on {{date}}"
+        },
+        "status": {
+            "published": "Published"
+        },
+        "edit": "Edit Post",
+        "delete": "Delete Post",
+        "views": "{{count}} views",
+        "empty": {
+            "title": "No posts yet",
+            "subtitle": "You haven't created any blog posts yet. Start by creating your first post to engage with your customers.",
+            "searchNoMatch": "No posts matching \"{{query}}\"",
+            "clearSearch": "Clear search",
+            "createFirst": "Create Your First Post"
+        },
         "editor": {
             "loading": "Loading editor...",
             "newTitle": "Create New Post",
@@ -959,34 +1239,45 @@
             "guides": "Product Guide",
             "stories": "Brand Story",
             "updates": "Update"
+        }
+    },
+    "sellerShipping": {
+        "title": "Shipping Areas",
+        "subtitle": "Create delivery zones and set a fee for each area.",
+        "form": {
+            "addTitle": "New Area",
+            "editTitle": "Edit Area",
+            "namePlaceholder": "Area name (e.g. Dhaka City)",
+            "countryPlaceholder": "Country code (e.g. BD)",
+            "feePlaceholder": "Delivery Fee",
+            "active": "Active delivery zone",
+            "saveBtn": "Save Area",
+            "updateBtn": "Update Area"
         },
         "table": {
-            "details": "Post Details",
-            "category": "Category",
-            "status": "Status",
-            "actions": "Actions",
-            "publishedOn": "Published on {{date}}"
+            "savedTitle": "Saved Areas",
+            "totalCount": "{{count}} total",
+            "loading": "Loading areas...",
+            "noAreas": "No shipping areas yet."
         },
         "status": {
-            "published": "Published"
-        },
-        "view": "View",
-        "edit": "Edit",
-        "delete": "Delete",
-        "views": "{{count}} views"
+            "active": "Active",
+            "disabled": "Disabled"
+        }
     },
     "sellerFinance": {
         "title": "Finance",
         "exportCsv": "Export CSV",
         "stats": {
-            "available": "Available Balance",
+            "available": "Available for Payout",
             "pending": "Pending Settlement",
-            "nextPayout": "Next Payout"
+            "payout": "Next Payout",
+            "est": "Est."
         },
         "transactions": {
             "title": "Recent Transactions",
             "table": {
-                "id": "Transaction",
+                "id": "ID",
                 "date": "Date",
                 "type": "Type",
                 "description": "Description",
@@ -994,49 +1285,162 @@
                 "fee": "Fee",
                 "net": "Net",
                 "loading": "Loading transactions...",
-                "noTransactions": "No transactions yet."
+                "noTransactions": "No transactions found"
             },
             "types": {
                 "sale": "Sale",
                 "payout": "Payout"
             }
         },
+        "upgrade": {
+            "title": "Finance & Advanced Analytics",
+            "message": "Unlock advanced financial analytics with conversion funnels, detailed transaction tracking, and payout management. Upgrade to Pro."
+        },
         "payoutInfo": "Weekly payout → Bank ****{{lastFour}}"
+    },
+    "sellerStaff": {
+        "title": "Staff Accounts",
+        "staffCount": "{{count}} / {{max}} staff members",
+        "staffCountUnlimited": "{{count}} staff members (Unlimited)",
+        "inviteBtn": "Invite Staff Member",
+        "limitReached": {
+            "title": "Staff limit reached",
+            "message": "Your Business plan supports up to {{max}} staff members. Upgrade to Enterprise for unlimited staff accounts."
+        },
+        "modal": {
+            "title": "Invite Staff Member",
+            "nameLabel": "Full Name",
+            "emailLabel": "Email Address",
+            "roleLabel": "Role",
+            "roleManager": "Manager — Full access",
+            "roleEditor": "Editor — Products & content",
+            "roleSupport": "Support — Orders & messages",
+            "roleViewer": "Viewer — Read-only",
+            "cancel": "Cancel",
+            "sendBtn": "Send Invite"
+        },
+        "searchPlaceholder": "Search staff members...",
+        "card": {
+            "lastActive": "Last active: {{time}}",
+            "remove": "Remove",
+            "permissions": "Permissions",
+            "initials": "Initials",
+            "justNow": "Just now",
+            "hoursAgo": "{{count}}h ago",
+            "daysAgo": "{{count}}d ago"
+        },
+        "roles": {
+            "manager": "Manager",
+            "editor": "Editor",
+            "support": "Support",
+            "viewer": "Viewer"
+        },
+        "status": {
+            "active": "Active",
+            "pending": "Pending",
+            "inactive": "Inactive"
+        },
+        "noStaff": "No staff members found",
+        "noStaffDesc": "Invite your first team member to get started",
+        "upgrade": {
+            "title": "Staff Accounts",
+            "message": "Add team members with role-based permissions to help manage your store. Upgrade to Business to unlock this feature."
+        },
+        "permissions": {
+            "orders": "Orders",
+            "products": "Products",
+            "analytics": "Analytics",
+            "messages": "Messages",
+            "blog": "Blog",
+            "settings": "Settings"
+        }
+    },
+    "subscription": {
+        "title": "Subscription",
+        "subtitle": "Manage your store plan and billing",
+        "paymentHistory": "Payment History",
+        "planName": "{{name}} Plan",
+        "perMonth": "per month",
+        "nextBilling": "Next Billing",
+        "freeForever": "Free Forever",
+        "paymentMethod": "Payment Method",
+        "noCardNeeded": "No card needed",
+        "productsUsed": "{{count}} / {{limit}} products used",
+        "productsUnlimited": "{{count}} products (Unlimited)",
+        "availablePlans": "Available Plans",
+        "currentPlanLabel": "Current Plan",
+        "aiSuperpowers": "AI Superpowers",
+        "currentPlan": "Current Plan",
+        "upgrade": "Upgrade Now",
+        "downgrade": "Downgrade Plan",
+        "downgradeConfirmTitle": "Downgrade to {{name}}?",
+        "downgradeConfirmDesc": "Your plan will be downgraded at the <strong>end of your current billing cycle</strong>.",
+        "downgradeWarning": "⚠️ You may lose access to some features when the downgrade takes effect.",
+        "confirmDowngrade": "Confirm Downgrade",
+        "cancel": "Cancel",
+        "messages": {
+            "upgradeSuccess": "Successfully upgraded to {{name}}!",
+            "downgradeScheduled": "Your plan will be downgraded to {{name}} at the end of your current billing cycle.",
+            "downgradeFailed": "Failed to downgrade plan."
+        }
     },
     "sellerSettings": {
         "title": "Store Settings",
         "tabs": {
-            "store": "Store Info",
+            "store": "Store",
             "branding": "Branding",
+            "country_currency": "Country & Currency",
+            "content": "Store Content",
+            "whitelabel": "White-Label",
+            "currency": "Multi-Currency",
+            "customcode": "Custom Code",
             "shipping": "Shipping",
             "notifications": "Notifications"
         },
         "username": {
             "title": "Shop Username",
-            "desc": "Your unique storefront URL. Customers will find your shop at ",
-            "placeholder": "your-shop-name",
+            "desc": "Your shop's unique URL on Toroongo.",
             "checking": "Checking availability...",
             "available": "Username is available!",
-            "current": "This is your current username",
-            "empty": "Username cannot be empty",
             "preview": "Preview your storefront",
+            "claiming": "Claiming...",
+            "currentBtn": "Current Username",
             "claim": "Claim Username",
-            "currentBtn": "Current Username"
+            "updateError": "Failed to update username."
+        },
+        "slug": {
+            "errorMin": "Must be at least 3 characters",
+            "errorMax": "Must be 30 characters or fewer",
+            "errorChars": "Only lowercase letters, numbers, and hyphens. Cannot start/end with a hyphen.",
+            "errorHyphens": "Cannot contain consecutive hyphens",
+            "errorReserved": "This username is reserved",
+            "current": "This is your current username",
+            "takenBy": "Already taken by \"{{name}}\"",
+            "errorEmpty": "Username cannot be empty",
+            "taken": "Already taken"
         },
         "storeInfo": {
             "title": "Store Information",
-            "name": "Store Name",
-            "description": "Description",
-            "email": "Contact Email",
-            "phone": "Phone",
-            "save": "Save Changes"
+            "name": "Shop Name",
+            "description": "Shop Description",
+            "email": "Public Email",
+            "phone": "Public Phone",
+            "location": "Location",
+            "save": "Save Store Info"
+        },
+        "countryCurrency": {
+            "title": "Country & Currency",
+            "desc": "Your country sets your store's currency. All product prices you enter will be stored in this currency and automatically converted for buyers worldwide.",
+            "important": "Important:",
+            "importantDesc": "Changing your currency will update the currency for all your existing products. Their stored prices will remain the same numbers, so you may want to review and update them to match the new currency.",
+            "save": "Save Country & Currency"
         },
         "branding": {
-            "title": "Brand Customization",
+            "title": "Branding & Appearance",
             "color": "Primary Brand Color",
             "logo": "Logo URL",
             "banner": "Banner Image URL",
-            "save": "Update Branding"
+            "save": "Save Branding"
         },
         "shipping": {
             "title": "Shipping Settings",
@@ -1045,32 +1449,86 @@
             "rate": "Standard Shipping Rate ($)",
             "express": "Offer express shipping",
             "expressDesc": "Allow customers to choose faster 2-3 day delivery",
-            "save": "Save Shipping"
+            "save": "Save Shipping Settings"
         },
         "notifications": {
             "title": "Notification Preferences",
-            "save": "Save Preferences",
-            "items": {
-                "orders": {
-                    "label": "New orders",
-                    "desc": "Get notified when you receive a new order"
-                },
-                "updates": {
-                    "label": "Order updates",
-                    "desc": "Status changes and delivery confirmations"
-                },
-                "messages": {
-                    "label": "Customer messages",
-                    "desc": "When a buyer sends you a message"
-                },
-                "stock": {
-                    "label": "Low stock alerts",
-                    "desc": "When product stock falls below 5 units"
-                },
-                "payouts": {
-                    "label": "Payout notifications",
-                    "desc": "When payouts are processed to your bank"
-                }
+            "newOrders": "New orders",
+            "newOrdersDesc": "Get notified when you receive a new order",
+            "orderUpdates": "Order updates",
+            "orderUpdatesDesc": "Status changes and delivery confirmations",
+            "customerMessages": "Customer messages",
+            "customerMessagesDesc": "When a buyer sends you a message",
+            "lowStock": "Low stock alerts",
+            "lowStockDesc": "When product stock falls below 5 units",
+            "payouts": "Payout notifications",
+            "payoutsDesc": "When payouts are processed to your bank",
+            "save": "Save Notification Preferences"
+        },
+        "content": {
+            "aboutTitle": "About Your Store",
+            "aboutDesc": "Tell your story. This will be displayed on the \"About\" tab of your storefront.",
+            "aboutPlaceholder": "Describe your store, your team, and your mission...",
+            "benefitsTitle": "Why Shop With Us",
+            "benefitsDesc": "Highlight what makes your store unique. These appear on your \"About\" page.",
+            "benefitNum": "Benefit #{{num}}",
+            "benefitPlaceholder": "Benefit Title",
+            "descPlaceholder": "Description...",
+            "policiesTitle": "Store Policies",
+            "policiesDesc": "Custom policies for your customers. Defaults will be shown if left blank.",
+            "shippingPolicy": "Shipping Policy",
+            "shippingPlaceholder": "Order processing times, shipping methods, areas covered...",
+            "returnsPolicy": "Return & Refund Policy",
+            "returnsPlaceholder": "Return windows, refund conditions, who pays for shipping...",
+            "warrantyPolicy": "Warranty Information",
+            "warrantyPlaceholder": "Product guarantee periods, coverage details...",
+            "faqPolicy": "Frequently Asked Questions (FAQ)",
+            "faqPlaceholder": "Common questions and answers for your buyers...",
+            "save": "Save Store Content"
+        },
+        "whitelabel": {
+            "title": "White-Label Settings",
+            "desc": "Control the Toroongo branding on your storefront. Your Business plan includes full white-labeling.",
+            "removeFooter": "Remove \"Powered by Toroongo\" footer",
+            "removeFooterDesc": "Your storefront will show no Toroongo branding to customers",
+            "hideEmail": "Hide Toroongo from email templates",
+            "hideEmailDesc": "Order confirmations and notifications will use your brand only",
+            "customFavicon": "Custom favicon",
+            "customFaviconDesc": "Use your own favicon instead of the Toroongo icon",
+            "activeTitle": "White-Label Active",
+            "activeDesc": "All Toroongo branding has been removed from your storefront.",
+            "save": "Save White-Label Settings",
+            "upgrade": {
+                "title": "White-Labeling",
+                "message": "Remove all Toroongo branding from your storefront. Your customers will see only your brand — no 'Powered by Toroongo' footer."
+            }
+        },
+        "customcode": {
+            "cssTitle": "Custom CSS",
+            "cssDesc": "Add custom CSS to override storefront styles. Changes apply to your public storefront only.",
+            "cssPlaceholder": "/* Your custom storefront CSS */",
+            "cssSave": "Save Custom CSS",
+            "htmlTitle": "Custom HTML (Head Injection)",
+            "htmlDesc": "Inject custom HTML into the <head> of your storefront. Useful for analytics scripts, meta tags, or third-party integrations.",
+            "htmlPlaceholder": "<!-- Custom head HTML -->",
+            "htmlCaution": "Caution:",
+            "htmlCautionDesc": "Injecting invalid HTML or scripts may break your storefront. Test changes carefully.",
+            "htmlSave": "Save Custom HTML",
+            "upgrade": {
+                "title": "Custom CSS/HTML Access",
+                "message": "Inject custom CSS and HTML into your storefront for bespoke design. Create a truly unique shopping experience."
+            }
+        },
+        "currency": {
+            "title": "Multi-Currency Settings",
+            "desc": "Enable currencies for your store. Prices auto-convert based on the visitor's IP address.",
+            "autoDetect": "Auto-detect currency by IP",
+            "autoDetectDesc": "Automatically show prices in the visitor's local currency",
+            "enabledCurrencies": "Enabled Currencies",
+            "save": "Save Currency Settings",
+            "upgrade": {
+                "title": "Multi-Currency Support",
+                "message": "Automatically convert prices based on your visitor's location. Show prices in BDT, USD, MYR, AED, INR, and more."
             }
         }
     },
@@ -1079,8 +1537,11 @@
         "searchPlaceholder": "Search...",
         "loading": "Loading messages...",
         "select": "Select a conversation",
-        "selectDesc": "Choose a customer message to reply.",
-        "typePlaceholder": "Type a reply..."
+        "selectDesc": "Choose a customer message from the list to view the history and send a reply.",
+        "typePlaceholder": "Write a reply...",
+        "buyerAccount": "Buyer Account",
+        "read": "Read",
+        "noMessages": "No messages yet."
     },
     "pricing": {
         "title": "Pricing & Plans",
@@ -1237,44 +1698,10 @@
         }
     },
     "footer": {
-        "sections": {
-            "sell": "Sell on Toroongo",
-            "myAccount": "My Account",
-            "sellerCentral": "Seller Central",
-            "adminPanel": "Admin Panel",
-            "about": "About",
-            "customerService": "Customer Service",
-            "legal": "Legal"
-        },
-        "links": {
-            "becomeSeller": "Become a Seller",
-            "sellerPricing": "Seller Pricing",
-            "sellerResources": "Seller Resources",
-            "sellerFaq": "Seller FAQs",
-            "dashboard": "Dashboard",
-            "orders": "Order History",
-            "wishlist": "Wishlist",
-            "messages": "Messages",
-            "products": "Products",
-            "storefront": "Storefront Builder",
-            "overview": "Overview",
-            "manageUsers": "Manage Users",
-            "manageSellers": "Manage Sellers",
-            "disputes": "Disputes",
-            "aboutUs": "About Toroongo",
-            "careers": "Careers",
-            "press": "Press & Media",
-            "impact": "Social Impact",
-            "help": "Help Center",
-            "shipping": "Shipping & Delivery",
-            "returns": "Returns & Refunds",
-            "contact": "Contact Us",
-            "terms": "Terms of Use",
-            "privacy": "Privacy Policy",
-            "cookie": "Cookie Policy",
-            "sellerAgreement": "Seller Agreement"
-        },
-        "rights": "All rights reserved."
+        "policies": "Policies",
+        "about": "About",
+        "contact": "Contact",
+        "poweredBy": "Powered by"
     },
     "store": {
         "notFound": "Store Not Found",
@@ -1292,129 +1719,6 @@
     "shops": {
         "title": "Explore Shops",
         "subtitle": "Discover unique stores from independent sellers on Toroongo. Every shop is a curated experience."
-    },
-    "sellerSettings": {
-        "title": "Seller Settings",
-        "tabs": {
-            "store": "Store",
-            "branding": "Branding",
-            "country_currency": "Country & Currency",
-            "content": "Store Content",
-            "whitelabel": "White-Label",
-            "currency": "Multi-Currency",
-            "customcode": "Custom Code",
-            "shipping": "Shipping",
-            "notifications": "Notifications"
-        },
-        "username": {
-            "title": "Shop Username",
-            "desc": "Your shop's unique URL on Toroongo.",
-            "checking": "Checking availability...",
-            "available": "Username is available!",
-            "currentBtn": "Current Username",
-            "claim": "Claim Username",
-            "preview": "Preview your storefront"
-        },
-        "storeInfo": {
-            "title": "Store Information",
-            "name": "Shop Name",
-            "description": "Shop Description",
-            "email": "Public Email",
-            "phone": "Public Phone",
-            "location": "Location",
-            "save": "Save Store Info"
-        },
-        "countryCurrency": {
-            "title": "Country & Currency",
-            "desc": "Your country sets your store's currency. All product prices you enter will be stored in this currency and automatically converted for buyers worldwide.",
-            "important": "Important:",
-            "importantDesc": "Changing your currency will update the currency for all your existing products. Their stored prices will remain the same numbers, so you may want to review and update them to match the new currency.",
-            "save": "Save Country & Currency"
-        },
-        "branding": {
-            "title": "Branding & Appearance",
-            "color": "Primary Brand Color",
-            "logo": "Logo URL",
-            "banner": "Banner Image URL",
-            "save": "Save Branding"
-        },
-        "shipping": {
-            "title": "Shipping Settings",
-            "processing": "Processing Time (days)",
-            "threshold": "Free Shipping Threshold ($)",
-            "rate": "Standard Shipping Rate ($)",
-            "express": "Offer express shipping",
-            "expressDesc": "Allow customers to choose faster 2-3 day delivery",
-            "save": "Save Shipping Settings"
-        },
-        "notifications": {
-            "title": "Notification Preferences",
-            "newOrders": "New orders",
-            "newOrdersDesc": "Get notified when you receive a new order",
-            "orderUpdates": "Order updates",
-            "orderUpdatesDesc": "Status changes and delivery confirmations",
-            "customerMessages": "Customer messages",
-            "customerMessagesDesc": "When a buyer sends you a message",
-            "lowStock": "Low stock alerts",
-            "lowStockDesc": "When product stock falls below 5 units",
-            "payouts": "Payout notifications",
-            "payoutsDesc": "When payouts are processed to your bank",
-            "save": "Save Notification Preferences"
-        },
-        "content": {
-            "aboutTitle": "About Your Store",
-            "aboutDesc": "Tell your story. This will be displayed on the \"About\" tab of your storefront.",
-            "aboutPlaceholder": "Describe your store, your team, and your mission...",
-            "benefitsTitle": "Why Shop With Us",
-            "benefitsDesc": "Highlight what makes your store unique. These appear on your \"About\" page.",
-            "benefitNum": "Benefit #{{num}}",
-            "benefitPlaceholder": "Benefit Title",
-            "descPlaceholder": "Description...",
-            "policiesTitle": "Store Policies",
-            "policiesDesc": "Custom policies for your customers. Defaults will be shown if left blank.",
-            "shippingPolicy": "Shipping Policy",
-            "shippingPlaceholder": "Order processing times, shipping methods, areas covered...",
-            "returnsPolicy": "Return & Refund Policy",
-            "returnsPlaceholder": "Return windows, refund conditions, who pays for shipping...",
-            "warrantyPolicy": "Warranty Information",
-            "warrantyPlaceholder": "Product guarantee periods, coverage details...",
-            "faqPolicy": "Frequently Asked Questions (FAQ)",
-            "faqPlaceholder": "Common questions and answers for your buyers...",
-            "save": "Save Store Content"
-        },
-        "whitelabel": {
-            "title": "White-Label Settings",
-            "desc": "Control the Toroongo branding on your storefront. Your Business plan includes full white-labeling.",
-            "removeFooter": "Remove \"Powered by Toroongo\" footer",
-            "removeFooterDesc": "Your storefront will show no Toroongo branding to customers",
-            "hideEmail": "Hide Toroongo from email templates",
-            "hideEmailDesc": "Order confirmations and notifications will use your brand only",
-            "customFavicon": "Custom favicon",
-            "customFaviconDesc": "Use your own favicon instead of the Toroongo icon",
-            "activeTitle": "White-Label Active",
-            "activeDesc": "All Toroongo branding has been removed from your storefront.",
-            "save": "Save White-Label Settings"
-        },
-        "customcode": {
-            "cssTitle": "Custom CSS",
-            "cssDesc": "Add custom CSS to override storefront styles. Changes apply to your public storefront only.",
-            "cssPlaceholder": "/* Your custom storefront CSS */",
-            "cssSave": "Save Custom CSS",
-            "htmlTitle": "Custom HTML (Head Injection)",
-            "htmlDesc": "Inject custom HTML into the <head> of your storefront. Useful for analytics scripts, meta tags, or third-party integrations.",
-            "htmlPlaceholder": "<!-- Custom head HTML -->",
-            "htmlCaution": "Caution:",
-            "htmlCautionDesc": "Injecting invalid HTML or scripts may break your storefront. Test changes carefully.",
-            "htmlSave": "Save Custom HTML"
-        },
-        "currency": {
-            "title": "Multi-Currency Settings",
-            "desc": "Enable currencies for your store. Prices auto-convert based on the visitor's IP address.",
-            "autoDetect": "Auto-detect currency by IP",
-            "autoDetectDesc": "Automatically show prices in the visitor's local currency",
-            "enabledCurrencies": "Enabled Currencies",
-            "save": "Save Currency Settings"
-        }
     },
     "sellerPayment": {
         "title": "Payment Options",
@@ -1497,50 +1801,6 @@
             "daysAgo": "{{count}}d ago"
         }
     },
-    "sellerProduct": {
-        "modal": {
-            "addTitle": "Add New Product",
-            "editTitle": "Edit Product",
-            "titleLabel": "Product Title *",
-            "titlePlaceholder": "e.g., Wireless Headphones",
-            "categoryLabel": "Category",
-            "categoryPlaceholder": "Select Category",
-            "descLabel": "Description",
-            "descPlaceholder": "Describe your product...",
-            "seoLabel": "Meta Description (SEO)",
-            "seoPlaceholder": "Short SEO description (max 160 characters)...",
-            "priceLabel": "Price *",
-            "originalPriceLabel": "Original Price",
-            "stockLabel": "Stock",
-            "variationsTitle": "Variations",
-            "addVariation": "+ Add variation group",
-            "variationsDesc": "Create variation groups (e.g., Size, Color) and add possible values. Variants can be selected by buyers on the product page.",
-            "noVariations": "No variations added.",
-            "groupNamePlaceholder": "Group name (e.g., Size)",
-            "remove": "Remove",
-            "addValuePlaceholder": "Add value and press Enter (e.g., Red)",
-            "variantPrice": "Price",
-            "variantImage": "Image URL",
-            "mediaTitle": "Product Media",
-            "mediaDesc": "Add image & video URLs. The first image will be used as the primary product image. Supports direct image links, MP4 videos, and YouTube URLs.",
-            "mediaPlaceholder": "https://example.com/image.jpg or YouTube URL",
-            "add": "Add",
-            "noMedia": "No media added yet",
-            "noMediaDesc": "Paste image or video URLs above to add product media",
-            "cancel": "Cancel",
-            "save": "Save Product",
-            "update": "Update Product",
-            "errorRequired": "Please fill all required fields",
-            "invalidUrl": "Please enter a valid URL",
-            "duplicateUrl": "This URL has already been added",
-            "badgeImage": "Image",
-            "badgeImagePlural": "images",
-            "badgeVideo": "Video",
-            "badgeVideoPlural": "videos",
-            "primary": "Primary",
-            "invalidUrlMsg": "Invalid URL"
-        }
-    },
     "sellerDiscounts": {
         "title": "Discounts",
         "subtitle": "Create and manage discount codes for your store",
@@ -1590,63 +1850,6 @@
             "message": "Create discount codes and promotional offers to boost your sales. Upgrade to Pro to unlock this feature."
         }
     },
-    "sellerStaff": {
-        "title": "Staff Accounts",
-        "staffCount": "{{count}} / {{max}} staff members",
-        "staffCountUnlimited": "{{count}} staff members (Unlimited)",
-        "inviteBtn": "Invite Staff Member",
-        "limitReached": {
-            "title": "Staff limit reached",
-            "message": "Your Business plan supports up to {{max}} staff members. Upgrade to Enterprise for unlimited staff accounts."
-        },
-        "modal": {
-            "title": "Invite Staff Member",
-            "nameLabel": "Full Name",
-            "emailLabel": "Email Address",
-            "roleLabel": "Role",
-            "roleManager": "Manager — Full access",
-            "roleEditor": "Editor — Products & content",
-            "roleSupport": "Support — Orders & messages",
-            "roleViewer": "Viewer — Read-only",
-            "cancel": "Cancel",
-            "sendBtn": "Send Invite"
-        },
-        "searchPlaceholder": "Search staff members...",
-        "card": {
-            "lastActive": "Last active: {{time}}",
-            "remove": "Remove",
-            "permissions": "Permissions",
-            "initials": "Initials",
-            "justNow": "Just now",
-            "hoursAgo": "{{count}}h ago",
-            "daysAgo": "{{count}}d ago"
-        },
-        "roles": {
-            "manager": "Manager",
-            "editor": "Editor",
-            "support": "Support",
-            "viewer": "Viewer"
-        },
-        "status": {
-            "active": "Active",
-            "pending": "Pending",
-            "inactive": "Inactive"
-        },
-        "noStaff": "No staff members found",
-        "noStaffDesc": "Invite your first team member to get started",
-        "upgrade": {
-            "title": "Staff Accounts",
-            "message": "Add team members with role-based permissions to help manage your store. Upgrade to Business to unlock this feature."
-        },
-        "permissions": {
-            "orders": "Orders",
-            "products": "Products",
-            "analytics": "Analytics",
-            "messages": "Messages",
-            "blog": "Blog",
-            "settings": "Settings"
-        }
-    },
     "sellerAiHub": {
         "title": "AI Superpowers",
         "subtitle": "{{unlocked}} AI tools unlocked • {{locked}} available with upgrade",
@@ -1673,6 +1876,114 @@
             "whiteBg": "White Background",
             "translateBtn": "Translate Product Catalog",
             "translating": "Translating catalog..."
+        }
+    },
+    "buyerDashboard": {
+        "nav": {
+            "myOrders": "My Orders",
+            "wishlist": "Wishlist",
+            "myReviews": "My Reviews",
+            "settings": "Settings",
+            "messages": "Messages"
+        }
+    },
+    "upgradeModal": {
+        "title": "Upgrade to {{name}}",
+        "successTitle": "Payment Pending Verification",
+        "successDesc": "We've received your payment details. Our team will verify the transaction and upgrade your plan within 1-2 hours.",
+        "successTime": "Estimated activation: 60-120 minutes",
+        "close": "Close",
+        "bkashTitle": "bKash Manual Payment",
+        "bkashDesc": "Please send the subscription amount ({{price}}) to the following bKash Personal number using the \"Send Money\" option.",
+        "bkashNumber": "bKash Number",
+        "personal": "Personal",
+        "senderNumber": "Your bKash Number",
+        "txnId": "Transaction ID",
+        "txnPlaceholder": "e.g. 8N7A6D5C4B",
+        "submitting": "Submitting...",
+        "submit": "Submit Payment Details",
+        "secured": "Secured Manual Verification",
+        "errors": {
+            "failed": "Failed to submit payment details.",
+            "invalidNumber": "Please enter a valid bKash number.",
+            "invalidTxn": "Please enter a valid Transaction ID."
+        },
+        "numberPlaceholder": "e.g. 017XXXXXXXX"
+    },
+    "sellerDomain": {
+        "title": "Custom Domain",
+        "subtitle": "Connect your own domain name to your Toroongo storefront",
+        "current": {
+            "title": "Current Storefront URL",
+            "subdomain": "Toroongo subdomain — Free with all plans"
+        },
+        "connect": {
+            "title": "Connect Custom Domain",
+            "desc": "Use your own domain (e.g. shop.yourbrand.com) to brand your storefront.",
+            "placeholder": "shop.yourbrand.com",
+            "verifyBtn": "Verify Domain",
+            "verifying": "Verifying...",
+            "success": "Domain verified successfully!",
+            "successDesc": "Configure DNS records below to complete setup.",
+            "failed": "Domain verification failed",
+            "failedDesc": "Please check DNS records and try again. Propagation can take up to 48 hours."
+        },
+        "dns": {
+            "title": "DNS Configuration",
+            "desc": "Add the following DNS records to your domain registrar's settings. DNS propagation may take up to 48 hours.",
+            "table": {
+                "type": "Type",
+                "name": "Name",
+                "value": "Value",
+                "status": "Status"
+            },
+            "status": {
+                "verified": "Verified",
+                "pending": "Pending"
+            }
+        },
+        "ssl": {
+            "title": "Free SSL Certificate",
+            "desc": "SSL encryption is automatically provisioned for all custom domains. Your customers will always see the padlock icon.",
+            "badge": "Auto-provisioned"
+        }
+    },
+    "sellerSocial": {
+        "title": "Social Commerce",
+        "subtitle": "Connect social platforms to sync products and track ad performance",
+        "stats": {
+            "connected": "Connected Platforms",
+            "events": "Total Events Tracked",
+            "sales": "Attributed Sales"
+        },
+        "card": {
+            "connected": "Connected",
+            "notConnected": "Not Connected",
+            "pixelId": "Pixel ID",
+            "feedUrl": "Feed URL",
+            "events": "Events Tracked",
+            "synced": "Products Synced",
+            "configure": "Configure",
+            "disconnect": "Disconnect",
+            "connect": "Connect"
+        },
+        "integrations": {
+            "meta_pixel": {
+                "name": "Meta Pixel (Facebook)",
+                "desc": "Track visitor behavior, optimize ads, and build targeted audiences on Facebook & Instagram."
+            },
+            "google_shopping": {
+                "name": "Google Shopping Feed",
+                "desc": "Sync your product catalog to Google Merchant Center and appear in Google Shopping results."
+            },
+            "tiktok_pixel": {
+                "name": "TikTok Pixel",
+                "desc": "Track conversions from TikTok ads and build lookalike audiences for your store."
+            },
+            "pinterest_tag": {
+                "name": "Pinterest Tag",
+                "desc": "Measure conversions from Pinterest and create rich product pins from your catalog."
+            }
         }
     }
 }

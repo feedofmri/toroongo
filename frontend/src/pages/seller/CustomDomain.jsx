@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
     Globe, Lock, CheckCircle, AlertCircle, ExternalLink,
     Copy, RefreshCw, Shield, ArrowRight, Loader2
@@ -15,6 +16,7 @@ const DNS_RECORDS = [
 ];
 
 export default function CustomDomain() {
+    const { t } = useTranslation();
     const { canAccess, currentPlan } = useSubscription();
     const { user } = useAuth();
     const [customDomain, setCustomDomain] = useState('');
@@ -28,9 +30,9 @@ export default function CustomDomain() {
             <div className="animate-fade-in py-12">
                 <UpgradePrompt
                     currentPlan={currentPlan}
-                    feature="Custom Domain"
+                    feature={t('sellerDomain.title')}
                     requiredPlan="pro"
-                    message="Connect your own domain name to your Toroongo storefront. Upgrade to Pro to use a custom domain."
+                    message={t('sellerDomain.subtitle')}
                     variant="card"
                 />
             </div>
@@ -68,22 +70,22 @@ export default function CustomDomain() {
         <div className="animate-fade-in space-y-6">
             {/* Header */}
             <div>
-                <h2 className="text-2xl font-bold text-text-primary">Custom Domain</h2>
+                <h2 className="text-2xl font-bold text-text-primary">{t('sellerDomain.title')}</h2>
                 <p className="text-text-muted text-sm mt-1">
-                    Connect your own domain name to your Toroongo storefront
+                    {t('sellerDomain.subtitle')}
                 </p>
             </div>
 
             {/* Current Domain */}
             <div className="bg-white rounded-2xl border border-border-soft p-6">
-                <h3 className="text-sm font-semibold text-text-primary mb-4">Current Storefront URL</h3>
+                <h3 className="text-sm font-semibold text-text-primary mb-4">{t('sellerDomain.current.title')}</h3>
                 <div className="flex items-center gap-3 p-4 bg-surface-bg rounded-xl">
                     <Globe size={18} className="text-brand-primary flex-shrink-0" />
                     <div className="flex-1 min-w-0">
                         <p className="text-sm font-mono font-medium text-text-primary truncate">
                             https://{currentSubdomain}
                         </p>
-                        <p className="text-xs text-text-muted mt-0.5">Toroongo subdomain — Free with all plans</p>
+                        <p className="text-xs text-text-muted mt-0.5">{t('sellerDomain.current.subdomain')}</p>
                     </div>
                     <a
                         href={`https://${currentSubdomain}`}
@@ -100,10 +102,10 @@ export default function CustomDomain() {
             <div className="bg-white rounded-2xl border border-border-soft p-6">
                 <div className="flex items-center gap-2 mb-1">
                     <Globe size={18} className="text-brand-primary" />
-                    <h3 className="text-lg font-semibold text-text-primary">Connect Custom Domain</h3>
+                    <h3 className="text-lg font-semibold text-text-primary">{t('sellerDomain.connect.title')}</h3>
                 </div>
                 <p className="text-xs text-text-muted mb-5">
-                    Use your own domain (e.g. <strong>shop.yourbrand.com</strong>) to brand your storefront.
+                    {t('sellerDomain.connect.desc')}
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-3 mb-6">
@@ -115,7 +117,7 @@ export default function CustomDomain() {
                                 setCustomDomain(e.target.value);
                                 setDomainStatus(null);
                             }}
-                            placeholder="shop.yourbrand.com"
+                            placeholder={t('sellerDomain.connect.placeholder')}
                             className="w-full px-4 py-3 text-sm bg-white border border-border-soft rounded-xl focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-colors font-mono"
                         />
                     </div>
@@ -127,12 +129,12 @@ export default function CustomDomain() {
                         {isVerifying ? (
                             <>
                                 <Loader2 size={14} className="animate-spin" />
-                                Verifying...
+                                {t('sellerDomain.connect.verifying')}
                             </>
                         ) : (
                             <>
                                 <RefreshCw size={14} />
-                                Verify Domain
+                                {t('sellerDomain.connect.verifyBtn')}
                             </>
                         )}
                     </button>
@@ -143,9 +145,9 @@ export default function CustomDomain() {
                     <div className="flex items-start gap-3 p-4 bg-green-50 border border-green-200 rounded-xl mb-6 animate-fade-in">
                         <CheckCircle size={18} className="text-green-500 flex-shrink-0 mt-0.5" />
                         <div>
-                            <p className="text-sm font-semibold text-green-800">Domain verified successfully!</p>
+                            <p className="text-sm font-semibold text-green-800">{t('sellerDomain.connect.success')}</p>
                             <p className="text-xs text-green-600 mt-0.5">
-                                Configure DNS records below to complete setup.
+                                {t('sellerDomain.connect.successDesc')}
                             </p>
                         </div>
                     </div>
@@ -155,9 +157,9 @@ export default function CustomDomain() {
                     <div className="flex items-start gap-3 p-4 bg-red-50 border border-red-200 rounded-xl mb-6 animate-fade-in">
                         <AlertCircle size={18} className="text-red-500 flex-shrink-0 mt-0.5" />
                         <div>
-                            <p className="text-sm font-semibold text-red-800">Domain verification failed</p>
+                            <p className="text-sm font-semibold text-red-800">{t('sellerDomain.connect.failed')}</p>
                             <p className="text-xs text-red-600 mt-0.5">
-                                Please check DNS records and try again. Propagation can take up to 48 hours.
+                                {t('sellerDomain.connect.failedDesc')}
                             </p>
                         </div>
                     </div>
@@ -167,19 +169,19 @@ export default function CustomDomain() {
             {/* DNS Instructions */}
             {showDnsInstructions && (
                 <div className="bg-white rounded-2xl border border-border-soft p-6 animate-fade-in">
-                    <h3 className="text-sm font-semibold text-text-primary mb-4">DNS Configuration</h3>
+                    <h3 className="text-sm font-semibold text-text-primary mb-4">{t('sellerDomain.dns.title')}</h3>
                     <p className="text-xs text-text-muted mb-4">
-                        Add the following DNS records to your domain registrar's settings. DNS propagation may take up to 48 hours.
+                        {t('sellerDomain.dns.desc')}
                     </p>
 
                     <div className="overflow-x-auto">
                         <table className="w-full">
                             <thead>
                                 <tr className="bg-surface-bg text-left">
-                                    <th className="px-4 py-2.5 text-xs font-medium text-text-muted uppercase">Type</th>
-                                    <th className="px-4 py-2.5 text-xs font-medium text-text-muted uppercase">Name</th>
-                                    <th className="px-4 py-2.5 text-xs font-medium text-text-muted uppercase">Value</th>
-                                    <th className="px-4 py-2.5 text-xs font-medium text-text-muted uppercase">Status</th>
+                                    <th className="px-4 py-2.5 text-xs font-medium text-text-muted uppercase">{t('sellerDomain.dns.table.type')}</th>
+                                    <th className="px-4 py-2.5 text-xs font-medium text-text-muted uppercase">{t('sellerDomain.dns.table.name')}</th>
+                                    <th className="px-4 py-2.5 text-xs font-medium text-text-muted uppercase">{t('sellerDomain.dns.table.value')}</th>
+                                    <th className="px-4 py-2.5 text-xs font-medium text-text-muted uppercase">{t('sellerDomain.dns.table.status')}</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-border-soft">
@@ -211,8 +213,8 @@ export default function CustomDomain() {
                                                     : 'text-amber-600 bg-amber-50'
                                             }`}>
                                                 {record.status === 'verified'
-                                                    ? <><CheckCircle size={10} /> Verified</>
-                                                    : <><AlertCircle size={10} /> Pending</>}
+                                                    ? <><CheckCircle size={10} /> {t('sellerDomain.dns.status.verified')}</>
+                                                    : <><AlertCircle size={10} /> {t('sellerDomain.dns.status.pending')}</>}
                                             </span>
                                         </td>
                                     </tr>
@@ -230,14 +232,14 @@ export default function CustomDomain() {
                         <Shield size={18} className="text-green-600" />
                     </div>
                     <div>
-                        <h3 className="text-sm font-semibold text-text-primary">Free SSL Certificate</h3>
+                        <h3 className="text-sm font-semibold text-text-primary">{t('sellerDomain.ssl.title')}</h3>
                         <p className="text-xs text-text-muted mt-0.5">
-                            SSL encryption is automatically provisioned for all custom domains. Your customers will always see the 🔒 icon.
+                            {t('sellerDomain.ssl.desc')}
                         </p>
                     </div>
                     <span className="ml-auto text-xs font-semibold text-green-600 bg-green-50 px-3 py-1 rounded-full hidden sm:inline-flex items-center gap-1">
                         <CheckCircle size={11} />
-                        Auto-provisioned
+                        {t('sellerDomain.ssl.badge')}
                     </span>
                 </div>
             </div>

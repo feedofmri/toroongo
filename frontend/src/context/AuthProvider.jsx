@@ -64,21 +64,11 @@ export function AuthProvider({ children }) {
     };
 
     const sendOtp = async (email, type) => {
-        setIsLoading(true);
-        try {
-            return await authService.sendOtp(email, type);
-        } finally {
-            setIsLoading(false);
-        }
+        return await authService.sendOtp(email, type);
     };
 
     const verifyOtp = async (email, otp, type) => {
-        setIsLoading(true);
-        try {
-            return await authService.verifyOtp(email, otp, type);
-        } finally {
-            setIsLoading(false);
-        }
+        return await authService.verifyOtp(email, otp, type);
     };
 
     const loginWithGoogle = async () => {
@@ -103,12 +93,25 @@ export function AuthProvider({ children }) {
         }
     };
 
+    const forgotPassword = async (email) => {
+        return await authService.forgotPassword(email);
+    };
+
+    const resetPassword = async (data) => {
+        return await authService.resetPassword(data);
+    };
+
+    const changePassword = async (data) => {
+        return await authService.changePassword(data);
+    };
+
     return (
         <AuthContext.Provider value={{ 
             user, isAuthenticated, isLoading, 
             login, register, logout, updateUser, 
             sendOtp, verifyOtp, 
-            loginWithGoogle, handleGoogleCallback 
+            loginWithGoogle, handleGoogleCallback,
+            forgotPassword, resetPassword, changePassword
         }}>
             {children}
         </AuthContext.Provider>

@@ -116,7 +116,7 @@ export default function ProductManagement() {
                     <h2 className="text-2xl font-bold text-text-primary">{t('sellerProducts.title')}</h2>
                     {planLimit && (
                         <p className="text-sm text-text-muted mt-1">
-                            {products.length} / {planLimit} products used
+                            {t('sellerProducts.productsUsed', '{{count}} / {{limit}} products used', { count: products.length, limit: planLimit })}
                         </p>
                     )}
                 </div>
@@ -144,8 +144,8 @@ export default function ProductManagement() {
                 <div className="mb-6">
                     <UpgradePrompt
                         currentPlan={currentPlan}
-                        feature="Unlimited Products"
-                        message={`You've reached your ${planLimit}-product limit. Upgrade to unlock unlimited product listings.`}
+                        feature={t('sellerProducts.upgrade.unlimited', 'Unlimited Products')}
+                        message={t('sellerProducts.upgrade.message', "You've reached your {{limit}}-product limit. Upgrade to unlock unlimited product listings.", { limit: planLimit })}
                         variant="banner"
                     />
                 </div>
@@ -282,15 +282,15 @@ export default function ProductManagement() {
                             <div className="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mx-auto mb-4">
                                 <Trash2 size={22} className="text-red-500" />
                             </div>
-                            <h3 className="text-lg font-bold text-text-primary text-center mb-2">Delete Product</h3>
+                            <h3 className="text-lg font-bold text-text-primary text-center mb-2">{t('sellerProducts.delete.title', 'Delete Product')}</h3>
                             <p className="text-sm text-text-muted text-center mb-1">
-                                Are you sure you want to delete
+                                {t('sellerProducts.delete.desc', 'Are you sure you want to delete')}
                             </p>
                             <p className="text-sm font-semibold text-text-primary text-center mb-6 line-clamp-1">
                                 "{deleteConfirm.title}"?
                             </p>
                             <p className="text-xs text-red-500 text-center mb-6">
-                                This action cannot be undone.
+                                {t('sellerProducts.delete.warning', 'This action cannot be undone.')}
                             </p>
                             <div className="flex gap-3">
                                 <button
@@ -298,7 +298,7 @@ export default function ProductManagement() {
                                     disabled={deletingId}
                                     className="flex-1 px-4 py-2.5 text-sm font-semibold text-text-primary bg-white border border-border-soft rounded-xl hover:bg-gray-50 transition-colors disabled:opacity-50"
                                 >
-                                    Cancel
+                                    {t('common.cancel', 'Cancel')}
                                 </button>
                                 <button
                                     onClick={handleDeleteConfirm}
@@ -306,7 +306,7 @@ export default function ProductManagement() {
                                     className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-red-500 rounded-xl hover:bg-red-600 transition-colors disabled:opacity-50"
                                 >
                                     {deletingId ? <Loader size={14} className="animate-spin" /> : null}
-                                    Delete
+                                    {t('sellerProducts.actions.delete', 'Delete')}
                                 </button>
                             </div>
                         </div>

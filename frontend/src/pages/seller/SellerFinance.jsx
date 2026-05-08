@@ -23,9 +23,9 @@ export default function SellerFinance() {
             <div className="animate-fade-in py-12">
                 <UpgradePrompt
                     currentPlan={currentPlan}
-                    feature="Finance & Advanced Analytics"
+                    feature={t('sellerFinance.upgrade.title', 'Finance & Advanced Analytics')}
                     requiredPlan="pro"
-                    message="Unlock advanced financial analytics with conversion funnels, detailed transaction tracking, and payout management. Upgrade to Pro."
+                    message={t('sellerFinance.upgrade.message', 'Unlock advanced financial analytics with conversion funnels, detailed transaction tracking, and payout management. Upgrade to Pro.')}
                     variant="card"
                 />
             </div>
@@ -67,8 +67,8 @@ export default function SellerFinance() {
                     txns.push({
                         id: `TXN-${order.id.split('-')[0].toUpperCase()}-${item.productId}`,
                         date: order.createdAt,
-                        type: 'Sale',
-                        description: `${product ? product.title : 'Product'} × ${item.quantity}`,
+                        type: 'sale',
+                        description: `${product ? product.title : t('common.product', 'Product')} × ${item.quantity}`,
                         amount: itemAmount,
                         fee: itemFee,
                         net: itemNet,
@@ -114,7 +114,7 @@ export default function SellerFinance() {
                         <div className="w-9 h-9 bg-blue-50 rounded-xl flex items-center justify-center">
                             <TrendingUp size={16} className="text-blue-600" />
                         </div>
-                        <span className="text-sm text-text-muted">Pending Settlement</span>
+                        <span className="text-sm text-text-muted">{t('sellerFinance.stats.pending', 'Pending Settlement')}</span>
                     </div>
                     <p className="text-2xl font-bold text-text-primary">
                         {formatPrice(stats.pending)}
@@ -125,12 +125,12 @@ export default function SellerFinance() {
                         <div className="w-9 h-9 bg-amber-50 rounded-xl flex items-center justify-center">
                             <Calendar size={16} className="text-amber-600" />
                         </div>
-                        <span className="text-sm text-text-muted">Next Payout</span>
+                        <span className="text-sm text-text-muted">{t('sellerFinance.stats.payout', 'Next Payout')}</span>
                     </div>
                     <p className="text-2xl font-bold text-text-primary">
                         {new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString(t('common.locale', 'en-US'), { month: 'short', day: 'numeric' })}
                     </p>
-                    <p className="text-xs text-text-muted mt-0.5">Est. {formatPrice(stats.available)}</p>
+                    <p className="text-xs text-text-muted mt-0.5">{t('sellerFinance.stats.est', 'Est.')} {formatPrice(stats.available)}</p>
                 </div>
             </div>
 
@@ -169,10 +169,10 @@ export default function SellerFinance() {
                                     </td>
                                     <td className="px-5 py-3.5">
                                         <span className={`text-xs font-semibold px-2 py-0.5 rounded-full
-                                          ${txn.type === 'Sale' ? 'text-green-600 bg-green-50'
-                                                : txn.type === 'Payout' ? 'text-blue-600 bg-blue-50'
+                                          ${txn.type === 'sale' ? 'text-green-600 bg-green-50'
+                                                : txn.type === 'payout' ? 'text-blue-600 bg-blue-50'
                                                     : 'text-red-500 bg-red-50'}`}>
-                                            {txn.type}
+                                            {t(`sellerFinance.transactions.type.${txn.type}`, txn.type)}
                                         </span>
                                     </td>
                                     <td className="px-5 py-3.5 text-sm text-text-muted truncate max-w-[200px]">{txn.description}</td>

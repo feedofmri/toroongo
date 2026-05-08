@@ -39,6 +39,8 @@ import StoreHome from "./pages/seller/StoreHome";
 import StoreCatalog from "./pages/seller/StoreCatalog";
 import StoreAbout from "./pages/seller/StoreAbout";
 import StorePolicies from "./pages/seller/StorePolicies";
+import StoreBlog from "./pages/seller/StoreBlog";
+import StoreReviews from "./pages/seller/StoreReviews";
 
 // ─── Seller Dashboard Pages ──────────────────────────────────
 import SellerDashboard from "./pages/seller/SellerDashboard";
@@ -227,6 +229,10 @@ function App() {
           <Route path="/seller-agreement" element={<SellerAgreement />} />
           <Route path="/data-preferences" element={<DataPreferences />} />
 
+          {/* Legacy/Common path redirects */}
+          <Route path="/messages" element={<Navigate to="/account/messages" replace />} />
+          <Route path="/orders" element={<Navigate to="/account/orders" replace />} />
+          <Route path="/settings" element={<Navigate to="/account/settings" replace />} />
         </Route>
 
         {/* ── Seller Storefronts (toroongo.com/:username) ─── */}
@@ -235,6 +241,8 @@ function App() {
           <Route path="products" element={<StoreCatalog />} />
           <Route path="about" element={<StoreAbout />} />
           <Route path="policies" element={<StorePolicies />} />
+          <Route path="blog" element={<StoreBlog />} />
+          <Route path="reviews" element={<StoreReviews />} />
         </Route>
 
         {/* ── Storefront Builder ── */}

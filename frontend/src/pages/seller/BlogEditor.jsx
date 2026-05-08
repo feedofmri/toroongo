@@ -6,6 +6,7 @@ import 'react-quill-new/dist/quill.snow.css';
 import { useTranslation } from 'react-i18next';
 import { blogService } from '../../services';
 import { useAuth } from '../../context/AuthContext';
+import MediaUploader from '../../components/ui/MediaUploader';
 
 const modules = {
     toolbar: [
@@ -325,37 +326,13 @@ export default function BlogEditor() {
                                 <h3 className="font-bold text-text-primary">{t('sellerBlogs.editor.coverImage')}</h3>
                             </div>
 
-                            <div>
-                                <label className={labelClass}>{t('sellerBlogs.editor.imageUrl')}</label>
-                                <div className="relative group">
-                                    <input
-                                        type="url"
-                                        placeholder={t('sellerBlogs.editor.urlPlaceholder')}
-                                        className={inputClass}
-                                        value={formData.image_url}
-                                        onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                                    />
-                                    {formData.image_url && (
-                                        <button
-                                            type="button"
-                                            onClick={() => setFormData({ ...formData, image_url: '' })}
-                                            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-text-muted hover:text-red-500 transition-colors"
-                                        >
-                                            <X size={14} />
-                                        </button>
-                                    )}
-                                </div>
-                                {formData.image_url ? (
-                                    <div className="mt-4 aspect-video rounded-2xl overflow-hidden border border-border-soft bg-surface-bg">
-                                        <img src={formData.image_url} alt="" className="w-full h-full object-cover" />
-                                    </div>
-                                ) : (
-                                    <div className="mt-4 aspect-video rounded-2xl border-2 border-dashed border-border-soft flex flex-col items-center justify-center text-text-muted text-[10px] font-bold uppercase tracking-widest gap-2">
-                                        <ImageIcon size={20} className="text-border-soft" />
-                                        {t('sellerBlogs.editor.noPreview')}
-                                    </div>
-                                )}
-                            </div>
+                            <MediaUploader
+                                variant="compact"
+                                maxFiles={1}
+                                acceptVideo={false}
+                                value={formData.image_url ? [formData.image_url] : []}
+                                onChange={(urls) => setFormData({ ...formData, image_url: urls[0] || '' })}
+                            />
                         </section>
                     </div>
                 </form>

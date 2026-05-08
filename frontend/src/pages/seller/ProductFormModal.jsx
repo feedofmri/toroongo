@@ -7,106 +7,16 @@ import {
   Video,
   Trash2,
   GripVertical,
-  Link2,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { api } from "../../services/api";
 import { productService } from "../../services";
+import MediaUploader from "../../components/ui/MediaUploader";
 
 function isVideoUrl(url) {
   return (
     /\.(mp4|webm|ogg|mov)(\?|$)/i.test(url) ||
     /youtube\.com|youtu\.be|vimeo\.com/i.test(url)
-  );
-}
-
-function getYoutubeEmbedUrl(url) {
-  const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([\w-]+)/);
-  return match ? `https://www.youtube.com/embed/${match[1]}` : null;
-}
-
-function MediaPreview({ url, onRemove, index }) {
-  const isVideo = isVideoUrl(url);
-  const youtubeEmbed = getYoutubeEmbedUrl(url);
-
-  return (
-    <div className="group relative rounded-xl overflow-hidden border border-border-soft bg-surface-bg aspect-square">
-      {isVideo ? (
-        youtubeEmbed ? (
-          <iframe
-            src={youtubeEmbed}
-            title={`Video ${index + 1}`}
-            className="w-full h-full object-cover"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
-            allowFullScreen
-          />
-        ) : (
-          <video
-            src={url}
-            className="w-full h-full object-cover"
-            muted
-            playsInline
-            onMouseEnter={(e) => {
-              e.target.play().catch(() => {
-                // Silently catch errors (e.g., invalid video source, cross-origin)
-              });
-            }}
-            onMouseLeave={(e) => {
-              e.target.pause();
-              e.target.currentTime = 0;
-            }}
-          />
-        )
-      ) : (
-        <img
-          src={url}
-          alt={`Media ${index + 1}`}
-          className="w-full h-full object-cover"
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src =
-              "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2YxZjVmOSIvPjx0ZXh0IHg9IjEwMCIgeT0iMTA1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTRhM2I4IiBmb250LXNpemU9IjEyIj5JbnZhbGlkIFVSTDwvdGV4dD48L3N2Zz4=";
-          }}
-        />
-      )}
-
-      {/* Media type badge */}
-      <div className="absolute top-2 left-2">
-        <span
-          className={`flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full backdrop-blur-sm
-                    ${isVideo ? "bg-purple-500/90 text-white" : "bg-white/90 text-text-primary"}`}
-        >
-          {isVideo ? (
-            <>
-              <Video size={10} /> {t('sellerProduct.modal.badgeVideo', 'Video')}
-            </>
-          ) : (
-            <>
-              <Image size={10} /> {t('sellerProduct.modal.badgeImage', 'Image')}
-            </>
-          )}
-        </span>
-      </div>
-
-      {/* Primary badge for first item */}
-      {index === 0 && (
-        <div className="absolute bottom-2 left-2">
-          <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-brand-primary text-white">
-            {t('sellerProduct.modal.primary', 'Primary')}
-          </span>
-        </div>
-      )}
-
-      {/* Remove button */}
-      <button
-        type="button"
-        onClick={() => onRemove(index)}
-        className="absolute top-2 right-2 p-1.5 rounded-full bg-red-500/90 text-white opacity-0 group-hover:opacity-100
-                           transition-all duration-200 hover:bg-red-600 hover:scale-110"
-      >
-        <Trash2 size={12} />
-      </button>
-    </div>
   );
 }
 
@@ -122,8 +32,7 @@ export default function ProductFormModal({
   const [error, setError] = useState(null);
   const [mediaUrls, setMediaUrls] = useState([]);
   const [variations, setVariations] = useState([]);
-  const [newMediaUrl, setNewMediaUrl] = useState("");
-  const [urlError, setUrlError] = useState("");
+  const [saveSuccess, setSaveSuccess] = useState(false);
 
   const isEditMode = !!editProduct;
 
@@ -136,6 +45,16 @@ export default function ProductFormModal({
     category: "",
     meta_description: "",
   });
+
+  const isDirty = React.useMemo(() => {
+    if (!editProduct) return formData.title.trim() !== "";
+    return formData.title !== (editProduct.title || "") ||
+           formData.description !== (editProduct.description || "") ||
+           formData.price !== (editProduct.price?.toString() || "") ||
+           formData.stock !== (editProduct.stock?.toString() || "") ||
+           formData.category !== (editProduct.category || "") ||
+           formData.meta_description !== (editProduct.meta_description || "");
+  }, [formData, editProduct]);
 
   useEffect(() => {
     if (isOpen) {
@@ -192,8 +111,6 @@ export default function ProductFormModal({
         setMediaUrls([]);
         setVariations([]);
       }
-      setNewMediaUrl("");
-      setUrlError("");
       setError(null);
     }
   }, [isOpen, editProduct]);
@@ -240,34 +157,6 @@ export default function ProductFormModal({
     setVariations((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const addMediaUrl = () => {
-    const url = newMediaUrl.trim();
-    if (!url) return;
-
-    // Basic URL validation
-    try {
-      new URL(url);
-    } catch {
-      setUrlError(t('sellerProduct.modal.invalidUrl', 'Please enter a valid URL'));
-      return;
-    }
-
-    if (mediaUrls.includes(url)) {
-      setUrlError(t('sellerProduct.modal.duplicateUrl', 'This URL has already been added'));
-      return;
-    }
-
-    setMediaUrls((prev) => [...prev, url]);
-    setNewMediaUrl("");
-    setUrlError("");
-  };
-
-  const handleMediaUrlKeyDown = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      addMediaUrl();
-    }
-  };
 
   const removeMedia = (index) => {
     setMediaUrls((prev) => prev.filter((_, i) => i !== index));
@@ -298,12 +187,16 @@ export default function ProductFormModal({
         variations: cleanedVariations,
       };
 
-      if (isEditMode) {
-        await productService.updateProduct(editProduct.id, payload);
-      } else {
-        await productService.createProduct(payload);
-      }
-      onSuccess();
+        if (isEditMode) {
+          await productService.updateProduct(editProduct.id, payload);
+        } else {
+          await productService.createProduct(payload);
+        }
+        setSaveSuccess(true);
+        setTimeout(() => {
+          onSuccess();
+          setSaveSuccess(false);
+        }, 1000);
     } catch (err) {
       // If validation errors returned from API, format them for display
       if (err.response && err.response.errors) {
@@ -312,7 +205,7 @@ export default function ProductFormModal({
       } else {
         setError(
           err.message ||
-            t('sellerProduct.modal.errorSave', 'Failed to {{action}} product', { action: isEditMode ? 'update' : 'create' }),
+            t('sellerProducts.modal.errorSave', 'Failed to {{action}} product', { action: isEditMode ? 'update' : 'create' }),
         );
       }
     } finally {
@@ -331,7 +224,7 @@ export default function ProductFormModal({
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-border-soft">
           <h2 className="text-xl font-bold text-text-primary">
-            {isEditMode ? t('sellerProduct.modal.editTitle', 'Edit Product') : t('sellerProduct.modal.addTitle', 'Add New Product')}
+            {isEditMode ? t('sellerProducts.modal.editTitle', 'Edit Product') : t('sellerProducts.modal.addTitle', 'Add New Product')}
           </h2>
           <button
             onClick={onClose}
@@ -354,7 +247,7 @@ export default function ProductFormModal({
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-text-primary mb-2">
-                  {t('sellerProduct.modal.titleLabel', 'Product Title *')}
+                  {t('sellerProducts.modal.titleLabel', 'Product Title *')}
                 </label>
                 <input
                   type="text"
@@ -363,12 +256,12 @@ export default function ProductFormModal({
                   value={formData.title}
                   onChange={handleChange}
                   className="w-full px-4 py-2.5 bg-surface-bg border border-border-soft rounded-xl focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-all"
-                  placeholder={t('sellerProduct.modal.titlePlaceholder', 'e.g., Wireless Headphones')}
+                  placeholder={t('sellerProducts.modal.titlePlaceholder', 'e.g., Wireless Headphones')}
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-text-primary mb-2">
-                  {t('sellerProduct.modal.categoryLabel', 'Category')}
+                  {t('sellerProducts.modal.categoryLabel', 'Category')}
                 </label>
                 <select
                   name="category"
@@ -376,7 +269,7 @@ export default function ProductFormModal({
                   onChange={handleChange}
                   className="w-full px-4 py-2.5 bg-surface-bg border border-border-soft rounded-xl focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-all"
                 >
-                  <option value="">{t('sellerProduct.modal.categoryPlaceholder', 'Select Category')}</option>
+                  <option value="">{t('sellerProducts.modal.categoryPlaceholder', 'Select Category')}</option>
                   {categories.map((c) => (
                     <option key={c.id} value={c.slug || c.name}>
                       {c.name}
@@ -389,7 +282,7 @@ export default function ProductFormModal({
             {/* Description */}
             <div>
               <label className="block text-sm font-medium text-text-primary mb-2">
-                {t('sellerProduct.modal.descLabel', 'Description')}
+                {t('sellerProducts.modal.descLabel', 'Description')}
               </label>
               <textarea
                 name="description"
@@ -397,14 +290,14 @@ export default function ProductFormModal({
                 onChange={handleChange}
                 rows="3"
                 className="w-full px-4 py-2.5 bg-surface-bg border border-border-soft rounded-xl focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-all resize-none"
-                placeholder={t('sellerProduct.modal.descPlaceholder', 'Describe your product...')}
+                placeholder={t('sellerProducts.modal.descPlaceholder', 'Describe your product...')}
               />
             </div>
 
             {/* Meta Description */}
             <div>
               <label className="block text-sm font-medium text-text-primary mb-2">
-                {t('sellerProduct.modal.seoLabel', 'Meta Description (SEO)')}
+                {t('sellerProducts.modal.seoLabel', 'Meta Description (SEO)')}
               </label>
               <textarea
                 name="meta_description"
@@ -413,7 +306,7 @@ export default function ProductFormModal({
                 rows="2"
                 maxLength="160"
                 className="w-full px-4 py-2.5 bg-surface-bg border border-border-soft rounded-xl focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-all resize-none"
-                placeholder={t('sellerProduct.modal.seoPlaceholder', 'Short SEO description (max 160 characters)...')}
+                placeholder={t('sellerProducts.modal.seoPlaceholder', 'Short SEO description (max 160 characters)...')}
               />
               <div className="flex justify-end mt-1">
                 <span
@@ -428,7 +321,7 @@ export default function ProductFormModal({
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               <div>
                 <label className="block text-sm font-medium text-text-primary mb-2">
-                  {t('sellerProduct.modal.priceLabel', 'Price *')}
+                  {t('sellerProducts.modal.priceLabel', 'Price *')}
                 </label>
                 <input
                   type="number"
@@ -444,7 +337,7 @@ export default function ProductFormModal({
               </div>
               <div>
                 <label className="block text-sm font-medium text-text-primary mb-2">
-                  {t('sellerProduct.modal.originalPriceLabel', 'Original Price')}
+                  {t('sellerProducts.modal.originalPriceLabel', 'Original Price')}
                 </label>
                 <input
                   type="number"
@@ -459,7 +352,7 @@ export default function ProductFormModal({
               </div>
               <div>
                 <label className="block text-sm font-medium text-text-primary mb-2">
-                  {t('sellerProduct.modal.stockLabel', 'Stock')}
+                  {t('sellerProducts.modal.stockLabel', 'Stock')}
                 </label>
                 <input
                   type="number"
@@ -478,23 +371,23 @@ export default function ProductFormModal({
             <div>
               <div className="flex items-center justify-between mb-2">
                 <label className="block text-sm font-medium text-text-primary">
-                  {t('sellerProduct.modal.variationsTitle', 'Variations')}
+                  {t('sellerProducts.modal.variationsTitle', 'Variations')}
                 </label>
                 <button
                   type="button"
                   onClick={addVariationGroup}
                   className="text-sm text-brand-primary font-semibold"
                 >
-                  {t('sellerProduct.modal.addVariation', '+ Add variation group')}
+                  {t('sellerProducts.modal.addVariation', '+ Add variation group')}
                 </button>
               </div>
               <p className="text-xs text-text-muted mb-3">
-                {t('sellerProduct.modal.variationsDesc', 'Create variation groups (e.g., Size, Color) and add possible values. Variants can be selected by buyers on the product page.')}
+                {t('sellerProducts.modal.variationsDesc', 'Create variation groups (e.g., Size, Color) and add possible values. Variants can be selected by buyers on the product page.')}
               </p>
 
               {variations.length === 0 && (
                 <div className="border border-border-soft rounded-xl p-4 text-sm text-text-muted">
-                  {t('sellerProduct.modal.noVariations', 'No variations added.')}
+                  {t('sellerProducts.modal.noVariations', 'No variations added.')}
                 </div>
               )}
 
@@ -511,7 +404,7 @@ export default function ProductFormModal({
                         onChange={(e) =>
                           updateVariationName(gi, e.target.value)
                         }
-                        placeholder={t('sellerProduct.modal.groupNamePlaceholder', 'Group name (e.g., Size)')}
+                        placeholder={t('sellerProducts.modal.groupNamePlaceholder', 'Group name (e.g., Size)')}
                         className="flex-1 px-3 py-2 bg-surface-bg border border-border-soft rounded-xl"
                       />
                       <button
@@ -519,7 +412,7 @@ export default function ProductFormModal({
                         onClick={() => removeVariationGroup(gi)}
                         className="px-3 py-2 text-sm bg-red-50 text-red-600 rounded-xl"
                       >
-                        {t('sellerProduct.modal.remove', 'Remove')}
+                        {t('sellerProducts.modal.remove', 'Remove')}
                       </button>
                     </div>
 
@@ -527,7 +420,7 @@ export default function ProductFormModal({
                       <div className="flex gap-2">
                         <input
                           type="text"
-                          placeholder={t('sellerProduct.modal.addValuePlaceholder', 'Add value and press Enter (e.g., Red)')}
+                          placeholder={t('sellerProducts.modal.addValuePlaceholder', 'Add value and press Enter (e.g., Red)')}
                           className="flex-1 px-3 py-2 bg-surface-bg border border-border-soft rounded-xl"
                           onKeyDown={(e) => {
                             if (e.key === "Enter") {
@@ -547,7 +440,7 @@ export default function ProductFormModal({
                               <div className="ml-2 flex items-center gap-2">
                                 <input
                                   type="number"
-                                  placeholder={t('sellerProduct.modal.variantPrice', 'Price')}
+                                  placeholder={t('sellerProducts.modal.variantPrice', 'Price')}
                                   value={v.price ?? ""}
                                   onChange={(e) => {
                                     const val =
@@ -571,12 +464,13 @@ export default function ProductFormModal({
                                   }}
                                   className="w-28 px-2 py-1 border border-border-soft rounded-md text-sm"
                                 />
-                                <input
-                                  type="text"
-                                  placeholder={t('sellerProduct.modal.variantImage', 'Image URL')}
-                                  value={v.image_url ?? ""}
-                                  onChange={(e) => {
-                                    const val = e.target.value || null;
+                                <MediaUploader
+                                  variant="inline"
+                                  maxFiles={1}
+                                  acceptVideo={false}
+                                  value={v.image_url ? [v.image_url] : []}
+                                  onChange={(urls) => {
+                                    const val = urls[0] || null;
                                     setVariations((prev) =>
                                       prev.map((gg, gi2) =>
                                         gi2 === gi
@@ -592,7 +486,6 @@ export default function ProductFormModal({
                                       ),
                                     );
                                   }}
-                                  className="w-44 px-2 py-1 border border-border-soft rounded-md text-sm"
                                 />
                               </div>
                             </span>
@@ -613,86 +506,13 @@ export default function ProductFormModal({
             </div>
 
             {/* ── Media Section ────────────────────────────────── */}
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="block text-sm font-medium text-text-primary">
-                  {t('sellerProduct.modal.mediaTitle', 'Product Media')}
-                </label>
-                {mediaUrls.length > 0 && (
-                  <span className="text-xs text-text-muted">
-                    {imageCount} {imageCount === 1 ? t('sellerProduct.modal.badgeImage', 'image') : t('sellerProduct.modal.badgeImagePlural', 'images')}
-                    {videoCount > 0 &&
-                      `, ${videoCount} ${videoCount === 1 ? t('sellerProduct.modal.badgeVideo', 'video') : t('sellerProduct.modal.badgeVideoPlural', 'videos')}`}
-                  </span>
-                )}
-              </div>
-              <p className="text-xs text-text-muted mb-3">
-                {t('sellerProduct.modal.mediaDesc', 'Add image & video URLs. The first image will be used as the primary product image. Supports direct image links, MP4 videos, and YouTube URLs.')}
-              </p>
-
-              {/* URL Input */}
-              <div className="flex gap-2 mb-3">
-                <div className="relative flex-1">
-                  <Link2
-                    size={15}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted"
-                  />
-                  <input
-                    type="text"
-                    value={newMediaUrl}
-                    onChange={(e) => {
-                      setNewMediaUrl(e.target.value);
-                      setUrlError("");
-                    }}
-                    onKeyDown={handleMediaUrlKeyDown}
-                    className={`w-full pl-9 pr-3 py-2.5 text-sm bg-surface-bg border rounded-xl
-                                            focus:ring-2 focus:ring-brand-primary/20 outline-none transition-all
-                                            ${urlError ? "border-red-300 focus:border-red-400" : "border-border-soft focus:border-brand-primary"}`}
-                    placeholder="https://example.com/image.jpg or YouTube URL"
-                  />
-                </div>
-                <button
-                  type="button"
-                  onClick={addMediaUrl}
-                  className="flex items-center gap-1.5 px-4 py-2.5 bg-brand-primary text-white text-sm font-semibold
-                                               rounded-xl hover:bg-brand-secondary transition-colors flex-shrink-0"
-                >
-                  <Plus size={16} /> {t('sellerProduct.modal.add', 'Add')}
-                </button>
-              </div>
-              {urlError && (
-                <p className="text-xs text-red-500 mb-3 -mt-1">{urlError}</p>
-              )}
-
-              {/* Media Grid */}
-              {mediaUrls.length > 0 ? (
-                <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
-                  {mediaUrls.map((url, i) => (
-                    <MediaPreview
-                      key={`${url}-${i}`}
-                      url={url}
-                      index={i}
-                      onRemove={removeMedia}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <div className="border-2 border-dashed border-border-soft rounded-xl p-8 text-center">
-                  <div className="flex justify-center gap-3 mb-3">
-                    <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
-                      <Image size={18} className="text-blue-500" />
-                    </div>
-                    <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center">
-                      <Video size={18} className="text-purple-500" />
-                    </div>
-                  </div>
-                  <p className="text-sm text-text-muted">{t('sellerProduct.modal.noMedia', 'No media added yet')}</p>
-                  <p className="text-xs text-text-muted/70 mt-1">
-                    {t('sellerProduct.modal.noMediaDesc', 'Paste image or video URLs above to add product media')}
-                  </p>
-                </div>
-              )}
-            </div>
+            <MediaUploader
+              variant="full"
+              value={mediaUrls}
+              onChange={setMediaUrls}
+              maxFiles={10}
+              acceptVideo={true}
+            />
           </form>
         </div>
 
@@ -704,16 +524,26 @@ export default function ProductFormModal({
             disabled={loading}
             className="px-6 py-2.5 text-sm font-semibold text-text-primary bg-white border border-border-soft rounded-xl hover:bg-gray-50 transition-colors disabled:opacity-50"
           >
-            {t('sellerProduct.modal.cancel', 'Cancel')}
+            {t('sellerProducts.modal.cancel', 'Cancel')}
           </button>
           <button
             form="productForm"
             type="submit"
-            disabled={loading}
-            className="flex items-center gap-2 px-6 py-2.5 text-sm font-semibold text-white bg-brand-primary rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-50"
+            disabled={loading || (!isDirty && !saveSuccess)}
+            className={`flex items-center gap-2 px-6 py-2.5 text-sm font-semibold rounded-xl transition-all
+                ${saveSuccess 
+                    ? 'bg-gray-100 text-gray-600 border border-gray-200' 
+                    : isDirty 
+                        ? 'bg-brand-primary text-white hover:bg-brand-secondary'
+                        : 'bg-gray-50 text-gray-400 cursor-not-allowed'} 
+                disabled:opacity-50`}
           >
             {loading ? <Loader size={16} className="animate-spin" /> : null}
-            {isEditMode ? t('sellerProduct.modal.update', 'Update Product') : t('sellerProduct.modal.save', 'Save Product')}
+            {saveSuccess ? (
+              <span className="flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-gray-500"><polyline points="20 6 9 17 4 12"></polyline></svg> {t('common.saved', 'Saved!')}</span>
+            ) : (
+              isEditMode ? t('sellerProducts.modal.update', 'Update Product') : t('sellerProducts.modal.save', 'Save Product')
+            )}
           </button>
         </div>
       </div>

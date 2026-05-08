@@ -50,6 +50,7 @@ export default function DiscountManagement() {
     const [discounts, setDiscounts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+    const [saveSuccess, setSaveSuccess] = useState(false);
 
     // Form state
     const [formCode, setFormCode] = useState('');
@@ -59,6 +60,12 @@ export default function DiscountManagement() {
     const [formUsageLimit, setFormUsageLimit] = useState('');
     const [formExpiry, setFormExpiry] = useState('');
     const [formError, setFormError] = useState('');
+
+    const isFormDirty = React.useMemo(() => {
+
+        return formCode.trim() !== '' || formValue !== '';
+    }, [formCode, formValue]);
+
 
     // Gate check
     if (!canAccess('discount')) {
@@ -136,6 +143,8 @@ export default function DiscountManagement() {
             setFormError(err.message || 'Failed to create discount.');
         } finally {
             setSaving(false);
+            setSaveSuccess(true);
+            setTimeout(() => setSaveSuccess(null), 3000);
         }
     };
 
@@ -233,11 +242,20 @@ export default function DiscountManagement() {
                     <div className="flex items-center gap-3 mt-5">
                         <button
                             type="submit"
-                            disabled={saving}
-                            className="flex items-center gap-2 px-5 py-2.5 bg-brand-primary text-white text-sm font-semibold rounded-xl hover:bg-brand-secondary transition-colors disabled:opacity-50"
+                            disabled={saving || (!isFormDirty && !saveSuccess)}
+                            className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all
+                                ${saveSuccess 
+                                    ? 'bg-gray-100 text-gray-600 border border-gray-200' 
+                                    : isFormDirty
+                                        ? 'bg-brand-primary text-white hover:bg-brand-secondary'
+                                        : 'bg-gray-50 text-gray-400 cursor-not-allowed'}`}
                         >
-                            {saving && <Loader2 size={14} className="animate-spin" />}
-                            {t('sellerDiscounts.form.createBtn', 'Create Discount')}
+                            {saving ? <Loader2 size={14} className="animate-spin" /> : null}
+                            {saveSuccess ? (
+                                <><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-gray-500"><polyline points="20 6 9 17 4 12"></polyline></svg> {t('common.saved', 'Saved!')}</>
+                            ) : (
+                                t('sellerDiscounts.form.createBtn', 'Create Discount')
+                            )}
                         </button>
                         <button
                             type="button"

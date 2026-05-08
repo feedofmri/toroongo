@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { X, Star, Send, Loader2 } from "lucide-react";
 import { reviewService } from "../../services";
+import MediaUploader from "../ui/MediaUploader";
 
 export default function ReviewModal({
   isOpen,
@@ -14,7 +15,7 @@ export default function ReviewModal({
   const [rating, setRating] = useState(5);
   const [hover, setHover] = useState(0);
   const [comment, setComment] = useState("");
-  const [mediaUrls, setMediaUrls] = useState([""]);
+  const [mediaUrls, setMediaUrls] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
@@ -31,7 +32,7 @@ export default function ReviewModal({
         order_id: orderId,
         rating,
         comment,
-        media: mediaUrls.map((url) => url.trim()).filter(Boolean),
+        media: mediaUrls.filter(Boolean),
       });
 
       if (onReviewSubmitted) {
@@ -41,7 +42,7 @@ export default function ReviewModal({
     } catch (err) {
       setError(
         err.response?.data?.message ||
-          t("reviews.errorSubmitting", "Failed to submit review."),
+          t("reviews.errorSubmitting")
       );
     } finally {
       setSubmitting(false);
@@ -54,7 +55,7 @@ export default function ReviewModal({
         {/* Header */}
         <div className="px-6 py-4 border-b border-border-soft flex items-center justify-between bg-surface-bg">
           <h3 className="font-bold text-text-primary">
-            {t("reviews.writeReview", "Write a Review")}
+            {t("reviews.writeReview")}
           </h3>
           <button
             onClick={onClose}
@@ -64,7 +65,7 @@ export default function ReviewModal({
           </button>
         </div>
 
-        <div className="p-6">
+        <div className="p-6 overflow-y-auto max-h-[70vh]">
           {/* Product Info */}
           <div className="flex items-center gap-4 p-4 bg-surface-bg rounded-xl border border-border-soft mb-6">
             <img
@@ -77,10 +78,7 @@ export default function ReviewModal({
                 {product.title}
               </p>
               <p className="text-xs text-text-muted mt-0.5">
-                {t(
-                  "reviews.rateYourExperience",
-                  "How would you rate your experience?",
-                )}
+                {t("reviews.rateYourExperience")}
               </p>
             </div>
           </div>
@@ -110,70 +108,36 @@ export default function ReviewModal({
                 ))}
               </div>
               <p className="text-sm font-semibold text-text-primary mt-2 capitalize">
-                {t(
-                  `reviews.ratingLabel.${rating}`,
-                  {
-                    1: t("reviews.poor", "Poor"),
-                    2: t("reviews.fair", "Fair"),
-                    3: t("reviews.good", "Good"),
-                    4: t("reviews.veryGood", "Very Good"),
-                    5: t("reviews.excellent", "Excellent"),
-                  }[rating],
-                )}
+                {t(`reviews.ratingLabel.${rating}`)}
               </p>
             </div>
 
             {/* Comment */}
             <div>
               <label className="block text-sm font-medium text-text-primary mb-2">
-                {t("reviews.commentLabel", "Your Review")}
+                {t("reviews.commentLabel")}
               </label>
               <textarea
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                placeholder={t(
-                  "reviews.commentPlaceholder",
-                  "Tell others what you think about this product...",
-                )}
+                placeholder={t("reviews.commentPlaceholder")}
                 className="w-full h-32 px-4 py-3 bg-white border border-border-soft rounded-xl text-sm focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none resize-none transition-all"
                 required
               />
             </div>
 
+            {/* Media Upload */}
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="block text-sm font-medium text-text-primary">
-                  {t("reviews.mediaLabel", "Photos or videos")}
-                </label>
-                <button
-                  type="button"
-                  onClick={() => setMediaUrls((prev) => [...prev, ""])}
-                  className="text-xs font-semibold text-brand-primary hover:text-brand-secondary"
-                >
-                  + Add another
-                </button>
-              </div>
-              <div className="space-y-2">
-                {mediaUrls.map((url, index) => (
-                  <input
-                    key={index}
-                    type="url"
-                    value={url}
-                    onChange={(e) =>
-                      setMediaUrls((prev) =>
-                        prev.map((item, idx) =>
-                          idx === index ? e.target.value : item,
-                        ),
-                      )
-                    }
-                    placeholder={t(
-                      "reviews.mediaPlaceholder",
-                      "Paste an image or video URL",
-                    )}
-                    className="w-full px-4 py-3 bg-white border border-border-soft rounded-xl text-sm focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-all"
-                  />
-                ))}
-              </div>
+              <label className="block text-sm font-medium text-text-primary mb-2">
+                {t("reviews.mediaLabel")}
+              </label>
+              <MediaUploader
+                variant="compact"
+                maxFiles={5}
+                acceptVideo={true}
+                value={mediaUrls}
+                onChange={setMediaUrls}
+              />
             </div>
 
             {error && (
@@ -188,7 +152,7 @@ export default function ReviewModal({
                 onClick={onClose}
                 className="flex-1 px-4 py-3 text-sm font-bold text-text-muted hover:text-text-primary bg-surface-bg rounded-xl transition-colors"
               >
-                {t("common.cancel", "Cancel")}
+                {t("common.cancel")}
               </button>
               <button
                 type="submit"
@@ -200,7 +164,7 @@ export default function ReviewModal({
                 ) : (
                   <Send size={18} />
                 )}
-                {t("reviews.submit", "Submit Review")}
+                {t("reviews.submit")}
               </button>
             </div>
           </form>

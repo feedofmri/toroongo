@@ -23,6 +23,7 @@ import {
   MapPin,
   Wallet,
 } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
 import { useSubscription } from "../../context/SubscriptionContext";
 import { SIDEBAR_FEATURE_MAP } from "../../data/planConfig";
 import PlanBadge from "../subscription/PlanBadge";
@@ -117,6 +118,7 @@ const allSidebarLinks = [
 
 export default function SellerDashboardLayout() {
   const { t, i18n } = useTranslation();
+  const { user } = useAuth();
   const isRTL = i18n.dir() === "rtl";
   const { currentPlan, canAccess, isSeller } = useSubscription();
 
@@ -176,7 +178,7 @@ export default function SellerDashboardLayout() {
           {/* View Store link */}
           <div className="p-3 border-t border-border-soft">
             <Link
-              to="/sony-electronics"
+              to={`/${user?.slug || ""}`}
               className="flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-text-muted hover:text-brand-primary rounded-xl hover:bg-surface-bg transition-colors"
             >
               <Store size={16} />

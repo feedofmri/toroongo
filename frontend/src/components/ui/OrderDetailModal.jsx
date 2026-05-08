@@ -65,7 +65,7 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
 
   const getProductInfo = (productId) => {
     const p = allProducts.find((pr) => String(pr.id) === String(productId));
-    return p || { title: "Unknown Product", imageUrl: "" };
+    return p || { title: t('common.unknownProduct', 'Unknown Product'), imageUrl: "" };
   };
 
   const handleStatusChange = async (newStatus) => {
@@ -79,7 +79,7 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
       if (onUpdate) onUpdate();
     } catch (err) {
       console.error("Failed to update status:", err);
-      alert("Failed to update status. Please try again.");
+      alert(t('orderDetail.updateError', 'Failed to update status. Please try again.'));
     } finally {
       setUpdatingStatus(false);
     }
@@ -108,7 +108,7 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
               className="text-brand-primary animate-spin mb-4"
             />
             <p className="text-text-muted font-medium">
-              Loading order details...
+              {t('orderDetail.loading')}
             </p>
           </div>
         ) : order ? (
@@ -118,7 +118,7 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <div>
                   <h2 className="text-xl font-bold text-text-primary">
-                    Order Details
+                    {t('orderDetail.title')}
                   </h2>
                   <p className="text-sm text-text-muted mt-1">
                     TRG-{String(order.id).toUpperCase()} •{" "}
@@ -133,7 +133,7 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
                   className={`flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold ${statusCfg.color}`}
                 >
                   <StatusIcon size={16} />
-                  {statusCfg.label}
+                  {t(`orders.${order.status}`)}
                 </div>
               </div>
             </div>
@@ -148,7 +148,7 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
                     </div>
                     <div>
                       <p className="text-xs font-bold text-text-muted uppercase tracking-wider mb-1">
-                        Shipping To
+                        {t('orderDetail.shippingTo')}
                       </p>
                       <p className="text-sm font-medium text-text-primary">
                         {order.shippingAddress?.firstName}{" "}
@@ -170,13 +170,13 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
                     </div>
                     <div>
                       <p className="text-xs font-bold text-text-muted uppercase tracking-wider mb-1">
-                        Payment Method
+                        {t('orderDetail.paymentMethod')}
                       </p>
                       <p className="text-sm font-medium text-text-primary">
                         {order.paymentMethod || t('common.notSpecified')}
                       </p>
                       <p className="text-sm text-text-muted mt-0.5">
-                        Paid securely via Toroongo Pay
+                        {t('orderDetail.paidSecurely')}
                       </p>
                     </div>
                   </div>
@@ -187,7 +187,7 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
               <div className="mb-8">
                 <h3 className="text-base font-bold text-text-primary mb-4 flex items-center gap-2">
                   <Package size={18} className="text-brand-primary" />
-                  Order Items ({order.items.length})
+                  {t('orderDetail.orderItems', { count: order.items.length })}
                 </h3>
                 <div className="space-y-4 bg-surface-bg/30 p-4 rounded-2xl border border-border-soft">
                   {order.items.map((item, idx) => {
@@ -208,16 +208,9 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
                             {pInfo.title}
                           </p>
                           <p className="text-xs text-text-muted mt-1 uppercase font-semibold tracking-wide">
-                            Qty: {item.quantity} ·{" "}
-                            {formatPriceInCurrency(
-                              convertCurrency(
-                                item.priceAtPurchase,
-                                order.seller_currency_code || 'USD',
-                                user?.currency_code || 'USD'
-                              ),
-                              user?.currency_code
-                            )}{" "}
-                            each
+                            {t('orderDetail.qty')}: {item.quantity} ·{" "}
+                            {formatPrice(item.priceAtPurchase, order.buyer_currency_code)}{" "}
+                            {t('orderDetail.each')}
                           </p>
                           {item.variant?.length > 0 && (
                             <p className="text-xs text-text-muted mt-1">
@@ -230,14 +223,7 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
                             </p>
                           )}
                           <p className="text-sm font-bold text-brand-primary mt-1">
-                            {formatPriceInCurrency(
-                              convertCurrency(
-                                item.priceAtPurchase * item.quantity,
-                                order.seller_currency_code || 'USD',
-                                user?.currency_code || 'USD'
-                              ),
-                              user?.currency_code
-                            )}
+                            {formatPrice(item.priceAtPurchase * item.quantity, order.buyer_currency_code)}
                           </p>
                         </div>
                       </div>
@@ -249,57 +235,29 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
               {/* Summary */}
               <div className="border-t border-border-soft pt-6 space-y-3">
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-text-muted">Subtotal</span>
+                  <span className="text-text-muted">{t('orderDetail.subtotal')}</span>
                   <span className="font-semibold text-text-primary">
-                    {formatPriceInCurrency(
-                      convertCurrency(
-                        order.subtotal,
-                        order.seller_currency_code || 'USD',
-                        user?.currency_code || 'USD'
-                      ),
-                      user?.currency_code
-                    )}
+                    {formatPrice(order.subtotal, order.buyer_currency_code)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-text-muted">Shipping Fee</span>
+                  <span className="text-text-muted">{t('orderDetail.shippingFee')}</span>
                   <span className="font-semibold text-text-primary">
-                    {formatPriceInCurrency(
-                      convertCurrency(
-                        order.shippingCost,
-                        order.seller_currency_code || 'USD',
-                        user?.currency_code || 'USD'
-                      ),
-                      user?.currency_code
-                    )}
+                    {formatPrice(order.shippingCost, order.buyer_currency_code)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-text-muted">Estimated Tax</span>
+                  <span className="text-text-muted">{t('orderDetail.tax')}</span>
                   <span className="font-semibold text-text-primary">
-                    {formatPriceInCurrency(
-                      convertCurrency(
-                        order.tax,
-                        order.seller_currency_code || 'USD',
-                        user?.currency_code || 'USD'
-                      ),
-                      user?.currency_code
-                    )}
+                    {formatPrice(order.tax, order.buyer_currency_code)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center pt-3 border-t border-border-soft">
                   <span className="text-base font-bold text-text-primary">
-                    Total Amount
+                    {t('orderDetail.total')}
                   </span>
                   <span className="text-xl font-black text-brand-primary">
-                    {formatPriceInCurrency(
-                      convertCurrency(
-                        order.total,
-                        order.seller_currency_code || 'USD',
-                        user?.currency_code || 'USD'
-                      ),
-                      user?.currency_code
-                    )}
+                    {formatPrice(order.total, order.buyer_currency_code)}
                   </span>
                 </div>
               </div>
@@ -314,7 +272,7 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
 
                   <div className="p-5 bg-surface-bg border border-border-soft rounded-2xl">
                     <h4 className="text-sm font-bold text-text-primary mb-3">
-                      Seller Management
+                      {t('orderDetail.sellerManagement')}
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {order.status === "processing" && (
@@ -329,14 +287,14 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
                             ) : (
                               <Truck size={14} />
                             )}
-                            Mark as Shipped
+                            {t('orderDetail.markShipped')}
                           </button>
                           <button
                             onClick={() => handleStatusChange("cancelled")}
                             disabled={updatingStatus}
                             className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-red-50 text-red-600 text-xs font-bold border border-red-100 rounded-xl hover:bg-red-100 transition-all disabled:opacity-50"
                           >
-                            Cancel Order
+                            {t('orderDetail.cancelOrder')}
                           </button>
                         </>
                       )}
@@ -351,17 +309,17 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
                           ) : (
                             <CheckCircle size={14} />
                           )}
-                          Mark as Delivered
+                          {t('orderDetail.markDelivered')}
                         </button>
                       )}
                       {(order.status === "delivered" || order.status === "shipped" || order.status === "return_requested") && (
-                        <button
-                          onClick={() => handleStatusChange("returned")}
-                          disabled={updatingStatus}
-                          className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-purple-50 text-purple-600 text-xs font-bold border border-purple-100 rounded-xl hover:bg-purple-100 transition-all disabled:opacity-50"
-                        >
-                          Mark as Returned
-                        </button>
+                          <button
+                            onClick={() => handleStatusChange("returned")}
+                            disabled={updatingStatus}
+                            className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-purple-50 text-purple-600 text-xs font-bold border border-purple-100 rounded-xl hover:bg-purple-100 transition-all disabled:opacity-50"
+                          >
+                            {t('orderDetail.markReturned', 'Mark as Returned')}
+                          </button>
                       )}
                       {(order.status === "returned" || order.status === "return_requested") && (
                         <button
@@ -369,7 +327,7 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
                           disabled={updatingStatus}
                           className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 text-white text-xs font-bold rounded-xl hover:bg-indigo-700 transition-all disabled:opacity-50"
                         >
-                          Issue Refund
+                          {t('orderDetail.issueRefund')}
                         </button>
                       )}
 
@@ -381,21 +339,21 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
               {user?.role === "buyer" && order.status === "delivered" && (
                 <div className="p-5 bg-purple-50 border border-purple-100 rounded-2xl mb-4">
                   <h4 className="text-sm font-bold text-purple-900 mb-2">
-                    Need to return this?
+                    {t('orderDetail.returnPrompt')}
                   </h4>
                   <p className="text-xs text-purple-700 mb-3">
-                    If you're not satisfied, you can request a return within 30 days of delivery.
+                    {t('orderDetail.returnPromptDesc')}
                   </p>
                   <button
                     onClick={() => {
                       // We can either open a separate modal or just navigate/redirect.
                       // For now, let's suggest using the order history button which is already implemented.
-                      alert("Please use the 'Request Return' button on your Order History page to provide a reason for return.");
+                      alert(t('orderDetail.returnPromptAlert', "Please use the 'Request Return' button on your Order History page to provide a reason for return."));
                     }}
                     className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-purple-600 text-white text-xs font-bold rounded-xl hover:bg-purple-700 transition-all"
                   >
                     <RotateCcw size={14} />
-                    How to Return
+                    {t('orderDetail.howToReturn')}
                   </button>
                 </div>
               )}
@@ -404,13 +362,13 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
                 onClick={onClose}
                 className="w-full py-3.5 bg-brand-primary/5 text-brand-primary font-bold rounded-2xl hover:bg-brand-primary/10 transition-all"
               >
-                Close Details
+                {t('orderDetail.close')}
               </button>
             </div>
           </>
         ) : (
           <div className="p-20 text-center">
-            <p className="text-text-muted">Order not found.</p>
+            <p className="text-text-muted">{t('orderDetail.notFound')}</p>
           </div>
         )}
       </div>

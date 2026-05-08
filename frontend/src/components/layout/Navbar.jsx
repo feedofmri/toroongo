@@ -294,14 +294,14 @@ export default function Navbar() {
                                     </div>
                                 </button>
                             ) : (
-                                <Link to="/login" className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold bg-brand-primary text-white hover:bg-brand-secondary transition-colors">
+                                <Link to={`/login?redirect=${encodeURIComponent(location.pathname + location.search)}`} className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-sm font-semibold bg-brand-primary text-white hover:bg-brand-secondary transition-colors">
                                     <User size={15} /> {t('nav.signIn', 'Sign in')}
                                 </Link>
                             )}
 
                             {/* Not logged in — mobile icon fallback */}
                             {!isAuthenticated && (
-                                <Link to="/login" className="sm:hidden p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors" aria-label={t('nav.signIn', 'Sign in')}>
+                                <Link to={`/login?redirect=${encodeURIComponent(location.pathname + location.search)}`} className="sm:hidden p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors" aria-label={t('nav.signIn', 'Sign in')}>
                                     <User size={20} />
                                 </Link>
                             )}
@@ -381,7 +381,7 @@ export default function Navbar() {
                                             </>
                                         )}
                                         <Link
-                                            to="/account/settings"
+                                            to={user?.role === 'seller' ? '/seller/settings' : '/account/settings'}
                                             onClick={() => setUserDropdownOpen(false)}
                                             className="flex items-center gap-2.5 px-3 py-2 text-sm text-text-primary hover:text-brand-primary hover:bg-brand-primary/5 rounded-lg transition-colors"
                                         >
@@ -647,15 +647,15 @@ export default function Navbar() {
                                         </>
                                     )}
 
-                                    <Link to="/account/settings" onClick={() => setMobileMenuOpen(false)}
+                                    <Link to={user?.role === 'seller' ? '/seller/settings' : '/account/settings'} onClick={() => setMobileMenuOpen(false)}
                                         className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
                                         <Settings size={15} className="text-text-muted" /> {t('nav.settings', 'Settings')}
                                     </Link>
                                 </>
                             ) : (
-                                <Link to="/login" onClick={() => setMobileMenuOpen(false)}
+                                <Link to={`/login?redirect=${encodeURIComponent(location.pathname + location.search)}`} onClick={() => setMobileMenuOpen(false)}
                                     className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-sm font-medium text-text-primary hover:bg-surface-bg hover:text-brand-primary transition-colors">
-                                    <User size={15} className="text-text-muted" /> {t('nav.signInUp', 'Sign in / Sign up')}
+                                    <User size={15} className="text-text-muted" /> {t('nav.signInUp', 'Sign in')}
                                 </Link>
                             )}
                         </div>

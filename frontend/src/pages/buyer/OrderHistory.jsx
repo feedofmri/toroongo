@@ -214,7 +214,7 @@ export default function OrderHistory() {
                             </p>
                           )}
                           <p className="text-sm font-semibold text-text-primary mt-1">
-                            {formatPrice(item.priceAtPurchase)}
+                            {formatPrice(item.priceAtPurchase, order.buyer_currency_code)}
                           </p>
                         </div>
                         {order.status === "delivered" && !item.is_reviewed && (
@@ -238,13 +238,7 @@ export default function OrderHistory() {
                   <span className="text-sm text-text-muted">
                     {t("orders.total")}{" "}
                     <span className="font-bold text-text-primary">
-                      {formatPrice(
-                        order.items.reduce(
-                          (sum, item) =>
-                            sum + item.priceAtPurchase * item.quantity,
-                          0,
-                        ),
-                      )}
+                      {formatPrice(order.total, order.buyer_currency_code)}
                     </span>
                   </span>
                   <div className="flex gap-2">

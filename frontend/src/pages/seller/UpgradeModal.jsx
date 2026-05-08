@@ -26,11 +26,11 @@ export default function UpgradeModal({ isOpen, onClose, targetPlan, currentPlan,
         setError('');
 
         if (bkashNumber.length < 10) {
-            setError('Please enter a valid bKash number.');
+            setError(t('upgradeModal.errors.invalidNumber'));
             return;
         }
         if (transactionId.length < 5) {
-            setError('Please enter a valid Transaction ID.');
+            setError(t('upgradeModal.errors.invalidTxn'));
             return;
         }
 
@@ -50,7 +50,7 @@ export default function UpgradeModal({ isOpen, onClose, targetPlan, currentPlan,
                 handleClose();
             }, 5000);
         } catch (err) {
-            setError(err.message || 'Submission failed. Please try again.');
+            setError(err.message || t('upgradeModal.errors.failed'));
         } finally {
             setIsProcessing(false);
         }
@@ -83,21 +83,21 @@ export default function UpgradeModal({ isOpen, onClose, targetPlan, currentPlan,
                             <Clock size={40} className="text-blue-500" />
                         </div>
                         <h3 className="text-2xl font-bold text-text-primary mb-2">
-                            Payment Submitted! 🚀
+                            {t('upgradeModal.successTitle')}
                         </h3>
                         <p className="text-text-muted mb-6">
-                            We have received your payment details. Please wait while our team verifies your transaction. Your plan will be updated automatically once verified.
+                            {t('upgradeModal.successDesc')}
                         </p>
                         <div className="w-full bg-blue-50 rounded-xl p-4">
                             <p className="text-sm text-blue-700 font-medium">
-                                This usually takes 15-30 minutes.
+                                {t('upgradeModal.successTime')}
                             </p>
                         </div>
                         <button
                             onClick={handleClose}
                             className="mt-6 w-full py-3 bg-surface-bg text-text-primary font-semibold rounded-xl hover:bg-gray-100 transition-all"
                         >
-                            Close
+                            {t('upgradeModal.close')}
                         </button>
                     </div>
                 ) : (
@@ -111,7 +111,7 @@ export default function UpgradeModal({ isOpen, onClose, targetPlan, currentPlan,
                                 </div>
                                 <div>
                                     <h3 className="text-lg font-bold text-text-primary">
-                                        Upgrade to {planData.name}
+                                        {t('upgradeModal.title', { name: planData.name })}
                                     </h3>
                                     <p className="text-sm text-text-muted">
                                         {currentPlanData.name} → {planData.name}
@@ -123,17 +123,17 @@ export default function UpgradeModal({ isOpen, onClose, targetPlan, currentPlan,
                             <div className="bg-pink-50 border border-pink-100 rounded-2xl p-5 mb-6">
                                 <div className="flex items-center gap-2 mb-3">
                                     <div className="w-6 h-6 bg-pink-600 rounded-full flex items-center justify-center text-white text-[10px] font-bold">b</div>
-                                    <h4 className="text-sm font-bold text-pink-900">bKash Manual Payment</h4>
+                                    <h4 className="text-sm font-bold text-pink-900">{t('upgradeModal.bkashTitle')}</h4>
                                 </div>
                                 <p className="text-xs text-pink-800 leading-relaxed mb-3">
-                                    Please send <strong>{formatPrice(planData.price)}</strong> to the following bKash number using the "Send Money" or "Payment" option:
+                                    {t('upgradeModal.bkashDesc', { price: formatPrice(planData.price) })}
                                 </p>
                                 <div className="bg-white/60 backdrop-blur-sm rounded-xl p-3 border border-pink-200 flex items-center justify-between">
                                     <div>
-                                        <p className="text-[10px] uppercase tracking-wider font-bold text-pink-600">bKash Number</p>
+                                        <p className="text-[10px] uppercase tracking-wider font-bold text-pink-600">{t('upgradeModal.bkashNumber')}</p>
                                         <p className="text-lg font-black text-pink-900 tracking-tight">01620929190</p>
                                     </div>
-                                    <div className="px-2 py-1 bg-pink-100 rounded text-[10px] font-bold text-pink-700 uppercase">Personal</div>
+                                    <div className="px-2 py-1 bg-pink-100 rounded text-[10px] font-bold text-pink-700 uppercase">{t('upgradeModal.personal')}</div>
                                 </div>
                             </div>
                         </div>
@@ -148,13 +148,13 @@ export default function UpgradeModal({ isOpen, onClose, targetPlan, currentPlan,
 
                             <div>
                                 <label className="block text-sm font-medium text-text-primary mb-1.5">
-                                    Your bKash Number (Sender)
+                                    {t('upgradeModal.senderNumber')}
                                 </label>
                                 <input
                                     type="text"
                                     value={bkashNumber}
                                     onChange={(e) => setBkashNumber(e.target.value.replace(/\D/g, ''))}
-                                    placeholder="e.g. 017XXXXXXXX"
+                                    placeholder={t('upgradeModal.numberPlaceholder')}
                                     className="w-full px-4 py-3 bg-surface-bg border border-border-soft rounded-xl text-sm focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-all"
                                     required
                                 />
@@ -162,14 +162,14 @@ export default function UpgradeModal({ isOpen, onClose, targetPlan, currentPlan,
 
                             <div>
                                 <label className="block text-sm font-medium text-text-primary mb-1.5">
-                                    Transaction ID
+                                    {t('upgradeModal.txnId')}
                                 </label>
                                 <div className="relative">
                                     <input
                                         type="text"
                                         value={transactionId}
                                         onChange={(e) => setTransactionId(e.target.value)}
-                                        placeholder="Enter the 10-character ID"
+                                        placeholder={t('upgradeModal.txnPlaceholder')}
                                         className="w-full pl-4 pr-12 py-3 bg-surface-bg border border-border-soft rounded-xl text-sm focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none transition-all uppercase"
                                         required
                                     />
@@ -185,11 +185,11 @@ export default function UpgradeModal({ isOpen, onClose, targetPlan, currentPlan,
                                 {isProcessing ? (
                                     <>
                                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                        Submitting...
+                                        {t('upgradeModal.submitting')}
                                     </>
                                 ) : (
                                     <>
-                                        Submit Payment Details
+                                        {t('upgradeModal.submit')}
                                         <ArrowRight size={16} />
                                     </>
                                 )}
@@ -197,7 +197,7 @@ export default function UpgradeModal({ isOpen, onClose, targetPlan, currentPlan,
 
                             <div className="flex items-center justify-center gap-2 text-xs text-text-muted pt-1">
                                 <Lock size={12} />
-                                <span>Secured verification process</span>
+                                <span>{t('upgradeModal.secured')}</span>
                             </div>
 
                         </form>
