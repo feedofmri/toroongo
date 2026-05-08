@@ -9,6 +9,11 @@ import SellersPage from './pages/sellers/SellersPage';
 import OrdersPage from './pages/orders/OrdersPage';
 import ProductsPage from './pages/products/ProductsPage';
 import CategoriesPage from './pages/categories/CategoriesPage';
+import SubscriptionsPage from './pages/subscriptions/SubscriptionsPage';
+import ReviewsPage from './pages/reviews/ReviewsPage';
+import BlogsPage from './pages/blogs/BlogsPage';
+import BannersPage from './pages/banners/BannersPage';
+import DiscountsPage from './pages/discounts/DiscountsPage';
 import SettingsPage from './pages/settings/SettingsPage';
 
 export default function App() {
@@ -25,12 +30,17 @@ export default function App() {
           }
         >
           <Route index element={<DashboardPage />} />
-          <Route path="/users"      element={<UsersPage />} />
-          <Route path="/sellers"    element={<SellersPage />} />
-          <Route path="/orders"     element={<OrdersPage />} />
-          <Route path="/products"   element={<ProductsPage />} />
-          <Route path="/categories" element={<CategoriesPage />} />
-          <Route path="/settings"   element={<SettingsPage />} />
+          <Route path="/users"         element={<UsersPage />} />
+          <Route path="/sellers"       element={<SellersPage />} />
+          <Route path="/orders"        element={<OrdersPage />} />
+          <Route path="/products"      element={<ProductsPage />} />
+          <Route path="/categories"    element={<CategoriesPage />} />
+          <Route path="/subscriptions" element={<SubscriptionsPage />} />
+          <Route path="/reviews"       element={<ReviewsPage />} />
+          <Route path="/blogs"         element={<BlogsPage />} />
+          <Route path="/banners"       element={<BannersPage />} />
+          <Route path="/discounts"     element={<DiscountsPage />} />
+          <Route path="/settings"      element={<SettingsPage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

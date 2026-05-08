@@ -37,4 +37,25 @@ export const adminService = {
   // ── Admin accounts ─────────────────────────────────
   createAdmin: (data) => api('/admin/create-admin', { method: 'POST', body: JSON.stringify(data) }),
   getAdmins:   ()     => api('/admin/users?role=admin&per_page=50'),
+
+  // ── Subscriptions ──────────────────────────────────
+  getSubscriptions: (params = {}) => api(`/admin/subscriptions${qs(params)}`),
+
+  // ── Reviews ────────────────────────────────────────
+  getReviews:   (params = {}) => api(`/admin/reviews${qs(params)}`),
+  updateReview: (id, data)    => api(`/admin/reviews/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+  deleteReview: (id)          => api(`/admin/reviews/${id}`, { method: 'DELETE' }),
+
+  // ── Blogs ──────────────────────────────────────────
+  getBlogs:   (params = {}) => api(`/admin/blogs${qs(params)}`),
+  deleteBlog: (id)          => api(`/admin/blogs/${id}`, { method: 'DELETE' }),
+
+  // ── Hero Banners ───────────────────────────────────
+  getHeroBanners:    ()         => api('/admin/hero-banners'),
+  createHeroBanner:  (data)     => api('/admin/hero-banners',      { method: 'POST',   body: JSON.stringify(data) }),
+  updateHeroBanner:  (id, data) => api(`/admin/hero-banners/${id}`, { method: 'PUT',    body: JSON.stringify(data) }),
+  deleteHeroBanner:  (id)       => api(`/admin/hero-banners/${id}`, { method: 'DELETE' }),
+
+  // ── Discounts ──────────────────────────────────────
+  getDiscounts: (params = {}) => api(`/admin/discounts${qs(params)}`),
 };

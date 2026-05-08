@@ -3,18 +3,23 @@ import { NavLink, Outlet, Link } from 'react-router-dom';
 import {
   LayoutDashboard, Users, Store, ShoppingBag, Package,
   Tag, Settings, Shield, LogOut, Menu, X, ChevronDown,
-  Bell, ExternalLink,
+  Bell, ExternalLink, CreditCard, Star, BookOpen, Image, Percent,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 const NAV = [
-  { to: '/',            icon: LayoutDashboard, label: 'Overview',    end: true },
-  { to: '/users',       icon: Users,           label: 'Users'               },
-  { to: '/sellers',     icon: Store,           label: 'Sellers'             },
-  { to: '/orders',      icon: ShoppingBag,     label: 'Orders'              },
-  { to: '/products',    icon: Package,         label: 'Products'            },
-  { to: '/categories',  icon: Tag,             label: 'Categories'          },
-  { to: '/settings',    icon: Settings,        label: 'Settings'            },
+  { to: '/',               icon: LayoutDashboard, label: 'Overview',      end: true },
+  { to: '/users',          icon: Users,           label: 'Users'                   },
+  { to: '/sellers',        icon: Store,           label: 'Sellers'                 },
+  { to: '/orders',         icon: ShoppingBag,     label: 'Orders'                  },
+  { to: '/products',       icon: Package,         label: 'Products'                },
+  { to: '/categories',     icon: Tag,             label: 'Categories'              },
+  { to: '/subscriptions',  icon: CreditCard,      label: 'Subscriptions'           },
+  { to: '/reviews',        icon: Star,            label: 'Reviews'                 },
+  { to: '/blogs',          icon: BookOpen,        label: 'Blogs'                   },
+  { to: '/banners',        icon: Image,           label: 'Banners'                 },
+  { to: '/discounts',      icon: Percent,         label: 'Discounts'               },
+  { to: '/settings',       icon: Settings,        label: 'Settings'                },
 ];
 
 function NavItem({ link, collapsed, onClick }) {

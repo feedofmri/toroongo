@@ -197,6 +197,27 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/admin/categories/{id}', [CategoryController::class, 'update']);
     Route::delete('/admin/categories/{id}', [CategoryController::class, 'destroy']);
 
+    // Subscriptions
+    Route::get('/admin/subscriptions', [AdminController::class, 'subscriptions']);
+
+    // Reviews
+    Route::get('/admin/reviews', [AdminController::class, 'reviews']);
+    Route::patch('/admin/reviews/{id}', [AdminController::class, 'updateReview']);
+    Route::delete('/admin/reviews/{id}', [AdminController::class, 'deleteReview']);
+
+    // Blogs
+    Route::get('/admin/blogs', [AdminController::class, 'blogs']);
+    Route::delete('/admin/blogs/{id}', [AdminController::class, 'deleteBlog']);
+
+    // Hero Banners
+    Route::get('/admin/hero-banners', [AdminController::class, 'heroBanners']);
+    Route::post('/admin/hero-banners', [AdminController::class, 'createHeroBanner']);
+    Route::put('/admin/hero-banners/{id}', [AdminController::class, 'updateHeroBanner']);
+    Route::delete('/admin/hero-banners/{id}', [AdminController::class, 'deleteHeroBanner']);
+
+    // Discounts
+    Route::get('/admin/discounts', [AdminController::class, 'discounts']);
+
     // Settings
     Route::get('/admin/settings', [AdminController::class, 'getSettings']);
     Route::post('/admin/settings', [AdminController::class, 'updateSettings']);

@@ -6,6 +6,11 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Subscription;
+use App\Models\Review;
+use App\Models\Blog;
+use App\Models\HeroBanner;
+use App\Models\Discount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -271,6 +276,207 @@ class AdminController extends Controller
     {
         $user = User::findOrFail($id);
         return response()->json(['message' => 'User status updated successfully', 'id' => $id]);
+    }
+
+    public function subscriptions(Request $request)
+    {
+        $query = Subscription::with('user:id,name,email');
+
+        if ($request->filled('search')) {
+            $query->whereHas('user', fn($q) => $q->where('name', 'like', "%{$request->search}%")
+                ->orWhere('email', 'like', "%{$request->search}%"));
+        }
+        if ($request->filled('plan') && $request->plan !== 'all') {
+            $query->where('plan', $request->plan);
+        }
+        if ($request->filled('status') && $request->status !== 'all') {
+            $query->where('status', $request->status);
+        }
+
+        $paginated = $query->latest()->paginate($request->per_page ?? 15);
+
+        $paginated->getCollection()->transform(fn($s) => [
+            'id'             => $s->id,
+            'seller_name'    => $s->user?->name ?? '—',
+            'seller_email'   => $s->user?->email ?? '',
+            'plan'           => $s->plan,
+            'previous_plan'  => $s->previous_plan,
+            'status'         => $s->status,
+            'amount'         => $s->amount,
+            'currency'       => $s->currency ?? 'USD',
+            'payment_method' => $s->payment_method,
+            'card_last_four' => $s->card_last_four,
+            'transaction_id' => $s->transaction_id,
+            'started_at'     => $s->started_at?->format('M d, Y'),
+            'expires_at'     => $s->expires_at?->format('M d, Y'),
+            'cancelled_at'   => $s->cancelled_at?->format('M d, Y'),
+            'notes'          => $s->notes,
+        ]);
+
+        return response()->json($paginated);
+    }
+
+    public function reviews(Request $request)
+    {
+        $query = Review::with([
+            'user:id,name,email',
+            'product:id,title,image_url',
+        ]);
+
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->whereHas('user', fn($u) => $u->where('name', 'like', "%{$request->search}%"))
+                  ->orWhereHas('product', fn($p) => $p->where('title', 'like', "%{$request->search}%"))
+                  ->orWhere('comment', 'like', "%{$request->search}%");
+            });
+        }
+        if ($request->filled('status') && $request->status !== 'all') {
+            $query->where('status', $request->status);
+        }
+
+        $paginated = $query->latest()->paginate($request->per_page ?? 15);
+
+        $paginated->getCollection()->transform(fn($r) => [
+            'id'           => $r->id,
+            'user_name'    => $r->user?->name ?? '—',
+            'user_email'   => $r->user?->email ?? '',
+            'product_name' => $r->product?->title ?? '—',
+            'product_image'=> $r->product?->image_url ?? null,
+            'rating'       => $r->rating,
+            'comment'      => $r->comment,
+            'media'        => $r->media ?? [],
+            'status'       => $r->status ?? 'pending',
+            'created_at'   => $r->created_at?->format('M d, Y'),
+        ]);
+
+        return response()->json($paginated);
+    }
+
+    public function updateReview(Request $request, $id)
+    {
+        $review = Review::findOrFail($id);
+        $data = $request->validate(['status' => 'required|in:pending,approved,rejected']);
+        $review->update($data);
+        return response()->json(['message' => 'Review updated']);
+    }
+
+    public function deleteReview($id)
+    {
+        Review::findOrFail($id)->delete();
+        return response()->json(['message' => 'Review deleted']);
+    }
+
+    public function blogs(Request $request)
+    {
+        $query = Blog::query();
+
+        if ($request->filled('search')) {
+            $query->where('title', 'like', "%{$request->search}%")
+                  ->orWhere('author', 'like', "%{$request->search}%");
+        }
+        if ($request->filled('category') && $request->category !== 'all') {
+            $query->where('category', $request->category);
+        }
+
+        $paginated = $query->latest()->paginate($request->per_page ?? 15);
+
+        $paginated->getCollection()->transform(fn($b) => [
+            'id'         => $b->id,
+            'title'      => $b->title,
+            'slug'       => $b->slug,
+            'summary'    => $b->summary,
+            'author'     => $b->author,
+            'category'   => $b->category,
+            'tags'       => $b->tags ?? [],
+            'read_time'  => $b->read_time,
+            'views'      => $b->views ?? 0,
+            'image_url'  => $b->image_url,
+            'color'      => $b->color,
+            'created_at' => $b->created_at?->format('M d, Y'),
+        ]);
+
+        return response()->json($paginated);
+    }
+
+    public function deleteBlog($id)
+    {
+        Blog::findOrFail($id)->delete();
+        return response()->json(['message' => 'Blog deleted']);
+    }
+
+    public function heroBanners()
+    {
+        return response()->json(HeroBanner::orderBy('sort_order')->get());
+    }
+
+    public function createHeroBanner(Request $request)
+    {
+        $data = $request->validate([
+            'title'       => 'required|string|max:255',
+            'subtitle'    => 'nullable|string',
+            'cta_text'    => 'nullable|string|max:100',
+            'cta_link'    => 'nullable|string|max:500',
+            'image_url'   => 'nullable|string',
+            'bg_gradient' => 'nullable|string',
+            'sort_order'  => 'nullable|integer',
+        ]);
+        $banner = HeroBanner::create($data);
+        return response()->json($banner, 201);
+    }
+
+    public function updateHeroBanner(Request $request, $id)
+    {
+        $banner = HeroBanner::findOrFail($id);
+        $data = $request->validate([
+            'title'       => 'sometimes|string|max:255',
+            'subtitle'    => 'nullable|string',
+            'cta_text'    => 'nullable|string|max:100',
+            'cta_link'    => 'nullable|string|max:500',
+            'image_url'   => 'nullable|string',
+            'bg_gradient' => 'nullable|string',
+            'sort_order'  => 'nullable|integer',
+        ]);
+        $banner->update($data);
+        return response()->json($banner);
+    }
+
+    public function deleteHeroBanner($id)
+    {
+        HeroBanner::findOrFail($id)->delete();
+        return response()->json(['message' => 'Banner deleted']);
+    }
+
+    public function discounts(Request $request)
+    {
+        $query = Discount::with('seller:id,name,email');
+
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('code', 'like', "%{$request->search}%")
+                  ->orWhereHas('seller', fn($u) => $u->where('name', 'like', "%{$request->search}%"));
+            });
+        }
+        if ($request->filled('status') && $request->status !== 'all') {
+            $query->where('status', $request->status);
+        }
+
+        $paginated = $query->latest()->paginate($request->per_page ?? 15);
+
+        $paginated->getCollection()->transform(fn($d) => [
+            'id'              => $d->id,
+            'seller_name'     => $d->seller?->name ?? '—',
+            'seller_email'    => $d->seller?->email ?? '',
+            'code'            => $d->code,
+            'type'            => $d->type,
+            'value'           => $d->value,
+            'usage_count'     => $d->usage_count ?? 0,
+            'usage_limit'     => $d->usage_limit,
+            'min_order_value' => $d->min_order_value,
+            'status'          => $d->status ?? 'active',
+            'expires_at'      => $d->expires_at?->format('M d, Y'),
+        ]);
+
+        return response()->json($paginated);
     }
 
     public function getSettings()
