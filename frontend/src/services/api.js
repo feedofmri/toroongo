@@ -112,7 +112,10 @@ export async function apiUpload(endpoint, formData, { onProgress } = {}) {
           if (xhr.status >= 200 && xhr.status < 300) {
             resolve(data);
           } else {
-            const err = new Error(data?.message || 'Upload failed');
+            const firstValidationError = data?.errors
+              ? Object.values(data.errors).flat()[0]
+              : null;
+            const err = new Error(firstValidationError || data?.message || 'Upload failed');
             err.response = data;
             err.status = xhr.status;
             reject(err);

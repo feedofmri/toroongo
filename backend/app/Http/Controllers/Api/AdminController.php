@@ -84,7 +84,132 @@ class AdminController extends Controller
             $query->where('role', $request->role);
         }
 
-        return response()->json($query->paginate(10)->makeHidden('password'));
+        $perPage = min((int) ($request->per_page ?? 10), 100);
+        return response()->json($query->latest()->paginate($perPage)->makeHidden('password'));
+    }
+
+    public function orders(Request $request)
+    {
+        $query = Order::with([
+            'buyer:id,name,email',
+            'items.product:id,title,image_url',
+            'items.seller:id,name',
+        ]);
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('id', 'like', "%{$search}%")
+                  ->orWhereHas('buyer', fn($u) => $u->where('name', 'like', "%{$search}%")
+                      ->orWhere('email', 'like', "%{$search}%"));
+            });
+        }
+
+        if ($request->filled('status') && $request->status !== 'all') {
+            $query->where('status', $request->status);
+        }
+
+        $paginated = $query->latest()->paginate($request->per_page ?? 15);
+
+        $paginated->getCollection()->transform(function ($order) {
+            // Derive unique seller names from items
+            $sellerNames = $order->items
+                ->pluck('seller.name')
+                ->filter()
+                ->unique()
+                ->values()
+                ->all();
+
+            $items = $order->items->map(fn($item) => [
+                'id'       => $item->id,
+                'name'     => $item->product?->title ?? 'Product #' . $item->product_id,
+                'image'    => $item->product?->image_url ?? null,
+                'variant'  => $item->variant ? implode(', ', array_map(function ($v) {
+                    if (is_array($v) && isset($v['name'])) {
+                        return $v['name'] . ': ' . ($v['value'] ?? '');
+                    }
+                    return is_array($v) ? implode('/', $v) : (string) $v;
+                }, $item->variant)) : null,
+                'quantity' => $item->quantity,
+                'price'    => $item->price_at_purchase,
+                'seller'   => $item->seller?->name ?? null,
+            ])->values()->all();
+
+            return [
+                'id'              => $order->id,
+                'buyer_name'      => $order->buyer?->name ?? '—',
+                'buyer_email'     => $order->buyer?->email ?? '',
+                'seller_names'    => $sellerNames,
+                'seller_name'     => implode(', ', $sellerNames) ?: '—',
+                'total'           => $order->total,
+                'subtotal'        => $order->subtotal,
+                'shipping_cost'   => $order->shipping_cost,
+                'tax'             => $order->tax,
+                'status'          => $order->status,
+                'payment_method'  => $order->payment_method ?? null,
+                'payment_details' => $order->payment_details ?? null,
+                'shipping_address'=> $order->shipping_address ?? null,
+                'items_count'     => $order->items->count(),
+                'items'           => $items,
+                'created_at'      => $order->created_at?->format('M d, Y · h:i A'),
+            ];
+        });
+
+        return response()->json($paginated);
+    }
+
+    public function products(Request $request)
+    {
+        $query = Product::query();
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('seller_name', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('category')) {
+            $query->where('category', $request->category);
+        }
+
+        $paginated = $query->latest()->paginate($request->per_page ?? 15);
+
+        $paginated->getCollection()->transform(fn($p) => [
+            'id'          => $p->id,
+            'name'        => $p->title,
+            'image'       => $p->image_url,
+            'category'    => $p->category,
+            'seller_name' => $p->seller_name,
+            'price'       => $p->price,
+            'rating'      => $p->rating,
+            'stock'       => $p->stock,
+            'status'      => $p->stock > 0 ? 'active' : 'out_of_stock',
+            'description' => $p->description,
+            'sku'         => 'SKU-' . $p->id,
+            'created_at'  => $p->created_at?->format('M d, Y'),
+        ]);
+
+        return response()->json($paginated);
+    }
+
+    public function createAdmin(Request $request)
+    {
+        $data = $request->validate([
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8',
+        ]);
+
+        $user = User::create([
+            'name'     => $data['name'],
+            'email'    => $data['email'],
+            'password' => $data['password'],
+            'role'     => 'admin',
+        ]);
+
+        return response()->json($user->makeHidden('password'), 201);
     }
 
     public function sellers(Request $request)

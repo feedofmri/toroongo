@@ -1091,7 +1091,8 @@
         "loading": "Loading order details...",
         "paidSecurely": "Paid securely via Toroongo Pay",
         "qty": "Qty",
-        "each": "each"
+        "each": "each",
+        "txnId": "Transaction ID"
     },
     "sellerProducts": {
         "title": "Products",

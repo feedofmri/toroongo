@@ -178,6 +178,14 @@ export default function OrderDetailModal({ orderId, onClose, onUpdate }) {
                       <p className="text-sm text-text-muted mt-0.5">
                         {t('orderDetail.paidSecurely')}
                       </p>
+                      {order.payment_details?.transaction_id && (
+                        <p className="text-sm font-medium text-brand-primary mt-2 flex items-center gap-1.5">
+                          <span className="text-[10px] bg-brand-primary/10 px-1.5 py-0.5 rounded uppercase tracking-wider font-bold">
+                            {t('orderDetail.txnId', 'Transaction ID')}
+                          </span>
+                          {order.payment_details.transaction_id}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>

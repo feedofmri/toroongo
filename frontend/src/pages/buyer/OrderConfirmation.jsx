@@ -84,6 +84,11 @@ export default function OrderConfirmation() {
                         <div>
                             <p className="text-xs text-text-muted uppercase tracking-wider mb-1">{t('orderConfirmation.payment', 'Payment')}</p>
                             <p className="text-sm text-text-primary">{latestOrder?.paymentMethod || t('orderConfirmation.paymentProcessed')}</p>
+                            {latestOrder?.payment_details?.transaction_id && (
+                                <p className="text-xs font-bold text-brand-primary mt-1">
+                                    TxID: {latestOrder.payment_details.transaction_id}
+                                </p>
+                            )}
                         </div>
                     </div>
 

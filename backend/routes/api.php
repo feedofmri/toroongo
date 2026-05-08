@@ -187,6 +187,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/admin/users/{id}/role', [AdminController::class, 'updateRole']);
     Route::patch('/admin/users/{id}/toggle-status', [AdminController::class, 'toggleStatus']);
     Route::get('/admin/sellers', [AdminController::class, 'sellers']);
+    Route::get('/admin/orders', [AdminController::class, 'orders']);
+    Route::get('/admin/products', [AdminController::class, 'products']);
+    Route::post('/admin/create-admin', [AdminController::class, 'createAdmin']);
     
     // Category Management
     Route::get('/admin/categories', [CategoryController::class, 'index']);

@@ -67,16 +67,20 @@ class UploadController extends Controller
 
     /**
      * Optimize an image: resize, convert to WebP, compress.
+     * Falls back to storing the original if GD lacks support for the format.
      */
     private function optimizeImage($file, string $hash, string $date): array
     {
+        if (!$this->gdCanOptimize($file->getMimeType())) {
+            return $this->storeOriginal($file, $hash, $date);
+        }
+
         try {
             $manager = new ImageManager(new Driver());
             $image = $manager->decode($file->getRealPath());
 
             // Resize if wider than 1200px (preserve aspect ratio)
-            $width = $image->width();
-            if ($width > 1200) {
+            if ($image->width() > 1200) {
                 $image->scaleDown(width: 1200);
             }
 
@@ -93,8 +97,7 @@ class UploadController extends Controller
                 'url' => Storage::disk('public')->url($filename),
                 'size' => $optimizedSize,
             ];
-        } catch (\Exception $e) {
-            // Fallback: store original if optimization fails
+        } catch (\Throwable $e) {
             return $this->storeOriginal($file, $hash, $date);
         }
     }
@@ -112,7 +115,7 @@ class UploadController extends Controller
         if ($ffmpegAvailable) {
             try {
                 return $this->optimizeVideo($file, $hash, $date, $extension);
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 // Fallback to storing original
             }
         }
@@ -163,10 +166,8 @@ class UploadController extends Controller
         $extension = $file->getClientOriginalExtension() ?: 'bin';
         $filename = "uploads/{$date}/{$hash}.{$extension}";
 
-        $file->storeAs("public/{$filename}");
+        Storage::disk('public')->put($filename, file_get_contents($file->getRealPath()));
 
-        // For local storage, Laravel storeAs puts files under storage/app/public/
-        // We need to get the actual file size from the stored location
         $storedPath = Storage::disk('public')->path($filename);
 
         return [
@@ -184,5 +185,27 @@ class UploadController extends Controller
         $returnCode = -1;
         exec('ffmpeg -version 2>&1', $output, $returnCode);
         return $returnCode === 0;
+    }
+
+    /**
+     * Check whether this PHP's GD build can decode the given MIME type
+     * and encode to WebP. Returns false if any required function is missing.
+     */
+    private function gdCanOptimize(string $mime): bool
+    {
+        $gdInfo = gd_info();
+
+        $canDecode = match ($mime) {
+            'image/jpeg' => !empty($gdInfo['JPEG Support']) && function_exists('imagecreatefromjpeg'),
+            'image/png'  => !empty($gdInfo['PNG Support'])  && function_exists('imagecreatefrompng'),
+            'image/gif'  => !empty($gdInfo['GIF Read Support']) && function_exists('imagecreatefromgif'),
+            'image/webp' => !empty($gdInfo['WebP Support']) && function_exists('imagecreatefromwebp'),
+            'image/bmp'  => !empty($gdInfo['BMP Support'])  && function_exists('imagecreatefrombmp'),
+            default      => false,
+        };
+
+        $canEncodeWebp = !empty($gdInfo['WebP Support']) && function_exists('imagewebp');
+
+        return $canDecode && $canEncodeWebp;
     }
 }

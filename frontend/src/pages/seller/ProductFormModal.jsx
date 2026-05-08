@@ -48,13 +48,35 @@ export default function ProductFormModal({
 
   const isDirty = React.useMemo(() => {
     if (!editProduct) return formData.title.trim() !== "";
-    return formData.title !== (editProduct.title || "") ||
-           formData.description !== (editProduct.description || "") ||
-           formData.price !== (editProduct.price?.toString() || "") ||
-           formData.stock !== (editProduct.stock?.toString() || "") ||
-           formData.category !== (editProduct.category || "") ||
-           formData.meta_description !== (editProduct.meta_description || "");
-  }, [formData, editProduct]);
+
+    const originalMedia = editProduct.images ||
+      (editProduct.image_url
+        ? [editProduct.image_url]
+        : editProduct.imageUrl
+          ? [editProduct.imageUrl]
+          : []);
+
+    const originalVariations = (editProduct.variations || []).map((g) => ({
+      name: g.name || "",
+      values: (g.values || []).map((v) =>
+        typeof v === "string"
+          ? { value: v, price: null, image_url: null }
+          : { value: v.value ?? v, price: v.price ?? null, image_url: v.image_url ?? v.imageUrl ?? null }
+      ),
+    }));
+
+    return (
+      formData.title !== (editProduct.title || "") ||
+      formData.description !== (editProduct.description || "") ||
+      formData.price !== (editProduct.price?.toString() || "") ||
+      formData.original_price !== ((editProduct.original_price ?? editProduct.originalPrice)?.toString() || "") ||
+      formData.stock !== (editProduct.stock?.toString() || "") ||
+      formData.category !== (editProduct.category || "") ||
+      formData.meta_description !== (editProduct.meta_description || "") ||
+      JSON.stringify(mediaUrls) !== JSON.stringify(originalMedia) ||
+      JSON.stringify(variations) !== JSON.stringify(originalVariations)
+    );
+  }, [formData, editProduct, mediaUrls, variations]);
 
   useEffect(() => {
     if (isOpen) {

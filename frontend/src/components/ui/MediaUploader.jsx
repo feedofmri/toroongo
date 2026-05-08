@@ -5,7 +5,6 @@ import {
   Image as ImageIcon,
   Video,
   Loader2,
-  CheckCircle2,
   AlertCircle,
   FileUp,
 } from "lucide-react";
@@ -146,13 +145,19 @@ export default function MediaUploader({
               src={value[0]}
               alt=""
               className="w-full h-full object-cover"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src =
+                  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjZjFmNWY5Ii8+PHRleHQgeD0iMjAiIHk9IjI0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjOTRhM2I4IiBmb250LXNpemU9IjEwIj4/PC90ZXh0Pjwvc3ZnPg==";
+              }}
             />
             <button
               type="button"
               onClick={() => onChange([])}
-              className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+              className="absolute top-0.5 right-0.5 w-4 h-4 bg-red-500/90 rounded-full flex items-center justify-center
+                sm:opacity-0 sm:group-hover:opacity-100 transition-opacity"
             >
-              <X size={12} className="text-white" />
+              <X size={8} className="text-white" />
             </button>
           </div>
         ) : (
@@ -408,21 +413,6 @@ export default function MediaUploader({
         </div>
       )}
 
-      {/* Optimization stats toast */}
-      {lastStats && lastStats.length > 0 && (
-        <div className="flex items-center gap-2 mb-3 p-2.5 bg-green-50 border border-green-200 rounded-xl">
-          <CheckCircle2 size={14} className="text-green-600 flex-shrink-0" />
-          <span className="text-[11px] text-green-700 font-medium">
-            {t("upload.optimized", "Optimized!")}{" "}
-            {lastStats
-              .map(
-                (s) =>
-                  `${s.original_name} (${formatBytes(s.original_size)} → ${formatBytes(s.optimized_size)}, -${s.saved_percent}%)`
-              )
-              .join(" · ")}
-          </span>
-        </div>
-      )}
 
       {/* Media Grid */}
       {value.length > 0 && (
@@ -494,8 +484,8 @@ export default function MediaUploader({
               <button
                 type="button"
                 onClick={() => removeMedia(i)}
-                className="absolute top-2 right-2 p-1.5 rounded-full bg-red-500/90 text-white opacity-0 group-hover:opacity-100
-                  transition-all duration-200 hover:bg-red-600 hover:scale-110"
+                className="absolute top-2 right-2 p-1.5 rounded-full bg-red-500/90 text-white
+                  sm:opacity-0 sm:group-hover:opacity-100 transition-all duration-200 hover:bg-red-600"
               >
                 <X size={12} />
               </button>

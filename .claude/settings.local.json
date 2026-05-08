@@ -5,7 +5,21 @@
       "Bash(Get-ChildItem -Path . -Directory)",
       "Bash(Select-Object Name)",
       "Bash(grep -E \"\\\\.\\(js|php|env\\)$\")",
-      "Bash(grep -E \"\\\\.\\(jsx|php\\)$\")"
+      "Bash(grep -E \"\\\\.\\(jsx|php\\)$\")",
+      "Bash(php -r \"require 'vendor/autoload.php'; echo class_exists\\('Intervention\\\\Image\\\\ImageManager'\\) ? 'ImageManager OK' : 'MISSING'; echo PHP_EOL; echo class_exists\\('Intervention\\\\Image\\\\Encoders\\\\WebpEncoder'\\) ? 'WebpEncoder OK' : 'MISSING'; echo PHP_EOL; echo class_exists\\('Intervention\\\\Image\\\\Drivers\\\\Gd\\\\Driver'\\) ? 'GD Driver OK' : 'MISSING';\")",
+      "Bash(php -r ' *)",
+      "Bash(php -l app/Http/Controllers/Api/UploadController.php)",
+      "Bash(php -r \"print_r\\(gd_info\\(\\)\\);\")",
+      "Bash(php -r \"echo extension_loaded\\('imagick'\\) ? 'Imagick: YES' : 'Imagick: NO'; echo PHP_EOL; echo extension_loaded\\('gd'\\) ? 'GD: YES' : 'GD: NO';\")",
+      "Bash(ls \"C:\\\\Users\\\\rubay\\\\.config\\\\herd-lite\\\\bin\\\\\" 2>&1 | head -30)",
+      "Read(//c/Users/rubay/.config/herd-lite/**)",
+      "Bash(php -r \"echo php_ini_loaded_file\\(\\) . PHP_EOL; echo 'Extensions dir: ' . ini_get\\('extension_dir'\\) . PHP_EOL;\")",
+      "Bash(ls C:/php/ext/ 2>&1 | grep -i \"gd\\\\|imagick\\\\|jpeg\" | head -20)",
+      "Read(//c/php/**)",
+      "Bash(php -r \"echo 'upload_max_filesize: ' . ini_get\\('upload_max_filesize'\\) . PHP_EOL; echo 'post_max_size: ' . ini_get\\('post_max_size'\\) . PHP_EOL;\")",
+      "Bash(Get-Content storage/logs/laravel.log -Tail 80)",
+      "Bash(Select-String -Pattern \"message|ErrorException|Error|Exception\")",
+      "Bash(Select-Object -First 10)"
     ]
   }
 }

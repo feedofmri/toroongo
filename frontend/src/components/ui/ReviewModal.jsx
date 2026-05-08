@@ -132,7 +132,7 @@ export default function ReviewModal({
                 {t("reviews.mediaLabel")}
               </label>
               <MediaUploader
-                variant="compact"
+                variant="full"
                 maxFiles={5}
                 acceptVideo={true}
                 value={mediaUrls}
