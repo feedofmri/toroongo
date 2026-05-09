@@ -79,6 +79,7 @@ export default function SellerLayout() {
     }, [userDropdownOpen]);
 
     const resolvedTheme = storefrontConfig?.theme || null;
+    const resolvedHero  = storefrontConfig?.hero  || null;
     const themeVars = resolvedTheme
         ? themeToCSS(resolvedTheme)
         : resolveSellerTheme({ brandColor: seller?.brand_color || seller?.brandColor });
@@ -86,6 +87,27 @@ export default function SellerLayout() {
     const isDarkHeader = resolvedTheme?.headerStyle === 'dark';
     const isCenterLogo = resolvedTheme?.logoPosition === 'center';
     const isSticky = resolvedTheme ? resolvedTheme.stickyHeader !== false : true;
+
+    // Hero overrides
+    const heroBannerImage    = resolvedHero?.bannerImage  || seller?.banner  || null;
+    const heroStoreName      = resolvedHero?.storeName    || seller?.store_name || seller?.name || '';
+    const heroTagline        = resolvedHero?.tagline      || null;
+    const heroShowRating     = resolvedHero ? resolvedHero.showRating  !== false : true;
+    const heroShowContact    = resolvedHero ? resolvedHero.showContact !== false : true;
+    const heroContactText    = resolvedHero?.contactText  || t('storefront.contact', 'Contact');
+    const heroOverlayOpacity = (resolvedHero?.overlayOpacity ?? 70) / 100;
+    // Hero text style overrides
+    const HERO_NAME_SIZE_MAP = {
+        sm: '0.875rem', base: '1rem', lg: '1.125rem', xl: '1.25rem',
+        '2xl': '1.5rem', '3xl': '1.875rem', '4xl': '2.25rem',
+    };
+    const heroNameStyle = {
+        fontFamily: resolvedHero?.nameFont ? `"${resolvedHero.nameFont}", sans-serif` : 'var(--seller-heading-font, Inter, sans-serif)',
+        fontSize: resolvedHero?.nameSize ? HERO_NAME_SIZE_MAP[resolvedHero.nameSize] : undefined,
+        fontWeight: resolvedHero?.nameWeight || '700',
+        color: resolvedHero?.nameColor || '#ffffff',
+    };
+    const heroTaglineStyle = { color: resolvedHero?.taglineColor || 'rgba(255,255,255,0.8)' };
 
     // Computed theme helpers — derived at render time so hover classes are static strings
     const hoverBg = isDarkHeader ? 'hover:bg-white/10' : 'hover:bg-black/5';
@@ -399,49 +421,56 @@ export default function SellerLayout() {
                  ══════════════════════════════════════════════════════ */}
             <div className="relative h-44 sm:h-56 lg:h-64 overflow-hidden border-b"
                  style={{ borderColor: headerBorder }}>
-                {seller.banner ? (
+                {heroBannerImage ? (
                     <img
-                        src={seller.banner}
-                        alt={`${seller.store_name || seller.name} banner`}
+                        src={heroBannerImage}
+                        alt={`${heroStoreName} banner`}
                         className="absolute inset-0 w-full h-full object-cover"
                     />
                 ) : (
                     <div className="absolute inset-0"
                          style={{ background: `linear-gradient(135deg, var(--seller-brand, #008080) 0%, var(--seller-brand-secondary, #8B5CF6) 100%)` }} />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"
+                     style={{ opacity: heroOverlayOpacity }} />
 
                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end pb-5">
                     <div className="flex items-end gap-4 justify-between w-full">
                         <div className="flex items-end gap-3 sm:gap-4">
-                            <div className="w-14 h-14 sm:w-18 sm:h-18 rounded-2xl overflow-hidden border-[3px] border-white shadow-lg bg-white flex-shrink-0 flex items-center justify-center text-text-muted">
+                            <div className="w-14 h-14 sm:w-[4.5rem] sm:h-[4.5rem] rounded-2xl overflow-hidden border-[3px] border-white shadow-lg bg-white flex-shrink-0 flex items-center justify-center text-text-muted">
                                 {seller.logo ? (
-                                    <img src={seller.logo} alt={seller.store_name || seller.name} className="w-full h-full object-cover" />
+                                    <img src={seller.logo} alt={heroStoreName} className="w-full h-full object-cover" />
                                 ) : (
                                     <Store size={32} />
                                 )}
                             </div>
                             <div className="pb-0.5">
-                                <h1 className="text-lg sm:text-2xl font-bold text-white leading-tight"
-                                    style={{ fontFamily: 'var(--seller-heading-font, Inter, sans-serif)' }}>
-                                    {seller.store_name || seller.name}
+                                <h1 className="text-lg sm:text-2xl leading-tight" style={heroNameStyle}>
+                                    {heroStoreName}
                                 </h1>
-                                <div className="flex items-center gap-2.5 mt-0.5">
-                                    <div className="flex items-center gap-1">
-                                        <Star size={12} className="fill-amber-400 text-amber-400" />
-                                        <span className="text-xs sm:text-sm text-white/90 font-medium">{seller.rating}</span>
+                                {heroTagline && (
+                                    <p className="text-xs mt-0.5 mb-0.5" style={heroTaglineStyle}>{heroTagline}</p>
+                                )}
+                                {heroShowRating && (
+                                    <div className="flex items-center gap-2.5 mt-0.5">
+                                        <div className="flex items-center gap-1">
+                                            <Star size={12} className="fill-amber-400 text-amber-400" />
+                                            <span className="text-xs sm:text-sm text-white/90 font-medium">{seller.rating}</span>
+                                        </div>
+                                        <span className="text-xs text-white/50">·</span>
+                                        <span className="text-xs sm:text-sm text-white/70">{sellerProducts.length} {t("storefront.stats.products")}</span>
                                     </div>
-                                    <span className="text-xs text-white/50">·</span>
-                                    <span className="text-xs sm:text-sm text-white/70">{sellerProducts.length} {t("storefront.stats.products")}</span>
-                                </div>
+                                )}
                             </div>
                         </div>
-                        <button
-                            onClick={() => setShowMessageModal(true)}
-                            className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-white/95 backdrop-blur-sm text-slate-900 rounded-xl text-xs sm:text-sm font-semibold hover:bg-white transition-colors shadow-lg"
-                        >
-                            <MessageSquare size={14} className="sm:w-[15px] sm:h-[15px]" /> {t("storefront.contact")}
-                        </button>
+                        {heroShowContact && (
+                            <button
+                                onClick={() => setShowMessageModal(true)}
+                                className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-white/95 backdrop-blur-sm text-slate-900 rounded-xl text-xs sm:text-sm font-semibold hover:bg-white transition-colors shadow-lg"
+                            >
+                                <MessageSquare size={14} className="sm:w-[15px] sm:h-[15px]" /> {heroContactText}
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>

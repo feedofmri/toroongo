@@ -30,6 +30,7 @@ export async function saveStorefrontConfig(_sellerId, config) {
             method: 'PUT',
             body: JSON.stringify({
                 theme: config.theme || null,
+                hero: config.hero || null,
                 widgets: config.widgets || [],
             }),
         });

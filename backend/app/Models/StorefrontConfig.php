@@ -12,11 +12,13 @@ class StorefrontConfig extends Model
     protected $fillable = [
         'seller_id',
         'theme',
+        'hero',
         'widgets',
     ];
 
     protected $casts = [
         'theme' => 'array',
+        'hero' => 'array',
         'widgets' => 'array',
     ];
 

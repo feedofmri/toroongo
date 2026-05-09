@@ -18,12 +18,14 @@ class StorefrontController extends Controller
         if (!$config) {
             return response()->json([
                 'theme' => null,
+                'hero' => null,
                 'widgets' => [],
             ]);
         }
 
         return response()->json([
             'theme' => $config->theme,
+            'hero' => $config->hero,
             'widgets' => $config->widgets,
         ]);
     }
@@ -35,6 +37,7 @@ class StorefrontController extends Controller
     {
         $request->validate([
             'theme' => 'nullable|array',
+            'hero' => 'nullable|array',
             'widgets' => 'nullable|array',
         ]);
 
@@ -44,6 +47,7 @@ class StorefrontController extends Controller
             ['seller_id' => $user->id],
             [
                 'theme' => $request->theme,
+                'hero' => $request->hero,
                 'widgets' => $request->widgets,
             ]
         );

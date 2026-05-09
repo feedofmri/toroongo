@@ -19,15 +19,19 @@ const TABS = [
 export default function BuilderSidebar() {
     const [activeTab, setActiveTab] = useState('widgets');
     const selectedWidgetId = useBuilderStore((s) => s.selectedWidgetId);
+    const heroSelected     = useBuilderStore((s) => s.heroSelected);
 
-    // Auto-switch to properties when a widget is selected
-    const effectiveTab = selectedWidgetId ? 'properties' : activeTab === 'properties' ? 'widgets' : activeTab;
+    const hasSelection = !!selectedWidgetId || heroSelected;
+
+    // Auto-switch to properties when a widget or the hero section is selected
+    const effectiveTab = hasSelection ? 'properties' : activeTab === 'properties' ? 'widgets' : activeTab;
 
     const handleTabChange = (tabId) => {
-        if (tabId === 'properties' && !selectedWidgetId) return;
+        if (tabId === 'properties' && !hasSelection) return;
         setActiveTab(tabId);
         if (tabId !== 'properties') {
             useBuilderStore.getState().selectWidget(null);
+            useBuilderStore.getState().deselectHero();
         }
     };
 
@@ -37,7 +41,7 @@ export default function BuilderSidebar() {
             <div className="flex border-b border-gray-100 shrink-0">
                 {TABS.map((tab) => {
                     const isActive = effectiveTab === tab.id;
-                    const isDisabled = tab.id === 'properties' && !selectedWidgetId;
+                    const isDisabled = tab.id === 'properties' && !hasSelection;
                     return (
                         <button
                             key={tab.id}

@@ -9,6 +9,7 @@ import { widgetRegistry } from '../widgets/widgetRegistry.js';
 import { resolveSpacing, themeToCSS, widgetStyleToVars } from '../schema/storefrontSchema.js';
 import SortableWidgetWrapper from './SortableWidgetWrapper.jsx';
 import { getViewportWidth } from '../utils/viewportUtils.js';
+import { BuilderHeaderChrome, BuilderFooterChrome } from './BuilderPreviewChrome.jsx';
 
 /**
  * BuilderStage
@@ -53,7 +54,7 @@ export default function BuilderStage() {
         >
             <div
                 ref={setDroppableRef}
-                className="storefront-root mx-auto bg-white shadow-lg rounded-xl overflow-hidden transition-all duration-300 min-h-[600px]"
+                className="storefront-root mx-auto bg-white shadow-lg rounded-xl overflow-hidden transition-all duration-300"
                 style={{
                     maxWidth: viewportWidth,
                     ...themeStyles,
@@ -66,43 +67,52 @@ export default function BuilderStage() {
                     color: 'var(--seller-text, #0F172A)',
                 }}
             >
-                {widgets.length === 0 ? (
-                    <EmptyCanvas />
-                ) : (
-                    <SortableContext
-                        items={widgets.map((w) => w.id)}
-                        strategy={verticalListSortingStrategy}
-                    >
-                        {widgets.map((widget) => {
-                            const entry = widgetRegistry[widget.type];
-                            if (!entry) return null;
+                {/* Preview chrome: header, banner, nav tabs */}
+                <BuilderHeaderChrome />
 
-                            const Component = entry.component;
-                            const { layout } = widget;
-                            const paddingTop = resolveSpacing(layout.paddingTop);
-                            const paddingBottom = resolveSpacing(layout.paddingBottom);
-                            const isFullWidth = layout.containerWidth === 'full';
+                {/* Widget canvas */}
+                <div className="min-h-[300px]">
+                    {widgets.length === 0 ? (
+                        <EmptyCanvas />
+                    ) : (
+                        <SortableContext
+                            items={widgets.map((w) => w.id)}
+                            strategy={verticalListSortingStrategy}
+                        >
+                            {widgets.map((widget) => {
+                                const entry = widgetRegistry[widget.type];
+                                if (!entry) return null;
 
-                            let visibilityClass = '';
-                            if (layout.hideOnMobile && !layout.hideOnDesktop) visibilityClass = 'hidden sm:block';
-                            else if (layout.hideOnDesktop && !layout.hideOnMobile) visibilityClass = 'block sm:hidden';
-                            else if (layout.hideOnMobile && layout.hideOnDesktop) visibilityClass = 'hidden';
+                                const Component = entry.component;
+                                const { layout } = widget;
+                                const paddingTop = resolveSpacing(layout.paddingTop);
+                                const paddingBottom = resolveSpacing(layout.paddingBottom);
+                                const isFullWidth = layout.containerWidth === 'full';
 
-                            return (
-                                <SortableWidgetWrapper key={widget.id} widget={widget}>
-                                    <div
-                                        className={visibilityClass}
-                                        style={{ paddingTop, paddingBottom, ...widgetStyleToVars(widget.style) }}
-                                    >
-                                        <div className={isFullWidth ? '' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'}>
-                                            <Component {...widget.props} sellerId={sellerId} />
+                                let visibilityClass = '';
+                                if (layout.hideOnMobile && !layout.hideOnDesktop) visibilityClass = 'hidden sm:block';
+                                else if (layout.hideOnDesktop && !layout.hideOnMobile) visibilityClass = 'block sm:hidden';
+                                else if (layout.hideOnMobile && layout.hideOnDesktop) visibilityClass = 'hidden';
+
+                                return (
+                                    <SortableWidgetWrapper key={widget.id} widget={widget}>
+                                        <div
+                                            className={visibilityClass}
+                                            style={{ paddingTop, paddingBottom, ...widgetStyleToVars(widget.style) }}
+                                        >
+                                            <div className={isFullWidth ? '' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'}>
+                                                <Component {...widget.props} sellerId={sellerId} />
+                                            </div>
                                         </div>
-                                    </div>
-                                </SortableWidgetWrapper>
-                            );
-                        })}
-                    </SortableContext>
-                )}
+                                    </SortableWidgetWrapper>
+                                );
+                            })}
+                        </SortableContext>
+                    )}
+                </div>
+
+                {/* Preview chrome: footer */}
+                <BuilderFooterChrome />
             </div>
         </div>
     );

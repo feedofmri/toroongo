@@ -73,8 +73,46 @@
  */
 
 /**
+ * @typedef {Object} HeroConfig
+ * @property {string|null} bannerImage      - Override banner image URL
+ * @property {string|null} storeName        - Override store display name
+ * @property {string|null} tagline          - Subtitle line below store name
+ * @property {boolean}     showRating       - Show star rating row
+ * @property {boolean}     showContact      - Show Contact button
+ * @property {string}      contactText      - Contact button label
+ * @property {number}      overlayOpacity   - Dark overlay strength (0–100)
+ * @property {string|null} nameFont         - Font family for store name (null = heading font)
+ * @property {string|null} nameSize         - Font size preset for store name
+ * @property {string|null} nameWeight       - Font weight for store name
+ * @property {string|null} nameColor        - Text color for store name (null = white)
+ * @property {string|null} taglineSize      - Font size preset for tagline
+ * @property {string|null} taglineColor     - Text color for tagline (null = white/80)
+ */
+
+/** @returns {HeroConfig} */
+export function createDefaultHero() {
+    return {
+        bannerImage: null,
+        storeName: null,
+        tagline: null,
+        showRating: true,
+        showContact: true,
+        contactText: 'Contact',
+        overlayOpacity: 70,
+        // Text styles
+        nameFont: null,
+        nameSize: null,
+        nameWeight: null,
+        nameColor: null,
+        taglineSize: null,
+        taglineColor: null,
+    };
+}
+
+/**
  * @typedef {Object} StorefrontSchema
  * @property {ThemeSettings} theme
+ * @property {HeroConfig} hero
  * @property {WidgetBlock[]} widgets
  */
 
@@ -201,6 +239,7 @@ export function widgetStyleToVars(style = {}) {
 export function createDefaultStorefrontConfig() {
     return {
         theme: createDefaultTheme(),
+        hero: createDefaultHero(),
         widgets: [],
     };
 }

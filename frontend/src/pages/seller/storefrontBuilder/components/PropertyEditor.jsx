@@ -4,17 +4,25 @@ import useBuilderStore from '../store/useBuilderStore.js';
 import { widgetRegistry } from '../widgets/widgetRegistry.js';
 import MediaUploader from '../../../../components/ui/MediaUploader.jsx';
 import FontPicker from './FontPicker.jsx';
+import { useAuth } from '../../../../context/AuthContext';
 
 export default function PropertyEditor() {
     const selectedWidgetId = useBuilderStore((s) => s.selectedWidgetId);
-    const widgets = useBuilderStore((s) => s.widgets);
-    const updateWidgetProps = useBuilderStore((s) => s.updateWidgetProps);
+    const heroSelected     = useBuilderStore((s) => s.heroSelected);
+    const widgets          = useBuilderStore((s) => s.widgets);
+    const updateWidgetProps  = useBuilderStore((s) => s.updateWidgetProps);
     const updateWidgetLayout = useBuilderStore((s) => s.updateWidgetLayout);
-    const updateWidgetStyle = useBuilderStore((s) => s.updateWidgetStyle);
-    const removeWidget = useBuilderStore((s) => s.removeWidget);
+    const updateWidgetStyle  = useBuilderStore((s) => s.updateWidgetStyle);
+    const removeWidget    = useBuilderStore((s) => s.removeWidget);
     const duplicateWidget = useBuilderStore((s) => s.duplicateWidget);
-    const selectWidget = useBuilderStore((s) => s.selectWidget);
-    const commitHistory = useBuilderStore((s) => s.commitHistory);
+    const selectWidget    = useBuilderStore((s) => s.selectWidget);
+    const deselectHero    = useBuilderStore((s) => s.deselectHero);
+    const commitHistory   = useBuilderStore((s) => s.commitHistory);
+
+    // Hero section selected
+    if (heroSelected) {
+        return <HeroEditor onClose={deselectHero} />;
+    }
 
     const widget = widgets.find((w) => w.id === selectedWidgetId);
     if (!widget) {
@@ -25,7 +33,7 @@ export default function PropertyEditor() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 15l-2 5L9 9l11 4-5 2z" />
                     </svg>
                 </div>
-                <p className="text-sm text-gray-400">Click a widget in the preview to edit its properties</p>
+                <p className="text-sm text-gray-400">Click a widget or the store banner to edit its properties</p>
             </div>
         );
     }
@@ -131,6 +139,244 @@ export default function PropertyEditor() {
                     Delete Widget
                 </button>
             </div>
+        </div>
+    );
+}
+
+// ── Hero / Banner Editor ─────────────────────────────────
+
+const HERO_NAME_SIZES = [
+    { value: 'sm',  label: 'Small (14px)'  },
+    { value: 'base',label: 'Base (16px)'   },
+    { value: 'lg',  label: 'Large (18px)'  },
+    { value: 'xl',  label: 'XLarge (20px)' },
+    { value: '2xl', label: '2XL (24px)'    },
+    { value: '3xl', label: '3XL (30px)'    },
+    { value: '4xl', label: '4XL (36px)'    },
+];
+
+function HeroEditor({ onClose }) {
+    const hero       = useBuilderStore((s) => s.hero);
+    const updateHero = useBuilderStore((s) => s.updateHero);
+    const { user }   = useAuth();
+
+    const set = (key, val) => updateHero({ [key]: val });
+
+    return (
+        <div className="space-y-5">
+            {/* Header */}
+            <div className="flex items-center gap-2 pb-3 border-b border-gray-100">
+                <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <span className="text-sm font-semibold text-gray-700">Store Banner</span>
+                <button onClick={onClose} className="ml-auto text-xs text-gray-400 hover:text-gray-600">✕</button>
+            </div>
+
+            {/* Banner Image */}
+            <div>
+                <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Banner Image</h4>
+                <MediaUploader
+                    variant="compact"
+                    maxFiles={1}
+                    acceptVideo={false}
+                    value={hero.bannerImage ? [hero.bannerImage] : []}
+                    onChange={(urls) => set('bannerImage', urls[0] || null)}
+                />
+            </div>
+
+            {/* Text Content */}
+            <div>
+                <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Text Content</h4>
+                <div className="space-y-3">
+                    <div>
+                        <label className="text-xs font-medium text-gray-500 block mb-1">Store Name</label>
+                        <input
+                            type="text"
+                            value={hero.storeName || ''}
+                            onChange={(e) => set('storeName', e.target.value || null)}
+                            placeholder={user?.store_name || user?.name || 'From profile'}
+                            className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30"
+                        />
+                        <p className="mt-1 text-[10px] text-gray-400">Leave empty to use your profile store name</p>
+                    </div>
+                    <div>
+                        <label className="text-xs font-medium text-gray-500 block mb-1">Tagline</label>
+                        <input
+                            type="text"
+                            value={hero.tagline || ''}
+                            onChange={(e) => set('tagline', e.target.value || null)}
+                            placeholder="e.g. Premium quality since 2020"
+                            className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            {/* Store Name Style */}
+            <div className="bg-gray-50 rounded-xl p-3 space-y-3 border border-gray-100">
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Store Name Style</p>
+
+                {/* Font */}
+                <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-xs text-gray-500">Font</span>
+                        {hero.nameFont && (
+                            <button type="button" onClick={() => set('nameFont', null)} className="text-[10px] text-gray-400 hover:text-gray-600 transition-colors">Reset ×</button>
+                        )}
+                    </div>
+                    {hero.nameFont
+                        ? <FontPicker value={hero.nameFont} onChange={(v) => set('nameFont', v)} />
+                        : <button type="button" onClick={() => set('nameFont', 'Inter')} className="text-[11px] font-medium text-brand-primary hover:opacity-70 transition-opacity">+ Override font</button>
+                    }
+                </div>
+
+                {/* Size */}
+                <div className="flex items-center justify-between gap-2">
+                    <span className="text-xs text-gray-500 shrink-0">Size</span>
+                    <select
+                        value={hero.nameSize || ''}
+                        onChange={(e) => set('nameSize', e.target.value || null)}
+                        className="text-[11px] px-1.5 py-1 border border-gray-200 rounded bg-white text-gray-700"
+                    >
+                        <option value="">Default</option>
+                        {HERO_NAME_SIZES.map((s) => (
+                            <option key={s.value} value={s.value}>{s.label}</option>
+                        ))}
+                    </select>
+                </div>
+
+                {/* Weight */}
+                <div className="flex items-center justify-between gap-2">
+                    <span className="text-xs text-gray-500 shrink-0">Weight</span>
+                    <select
+                        value={hero.nameWeight || ''}
+                        onChange={(e) => set('nameWeight', e.target.value || null)}
+                        className="text-[11px] px-1.5 py-1 border border-gray-200 rounded bg-white text-gray-700"
+                    >
+                        <option value="">Default (Bold)</option>
+                        {WEIGHT_OPTIONS.map((o) => (
+                            <option key={o.value} value={o.value}>{o.label}</option>
+                        ))}
+                    </select>
+                </div>
+
+                {/* Color */}
+                <div className="flex items-center justify-between gap-2">
+                    <span className="text-xs text-gray-500 shrink-0">Color</span>
+                    <div className="flex items-center gap-1.5">
+                        <input
+                            type="color"
+                            value={hero.nameColor || '#ffffff'}
+                            onChange={(e) => set('nameColor', e.target.value)}
+                            className="w-6 h-6 rounded cursor-pointer border border-gray-200 p-0.5 shrink-0"
+                        />
+                        <input
+                            type="text"
+                            value={hero.nameColor || ''}
+                            onChange={(e) => set('nameColor', e.target.value || null)}
+                            placeholder="White"
+                            className="w-16 text-[10px] font-mono px-1.5 py-1 border border-gray-200 rounded uppercase"
+                        />
+                        {hero.nameColor && (
+                            <button type="button" onClick={() => set('nameColor', null)} className="text-gray-300 hover:text-gray-500 text-sm leading-none shrink-0" title="Reset">×</button>
+                        )}
+                    </div>
+                </div>
+            </div>
+
+            {/* Tagline Style */}
+            {hero.tagline && (
+                <div className="bg-gray-50 rounded-xl p-3 space-y-3 border border-gray-100">
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Tagline Style</p>
+                    <div className="flex items-center justify-between gap-2">
+                        <span className="text-xs text-gray-500 shrink-0">Color</span>
+                        <div className="flex items-center gap-1.5">
+                            <input
+                                type="color"
+                                value={hero.taglineColor || '#ffffffcc'}
+                                onChange={(e) => set('taglineColor', e.target.value)}
+                                className="w-6 h-6 rounded cursor-pointer border border-gray-200 p-0.5 shrink-0"
+                            />
+                            <input
+                                type="text"
+                                value={hero.taglineColor || ''}
+                                onChange={(e) => set('taglineColor', e.target.value || null)}
+                                placeholder="White/80"
+                                className="w-16 text-[10px] font-mono px-1.5 py-1 border border-gray-200 rounded uppercase"
+                            />
+                            {hero.taglineColor && (
+                                <button type="button" onClick={() => set('taglineColor', null)} className="text-gray-300 hover:text-gray-500 text-sm leading-none shrink-0" title="Reset">×</button>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Contact Button */}
+            <div>
+                <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Contact Button</h4>
+                <div className="space-y-3">
+                    <HeroToggle
+                        label="Show Contact Button"
+                        checked={hero.showContact !== false}
+                        onChange={(v) => set('showContact', v)}
+                    />
+                    {hero.showContact !== false && (
+                        <div>
+                            <label className="text-xs font-medium text-gray-500 block mb-1">Button Text</label>
+                            <input
+                                type="text"
+                                value={hero.contactText || ''}
+                                onChange={(e) => set('contactText', e.target.value)}
+                                placeholder="Contact"
+                                className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30"
+                            />
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            {/* Display Options */}
+            <div>
+                <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Display Options</h4>
+                <div className="space-y-3">
+                    <HeroToggle
+                        label="Show Rating"
+                        checked={hero.showRating !== false}
+                        onChange={(v) => set('showRating', v)}
+                    />
+                    <div>
+                        <div className="flex items-center justify-between mb-1">
+                            <label className="text-xs font-medium text-gray-500">Overlay Darkness</label>
+                            <span className="text-xs font-mono text-gray-400">{hero.overlayOpacity ?? 70}%</span>
+                        </div>
+                        <input
+                            type="range"
+                            min={0}
+                            max={100}
+                            value={hero.overlayOpacity ?? 70}
+                            onChange={(e) => set('overlayOpacity', Number(e.target.value))}
+                            className="w-full accent-brand-primary"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+function HeroToggle({ label, checked, onChange }) {
+    return (
+        <div className="flex items-center justify-between">
+            <span className="text-xs font-medium text-gray-500">{label}</span>
+            <button
+                type="button"
+                onClick={() => onChange(!checked)}
+                className={`relative inline-flex h-5 w-9 shrink-0 rounded-full transition-colors ${checked ? 'bg-brand-primary' : 'bg-gray-200'}`}
+            >
+                <span className={`inline-block h-4 w-4 rounded-full bg-white shadow transform transition-transform mt-0.5 ${checked ? 'translate-x-4 ml-0.5' : 'translate-x-0.5'}`} />
+            </button>
         </div>
     );
 }

@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import {
     createDefaultTheme,
+    createDefaultHero,
     createWidgetBlock,
     createDefaultStorefrontConfig,
 } from '../schema/storefrontSchema.js';
@@ -16,11 +17,17 @@ export const useBuilderStore = create((set, get) => ({
     /** @type {import('../schema/storefrontSchema.js').ThemeSettings} */
     theme: createDefaultTheme(),
 
+    /** @type {import('../schema/storefrontSchema.js').HeroConfig} */
+    hero: createDefaultHero(),
+
     /** @type {import('../schema/storefrontSchema.js').WidgetBlock[]} */
     widgets: [],
 
     /** @type {string|null} */
     selectedWidgetId: null,
+
+    /** @type {boolean} */
+    heroSelected: false,
 
     /** @type {'desktop' | 'tablet' | 'mobile'} */
     viewportMode: 'desktop',
@@ -39,8 +46,8 @@ export const useBuilderStore = create((set, get) => ({
 
     // ── Snapshot helpers ──────────────────────────────────
     _pushUndo: () => {
-        const { theme, widgets, undoStack } = get();
-        const snapshot = JSON.stringify({ theme, widgets });
+        const { theme, hero, widgets, undoStack } = get();
+        const snapshot = JSON.stringify({ theme, hero, widgets });
         set({
             undoStack: [...undoStack.slice(-MAX_HISTORY), snapshot],
             redoStack: [],
@@ -182,7 +189,28 @@ export const useBuilderStore = create((set, get) => ({
      * @param {string|null} widgetId
      */
     selectWidget: (widgetId) => {
-        set({ selectedWidgetId: widgetId });
+        set({ selectedWidgetId: widgetId, heroSelected: false });
+    },
+
+    /** Select the hero/banner section for editing. */
+    selectHero: () => set({ heroSelected: true, selectedWidgetId: null }),
+
+    /** Deselect the hero section. */
+    deselectHero: () => set({ heroSelected: false }),
+
+    /**
+     * Update hero banner config (shallow merge).
+     * @param {Partial<import('../schema/storefrontSchema.js').HeroConfig>} updates
+     */
+    updateHero: (updates) => {
+        const { theme, hero, widgets, undoStack } = get();
+        const snapshot = JSON.stringify({ theme, hero, widgets });
+        set((s) => ({
+            hero: { ...s.hero, ...updates },
+            undoStack: [...undoStack.slice(-MAX_HISTORY), snapshot],
+            redoStack: [],
+            isDirty: true,
+        }));
     },
 
     // ── Theme Actions ────────────────────────────────────
@@ -206,13 +234,14 @@ export const useBuilderStore = create((set, get) => ({
     // ── Undo / Redo ──────────────────────────────────────
 
     undo: () => {
-        const { undoStack, theme, widgets } = get();
+        const { undoStack, theme, hero, widgets } = get();
         if (undoStack.length === 0) return;
-        const currentSnapshot = JSON.stringify({ theme, widgets });
+        const currentSnapshot = JSON.stringify({ theme, hero, widgets });
         const previous = undoStack[undoStack.length - 1];
         const parsed = JSON.parse(previous);
         set((state) => ({
             theme: parsed.theme,
+            hero: parsed.hero ?? createDefaultHero(),
             widgets: parsed.widgets,
             undoStack: state.undoStack.slice(0, -1),
             redoStack: [...state.redoStack, currentSnapshot],
@@ -221,13 +250,14 @@ export const useBuilderStore = create((set, get) => ({
     },
 
     redo: () => {
-        const { redoStack, theme, widgets } = get();
+        const { redoStack, theme, hero, widgets } = get();
         if (redoStack.length === 0) return;
-        const currentSnapshot = JSON.stringify({ theme, widgets });
+        const currentSnapshot = JSON.stringify({ theme, hero, widgets });
         const next = redoStack[redoStack.length - 1];
         const parsed = JSON.parse(next);
         set((state) => ({
             theme: parsed.theme,
+            hero: parsed.hero ?? createDefaultHero(),
             widgets: parsed.widgets,
             redoStack: state.redoStack.slice(0, -1),
             undoStack: [...state.undoStack, currentSnapshot],
@@ -246,8 +276,10 @@ export const useBuilderStore = create((set, get) => ({
         const defaults = createDefaultStorefrontConfig();
         set({
             theme: config?.theme || defaults.theme,
+            hero: config?.hero || defaults.hero,
             widgets: config?.widgets || defaults.widgets,
             selectedWidgetId: null,
+            heroSelected: false,
             undoStack: [],
             redoStack: [],
             isDirty: false,
@@ -260,8 +292,8 @@ export const useBuilderStore = create((set, get) => ({
      * @returns {import('../schema/storefrontSchema.js').StorefrontSchema}
      */
     getConfig: () => {
-        const { theme, widgets } = get();
-        return { theme, widgets };
+        const { theme, hero, widgets } = get();
+        return { theme, hero, widgets };
     },
 
     /**

@@ -88,7 +88,6 @@ export default function SellerSettings() {
     const [branding, setBranding] = useState({
         brand_color: user?.brand_color || '#000000',
         logo: user?.logo || '',
-        banner: user?.banner || '',
     });
     const [saveBrandingLoading, setSaveBrandingLoading] = useState(false);
 
@@ -142,8 +141,7 @@ export default function SellerSettings() {
 
     const isBrandingDirty = React.useMemo(() => {
         return branding.brand_color !== (user?.brand_color || '#000000') ||
-               branding.logo !== (user?.logo || '') ||
-               branding.banner !== (user?.banner || '');
+               branding.logo !== (user?.logo || '');
     }, [branding, user]);
 
     const isCountryDirty = React.useMemo(() => {
@@ -551,17 +549,7 @@ export default function SellerSettings() {
                             onChange={(urls) => setBranding({...branding, logo: urls[0] || ''})}
                         />
                     </div>
-                    <div>
-                        <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.branding.banner', 'Banner Image')}</label>
-                        <MediaUploader
-                            variant="compact"
-                            maxFiles={1}
-                            acceptVideo={false}
-                            value={branding.banner ? [branding.banner] : []}
-                            onChange={(urls) => setBranding({...branding, banner: urls[0] || ''})}
-                        />
-                    </div>
-                    <button 
+                    <button
                         onClick={handleSaveBranding} 
                         disabled={saveBrandingLoading || (!isBrandingDirty && saveSuccess !== 'branding')} 
                         className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all
