@@ -19,6 +19,7 @@ class User extends Authenticatable
         'phone', 'seller_settings', 'buyer_settings', 'location',
         'country', 'currency_code', 'country_custom_name',
         'google_id', 'provider', 'email_verified_at',
+        'is_active', 'is_verified',
     ];
 
     protected $hidden = ['password', 'remember_token'];
@@ -38,6 +39,8 @@ class User extends Authenticatable
             'rating' => 'float',
             'seller_settings' => 'array',
             'buyer_settings' => 'array',
+            'is_active' => 'boolean',
+            'is_verified' => 'boolean',
         ];
     }
 

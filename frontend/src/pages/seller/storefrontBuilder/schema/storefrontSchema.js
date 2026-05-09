@@ -147,13 +147,38 @@ export function resolveSpacing(size) {
 }
 
 /**
+ * Darken a hex color by a given amount (0–1).
+ * @param {string} hex
+ * @param {number} amt
+ * @returns {string}
+ */
+function darkenHex(hex, amt) {
+    const n = parseInt((hex || '#008080').replace('#', ''), 16);
+    const r = Math.max(0, Math.round(((n >> 16) & 0xff) * (1 - amt)));
+    const g = Math.max(0, Math.round((((n >> 8) & 0xff) * (1 - amt))));
+    const b = Math.max(0, Math.round((n & 0xff) * (1 - amt)));
+    return `#${(1 << 24 | (r << 16) | (g << 8) | b).toString(16).slice(1)}`;
+}
+
+/**
  * Convert a ThemeSettings object to CSS custom properties for injection.
  * @param {ThemeSettings} theme
  * @returns {Object}
  */
 export function themeToCSS(theme) {
+    const cardShadow = theme.cardStyle === 'shadow'
+        ? '0 4px 14px rgba(0,0,0,0.08)'
+        : 'none';
+    const cardBorderColor = theme.cardStyle === 'border'
+        ? 'rgba(0,0,0,0.12)'
+        : theme.cardStyle === 'none'
+            ? 'transparent'
+            : 'rgba(0,0,0,0.08)'; // default subtle border for 'shadow' style
+
+    const isDark = theme.headerStyle === 'dark';
     return {
         '--seller-brand': theme.brandColor,
+        '--seller-brand-hover': darkenHex(theme.brandColor, 0.15),
         '--seller-brand-secondary': theme.secondaryColor,
         '--seller-bg': theme.backgroundColor,
         '--seller-text': theme.textColor,
@@ -163,7 +188,11 @@ export function themeToCSS(theme) {
         '--seller-font-size': `${theme.baseFontSize}px`,
         '--seller-radius': resolveBorderRadius(theme.borderRadius),
         '--seller-widget-radius': resolveBorderRadius(theme.widgetRadius || 'rounded'),
-        '--seller-header-bg': theme.headerStyle === 'dark' ? '#0F172A' : '#FFFFFF',
-        '--seller-header-text': theme.headerStyle === 'dark' ? '#FFFFFF' : '#0F172A',
+        '--seller-header-bg': isDark ? '#0F172A' : '#FFFFFF',
+        '--seller-header-text': isDark ? '#FFFFFF' : '#0F172A',
+        '--seller-header-text-muted': isDark ? 'rgba(255,255,255,0.6)' : 'rgba(15,23,42,0.45)',
+        '--seller-header-border': isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)',
+        '--seller-card-shadow': cardShadow,
+        '--seller-card-border-color': cardBorderColor,
     };
 }

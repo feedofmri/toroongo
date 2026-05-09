@@ -64,6 +64,7 @@ import ApiWebhooks from "./pages/seller/ApiWebhooks";
 import AffiliateProgram from "./pages/seller/AffiliateProgram";
 import BulkImportExport from "./pages/seller/BulkImportExport";
 import AiToolsHub from "./pages/seller/AiToolsHub";
+import SellerLeads from "./pages/seller/SellerLeads";
 
 // ─── Storefront Builder ──────────────────────────────────────
 import { StorefrontBuilder } from "./pages/seller/storefrontBuilder";
@@ -286,6 +287,7 @@ function App() {
           <Route path="affiliates" element={<AffiliateProgram />} />
           <Route path="import-export" element={<BulkImportExport />} />
           <Route path="ai-tools" element={<AiToolsHub />} />
+          <Route path="leads" element={<SellerLeads />} />
           <Route path="shipping-areas" element={<ShippingAreas />} />
           <Route path="payment-options" element={<PaymentOptions />} />
           <Route path="subscription" element={<SellerSubscription />} />

@@ -12,10 +12,14 @@ class MessageController extends Controller
 {
     public function conversations(Request $request)
     {
-        $userId = $request->user()->id;
+        $userId   = $request->user()->id;
+        $adminIds = User::where('role', 'admin')->pluck('id');
 
-        $messages = Message::where('sender_id', $userId)
-            ->orWhere('receiver_id', $userId)
+        $messages = Message::where(function ($q) use ($userId) {
+                $q->where('sender_id', $userId)->orWhere('receiver_id', $userId);
+            })
+            ->whereNotIn('sender_id', $adminIds)
+            ->whereNotIn('receiver_id', $adminIds)
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -51,7 +55,14 @@ class MessageController extends Controller
 
     public function messages(Request $request, $otherUserId)
     {
-        $userId = $request->user()->id;
+        $userId   = $request->user()->id;
+        $adminIds = User::where('role', 'admin')->pluck('id');
+
+        // Block access to support chat threads via the peer-messaging route
+        if ($adminIds->contains((int) $otherUserId)) {
+            return response()->json([]);
+        }
+
         $msgs = Message::where(function ($q) use ($userId, $otherUserId) {
             $q->where('sender_id', $userId)->where('receiver_id', $otherUserId);
         })->orWhere(function ($q) use ($userId, $otherUserId) {

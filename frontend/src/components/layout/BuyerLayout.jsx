@@ -2,11 +2,8 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import LiveChatWidget from '../ui/LiveChatWidget';
 
-/**
- * Layout wrapper for all buyer-facing pages.
- * Renders Navbar at the top, child route via <Outlet />, and Footer at the bottom.
- */
 export default function BuyerLayout() {
     return (
         <div className="min-h-screen flex flex-col bg-white">
@@ -15,6 +12,7 @@ export default function BuyerLayout() {
                 <Outlet />
             </main>
             <Footer />
+            <LiveChatWidget />
         </div>
     );
 }

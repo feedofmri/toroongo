@@ -5,6 +5,7 @@ import {
   UserCheck, Mail, Lock, User,
 } from 'lucide-react';
 import { adminService } from '../../services/adminService';
+import { CURRENCY_INFO, setAdminCurrencyCode } from '../../utils/currency';
 
 const TABS = [
   { id: 'general',    label: 'General',    Icon: Globe },
@@ -270,10 +271,12 @@ export default function SettingsPage() {
         if (data.appearance) setAppearance(a => ({ ...a, ...data.appearance }));
         if (!data.general && !data.commerce && !data.appearance) {
           setGeneral(g => ({ ...g, ...data }));
+          const loadedCurrency = data.currency ?? 'USD';
+          setAdminCurrencyCode(loadedCurrency);
           setCommerce(c => ({
             ...c,
-            currency: data.currency ?? c.currency,
-            currency_symbol: data.currency_symbol ?? c.currency_symbol,
+            currency: loadedCurrency,
+            currency_symbol: CURRENCY_INFO[loadedCurrency]?.symbol ?? data.currency_symbol ?? c.currency_symbol,
             commission_rate: data.commission_rate ?? c.commission_rate,
             min_withdrawal: data.min_withdrawal ?? c.min_withdrawal,
             max_products_per_seller: data.max_products_per_seller ?? c.max_products_per_seller,
@@ -301,6 +304,7 @@ export default function SettingsPage() {
     setSaved(false);
     try {
       await adminService.updateSettings({ general, commerce, appearance });
+      setAdminCurrencyCode(commerce.currency);
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     } catch (err) {
@@ -402,14 +406,21 @@ export default function SettingsPage() {
             </div>
             <p className="text-xs text-text-muted mb-5">Pricing, commissions, and seller rules</p>
             <div>
-              <Field label="Currency Code" hint="ISO 4217 (e.g. USD, EUR, BDT)">
-                <Input value={commerce.currency} onChange={v => setCommerce(c => ({ ...c, currency: v }))} placeholder="USD" />
-              </Field>
-              <Field label="Currency Symbol">
-                <Input value={commerce.currency_symbol} onChange={v => setCommerce(c => ({ ...c, currency_symbol: v }))} placeholder="$" />
-              </Field>
-              <Field label="Commission Rate (%)" hint="Platform fee deducted from each sale">
-                <Input type="number" value={commerce.commission_rate} onChange={v => setCommerce(c => ({ ...c, commission_rate: v }))} placeholder="10" />
+              <Field label="Admin Currency" hint="All product prices in the CRM will be converted to this currency">
+                <select
+                  value={commerce.currency}
+                  onChange={e => {
+                    const code = e.target.value;
+                    setCommerce(c => ({ ...c, currency: code, currency_symbol: CURRENCY_INFO[code]?.symbol ?? c.currency_symbol }));
+                  }}
+                  className="w-full px-4 py-2.5 bg-surface-bg border border-border-soft rounded-xl text-sm focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/15 outline-none transition-all"
+                >
+                  {Object.entries(CURRENCY_INFO).map(([code, info]) => (
+                    <option key={code} value={code}>
+                      {info.symbol} — {code} ({info.name})
+                    </option>
+                  ))}
+                </select>
               </Field>
               <Field label="Min Payout ($)" hint="Minimum balance before sellers can withdraw">
                 <Input type="number" value={commerce.min_withdrawal} onChange={v => setCommerce(c => ({ ...c, min_withdrawal: v }))} placeholder="50" />

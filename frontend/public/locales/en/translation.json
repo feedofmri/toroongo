@@ -1373,6 +1373,8 @@
         "aiSuperpowers": "AI Superpowers",
         "currentPlan": "Current Plan",
         "upgrade": "Upgrade Now",
+        "upgradeTo": "Upgrade to {{name}}",
+        "managePlan": "Manage Plan",
         "downgrade": "Downgrade Plan",
         "downgradeConfirmTitle": "Downgrade to {{name}}?",
         "downgradeConfirmDesc": "Your plan will be downgraded at the <strong>end of your current billing cycle</strong>.",

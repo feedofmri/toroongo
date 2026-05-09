@@ -23,6 +23,8 @@ use App\Http\Controllers\Api\OtpController;
 use App\Http\Controllers\Api\DiscountController;
 use App\Http\Controllers\Api\StorefrontController;
 use App\Http\Controllers\Api\UploadController;
+use App\Http\Controllers\Api\NewsletterController;
+use App\Http\Controllers\Api\ContactController;
 
 // ── Public Routes ───────────────────────────────────
 Route::post('/auth/register', [AuthController::class, 'register']);
@@ -43,11 +45,11 @@ Route::get('/products/seller/{sellerId}', [ProductController::class, 'bySeller']
 Route::get('/products/category/{slug}', [ProductController::class, 'byCategory']);
 Route::get('/products/{id}/reviews', [ReviewController::class, 'index']);
 
-// Public blog endpoints
+// Public blog endpoints (specific routes must come before wildcard)
 Route::get('/blogs', [BlogController::class, 'index']);
-Route::get('/blogs/{idOrSlug}', [BlogController::class, 'show']);
-Route::post('/blogs/{id}/views', [BlogController::class, 'incrementViews']);
 Route::get('/blogs/seller/{sellerId}', [BlogController::class, 'bySeller']);
+Route::post('/blogs/{id}/views', [BlogController::class, 'incrementViews']);
+Route::get('/blogs/{idOrSlug}', [BlogController::class, 'show']);
 
 // Public user/seller endpoints
 Route::get('/users/sellers', [UserController::class, 'sellers']);
@@ -60,9 +62,14 @@ Route::get('/system/categories', [SystemController::class, 'categories']);
 Route::get('/system/hero-banners', [SystemController::class, 'heroBanners']);
 Route::get('/system/nav-categories', [SystemController::class, 'navCategories']);
 Route::get('/system/detect-location', [SystemController::class, 'detectLocation']);
+Route::get('/system/advertisements', fn() => response()->json(\App\Models\Advertisement::where('is_active', true)->orderBy('sort_order')->get()));
 
 // Public: storefront config for buyers
 Route::get('/storefront/{sellerId}', [StorefrontController::class, 'show']);
+
+// Public: newsletter & contact (no auth required — submitted by visitors)
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe']);
+Route::post('/contact', [ContactController::class, 'store']);
 
 // Public: seller payment methods for checkout
 Route::post('/payment-methods/by-sellers', [SellerPaymentMethodController::class, 'publicBySellers']);
@@ -161,6 +168,11 @@ Route::middleware('auth:sanctum')->group(function () {
         // Storefront config
         Route::put('/storefront', [StorefrontController::class, 'update']);
 
+        // Newsletter & Contact (seller inbox)
+        Route::get('/newsletter/subscribers', [NewsletterController::class, 'subscribers']);
+        Route::get('/contact/submissions', [ContactController::class, 'index']);
+        Route::put('/contact/submissions/{id}/read', [ContactController::class, 'markRead']);
+
         // AI Tools
         Route::post('/ai/generate-description', [AiController::class, 'generateDescription']);
         Route::post('/ai/enhance-image', [AiController::class, 'enhanceImage']);
@@ -217,6 +229,37 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Discounts
     Route::get('/admin/discounts', [AdminController::class, 'discounts']);
+
+    // Seller verification
+    Route::patch('/admin/sellers/{id}/verify', [AdminController::class, 'verifySeller']);
+
+    // Products update
+    Route::patch('/admin/products/{id}', [AdminController::class, 'updateProduct']);
+
+    // Subscription management
+    Route::patch('/admin/subscriptions/{id}/cancel', [AdminController::class, 'cancelSubscription']);
+    Route::patch('/admin/subscriptions/{id}/reactivate', [AdminController::class, 'reactivateSubscription']);
+    Route::patch('/admin/subscriptions/{id}/approve', [AdminController::class, 'approveSubscription']);
+
+    // Advertisements
+    Route::get('/admin/advertisements', [AdminController::class, 'advertisements']);
+    Route::post('/admin/advertisements', [AdminController::class, 'createAdvertisement']);
+    Route::put('/admin/advertisements/{id}', [AdminController::class, 'updateAdvertisement']);
+    Route::delete('/admin/advertisements/{id}', [AdminController::class, 'deleteAdvertisement']);
+
+    // Newsletter & Contact (admin: all sellers)
+    Route::get('/admin/newsletter/subscribers', [NewsletterController::class, 'adminAll']);
+    Route::get('/admin/contact/submissions', [ContactController::class, 'adminAll']);
+
+    // Admin chat (admin ↔ user conversations)
+    Route::get('/admin/chat/conversations', [AdminController::class, 'chatConversations']);
+    Route::get('/admin/chat/{userId}/messages', [AdminController::class, 'chatMessages']);
+    Route::post('/admin/chat/{userId}/send', [AdminController::class, 'chatSend']);
+
+    // User-side chat (user → admin)
+    Route::get('/chat/messages', [AdminController::class, 'userChatMessages']);
+    Route::post('/chat/send', [AdminController::class, 'userChatSend']);
+    Route::get('/chat/unread', [AdminController::class, 'userChatUnread']);
 
     // Settings
     Route::get('/admin/settings', [AdminController::class, 'getSettings']);

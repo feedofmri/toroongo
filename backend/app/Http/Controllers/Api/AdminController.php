@@ -11,6 +11,8 @@ use App\Models\Review;
 use App\Models\Blog;
 use App\Models\HeroBanner;
 use App\Models\Discount;
+use App\Models\Advertisement;
+use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -182,18 +184,19 @@ class AdminController extends Controller
         $paginated = $query->latest()->paginate($request->per_page ?? 15);
 
         $paginated->getCollection()->transform(fn($p) => [
-            'id'          => $p->id,
-            'name'        => $p->title,
-            'image'       => $p->image_url,
-            'category'    => $p->category,
-            'seller_name' => $p->seller_name,
-            'price'       => $p->price,
-            'rating'      => $p->rating,
-            'stock'       => $p->stock,
-            'status'      => $p->stock > 0 ? 'active' : 'out_of_stock',
-            'description' => $p->description,
-            'sku'         => 'SKU-' . $p->id,
-            'created_at'  => $p->created_at?->format('M d, Y'),
+            'id'            => $p->id,
+            'name'          => $p->title,
+            'image'         => $p->image_url,
+            'category'      => $p->category,
+            'seller_name'   => $p->seller_name,
+            'price'         => $p->price,
+            'currency_code' => $p->currency_code ?? 'USD',
+            'rating'        => $p->rating,
+            'stock'         => $p->stock,
+            'status'        => $p->stock > 0 ? 'active' : 'out_of_stock',
+            'description'   => $p->description,
+            'sku'           => 'SKU-' . $p->id,
+            'created_at'    => $p->created_at?->format('M d, Y'),
         ]);
 
         return response()->json($paginated);
@@ -228,22 +231,33 @@ class AdminController extends Controller
             });
         }
 
-        // Detailed seller analytics data
-        $sellers = $query->paginate(10)->through(function($user) {
-            // we calculate revenue by joining OrderItems where seller_id matches
+        if ($request->filled('status') && $request->status !== 'all') {
+            if ($request->status === 'suspended') {
+                $query->where('is_active', false);
+            } elseif ($request->status === 'active') {
+                $query->where(fn($q) => $q->where('is_active', true)->orWhereNull('is_active'));
+            }
+        }
+
+        $perPage = min((int)($request->per_page ?? 15), 100);
+        $sellers = $query->latest()->paginate($perPage)->through(function($user) {
             $revenue = \App\Models\OrderItem::where('seller_id', $user->id)
                 ->join('orders', 'order_items.order_id', '=', 'orders.id')
                 ->sum(\DB::raw('order_items.price_at_purchase * order_items.quantity'));
 
             return [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'products' => Product::where('seller_id', $user->id)->count(),
-                'revenue' => $revenue,
-                'rating' => 4.5, // placeholder
-                'status' => 'approved', // placeholder
-                'joined' => $user->created_at->toISOString()
+                'id'          => $user->id,
+                'name'        => $user->name,
+                'email'       => $user->email,
+                'shop_name'   => $user->store_name,
+                'shop_slug'   => $user->slug,
+                'phone'       => $user->phone,
+                'products'    => Product::where('seller_id', $user->id)->count(),
+                'revenue'     => $revenue,
+                'rating'      => $user->rating ?? 0,
+                'is_verified' => $user->is_verified ?? false,
+                'status'      => ($user->is_active ?? true) ? 'active' : 'suspended',
+                'joined'      => $user->created_at?->format('M d, Y'),
             ];
         });
 
@@ -275,7 +289,17 @@ class AdminController extends Controller
     public function toggleStatus($id)
     {
         $user = User::findOrFail($id);
-        return response()->json(['message' => 'User status updated successfully', 'id' => $id]);
+        $user->is_active = !($user->is_active ?? true);
+        $user->save();
+        return response()->json(['message' => 'User status updated', 'is_active' => $user->is_active]);
+    }
+
+    public function verifySeller($id)
+    {
+        $user = User::findOrFail($id);
+        $user->is_verified = !($user->is_verified ?? false);
+        $user->save();
+        return response()->json(['message' => 'Seller verification updated', 'is_verified' => $user->is_verified]);
     }
 
     public function subscriptions(Request $request)
@@ -477,6 +501,237 @@ class AdminController extends Controller
         ]);
 
         return response()->json($paginated);
+    }
+
+    public function updateProduct(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+        $data = $request->validate([
+            'title'       => 'sometimes|string|max:255',
+            'description' => 'sometimes|nullable|string',
+            'price'       => 'sometimes|numeric|min:0',
+            'stock'       => 'sometimes|integer|min:0',
+            'category'    => 'sometimes|nullable|string',
+            'status'      => 'sometimes|in:active,inactive,draft,out_of_stock',
+        ]);
+        $product->update($data);
+        return response()->json(['message' => 'Product updated', 'product' => $product]);
+    }
+
+    public function cancelSubscription($id)
+    {
+        $sub = \App\Models\Subscription::findOrFail($id);
+        $sub->update(['status' => 'cancelled', 'cancelled_at' => now()]);
+
+        // Downgrade the seller's plan if they have no remaining active subscription
+        $user = User::findOrFail($sub->user_id);
+        $hasActiveSubscription = \App\Models\Subscription::where('user_id', $user->id)
+            ->where('status', 'active')
+            ->exists();
+        if (!$hasActiveSubscription) {
+            $user->update(['plan' => 'starter']);
+        }
+
+        return response()->json(['message' => 'Subscription cancelled']);
+    }
+
+    public function reactivateSubscription($id)
+    {
+        $sub = \App\Models\Subscription::findOrFail($id);
+        $sub->update(['status' => 'active', 'cancelled_at' => null]);
+
+        // Sync the seller's plan to the reactivated subscription's plan
+        $user = User::findOrFail($sub->user_id);
+        $user->update(['plan' => $sub->plan]);
+
+        return response()->json(['message' => 'Subscription reactivated']);
+    }
+
+    public function approveSubscription($id)
+    {
+        $sub = Subscription::findOrFail($id);
+        if ($sub->status !== 'pending_verification') {
+            return response()->json(['message' => 'Only pending subscriptions can be approved'], 422);
+        }
+        $user = User::findOrFail($sub->user_id);
+
+        // Cancel any currently active subscriptions for this user
+        Subscription::where('user_id', $user->id)
+            ->where('id', '!=', $sub->id)
+            ->where('status', 'active')
+            ->update(['status' => 'cancelled', 'cancelled_at' => now()]);
+
+        $sub->update(['status' => 'active']);
+        $user->update(['plan' => $sub->plan]);
+
+        return response()->json(['message' => 'Subscription approved and activated', 'subscription' => $sub->fresh()]);
+    }
+
+    // ── Advertisements ────────────────────────────────────
+
+    public function advertisements()
+    {
+        return response()->json(Advertisement::orderBy('sort_order')->get());
+    }
+
+    public function createAdvertisement(Request $request)
+    {
+        $data = $request->validate([
+            'title'       => 'required|string|max:255',
+            'subtitle'    => 'nullable|string',
+            'badge_text'  => 'nullable|string|max:50',
+            'cta_text'    => 'nullable|string|max:50',
+            'cta_link'    => 'nullable|string|max:500',
+            'image_url'   => 'nullable|string|max:500',
+            'bg_gradient' => 'nullable|string|max:200',
+            'sort_order'  => 'nullable|integer',
+            'is_active'   => 'nullable|boolean',
+        ]);
+        $ad = Advertisement::create($data);
+        return response()->json($ad, 201);
+    }
+
+    public function updateAdvertisement(Request $request, $id)
+    {
+        $ad = Advertisement::findOrFail($id);
+        $data = $request->validate([
+            'title'       => 'sometimes|required|string|max:255',
+            'subtitle'    => 'nullable|string',
+            'badge_text'  => 'nullable|string|max:50',
+            'cta_text'    => 'nullable|string|max:50',
+            'cta_link'    => 'nullable|string|max:500',
+            'image_url'   => 'nullable|string|max:500',
+            'bg_gradient' => 'nullable|string|max:200',
+            'sort_order'  => 'nullable|integer',
+            'is_active'   => 'nullable|boolean',
+        ]);
+        $ad->update($data);
+        return response()->json($ad);
+    }
+
+    public function deleteAdvertisement($id)
+    {
+        Advertisement::findOrFail($id)->delete();
+        return response()->json(['message' => 'Advertisement deleted']);
+    }
+
+    // ── Chat ──────────────────────────────────────────────
+
+    public function chatConversations()
+    {
+        // Shared support inbox — show all conversations between non-admins and any admin
+        $adminIds = User::where('role', 'admin')->pluck('id');
+
+        $conversations = Message::where(fn($q) =>
+                $q->whereIn('receiver_id', $adminIds)->whereNotIn('sender_id', $adminIds)
+            )->orWhere(fn($q) =>
+                $q->whereIn('sender_id', $adminIds)->whereNotIn('receiver_id', $adminIds)
+            )
+            ->with(['sender:id,name,email,role', 'receiver:id,name,email,role'])
+            ->get()
+            ->groupBy(fn($m) => $adminIds->contains($m->sender_id) ? $m->receiver_id : $m->sender_id)
+            ->map(function ($messages, $userId) use ($adminIds) {
+                $last = $messages->sortByDesc('created_at')->first();
+                $user = $adminIds->contains($last->sender_id) ? $last->receiver : $last->sender;
+                return [
+                    'user_id'      => $userId,
+                    'user_name'    => $user?->name ?? 'Unknown',
+                    'user_email'   => $user?->email ?? '',
+                    'user_role'    => $user?->role ?? 'buyer',
+                    'last_message' => $last->text,
+                    'last_at'      => $last->created_at->toISOString(),
+                    'unread_count' => $messages->filter(fn($m) => !$adminIds->contains($m->sender_id) && !$m->read)->count(),
+                ];
+            })
+            ->values();
+
+        return response()->json($conversations);
+    }
+
+    public function chatMessages($userId)
+    {
+        $adminIds = User::where('role', 'admin')->pluck('id');
+
+        $messages = Message::where(fn($q) =>
+            $q->whereIn('sender_id', $adminIds)->where('receiver_id', $userId)
+        )->orWhere(fn($q) =>
+            $q->where('sender_id', $userId)->whereIn('receiver_id', $adminIds)
+        )->orderBy('created_at')->get()->map(fn($m) => [
+            'id'         => $m->id,
+            'text'       => $m->text,
+            'from_admin' => $adminIds->contains($m->sender_id),
+            'read'       => $m->read,
+            'created_at' => $m->created_at->toISOString(),
+        ]);
+
+        // Mark all messages from user to any admin as read
+        Message::where('sender_id', $userId)->whereIn('receiver_id', $adminIds)->update(['read' => true]);
+
+        return response()->json($messages);
+    }
+
+    public function chatSend(Request $request, $userId)
+    {
+        $data = $request->validate(['text' => 'required|string|max:2000']);
+        $adminId = auth()->id();
+        $msg = Message::create([
+            'sender_id'   => $adminId,
+            'receiver_id' => $userId,
+            'text'        => $data['text'],
+            'read'        => false,
+        ]);
+        return response()->json(['id' => $msg->id, 'text' => $msg->text, 'from_admin' => true, 'created_at' => $msg->created_at->toISOString()], 201);
+    }
+
+    // ── User-side chat ────────────────────────────────────
+
+    public function userChatMessages(Request $request)
+    {
+        $userId   = auth()->id();
+        $adminIds = User::where('role', 'admin')->pluck('id');
+        if ($adminIds->isEmpty()) return response()->json([]);
+
+        $messages = Message::where(fn($q) =>
+            $q->where('sender_id', $userId)->whereIn('receiver_id', $adminIds)
+        )->orWhere(fn($q) =>
+            $q->whereIn('sender_id', $adminIds)->where('receiver_id', $userId)
+        )->orderBy('created_at')->get()->map(fn($m) => [
+            'id'         => $m->id,
+            'text'       => $m->text,
+            'from_me'    => $m->sender_id === $userId,
+            'read'       => $m->read,
+            'created_at' => $m->created_at->toISOString(),
+        ]);
+
+        // Mark all admin replies to this user as read
+        Message::whereIn('sender_id', $adminIds)->where('receiver_id', $userId)->update(['read' => true]);
+
+        return response()->json($messages);
+    }
+
+    public function userChatSend(Request $request)
+    {
+        $data   = $request->validate(['text' => 'required|string|max:2000']);
+        $userId = auth()->id();
+        // Send to the first admin as the shared support inbox recipient
+        $admin  = User::where('role', 'admin')->first();
+        if (!$admin) return response()->json(['error' => 'No support agent available'], 503);
+
+        $msg = Message::create([
+            'sender_id'   => $userId,
+            'receiver_id' => $admin->id,
+            'text'        => $data['text'],
+            'read'        => false,
+        ]);
+        return response()->json(['id' => $msg->id, 'text' => $msg->text, 'from_me' => true, 'created_at' => $msg->created_at->toISOString()], 201);
+    }
+
+    public function userChatUnread()
+    {
+        $userId   = auth()->id();
+        $adminIds = User::where('role', 'admin')->pluck('id');
+        $count    = Message::whereIn('sender_id', $adminIds)->where('receiver_id', $userId)->where('read', false)->count();
+        return response()->json(['count' => $count]);
     }
 
     public function getSettings()

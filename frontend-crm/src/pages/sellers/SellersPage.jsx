@@ -3,7 +3,7 @@ import Pagination from '../../components/ui/Pagination';
 import {
   Store, Search, ExternalLink,
   Star, Package, DollarSign, MoreVertical, CheckCircle2,
-  XCircle, Loader2, X, TrendingUp, ShoppingBag,
+  XCircle, Loader2, X, BadgeCheck,
 } from 'lucide-react';
 import { adminService } from '../../services/adminService';
 
@@ -28,16 +28,28 @@ function Avatar({ name, size = 9 }) {
 }
 
 /* ─── Seller Detail Modal ─────────────────────────────── */
-function SellerModal({ seller, onClose, onToggleStatus }) {
+function SellerModal({ seller, onClose, onToggleStatus, onVerify }) {
   const [toggling, setToggling] = useState(false);
+  const [verifying, setVerifying] = useState(false);
+  const [localSeller, setLocalSeller] = useState(seller);
 
   const handleToggle = async () => {
     setToggling(true);
     try {
-      await onToggleStatus(seller.id);
-      onClose();
+      await onToggleStatus(localSeller.id);
+      setLocalSeller(s => ({ ...s, status: s.status === 'active' ? 'suspended' : 'active' }));
     } finally {
       setToggling(false);
+    }
+  };
+
+  const handleVerify = async () => {
+    setVerifying(true);
+    try {
+      await onVerify(localSeller.id);
+      setLocalSeller(s => ({ ...s, is_verified: !s.is_verified }));
+    } finally {
+      setVerifying(false);
     }
   };
 
@@ -48,10 +60,13 @@ function SellerModal({ seller, onClose, onToggleStatus }) {
         {/* Header */}
         <div className="flex items-start justify-between p-6 border-b border-border-soft">
           <div className="flex items-center gap-4">
-            <Avatar name={seller.name} size={12} />
+            <Avatar name={localSeller.name} size={12} />
             <div>
-              <h2 className="text-lg font-bold text-text-primary">{seller.name}</h2>
-              <p className="text-sm text-text-muted">{seller.email}</p>
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-bold text-text-primary">{localSeller.name}</h2>
+                {localSeller.is_verified && <BadgeCheck size={18} className="text-brand-primary flex-shrink-0" />}
+              </div>
+              <p className="text-sm text-text-muted">{localSeller.email}</p>
             </div>
           </div>
           <button onClick={onClose} className="p-2 rounded-xl hover:bg-surface-bg text-text-muted transition-colors">
@@ -62,9 +77,9 @@ function SellerModal({ seller, onClose, onToggleStatus }) {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 p-6 border-b border-border-soft">
           {[
-            { label: 'Products', value: seller.products ?? 0, Icon: Package, cls: 'text-purple-600', bg: 'bg-purple-50' },
-            { label: 'Revenue',  value: `$${Number(seller.revenue ?? 0).toLocaleString()}`, Icon: DollarSign, cls: 'text-green-600', bg: 'bg-green-50' },
-            { label: 'Rating',   value: `${Number(seller.rating ?? 0).toFixed(1)} ★`, Icon: Star, cls: 'text-amber-600', bg: 'bg-amber-50' },
+            { label: 'Products', value: localSeller.products ?? 0, Icon: Package, cls: 'text-purple-600', bg: 'bg-purple-50' },
+            { label: 'Revenue',  value: `$${Number(localSeller.revenue ?? 0).toLocaleString()}`, Icon: DollarSign, cls: 'text-green-600', bg: 'bg-green-50' },
+            { label: 'Rating',   value: `${Number(localSeller.rating ?? 0).toFixed(1)} ★`, Icon: Star, cls: 'text-amber-600', bg: 'bg-amber-50' },
           ].map(s => (
             <div key={s.label} className={`${s.bg} rounded-xl p-3 text-center`}>
               <s.Icon size={16} className={`${s.cls} mx-auto mb-1`} />
@@ -77,20 +92,25 @@ function SellerModal({ seller, onClose, onToggleStatus }) {
         {/* Details */}
         <div className="p-6 space-y-3 border-b border-border-soft">
           <Row label="Status">
-            <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${BADGE[seller.status] ?? 'bg-gray-100 text-gray-600'}`}>
-              {seller.status ?? 'unknown'}
+            <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${BADGE[localSeller.status] ?? 'bg-gray-100 text-gray-600'}`}>
+              {localSeller.status ?? 'unknown'}
             </span>
           </Row>
-          <Row label="Joined">{seller.joined ?? '—'}</Row>
-          {seller.shop_name && <Row label="Shop">{seller.shop_name}</Row>}
-          {seller.phone && <Row label="Phone">{seller.phone}</Row>}
+          <Row label="Verified">
+            <span className={`inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full ${localSeller.is_verified ? 'bg-brand-primary/10 text-brand-primary' : 'bg-gray-100 text-gray-600'}`}>
+              {localSeller.is_verified ? <><BadgeCheck size={11} /> Verified</> : 'Not Verified'}
+            </span>
+          </Row>
+          <Row label="Joined">{localSeller.joined ?? '—'}</Row>
+          {localSeller.shop_name && <Row label="Shop">{localSeller.shop_name}</Row>}
+          {localSeller.phone && <Row label="Phone">{localSeller.phone}</Row>}
         </div>
 
         {/* Actions */}
         <div className="p-6 flex flex-wrap items-center gap-3">
-          {seller.shop_slug && (
+          {localSeller.shop_slug && (
             <a
-              href={`${import.meta.env.VITE_PLATFORM_URL || 'http://localhost:5173'}/shop/${seller.shop_slug}`}
+              href={`${import.meta.env.VITE_PLATFORM_URL || 'http://localhost:5173'}/shop/${localSeller.shop_slug}`}
               target="_blank" rel="noreferrer"
               className="flex items-center gap-2 px-4 py-2 rounded-xl border border-border-soft text-sm font-medium text-text-primary hover:bg-surface-bg transition-colors"
             >
@@ -98,16 +118,28 @@ function SellerModal({ seller, onClose, onToggleStatus }) {
             </a>
           )}
           <button
+            onClick={handleVerify}
+            disabled={verifying}
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors disabled:opacity-60 ${
+              localSeller.is_verified
+                ? 'bg-gray-50 text-gray-600 hover:bg-gray-100 border border-border-soft'
+                : 'bg-brand-primary/10 text-brand-primary hover:bg-brand-primary/20'
+            }`}
+          >
+            {verifying ? <Loader2 size={14} className="animate-spin" /> : <BadgeCheck size={14} />}
+            {localSeller.is_verified ? 'Remove Verification' : 'Verify Seller'}
+          </button>
+          <button
             onClick={handleToggle}
             disabled={toggling}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors disabled:opacity-60 ${
-              seller.status === 'active'
+              localSeller.status === 'active'
                 ? 'bg-red-50 text-red-600 hover:bg-red-100'
                 : 'bg-green-50 text-green-700 hover:bg-green-100'
             }`}
           >
-            {toggling ? <Loader2 size={14} className="animate-spin" /> : seller.status === 'active' ? <XCircle size={14} /> : <CheckCircle2 size={14} />}
-            {seller.status === 'active' ? 'Suspend Seller' : 'Reactivate Seller'}
+            {toggling ? <Loader2 size={14} className="animate-spin" /> : localSeller.status === 'active' ? <XCircle size={14} /> : <CheckCircle2 size={14} />}
+            {localSeller.status === 'active' ? 'Suspend Seller' : 'Reactivate Seller'}
           </button>
         </div>
       </div>
@@ -200,6 +232,11 @@ export default function SellersPage() {
     fetchSellers();
   };
 
+  const handleVerify = async (id) => {
+    await adminService.verifySeller(id);
+    fetchSellers();
+  };
+
   const STATUS_TABS = ['all', 'active', 'suspended', 'pending'];
 
   return (
@@ -279,7 +316,10 @@ export default function SellersPage() {
                       <div className="flex items-center gap-3">
                         <Avatar name={seller.name} />
                         <div className="min-w-0">
-                          <p className="font-semibold text-text-primary truncate">{seller.name}</p>
+                          <div className="flex items-center gap-1.5">
+                            <p className="font-semibold text-text-primary truncate">{seller.name}</p>
+                            {seller.is_verified && <BadgeCheck size={14} className="text-brand-primary flex-shrink-0" />}
+                          </div>
                           <p className="text-xs text-text-muted truncate">{seller.email}</p>
                         </div>
                       </div>
@@ -337,7 +377,8 @@ export default function SellersPage() {
         <SellerModal
           seller={selected}
           onClose={() => setSelected(null)}
-          onToggleStatus={async (id) => { await handleToggle(id); setSelected(null); }}
+          onToggleStatus={handleToggle}
+          onVerify={handleVerify}
         />
       )}
     </div>

@@ -19,7 +19,11 @@
       "Bash(php -r \"echo 'upload_max_filesize: ' . ini_get\\('upload_max_filesize'\\) . PHP_EOL; echo 'post_max_size: ' . ini_get\\('post_max_size'\\) . PHP_EOL;\")",
       "Bash(Get-Content storage/logs/laravel.log -Tail 80)",
       "Bash(Select-String -Pattern \"message|ErrorException|Error|Exception\")",
-      "Bash(Select-Object -First 10)"
+      "Bash(Select-Object -First 10)",
+      "Bash(findstr advertisement *)",
+      "Bash(Get-ChildItem -Path \"F:\\\\Areas\\\\Development\\\\Projects\\\\React\\\\toroongo\\\\frontend\\\\src\\\\pages\" -Recurse)",
+      "Bash(Select-Object FullName, PSIsContainer)",
+      "Bash(Format-Table -AutoSize)"
     ]
   }
 }

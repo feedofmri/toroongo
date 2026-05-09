@@ -1,62 +1,136 @@
 import React, { useState } from 'react';
+import { api } from '../../../../services/api.js';
 
-/**
- * NewsletterSignup Widget
- * Email capture form with optional discount messaging.
- */
-export default function NewsletterSignup({ heading, subheading, placeholderText, buttonText = 'Subscribe', buttonColor }) {
+export default function NewsletterSignup({
+    heading,
+    subheading,
+    placeholderText,
+    buttonText = 'Subscribe',
+    buttonColor,
+    disclaimer,
+    successMessage,
+    backgroundColor,
+    backgroundImage,
+    sellerId,
+}) {
     const [email, setEmail] = useState('');
     const [submitted, setSubmitted] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
-    const handleSubmit = (e) => {
+    const hasBackground = backgroundImage || backgroundColor;
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (email.trim()) setSubmitted(true);
+        if (!email.trim()) return;
+        setError('');
+        setLoading(true);
+        try {
+            await api('/newsletter/subscribe', {
+                method: 'POST',
+                body: JSON.stringify({ email: email.trim(), seller_id: sellerId }),
+            });
+            setSubmitted(true);
+        } catch (err) {
+            setError(err?.response?.message || err?.message || 'Something went wrong. Please try again.');
+        } finally {
+            setLoading(false);
+        }
     };
 
+    const outerStyle = hasBackground
+        ? {
+              position: 'relative',
+              ...(backgroundImage
+                  ? {
+                        backgroundImage: `url(${backgroundImage})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                    }
+                  : { backgroundColor }),
+              padding: '4rem 2rem',
+              borderRadius: 'var(--seller-widget-radius, 1rem)',
+          }
+        : {};
+
     return (
-        <div className="text-center max-w-lg mx-auto">
-            {heading && (
-                <h2
-                    className="text-xl sm:text-2xl font-bold mb-2"
-                    style={{ color: 'var(--seller-text, #0F172A)', fontFamily: 'var(--seller-heading-font, inherit)' }}
-                >
-                    {heading}
-                </h2>
+        <div style={outerStyle}>
+            {backgroundImage && (
+                <div
+                    className="absolute inset-0 bg-black/55"
+                    style={{ borderRadius: 'var(--seller-widget-radius, 1rem)' }}
+                />
             )}
-            {subheading && (
-                <p className="text-sm mb-6" style={{ color: 'var(--seller-text-muted, #64748B)' }}>
-                    {subheading}
-                </p>
-            )}
-            {submitted ? (
-                <div className="py-4 px-6 bg-green-50 text-green-700 rounded-xl text-sm font-medium">
-                    ✓ Thanks for subscribing!
-                </div>
-            ) : (
-                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
-                    <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder={placeholderText || 'Enter your email'}
-                        required
-                        className="flex-1 px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[color:var(--seller-brand,#008080)] focus:border-transparent transition-all shadow-sm"
+            <div className="relative text-center max-w-lg mx-auto">
+                {heading && (
+                    <h2
+                        className="text-xl sm:text-3xl font-extrabold mb-2"
                         style={{
-                            borderRadius: 'var(--seller-radius, 0.75rem)',
-                        }}
-                    />
-                    <button
-                        type="submit"
-                        className="px-6 py-3 text-sm font-semibold text-white rounded-xl transition-colors hover:opacity-90"
-                        style={{
-                            backgroundColor: buttonColor || 'var(--seller-brand, #008080)',
-                            borderRadius: 'var(--seller-radius, 0.75rem)',
+                            color: hasBackground ? '#fff' : 'var(--seller-text, #0F172A)',
+                            fontFamily: 'var(--seller-heading-font, inherit)',
                         }}
                     >
-                        {buttonText}
-                    </button>
-                </form>
-            )}
+                        {heading}
+                    </h2>
+                )}
+                {subheading && (
+                    <p
+                        className="text-sm mb-6"
+                        style={{ color: hasBackground ? 'rgba(255,255,255,0.85)' : 'var(--seller-text-muted, #64748B)' }}
+                    >
+                        {subheading}
+                    </p>
+                )}
+
+                {submitted ? (
+                    <div
+                        className="py-5 px-6 rounded-xl text-sm font-semibold"
+                        style={{
+                            backgroundColor: 'color-mix(in srgb, var(--seller-brand, #008080) 15%, #fff)',
+                            color: 'var(--seller-brand, #008080)',
+                        }}
+                    >
+                        ✓ {successMessage || 'Thanks for subscribing!'}
+                    </div>
+                ) : (
+                    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => { setEmail(e.target.value); setError(''); }}
+                            placeholder={placeholderText || 'Enter your email'}
+                            required
+                            disabled={loading}
+                            className="flex-1 px-4 py-3.5 border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[color:var(--seller-brand,#008080)] focus:border-transparent transition-all shadow-sm bg-white disabled:opacity-60"
+                            style={{ borderRadius: 'var(--seller-radius, 0.75rem)' }}
+                        />
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="px-6 py-3.5 text-sm font-bold text-white transition-all hover:opacity-90 hover:scale-105 shadow-md active:scale-100 disabled:opacity-60 disabled:pointer-events-none"
+                            style={{
+                                backgroundColor: buttonColor || 'var(--seller-brand, #008080)',
+                                borderRadius: 'var(--seller-radius, 0.75rem)',
+                            }}
+                        >
+                            {loading ? 'Subscribing…' : buttonText}
+                        </button>
+                    </form>
+                )}
+
+                {error && (
+                    <p className="mt-2 text-xs font-medium text-red-500">{error}</p>
+                )}
+
+                {disclaimer && (
+                    <p
+                        className="mt-3 text-[11px] leading-relaxed"
+                        style={{ color: hasBackground ? 'rgba(255,255,255,0.6)' : 'var(--seller-text-muted, #94a3b8)' }}
+                    >
+                        {disclaimer}
+                    </p>
+                )}
+            </div>
         </div>
     );
 }

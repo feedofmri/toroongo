@@ -1,15 +1,6 @@
 import React from 'react';
 import useBuilderStore from '../store/useBuilderStore.js';
-
-/**
- * ThemePanel
- * Global theme settings editor: colors, fonts, border-radius, header style, etc.
- */
-
-const FONT_OPTIONS = [
-    'Inter', 'Roboto', 'Open Sans', 'Lato', 'Montserrat', 'Poppins',
-    'Playfair Display', 'Merriweather', 'Raleway', 'Nunito', 'DM Sans',
-];
+import FontPicker from './FontPicker.jsx';
 
 const RADIUS_OPTIONS = [
     { value: 'sharp', label: 'Sharp (0px)' },
@@ -42,8 +33,8 @@ export default function ThemePanel() {
 
             {/* Typography */}
             <Section title="Typography">
-                <SelectField label="Heading Font" value={theme.headingFont} options={FONT_OPTIONS} onChange={(v) => handleChange('headingFont', v)} />
-                <SelectField label="Body Font" value={theme.bodyFont} options={FONT_OPTIONS} onChange={(v) => handleChange('bodyFont', v)} />
+                <FontPicker label="Heading Font" value={theme.headingFont} onChange={(v) => handleChange('headingFont', v)} />
+                <FontPicker label="Body Font" value={theme.bodyFont} onChange={(v) => handleChange('bodyFont', v)} />
                 <RangeField label="Base Font Size" value={theme.baseFontSize} min={12} max={22} unit="px" onChange={(v) => handleChange('baseFontSize', parseInt(v))} />
             </Section>
 
@@ -107,22 +98,6 @@ function ColorField({ label, value, onChange }) {
     );
 }
 
-function SelectField({ label, value, options, onChange }) {
-    return (
-        <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-600">{label}</span>
-            <select
-                value={value}
-                onChange={(e) => onChange(e.target.value)}
-                className="text-sm px-3 py-1.5 border border-gray-200 rounded-lg bg-white"
-            >
-                {options.map((opt) => (
-                    <option key={opt} value={opt}>{opt}</option>
-                ))}
-            </select>
-        </div>
-    );
-}
 
 function RangeField({ label, value, min, max, unit = '', onChange }) {
     return (

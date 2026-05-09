@@ -12,3 +12,4 @@ export * from "./subscriptionService";
 export * from "./shippingAreaService";
 export * from "./paymentMethodService";
 export * from "./uploadService";
+export * from "./leadsService";

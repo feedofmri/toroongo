@@ -11,6 +11,7 @@ import ProductCard from '../../components/product/ProductCard';
 import ProductCardSkeleton from '../../components/product/ProductCardSkeleton';
 import CategoryCard from '../../components/ui/CategoryCard';
 import Skeleton from '../../components/ui/Skeleton';
+import AdvertisementCarousel from '../../components/ui/AdvertisementCarousel';
 import { useProduct } from '../../context/ProductContext';
 
 import { useTranslation } from 'react-i18next';
@@ -273,6 +274,11 @@ export default function Homepage() {
                     </div>
                 </div>
             </section>
+
+            {/* ═══════════════════════════════════════════════════════
+          ADVERTISEMENT CAROUSEL
+          ═══════════════════════════════════════════════════════ */}
+            <AdvertisementCarousel />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* ═══════════════════════════════════════════════════════

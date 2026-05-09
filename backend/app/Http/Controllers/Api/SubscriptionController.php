@@ -183,35 +183,32 @@ class SubscriptionController extends Controller
             ], 422);
         }
 
-        // Find the current active subscription to get its expiry
-        $activeSubscription = $user->activeSubscription();
-        $effectiveDate = $activeSubscription ? $activeSubscription->expires_at : now();
-
-        // Cancel any existing pending downgrades
+        // Cancel all current active/pending subscriptions
         Subscription::where('user_id', $user->id)
-            ->where('status', 'pending_downgrade')
+            ->whereIn('status', ['active', 'pending_downgrade'])
             ->update(['status' => 'cancelled', 'cancelled_at' => now()]);
 
-        // Create a pending downgrade record
+        // Create a new active subscription for the downgraded plan
         $subscription = Subscription::create([
             'user_id' => $user->id,
             'plan' => $newPlan,
             'previous_plan' => $currentPlan,
-            'status' => 'pending_downgrade',
+            'status' => 'active',
             'amount' => self::PLANS[$newPlan]['price'],
             'currency' => 'USD',
             'payment_method' => 'system',
             'transaction_id' => 'DWN_' . strtoupper(Str::random(12)),
-            'started_at' => $effectiveDate,
-            'expires_at' => $effectiveDate ? Carbon::parse($effectiveDate)->addMonth() : now()->addMonth(),
-            'notes' => "Scheduled downgrade from {$currentPlan} to {$newPlan}. Effective: {$effectiveDate}",
+            'started_at' => now(),
+            'expires_at' => $newPlan === 'starter' ? null : now()->addMonth(),
+            'notes' => "Downgraded from {$currentPlan} to {$newPlan}.",
         ]);
 
+        // Apply the new plan immediately
+        $user->update(['plan' => $newPlan]);
+
         return response()->json([
-            'message' => "Your plan will be downgraded to {$newPlan} at the end of your current billing cycle.",
-            'current_plan' => $currentPlan,
-            'scheduled_plan' => $newPlan,
-            'effective_date' => $effectiveDate,
+            'message' => "Your plan has been downgraded to {$newPlan}.",
+            'plan' => $newPlan,
             'subscription' => $subscription,
         ]);
     }

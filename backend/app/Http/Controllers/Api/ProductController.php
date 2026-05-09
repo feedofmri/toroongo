@@ -22,7 +22,17 @@ class ProductController extends Controller
             $query->where('category', $category);
         }
 
-        return response()->json($query->orderBy('created_at', 'desc')->get());
+        $products = $query->orderBy('created_at', 'desc')->get();
+
+        // Attach seller is_verified flag efficiently
+        $sellerIds = $products->pluck('seller_id')->unique()->filter()->values();
+        $verifiedMap = \App\Models\User::whereIn('id', $sellerIds)->pluck('is_verified', 'id');
+        $products->transform(function ($p) use ($verifiedMap) {
+            $p->seller_verified = (bool) ($verifiedMap[$p->seller_id] ?? false);
+            return $p;
+        });
+
+        return response()->json($products);
     }
 
     public function show($idOrSlug)

@@ -1,6 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { widgetRegistry } from './widgets/widgetRegistry.js';
 import { resolveSpacing, themeToCSS } from './schema/storefrontSchema.js';
+
+function loadGoogleFonts(headingFont, bodyFont) {
+    const fonts = [...new Set([headingFont, bodyFont].filter(Boolean))];
+    if (!fonts.length) return;
+    const families = fonts
+        .map((f) => `family=${f.replace(/ /g, '+')}:ital,wght@0,400;0,500;0,600;0,700;1,400`)
+        .join('&');
+    const href = `https://fonts.googleapis.com/css2?${families}&display=swap`;
+    const existing = document.getElementById('seller-google-fonts');
+    if (existing) {
+        existing.href = href;
+    } else {
+        const link = document.createElement('link');
+        link.id = 'seller-google-fonts';
+        link.rel = 'stylesheet';
+        link.href = href;
+        document.head.appendChild(link);
+    }
+}
 
 /**
  * StorefrontRenderer
@@ -13,12 +32,19 @@ import { resolveSpacing, themeToCSS } from './schema/storefrontSchema.js';
  * @param {Function} [props.onWidgetClick] - Callback when a widget is clicked (builder mode)
  * @param {string} [props.selectedWidgetId] - Currently selected widget ID (builder mode)
  * @param {boolean} [props.isBuilder] - Whether in builder mode (enables selection outlines)
+ * @param {string|number} [props.sellerId] - Seller ID injected into every widget
  */
-export default function StorefrontRenderer({ schema, products = [], onWidgetClick, selectedWidgetId, isBuilder = false }) {
+export default function StorefrontRenderer({ schema, products = [], onWidgetClick, selectedWidgetId, isBuilder = false, sellerId }) {
     if (!schema) return null;
 
     const { theme, widgets } = schema;
     const themeStyles = themeToCSS(theme);
+
+    useEffect(() => {
+        if (theme?.headingFont || theme?.bodyFont) {
+            loadGoogleFonts(theme.headingFont, theme.bodyFont);
+        }
+    }, [theme?.headingFont, theme?.bodyFont]);
 
     return (
         <div
@@ -64,11 +90,12 @@ export default function StorefrontRenderer({ schema, products = [], onWidgetClic
                 else if (hideOnDesktop && !hideOnMobile) visibilityClass = 'block sm:hidden';
                 else if (hideOnMobile && hideOnDesktop) visibilityClass = 'hidden';
 
-                // Inject products into product-aware widgets
+                // Inject runtime props (products, sellerId) into widgets
                 const widgetProps = { ...widget.props };
                 if (widget.type === 'ProductGrid' && products.length > 0) {
                     widgetProps.products = products;
                 }
+                if (sellerId) widgetProps.sellerId = sellerId;
 
                 const isSelected = isBuilder && selectedWidgetId === widget.id;
 

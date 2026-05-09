@@ -27,6 +27,8 @@ import CustomHTML from './CustomHTML.jsx';
 import BrandLogos from './BrandLogos.jsx';
 import ImageSlider from './ImageSlider.jsx';
 
+const ICON_OPTIONS = ['Shield', 'RotateCcw', 'Truck', 'Leaf', 'Award', 'Clock', 'CreditCard', 'Headphones', 'Star', 'Heart', 'Zap', 'Globe'];
+
 /** @type {Record<string, Object>} */
 export const widgetRegistry = {
     HeroBanner: {
@@ -36,13 +38,17 @@ export const widgetRegistry = {
         category: 'Hero & Promo',
         defaultProps: widgetDefaults.HeroBanner,
         propertySchema: [
-            { key: 'imageUrl', label: 'Background Image URL', type: 'url' },
+            { key: 'imageUrl', label: 'Background Image', type: 'image-upload' },
+            { key: 'badge', label: 'Badge Text (above heading)', type: 'text' },
             { key: 'heading', label: 'Heading', type: 'text' },
             { key: 'subheading', label: 'Subheading', type: 'text' },
-            { key: 'ctaText', label: 'Button Text', type: 'text' },
-            { key: 'ctaLink', label: 'Button Link', type: 'url' },
+            { key: 'minHeight', label: 'Height', type: 'select', options: ['small', 'medium', 'large', 'fullscreen'] },
             { key: 'textAlignment', label: 'Text Alignment', type: 'select', options: ['left', 'center', 'right'] },
-            { key: 'overlayOpacity', label: 'Overlay Opacity', type: 'range', min: 0, max: 1, step: 0.1 },
+            { key: 'overlayOpacity', label: 'Overlay Opacity', type: 'range', min: 0, max: 1, step: 0.05 },
+            { key: 'ctaText', label: 'Primary Button Text', type: 'text' },
+            { key: 'ctaLink', label: 'Primary Button Link', type: 'url' },
+            { key: 'ctaSecondaryText', label: 'Secondary Button Text', type: 'text' },
+            { key: 'ctaSecondaryLink', label: 'Secondary Button Link', type: 'url' },
         ],
     },
 
@@ -53,9 +59,13 @@ export const widgetRegistry = {
         category: 'Hero & Promo',
         defaultProps: widgetDefaults.AnnouncementBar,
         propertySchema: [
+            { key: 'emoji', label: 'Emoji / Icon', type: 'text' },
             { key: 'text', label: 'Announcement Text', type: 'text' },
+            { key: 'linkText', label: 'Link Text', type: 'text' },
+            { key: 'linkUrl', label: 'Link URL', type: 'url' },
             { key: 'backgroundColor', label: 'Background Color', type: 'color' },
             { key: 'textColor', label: 'Text Color', type: 'color' },
+            { key: 'scrolling', label: 'Scrolling Marquee', type: 'toggle' },
             { key: 'dismissible', label: 'Dismissible', type: 'toggle' },
         ],
     },
@@ -67,8 +77,22 @@ export const widgetRegistry = {
         category: 'Hero & Promo',
         defaultProps: widgetDefaults.ImageSlider,
         propertySchema: [
+            {
+                key: 'slides', label: 'Slides', type: 'list-editor', previewKey: 'heading',
+                itemSchema: [
+                    { key: 'imageUrl', label: 'Slide Image', type: 'image-upload' },
+                    { key: 'heading', label: 'Heading', type: 'text' },
+                    { key: 'subheading', label: 'Subheading', type: 'text' },
+                    { key: 'ctaText', label: 'Button Text', type: 'text' },
+                    { key: 'ctaLink', label: 'Button Link', type: 'url' },
+                ],
+            },
+            { key: 'height', label: 'Height', type: 'select', options: ['small', 'medium', 'large'] },
+            { key: 'transition', label: 'Transition Effect', type: 'select', options: ['slide', 'fade'] },
             { key: 'autoPlay', label: 'Auto Play', type: 'toggle' },
             { key: 'interval', label: 'Interval (ms)', type: 'number', min: 1000, max: 10000, step: 500 },
+            { key: 'showArrows', label: 'Show Arrows', type: 'toggle' },
+            { key: 'showDots', label: 'Show Dots', type: 'toggle' },
         ],
     },
 
@@ -80,7 +104,11 @@ export const widgetRegistry = {
         defaultProps: widgetDefaults.CountdownTimer,
         propertySchema: [
             { key: 'heading', label: 'Heading', type: 'text' },
-            { key: 'endDate', label: 'End Date/Time', type: 'text' },
+            { key: 'subtext', label: 'Subtext', type: 'text' },
+            { key: 'endDate', label: 'End Date & Time', type: 'datetime' },
+            { key: 'expiredMessage', label: 'Expired Message', type: 'text' },
+            { key: 'targetUrl', label: 'CTA Link URL', type: 'url' },
+            { key: 'showSeconds', label: 'Show Seconds', type: 'toggle' },
             { key: 'backgroundColor', label: 'Background Color', type: 'color' },
             { key: 'textColor', label: 'Text Color', type: 'color' },
         ],
@@ -98,6 +126,9 @@ export const widgetRegistry = {
             { key: 'dataSource', label: 'Data Source', type: 'select', options: ['featured', 'bestsellers', 'new', 'all'] },
             { key: 'layoutStyle', label: 'Layout Style', type: 'select', options: ['grid', 'masonry'] },
             { key: 'maxItems', label: 'Max Items', type: 'number', min: 2, max: 20 },
+            { key: 'showViewAll', label: 'Show View All Button', type: 'toggle' },
+            { key: 'viewAllText', label: 'View All Text', type: 'text' },
+            { key: 'viewAllLink', label: 'View All Link', type: 'url' },
         ],
     },
 
@@ -109,6 +140,18 @@ export const widgetRegistry = {
         defaultProps: widgetDefaults.FeatureCards,
         propertySchema: [
             { key: 'title', label: 'Section Title', type: 'text' },
+            { key: 'columns', label: 'Columns', type: 'select', options: [2, 3, 4] },
+            { key: 'aspectRatio', label: 'Aspect Ratio', type: 'select', options: ['4:3', '1:1', '16:9', '3:4'] },
+            { key: 'cardStyle', label: 'Card Style', type: 'select', options: ['overlay', 'clean'] },
+            {
+                key: 'cards', label: 'Cards', type: 'list-editor', previewKey: 'label',
+                itemSchema: [
+                    { key: 'imageUrl', label: 'Card Image', type: 'image-upload' },
+                    { key: 'label', label: 'Title', type: 'text' },
+                    { key: 'sublabel', label: 'Subtitle', type: 'text' },
+                    { key: 'link', label: 'Link URL', type: 'url' },
+                ],
+            },
         ],
     },
 
@@ -120,6 +163,19 @@ export const widgetRegistry = {
         defaultProps: widgetDefaults.TestimonialSlider,
         propertySchema: [
             { key: 'title', label: 'Section Title', type: 'text' },
+            { key: 'layout', label: 'Layout', type: 'select', options: ['carousel', 'grid'] },
+            { key: 'showAvatars', label: 'Show Avatars', type: 'toggle' },
+            { key: 'backgroundColor', label: 'Section Background Color', type: 'color' },
+            {
+                key: 'testimonials', label: 'Testimonials', type: 'list-editor', previewKey: 'author',
+                itemSchema: [
+                    { key: 'avatarUrl', label: 'Avatar Photo', type: 'image-upload' },
+                    { key: 'text', label: 'Review Text', type: 'textarea' },
+                    { key: 'author', label: 'Name', type: 'text' },
+                    { key: 'role', label: 'Role / Company', type: 'text' },
+                    { key: 'rating', label: 'Rating (1-5)', type: 'number', min: 1, max: 5 },
+                ],
+            },
         ],
     },
 
@@ -129,7 +185,19 @@ export const widgetRegistry = {
         label: 'Trust Badges',
         category: 'Trust & Social Proof',
         defaultProps: widgetDefaults.TrustBadges,
-        propertySchema: [],
+        propertySchema: [
+            { key: 'title', label: 'Section Title', type: 'text' },
+            { key: 'layout', label: 'Layout', type: 'select', options: ['horizontal', 'vertical'] },
+            { key: 'showDividers', label: 'Show Dividers', type: 'toggle' },
+            {
+                key: 'badges', label: 'Badges', type: 'list-editor', previewKey: 'label',
+                itemSchema: [
+                    { key: 'icon', label: 'Icon', type: 'select', options: ICON_OPTIONS },
+                    { key: 'label', label: 'Label', type: 'text' },
+                    { key: 'description', label: 'Description', type: 'text' },
+                ],
+            },
+        ],
     },
 
     BrandLogos: {
@@ -140,6 +208,17 @@ export const widgetRegistry = {
         defaultProps: widgetDefaults.BrandLogos,
         propertySchema: [
             { key: 'title', label: 'Section Title', type: 'text' },
+            { key: 'grayscale', label: 'Grayscale (hover to color)', type: 'toggle' },
+            { key: 'animate', label: 'Scrolling Animation', type: 'toggle' },
+            { key: 'logoHeight', label: 'Logo Size', type: 'select', options: ['small', 'medium', 'large'] },
+            {
+                key: 'logos', label: 'Logos', type: 'list-editor', previewKey: 'name',
+                itemSchema: [
+                    { key: 'imageUrl', label: 'Logo Image', type: 'image-upload' },
+                    { key: 'name', label: 'Brand Name', type: 'text' },
+                    { key: 'link', label: 'Website URL', type: 'url' },
+                ],
+            },
         ],
     },
 
@@ -149,7 +228,20 @@ export const widgetRegistry = {
         label: 'Store Stats',
         category: 'Trust & Social Proof',
         defaultProps: widgetDefaults.StoreStats,
-        propertySchema: [],
+        propertySchema: [
+            { key: 'title', label: 'Section Title', type: 'text' },
+            { key: 'style', label: 'Style', type: 'select', options: ['cards', 'minimal', 'gradient'] },
+            { key: 'backgroundColor', label: 'Background Color', type: 'color' },
+            {
+                key: 'stats', label: 'Statistics', type: 'list-editor', previewKey: 'label',
+                itemSchema: [
+                    { key: 'prefix', label: 'Prefix (e.g. $)', type: 'text', default: '' },
+                    { key: 'value', label: 'Value', type: 'text' },
+                    { key: 'suffix', label: 'Suffix (e.g. +)', type: 'text', default: '' },
+                    { key: 'label', label: 'Label', type: 'text' },
+                ],
+            },
+        ],
     },
 
     NewsletterSignup: {
@@ -164,6 +256,10 @@ export const widgetRegistry = {
             { key: 'placeholderText', label: 'Placeholder Text', type: 'text' },
             { key: 'buttonText', label: 'Button Text', type: 'text' },
             { key: 'buttonColor', label: 'Button Color', type: 'color' },
+            { key: 'disclaimer', label: 'Disclaimer Text', type: 'text' },
+            { key: 'successMessage', label: 'Success Message', type: 'text' },
+            { key: 'backgroundColor', label: 'Background Color', type: 'color' },
+            { key: 'backgroundImage', label: 'Background Image', type: 'image-upload' },
         ],
     },
 
@@ -176,6 +272,9 @@ export const widgetRegistry = {
         propertySchema: [
             { key: 'title', label: 'Section Title', type: 'text' },
             { key: 'maxPosts', label: 'Max Posts', type: 'number', min: 1, max: 6 },
+            { key: 'layout', label: 'Layout', type: 'select', options: ['grid', 'list', 'featured'] },
+            { key: 'showAuthor', label: 'Show Author', type: 'toggle' },
+            { key: 'showCategory', label: 'Show Category', type: 'toggle' },
         ],
     },
 
@@ -189,6 +288,10 @@ export const widgetRegistry = {
             { key: 'title', label: 'Title', type: 'text' },
             { key: 'subtitle', label: 'Subtitle', type: 'text' },
             { key: 'buttonText', label: 'Button Text', type: 'text' },
+            { key: 'showPhone', label: 'Include Phone Field', type: 'toggle' },
+            { key: 'showSubject', label: 'Include Subject Field', type: 'toggle' },
+            { key: 'successMessage', label: 'Success Message', type: 'text' },
+            { key: 'backgroundColor', label: 'Background Color', type: 'color' },
         ],
     },
 
@@ -200,8 +303,12 @@ export const widgetRegistry = {
         defaultProps: widgetDefaults.VideoPlayer,
         propertySchema: [
             { key: 'title', label: 'Title', type: 'text' },
-            { key: 'videoUrl', label: 'Video Embed URL', type: 'url' },
+            { key: 'uploadedVideoUrl', label: 'Upload Video File', type: 'image-upload', acceptVideo: true },
+            { key: 'videoUrl', label: 'Or Embed URL (YouTube / Vimeo)', type: 'url' },
+            { key: 'posterUrl', label: 'Poster / Thumbnail Image', type: 'image-upload' },
             { key: 'aspectRatio', label: 'Aspect Ratio', type: 'select', options: ['16:9', '4:3', '1:1'] },
+            { key: 'autoplay', label: 'Autoplay (muted loop)', type: 'toggle' },
+            { key: 'caption', label: 'Caption', type: 'text' },
         ],
     },
 
@@ -213,6 +320,15 @@ export const widgetRegistry = {
         defaultProps: widgetDefaults.FAQAccordion,
         propertySchema: [
             { key: 'title', label: 'Section Title', type: 'text' },
+            { key: 'allowMultipleOpen', label: 'Allow Multiple Open', type: 'toggle' },
+            { key: 'style', label: 'Style', type: 'select', options: ['bordered', 'minimal', 'filled'] },
+            {
+                key: 'items', label: 'Questions', type: 'list-editor', previewKey: 'question',
+                itemSchema: [
+                    { key: 'question', label: 'Question', type: 'text' },
+                    { key: 'answer', label: 'Answer', type: 'textarea' },
+                ],
+            },
         ],
     },
 

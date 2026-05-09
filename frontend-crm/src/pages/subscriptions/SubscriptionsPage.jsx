@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Pagination from '../../components/ui/Pagination';
 import {
-  CreditCard, Search, X, ChevronDown,
-  User, Calendar, DollarSign, Zap, Award, Crown, Building2,
+  CreditCard, Search, X,
+  User, DollarSign, Zap, Award, Crown, Building2,
+  CheckCircle2, XCircle, Loader2, ShieldCheck,
 } from 'lucide-react';
 import { adminService } from '../../services/adminService';
 
@@ -14,18 +15,21 @@ const PLAN_META = {
 };
 
 const STATUS_COLORS = {
-  active:    'bg-green-100 text-green-700',
-  expired:   'bg-red-100 text-red-700',
-  cancelled: 'bg-gray-100 text-gray-600',
-  trial:     'bg-cyan-100 text-cyan-700',
+  active:               'bg-green-100 text-green-700',
+  expired:              'bg-red-100 text-red-700',
+  cancelled:            'bg-gray-100 text-gray-600',
+  trial:                'bg-cyan-100 text-cyan-700',
+  pending_verification: 'bg-amber-100 text-amber-700',
+  pending_downgrade:    'bg-blue-100 text-blue-700',
 };
 
 const PLANS = ['all', 'starter', 'pro', 'business', 'enterprise'];
-const STATUSES = ['all', 'active', 'expired', 'cancelled', 'trial'];
+const STATUSES = ['all', 'active', 'pending_verification', 'expired', 'cancelled', 'trial'];
 
-function SubModal({ sub, onClose }) {
+function SubModal({ sub, onClose, onCancel, onReactivate, onApprove }) {
   const plan = PLAN_META[sub.plan] ?? { label: sub.plan, color: 'bg-gray-100 text-gray-600', icon: Zap, price: '—' };
   const PlanIcon = plan.icon;
+  const [acting, setActing] = useState(false);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -64,8 +68,8 @@ function SubModal({ sub, onClose }) {
         {/* Details */}
         <div className="p-6 space-y-3">
           <Row label="Status">
-            <span className={`text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${STATUS_COLORS[sub.status] ?? 'bg-gray-100 text-gray-600'}`}>
-              {sub.status}
+            <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${STATUS_COLORS[sub.status] ?? 'bg-gray-100 text-gray-600'}`}>
+              {sub.status === 'pending_verification' ? 'Pending Approval' : sub.status === 'pending_downgrade' ? 'Pending Downgrade' : sub.status}
             </span>
           </Row>
           {sub.previous_plan && <Row label="Previous">{sub.previous_plan}</Row>}
@@ -76,6 +80,28 @@ function SubModal({ sub, onClose }) {
           {sub.expires_at && <Row label="Expires">{sub.expires_at}</Row>}
           {sub.cancelled_at && <Row label="Cancelled">{sub.cancelled_at}</Row>}
           {sub.notes && <Row label="Notes"><span className="text-xs">{sub.notes}</span></Row>}
+        </div>
+
+        {/* Actions */}
+        <div className="p-6 border-t border-border-soft flex gap-3 justify-end">
+          {sub.status === 'pending_verification' && (
+            <button disabled={acting} onClick={async () => { setActing(true); try { await onApprove(sub.id); onClose(); } finally { setActing(false); } }}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-xl bg-brand-primary/10 text-brand-primary hover:bg-brand-primary/20 transition-colors disabled:opacity-60">
+              {acting ? <Loader2 size={14} className="animate-spin" /> : <ShieldCheck size={14} />} Approve & Activate
+            </button>
+          )}
+          {sub.status === 'active' && (
+            <button disabled={acting} onClick={async () => { setActing(true); try { await onCancel(sub.id); onClose(); } finally { setActing(false); } }}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-xl bg-red-50 text-red-600 hover:bg-red-100 transition-colors disabled:opacity-60">
+              {acting ? <Loader2 size={14} className="animate-spin" /> : <XCircle size={14} />} Cancel Subscription
+            </button>
+          )}
+          {sub.status !== 'active' && sub.status !== 'expired' && sub.status !== 'pending_verification' && (
+            <button disabled={acting} onClick={async () => { setActing(true); try { await onReactivate(sub.id); onClose(); } finally { setActing(false); } }}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-xl bg-green-50 text-green-700 hover:bg-green-100 transition-colors disabled:opacity-60">
+              {acting ? <Loader2 size={14} className="animate-spin" /> : <CheckCircle2 size={14} />} Reactivate
+            </button>
+          )}
         </div>
       </div>
     </div>
@@ -230,8 +256,8 @@ export default function SubscriptionsPage() {
                     <td className="px-5 py-4 hidden lg:table-cell text-text-muted text-xs">{sub.started_at ?? '—'}</td>
                     <td className="px-5 py-4 hidden lg:table-cell text-text-muted text-xs">{sub.expires_at ?? '—'}</td>
                     <td className="px-5 py-4">
-                      <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full capitalize ${STATUS_COLORS[sub.status] ?? 'bg-gray-100 text-gray-600'}`}>
-                        {sub.status}
+                      <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full ${STATUS_COLORS[sub.status] ?? 'bg-gray-100 text-gray-600'}`}>
+                        {sub.status === 'pending_verification' ? 'Pending Approval' : sub.status === 'pending_downgrade' ? 'Pending Downgrade' : sub.status}
                       </span>
                     </td>
                   </tr>
@@ -250,7 +276,15 @@ export default function SubscriptionsPage() {
         />
       </div>
 
-      {selected && <SubModal sub={selected} onClose={() => setSelected(null)} />}
+      {selected && (
+        <SubModal
+          sub={selected}
+          onClose={() => setSelected(null)}
+          onApprove={async (id) => { await adminService.approveSubscription(id); fetchSubs(); }}
+          onCancel={async (id) => { await adminService.cancelSubscription(id); fetchSubs(); }}
+          onReactivate={async (id) => { await adminService.reactivateSubscription(id); fetchSubs(); }}
+        />
+      )}
     </div>
   );
 }

@@ -3,9 +3,10 @@ import Pagination from '../../components/ui/Pagination';
 import {
   Package, Search,
   Eye, Star, X, Image as ImageIcon, DollarSign,
-  Store, Tag, BarChart2, AlertCircle,
+  Store, BarChart2, Pencil, Save, Loader2,
 } from 'lucide-react';
 import { adminService } from '../../services/adminService';
+import { fmtAdminPrice, getAdminCurrencyCode, CURRENCY_INFO } from '../../utils/currency';
 
 const STATUS_COLORS = {
   active:       'bg-green-100 text-green-700',
@@ -14,8 +15,84 @@ const STATUS_COLORS = {
   inactive:     'bg-red-100 text-red-700',
 };
 
+/* ─── Edit Product Modal ──────────────────────────────── */
+function EditProductModal({ product, onSave, onClose }) {
+  const [form, setForm] = useState({
+    title:       product.name ?? '',
+    price:       product.price ?? '',
+    stock:       product.stock ?? '',
+    description: product.description ?? '',
+    status:      product.status ?? 'active',
+  });
+  const [saving, setSaving] = useState(false);
+  const [error, setError]   = useState('');
+
+  const handleSave = async () => {
+    if (!form.title.trim()) { setError('Title is required'); return; }
+    setSaving(true); setError('');
+    try {
+      await onSave(form);
+      onClose();
+    } catch (e) { setError(e.message || 'Failed to save'); }
+    finally { setSaving(false); }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md animate-slide-up overflow-hidden">
+        <div className="flex items-center justify-between p-6 border-b border-border-soft">
+          <h2 className="text-lg font-bold text-text-primary">Edit Product</h2>
+          <button onClick={onClose} className="p-2 rounded-xl hover:bg-surface-bg text-text-muted transition-colors"><X size={18} /></button>
+        </div>
+        <div className="p-6 space-y-4 max-h-[70vh] overflow-y-auto">
+          {error && <p className="text-sm text-red-600 bg-red-50 rounded-xl px-4 py-2">{error}</p>}
+          {[
+            { key: 'title', label: 'Title *', type: 'text' },
+            { key: 'price', label: `Price (${product.currency_code || 'USD'} → ${getAdminCurrencyCode()})`, type: 'number' },
+            { key: 'stock', label: 'Stock', type: 'number' },
+          ].map(({ key, label, type }) => (
+            <div key={key}>
+              <label className="text-xs font-semibold text-text-muted uppercase tracking-wide mb-1.5 block">{label}</label>
+              <input type={type} value={form[key]}
+                onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))}
+                className="w-full px-3 py-2.5 bg-surface-bg border border-border-soft rounded-xl text-sm focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/15 outline-none transition-all"
+              />
+            </div>
+          ))}
+          <div>
+            <label className="text-xs font-semibold text-text-muted uppercase tracking-wide mb-1.5 block">Status</label>
+            <select value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value }))}
+              className="w-full px-3 py-2.5 bg-surface-bg border border-border-soft rounded-xl text-sm focus:border-brand-primary outline-none">
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+              <option value="draft">Draft</option>
+              <option value="out_of_stock">Out of Stock</option>
+            </select>
+          </div>
+          <div>
+            <label className="text-xs font-semibold text-text-muted uppercase tracking-wide mb-1.5 block">Description</label>
+            <textarea value={form.description} rows={4}
+              onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
+              className="w-full px-3 py-2.5 bg-surface-bg border border-border-soft rounded-xl text-sm focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/15 outline-none transition-all resize-none"
+            />
+          </div>
+        </div>
+        <div className="p-6 border-t border-border-soft flex gap-3 justify-end">
+          <button onClick={onClose} className="px-4 py-2 text-sm font-medium rounded-xl border border-border-soft hover:bg-surface-bg transition-colors">Cancel</button>
+          <button onClick={handleSave} disabled={saving}
+            className="flex items-center gap-2 px-5 py-2 text-sm font-semibold rounded-xl bg-brand-primary text-white hover:bg-brand-primary/90 transition-colors disabled:opacity-60">
+            {saving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
+            {saving ? 'Saving…' : 'Save Changes'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ─── Product Detail Modal ────────────────────────────── */
-function ProductModal({ product, onClose }) {
+function ProductModal({ product, onClose, onEdit }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
@@ -49,7 +126,7 @@ function ProductModal({ product, onClose }) {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-3 p-6 border-b border-border-soft">
           {[
-            { label: 'Price',  value: `$${Number(product.price ?? 0).toFixed(2)}`, Icon: DollarSign, cls: 'text-green-600', bg: 'bg-green-50' },
+            { label: 'Price',  value: fmtAdminPrice(product.price, product.currency_code), Icon: DollarSign, cls: 'text-green-600', bg: 'bg-green-50' },
             { label: 'Rating', value: `${Number(product.rating ?? 0).toFixed(1)} ★`, Icon: Star, cls: 'text-amber-600', bg: 'bg-amber-50' },
             { label: 'Stock',  value: `${product.stock ?? 0} units`, Icon: BarChart2, cls: 'text-purple-600', bg: 'bg-purple-50' },
           ].map(s => (
@@ -74,11 +151,17 @@ function ProductModal({ product, onClose }) {
         </div>
 
         {product.description && (
-          <div className="p-6">
+          <div className="p-6 border-b border-border-soft">
             <p className="text-xs font-semibold text-text-muted uppercase tracking-wide mb-2">Description</p>
             <p className="text-sm text-text-primary leading-relaxed line-clamp-6">{product.description}</p>
           </div>
         )}
+        <div className="p-6 flex justify-end">
+          <button onClick={onEdit}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-xl bg-brand-primary text-white hover:bg-brand-primary/90 transition-colors">
+            <Pencil size={14} /> Edit Product
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -104,6 +187,7 @@ export default function ProductsPage() {
   const [page, setPage]           = useState(1);
   const [loading, setLoading]     = useState(true);
   const [selected, setSelected]   = useState(null);
+  const [editing, setEditing]     = useState(null);
 
   useEffect(() => {
     adminService.getCategories()
@@ -227,7 +311,7 @@ export default function ProductsPage() {
                       )}
                     </td>
                     <td className="px-5 py-4 hidden md:table-cell text-text-muted text-xs">{product.seller_name ?? '—'}</td>
-                    <td className="px-5 py-4 font-semibold text-text-primary">${Number(product.price ?? 0).toFixed(2)}</td>
+                    <td className="px-5 py-4 font-semibold text-text-primary">{fmtAdminPrice(product.price, product.currency_code)}</td>
                     <td className="px-5 py-4 hidden lg:table-cell text-text-muted text-xs">{product.stock ?? '—'}</td>
                     <td className="px-5 py-4 hidden lg:table-cell">
                       <div className="flex items-center gap-1 text-text-primary">
@@ -262,7 +346,20 @@ export default function ProductsPage() {
         />
       </div>
 
-      {selected && <ProductModal product={selected} onClose={() => setSelected(null)} />}
+      {selected && !editing && (
+        <ProductModal
+          product={selected}
+          onClose={() => setSelected(null)}
+          onEdit={() => { setEditing(selected); setSelected(null); }}
+        />
+      )}
+      {editing && (
+        <EditProductModal
+          product={editing}
+          onClose={() => setEditing(null)}
+          onSave={async (data) => { await adminService.updateProduct(editing.id, data); fetchProducts(); }}
+        />
+      )}
     </div>
   );
 }

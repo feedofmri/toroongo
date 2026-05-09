@@ -16,6 +16,8 @@ class Review extends Model
         'status',
     ];
 
+    protected $attributes = ['status' => 'approved'];
+
     protected function casts(): array
     {
         return [

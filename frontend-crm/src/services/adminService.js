@@ -58,4 +58,30 @@ export const adminService = {
 
   // ── Discounts ──────────────────────────────────────
   getDiscounts: (params = {}) => api(`/admin/discounts${qs(params)}`),
+
+  // ── Sellers ───────────────────────────────────────
+  verifySeller: (id) => api(`/admin/sellers/${id}/verify`, { method: 'PATCH' }),
+
+  // ── Products update ───────────────────────────────
+  updateProduct: (id, data) => api(`/admin/products/${id}`, { method: 'PATCH', body: JSON.stringify(data) }),
+
+  // ── Subscription management ───────────────────────
+  cancelSubscription:     (id) => api(`/admin/subscriptions/${id}/cancel`, { method: 'PATCH' }),
+  reactivateSubscription: (id) => api(`/admin/subscriptions/${id}/reactivate`, { method: 'PATCH' }),
+  approveSubscription:    (id) => api(`/admin/subscriptions/${id}/approve`, { method: 'PATCH' }),
+
+  // ── Advertisements ────────────────────────────────
+  getAdvertisements:    ()         => api('/admin/advertisements'),
+  createAdvertisement:  (data)     => api('/admin/advertisements',      { method: 'POST',   body: JSON.stringify(data) }),
+  updateAdvertisement:  (id, data) => api(`/admin/advertisements/${id}`, { method: 'PUT',    body: JSON.stringify(data) }),
+  deleteAdvertisement:  (id)       => api(`/admin/advertisements/${id}`, { method: 'DELETE' }),
+
+  // ── Newsletter & Contacts (all sellers) ──────────
+  getAllSubscribers:       () => api('/admin/newsletter/subscribers'),
+  getAllContactSubmissions:() => api('/admin/contact/submissions'),
+
+  // ── Admin Chat ────────────────────────────────────
+  getChatConversations: ()         => api('/admin/chat/conversations'),
+  getChatMessages:      (userId)   => api(`/admin/chat/${userId}/messages`),
+  sendChatMessage:      (userId, text) => api(`/admin/chat/${userId}/send`, { method: 'POST', body: JSON.stringify({ text }) }),
 };

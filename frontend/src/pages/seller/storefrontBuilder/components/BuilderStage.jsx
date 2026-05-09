@@ -19,6 +19,7 @@ export default function BuilderStage() {
     const theme = useBuilderStore((s) => s.theme);
     const viewportMode = useBuilderStore((s) => s.viewportMode);
     const selectWidget = useBuilderStore((s) => s.selectWidget);
+    const sellerId = useBuilderStore((s) => s.sellerId);
 
     const { setNodeRef: setDroppableRef } = useDroppable({ id: 'builder-canvas' });
 
@@ -71,7 +72,7 @@ export default function BuilderStage() {
                                         style={{ paddingTop, paddingBottom }}
                                     >
                                         <div className={isFullWidth ? '' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'}>
-                                            <Component {...widget.props} />
+                                            <Component {...widget.props} sellerId={sellerId} />
                                         </div>
                                     </div>
                                 </SortableWidgetWrapper>

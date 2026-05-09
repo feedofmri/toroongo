@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Store, Paintbrush, Globe, Bell, Link2, CheckCircle2, XCircle, Loader2, ExternalLink, BookOpen, FileText, Info, Lock, Code, Sparkles, Eye, Banknote, MapPin } from 'lucide-react';
+import { Store, Paintbrush, Globe, Bell, Link2, CheckCircle2, XCircle, Loader2, ExternalLink, BookOpen, FileText, Info, Lock, Code, Sparkles, Eye, Banknote, MapPin, Shield } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';

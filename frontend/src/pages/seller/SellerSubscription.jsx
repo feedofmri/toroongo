@@ -52,11 +52,12 @@ export default function SellerSubscription() {
         setIsDowngrading(true);
         try {
             const result = await subscriptionService.downgradePlan(downgradeTarget);
+            await refreshSubscription();
             setShowDowngradeConfirm(false);
             setDowngradeTarget(null);
             setActionMessage({
-                type: 'info',
-                text: t('subscription.messages.downgradeScheduled', { name: PLANS[downgradeTarget].name })
+                type: 'success',
+                text: result?.message || `Downgraded to ${PLANS[downgradeTarget]?.name || downgradeTarget}.`,
             });
             setTimeout(() => setActionMessage(null), 8000);
         } catch (err) {

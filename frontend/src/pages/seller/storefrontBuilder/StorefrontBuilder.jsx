@@ -32,8 +32,7 @@ export default function StorefrontBuilder() {
 
     const { user } = useAuth();
 
-    // Use current authenticated seller ID, format identically to how StoreHome loads it
-    const sellerId = user?.id ? (String(user.id).startsWith('seller_') ? user.id : `seller_${user.id}`) : 'seller_1';
+    const sellerId = user?.id ?? null;
     const storeSlug = user?.slug || user?.id || 'sony-electronics';
 
     const sensors = useSensors(

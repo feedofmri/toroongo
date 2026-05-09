@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Heart, Store } from 'lucide-react';
+import { Heart, Store, BadgeCheck } from 'lucide-react';
 import StarRating from '../ui/StarRating';
 import { useWishlist } from '../../context/WishlistContext';
 import { useAuth } from '../../context/AuthContext';
@@ -39,6 +39,7 @@ export default function ProductCard({ product, layout = 'grid' }) {
         image_url,
         badge,
         currency_code,
+        seller_verified,
     } = product;
 
     const imageUrl = _imageUrl || image_url;
@@ -69,8 +70,13 @@ export default function ProductCard({ product, layout = 'grid' }) {
     // ── List Layout ───────────────────────────────────────────
     if (layout === 'list') {
         return (
-            <div className="group relative flex bg-white rounded-2xl border border-border-soft overflow-hidden
-                            transition-all duration-300 ease-out hover:shadow-lg hover:border-brand-primary/20">
+            <div
+                className="group relative flex bg-white rounded-2xl border overflow-hidden transition-all duration-300 ease-out hover:shadow-lg"
+                style={{
+                    boxShadow: 'var(--seller-card-shadow, none)',
+                    borderColor: 'var(--seller-card-border-color, rgba(0,0,0,0.08))',
+                }}
+            >
                 {/* Image */}
                 <Link to={productUrl} className="relative w-40 sm:w-48 flex-shrink-0 overflow-hidden bg-surface-bg">
                     <img
@@ -99,6 +105,7 @@ export default function ProductCard({ product, layout = 'grid' }) {
                     >
                         <Store size={11} />
                         {seller}
+                        {seller_verified && <BadgeCheck size={11} className="text-brand-primary flex-shrink-0" />}
                     </Link>
 
                     <Link to={productUrl} className="block mb-1.5">
@@ -134,9 +141,13 @@ export default function ProductCard({ product, layout = 'grid' }) {
 
     // ── Grid Layout (default) ─────────────────────────────────
     return (
-        <div className="group relative flex flex-col bg-white rounded-2xl border border-border-soft overflow-hidden
-                    transition-all duration-300 ease-out
-                    hover:-translate-y-1 hover:shadow-lg hover:border-brand-primary/20">
+        <div
+            className="group relative flex flex-col bg-white rounded-2xl border overflow-hidden transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg"
+            style={{
+                boxShadow: 'var(--seller-card-shadow, none)',
+                borderColor: 'var(--seller-card-border-color, rgba(0,0,0,0.08))',
+            }}
+        >
             {/* Image */}
             <Link to={productUrl} className="relative aspect-square overflow-hidden bg-surface-bg">
                 <img

@@ -14,7 +14,10 @@ import ReviewsPage from './pages/reviews/ReviewsPage';
 import BlogsPage from './pages/blogs/BlogsPage';
 import BannersPage from './pages/banners/BannersPage';
 import DiscountsPage from './pages/discounts/DiscountsPage';
+import AdvertisementsPage from './pages/advertisements/AdvertisementsPage';
+import ChatPage from './pages/chat/ChatPage';
 import SettingsPage from './pages/settings/SettingsPage';
+import ContactsPage from './pages/contacts/ContactsPage';
 
 export default function App() {
   return (
@@ -39,8 +42,11 @@ export default function App() {
           <Route path="/reviews"       element={<ReviewsPage />} />
           <Route path="/blogs"         element={<BlogsPage />} />
           <Route path="/banners"       element={<BannersPage />} />
-          <Route path="/discounts"     element={<DiscountsPage />} />
-          <Route path="/settings"      element={<SettingsPage />} />
+          <Route path="/discounts"       element={<DiscountsPage />} />
+          <Route path="/advertisements" element={<AdvertisementsPage />} />
+          <Route path="/chat"           element={<ChatPage />} />
+          <Route path="/contacts"       element={<ContactsPage />} />
+          <Route path="/settings"       element={<SettingsPage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />

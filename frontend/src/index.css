@@ -148,3 +148,31 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* ── Seller Storefront Typography ──────────────────────────────────────────
+   CSS vars are injected as inline styles on .seller-layout by SellerLayout.jsx.
+   These rules consume them so that every heading and body element
+   inside the storefront respects the seller's chosen fonts and base size.
+   Using attribute-specificity ([class]) beats Tailwind utility classes that
+   set font-family (e.g. font-sans applied to specific child elements).
+   ───────────────────────────────────────────────────────────────────────── */
+.seller-layout,
+.seller-layout * {
+  font-family: var(--seller-body-font, 'Inter', sans-serif);
+  font-size: inherit;
+}
+
+.seller-layout {
+  font-size: var(--seller-font-size, 16px);
+  color: var(--seller-text, #0F172A);
+}
+
+.seller-layout h1,
+.seller-layout h2,
+.seller-layout h3,
+.seller-layout h4,
+.seller-layout h5,
+.seller-layout h6 {
+  font-family: var(--seller-heading-font, 'Inter', sans-serif);
+  color: var(--seller-text, #0F172A);
+}

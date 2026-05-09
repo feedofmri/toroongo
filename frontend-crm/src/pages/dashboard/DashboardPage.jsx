@@ -120,6 +120,22 @@ export default function DashboardPage() {
         {statCards.map(s => <StatCard key={s.label} stat={s} loading={loading} />)}
       </div>
 
+      {/* Quick Nav */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        {quickLinks.map(item => (
+          <Link key={item.to} to={item.to}
+            className="bg-white p-4 rounded-2xl border border-border-soft hover:shadow-md hover:border-brand-primary/20 transition-all flex items-center gap-3 group">
+            <div className="w-10 h-10 rounded-xl bg-brand-primary/10 flex items-center justify-center group-hover:bg-brand-primary transition-colors flex-shrink-0">
+              <item.icon size={18} className="text-brand-primary group-hover:text-white transition-colors" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-sm font-semibold text-text-primary">{item.label}</p>
+              <p className="text-xs text-text-muted truncate">{item.desc}</p>
+            </div>
+          </Link>
+        ))}
+      </div>
+
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Sales Trend */}
@@ -233,21 +249,6 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Quick Nav */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        {quickLinks.map(item => (
-          <Link key={item.to} to={item.to}
-            className="bg-white p-4 rounded-2xl border border-border-soft hover:shadow-md hover:border-brand-primary/20 transition-all flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-brand-primary/10 flex items-center justify-center group-hover:bg-brand-primary transition-colors flex-shrink-0">
-              <item.icon size={18} className="text-brand-primary group-hover:text-white transition-colors" />
-            </div>
-            <div className="min-w-0">
-              <p className="text-sm font-semibold text-text-primary">{item.label}</p>
-              <p className="text-xs text-text-muted truncate">{item.desc}</p>
-            </div>
-          </Link>
-        ))}
-      </div>
     </div>
   );
 }

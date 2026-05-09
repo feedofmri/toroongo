@@ -53,11 +53,13 @@ export default function HelpCenter() {
                         <h3 className="font-semibold text-text-primary mb-1">{t('help.emailSupport')}</h3>
                         <p className="text-xs text-text-muted">{t('help.emailSupportDesc')}</p>
                     </Link>
-                    <Link to="/account/messages" className="p-6 border border-border-soft rounded-2xl hover:border-brand-primary/30 transition-colors text-center">
+                    <button
+                        onClick={() => window.dispatchEvent(new Event('open-live-chat'))}
+                        className="p-6 border border-border-soft rounded-2xl hover:border-brand-primary/30 transition-colors text-center w-full">
                         <MessageSquare size={24} className="text-brand-primary mx-auto mb-3" />
                         <h3 className="font-semibold text-text-primary mb-1">{t('help.liveChat')}</h3>
                         <p className="text-xs text-text-muted">{t('help.liveChatDesc')}</p>
-                    </Link>
+                    </button>
                 </div>
             </div>
         </div>

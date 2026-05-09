@@ -22,6 +22,7 @@ import {
   Upload,
   MapPin,
   Wallet,
+  Mail,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { useSubscription } from "../../context/SubscriptionContext";
@@ -95,6 +96,12 @@ const allSidebarLinks = [
   },
   { to: "/seller/ai-tools", icon: Sparkles, labelKey: "aiTools" },
   { to: "/seller/messages", icon: MessageSquare, labelKey: "messages" },
+  {
+    to: "/seller/leads",
+    icon: Mail,
+    labelKey: "leads",
+    fallbackLabel: "Leads & Messages",
+  },
   {
     to: "/seller/shipping-areas",
     icon: MapPin,
