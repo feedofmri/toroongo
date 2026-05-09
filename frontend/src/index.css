@@ -149,30 +149,49 @@
   scrollbar-width: none;
 }
 
-/* ── Seller Storefront Typography ──────────────────────────────────────────
-   CSS vars are injected as inline styles on .seller-layout by SellerLayout.jsx.
-   These rules consume them so that every heading and body element
-   inside the storefront respects the seller's chosen fonts and base size.
-   Using attribute-specificity ([class]) beats Tailwind utility classes that
-   set font-family (e.g. font-sans applied to specific child elements).
+/* ── Seller Storefront Typography ─────────────────────────────────────────
+   .seller-layout  → public storefront (SellerLayout.jsx)
+   .storefront-root → builder preview (StorefrontRenderer.jsx)
+   Rules are unlayered so they beat every Tailwind @layer utility class
+   (font-bold, tracking-tight, etc.) without needing !important.
    ───────────────────────────────────────────────────────────────────────── */
+
+/* Apply body typography to the root AND every descendant.
+   font-size is intentionally NOT here — it would override text-sm/text-xl etc. */
 .seller-layout,
-.seller-layout * {
+.seller-layout *,
+.storefront-root,
+.storefront-root * {
   font-family: var(--seller-body-font, 'Inter', sans-serif);
-  font-size: inherit;
+  font-weight: var(--seller-body-weight, 400);
+  letter-spacing: var(--seller-body-tracking, 0em);
+  line-height: var(--seller-body-leading, 1.65);
 }
 
-.seller-layout {
+/* Root-level sizing and colour */
+.seller-layout,
+.storefront-root {
   font-size: var(--seller-font-size, 16px);
   color: var(--seller-text, #0F172A);
 }
 
-.seller-layout h1,
-.seller-layout h2,
-.seller-layout h3,
-.seller-layout h4,
-.seller-layout h5,
-.seller-layout h6 {
+/* Keep <strong>/<b> visually heavier than the body weight */
+.seller-layout strong,
+.seller-layout b,
+.storefront-root strong,
+.storefront-root b {
+  font-weight: bolder;
+}
+
+/* Headings override body properties — comes after * rule so it wins at equal specificity */
+.seller-layout h1, .seller-layout h2, .seller-layout h3,
+.seller-layout h4, .seller-layout h5, .seller-layout h6,
+.storefront-root h1, .storefront-root h2, .storefront-root h3,
+.storefront-root h4, .storefront-root h5, .storefront-root h6 {
   font-family: var(--seller-heading-font, 'Inter', sans-serif);
+  font-weight: var(--seller-heading-weight, 700);
+  letter-spacing: var(--seller-heading-tracking, 0em);
+  line-height: var(--seller-heading-leading, 1.1);
+  text-transform: var(--seller-heading-transform, none);
   color: var(--seller-text, #0F172A);
 }

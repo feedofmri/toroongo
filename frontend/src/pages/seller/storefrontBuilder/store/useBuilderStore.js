@@ -157,6 +157,20 @@ export const useBuilderStore = create((set, get) => ({
     },
 
     /**
+     * Update a widget's style overrides (shallow merge). Pass null for a key to clear that override.
+     * @param {string} widgetId
+     * @param {Partial<import('../schema/storefrontSchema.js').WidgetStyleOverride>} styleUpdates
+     */
+    updateWidgetStyle: (widgetId, styleUpdates) => {
+        set((state) => ({
+            widgets: state.widgets.map((w) =>
+                w.id === widgetId ? { ...w, style: { ...(w.style || {}), ...styleUpdates } } : w
+            ),
+            isDirty: true,
+        }));
+    },
+
+    /**
      * Record the current state into the undo stack explicitly.
      */
     commitHistory: () => {

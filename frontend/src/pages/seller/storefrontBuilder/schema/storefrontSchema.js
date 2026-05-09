@@ -37,9 +37,16 @@
  * @property {string} backgroundColor   - Page background color (hex)
  * @property {string} textColor         - Primary heading text color (hex)
  * @property {string} mutedTextColor    - Muted/body text color (hex)
- * @property {string} headingFont       - Google Font name for headings
- * @property {string} bodyFont          - Google Font name for body text
- * @property {number} baseFontSize      - Base font size in px (14-20)
+ * @property {string} headingFont           - Google Font name for headings
+ * @property {string} bodyFont              - Google Font name for body text
+ * @property {number} baseFontSize          - Base font size in px (12-22)
+ * @property {string} headingWeight         - CSS font-weight for headings (100-900)
+ * @property {string} bodyWeight            - CSS font-weight for body text (100-900)
+ * @property {string} headingLetterSpacing  - Letter-spacing preset for headings
+ * @property {string} bodyLetterSpacing     - Letter-spacing preset for body
+ * @property {string} headingLineHeight     - Line-height preset for headings
+ * @property {string} bodyLineHeight        - Line-height preset for body
+ * @property {'none'|'uppercase'|'capitalize'} headingTransform - text-transform for headings
  * @property {BorderRadiusPreset} borderRadius - Button/input border-radius preset
  * @property {BorderRadiusPreset} widgetRadius - Widget outer bounding box border-radius preset
  * @property {'none' | 'shadow' | 'border'} cardStyle - Product card visual style
@@ -82,6 +89,13 @@ export function createDefaultTheme() {
         headingFont: 'Inter',
         bodyFont: 'Inter',
         baseFontSize: 16,
+        headingWeight: '700',
+        bodyWeight: '400',
+        headingLetterSpacing: 'normal',
+        bodyLetterSpacing: 'normal',
+        headingLineHeight: 'tight',
+        bodyLineHeight: 'relaxed',
+        headingTransform: 'none',
         borderRadius: 'rounded',
         widgetRadius: 'rounded',
         cardStyle: 'shadow',
@@ -89,6 +103,24 @@ export function createDefaultTheme() {
         logoPosition: 'left',
         stickyHeader: true,
     };
+}
+
+/**
+ * @param {'tight'|'normal'|'wide'|'wider'|'widest'} key
+ * @returns {string}
+ */
+export function resolveLetterSpacing(key) {
+    const map = { tight: '-0.04em', normal: '0em', wide: '0.05em', wider: '0.1em', widest: '0.2em' };
+    return map[key] ?? '0em';
+}
+
+/**
+ * @param {'tight'|'snug'|'normal'|'relaxed'|'loose'} key
+ * @returns {string}
+ */
+export function resolveLineHeight(key) {
+    const map = { tight: '1.1', snug: '1.25', normal: '1.5', relaxed: '1.65', loose: '2.0' };
+    return map[key] ?? '1.5';
 }
 
 /** @returns {WidgetLayout} */
@@ -103,6 +135,25 @@ export function createDefaultWidgetLayout() {
 }
 
 /**
+ * @typedef {Object} WidgetStyleOverride
+ * @property {string|null} [backgroundColor]
+ * @property {string|null} [brandColor]
+ * @property {string|null} [secondaryColor]
+ * @property {string|null} [textColor]
+ * @property {string|null} [mutedTextColor]
+ * @property {string|null} [headingFont]
+ * @property {string|null} [bodyFont]
+ * @property {string|null} [headingWeight]
+ * @property {string|null} [bodyWeight]
+ * @property {string|null} [headingLetterSpacing]
+ * @property {string|null} [bodyLetterSpacing]
+ * @property {string|null} [headingLineHeight]
+ * @property {string|null} [bodyLineHeight]
+ * @property {string|null} [headingTransform]
+ * @property {string|null} [borderRadius]
+ */
+
+/**
  * Create a new widget block with a unique ID.
  * @param {string} type
  * @param {Object} [props={}]
@@ -115,7 +166,35 @@ export function createWidgetBlock(type, props = {}, layout = {}) {
         type,
         props,
         layout: { ...createDefaultWidgetLayout(), ...layout },
+        style: {},
     };
+}
+
+/**
+ * Convert widget-level style overrides to CSS custom properties.
+ * Only emits vars for fields that are explicitly set (non-null/non-empty).
+ * @param {WidgetStyleOverride} [style={}]
+ * @returns {Object}
+ */
+export function widgetStyleToVars(style = {}) {
+    if (!style) return {};
+    const vars = {};
+    if (style.backgroundColor) vars['--seller-bg'] = style.backgroundColor;
+    if (style.brandColor) vars['--seller-brand'] = style.brandColor;
+    if (style.secondaryColor) vars['--seller-brand-secondary'] = style.secondaryColor;
+    if (style.textColor) vars['--seller-text'] = style.textColor;
+    if (style.mutedTextColor) vars['--seller-text-muted'] = style.mutedTextColor;
+    if (style.headingFont) vars['--seller-heading-font'] = `"${style.headingFont}", sans-serif`;
+    if (style.bodyFont) vars['--seller-body-font'] = `"${style.bodyFont}", sans-serif`;
+    if (style.headingWeight) vars['--seller-heading-weight'] = style.headingWeight;
+    if (style.bodyWeight) vars['--seller-body-weight'] = style.bodyWeight;
+    if (style.headingLetterSpacing) vars['--seller-heading-tracking'] = resolveLetterSpacing(style.headingLetterSpacing);
+    if (style.bodyLetterSpacing) vars['--seller-body-tracking'] = resolveLetterSpacing(style.bodyLetterSpacing);
+    if (style.headingLineHeight) vars['--seller-heading-leading'] = resolveLineHeight(style.headingLineHeight);
+    if (style.bodyLineHeight) vars['--seller-body-leading'] = resolveLineHeight(style.bodyLineHeight);
+    if (style.headingTransform) vars['--seller-heading-transform'] = style.headingTransform;
+    if (style.borderRadius) vars['--seller-radius'] = resolveBorderRadius(style.borderRadius);
+    return vars;
 }
 
 /** @returns {StorefrontSchema} */
@@ -183,15 +262,27 @@ export function themeToCSS(theme) {
         '--seller-bg': theme.backgroundColor,
         '--seller-text': theme.textColor,
         '--seller-text-muted': theme.mutedTextColor,
+        // Heading typography
         '--seller-heading-font': `"${theme.headingFont}", sans-serif`,
+        '--seller-heading-weight': theme.headingWeight || '700',
+        '--seller-heading-tracking': resolveLetterSpacing(theme.headingLetterSpacing || 'normal'),
+        '--seller-heading-leading': resolveLineHeight(theme.headingLineHeight || 'tight'),
+        '--seller-heading-transform': theme.headingTransform || 'none',
+        // Body typography
         '--seller-body-font': `"${theme.bodyFont}", sans-serif`,
+        '--seller-body-weight': theme.bodyWeight || '400',
+        '--seller-body-tracking': resolveLetterSpacing(theme.bodyLetterSpacing || 'normal'),
+        '--seller-body-leading': resolveLineHeight(theme.bodyLineHeight || 'relaxed'),
         '--seller-font-size': `${theme.baseFontSize}px`,
+        // Shape
         '--seller-radius': resolveBorderRadius(theme.borderRadius),
         '--seller-widget-radius': resolveBorderRadius(theme.widgetRadius || 'rounded'),
+        // Header
         '--seller-header-bg': isDark ? '#0F172A' : '#FFFFFF',
         '--seller-header-text': isDark ? '#FFFFFF' : '#0F172A',
         '--seller-header-text-muted': isDark ? 'rgba(255,255,255,0.6)' : 'rgba(15,23,42,0.45)',
         '--seller-header-border': isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.06)',
+        // Cards
         '--seller-card-shadow': cardShadow,
         '--seller-card-border-color': cardBorderColor,
     };

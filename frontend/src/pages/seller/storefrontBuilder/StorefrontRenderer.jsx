@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { widgetRegistry } from './widgets/widgetRegistry.js';
-import { resolveSpacing, themeToCSS } from './schema/storefrontSchema.js';
+import { resolveSpacing, themeToCSS, widgetStyleToVars } from './schema/storefrontSchema.js';
 
 function loadGoogleFonts(headingFont, bodyFont) {
     const fonts = [...new Set([headingFont, bodyFont].filter(Boolean))];
     if (!fonts.length) return;
     const families = fonts
-        .map((f) => `family=${f.replace(/ /g, '+')}:ital,wght@0,400;0,500;0,600;0,700;1,400`)
+        .map((f) => `family=${f.replace(/ /g, '+')}:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400`)
         .join('&');
     const href = `https://fonts.googleapis.com/css2?${families}&display=swap`;
     const existing = document.getElementById('seller-google-fonts');
@@ -54,6 +54,9 @@ export default function StorefrontRenderer({ schema, products = [], onWidgetClic
                 backgroundColor: 'var(--seller-bg, #FFFFFF)',
                 fontFamily: 'var(--seller-body-font, Inter, sans-serif)',
                 fontSize: 'var(--seller-font-size, 16px)',
+                fontWeight: 'var(--seller-body-weight, 400)',
+                letterSpacing: 'var(--seller-body-tracking, 0em)',
+                lineHeight: 'var(--seller-body-leading, 1.65)',
                 color: 'var(--seller-text, #0F172A)',
             }}
         >
@@ -103,7 +106,7 @@ export default function StorefrontRenderer({ schema, products = [], onWidgetClic
                     <div
                         key={widget.id}
                         className={`storefront-widget-wrapper ${visibilityClass} ${isBuilder ? 'cursor-pointer' : ''} ${isSelected ? 'ring-2 ring-brand-primary ring-offset-2 rounded-lg' : ''}`}
-                        style={{ paddingTop, paddingBottom }}
+                        style={{ paddingTop, paddingBottom, ...widgetStyleToVars(widget.style) }}
                         onClick={isBuilder ? (e) => { e.stopPropagation(); onWidgetClick?.(widget.id); } : undefined}
                         data-widget-id={widget.id}
                         data-widget-type={widget.type}

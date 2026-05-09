@@ -3,12 +3,14 @@ import { ChevronDown, Plus, Trash2 } from 'lucide-react';
 import useBuilderStore from '../store/useBuilderStore.js';
 import { widgetRegistry } from '../widgets/widgetRegistry.js';
 import MediaUploader from '../../../../components/ui/MediaUploader.jsx';
+import FontPicker from './FontPicker.jsx';
 
 export default function PropertyEditor() {
     const selectedWidgetId = useBuilderStore((s) => s.selectedWidgetId);
     const widgets = useBuilderStore((s) => s.widgets);
     const updateWidgetProps = useBuilderStore((s) => s.updateWidgetProps);
     const updateWidgetLayout = useBuilderStore((s) => s.updateWidgetLayout);
+    const updateWidgetStyle = useBuilderStore((s) => s.updateWidgetStyle);
     const removeWidget = useBuilderStore((s) => s.removeWidget);
     const duplicateWidget = useBuilderStore((s) => s.duplicateWidget);
     const selectWidget = useBuilderStore((s) => s.selectWidget);
@@ -110,6 +112,9 @@ export default function PropertyEditor() {
                     />
                 </div>
             </div>
+
+            {/* Style Overrides */}
+            <StyleOverrideSection widget={widget} onStyleChange={(key, val) => updateWidgetStyle(widget.id, { [key]: val })} />
 
             {/* Actions */}
             <div className="pt-3 border-t border-gray-100 space-y-2">
@@ -448,6 +453,278 @@ function ListItemSubField({ field, value, onChange }) {
         default:
             return null;
     }
+}
+
+// ── Style Override Section ───────────────────────────────
+
+const WEIGHT_OPTIONS = [
+    { value: '100', label: 'Thin 100' },
+    { value: '200', label: 'ExtraLight 200' },
+    { value: '300', label: 'Light 300' },
+    { value: '400', label: 'Regular 400' },
+    { value: '500', label: 'Medium 500' },
+    { value: '600', label: 'SemiBold 600' },
+    { value: '700', label: 'Bold 700' },
+    { value: '800', label: 'ExtraBold 800' },
+    { value: '900', label: 'Black 900' },
+];
+
+const TRACKING_OPTIONS = [
+    { value: 'tight', label: 'Tight' },
+    { value: 'normal', label: 'Normal' },
+    { value: 'wide', label: 'Wide' },
+    { value: 'wider', label: 'Wider' },
+    { value: 'widest', label: 'Widest' },
+];
+
+const LEADING_OPTIONS = [
+    { value: 'tight', label: 'Tight' },
+    { value: 'snug', label: 'Snug' },
+    { value: 'normal', label: 'Normal' },
+    { value: 'relaxed', label: 'Relaxed' },
+    { value: 'loose', label: 'Loose' },
+];
+
+const TRANSFORM_OPTIONS = [
+    { value: 'none', display: 'Aa', title: 'None' },
+    { value: 'capitalize', display: 'Ab', title: 'Capitalize' },
+    { value: 'uppercase', display: 'AB', title: 'Uppercase' },
+    { value: 'lowercase', display: 'ab', title: 'Lowercase' },
+];
+
+const RADIUS_OPTIONS = [
+    { value: 'sharp', label: 'Sharp' },
+    { value: 'rounded', label: 'Rounded' },
+    { value: 'pill', label: 'Pill' },
+];
+
+function StyleOverrideSection({ widget, onStyleChange }) {
+    const [open, setOpen] = useState(true);
+    const style = widget.style || {};
+
+    const set = (key, val) => onStyleChange(key, val);
+    const clear = (key) => onStyleChange(key, null);
+
+    return (
+        <div>
+            <button
+                type="button"
+                onClick={() => setOpen((v) => !v)}
+                className="w-full flex items-center justify-between group"
+            >
+                <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400">Style Overrides</h4>
+                <ChevronDown size={13} className={`text-gray-300 group-hover:text-gray-400 transition-transform ${open ? 'rotate-180' : ''}`} />
+            </button>
+
+            {open && (
+                <div className="mt-3 space-y-4">
+                    {/* Colors */}
+                    <StyleSubSection title="Colors">
+                        <StyleColorRow label="Background" value={style.backgroundColor} onChange={(v) => set('backgroundColor', v)} onClear={() => clear('backgroundColor')} />
+                        <StyleColorRow label="Primary / Brand" value={style.brandColor} onChange={(v) => set('brandColor', v)} onClear={() => clear('brandColor')} />
+                        <StyleColorRow label="Secondary / Accent" value={style.secondaryColor} onChange={(v) => set('secondaryColor', v)} onClear={() => clear('secondaryColor')} />
+                        <StyleColorRow label="Heading Text" value={style.textColor} onChange={(v) => set('textColor', v)} onClear={() => clear('textColor')} />
+                        <StyleColorRow label="Muted Text" value={style.mutedTextColor} onChange={(v) => set('mutedTextColor', v)} onClear={() => clear('mutedTextColor')} />
+                    </StyleSubSection>
+
+                    {/* Headings Typography */}
+                    <StyleSubSection title="Heading Typography">
+                        <StyleFontRow label="Font" value={style.headingFont} onChange={(v) => set('headingFont', v)} onClear={() => clear('headingFont')} />
+                        <StyleSelectRow label="Weight" value={style.headingWeight} options={WEIGHT_OPTIONS} onChange={(v) => set('headingWeight', v)} onClear={() => clear('headingWeight')} />
+                        <StylePillsRow label="Tracking" value={style.headingLetterSpacing} options={TRACKING_OPTIONS} onChange={(v) => set('headingLetterSpacing', v)} onClear={() => clear('headingLetterSpacing')} />
+                        <StylePillsRow label="Leading" value={style.headingLineHeight} options={LEADING_OPTIONS} onChange={(v) => set('headingLineHeight', v)} onClear={() => clear('headingLineHeight')} />
+                        <StyleTransformRow label="Transform" value={style.headingTransform} onChange={(v) => set('headingTransform', v)} onClear={() => clear('headingTransform')} />
+                    </StyleSubSection>
+
+                    {/* Body Typography */}
+                    <StyleSubSection title="Body Typography">
+                        <StyleFontRow label="Font" value={style.bodyFont} onChange={(v) => set('bodyFont', v)} onClear={() => clear('bodyFont')} />
+                        <StyleSelectRow label="Weight" value={style.bodyWeight} options={WEIGHT_OPTIONS.slice(0, 7)} onChange={(v) => set('bodyWeight', v)} onClear={() => clear('bodyWeight')} />
+                        <StylePillsRow label="Tracking" value={style.bodyLetterSpacing} options={TRACKING_OPTIONS} onChange={(v) => set('bodyLetterSpacing', v)} onClear={() => clear('bodyLetterSpacing')} />
+                        <StylePillsRow label="Leading" value={style.bodyLineHeight} options={LEADING_OPTIONS} onChange={(v) => set('bodyLineHeight', v)} onClear={() => clear('bodyLineHeight')} />
+                    </StyleSubSection>
+
+                    {/* Shape */}
+                    <StyleSubSection title="Shape">
+                        <StylePillsRow label="Button Radius" value={style.borderRadius} options={RADIUS_OPTIONS} onChange={(v) => set('borderRadius', v)} onClear={() => clear('borderRadius')} />
+                    </StyleSubSection>
+                </div>
+            )}
+        </div>
+    );
+}
+
+function StyleSubSection({ title, children }) {
+    return (
+        <div className="bg-gray-50 rounded-xl p-3 space-y-3 border border-gray-100">
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{title}</p>
+            {children}
+        </div>
+    );
+}
+
+function StyleColorRow({ label, value, onChange, onClear }) {
+    if (!value) {
+        return (
+            <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-500">{label}</span>
+                <button
+                    type="button"
+                    onClick={() => onChange('#008080')}
+                    className="text-[11px] font-medium text-brand-primary hover:opacity-70 transition-opacity"
+                >
+                    + Override
+                </button>
+            </div>
+        );
+    }
+    return (
+        <div className="flex items-center justify-between gap-2">
+            <span className="text-xs text-gray-500 shrink-0">{label}</span>
+            <div className="flex items-center gap-1.5">
+                <input
+                    type="color"
+                    value={value}
+                    onChange={(e) => onChange(e.target.value)}
+                    className="w-6 h-6 rounded cursor-pointer border border-gray-200 p-0.5 shrink-0"
+                />
+                <input
+                    type="text"
+                    value={value}
+                    onChange={(e) => onChange(e.target.value)}
+                    className="w-16 text-[10px] font-mono px-1.5 py-1 border border-gray-200 rounded uppercase"
+                />
+                <button type="button" onClick={onClear} className="text-gray-300 hover:text-gray-500 text-sm leading-none shrink-0" title="Reset to theme">×</button>
+            </div>
+        </div>
+    );
+}
+
+function StyleFontRow({ label, value, onChange, onClear }) {
+    if (!value) {
+        return (
+            <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-500">{label}</span>
+                <button
+                    type="button"
+                    onClick={() => onChange('Inter')}
+                    className="text-[11px] font-medium text-brand-primary hover:opacity-70 transition-opacity"
+                >
+                    + Override
+                </button>
+            </div>
+        );
+    }
+    return (
+        <div>
+            <div className="flex items-center justify-between mb-1.5">
+                <span className="text-xs text-gray-500">{label}</span>
+                <button type="button" onClick={onClear} className="text-[10px] text-gray-400 hover:text-gray-600 transition-colors">
+                    Reset ×
+                </button>
+            </div>
+            <FontPicker value={value} onChange={onChange} />
+        </div>
+    );
+}
+
+function StyleSelectRow({ label, value, options, onChange, onClear }) {
+    return (
+        <div className="flex items-center justify-between gap-2">
+            <span className="text-xs text-gray-500 shrink-0">{label}</span>
+            <div className="flex items-center gap-1 min-w-0">
+                <select
+                    value={value || ''}
+                    onChange={(e) => onChange(e.target.value || null)}
+                    className="text-[11px] px-1.5 py-1 border border-gray-200 rounded bg-white text-gray-700 min-w-0 flex-1"
+                >
+                    <option value="">From theme</option>
+                    {options.map((opt) => (
+                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                    ))}
+                </select>
+                {value && (
+                    <button type="button" onClick={onClear} className="text-gray-300 hover:text-gray-500 text-sm leading-none shrink-0" title="Reset to theme">×</button>
+                )}
+            </div>
+        </div>
+    );
+}
+
+function StylePillsRow({ label, value, options, onChange, onClear }) {
+    return (
+        <div>
+            <div className="flex items-center justify-between mb-1.5">
+                <span className="text-xs text-gray-500">{label}</span>
+                {value && (
+                    <button type="button" onClick={onClear} className="text-[10px] text-gray-400 hover:text-gray-600 transition-colors">
+                        Reset ×
+                    </button>
+                )}
+            </div>
+            <div className="flex flex-wrap gap-1">
+                <button
+                    type="button"
+                    onClick={onClear}
+                    className={`px-2 py-1 text-[10px] font-medium rounded border transition-colors ${
+                        !value ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-400 border-gray-200 hover:border-gray-300'
+                    }`}
+                >
+                    Default
+                </button>
+                {options.map((opt) => (
+                    <button
+                        key={opt.value}
+                        type="button"
+                        onClick={() => onChange(opt.value)}
+                        className={`px-2 py-1 text-[10px] font-medium rounded border transition-colors ${
+                            value === opt.value
+                                ? 'bg-gray-900 text-white border-gray-900'
+                                : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300'
+                        }`}
+                    >
+                        {opt.label}
+                    </button>
+                ))}
+            </div>
+        </div>
+    );
+}
+
+function StyleTransformRow({ label, value, onChange, onClear }) {
+    return (
+        <div className="flex items-center justify-between gap-2">
+            <span className="text-xs text-gray-500 shrink-0">{label}</span>
+            <div className="flex gap-1">
+                <button
+                    type="button"
+                    title="Default (from theme)"
+                    onClick={onClear}
+                    className={`px-2 py-1 text-[11px] font-bold rounded border transition-colors ${
+                        !value ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-400 border-gray-200 hover:border-gray-300'
+                    }`}
+                >
+                    —
+                </button>
+                {TRANSFORM_OPTIONS.map((opt) => (
+                    <button
+                        key={opt.value}
+                        type="button"
+                        title={opt.title}
+                        onClick={() => onChange(opt.value)}
+                        className={`px-2 py-1 text-[11px] font-bold rounded border transition-colors ${
+                            value === opt.value
+                                ? 'bg-gray-900 text-white border-gray-900'
+                                : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300'
+                        }`}
+                        style={{ textTransform: opt.value === 'none' ? undefined : opt.value }}
+                    >
+                        {opt.display}
+                    </button>
+                ))}
+            </div>
+        </div>
+    );
 }
 
 // ── Layout Helper Components ─────────────────────────────

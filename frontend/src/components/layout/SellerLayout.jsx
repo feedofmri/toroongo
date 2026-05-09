@@ -98,7 +98,7 @@ export default function SellerLayout() {
         const fonts = [...new Set([resolvedTheme.headingFont, resolvedTheme.bodyFont].filter(Boolean))];
         if (!fonts.length) return;
         const families = fonts
-            .map((f) => `family=${f.replace(/ /g, '+')}:ital,wght@0,400;0,500;0,600;0,700;1,400`)
+            .map((f) => `family=${f.replace(/ /g, '+')}:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400`)
             .join('&');
         const href = `https://fonts.googleapis.com/css2?${families}&display=swap`;
         const existing = document.getElementById('seller-google-fonts');
