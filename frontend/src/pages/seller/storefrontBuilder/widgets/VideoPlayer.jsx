@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 /**
  * VideoPlayer Widget
@@ -14,6 +15,7 @@ export default function VideoPlayer({
     autoplay = false,
     caption,
 }) {
+    const { t } = useTranslation();
     const paddingMap = {
         '16:9': '56.25%',
         '4:3': '75%',
@@ -66,7 +68,7 @@ export default function VideoPlayer({
                                 <path d="M8 5v14l11-7z" />
                             </svg>
                         </div>
-                        <p className="text-sm">Upload a video or add an embed URL</p>
+                        <p className="text-sm">{t('widgets.videoPlayer.noVideo')}</p>
                     </div>
                 )}
             </div>

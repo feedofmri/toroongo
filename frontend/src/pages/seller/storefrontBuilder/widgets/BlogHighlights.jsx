@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { api } from '../../../../services/api.js';
 
 export default function BlogHighlights({
@@ -11,6 +12,7 @@ export default function BlogHighlights({
     showCategory = true,
     sellerId,
 }) {
+    const { t } = useTranslation();
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [fetchError, setFetchError] = useState(false);
@@ -82,7 +84,7 @@ export default function BlogHighlights({
         return (
             <div className="text-center py-10 text-sm text-gray-400">
                 {title && <h2 className="text-xl font-bold mb-4" style={{ color: 'var(--seller-text, #0F172A)' }}>{title}</h2>}
-                Could not load blog posts right now.
+                {t('widgets.blog.loadError')}
             </div>
         );
     }
@@ -91,7 +93,7 @@ export default function BlogHighlights({
         return (
             <div className="text-center py-10 text-sm text-gray-400">
                 {title && <h2 className="text-xl font-bold mb-4" style={{ color: 'var(--seller-text, #0F172A)' }}>{title}</h2>}
-                No blog posts yet.
+                {t('widgets.blog.noPosts')}
             </div>
         );
     }
@@ -109,7 +111,7 @@ export default function BlogHighlights({
                 className="flex items-center gap-1.5 text-sm font-semibold hover:opacity-75 transition-opacity"
                 style={{ color: 'var(--seller-brand, #008080)' }}
             >
-                View All <ArrowRight size={14} />
+                {t('widgets.blog.viewAll')} <ArrowRight size={14} />
             </a>
         </div>
     ) : null;

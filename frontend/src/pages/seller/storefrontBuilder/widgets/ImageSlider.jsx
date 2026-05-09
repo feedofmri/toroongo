@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 /**
  * ImageSlider Widget
@@ -15,6 +16,7 @@ export default function ImageSlider({
     height = 'medium',
     transition = 'slide',
 }) {
+    const { t } = useTranslation();
     const [current, setCurrent] = useState(0);
     const [prev, setPrev] = useState(null);
 
@@ -45,7 +47,7 @@ export default function ImageSlider({
                 className="w-full bg-gray-100 flex items-center justify-center text-gray-400 text-sm"
                 style={{ minHeight: minH, borderRadius: 'var(--seller-widget-radius, 1rem)' }}
             >
-                No slides yet — add some in the editor
+                {t('widgets.imageSlider.noSlides')}
             </div>
         );
     }

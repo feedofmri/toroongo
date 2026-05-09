@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Send } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { api } from '../../../../services/api.js';
 
 export default function ContactForm({
@@ -13,6 +14,7 @@ export default function ContactForm({
     backgroundColor,
     sellerId,
 }) {
+    const { t } = useTranslation();
     const [submitted, setSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -31,7 +33,7 @@ export default function ContactForm({
             });
             setSubmitted(true);
         } catch (err) {
-            setError(err?.response?.message || err?.message || 'Something went wrong. Please try again.');
+            setError(err?.response?.message || err?.message || t('widgets.contact.error'));
         } finally {
             setLoading(false);
         }
@@ -58,10 +60,10 @@ export default function ContactForm({
                     <Send size={24} style={{ color: 'var(--seller-brand, #008080)' }} />
                 </div>
                 <h3 className="text-lg font-bold mb-2" style={{ color: 'var(--seller-text, #0F172A)' }}>
-                    {successMessage ? successMessage.split('.')[0] : 'Message Sent!'}
+                    {successMessage ? successMessage.split('.')[0] : t('widgets.contact.sent')}
                 </h3>
                 <p className="text-sm" style={{ color: 'var(--seller-text-muted, #64748B)' }}>
-                    {successMessage || "We'll get back to you soon."}
+                    {successMessage || t('widgets.contact.sentDesc')}
                 </p>
             </div>
         );
@@ -87,7 +89,7 @@ export default function ContactForm({
                 {fields.includes('name') && (
                     <input
                         type="text"
-                        placeholder="Your Name"
+                        placeholder={t('widgets.contact.namePlaceholder')}
                         required
                         disabled={loading}
                         onChange={(e) => set('name', e.target.value)}
@@ -98,7 +100,7 @@ export default function ContactForm({
                 {fields.includes('email') && (
                     <input
                         type="email"
-                        placeholder="Your Email"
+                        placeholder={t('widgets.contact.emailPlaceholder')}
                         required
                         disabled={loading}
                         onChange={(e) => set('email', e.target.value)}
@@ -109,7 +111,7 @@ export default function ContactForm({
                 {showPhone && (
                     <input
                         type="tel"
-                        placeholder="Your Phone (optional)"
+                        placeholder={t('widgets.contact.phonePlaceholder')}
                         disabled={loading}
                         onChange={(e) => set('phone', e.target.value)}
                         className={inputClass}
@@ -119,7 +121,7 @@ export default function ContactForm({
                 {showSubject && (
                     <input
                         type="text"
-                        placeholder="Subject"
+                        placeholder={t('widgets.contact.subjectPlaceholder')}
                         disabled={loading}
                         onChange={(e) => set('subject', e.target.value)}
                         className={inputClass}
@@ -128,7 +130,7 @@ export default function ContactForm({
                 )}
                 {fields.includes('message') && (
                     <textarea
-                        placeholder="Your Message..."
+                        placeholder={t('widgets.contact.messagePlaceholder')}
                         rows={5}
                         required
                         disabled={loading}
@@ -152,7 +154,7 @@ export default function ContactForm({
                         boxShadow: '0 4px 14px 0 color-mix(in srgb, var(--seller-brand, #008080) 35%, transparent)',
                     }}
                 >
-                    {loading ? 'Sending…' : buttonText}
+                    {loading ? t('widgets.contact.sending') : buttonText}
                 </button>
             </form>
         </div>

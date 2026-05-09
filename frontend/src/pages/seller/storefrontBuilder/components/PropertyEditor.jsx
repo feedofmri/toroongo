@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown, Plus, Trash2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import useBuilderStore from '../store/useBuilderStore.js';
 import { widgetRegistry } from '../widgets/widgetRegistry.js';
 import MediaUploader from '../../../../components/ui/MediaUploader.jsx';
@@ -18,6 +19,7 @@ export default function PropertyEditor() {
     const selectWidget    = useBuilderStore((s) => s.selectWidget);
     const deselectHero    = useBuilderStore((s) => s.deselectHero);
     const commitHistory   = useBuilderStore((s) => s.commitHistory);
+    const { t } = useTranslation();
 
     // Hero section selected
     if (heroSelected) {
@@ -33,7 +35,7 @@ export default function PropertyEditor() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 15l-2 5L9 9l11 4-5 2z" />
                     </svg>
                 </div>
-                <p className="text-sm text-gray-400">Click a widget or the store banner to edit its properties</p>
+                <p className="text-sm text-gray-400">{t('builder.panel.clickToSelect')}</p>
             </div>
         );
     }
@@ -72,7 +74,7 @@ export default function PropertyEditor() {
             {/* Property Fields */}
             {propertySchema.length > 0 && (
                 <div>
-                    <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Content</h4>
+                    <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">{t('builder.panel.content')}</h4>
                     <div className="space-y-3">
                         {propertySchema.map((field) => (
                             <PropertyField
@@ -88,33 +90,33 @@ export default function PropertyEditor() {
 
             {/* Layout Controls */}
             <div>
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Layout</h4>
+                <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">{t('builder.panel.layout')}</h4>
                 <div className="space-y-3">
                     <LayoutSelect
-                        label="Padding Top"
+                        label={t('builder.panel.paddingTop')}
                         value={widget.layout.paddingTop}
                         options={['small', 'medium', 'large']}
                         onChange={(v) => handleLayoutChange('paddingTop', v)}
                     />
                     <LayoutSelect
-                        label="Padding Bottom"
+                        label={t('builder.panel.paddingBottom')}
                         value={widget.layout.paddingBottom}
                         options={['small', 'medium', 'large']}
                         onChange={(v) => handleLayoutChange('paddingBottom', v)}
                     />
                     <LayoutSelect
-                        label="Container Width"
+                        label={t('builder.panel.containerWidth')}
                         value={widget.layout.containerWidth}
                         options={['boxed', 'full']}
                         onChange={(v) => handleLayoutChange('containerWidth', v)}
                     />
                     <LayoutToggle
-                        label="Hide on Mobile"
+                        label={t('builder.panel.hideOnMobile')}
                         checked={widget.layout.hideOnMobile}
                         onChange={(v) => handleLayoutChange('hideOnMobile', v)}
                     />
                     <LayoutToggle
-                        label="Hide on Desktop"
+                        label={t('builder.panel.hideOnDesktop')}
                         checked={widget.layout.hideOnDesktop}
                         onChange={(v) => handleLayoutChange('hideOnDesktop', v)}
                     />
@@ -130,13 +132,13 @@ export default function PropertyEditor() {
                     onClick={() => duplicateWidget(widget.id)}
                     className="w-full px-3 py-2 text-sm font-medium text-gray-600 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors"
                 >
-                    Duplicate Widget
+                    {t('builder.panel.duplicate')}
                 </button>
                 <button
                     onClick={() => { removeWidget(widget.id); }}
                     className="w-full px-3 py-2 text-sm font-medium text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors"
                 >
-                    Delete Widget
+                    {t('builder.panel.delete')}
                 </button>
             </div>
         </div>
@@ -159,6 +161,7 @@ function HeroEditor({ onClose }) {
     const hero       = useBuilderStore((s) => s.hero);
     const updateHero = useBuilderStore((s) => s.updateHero);
     const { user }   = useAuth();
+    const { t }      = useTranslation();
 
     const set = (key, val) => updateHero({ [key]: val });
 
@@ -169,13 +172,13 @@ function HeroEditor({ onClose }) {
                 <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
-                <span className="text-sm font-semibold text-gray-700">Store Banner</span>
+                <span className="text-sm font-semibold text-gray-700">{t('builder.panel.storeBanner')}</span>
                 <button onClick={onClose} className="ml-auto text-xs text-gray-400 hover:text-gray-600">✕</button>
             </div>
 
             {/* Banner Image */}
             <div>
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Banner Image</h4>
+                <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">{t('builder.panel.bannerImage')}</h4>
                 <MediaUploader
                     variant="compact"
                     maxFiles={1}
@@ -187,26 +190,26 @@ function HeroEditor({ onClose }) {
 
             {/* Text Content */}
             <div>
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Text Content</h4>
+                <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">{t('builder.panel.textContent')}</h4>
                 <div className="space-y-3">
                     <div>
-                        <label className="text-xs font-medium text-gray-500 block mb-1">Store Name</label>
+                        <label className="text-xs font-medium text-gray-500 block mb-1">{t('builder.panel.storeName')}</label>
                         <input
                             type="text"
                             value={hero.storeName || ''}
                             onChange={(e) => set('storeName', e.target.value || null)}
-                            placeholder={user?.store_name || user?.name || 'From profile'}
+                            placeholder={user?.store_name || user?.name || t('builder.panel.fromProfile')}
                             className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30"
                         />
-                        <p className="mt-1 text-[10px] text-gray-400">Leave empty to use your profile store name</p>
+                        <p className="mt-1 text-[10px] text-gray-400">{t('builder.panel.storeNameHint')}</p>
                     </div>
                     <div>
-                        <label className="text-xs font-medium text-gray-500 block mb-1">Tagline</label>
+                        <label className="text-xs font-medium text-gray-500 block mb-1">{t('builder.panel.tagline')}</label>
                         <input
                             type="text"
                             value={hero.tagline || ''}
                             onChange={(e) => set('tagline', e.target.value || null)}
-                            placeholder="e.g. Premium quality since 2020"
+                            placeholder={t('builder.panel.taglinePlaceholder')}
                             className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30"
                         />
                     </div>
@@ -215,31 +218,31 @@ function HeroEditor({ onClose }) {
 
             {/* Store Name Style */}
             <div className="bg-gray-50 rounded-xl p-3 space-y-3 border border-gray-100">
-                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Store Name Style</p>
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{t('builder.panel.storeNameStyle')}</p>
 
                 {/* Font */}
                 <div>
                     <div className="flex items-center justify-between mb-1.5">
-                        <span className="text-xs text-gray-500">Font</span>
+                        <span className="text-xs text-gray-500">{t('builder.panel.font')}</span>
                         {hero.nameFont && (
-                            <button type="button" onClick={() => set('nameFont', null)} className="text-[10px] text-gray-400 hover:text-gray-600 transition-colors">Reset ×</button>
+                            <button type="button" onClick={() => set('nameFont', null)} className="text-[10px] text-gray-400 hover:text-gray-600 transition-colors">{t('builder.panel.resetFont')} ×</button>
                         )}
                     </div>
                     {hero.nameFont
                         ? <FontPicker value={hero.nameFont} onChange={(v) => set('nameFont', v)} />
-                        : <button type="button" onClick={() => set('nameFont', 'Inter')} className="text-[11px] font-medium text-brand-primary hover:opacity-70 transition-opacity">+ Override font</button>
+                        : <button type="button" onClick={() => set('nameFont', 'Inter')} className="text-[11px] font-medium text-brand-primary hover:opacity-70 transition-opacity">+ {t('builder.panel.overrideFont')}</button>
                     }
                 </div>
 
                 {/* Size */}
                 <div className="flex items-center justify-between gap-2">
-                    <span className="text-xs text-gray-500 shrink-0">Size</span>
+                    <span className="text-xs text-gray-500 shrink-0">{t('builder.panel.size')}</span>
                     <select
                         value={hero.nameSize || ''}
                         onChange={(e) => set('nameSize', e.target.value || null)}
                         className="text-[11px] px-1.5 py-1 border border-gray-200 rounded bg-white text-gray-700"
                     >
-                        <option value="">Default</option>
+                        <option value="">{t('builder.panel.default')}</option>
                         {HERO_NAME_SIZES.map((s) => (
                             <option key={s.value} value={s.value}>{s.label}</option>
                         ))}
@@ -248,22 +251,22 @@ function HeroEditor({ onClose }) {
 
                 {/* Weight */}
                 <div className="flex items-center justify-between gap-2">
-                    <span className="text-xs text-gray-500 shrink-0">Weight</span>
+                    <span className="text-xs text-gray-500 shrink-0">{t('builder.panel.weight')}</span>
                     <select
                         value={hero.nameWeight || ''}
                         onChange={(e) => set('nameWeight', e.target.value || null)}
                         className="text-[11px] px-1.5 py-1 border border-gray-200 rounded bg-white text-gray-700"
                     >
-                        <option value="">Default (Bold)</option>
+                        <option value="">{t('builder.panel.defaultBold')}</option>
                         {WEIGHT_OPTIONS.map((o) => (
-                            <option key={o.value} value={o.value}>{o.label}</option>
+                            <option key={o.value} value={o.value}>{t(o.i18nKey, o.label)}</option>
                         ))}
                     </select>
                 </div>
 
                 {/* Color */}
                 <div className="flex items-center justify-between gap-2">
-                    <span className="text-xs text-gray-500 shrink-0">Color</span>
+                    <span className="text-xs text-gray-500 shrink-0">{t('builder.panel.color')}</span>
                     <div className="flex items-center gap-1.5">
                         <input
                             type="color"
@@ -275,7 +278,7 @@ function HeroEditor({ onClose }) {
                             type="text"
                             value={hero.nameColor || ''}
                             onChange={(e) => set('nameColor', e.target.value || null)}
-                            placeholder="White"
+                            placeholder="#ffffff"
                             className="w-16 text-[10px] font-mono px-1.5 py-1 border border-gray-200 rounded uppercase"
                         />
                         {hero.nameColor && (
@@ -288,9 +291,9 @@ function HeroEditor({ onClose }) {
             {/* Tagline Style */}
             {hero.tagline && (
                 <div className="bg-gray-50 rounded-xl p-3 space-y-3 border border-gray-100">
-                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Tagline Style</p>
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{t('builder.panel.taglineStyle')}</p>
                     <div className="flex items-center justify-between gap-2">
-                        <span className="text-xs text-gray-500 shrink-0">Color</span>
+                        <span className="text-xs text-gray-500 shrink-0">{t('builder.panel.color')}</span>
                         <div className="flex items-center gap-1.5">
                             <input
                                 type="color"
@@ -315,21 +318,21 @@ function HeroEditor({ onClose }) {
 
             {/* Contact Button */}
             <div>
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Contact Button</h4>
+                <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">{t('builder.panel.contactButton')}</h4>
                 <div className="space-y-3">
                     <HeroToggle
-                        label="Show Contact Button"
+                        label={t('builder.panel.showContactButton')}
                         checked={hero.showContact !== false}
                         onChange={(v) => set('showContact', v)}
                     />
                     {hero.showContact !== false && (
                         <div>
-                            <label className="text-xs font-medium text-gray-500 block mb-1">Button Text</label>
+                            <label className="text-xs font-medium text-gray-500 block mb-1">{t('builder.panel.buttonText')}</label>
                             <input
                                 type="text"
                                 value={hero.contactText || ''}
                                 onChange={(e) => set('contactText', e.target.value)}
-                                placeholder="Contact"
+                                placeholder={t('storefront.contact')}
                                 className="w-full px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-primary/30"
                             />
                         </div>
@@ -339,16 +342,16 @@ function HeroEditor({ onClose }) {
 
             {/* Display Options */}
             <div>
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">Display Options</h4>
+                <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-3">{t('builder.panel.displayOptions')}</h4>
                 <div className="space-y-3">
                     <HeroToggle
-                        label="Show Rating"
+                        label={t('builder.panel.showRating')}
                         checked={hero.showRating !== false}
                         onChange={(v) => set('showRating', v)}
                     />
                     <div>
                         <div className="flex items-center justify-between mb-1">
-                            <label className="text-xs font-medium text-gray-500">Overlay Darkness</label>
+                            <label className="text-xs font-medium text-gray-500">{t('builder.panel.overlayDarkness')}</label>
                             <span className="text-xs font-mono text-gray-400">{hero.overlayOpacity ?? 70}%</span>
                         </div>
                         <input
@@ -544,6 +547,7 @@ function ImageUploadField({ field, value, onChange }) {
 // ── List Editor Field ────────────────────────────────────
 
 function ListEditorField({ field, value = [], onChange }) {
+    const { t } = useTranslation();
     const [expandedIdx, setExpandedIdx] = useState(null);
 
     const addItem = () => {
@@ -575,13 +579,13 @@ function ListEditorField({ field, value = [], onChange }) {
                     onClick={addItem}
                     className="flex items-center gap-1 text-xs font-semibold text-brand-primary hover:opacity-75 transition-opacity"
                 >
-                    <Plus size={12} /> Add
+                    <Plus size={12} /> {t('builder.panel.add')}
                 </button>
             </div>
             <div className="space-y-1.5">
                 {value.length === 0 && (
                     <p className="text-[11px] text-gray-400 text-center py-4 border border-dashed border-gray-200 rounded-lg">
-                        No items yet — click Add to create one
+                        {t('builder.panel.noItems')}
                     </p>
                 )}
                 {value.map((item, idx) => (
@@ -614,7 +618,7 @@ function ListEditorField({ field, value = [], onChange }) {
                                     onClick={() => removeItem(idx)}
                                     className="w-full flex items-center justify-center gap-1.5 mt-1 px-3 py-1.5 text-xs font-medium text-red-500 bg-red-50 hover:bg-red-100 rounded-md transition-colors"
                                 >
-                                    <Trash2 size={11} /> Remove Item
+                                    <Trash2 size={11} /> {t('builder.panel.removeItem')}
                                 </button>
                             </div>
                         )}
@@ -704,47 +708,48 @@ function ListItemSubField({ field, value, onChange }) {
 // ── Style Override Section ───────────────────────────────
 
 const WEIGHT_OPTIONS = [
-    { value: '100', label: 'Thin 100' },
-    { value: '200', label: 'ExtraLight 200' },
-    { value: '300', label: 'Light 300' },
-    { value: '400', label: 'Regular 400' },
-    { value: '500', label: 'Medium 500' },
-    { value: '600', label: 'SemiBold 600' },
-    { value: '700', label: 'Bold 700' },
-    { value: '800', label: 'ExtraBold 800' },
-    { value: '900', label: 'Black 900' },
+    { value: '100', label: 'Thin 100',       i18nKey: 'builder.weights.thin' },
+    { value: '200', label: 'ExtraLight 200',  i18nKey: 'builder.weights.extraLight' },
+    { value: '300', label: 'Light 300',       i18nKey: 'builder.weights.light' },
+    { value: '400', label: 'Regular 400',     i18nKey: 'builder.weights.regular' },
+    { value: '500', label: 'Medium 500',      i18nKey: 'builder.weights.medium' },
+    { value: '600', label: 'SemiBold 600',    i18nKey: 'builder.weights.semiBold' },
+    { value: '700', label: 'Bold 700',        i18nKey: 'builder.weights.bold' },
+    { value: '800', label: 'ExtraBold 800',   i18nKey: 'builder.weights.extraBold' },
+    { value: '900', label: 'Black 900',       i18nKey: 'builder.weights.black' },
 ];
 
 const TRACKING_OPTIONS = [
-    { value: 'tight', label: 'Tight' },
-    { value: 'normal', label: 'Normal' },
-    { value: 'wide', label: 'Wide' },
-    { value: 'wider', label: 'Wider' },
-    { value: 'widest', label: 'Widest' },
+    { value: 'tight',   label: 'Tight',   i18nKey: 'builder.tracking.tight' },
+    { value: 'normal',  label: 'Normal',  i18nKey: 'builder.tracking.normal' },
+    { value: 'wide',    label: 'Wide',    i18nKey: 'builder.tracking.wide' },
+    { value: 'wider',   label: 'Wider',   i18nKey: 'builder.tracking.wider' },
+    { value: 'widest',  label: 'Widest',  i18nKey: 'builder.tracking.widest' },
 ];
 
 const LEADING_OPTIONS = [
-    { value: 'tight', label: 'Tight' },
-    { value: 'snug', label: 'Snug' },
-    { value: 'normal', label: 'Normal' },
-    { value: 'relaxed', label: 'Relaxed' },
-    { value: 'loose', label: 'Loose' },
+    { value: 'tight',   label: 'Tight',   i18nKey: 'builder.tracking.tight' },
+    { value: 'snug',    label: 'Snug',    i18nKey: 'builder.leading.snug' },
+    { value: 'normal',  label: 'Normal',  i18nKey: 'builder.leading.normal' },
+    { value: 'relaxed', label: 'Relaxed', i18nKey: 'builder.leading.relaxed' },
+    { value: 'loose',   label: 'Loose',   i18nKey: 'builder.leading.loose' },
 ];
 
 const TRANSFORM_OPTIONS = [
-    { value: 'none', display: 'Aa', title: 'None' },
-    { value: 'capitalize', display: 'Ab', title: 'Capitalize' },
-    { value: 'uppercase', display: 'AB', title: 'Uppercase' },
-    { value: 'lowercase', display: 'ab', title: 'Lowercase' },
+    { value: 'none',       display: 'Aa', i18nKey: null },
+    { value: 'capitalize', display: 'Ab', i18nKey: 'builder.transform.capitalize' },
+    { value: 'uppercase',  display: 'AB', i18nKey: 'builder.transform.uppercase' },
+    { value: 'lowercase',  display: 'ab', i18nKey: 'builder.transform.lowercase' },
 ];
 
 const RADIUS_OPTIONS = [
-    { value: 'sharp', label: 'Sharp' },
-    { value: 'rounded', label: 'Rounded' },
-    { value: 'pill', label: 'Pill' },
+    { value: 'sharp',   label: 'Sharp',   i18nKey: 'builder.radius.sharp' },
+    { value: 'rounded', label: 'Rounded', i18nKey: 'builder.radius.rounded' },
+    { value: 'pill',    label: 'Pill',    i18nKey: 'builder.radius.pill' },
 ];
 
 function StyleOverrideSection({ widget, onStyleChange }) {
+    const { t } = useTranslation();
     const [open, setOpen] = useState(true);
     const style = widget.style || {};
 
@@ -758,41 +763,41 @@ function StyleOverrideSection({ widget, onStyleChange }) {
                 onClick={() => setOpen((v) => !v)}
                 className="w-full flex items-center justify-between group"
             >
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400">Style Overrides</h4>
+                <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-400">{t('builder.panel.styleOverrides')}</h4>
                 <ChevronDown size={13} className={`text-gray-300 group-hover:text-gray-400 transition-transform ${open ? 'rotate-180' : ''}`} />
             </button>
 
             {open && (
                 <div className="mt-3 space-y-4">
                     {/* Colors */}
-                    <StyleSubSection title="Colors">
-                        <StyleColorRow label="Background" value={style.backgroundColor} onChange={(v) => set('backgroundColor', v)} onClear={() => clear('backgroundColor')} />
-                        <StyleColorRow label="Primary / Brand" value={style.brandColor} onChange={(v) => set('brandColor', v)} onClear={() => clear('brandColor')} />
-                        <StyleColorRow label="Secondary / Accent" value={style.secondaryColor} onChange={(v) => set('secondaryColor', v)} onClear={() => clear('secondaryColor')} />
-                        <StyleColorRow label="Heading Text" value={style.textColor} onChange={(v) => set('textColor', v)} onClear={() => clear('textColor')} />
-                        <StyleColorRow label="Muted Text" value={style.mutedTextColor} onChange={(v) => set('mutedTextColor', v)} onClear={() => clear('mutedTextColor')} />
+                    <StyleSubSection title={t('builder.panel.colors')}>
+                        <StyleColorRow label={t('builder.panel.background')} value={style.backgroundColor} onChange={(v) => set('backgroundColor', v)} onClear={() => clear('backgroundColor')} overrideLabel={t('builder.panel.overrideTheme')} />
+                        <StyleColorRow label={t('builder.panel.primaryBrand')} value={style.brandColor} onChange={(v) => set('brandColor', v)} onClear={() => clear('brandColor')} overrideLabel={t('builder.panel.overrideTheme')} />
+                        <StyleColorRow label={t('builder.panel.secondaryAccent')} value={style.secondaryColor} onChange={(v) => set('secondaryColor', v)} onClear={() => clear('secondaryColor')} overrideLabel={t('builder.panel.overrideTheme')} />
+                        <StyleColorRow label={t('builder.panel.headingText')} value={style.textColor} onChange={(v) => set('textColor', v)} onClear={() => clear('textColor')} overrideLabel={t('builder.panel.overrideTheme')} />
+                        <StyleColorRow label={t('builder.panel.mutedText')} value={style.mutedTextColor} onChange={(v) => set('mutedTextColor', v)} onClear={() => clear('mutedTextColor')} overrideLabel={t('builder.panel.overrideTheme')} />
                     </StyleSubSection>
 
                     {/* Headings Typography */}
-                    <StyleSubSection title="Heading Typography">
-                        <StyleFontRow label="Font" value={style.headingFont} onChange={(v) => set('headingFont', v)} onClear={() => clear('headingFont')} />
-                        <StyleSelectRow label="Weight" value={style.headingWeight} options={WEIGHT_OPTIONS} onChange={(v) => set('headingWeight', v)} onClear={() => clear('headingWeight')} />
-                        <StylePillsRow label="Tracking" value={style.headingLetterSpacing} options={TRACKING_OPTIONS} onChange={(v) => set('headingLetterSpacing', v)} onClear={() => clear('headingLetterSpacing')} />
-                        <StylePillsRow label="Leading" value={style.headingLineHeight} options={LEADING_OPTIONS} onChange={(v) => set('headingLineHeight', v)} onClear={() => clear('headingLineHeight')} />
-                        <StyleTransformRow label="Transform" value={style.headingTransform} onChange={(v) => set('headingTransform', v)} onClear={() => clear('headingTransform')} />
+                    <StyleSubSection title={t('builder.panel.headingTypography')}>
+                        <StyleFontRow label={t('builder.panel.font')} value={style.headingFont} onChange={(v) => set('headingFont', v)} onClear={() => clear('headingFont')} overrideLabel={t('builder.panel.overrideTheme')} resetLabel={t('builder.panel.resetFont')} />
+                        <StyleSelectRow label={t('builder.panel.weight')} value={style.headingWeight} options={WEIGHT_OPTIONS} onChange={(v) => set('headingWeight', v)} onClear={() => clear('headingWeight')} fromThemeLabel={t('builder.panel.fromTheme')} />
+                        <StylePillsRow label={t('builder.panel.tracking')} value={style.headingLetterSpacing} options={TRACKING_OPTIONS} onChange={(v) => set('headingLetterSpacing', v)} onClear={() => clear('headingLetterSpacing')} defaultLabel={t('builder.panel.default')} />
+                        <StylePillsRow label={t('builder.panel.leading')} value={style.headingLineHeight} options={LEADING_OPTIONS} onChange={(v) => set('headingLineHeight', v)} onClear={() => clear('headingLineHeight')} defaultLabel={t('builder.panel.default')} />
+                        <StyleTransformRow label={t('builder.panel.transform')} value={style.headingTransform} onChange={(v) => set('headingTransform', v)} onClear={() => clear('headingTransform')} />
                     </StyleSubSection>
 
                     {/* Body Typography */}
-                    <StyleSubSection title="Body Typography">
-                        <StyleFontRow label="Font" value={style.bodyFont} onChange={(v) => set('bodyFont', v)} onClear={() => clear('bodyFont')} />
-                        <StyleSelectRow label="Weight" value={style.bodyWeight} options={WEIGHT_OPTIONS.slice(0, 7)} onChange={(v) => set('bodyWeight', v)} onClear={() => clear('bodyWeight')} />
-                        <StylePillsRow label="Tracking" value={style.bodyLetterSpacing} options={TRACKING_OPTIONS} onChange={(v) => set('bodyLetterSpacing', v)} onClear={() => clear('bodyLetterSpacing')} />
-                        <StylePillsRow label="Leading" value={style.bodyLineHeight} options={LEADING_OPTIONS} onChange={(v) => set('bodyLineHeight', v)} onClear={() => clear('bodyLineHeight')} />
+                    <StyleSubSection title={t('builder.panel.bodyTypography')}>
+                        <StyleFontRow label={t('builder.panel.font')} value={style.bodyFont} onChange={(v) => set('bodyFont', v)} onClear={() => clear('bodyFont')} overrideLabel={t('builder.panel.overrideTheme')} resetLabel={t('builder.panel.resetFont')} />
+                        <StyleSelectRow label={t('builder.panel.weight')} value={style.bodyWeight} options={WEIGHT_OPTIONS.slice(0, 7)} onChange={(v) => set('bodyWeight', v)} onClear={() => clear('bodyWeight')} fromThemeLabel={t('builder.panel.fromTheme')} />
+                        <StylePillsRow label={t('builder.panel.tracking')} value={style.bodyLetterSpacing} options={TRACKING_OPTIONS} onChange={(v) => set('bodyLetterSpacing', v)} onClear={() => clear('bodyLetterSpacing')} defaultLabel={t('builder.panel.default')} />
+                        <StylePillsRow label={t('builder.panel.leading')} value={style.bodyLineHeight} options={LEADING_OPTIONS} onChange={(v) => set('bodyLineHeight', v)} onClear={() => clear('bodyLineHeight')} defaultLabel={t('builder.panel.default')} />
                     </StyleSubSection>
 
                     {/* Shape */}
-                    <StyleSubSection title="Shape">
-                        <StylePillsRow label="Button Radius" value={style.borderRadius} options={RADIUS_OPTIONS} onChange={(v) => set('borderRadius', v)} onClear={() => clear('borderRadius')} />
+                    <StyleSubSection title={t('builder.panel.shape')}>
+                        <StylePillsRow label={t('builder.panel.buttonRadius')} value={style.borderRadius} options={RADIUS_OPTIONS} onChange={(v) => set('borderRadius', v)} onClear={() => clear('borderRadius')} defaultLabel={t('builder.panel.default')} />
                     </StyleSubSection>
                 </div>
             )}
@@ -809,7 +814,7 @@ function StyleSubSection({ title, children }) {
     );
 }
 
-function StyleColorRow({ label, value, onChange, onClear }) {
+function StyleColorRow({ label, value, onChange, onClear, overrideLabel = 'Override' }) {
     if (!value) {
         return (
             <div className="flex items-center justify-between">
@@ -819,7 +824,7 @@ function StyleColorRow({ label, value, onChange, onClear }) {
                     onClick={() => onChange('#008080')}
                     className="text-[11px] font-medium text-brand-primary hover:opacity-70 transition-opacity"
                 >
-                    + Override
+                    + {overrideLabel}
                 </button>
             </div>
         );
@@ -846,7 +851,7 @@ function StyleColorRow({ label, value, onChange, onClear }) {
     );
 }
 
-function StyleFontRow({ label, value, onChange, onClear }) {
+function StyleFontRow({ label, value, onChange, onClear, overrideLabel = 'Override', resetLabel = 'Reset' }) {
     if (!value) {
         return (
             <div className="flex items-center justify-between">
@@ -856,7 +861,7 @@ function StyleFontRow({ label, value, onChange, onClear }) {
                     onClick={() => onChange('Inter')}
                     className="text-[11px] font-medium text-brand-primary hover:opacity-70 transition-opacity"
                 >
-                    + Override
+                    + {overrideLabel}
                 </button>
             </div>
         );
@@ -866,7 +871,7 @@ function StyleFontRow({ label, value, onChange, onClear }) {
             <div className="flex items-center justify-between mb-1.5">
                 <span className="text-xs text-gray-500">{label}</span>
                 <button type="button" onClick={onClear} className="text-[10px] text-gray-400 hover:text-gray-600 transition-colors">
-                    Reset ×
+                    {resetLabel} ×
                 </button>
             </div>
             <FontPicker value={value} onChange={onChange} />
@@ -874,7 +879,8 @@ function StyleFontRow({ label, value, onChange, onClear }) {
     );
 }
 
-function StyleSelectRow({ label, value, options, onChange, onClear }) {
+function StyleSelectRow({ label, value, options, onChange, onClear, fromThemeLabel = 'From theme' }) {
+    const { t } = useTranslation();
     return (
         <div className="flex items-center justify-between gap-2">
             <span className="text-xs text-gray-500 shrink-0">{label}</span>
@@ -884,9 +890,9 @@ function StyleSelectRow({ label, value, options, onChange, onClear }) {
                     onChange={(e) => onChange(e.target.value || null)}
                     className="text-[11px] px-1.5 py-1 border border-gray-200 rounded bg-white text-gray-700 min-w-0 flex-1"
                 >
-                    <option value="">From theme</option>
+                    <option value="">{fromThemeLabel}</option>
                     {options.map((opt) => (
-                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        <option key={opt.value} value={opt.value}>{opt.i18nKey ? t(opt.i18nKey, opt.label) : opt.label}</option>
                     ))}
                 </select>
                 {value && (
@@ -897,14 +903,15 @@ function StyleSelectRow({ label, value, options, onChange, onClear }) {
     );
 }
 
-function StylePillsRow({ label, value, options, onChange, onClear }) {
+function StylePillsRow({ label, value, options, onChange, onClear, defaultLabel = 'Default' }) {
+    const { t } = useTranslation();
     return (
         <div>
             <div className="flex items-center justify-between mb-1.5">
                 <span className="text-xs text-gray-500">{label}</span>
                 {value && (
                     <button type="button" onClick={onClear} className="text-[10px] text-gray-400 hover:text-gray-600 transition-colors">
-                        Reset ×
+                        ×
                     </button>
                 )}
             </div>
@@ -916,7 +923,7 @@ function StylePillsRow({ label, value, options, onChange, onClear }) {
                         !value ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-400 border-gray-200 hover:border-gray-300'
                     }`}
                 >
-                    Default
+                    {defaultLabel}
                 </button>
                 {options.map((opt) => (
                     <button
@@ -929,7 +936,7 @@ function StylePillsRow({ label, value, options, onChange, onClear }) {
                                 : 'bg-white text-gray-500 border-gray-200 hover:border-gray-300'
                         }`}
                     >
-                        {opt.label}
+                        {opt.i18nKey ? t(opt.i18nKey, opt.label) : opt.label}
                     </button>
                 ))}
             </div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { api } from '../../../../services/api.js';
 
 export default function NewsletterSignup({
@@ -13,6 +14,7 @@ export default function NewsletterSignup({
     backgroundImage,
     sellerId,
 }) {
+    const { t } = useTranslation();
     const [email, setEmail] = useState('');
     const [submitted, setSubmitted] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -32,7 +34,7 @@ export default function NewsletterSignup({
             });
             setSubmitted(true);
         } catch (err) {
-            setError(err?.response?.message || err?.message || 'Something went wrong. Please try again.');
+            setError(err?.response?.message || err?.message || t('widgets.newsletter.error'));
         } finally {
             setLoading(false);
         }
@@ -90,7 +92,7 @@ export default function NewsletterSignup({
                             color: 'var(--seller-brand, #008080)',
                         }}
                     >
-                        ✓ {successMessage || 'Thanks for subscribing!'}
+                        ✓ {successMessage || t('widgets.newsletter.success')}
                     </div>
                 ) : (
                     <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3">
@@ -98,7 +100,7 @@ export default function NewsletterSignup({
                             type="email"
                             value={email}
                             onChange={(e) => { setEmail(e.target.value); setError(''); }}
-                            placeholder={placeholderText || 'Enter your email'}
+                            placeholder={placeholderText || t('widgets.newsletter.emailPlaceholder')}
                             required
                             disabled={loading}
                             className="flex-1 px-4 py-3.5 border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-[color:var(--seller-brand,#008080)] focus:border-transparent transition-all shadow-sm bg-white disabled:opacity-60"
@@ -113,7 +115,7 @@ export default function NewsletterSignup({
                                 borderRadius: 'var(--seller-radius, 0.75rem)',
                             }}
                         >
-                            {loading ? 'Subscribing…' : buttonText}
+                            {loading ? t('widgets.newsletter.subscribing') : buttonText}
                         </button>
                     </form>
                 )}

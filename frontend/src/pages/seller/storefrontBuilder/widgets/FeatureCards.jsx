@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 /**
  * FeatureCards Widget
@@ -12,6 +13,7 @@ export default function FeatureCards({
     aspectRatio = '4:3',
     cardStyle = 'overlay',
 }) {
+    const { t } = useTranslation();
     const colClass = {
         2: 'grid-cols-1 sm:grid-cols-2',
         3: 'grid-cols-1 sm:grid-cols-3',
@@ -81,7 +83,7 @@ export default function FeatureCards({
                                     />
                                 ) : (
                                     <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-100 flex items-center justify-center">
-                                        <span className="text-gray-400 text-sm">No image</span>
+                                        <span className="text-gray-400 text-sm">{t('widgets.featureCards.noImage')}</span>
                                     </div>
                                 )}
                             </div>

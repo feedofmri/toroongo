@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 /**
  * FAQAccordion Widget
@@ -11,6 +12,7 @@ export default function FAQAccordion({
     allowMultipleOpen = false,
     style: faqStyle = 'bordered',
 }) {
+    const { t } = useTranslation();
     const [openIndexes, setOpenIndexes] = useState([]);
 
     const toggle = (i) => {
@@ -83,7 +85,7 @@ export default function FAQAccordion({
 
                 {items.length === 0 && (
                     <p className="text-center text-sm text-gray-400 py-8">
-                        No questions yet — add some in the editor.
+                        {t('widgets.faq.noItems')}
                     </p>
                 )}
             </div>

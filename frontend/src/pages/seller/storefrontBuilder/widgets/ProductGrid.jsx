@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import ProductCard from '../../../../components/product/ProductCard';
+import { useTranslation } from 'react-i18next';
 
 /**
  * ProductGrid Widget
@@ -17,6 +18,7 @@ export default function ProductGrid({
     viewAllLink = '/products',
     products = [],
 }) {
+    const { t } = useTranslation();
     const colClass = {
         2: 'grid-cols-2',
         3: 'grid-cols-2 lg:grid-cols-3',
@@ -74,7 +76,7 @@ export default function ProductGrid({
                             className="flex items-center gap-1.5 text-sm font-semibold transition-colors hover:opacity-80"
                             style={{ color: 'var(--seller-brand, #008080)' }}
                         >
-                            {viewAllText || 'View All'} <ArrowRight size={14} />
+                            {viewAllText || t('widgets.blog.viewAll')} <ArrowRight size={14} />
                         </a>
                     )}
                 </div>

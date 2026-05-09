@@ -11,6 +11,7 @@ import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, us
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable';
 import { widgetRegistry } from './widgets/widgetRegistry.js';
 import { useAuth } from '../../../context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 /**
  * StorefrontBuilder Page
@@ -30,6 +31,7 @@ export default function StorefrontBuilder() {
     const reorderWidgets = useBuilderStore((s) => s.reorderWidgets);
     const [saveSuccess, setSaveSuccess] = React.useState(false);
 
+    const { t } = useTranslation();
     const { user } = useAuth();
 
     const sellerId = user?.id ?? null;
@@ -118,10 +120,10 @@ export default function StorefrontBuilder() {
                     >
                         <ArrowLeft size={16} />
                         <img src={iconColourful} alt="Toroongo" className="w-6 h-6" />
-                        <span className="font-semibold hidden sm:inline">Back to Dashboard</span>
+                        <span className="font-semibold hidden sm:inline">{t('builder.backToDashboard')}</span>
                     </Link>
                     <div className="h-6 w-px bg-gray-200 hidden sm:block" />
-                    <span className="text-sm font-semibold text-gray-700 hidden sm:inline">Storefront Builder</span>
+                    <span className="text-sm font-semibold text-gray-700 hidden sm:inline">{t('builder.title')}</span>
                 </div>
 
                 <ViewportToggle />
@@ -131,7 +133,7 @@ export default function StorefrontBuilder() {
                         onClick={undo}
                         disabled={undoStack.length === 0}
                         className="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                        title="Undo (Ctrl+Z)"
+                        title={t('builder.undo')}
                     >
                         <Undo2 size={16} />
                     </button>
@@ -139,7 +141,7 @@ export default function StorefrontBuilder() {
                         onClick={redo}
                         disabled={redoStack.length === 0}
                         className="p-2 rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                        title="Redo (Ctrl+Y)"
+                        title={t('builder.redo')}
                     >
                         <Redo2 size={16} />
                     </button>
@@ -149,7 +151,7 @@ export default function StorefrontBuilder() {
                         className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
                     >
                         <Eye size={14} />
-                        <span className="hidden sm:inline">Preview</span>
+                        <span className="hidden sm:inline">{t('builder.preview')}</span>
                     </button>
                     <button
                         onClick={handleSave}
@@ -163,13 +165,13 @@ export default function StorefrontBuilder() {
                             <>
                                 <span className="flex items-center gap-1.5">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="text-gray-500"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                    <span className="hidden sm:inline">Saved!</span>
+                                    <span className="hidden sm:inline">{t('builder.savedSuccess')}</span>
                                 </span>
                             </>
                         ) : (
                             <>
                                 <Save size={14} />
-                                <span className="hidden sm:inline">{isDirty ? 'Save' : 'Saved'}</span>
+                                <span className="hidden sm:inline">{isDirty ? t('builder.save') : t('builder.saved')}</span>
                             </>
                         )}
                     </button>

@@ -6,6 +6,7 @@ import {
 import useBuilderStore from '../store/useBuilderStore.js';
 import { useAuth } from '../../../../context/AuthContext';
 import iconColourful from '../../../../assets/Logo/icon_colourful.png';
+import { useTranslation } from 'react-i18next';
 
 const NAME_SIZE_MAP = {
     sm: '0.875rem', base: '1rem', lg: '1.125rem', xl: '1.25rem',
@@ -13,13 +14,13 @@ const NAME_SIZE_MAP = {
 };
 
 const NAV_LINKS = [
-    { name: 'Home',     Icon: Store },
-    { name: 'Products', Icon: Grid3X3 },
-    { name: 'Deals',    Icon: Tag },
-    { name: 'Reviews',  Icon: Star },
-    { name: 'Blog',     Icon: Newspaper },
-    { name: 'About',    Icon: Info },
-    { name: 'Policies', Icon: FileText },
+    { nameKey: 'storefront.nav.home',     name: 'Home',     Icon: Store },
+    { nameKey: 'storefront.nav.products', name: 'Products', Icon: Grid3X3 },
+    { nameKey: 'storefront.nav.deals',    name: 'Deals',    Icon: Tag },
+    { nameKey: 'storefront.nav.reviews',  name: 'Reviews',  Icon: Star },
+    { nameKey: 'storefront.nav.blog',     name: 'Blog',     Icon: Newspaper },
+    { nameKey: 'storefront.nav.about',    name: 'About',    Icon: Info },
+    { nameKey: 'storefront.nav.policies', name: 'Policies', Icon: FileText },
 ];
 
 export function BuilderHeaderChrome() {
@@ -30,6 +31,7 @@ export function BuilderHeaderChrome() {
     const selectWidget = useBuilderStore((s) => s.selectWidget);
     const viewportMode = useBuilderStore((s) => s.viewportMode);
     const { user }     = useAuth();
+    const { t }        = useTranslation();
 
     const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
@@ -119,7 +121,7 @@ export function BuilderHeaderChrome() {
                                              borderColor:     isDark ? 'rgba(255,255,255,0.18)' : '#E2E8F0',
                                              color: isDark ? 'rgba(255,255,255,0.35)' : '#94A3B8',
                                          }}>
-                                        Search products...
+                                        {t('builder.searchProducts')}
                                     </div>
                                 </div>
                             </div>
@@ -196,12 +198,12 @@ export function BuilderHeaderChrome() {
                 {/* Edit hint badge */}
                 {!heroSelected && (
                     <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity bg-black/60 text-white text-[10px] font-semibold px-2 py-1 rounded-lg backdrop-blur-sm select-none">
-                        Click to edit
+                        {t('builder.clickToEdit')}
                     </div>
                 )}
                 {heroSelected && (
                     <div className="absolute top-3 right-3 bg-brand-primary text-white text-[10px] font-semibold px-2 py-1 rounded-lg select-none">
-                        Editing
+                        {t('builder.editing')}
                     </div>
                 )}
 
@@ -237,7 +239,7 @@ export function BuilderHeaderChrome() {
                                             <span className="text-xs text-white/90 font-medium">4.8</span>
                                         </div>
                                         <span className="text-xs text-white/50">·</span>
-                                        <span className="text-xs text-white/70">Your products</span>
+                                        <span className="text-xs text-white/70">{t('builder.yourProducts')}</span>
                                     </div>
                                 )}
                             </div>
@@ -246,7 +248,7 @@ export function BuilderHeaderChrome() {
                         {hero.showContact !== false && (
                             <div className="flex items-center gap-2 px-3 py-1.5 bg-white/95 backdrop-blur-sm text-slate-900 rounded-xl text-xs font-semibold shadow-lg select-none">
                                 <MessageSquare size={13} />
-                                {hero.contactText || 'Contact'}
+                                {hero.contactText || t('footer.contact')}
                             </div>
                         )}
                     </div>
@@ -261,7 +263,7 @@ export function BuilderHeaderChrome() {
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="flex items-center justify-between h-11">
                             <div className="flex items-center gap-0.5 overflow-x-auto scrollbar-hide">
-                                {NAV_LINKS.map(({ name, Icon }, i) => (
+                                {NAV_LINKS.map(({ nameKey, name, Icon }, i) => (
                                     <div
                                         key={name}
                                         className="flex items-center gap-1.5 px-3.5 py-1.5 text-sm font-medium rounded-lg whitespace-nowrap cursor-pointer select-none"
@@ -271,7 +273,7 @@ export function BuilderHeaderChrome() {
                                         }
                                     >
                                         <Icon size={14} />
-                                        {name}
+                                        {t(nameKey, name)}
                                     </div>
                                 ))}
                             </div>
@@ -296,9 +298,9 @@ export function BuilderHeaderChrome() {
                     <div className="pb-2 mb-2 border-b" style={{ borderColor }}>
                         <p className="px-3 text-[10px] font-bold uppercase tracking-wider mb-1"
                            style={{ color: iconColor }}>
-                            Store Nav
+                            {t('storefront.nav.storeNav')}
                         </p>
-                        {NAV_LINKS.map(({ name, Icon }, i) => (
+                        {NAV_LINKS.map(({ nameKey, name, Icon }, i) => (
                             <div
                                 key={name}
                                 className="flex items-center gap-2.5 px-3 py-2.5 text-sm font-medium rounded-lg cursor-pointer select-none"
@@ -308,7 +310,7 @@ export function BuilderHeaderChrome() {
                                 }
                             >
                                 <Icon size={16} />
-                                {name}
+                                {t(nameKey, name)}
                             </div>
                         ))}
                     </div>
@@ -316,15 +318,15 @@ export function BuilderHeaderChrome() {
                     {/* User Actions section */}
                     <p className="px-3 text-[10px] font-bold uppercase tracking-wider mb-1"
                        style={{ color: iconColor }}>
-                        User Actions
+                        {t('storefront.nav.userActions')}
                     </p>
                     <div className="flex items-center gap-2.5 px-3 py-2.5 text-sm font-medium rounded-lg cursor-pointer select-none"
                          style={{ color: iconColor }}>
-                        <Heart size={16} /> Wishlist
+                        <Heart size={16} /> {t('nav.wishlist')}
                     </div>
                     <div className="flex items-center gap-2.5 px-3 py-2.5 text-sm font-medium rounded-lg cursor-pointer select-none"
                          style={{ color: iconColor }}>
-                        <User size={16} /> Account
+                        <User size={16} /> {t('nav.accountHeader')}
                     </div>
                 </div>
             )}
@@ -335,6 +337,7 @@ export function BuilderHeaderChrome() {
 export function BuilderFooterChrome() {
     const { user }     = useAuth();
     const selectWidget = useBuilderStore((s) => s.selectWidget);
+    const { t }        = useTranslation();
     const storeName    = user?.store_name || user?.name || 'Your Store';
     const logo         = user?.logo || null;
 
@@ -359,13 +362,13 @@ export function BuilderFooterChrome() {
                     </div>
 
                     <div className="flex items-center gap-4 text-xs" style={{ color: 'var(--seller-text-muted, #64748B)' }}>
-                        <span className="cursor-pointer hover:opacity-80">Policies</span>
-                        <span className="cursor-pointer hover:opacity-80">About</span>
-                        <span className="cursor-pointer hover:opacity-80">Contact</span>
+                        <span className="cursor-pointer hover:opacity-80">{t('footer.policies')}</span>
+                        <span className="cursor-pointer hover:opacity-80">{t('footer.about')}</span>
+                        <span className="cursor-pointer hover:opacity-80">{t('footer.contact')}</span>
                     </div>
 
                     <div className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--seller-text-muted, #64748B)' }}>
-                        Powered by
+                        {t('footer.poweredBy')}
                         <span className="font-semibold" style={{ color: 'var(--seller-brand, #008080)' }}>Toroongo</span>
                     </div>
                 </div>

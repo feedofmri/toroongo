@@ -10,6 +10,7 @@ import { resolveSpacing, themeToCSS, widgetStyleToVars } from '../schema/storefr
 import SortableWidgetWrapper from './SortableWidgetWrapper.jsx';
 import { getViewportWidth } from '../utils/viewportUtils.js';
 import { BuilderHeaderChrome, BuilderFooterChrome } from './BuilderPreviewChrome.jsx';
+import { useTranslation } from 'react-i18next';
 
 /**
  * BuilderStage
@@ -119,6 +120,7 @@ export default function BuilderStage() {
 }
 
 function EmptyCanvas() {
+    const { t } = useTranslation();
     return (
         <div className="flex flex-col items-center justify-center py-32 text-center px-8">
             <div className="w-20 h-20 rounded-2xl bg-gray-50 flex items-center justify-center mb-5">
@@ -126,9 +128,9 @@ function EmptyCanvas() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                 </svg>
             </div>
-            <h3 className="text-lg font-semibold text-gray-400 mb-2">Start Building</h3>
+            <h3 className="text-lg font-semibold text-gray-400 mb-2">{t('builder.panel.startBuilding')}</h3>
             <p className="text-sm text-gray-300 max-w-xs">
-                Drag widgets from the left panel or click the "+" on a widget card to add it to your storefront.
+                {t('builder.panel.startBuildingHint')}
             </p>
         </div>
     );

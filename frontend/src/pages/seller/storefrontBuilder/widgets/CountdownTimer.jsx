@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 /**
  * CountdownTimer Widget
@@ -14,6 +15,7 @@ export default function CountdownTimer({
     backgroundColor,
     textColor = '#FFFFFF',
 }) {
+    const { t } = useTranslation();
     const [timeLeft, setTimeLeft] = useState(calculateTimeLeft(endDate));
 
     useEffect(() => {
@@ -35,14 +37,14 @@ export default function CountdownTimer({
         return (
             <div className="py-12 px-6 text-center" style={wrapperStyle}>
                 <p className="text-xl sm:text-2xl font-bold mb-4">
-                    {expiredMessage || 'This sale has ended.'}
+                    {expiredMessage || t('widgets.countdown.ended')}
                 </p>
                 {targetUrl && (
                     <a
                         href={targetUrl}
                         className="inline-block mt-2 px-8 py-3 text-sm font-bold bg-white/20 hover:bg-white/30 border border-white/40 backdrop-blur-sm transition-colors rounded-xl"
                     >
-                        Shop Now
+                        {t('widgets.countdown.shopNow')}
                     </a>
                 )}
             </div>
@@ -50,10 +52,10 @@ export default function CountdownTimer({
     }
 
     const units = [
-        { label: 'Days', value: timeLeft.days },
-        { label: 'Hours', value: timeLeft.hours },
-        { label: 'Minutes', value: timeLeft.minutes },
-        ...(showSeconds ? [{ label: 'Seconds', value: timeLeft.seconds }] : []),
+        { label: t('widgets.countdown.days'), value: timeLeft.days },
+        { label: t('widgets.countdown.hours'), value: timeLeft.hours },
+        { label: t('widgets.countdown.minutes'), value: timeLeft.minutes },
+        ...(showSeconds ? [{ label: t('widgets.countdown.seconds'), value: timeLeft.seconds }] : []),
     ];
 
     return (
@@ -96,7 +98,7 @@ export default function CountdownTimer({
                     href={targetUrl}
                     className="inline-block mt-8 px-8 py-3 text-sm font-bold bg-white/20 hover:bg-white/30 border border-white/40 backdrop-blur-sm transition-colors rounded-xl"
                 >
-                    Shop the Sale →
+                    {t('widgets.countdown.shopTheSale')} →
                 </a>
             )}
         </div>

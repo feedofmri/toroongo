@@ -1988,5 +1988,190 @@
                 "desc": "Measure conversions from Pinterest and create rich product pins from your catalog."
             }
         }
+    },
+    "builder": {
+        "backToDashboard": "Back to Dashboard",
+        "title": "Storefront Builder",
+        "undo": "Undo (Ctrl+Z)",
+        "redo": "Redo (Ctrl+Y)",
+        "preview": "Preview",
+        "save": "Save",
+        "saved": "Saved",
+        "savedSuccess": "Saved!",
+        "empty": "Drag widgets here to start building your storefront",
+        "setupMessage": "This storefront is being set up",
+        "poweredBy": "Powered by",
+        "searchProducts": "Search products...",
+        "yourProducts": "Your products",
+        "clickToEdit": "Click to edit",
+        "editing": "Editing",
+        "panel": {
+            "clickToSelect": "Click a widget or the store banner to edit its properties",
+            "content": "Content",
+            "layout": "Layout",
+            "paddingTop": "Padding Top",
+            "paddingBottom": "Padding Bottom",
+            "containerWidth": "Container Width",
+            "hideOnMobile": "Hide on Mobile",
+            "hideOnDesktop": "Hide on Desktop",
+            "styleOverrides": "Style Overrides",
+            "duplicate": "Duplicate Widget",
+            "delete": "Delete Widget",
+            "storeBanner": "Store Banner",
+            "bannerImage": "Banner Image",
+            "textContent": "Text Content",
+            "storeName": "Store Name",
+            "fromProfile": "From profile",
+            "storeNameHint": "Leave empty to use your profile store name",
+            "tagline": "Tagline",
+            "taglinePlaceholder": "e.g. Premium quality since 2020",
+            "storeNameStyle": "Store Name Style",
+            "font": "Font",
+            "resetFont": "Reset",
+            "overrideFont": "Override font",
+            "size": "Size",
+            "default": "Default",
+            "weight": "Weight",
+            "defaultBold": "Default (Bold)",
+            "color": "Color",
+            "taglineStyle": "Tagline Style",
+            "contactButton": "Contact Button",
+            "showContactButton": "Show Contact Button",
+            "buttonText": "Button Text",
+            "displayOptions": "Display Options",
+            "showRating": "Show Rating",
+            "overlayDarkness": "Overlay Darkness",
+            "noItems": "No items yet — click Add to create one",
+            "add": "Add",
+            "removeItem": "Remove Item",
+            "colors": "Colors",
+            "background": "Background",
+            "primaryBrand": "Primary / Brand",
+            "secondaryAccent": "Secondary / Accent",
+            "headingText": "Heading Text",
+            "mutedText": "Muted Text",
+            "headingTypography": "Heading Typography",
+            "bodyTypography": "Body Typography",
+            "tracking": "Tracking",
+            "leading": "Leading",
+            "transform": "Transform",
+            "shape": "Shape",
+            "buttonRadius": "Button Radius",
+            "overrideTheme": "Override",
+            "resetToTheme": "Reset to theme",
+            "fromTheme": "From theme",
+            "typography": "Typography",
+            "headings": "Headings",
+            "bodyText": "Body Text",
+            "uiShape": "UI Shape",
+            "header": "Header",
+            "colorScheme": "Color Scheme",
+            "logoPosition": "Logo Position",
+            "stickyHeader": "Sticky Header",
+            "light": "Light",
+            "dark": "Dark",
+            "left": "Left",
+            "center": "Center",
+            "buttonInputRadius": "Button / Input Radius",
+            "widgetCornerRadius": "Widget Corner Radius",
+            "productCardStyle": "Product Card Style",
+            "bodyMutedText": "Body / Muted Text",
+            "startBuilding": "Start Building",
+            "startBuildingHint": "Drag widgets from the left panel or click + on a widget card to add it to your storefront."
+        },
+        "cardStyles": {
+            "flat": "Flat (No Border)",
+            "shadow": "Drop Shadow",
+            "border": "Solid Border"
+        },
+        "weights": {
+            "thin": "Thin 100",
+            "extraLight": "ExtraLight 200",
+            "light": "Light 300",
+            "regular": "Regular 400",
+            "medium": "Medium 500",
+            "semiBold": "SemiBold 600",
+            "bold": "Bold 700",
+            "extraBold": "ExtraBold 800",
+            "black": "Black 900"
+        },
+        "tracking": {
+            "tight": "Tight",
+            "normal": "Normal",
+            "wide": "Wide",
+            "wider": "Wider",
+            "widest": "Widest"
+        },
+        "leading": {
+            "snug": "Snug",
+            "normal": "Normal",
+            "relaxed": "Relaxed",
+            "loose": "Loose"
+        },
+        "transform": {
+            "capitalize": "Capitalize",
+            "uppercase": "Uppercase",
+            "lowercase": "Lowercase"
+        },
+        "radius": {
+            "sharp": "Sharp",
+            "rounded": "Rounded",
+            "pill": "Pill"
+        },
+        "tabs": {
+            "widgets": "Widgets",
+            "theme": "Theme",
+            "properties": "Properties"
+        },
+        "viewport": {
+            "desktop": "Desktop",
+            "tablet": "Tablet",
+            "mobile": "Mobile"
+        }
+    },
+    "widgets": {
+        "countdown": {
+            "ended": "This sale has ended.",
+            "days": "Days",
+            "hours": "Hours",
+            "minutes": "Minutes",
+            "seconds": "Seconds",
+            "shopNow": "Shop Now",
+            "shopTheSale": "Shop the Sale"
+        },
+        "contact": {
+            "namePlaceholder": "Your Name",
+            "emailPlaceholder": "Your Email",
+            "phonePlaceholder": "Your Phone (optional)",
+            "subjectPlaceholder": "Subject",
+            "messagePlaceholder": "Your Message...",
+            "error": "Something went wrong. Please try again.",
+            "sending": "Sending…",
+            "sent": "Message Sent!",
+            "sentDesc": "We'll get back to you soon."
+        },
+        "newsletter": {
+            "emailPlaceholder": "Enter your email",
+            "subscribing": "Subscribing…",
+            "success": "Thanks for subscribing!",
+            "error": "Something went wrong. Please try again."
+        },
+        "blog": {
+            "loadError": "Could not load blog posts right now.",
+            "noPosts": "No blog posts yet.",
+            "viewAll": "View All"
+        },
+        "faq": {
+            "noItems": "No questions yet — add some in the editor."
+        },
+        "imageSlider": {
+            "noSlides": "No slides yet — add some in the editor"
+        },
+        "featureCards": {
+            "noImage": "No image"
+        },
+        "videoPlayer": {
+            "noVideo": "Upload a video or add an embed URL"
+        }
     }
 }

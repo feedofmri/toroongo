@@ -4,6 +4,7 @@ import WidgetPalette from './WidgetPalette.jsx';
 import ThemePanel from './ThemePanel.jsx';
 import PropertyEditor from './PropertyEditor.jsx';
 import useBuilderStore from '../store/useBuilderStore.js';
+import { useTranslation } from 'react-i18next';
 
 /**
  * BuilderSidebar
@@ -11,15 +12,16 @@ import useBuilderStore from '../store/useBuilderStore.js';
  * Automatically switches to Properties when a widget is selected.
  */
 const TABS = [
-    { id: 'widgets', label: 'Widgets', icon: LayoutGrid },
-    { id: 'theme', label: 'Theme', icon: Palette },
-    { id: 'properties', label: 'Properties', icon: SlidersHorizontal },
+    { id: 'widgets', labelKey: 'builder.tabs.widgets', label: 'Widgets', icon: LayoutGrid },
+    { id: 'theme', labelKey: 'builder.tabs.theme', label: 'Theme', icon: Palette },
+    { id: 'properties', labelKey: 'builder.tabs.properties', label: 'Properties', icon: SlidersHorizontal },
 ];
 
 export default function BuilderSidebar() {
     const [activeTab, setActiveTab] = useState('widgets');
     const selectedWidgetId = useBuilderStore((s) => s.selectedWidgetId);
     const heroSelected     = useBuilderStore((s) => s.heroSelected);
+    const { t }            = useTranslation();
 
     const hasSelection = !!selectedWidgetId || heroSelected;
 
@@ -56,7 +58,7 @@ export default function BuilderSidebar() {
                                 }`}
                         >
                             <tab.icon size={14} />
-                            {tab.label}
+                            {t(tab.labelKey, tab.label)}
                         </button>
                     );
                 })}

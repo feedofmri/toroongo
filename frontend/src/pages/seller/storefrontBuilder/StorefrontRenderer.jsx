@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { widgetRegistry } from './widgets/widgetRegistry.js';
 import { resolveSpacing, themeToCSS, widgetStyleToVars } from './schema/storefrontSchema.js';
 
@@ -35,6 +36,8 @@ function loadGoogleFonts(headingFont, bodyFont) {
  * @param {string|number} [props.sellerId] - Seller ID injected into every widget
  */
 export default function StorefrontRenderer({ schema, products = [], onWidgetClick, selectedWidgetId, isBuilder = false, sellerId }) {
+    const { t } = useTranslation();
+
     if (!schema) return null;
 
     const { theme, widgets } = schema;
@@ -68,7 +71,7 @@ export default function StorefrontRenderer({ schema, products = [], onWidgetClic
                         </svg>
                     </div>
                     <p className="text-sm text-gray-400 font-medium">
-                        {isBuilder ? 'Drag widgets here to start building your storefront' : 'This storefront is being set up'}
+                        {isBuilder ? t('builder.empty') : t('builder.setupMessage')}
                     </p>
                 </div>
             )}

@@ -2104,5 +2104,190 @@
         "desc": "تتبع سلوك الزائرين، وقم بتحسين الإعلانات، وبناء جماهير مستهدفة على فيسبوك وInstagram."
       }
     }
+  },
+  "builder": {
+    "backToDashboard": "العودة إلى لوحة التحكم",
+    "title": "منشئ الواجهة",
+    "undo": "تراجع (Ctrl+Z)",
+    "redo": "إعادة (Ctrl+Y)",
+    "preview": "معاينة",
+    "save": "حفظ",
+    "saved": "محفوظ",
+    "savedSuccess": "تم الحفظ!",
+    "empty": "اسحب الأدوات هنا لبدء بناء واجهتك",
+    "setupMessage": "يتم إعداد هذه الواجهة",
+    "poweredBy": "مدعوم من",
+    "searchProducts": "ابحث عن المنتجات...",
+    "yourProducts": "منتجاتك",
+    "clickToEdit": "انقر للتعديل",
+    "editing": "جارٍ التعديل",
+    "panel": {
+      "clickToSelect": "انقر على أداة أو البانر لتعديل خصائصه",
+      "content": "المحتوى",
+      "layout": "التخطيط",
+      "paddingTop": "الحشو العلوي",
+      "paddingBottom": "الحشو السفلي",
+      "containerWidth": "عرض الحاوية",
+      "hideOnMobile": "إخفاء على الجوال",
+      "hideOnDesktop": "إخفاء على سطح المكتب",
+      "styleOverrides": "تجاوزات النمط",
+      "duplicate": "تكرار الأداة",
+      "delete": "حذف الأداة",
+      "storeBanner": "بانر المتجر",
+      "bannerImage": "صورة البانر",
+      "textContent": "المحتوى النصي",
+      "storeName": "اسم المتجر",
+      "fromProfile": "من الملف الشخصي",
+      "storeNameHint": "اتركه فارغاً لاستخدام اسم متجر ملفك الشخصي",
+      "tagline": "الشعار",
+      "taglinePlaceholder": "مثل: جودة ممتازة منذ 2020",
+      "storeNameStyle": "نمط اسم المتجر",
+      "font": "الخط",
+      "resetFont": "إعادة تعيين",
+      "overrideFont": "تجاوز الخط",
+      "size": "الحجم",
+      "default": "افتراضي",
+      "weight": "الوزن",
+      "defaultBold": "افتراضي (عريض)",
+      "color": "اللون",
+      "taglineStyle": "نمط الشعار",
+      "contactButton": "زر التواصل",
+      "showContactButton": "إظهار زر التواصل",
+      "buttonText": "نص الزر",
+      "displayOptions": "خيارات العرض",
+      "showRating": "إظهار التقييم",
+      "overlayDarkness": "تعتيم التراكب",
+      "noItems": "لا توجد عناصر بعد — انقر إضافة لإنشاء واحد",
+      "add": "إضافة",
+      "removeItem": "إزالة العنصر",
+      "colors": "الألوان",
+      "background": "الخلفية",
+      "primaryBrand": "الأساسي / العلامة التجارية",
+      "secondaryAccent": "الثانوي / اللكنة",
+      "headingText": "نص العنوان",
+      "mutedText": "النص الخافت",
+      "headingTypography": "طباعة العنوان",
+      "bodyTypography": "طباعة النص",
+      "tracking": "التتبع",
+      "leading": "الترتيب",
+      "transform": "التحويل",
+      "shape": "الشكل",
+      "buttonRadius": "انحناء الزر",
+      "overrideTheme": "تجاوز",
+      "resetToTheme": "إعادة إلى السمة",
+      "fromTheme": "من السمة",
+      "typography": "الطباعة",
+      "headings": "العناوين",
+      "bodyText": "نص الجسم",
+      "uiShape": "شكل الواجهة",
+      "header": "الرأس",
+      "colorScheme": "نظام الألوان",
+      "logoPosition": "موضع الشعار",
+      "stickyHeader": "رأس ثابت",
+      "light": "فاتح",
+      "dark": "داكن",
+      "left": "يسار",
+      "center": "وسط",
+      "buttonInputRadius": "نصف قطر الزر / الإدخال",
+      "widgetCornerRadius": "نصف قطر زاوية الأداة",
+      "productCardStyle": "نمط بطاقة المنتج",
+      "bodyMutedText": "النص الأساسي / الخافت",
+      "startBuilding": "ابدأ البناء",
+      "startBuildingHint": "اسحب الأدوات من اللوحة اليسرى أو انقر + على بطاقة أداة لإضافتها."
+    },
+    "weights": {
+      "thin": "رفيع 100",
+      "extraLight": "خفيف جداً 200",
+      "light": "خفيف 300",
+      "regular": "عادي 400",
+      "medium": "متوسط 500",
+      "semiBold": "نصف عريض 600",
+      "bold": "عريض 700",
+      "extraBold": "عريض جداً 800",
+      "black": "أسود 900"
+    },
+    "tracking": {
+      "tight": "ضيق",
+      "normal": "عادي",
+      "wide": "واسع",
+      "wider": "أوسع",
+      "widest": "الأوسع"
+    },
+    "leading": {
+      "snug": "متقارب",
+      "normal": "عادي",
+      "relaxed": "مريح",
+      "loose": "فضفاض"
+    },
+    "transform": {
+      "capitalize": "أحرف كبيرة أولى",
+      "uppercase": "أحرف كبيرة",
+      "lowercase": "أحرف صغيرة"
+    },
+    "radius": {
+      "sharp": "حاد",
+      "rounded": "مستدير",
+      "pill": "حبة"
+    },
+    "cardStyles": {
+      "flat": "مسطح (بدون حدود)",
+      "shadow": "ظل منسدل",
+      "border": "حدود صلبة"
+    },
+    "tabs": {
+      "widgets": "الأدوات",
+      "theme": "السمة",
+      "properties": "الخصائص"
+    },
+    "viewport": {
+      "desktop": "سطح المكتب",
+      "tablet": "جهاز لوحي",
+      "mobile": "الهاتف المحمول"
+    }
+  },
+  "widgets": {
+    "countdown": {
+      "ended": "انتهى هذا العرض.",
+      "days": "أيام",
+      "hours": "ساعات",
+      "minutes": "دقائق",
+      "seconds": "ثواني",
+      "shopNow": "تسوق الآن",
+      "shopTheSale": "تسوق العرض"
+    },
+    "contact": {
+      "namePlaceholder": "اسمك",
+      "emailPlaceholder": "بريدك الإلكتروني",
+      "phonePlaceholder": "هاتفك (اختياري)",
+      "subjectPlaceholder": "الموضوع",
+      "messagePlaceholder": "رسالتك...",
+      "error": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+      "sending": "جارٍ الإرسال...",
+      "sent": "تم إرسال الرسالة!",
+      "sentDesc": "سنتواصل معك قريباً."
+    },
+    "newsletter": {
+      "emailPlaceholder": "أدخل بريدك الإلكتروني",
+      "subscribing": "جارٍ الاشتراك...",
+      "success": "شكراً لاشتراكك!",
+      "error": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+    },
+    "blog": {
+      "loadError": "تعذر تحميل المقالات الآن.",
+      "noPosts": "لا توجد مقالات بعد.",
+      "viewAll": "عرض الكل"
+    },
+    "faq": {
+      "noItems": "لا توجد أسئلة بعد — أضف بعضها في المحرر."
+    },
+    "imageSlider": {
+      "noSlides": "لا توجد شرائح بعد — أضف بعضها في المحرر"
+    },
+    "featureCards": {
+      "noImage": "لا توجد صورة"
+    },
+    "videoPlayer": {
+      "noVideo": "قم بتحميل فيديو أو أضف رابط تضمين"
+    }
   }
 }

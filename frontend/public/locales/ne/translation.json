@@ -2103,5 +2103,190 @@
         "desc": "TikTok विज्ञापनहरूबाट रूपान्तरणहरू ट्र्याक गर्नुहोस् र तपाईंको स्टोरको लागि एकै किसिमको दर्शकहरू निर्माण गर्नुहोस्।"
       }
     }
+  },
+  "builder": {
+    "backToDashboard": "ड्यासबोर्डमा फर्कनुहोस्",
+    "title": "स्टोरफ्रन्ट बिल्डर",
+    "undo": "पूर्ववत गर्नुहोस् (Ctrl+Z)",
+    "redo": "पुनः गर्नुहोस् (Ctrl+Y)",
+    "preview": "पूर्वावलोकन",
+    "save": "सुरक्षित गर्नुहोस्",
+    "saved": "सुरक्षित",
+    "savedSuccess": "सुरक्षित भयो!",
+    "empty": "स्टोरफ्रन्ट बनाउन सुरु गर्न यहाँ विजेट तान्नुहोस्",
+    "setupMessage": "यो स्टोरफ्रन्ट सेटअप हुँदैछ",
+    "poweredBy": "द्वारा संचालित",
+    "searchProducts": "उत्पादन खोज्नुहोस्...",
+    "yourProducts": "तपाईंका उत्पादनहरू",
+    "clickToEdit": "सम्पादन गर्न क्लिक गर्नुहोस्",
+    "editing": "सम्पादन हुँदैछ",
+    "panel": {
+      "clickToSelect": "गुणहरू सम्पादन गर्न विजेट वा स्टोर ब्यानरमा क्लिक गर्नुहोस्",
+      "content": "सामग्री",
+      "layout": "लेआउट",
+      "paddingTop": "माथि प्याडिङ",
+      "paddingBottom": "तल प्याडिङ",
+      "containerWidth": "कन्टेनर चौडाइ",
+      "hideOnMobile": "मोबाइलमा लुकाउनुहोस्",
+      "hideOnDesktop": "डेस्कटपमा लुकाउनुहोस्",
+      "styleOverrides": "स्टाइल ओभरराइड",
+      "duplicate": "विजेट डुप्लिकेट गर्नुहोस्",
+      "delete": "विजेट मेट्नुहोस्",
+      "storeBanner": "स्टोर ब्यानर",
+      "bannerImage": "ब्यानर तस्बिर",
+      "textContent": "पाठ सामग्री",
+      "storeName": "स्टोरको नाम",
+      "fromProfile": "प्रोफाइलबाट",
+      "storeNameHint": "आफ्नो प्रोफाइल स्टोरको नाम प्रयोग गर्न खाली राख्नुहोस्",
+      "tagline": "ट्यागलाइन",
+      "taglinePlaceholder": "जस्तै: २०२० देखि उत्कृष्ट गुणस्तर",
+      "storeNameStyle": "स्टोर नामको शैली",
+      "font": "फन्ट",
+      "resetFont": "रिसेट",
+      "overrideFont": "फन्ट परिवर्तन गर्नुहोस्",
+      "size": "आकार",
+      "default": "पूर्वनिर्धारित",
+      "weight": "तौल",
+      "defaultBold": "पूर्वनिर्धारित (बोल्ड)",
+      "color": "रङ",
+      "taglineStyle": "ट्यागलाइन शैली",
+      "contactButton": "सम्पर्क बटन",
+      "showContactButton": "सम्पर्क बटन देखाउनुहोस्",
+      "buttonText": "बटनको पाठ",
+      "displayOptions": "प्रदर्शन विकल्पहरू",
+      "showRating": "रेटिङ देखाउनुहोस्",
+      "overlayDarkness": "ओभरले अन्धकार",
+      "noItems": "अझै कुनै वस्तु छैन — थप्न क्लिक गर्नुहोस्",
+      "add": "थप्नुहोस्",
+      "removeItem": "वस्तु हटाउनुहोस्",
+      "colors": "रङहरू",
+      "background": "पृष्ठभूमि",
+      "primaryBrand": "प्राथमिक / ब्र्यान्ड",
+      "secondaryAccent": "द्वितीयक / एक्सेन्ट",
+      "headingText": "शीर्षक पाठ",
+      "mutedText": "मधुर पाठ",
+      "headingTypography": "शीर्षक टाइपोग्राफी",
+      "bodyTypography": "बडी टाइपोग्राफी",
+      "tracking": "ट्र्याकिङ",
+      "leading": "लिडिङ",
+      "transform": "रूपान्तरण",
+      "shape": "आकृति",
+      "buttonRadius": "बटनको गोलाइ",
+      "overrideTheme": "ओभरराइड",
+      "resetToTheme": "थिममा फर्कनुहोस्",
+      "fromTheme": "थिमबाट",
+      "typography": "टाइपोग्राफी",
+      "headings": "शीर्षकहरू",
+      "bodyText": "मुख्य पाठ",
+      "uiShape": "यूआई आकार",
+      "header": "हेडर",
+      "colorScheme": "रंग योजना",
+      "logoPosition": "लोगोको स्थिति",
+      "stickyHeader": "स्टिकी हेडर",
+      "light": "हल्का",
+      "dark": "गाढा",
+      "left": "बायाँ",
+      "center": "मध्य",
+      "buttonInputRadius": "बटन / इनपुट रेडियस",
+      "widgetCornerRadius": "विजेट कुना रेडियस",
+      "productCardStyle": "उत्पाद कार्ड शैली",
+      "bodyMutedText": "मुख्य / मन्द पाठ",
+      "startBuilding": "निर्माण सुरु गर्नुहोस्",
+      "startBuildingHint": "बायाँ प्यानलबाट विजेट तान्नुहोस् वा विजेट कार्डमा + क्लिक गर्नुहोस्।"
+    },
+    "weights": {
+      "thin": "पातलो १००",
+      "extraLight": "अति हल्का २००",
+      "light": "हल्का ३००",
+      "regular": "सामान्य ४००",
+      "medium": "मध्यम ५००",
+      "semiBold": "आधा बोल्ड ६००",
+      "bold": "बोल्ड ७००",
+      "extraBold": "अति बोल्ड ८००",
+      "black": "कालो ९००"
+    },
+    "tracking": {
+      "tight": "घना",
+      "normal": "सामान्य",
+      "wide": "फराकिलो",
+      "wider": "अझ फराकिलो",
+      "widest": "सबैभन्दा फराकिलो"
+    },
+    "leading": {
+      "snug": "सँघुरो",
+      "normal": "सामान्य",
+      "relaxed": "शिथिल",
+      "loose": "ढिलो"
+    },
+    "transform": {
+      "capitalize": "पहिलो अक्षर ठूलो",
+      "uppercase": "सबै ठूला",
+      "lowercase": "सबै सानो"
+    },
+    "radius": {
+      "sharp": "तीखो",
+      "rounded": "गोलाकार",
+      "pill": "पिल"
+    },
+    "cardStyles": {
+      "flat": "समतल (कुनै बोर्डर छैन)",
+      "shadow": "ड्रप शेडो",
+      "border": "ठोस बोर्डर"
+    },
+    "tabs": {
+      "widgets": "विजेटहरू",
+      "theme": "थिम",
+      "properties": "गुणहरू"
+    },
+    "viewport": {
+      "desktop": "डेस्कटप",
+      "tablet": "ट्याब्लेट",
+      "mobile": "मोबाइल"
+    }
+  },
+  "widgets": {
+    "countdown": {
+      "ended": "यो सेल समाप्त भयो।",
+      "days": "दिन",
+      "hours": "घण्टा",
+      "minutes": "मिनेट",
+      "seconds": "सेकेन्ड",
+      "shopNow": "अहिले किन्नुहोस्",
+      "shopTheSale": "सेलमा किन्नुहोस्"
+    },
+    "contact": {
+      "namePlaceholder": "तपाईंको नाम",
+      "emailPlaceholder": "तपाईंको इमेल",
+      "phonePlaceholder": "तपाईंको फोन (वैकल्पिक)",
+      "subjectPlaceholder": "विषय",
+      "messagePlaceholder": "तपाईंको सन्देश...",
+      "error": "केही गलत भयो। कृपया पुनः प्रयास गर्नुहोस्।",
+      "sending": "पठाइँदैछ...",
+      "sent": "सन्देश पठाइयो!",
+      "sentDesc": "हामी चाँडै तपाईंलाई सम्पर्क गर्नेछौं।"
+    },
+    "newsletter": {
+      "emailPlaceholder": "आफ्नो इमेल दिनुहोस्",
+      "subscribing": "सदस्यता लिइँदैछ...",
+      "success": "सदस्यता लिनुभएकोमा धन्यवाद!",
+      "error": "केही गलत भयो। कृपया पुनः प्रयास गर्नुहोस्।"
+    },
+    "blog": {
+      "loadError": "अहिले ब्लग पोस्टहरू लोड गर्न सकिएन।",
+      "noPosts": "अझै कुनै ब्लग पोस्ट छैन।",
+      "viewAll": "सबै हेर्नुहोस्"
+    },
+    "faq": {
+      "noItems": "अझै कुनै प्रश्न छैन — सम्पादकमा थप्नुहोस्।"
+    },
+    "imageSlider": {
+      "noSlides": "अझै कुनै स्लाइड छैन — सम्पादकमा थप्नुहोस्"
+    },
+    "featureCards": {
+      "noImage": "कुनै तस्बिर छैन"
+    },
+    "videoPlayer": {
+      "noVideo": "भिडियो अपलोड गर्नुहोस् वा इम्बेड URL थप्नुहोस्"
+    }
   }
 }

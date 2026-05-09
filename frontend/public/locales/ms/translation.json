@@ -2111,5 +2111,190 @@
         "desc": "Ukur penukaran daripada Pinterest dan buat pin produk kaya daripada katalog anda."
       }
     }
+  },
+  "builder": {
+    "backToDashboard": "Kembali ke Papan Pemuka",
+    "title": "Pembina Storefront",
+    "undo": "Batal (Ctrl+Z)",
+    "redo": "Buat Semula (Ctrl+Y)",
+    "preview": "Pratonton",
+    "save": "Simpan",
+    "saved": "Tersimpan",
+    "savedSuccess": "Disimpan!",
+    "empty": "Seret widget ke sini untuk mula membina storefront anda",
+    "setupMessage": "Storefront ini sedang disediakan",
+    "poweredBy": "Dikuasai oleh",
+    "searchProducts": "Cari produk...",
+    "yourProducts": "Produk anda",
+    "clickToEdit": "Klik untuk edit",
+    "editing": "Sedang mengedit",
+    "panel": {
+      "clickToSelect": "Klik widget atau banner kedai untuk mengedit sifat-sifatnya",
+      "content": "Kandungan",
+      "layout": "Reka Letak",
+      "paddingTop": "Padding Atas",
+      "paddingBottom": "Padding Bawah",
+      "containerWidth": "Lebar Bekas",
+      "hideOnMobile": "Sembunyikan pada Mudah Alih",
+      "hideOnDesktop": "Sembunyikan pada Desktop",
+      "styleOverrides": "Pengubahsuaian Gaya",
+      "duplicate": "Duplikasi Widget",
+      "delete": "Padam Widget",
+      "storeBanner": "Banner Kedai",
+      "bannerImage": "Gambar Banner",
+      "textContent": "Kandungan Teks",
+      "storeName": "Nama Kedai",
+      "fromProfile": "Dari profil",
+      "storeNameHint": "Kosongkan untuk menggunakan nama kedai profil anda",
+      "tagline": "Tagline",
+      "taglinePlaceholder": "cth. Kualiti premium sejak 2020",
+      "storeNameStyle": "Gaya Nama Kedai",
+      "font": "Fon",
+      "resetFont": "Tetapkan Semula",
+      "overrideFont": "Ganti fon",
+      "size": "Saiz",
+      "default": "Lalai",
+      "weight": "Berat",
+      "defaultBold": "Lalai (Tebal)",
+      "color": "Warna",
+      "taglineStyle": "Gaya Tagline",
+      "contactButton": "Butang Hubungi",
+      "showContactButton": "Tunjukkan Butang Hubungi",
+      "buttonText": "Teks Butang",
+      "displayOptions": "Pilihan Paparan",
+      "showRating": "Tunjukkan Penilaian",
+      "overlayDarkness": "Kegelapan Overlay",
+      "noItems": "Tiada item lagi — klik Tambah untuk mencipta",
+      "add": "Tambah",
+      "removeItem": "Buang Item",
+      "colors": "Warna",
+      "background": "Latar Belakang",
+      "primaryBrand": "Utama / Jenama",
+      "secondaryAccent": "Kedua / Aksen",
+      "headingText": "Teks Tajuk",
+      "mutedText": "Teks Samar",
+      "headingTypography": "Tipografi Tajuk",
+      "bodyTypography": "Tipografi Badan",
+      "tracking": "Pengesanan",
+      "leading": "Jarak Baris",
+      "transform": "Transformasi",
+      "shape": "Bentuk",
+      "buttonRadius": "Radius Butang",
+      "overrideTheme": "Ganti",
+      "resetToTheme": "Tetapkan Semula ke Tema",
+      "fromTheme": "Dari Tema",
+      "typography": "Tipografi",
+      "headings": "Tajuk",
+      "bodyText": "Teks Badan",
+      "uiShape": "Bentuk UI",
+      "header": "Pengepala",
+      "colorScheme": "Skim Warna",
+      "logoPosition": "Kedudukan Logo",
+      "stickyHeader": "Pengepala Lekat",
+      "light": "Cerah",
+      "dark": "Gelap",
+      "left": "Kiri",
+      "center": "Tengah",
+      "buttonInputRadius": "Jejari Butang / Input",
+      "widgetCornerRadius": "Jejari Sudut Widget",
+      "productCardStyle": "Gaya Kad Produk",
+      "bodyMutedText": "Teks Badan / Redup",
+      "startBuilding": "Mula Membina",
+      "startBuildingHint": "Seret widget dari panel kiri atau klik + pada kad widget untuk menambahnya."
+    },
+    "weights": {
+      "thin": "Nipis 100",
+      "extraLight": "Sangat Ringan 200",
+      "light": "Ringan 300",
+      "regular": "Biasa 400",
+      "medium": "Sederhana 500",
+      "semiBold": "Semi Tebal 600",
+      "bold": "Tebal 700",
+      "extraBold": "Sangat Tebal 800",
+      "black": "Hitam 900"
+    },
+    "tracking": {
+      "tight": "Ketat",
+      "normal": "Normal",
+      "wide": "Luas",
+      "wider": "Lebih Luas",
+      "widest": "Paling Luas"
+    },
+    "leading": {
+      "snug": "Rapat",
+      "normal": "Normal",
+      "relaxed": "Santai",
+      "loose": "Longgar"
+    },
+    "transform": {
+      "capitalize": "Huruf Besar Pertama",
+      "uppercase": "HURUF BESAR",
+      "lowercase": "huruf kecil"
+    },
+    "radius": {
+      "sharp": "Tajam",
+      "rounded": "Membulat",
+      "pill": "Pil"
+    },
+    "cardStyles": {
+      "flat": "Rata (Tiada Sempadan)",
+      "shadow": "Bayang Jatuh",
+      "border": "Sempadan Pepejal"
+    },
+    "tabs": {
+      "widgets": "Widget",
+      "theme": "Tema",
+      "properties": "Sifat"
+    },
+    "viewport": {
+      "desktop": "Desktop",
+      "tablet": "Tablet",
+      "mobile": "Mudah alih"
+    }
+  },
+  "widgets": {
+    "countdown": {
+      "ended": "Jualan ini telah berakhir.",
+      "days": "Hari",
+      "hours": "Jam",
+      "minutes": "Minit",
+      "seconds": "Saat",
+      "shopNow": "Beli Sekarang",
+      "shopTheSale": "Beli dalam Jualan"
+    },
+    "contact": {
+      "namePlaceholder": "Nama Anda",
+      "emailPlaceholder": "E-mel Anda",
+      "phonePlaceholder": "Telefon Anda (pilihan)",
+      "subjectPlaceholder": "Subjek",
+      "messagePlaceholder": "Mesej Anda...",
+      "error": "Sesuatu telah berlaku. Sila cuba lagi.",
+      "sending": "Menghantar...",
+      "sent": "Mesej Dihantar!",
+      "sentDesc": "Kami akan menghubungi anda tidak lama lagi."
+    },
+    "newsletter": {
+      "emailPlaceholder": "Masukkan e-mel anda",
+      "subscribing": "Melanggan...",
+      "success": "Terima kasih kerana melanggan!",
+      "error": "Sesuatu telah berlaku. Sila cuba lagi."
+    },
+    "blog": {
+      "loadError": "Tidak dapat memuatkan catatan blog sekarang.",
+      "noPosts": "Tiada catatan blog lagi.",
+      "viewAll": "Lihat Semua"
+    },
+    "faq": {
+      "noItems": "Tiada soalan lagi — tambah dalam editor."
+    },
+    "imageSlider": {
+      "noSlides": "Tiada slaid lagi — tambah dalam editor"
+    },
+    "featureCards": {
+      "noImage": "Tiada gambar"
+    },
+    "videoPlayer": {
+      "noVideo": "Muat naik video atau tambah URL sematan"
+    }
   }
 }

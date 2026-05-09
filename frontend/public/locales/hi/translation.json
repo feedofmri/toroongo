@@ -2103,5 +2103,190 @@
         "desc": "Pinterest से रूपांतरण मापें और अपने कैटलॉग से समृद्ध उत्पाद पिन बनाएं।"
       }
     }
+  },
+  "builder": {
+    "backToDashboard": "डैशबोर्ड पर वापस जाएं",
+    "title": "स्टोरफ्रंट बिल्डर",
+    "undo": "पूर्ववत करें (Ctrl+Z)",
+    "redo": "फिर से करें (Ctrl+Y)",
+    "preview": "पूर्वावलोकन",
+    "save": "सहेजें",
+    "saved": "सहेजा गया",
+    "savedSuccess": "सहेजा गया!",
+    "empty": "अपना स्टोरफ्रंट बनाना शुरू करने के लिए यहाँ विजेट खींचें",
+    "setupMessage": "यह स्टोरफ्रंट सेट हो रहा है",
+    "poweredBy": "द्वारा संचालित",
+    "searchProducts": "उत्पाद खोजें...",
+    "yourProducts": "आपके उत्पाद",
+    "clickToEdit": "संपादित करने के लिए क्लिक करें",
+    "editing": "संपादित हो रहा है",
+    "panel": {
+      "clickToSelect": "गुण संपादित करने के लिए किसी विजेट या स्टोर बैनर पर क्लिक करें",
+      "content": "सामग्री",
+      "layout": "लेआउट",
+      "paddingTop": "ऊपर पैडिंग",
+      "paddingBottom": "नीचे पैडिंग",
+      "containerWidth": "कंटेनर चौड़ाई",
+      "hideOnMobile": "मोबाइल पर छिपाएं",
+      "hideOnDesktop": "डेस्कटॉप पर छिपाएं",
+      "styleOverrides": "शैली ओवरराइड",
+      "duplicate": "विजेट डुप्लिकेट करें",
+      "delete": "विजेट हटाएं",
+      "storeBanner": "स्टोर बैनर",
+      "bannerImage": "बैनर छवि",
+      "textContent": "पाठ सामग्री",
+      "storeName": "स्टोर का नाम",
+      "fromProfile": "प्रोफ़ाइल से",
+      "storeNameHint": "अपने प्रोफ़ाइल स्टोर नाम का उपयोग करने के लिए खाली छोड़ें",
+      "tagline": "टैगलाइन",
+      "taglinePlaceholder": "जैसे: 2020 से प्रीमियम गुणवत्ता",
+      "storeNameStyle": "स्टोर नाम की शैली",
+      "font": "फ़ॉन्ट",
+      "resetFont": "रीसेट",
+      "overrideFont": "फ़ॉन्ट बदलें",
+      "size": "आकार",
+      "default": "डिफ़ॉल्ट",
+      "weight": "वजन",
+      "defaultBold": "डिफ़ॉल्ट (बोल्ड)",
+      "color": "रंग",
+      "taglineStyle": "टैगलाइन शैली",
+      "contactButton": "संपर्क बटन",
+      "showContactButton": "संपर्क बटन दिखाएं",
+      "buttonText": "बटन पाठ",
+      "displayOptions": "प्रदर्शन विकल्प",
+      "showRating": "रेटिंग दिखाएं",
+      "overlayDarkness": "ओवरले अंधकार",
+      "noItems": "अभी कोई आइटम नहीं — जोड़ने के लिए क्लिक करें",
+      "add": "जोड़ें",
+      "removeItem": "आइटम हटाएं",
+      "colors": "रंग",
+      "background": "पृष्ठभूमि",
+      "primaryBrand": "प्राथमिक / ब्रांड",
+      "secondaryAccent": "द्वितीयक / एक्सेंट",
+      "headingText": "शीर्षक पाठ",
+      "mutedText": "म्यूट पाठ",
+      "headingTypography": "शीर्षक टाइपोग्राफी",
+      "bodyTypography": "बॉडी टाइपोग्राफी",
+      "tracking": "ट्रैकिंग",
+      "leading": "लीडिंग",
+      "transform": "रूपांतरण",
+      "shape": "आकृति",
+      "buttonRadius": "बटन रेडियस",
+      "overrideTheme": "ओवरराइड",
+      "resetToTheme": "थीम पर रीसेट करें",
+      "fromTheme": "थीम से",
+      "typography": "टाइपोग्राफी",
+      "headings": "शीर्षक",
+      "bodyText": "मुख्य पाठ",
+      "uiShape": "यूआई आकार",
+      "header": "हेडर",
+      "colorScheme": "रंग योजना",
+      "logoPosition": "लोगो स्थिति",
+      "stickyHeader": "स्टिकी हेडर",
+      "light": "हल्का",
+      "dark": "गहरा",
+      "left": "बाएं",
+      "center": "मध्य",
+      "buttonInputRadius": "बटन / इनपुट त्रिज्या",
+      "widgetCornerRadius": "विजेट कोने त्रिज्या",
+      "productCardStyle": "उत्पाद कार्ड शैली",
+      "bodyMutedText": "मुख्य / मंद पाठ",
+      "startBuilding": "निर्माण शुरू करें",
+      "startBuildingHint": "बाएं पैनल से विजेट खींचें या विजेट कार्ड पर + क्लिक करें।"
+    },
+    "weights": {
+      "thin": "पतला 100",
+      "extraLight": "अति हल्का 200",
+      "light": "हल्का 300",
+      "regular": "सामान्य 400",
+      "medium": "मध्यम 500",
+      "semiBold": "अर्ध-बोल्ड 600",
+      "bold": "बोल्ड 700",
+      "extraBold": "अति बोल्ड 800",
+      "black": "काला 900"
+    },
+    "tracking": {
+      "tight": "घना",
+      "normal": "सामान्य",
+      "wide": "चौड़ा",
+      "wider": "और चौड़ा",
+      "widest": "सबसे चौड़ा"
+    },
+    "leading": {
+      "snug": "संकरा",
+      "normal": "सामान्य",
+      "relaxed": "शिथिल",
+      "loose": "ढीला"
+    },
+    "transform": {
+      "capitalize": "पहला अक्षर बड़ा",
+      "uppercase": "सभी बड़े",
+      "lowercase": "सभी छोटे"
+    },
+    "radius": {
+      "sharp": "तीखा",
+      "rounded": "गोल",
+      "pill": "पिल"
+    },
+    "cardStyles": {
+      "flat": "सपाट (कोई बॉर्डर नहीं)",
+      "shadow": "ड्रॉप शैडो",
+      "border": "ठोस बॉर्डर"
+    },
+    "tabs": {
+      "widgets": "विजेट",
+      "theme": "थीम",
+      "properties": "गुण"
+    },
+    "viewport": {
+      "desktop": "डेस्कटॉप",
+      "tablet": "टैबलेट",
+      "mobile": "मोबाइल"
+    }
+  },
+  "widgets": {
+    "countdown": {
+      "ended": "यह सेल समाप्त हो गई।",
+      "days": "दिन",
+      "hours": "घंटे",
+      "minutes": "मिनट",
+      "seconds": "सेकंड",
+      "shopNow": "अभी खरीदें",
+      "shopTheSale": "सेल में खरीदें"
+    },
+    "contact": {
+      "namePlaceholder": "आपका नाम",
+      "emailPlaceholder": "आपका ईमेल",
+      "phonePlaceholder": "आपका फ़ोन (वैकल्पिक)",
+      "subjectPlaceholder": "विषय",
+      "messagePlaceholder": "आपका संदेश...",
+      "error": "कुछ गलत हो गया। कृपया पुनः प्रयास करें।",
+      "sending": "भेजा जा रहा है...",
+      "sent": "संदेश भेजा गया!",
+      "sentDesc": "हम जल्द ही आपसे संपर्क करेंगे।"
+    },
+    "newsletter": {
+      "emailPlaceholder": "अपना ईमेल दर्ज करें",
+      "subscribing": "सदस्यता ली जा रही है...",
+      "success": "सदस्यता लेने के लिए धन्यवाद!",
+      "error": "कुछ गलत हो गया। कृपया पुनः प्रयास करें।"
+    },
+    "blog": {
+      "loadError": "अभी ब्लॉग पोस्ट लोड नहीं हो सकीं।",
+      "noPosts": "अभी कोई ब्लॉग पोस्ट नहीं है।",
+      "viewAll": "सभी देखें"
+    },
+    "faq": {
+      "noItems": "अभी कोई प्रश्न नहीं — एडिटर में जोड़ें।"
+    },
+    "imageSlider": {
+      "noSlides": "अभी कोई स्लाइड नहीं — एडिटर में जोड़ें"
+    },
+    "featureCards": {
+      "noImage": "कोई छवि नहीं"
+    },
+    "videoPlayer": {
+      "noVideo": "एक वीडियो अपलोड करें या एम्बेड URL जोड़ें"
+    }
   }
 }

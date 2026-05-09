@@ -2131,5 +2131,190 @@
         "desc": "Pinterest থেকে রূপান্তর পরিমাপ করুন এবং আপনার ক্যাটালগ থেকে সমৃদ্ধ পণ্য পিন তৈরি করুন।"
       }
     }
+  },
+  "builder": {
+    "backToDashboard": "ড্যাশবোর্ডে ফিরুন",
+    "title": "স্টোরফ্রন্ট বিল্ডার",
+    "undo": "পূর্বাবস্থায় ফেরান (Ctrl+Z)",
+    "redo": "পুনরায় করুন (Ctrl+Y)",
+    "preview": "প্রিভিউ",
+    "save": "সংরক্ষণ করুন",
+    "saved": "সংরক্ষিত",
+    "savedSuccess": "সংরক্ষিত হয়েছে!",
+    "empty": "স্টোরফ্রন্ট তৈরি শুরু করতে এখানে উইজেট টেনে আনুন",
+    "setupMessage": "এই স্টোরফ্রন্ট সেটআপ হচ্ছে",
+    "poweredBy": "পরিচালিত",
+    "searchProducts": "পণ্য খুঁজুন...",
+    "yourProducts": "আপনার পণ্য",
+    "clickToEdit": "সম্পাদনা করতে ক্লিক করুন",
+    "editing": "সম্পাদনা হচ্ছে",
+    "panel": {
+      "clickToSelect": "প্রপার্টি সম্পাদনা করতে একটি উইজেট বা স্টোর ব্যানারে ক্লিক করুন",
+      "content": "বিষয়বস্তু",
+      "layout": "লেআউট",
+      "paddingTop": "উপরে প্যাডিং",
+      "paddingBottom": "নিচে প্যাডিং",
+      "containerWidth": "কন্টেইনার প্রস্থ",
+      "hideOnMobile": "মোবাইলে লুকান",
+      "hideOnDesktop": "ডেস্কটপে লুকান",
+      "styleOverrides": "স্টাইল ওভাররাইড",
+      "duplicate": "উইজেট কপি করুন",
+      "delete": "উইজেট মুছুন",
+      "storeBanner": "স্টোর ব্যানার",
+      "bannerImage": "ব্যানার ছবি",
+      "textContent": "লেখার বিষয়বস্তু",
+      "storeName": "স্টোরের নাম",
+      "fromProfile": "প্রোফাইল থেকে",
+      "storeNameHint": "আপনার প্রোফাইল স্টোরের নাম ব্যবহার করতে খালি রাখুন",
+      "tagline": "ট্যাগলাইন",
+      "taglinePlaceholder": "যেমন: ২০২০ থেকে প্রিমিয়াম মান",
+      "storeNameStyle": "স্টোর নামের স্টাইল",
+      "font": "ফন্ট",
+      "resetFont": "রিসেট",
+      "overrideFont": "ফন্ট পরিবর্তন করুন",
+      "size": "আকার",
+      "default": "ডিফল্ট",
+      "weight": "ওজন",
+      "defaultBold": "ডিফল্ট (গাঢ়)",
+      "color": "রঙ",
+      "taglineStyle": "ট্যাগলাইন স্টাইল",
+      "contactButton": "যোগাযোগ বোতাম",
+      "showContactButton": "যোগাযোগ বোতাম দেখান",
+      "buttonText": "বোতামের লেখা",
+      "displayOptions": "প্রদর্শন বিকল্প",
+      "showRating": "রেটিং দেখান",
+      "overlayDarkness": "ওভারলে অন্ধকার",
+      "noItems": "এখনো কোনো আইটেম নেই — যোগ করতে ক্লিক করুন",
+      "add": "যোগ করুন",
+      "removeItem": "আইটেম সরান",
+      "colors": "রঙসমূহ",
+      "background": "পটভূমি",
+      "primaryBrand": "প্রাথমিক / ব্র্যান্ড",
+      "secondaryAccent": "মাধ্যমিক / অ্যাকসেন্ট",
+      "headingText": "শিরোনামের লেখা",
+      "mutedText": "মৃদু লেখা",
+      "headingTypography": "শিরোনাম টাইপোগ্রাফি",
+      "bodyTypography": "বডি টাইপোগ্রাফি",
+      "tracking": "ট্র্যাকিং",
+      "leading": "লিডিং",
+      "transform": "রূপান্তর",
+      "shape": "আকৃতি",
+      "buttonRadius": "বোতামের গোলাকার",
+      "overrideTheme": "ওভাররাইড",
+      "resetToTheme": "থিমে ফিরুন",
+      "fromTheme": "থিম থেকে",
+      "typography": "টাইপোগ্রাফি",
+      "headings": "শিরোনাম",
+      "bodyText": "মূল পাঠ",
+      "uiShape": "ইউআই আকৃতি",
+      "header": "হেডার",
+      "colorScheme": "রঙের স্কিম",
+      "logoPosition": "লোগোর অবস্থান",
+      "stickyHeader": "স্টিকি হেডার",
+      "light": "হালকা",
+      "dark": "গাঢ়",
+      "left": "বাম",
+      "center": "মাঝখান",
+      "buttonInputRadius": "বোতাম / ইনপুট রেডিয়াস",
+      "widgetCornerRadius": "উইজেট কোণ রেডিয়াস",
+      "productCardStyle": "পণ্য কার্ডের স্টাইল",
+      "bodyMutedText": "মূল / মৃদু পাঠ",
+      "startBuilding": "নির্মাণ শুরু করুন",
+      "startBuildingHint": "বাম প্যানেল থেকে উইজেট টানুন অথবা উইজেট কার্ডে + ক্লিক করুন।"
+    },
+    "weights": {
+      "thin": "পাতলা ১০০",
+      "extraLight": "অতি হালকা ২০০",
+      "light": "হালকা ৩০০",
+      "regular": "সাধারণ ৪০০",
+      "medium": "মাঝারি ৫০০",
+      "semiBold": "আধা গাঢ় ৬০০",
+      "bold": "গাঢ় ৭০০",
+      "extraBold": "অতি গাঢ় ৮০০",
+      "black": "কালো ৯০০"
+    },
+    "tracking": {
+      "tight": "ঘন",
+      "normal": "সাধারণ",
+      "wide": "প্রশস্ত",
+      "wider": "আরো প্রশস্ত",
+      "widest": "সর্বাধিক প্রশস্ত"
+    },
+    "leading": {
+      "snug": "আঁটসাঁট",
+      "normal": "সাধারণ",
+      "relaxed": "শিথিল",
+      "loose": "ঢিলা"
+    },
+    "transform": {
+      "capitalize": "প্রথম অক্ষর বড়",
+      "uppercase": "সব বড় হাতের",
+      "lowercase": "সব ছোট হাতের"
+    },
+    "radius": {
+      "sharp": "তীক্ষ্ণ",
+      "rounded": "গোলাকার",
+      "pill": "পিল"
+    },
+    "cardStyles": {
+      "flat": "সমতল (কোনো বর্ডার নেই)",
+      "shadow": "ড্রপ শ্যাডো",
+      "border": "সলিড বর্ডার"
+    },
+    "tabs": {
+      "widgets": "উইজেট",
+      "theme": "থিম",
+      "properties": "বৈশিষ্ট্য"
+    },
+    "viewport": {
+      "desktop": "ডেস্কটপ",
+      "tablet": "ট্যাবলেট",
+      "mobile": "মোবাইল"
+    }
+  },
+  "widgets": {
+    "countdown": {
+      "ended": "এই সেল শেষ হয়ে গেছে।",
+      "days": "দিন",
+      "hours": "ঘণ্টা",
+      "minutes": "মিনিট",
+      "seconds": "সেকেন্ড",
+      "shopNow": "এখনই কিনুন",
+      "shopTheSale": "সেলে কিনুন"
+    },
+    "contact": {
+      "namePlaceholder": "আপনার নাম",
+      "emailPlaceholder": "আপনার ইমেইল",
+      "phonePlaceholder": "আপনার ফোন (ঐচ্ছিক)",
+      "subjectPlaceholder": "বিষয়",
+      "messagePlaceholder": "আপনার বার্তা...",
+      "error": "কিছু ভুল হয়েছে। আবার চেষ্টা করুন।",
+      "sending": "পাঠানো হচ্ছে...",
+      "sent": "বার্তা পাঠানো হয়েছে!",
+      "sentDesc": "আমরা শীঘ্রই আপনার সাথে যোগাযোগ করব।"
+    },
+    "newsletter": {
+      "emailPlaceholder": "আপনার ইমেইল দিন",
+      "subscribing": "সাবস্ক্রাইব হচ্ছে...",
+      "success": "সাবস্ক্রাইব করার জন্য ধন্যবাদ!",
+      "error": "কিছু ভুল হয়েছে। আবার চেষ্টা করুন।"
+    },
+    "blog": {
+      "loadError": "এখন ব্লগ পোস্ট লোড করতে পারছি না।",
+      "noPosts": "এখনো কোনো ব্লগ পোস্ট নেই।",
+      "viewAll": "সব দেখুন"
+    },
+    "faq": {
+      "noItems": "এখনো কোনো প্রশ্ন নেই — সম্পাদকে যোগ করুন।"
+    },
+    "imageSlider": {
+      "noSlides": "এখনো কোনো স্লাইড নেই — সম্পাদকে যোগ করুন"
+    },
+    "featureCards": {
+      "noImage": "কোনো ছবি নেই"
+    },
+    "videoPlayer": {
+      "noVideo": "একটি ভিডিও আপলোড করুন বা এম্বেড URL যোগ করুন"
+    }
   }
 }
