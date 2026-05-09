@@ -79,7 +79,7 @@ export default function SellerLayout() {
     }, [userDropdownOpen]);
 
     const resolvedTheme = storefrontConfig?.theme || null;
-    const resolvedHero  = storefrontConfig?.hero  || null;
+    const resolvedHero = storefrontConfig?.hero || null;
     const themeVars = resolvedTheme
         ? themeToCSS(resolvedTheme)
         : resolveSellerTheme({ brandColor: seller?.brand_color || seller?.brandColor });
@@ -89,12 +89,12 @@ export default function SellerLayout() {
     const isSticky = resolvedTheme ? resolvedTheme.stickyHeader !== false : true;
 
     // Hero overrides
-    const heroBannerImage    = resolvedHero?.bannerImage  || seller?.banner  || null;
-    const heroStoreName      = resolvedHero?.storeName    || seller?.store_name || seller?.name || '';
-    const heroTagline        = resolvedHero?.tagline      || null;
-    const heroShowRating     = resolvedHero ? resolvedHero.showRating  !== false : true;
-    const heroShowContact    = resolvedHero ? resolvedHero.showContact !== false : true;
-    const heroContactText    = resolvedHero?.contactText  || t('storefront.contact', 'Contact');
+    const heroBannerImage = resolvedHero?.bannerImage || seller?.banner || null;
+    const heroStoreName = resolvedHero?.storeName || seller?.store_name || seller?.name || '';
+    const heroTagline = resolvedHero?.tagline || null;
+    const heroShowRating = resolvedHero ? resolvedHero.showRating !== false : true;
+    const heroShowContact = resolvedHero ? resolvedHero.showContact !== false : true;
+    const heroContactText = resolvedHero?.contactText || t('storefront.contact', 'Contact');
     const heroOverlayOpacity = (resolvedHero?.overlayOpacity ?? 70) / 100;
     // Hero text style overrides
     const HERO_NAME_SIZE_MAP = {
@@ -231,11 +231,11 @@ export default function SellerLayout() {
                                 <img src={iconColourful} alt="Toroongo" className="w-6 h-6" />
                             </Link>
                             <div className="hidden sm:block w-px h-6 opacity-20"
-                                 style={{ backgroundColor: 'var(--seller-header-text, #CBD5E1)' }} />
+                                style={{ backgroundColor: 'var(--seller-header-text, #CBD5E1)' }} />
                             {!isCenterLogo && (
                                 <Link to={`/${slug}`} className="flex items-center gap-2.5 min-w-0">
                                     <div className="w-7 h-7 rounded-lg overflow-hidden border border-white/20 flex-shrink-0 flex items-center justify-center"
-                                         style={{ backgroundColor: isDarkHeader ? 'rgba(255,255,255,0.1)' : '#F1F5F9' }}>
+                                        style={{ backgroundColor: isDarkHeader ? 'rgba(255,255,255,0.1)' : '#F1F5F9' }}>
                                         {seller.logo ? (
                                             <img src={seller.logo} alt={seller.store_name || seller.name} className="w-full h-full object-cover" />
                                         ) : (
@@ -243,7 +243,7 @@ export default function SellerLayout() {
                                         )}
                                     </div>
                                     <span className="text-sm font-bold truncate hidden sm:block"
-                                          style={{ color: headerText }}>
+                                        style={{ color: headerText }}>
                                         {seller.store_name || seller.name}
                                     </span>
                                 </Link>
@@ -254,7 +254,7 @@ export default function SellerLayout() {
                         {isCenterLogo && (
                             <Link to={`/${slug}`} className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2.5">
                                 <div className="w-7 h-7 rounded-lg overflow-hidden border border-white/20 flex-shrink-0 flex items-center justify-center"
-                                     style={{ backgroundColor: isDarkHeader ? 'rgba(255,255,255,0.1)' : '#F1F5F9' }}>
+                                    style={{ backgroundColor: isDarkHeader ? 'rgba(255,255,255,0.1)' : '#F1F5F9' }}>
                                     {seller.logo ? (
                                         <img src={seller.logo} alt={seller.store_name || seller.name} className="w-full h-full object-cover" />
                                     ) : (
@@ -271,8 +271,8 @@ export default function SellerLayout() {
                         <div className="hidden md:flex flex-1 max-w-md mx-4">
                             <div className="relative w-full">
                                 <Search size={16}
-                                       className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
-                                       style={{ color: iconColor }} />
+                                    className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                                    style={{ color: iconColor }} />
                                 <input
                                     type="text"
                                     placeholder={t("nav.search")}
@@ -311,7 +311,7 @@ export default function SellerLayout() {
                                 <Heart size={19} />
                                 {wishlistCount > 0 && (
                                     <span className="absolute -top-0.5 -right-0.5 text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full leading-none"
-                                          style={{ backgroundColor: 'var(--seller-brand)' }}>
+                                        style={{ backgroundColor: 'var(--seller-brand)' }}>
                                         {wishlistCount}
                                     </span>
                                 )}
@@ -327,7 +327,7 @@ export default function SellerLayout() {
                                 <ShoppingCart size={19} />
                                 {cartItemCount > 0 && (
                                     <span className="absolute -top-0.5 -right-0.5 text-white text-[10px] font-bold w-4 h-4 flex items-center justify-center rounded-full leading-none"
-                                          style={{ backgroundColor: 'var(--seller-brand)' }}>
+                                        style={{ backgroundColor: 'var(--seller-brand)' }}>
                                         {cartItemCount}
                                     </span>
                                 )}
@@ -346,7 +346,7 @@ export default function SellerLayout() {
                                         className={`flex items-center gap-2 p-2 rounded-lg transition-colors ${hoverBg}`}
                                     >
                                         <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold"
-                                             style={{ backgroundColor: 'var(--seller-brand)' }}>
+                                            style={{ backgroundColor: 'var(--seller-brand)' }}>
                                             {(user?.name || 'U').charAt(0).toUpperCase()}
                                         </div>
                                     </button>
@@ -420,7 +420,7 @@ export default function SellerLayout() {
                  STORE BANNER
                  ══════════════════════════════════════════════════════ */}
             <div className="relative h-44 sm:h-56 lg:h-64 overflow-hidden border-b"
-                 style={{ borderColor: headerBorder }}>
+                style={{ borderColor: headerBorder }}>
                 {heroBannerImage ? (
                     <img
                         src={heroBannerImage}
@@ -429,10 +429,10 @@ export default function SellerLayout() {
                     />
                 ) : (
                     <div className="absolute inset-0"
-                         style={{ background: `linear-gradient(135deg, var(--seller-brand, #008080) 0%, var(--seller-brand-secondary, #8B5CF6) 100%)` }} />
+                        style={{ background: `linear-gradient(135deg, var(--seller-brand, #008080) 0%, var(--seller-brand-secondary, #8B5CF6) 100%)` }} />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"
-                     style={{ opacity: heroOverlayOpacity }} />
+                    style={{ opacity: heroOverlayOpacity }} />
 
                 <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end pb-5">
                     <div className="flex items-end gap-4 justify-between w-full">
@@ -533,7 +533,7 @@ export default function SellerLayout() {
 
                     <div className="pb-2 mb-2 border-b" style={{ borderColor: headerBorder }}>
                         <p className="px-3 text-[10px] font-bold uppercase tracking-wider mb-1"
-                           style={{ color: iconColor }}>
+                            style={{ color: iconColor }}>
                             {t("storefront.nav.storeNav")}
                         </p>
                         {navLinks.map((link) => {
@@ -560,7 +560,7 @@ export default function SellerLayout() {
                     </div>
 
                     <p className="px-3 text-[10px] font-bold uppercase tracking-wider mb-1"
-                       style={{ color: iconColor }}>
+                        style={{ color: iconColor }}>
                         {t("storefront.nav.userActions")}
                     </p>
                     <Link
@@ -572,7 +572,7 @@ export default function SellerLayout() {
                         <Heart size={16} /> {t("nav.wishlist", "Wishlist")}
                         {wishlistCount > 0 && (
                             <span className="ml-auto text-xs font-bold text-white px-1.5 py-0.5 rounded-full"
-                                  style={{ backgroundColor: 'var(--seller-brand)' }}>
+                                style={{ backgroundColor: 'var(--seller-brand)' }}>
                                 {wishlistCount}
                             </span>
                         )}
@@ -611,11 +611,11 @@ export default function SellerLayout() {
                     <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div className="flex items-center gap-3">
                             <div className="w-8 h-8 rounded-lg overflow-hidden border flex items-center justify-center"
-                                 style={{
-                                     borderColor: 'rgba(0,0,0,0.08)',
-                                     backgroundColor: 'rgba(0,0,0,0.04)',
-                                     color: 'var(--seller-text-muted, #64748B)',
-                                 }}>
+                                style={{
+                                    borderColor: 'rgba(0,0,0,0.08)',
+                                    backgroundColor: 'rgba(0,0,0,0.04)',
+                                    color: 'var(--seller-text-muted, #64748B)',
+                                }}>
                                 {seller.logo ? (
                                     <img src={seller.logo} alt={seller.store_name || seller.name} className="w-full h-full object-cover" />
                                 ) : (
@@ -623,7 +623,7 @@ export default function SellerLayout() {
                                 )}
                             </div>
                             <span className="text-sm font-semibold"
-                                  style={{ color: 'var(--seller-text, #0F172A)', fontFamily: 'var(--seller-heading-font, Inter, sans-serif)' }}>
+                                style={{ color: 'var(--seller-text, #0F172A)', fontFamily: 'var(--seller-heading-font, Inter, sans-serif)' }}>
                                 {seller.store_name || seller.name}
                             </span>
                         </div>
@@ -635,7 +635,7 @@ export default function SellerLayout() {
                         <div className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--seller-text-muted, #64748B)' }}>
                             {t("footer.poweredBy")}
                             <Link to="/" className="font-semibold transition-opacity hover:opacity-80"
-                                  style={{ color: 'var(--seller-brand)' }}>
+                                style={{ color: 'var(--seller-brand)' }}>
                                 Toroongo
                             </Link>
                         </div>

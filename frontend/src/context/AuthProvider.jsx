@@ -106,10 +106,10 @@ export function AuthProvider({ children }) {
     };
 
     return (
-        <AuthContext.Provider value={{ 
-            user, isAuthenticated, isLoading, 
-            login, register, logout, updateUser, 
-            sendOtp, verifyOtp, 
+        <AuthContext.Provider value={{
+            user, isAuthenticated, isLoading,
+            login, register, logout, updateUser,
+            sendOtp, verifyOtp,
             loginWithGoogle, handleGoogleCallback,
             forgotPassword, resetPassword, changePassword
         }}>

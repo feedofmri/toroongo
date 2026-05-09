@@ -18,6 +18,7 @@ import AdvertisementsPage from './pages/advertisements/AdvertisementsPage';
 import ChatPage from './pages/chat/ChatPage';
 import SettingsPage from './pages/settings/SettingsPage';
 import ContactsPage from './pages/contacts/ContactsPage';
+import CareersPage from './pages/careers/CareersPage';
 
 export default function App() {
   return (
@@ -46,6 +47,7 @@ export default function App() {
           <Route path="/advertisements" element={<AdvertisementsPage />} />
           <Route path="/chat"           element={<ChatPage />} />
           <Route path="/contacts"       element={<ContactsPage />} />
+          <Route path="/careers"        element={<CareersPage />} />
           <Route path="/settings"       element={<SettingsPage />} />
         </Route>
 

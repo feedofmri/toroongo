@@ -21,6 +21,7 @@ import {
   Percent,
   Megaphone,
   Mail,
+  Briefcase,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import logoColourful from "../../assets/logo_colourful.png";
@@ -40,6 +41,7 @@ const NAV = [
   { to: "/advertisements", icon: Megaphone, label: "Advertisements" },
   { to: "/chat", icon: MessageSquare, label: "Live Chat" },
   { to: "/contacts", icon: Mail, label: "Contacts & Leads" },
+  { to: "/careers",  icon: Briefcase, label: "Careers" },
   { to: "/settings", icon: Settings, label: "Settings" },
 ];
 

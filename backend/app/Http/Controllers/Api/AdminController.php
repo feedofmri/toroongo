@@ -12,6 +12,7 @@ use App\Models\Blog;
 use App\Models\HeroBanner;
 use App\Models\Discount;
 use App\Models\Advertisement;
+use App\Models\CareerJob;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -613,6 +614,57 @@ class AdminController extends Controller
     {
         Advertisement::findOrFail($id)->delete();
         return response()->json(['message' => 'Advertisement deleted']);
+    }
+
+    // ── Career Jobs ───────────────────────────────────────
+
+    public function careerJobs()
+    {
+        return response()->json(CareerJob::orderByDesc('posted_at')->orderByDesc('created_at')->get());
+    }
+
+    public function createCareerJob(Request $request)
+    {
+        $data = $request->validate([
+            'title'        => 'required|string|max:255',
+            'department'   => 'required|string|max:100',
+            'location'     => 'required|string|max:150',
+            'type'         => 'required|string|in:Full-time,Part-time,Contract,Internship',
+            'description'  => 'nullable|string',
+            'requirements' => 'nullable|string',
+            'apply_url'    => 'nullable|string|max:500',
+            'is_active'    => 'nullable|boolean',
+            'posted_at'    => 'nullable|date',
+        ]);
+        if (empty($data['posted_at'])) {
+            $data['posted_at'] = now();
+        }
+        $job = CareerJob::create($data);
+        return response()->json($job, 201);
+    }
+
+    public function updateCareerJob(Request $request, $id)
+    {
+        $job = CareerJob::findOrFail($id);
+        $data = $request->validate([
+            'title'        => 'sometimes|required|string|max:255',
+            'department'   => 'sometimes|required|string|max:100',
+            'location'     => 'sometimes|required|string|max:150',
+            'type'         => 'sometimes|required|string|in:Full-time,Part-time,Contract,Internship',
+            'description'  => 'nullable|string',
+            'requirements' => 'nullable|string',
+            'apply_url'    => 'nullable|string|max:500',
+            'is_active'    => 'nullable|boolean',
+            'posted_at'    => 'nullable|date',
+        ]);
+        $job->update($data);
+        return response()->json($job->fresh());
+    }
+
+    public function deleteCareerJob($id)
+    {
+        CareerJob::findOrFail($id)->delete();
+        return response()->json(['message' => 'Job deleted']);
     }
 
     // ── Chat ──────────────────────────────────────────────

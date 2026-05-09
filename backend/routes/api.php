@@ -71,6 +71,9 @@ Route::get('/storefront/{sellerId}', [StorefrontController::class, 'show']);
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe']);
 Route::post('/contact', [ContactController::class, 'store']);
 
+// Public: career job listings
+Route::get('/careers', fn() => response()->json(\App\Models\CareerJob::where('is_active', true)->orderByDesc('posted_at')->orderByDesc('created_at')->get()));
+
 // Public: seller payment methods for checkout
 Route::post('/payment-methods/by-sellers', [SellerPaymentMethodController::class, 'publicBySellers']);
 
@@ -250,6 +253,12 @@ Route::middleware('auth:sanctum')->group(function () {
     // Newsletter & Contact (admin: all sellers)
     Route::get('/admin/newsletter/subscribers', [NewsletterController::class, 'adminAll']);
     Route::get('/admin/contact/submissions', [ContactController::class, 'adminAll']);
+
+    // Career Jobs
+    Route::get('/admin/career-jobs', [AdminController::class, 'careerJobs']);
+    Route::post('/admin/career-jobs', [AdminController::class, 'createCareerJob']);
+    Route::put('/admin/career-jobs/{id}', [AdminController::class, 'updateCareerJob']);
+    Route::delete('/admin/career-jobs/{id}', [AdminController::class, 'deleteCareerJob']);
 
     // Admin chat (admin ↔ user conversations)
     Route::get('/admin/chat/conversations', [AdminController::class, 'chatConversations']);

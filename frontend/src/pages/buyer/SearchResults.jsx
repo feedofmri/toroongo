@@ -16,19 +16,21 @@ const SORT_OPTIONS = [
     { value: 'newest', label: 'search.newest' },
 ];
 
+// Static min/max values — stable module-level constant so they never cause useMemo churn.
+// Labels are translated at render time via PRICE_RANGE_LABELS below.
+const PRICE_RANGES = [
+    { min: 0,   max: 25,       labelKey: 'search.priceRanges.under25',  labelFallback: 'Under $25'   },
+    { min: 25,  max: 50,       labelKey: 'search.priceRanges.25to50',   labelFallback: '$25 – $50'   },
+    { min: 50,  max: 100,      labelKey: 'search.priceRanges.50to100',  labelFallback: '$50 – $100'  },
+    { min: 100, max: 200,      labelKey: 'search.priceRanges.100to200', labelFallback: '$100 – $200' },
+    { min: 200, max: 500,      labelKey: 'search.priceRanges.200to500', labelFallback: '$200 – $500' },
+    { min: 500, max: Infinity, labelKey: 'search.priceRanges.over500',  labelFallback: 'Over $500'   },
+];
+
 const ITEMS_PER_PAGE = 12;
 
 export default function SearchResults() {
     const { t } = useTranslation();
-
-    const PRICE_RANGES = [
-        { label: t('search.priceRanges.under25', 'Under $25'), min: 0, max: 25 },
-        { label: t('search.priceRanges.25to50', '$25 – $50'), min: 25, max: 50 },
-        { label: t('search.priceRanges.50to100', '$50 – $100'), min: 50, max: 100 },
-        { label: t('search.priceRanges.100to200', '$100 – $200'), min: 100, max: 200 },
-        { label: t('search.priceRanges.200to500', '$200 – $500'), min: 200, max: 500 },
-        { label: t('search.priceRanges.over500', 'Over $500'), min: 500, max: Infinity },
-    ];
 
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
@@ -379,7 +381,7 @@ export default function SearchResults() {
                                             className={`w-full text-left px-3 py-2 text-sm rounded-lg transition-colors
                                 ${selectedPrice === idx ? 'bg-brand-primary/10 text-brand-primary font-medium' : 'text-text-muted hover:bg-surface-bg hover:text-text-primary'}`}
                                         >
-                                            {range.label}
+                                            {t(range.labelKey, range.labelFallback)}
                                         </button>
                                     ))}
                                 </div>

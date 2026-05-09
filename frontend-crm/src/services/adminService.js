@@ -76,6 +76,12 @@ export const adminService = {
   updateAdvertisement:  (id, data) => api(`/admin/advertisements/${id}`, { method: 'PUT',    body: JSON.stringify(data) }),
   deleteAdvertisement:  (id)       => api(`/admin/advertisements/${id}`, { method: 'DELETE' }),
 
+  // ── Career Jobs ───────────────────────────────────
+  getCareerJobs:    ()         => api('/admin/career-jobs'),
+  createCareerJob:  (data)     => api('/admin/career-jobs',      { method: 'POST',   body: JSON.stringify(data) }),
+  updateCareerJob:  (id, data) => api(`/admin/career-jobs/${id}`, { method: 'PUT',    body: JSON.stringify(data) }),
+  deleteCareerJob:  (id)       => api(`/admin/career-jobs/${id}`, { method: 'DELETE' }),
+
   // ── Newsletter & Contacts (all sellers) ──────────
   getAllSubscribers:       () => api('/admin/newsletter/subscribers'),
   getAllContactSubmissions:() => api('/admin/contact/submissions'),
