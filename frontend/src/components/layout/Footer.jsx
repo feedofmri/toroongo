@@ -24,7 +24,7 @@ export default function Footer() {
             links: [
                 { name: t('footer.links.dashboard', 'Dashboard'), href: "/account" },
                 { name: t('footer.links.orders', 'Order History'), href: "/account/orders" },
-                { name: t('footer.links.wishlist', 'Wishlist'), href: "/wishlist" },
+                { name: t('footer.links.wishlist', 'Wishlist'), href: "/account/wishlist" },
                 { name: t('footer.links.messages', 'Messages'), href: "/account/messages" }
             ]
         },

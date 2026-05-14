@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { NavLink, Outlet, Link } from "react-router-dom";
+import { adminService } from "../../services/adminService";
 import {
   LayoutDashboard,
   Users,
@@ -29,23 +30,24 @@ import logoColourful from "../../assets/logo_colourful.png";
 const NAV = [
   { to: "/", icon: LayoutDashboard, label: "Overview", end: true },
   { to: "/users", icon: Users, label: "Users" },
-  { to: "/sellers", icon: Store, label: "Sellers" },
-  { to: "/orders", icon: ShoppingBag, label: "Orders" },
+  { to: "/sellers", icon: Store, label: "Sellers", badgeKey: "sellers" },
+  { to: "/orders", icon: ShoppingBag, label: "Orders", badgeKey: "orders" },
   { to: "/products", icon: Package, label: "Products" },
   { to: "/categories", icon: Tag, label: "Categories" },
-  { to: "/subscriptions", icon: CreditCard, label: "Subscriptions" },
-  { to: "/reviews", icon: Star, label: "Reviews" },
+  { to: "/subscriptions", icon: CreditCard, label: "Subscriptions", badgeKey: "subscriptions" },
+  { to: "/reviews", icon: Star, label: "Reviews", badgeKey: "reviews" },
   { to: "/blogs", icon: BookOpen, label: "Blogs" },
   { to: "/banners", icon: Image, label: "Banners" },
   { to: "/discounts", icon: Percent, label: "Discounts" },
   { to: "/advertisements", icon: Megaphone, label: "Advertisements" },
-  { to: "/chat", icon: MessageSquare, label: "Live Chat" },
-  { to: "/contacts", icon: Mail, label: "Contacts & Leads" },
+  { to: "/chat", icon: MessageSquare, label: "Live Chat", badgeKey: "chat" },
+  { to: "/contacts", icon: Mail, label: "Contacts & Leads", badgeKey: "contacts" },
   { to: "/careers",  icon: Briefcase, label: "Careers" },
   { to: "/settings", icon: Settings, label: "Settings" },
 ];
 
-function NavItem({ link, collapsed, onClick }) {
+function NavItem({ link, collapsed, onClick, badge }) {
+  const count = badge ?? 0;
   return (
     <NavLink
       to={link.to}
@@ -61,8 +63,22 @@ function NavItem({ link, collapsed, onClick }) {
       }
       title={collapsed ? link.label : undefined}
     >
-      <link.icon size={17} className="flex-shrink-0" />
-      {!collapsed && <span>{link.label}</span>}
+      <div className="relative flex-shrink-0">
+        <link.icon size={17} />
+        {count > 0 && collapsed && (
+          <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-red-500" />
+        )}
+      </div>
+      {!collapsed && (
+        <>
+          <span className="flex-1">{link.label}</span>
+          {count > 0 && (
+            <span className="ml-auto min-w-[20px] h-5 px-1.5 rounded-full bg-red-500 text-white text-[10px] font-bold flex items-center justify-center leading-none">
+              {count > 99 ? "99+" : count}
+            </span>
+          )}
+        </>
+      )}
     </NavLink>
   );
 }
@@ -135,6 +151,20 @@ function UserMenu({ user, logout }) {
 export default function AppLayout() {
   const { user, logout } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [badges, setBadges] = useState({});
+  const intervalRef = useRef(null);
+
+  const fetchCounts = () => {
+    adminService.getNotificationCounts()
+      .then(setBadges)
+      .catch(() => {});
+  };
+
+  useEffect(() => {
+    fetchCounts();
+    intervalRef.current = setInterval(fetchCounts, 20_000);
+    return () => clearInterval(intervalRef.current);
+  }, []);
 
   return (
     <div className="min-h-screen bg-surface-bg flex">
@@ -153,7 +183,7 @@ export default function AppLayout() {
         {/* Nav */}
         <nav className="flex-1 overflow-y-auto p-3 space-y-0.5">
           {NAV.map((link) => (
-            <NavItem key={link.to} link={link} />
+            <NavItem key={link.to} link={link} badge={link.badgeKey ? badges[link.badgeKey] : undefined} />
           ))}
         </nav>
 
@@ -218,6 +248,7 @@ export default function AppLayout() {
                 <NavItem
                   key={link.to}
                   link={link}
+                  badge={link.badgeKey ? badges[link.badgeKey] : undefined}
                   onClick={() => setSidebarOpen(false)}
                 />
               ))}

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
   Search, UserCheck, UserX,
-  Shield, ShoppingBag, Store, MoreVertical,
-  Users, X, Mail, Calendar, Package, Loader2,
+  Shield, ShoppingBag, Store, MoreVertical, Trash2,
+  Users, X, Mail, Calendar, Package, Loader2, BadgeCheck,
 } from 'lucide-react';
 import { adminService } from '../../services/adminService';
 import Pagination from '../../components/ui/Pagination';
@@ -24,7 +24,7 @@ function fmtDate(d) {
 }
 
 /* ─── User Detail Modal ──────────────────────────────── */
-function UserModal({ user, onClose, onRoleChange, onToggle, busy }) {
+function UserModal({ user, onClose, onRoleChange, onToggle, onVerify, onDelete, busy }) {
   const RoleIcon = ROLE_ICON[user.role] || ShoppingBag;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-fade-in">
@@ -38,7 +38,10 @@ function UserModal({ user, onClose, onRoleChange, onToggle, busy }) {
           <div className="flex items-center gap-4">
             <Avatar name={user.name} size="lg" />
             <div>
-              <p className="font-bold text-text-primary text-lg leading-tight">{user.name}</p>
+              <div className="flex items-center gap-2">
+                <p className="font-bold text-text-primary text-lg leading-tight">{user.name}</p>
+                {user.role === 'seller' && user.is_verified && <BadgeCheck size={18} className="text-brand-primary" />}
+              </div>
               <div className="flex items-center gap-1.5 text-xs text-text-muted mt-0.5">
                 <Mail size={11} /> {user.email}
               </div>
@@ -80,12 +83,30 @@ function UserModal({ user, onClose, onRoleChange, onToggle, busy }) {
             </div>
           </div>
 
+          {user.role === 'seller' && (
+            <div>
+              <p className="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-2">Shop Verification</p>
+              <button disabled={busy} onClick={() => onVerify(user.id)}
+                className={`w-full flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-semibold transition-all border
+                  ${user.is_verified ? 'bg-gray-50 text-gray-600 border-border-soft' : 'bg-brand-primary/10 text-brand-primary border-brand-primary/20'}`}>
+                {busy ? <Loader2 size={13} className="animate-spin" /> : <BadgeCheck size={13} />}
+                {user.is_verified ? 'Remove Verification' : 'Verify Shop'}
+              </button>
+            </div>
+          )}
+
           <button disabled={busy} onClick={() => onToggle(user.id)}
             className={`w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all
               ${user.is_active === false ? 'bg-green-50 text-green-700 hover:bg-green-100 border border-green-200' : 'bg-red-50 text-red-600 hover:bg-red-100 border border-red-200'}
               disabled:opacity-50`}>
             {busy ? <Loader2 size={15} className="animate-spin" /> : user.is_active === false ? <UserCheck size={15} /> : <UserX size={15} />}
             {user.is_active === false ? 'Reactivate Account' : 'Suspend Account'}
+          </button>
+
+          <button disabled={busy} onClick={() => onDelete(user.id)}
+            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold transition-all bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 shadow-sm shadow-red-200">
+            {busy ? <Loader2 size={15} className="animate-spin" /> : <Trash2 size={15} />}
+            Delete Account Permanently
           </button>
         </div>
       </div>
@@ -97,8 +118,8 @@ function UserModal({ user, onClose, onRoleChange, onToggle, busy }) {
 export default function UsersPage() {
   const [users, setUsers]     = useState([]);
   const [meta, setMeta]       = useState({ current_page: 1, last_page: 1, total: 0 });
-  const [search, setSearch]   = useState('');   // controlled input
-  const [query, setQuery]     = useState('');   // submitted search
+  const [search, setSearch]   = useState('');
+  const [query, setQuery]     = useState('');
   const [role, setRole]       = useState('all');
   const [page, setPage]       = useState(1);
   const [perPage, setPerPage] = useState(10);
@@ -154,6 +175,31 @@ export default function UsersPage() {
     finally { setBusy(false); setMenu(null); }
   };
 
+  const doVerify = async (userId) => {
+    setBusy(true);
+    try {
+      const res = await adminService.verifySeller(userId);
+      const upd = u => u.id === userId ? { ...u, is_verified: res.is_verified } : u;
+      setUsers(list => list.map(upd));
+      setModal(m => m ? upd(m) : m);
+    } catch (e) { console.error(e); }
+    finally { setBusy(false); setMenu(null); }
+  };
+
+  const doDelete = async (userId) => {
+    if (!window.confirm('Are you sure you want to PERMANENTLY delete this user? This action cannot be undone.')) return;
+    setBusy(true);
+    try {
+      await adminService.deleteUser(userId);
+      setUsers(list => list.filter(u => u.id !== userId));
+      setModal(null);
+    } catch (e) {
+      console.error(e);
+      alert(e.message || 'Failed to delete user');
+    }
+    finally { setBusy(false); setMenu(null); }
+  };
+
   const openDetail = async (user) => {
     setModal(user);
     try { const full = await adminService.getUserById(user.id); setModal(full); } catch {}
@@ -161,7 +207,6 @@ export default function UsersPage() {
 
   return (
     <div className="space-y-6 animate-fade-in" onClick={() => setMenu(null)}>
-
       {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-text-primary">User Management</h1>
@@ -191,10 +236,10 @@ export default function UsersPage() {
         </div>
       </div>
 
-      {/* Table */}
+      {/* Table Container */}
       <div className="bg-white rounded-2xl border border-border-soft overflow-hidden">
-        {loading ? (
-          <div className="overflow-x-auto">
+        <div className="overflow-x-auto min-h-[450px]">
+          {loading ? (
             <table className="w-full">
               <thead>
                 <tr className="bg-surface-bg border-b border-border-soft text-left">
@@ -215,105 +260,119 @@ export default function UsersPage() {
                 ))}
               </tbody>
             </table>
-          </div>
-        ) : users.length === 0 ? (
-          <div className="p-16 text-center">
-            <div className="w-14 h-14 bg-surface-bg rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <Users size={24} className="text-text-muted/40" />
+          ) : users.length === 0 ? (
+            <div className="p-16 text-center">
+              <div className="w-14 h-14 bg-surface-bg rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <Users size={24} className="text-text-muted/40" />
+              </div>
+              <p className="text-sm font-semibold text-text-primary">No users found</p>
+              <p className="text-xs text-text-muted mt-1">Try adjusting your search or filters</p>
             </div>
-            <p className="text-sm font-semibold text-text-primary">No users found</p>
-            <p className="text-xs text-text-muted mt-1">Try adjusting your search or filters</p>
-          </div>
-        ) : (
-          <>
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="bg-surface-bg border-b border-border-soft text-left">
-                    {['User','Role','Joined','Status','Actions'].map((h, i) => (
-                      <th key={h} className={`px-6 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide ${i === 2 ? 'hidden md:table-cell' : i === 3 ? 'hidden lg:table-cell' : ''} ${i === 4 ? 'text-right' : ''}`}>{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border-soft">
-                  {users.map(u => {
-                    const RI = ROLE_ICON[u.role] || ShoppingBag;
-                    const active = u.is_active !== false;
-                    return (
-                      <tr key={u.id} className="hover:bg-surface-bg/40 transition-colors">
-                        <td className="px-6 py-4">
-                          <button onClick={() => openDetail(u)} className="flex items-center gap-3 text-left group">
-                            <Avatar name={u.name} />
-                            <div className="min-w-0">
+          ) : (
+            <table className="w-full">
+              <thead>
+                <tr className="bg-surface-bg border-b border-border-soft text-left">
+                  {['User','Role','Joined','Status','Actions'].map((h, i) => (
+                    <th key={h} className={`px-6 py-3.5 text-xs font-semibold text-text-muted uppercase tracking-wide ${i === 2 ? 'hidden md:table-cell' : i === 3 ? 'hidden lg:table-cell' : ''} ${i === 4 ? 'text-right' : ''}`}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border-soft">
+                {users.map(u => {
+                  const RI = ROLE_ICON[u.role] || ShoppingBag;
+                  const active = u.is_active !== false;
+                  return (
+                    <tr key={u.id} className="hover:bg-surface-bg/40 transition-colors">
+                      <td className="px-6 py-4">
+                        <button onClick={() => openDetail(u)} className="flex items-center gap-3 text-left group">
+                          <Avatar name={u.name} />
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-1.5">
                               <p className="text-sm font-semibold text-text-primary group-hover:text-brand-primary transition-colors truncate max-w-[160px]">{u.name}</p>
-                              <p className="text-xs text-text-muted truncate max-w-[160px]">{u.email}</p>
+                              {u.role === 'seller' && u.is_verified && <BadgeCheck size={14} className="text-brand-primary flex-shrink-0" />}
                             </div>
-                          </button>
-                        </td>
-                        <td className="px-6 py-4">
-                          <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${ROLE_BADGE[u.role] || 'bg-gray-100 text-gray-600'}`}>
-                            <RI size={10} /> {u.role}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 hidden md:table-cell text-xs text-text-muted">{fmtDate(u.created_at)}</td>
-                        <td className="px-6 py-4 hidden lg:table-cell">
-                          <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                            {active ? 'Active' : 'Suspended'}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4">
-                          <div className="flex justify-end relative" onClick={e => e.stopPropagation()}>
-                            <button onClick={() => setMenu(menu === u.id ? null : u.id)}
-                              className="p-2 rounded-xl hover:bg-surface-bg text-text-muted hover:text-text-primary transition-colors">
-                              <MoreVertical size={15} />
-                            </button>
-                            {menu === u.id && (
-                              <div className="absolute right-0 top-10 w-48 bg-white rounded-2xl shadow-xl border border-border-soft z-20 overflow-hidden">
-                                <div className="p-2">
-                                  <p className="px-3 py-1.5 text-[10px] font-bold text-text-muted uppercase tracking-widest">Set Role</p>
-                                  {['buyer','seller','admin'].map(r => {
-                                    const Icon = ROLE_ICON[r];
-                                    return (
-                                      <button key={r} disabled={u.role === r || busy}
-                                        onClick={() => doRoleChange(u.id, r)}
-                                        className={`w-full flex items-center gap-2.5 px-3 py-2 text-sm rounded-xl capitalize transition-colors ${u.role === r ? 'bg-brand-primary/10 text-brand-primary font-semibold' : 'text-text-primary hover:bg-surface-bg disabled:opacity-50'}`}>
-                                        <Icon size={12} /> {r}
-                                      </button>
-                                    );
-                                  })}
-                                  <div className="my-1.5 border-t border-border-soft" />
-                                  <button disabled={busy} onClick={() => doToggle(u.id)}
-                                    className={`w-full flex items-center gap-2.5 px-3 py-2 text-sm rounded-xl transition-colors ${active ? 'text-red-600 hover:bg-red-50' : 'text-green-700 hover:bg-green-50'}`}>
-                                    {active ? <UserX size={12} /> : <UserCheck size={12} />}
-                                    {active ? 'Suspend' : 'Reactivate'}
-                                  </button>
-                                </div>
-                              </div>
-                            )}
+                            <p className="text-xs text-text-muted truncate max-w-[160px]">{u.email}</p>
                           </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+                        </button>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${ROLE_BADGE[u.role] || 'bg-gray-100 text-gray-600'}`}>
+                          <RI size={10} /> {u.role}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 hidden md:table-cell text-xs text-text-muted">{fmtDate(u.created_at)}</td>
+                      <td className="px-6 py-4 hidden lg:table-cell">
+                        <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                          {active ? 'Active' : 'Suspended'}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex justify-end relative" onClick={e => e.stopPropagation()}>
+                          <button onClick={() => setMenu(menu === u.id ? null : u.id)}
+                            className="p-2 rounded-xl hover:bg-surface-bg text-text-muted hover:text-text-primary transition-colors">
+                            <MoreVertical size={15} />
+                          </button>
+                          {menu === u.id && (
+                            <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded-2xl shadow-xl border border-border-soft z-20 overflow-hidden animate-in fade-in zoom-in duration-150">
+                              <div className="p-2">
+                                <p className="px-3 py-1.5 text-[10px] font-bold text-text-muted uppercase tracking-widest">Set Role</p>
+                                {['buyer','seller','admin'].map(r => {
+                                  const Icon = ROLE_ICON[r];
+                                  return (
+                                    <button key={r} disabled={u.role === r || busy}
+                                      onClick={() => doRoleChange(u.id, r)}
+                                      className={`w-full flex items-center gap-2.5 px-3 py-2 text-sm rounded-xl capitalize transition-colors ${u.role === r ? 'bg-brand-primary/10 text-brand-primary font-semibold' : 'text-text-primary hover:bg-surface-bg disabled:opacity-50'}`}>
+                                      <Icon size={12} /> {r}
+                                    </button>
+                                  );
+                                })}
+                                <div className="my-1.5 border-t border-border-soft" />
+                                <button disabled={busy} onClick={() => doToggle(u.id)}
+                                  className={`w-full flex items-center gap-2.5 px-3 py-2 text-sm rounded-xl transition-colors ${active ? 'text-red-600 hover:bg-red-50' : 'text-green-700 hover:bg-green-50'}`}>
+                                  {active ? <UserX size={12} /> : <UserCheck size={12} />}
+                                  {active ? 'Suspend' : 'Reactivate'}
+                                </button>
+                                {u.role === 'seller' && (
+                                  <button disabled={busy} onClick={() => doVerify(u.id)}
+                                    className={`w-full flex items-center gap-2.5 px-3 py-2 text-sm rounded-xl transition-colors ${u.is_verified ? 'text-gray-600 hover:bg-gray-50' : 'text-brand-primary hover:bg-brand-primary/5'}`}>
+                                    <BadgeCheck size={12} />
+                                    {u.is_verified ? 'Unverify Shop' : 'Verify Shop'}
+                                  </button>
+                                )}
+                                <div className="my-1.5 border-t border-border-soft" />
+                                <button disabled={busy} onClick={() => doDelete(u.id)}
+                                  className="w-full flex items-center gap-2.5 px-3 py-2 text-sm rounded-xl transition-colors text-red-600 hover:bg-red-50">
+                                  <Trash2 size={12} />
+                                  Delete Permanently
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
+        </div>
 
-            <Pagination
-              current={meta.current_page}
-              last={meta.last_page}
-              total={meta.total}
-              perPage={perPage}
-              onPage={handlePage}
-              onPerPage={handlePerPage}
-              label="users"
-            />
-          </>
+        {!loading && users.length > 0 && (
+          <Pagination
+            current={meta.current_page}
+            last={meta.last_page}
+            total={meta.total}
+            perPage={perPage}
+            onPage={handlePage}
+            onPerPage={handlePerPage}
+            label="users"
+          />
         )}
       </div>
 
       {modal && (
-        <UserModal user={modal} onClose={() => setModal(null)} onRoleChange={doRoleChange} onToggle={doToggle} busy={busy} />
+        <UserModal user={modal} onClose={() => setModal(null)} onRoleChange={doRoleChange} onToggle={doToggle} onVerify={doVerify} onDelete={doDelete} busy={busy} />
       )}
     </div>
   );

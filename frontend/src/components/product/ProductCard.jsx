@@ -49,21 +49,22 @@ export default function ProductCard({ product, layout = 'grid' }) {
 
     const wishlistButton = user?.role === 'seller' ? null : (
         <button
-            onClick={(e) => {
+            onClick={async (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                const success = toggleWishlist(id);
+                const success = await toggleWishlist(id);
                 if (!success) {
                     navigate(`/login?redirect=${encodeURIComponent(location.pathname)}`);
                 }
             }}
-            className={`absolute top-3 right-3 p-2 rounded-full bg-white/90 backdrop-blur-sm
+            className={`absolute top-2 right-2 sm:top-3 sm:right-3 p-1.5 sm:p-2 rounded-full bg-white/90 backdrop-blur-sm
                      shadow-sm transition-all duration-200
                      hover:scale-110 hover:shadow-md
                      ${wishlisted ? 'text-red-500' : 'text-text-muted hover:text-red-400'}`}
             aria-label={wishlisted ? t('common.wishlistRemove', 'Remove from wishlist') : t('common.wishlistAdd', 'Add to wishlist')}
         >
-            <Heart size={16} className={wishlisted ? 'fill-current' : ''} />
+            <Heart size={14} className={`sm:hidden ${wishlisted ? 'fill-current' : ''}`} />
+            <Heart size={16} className={`hidden sm:block ${wishlisted ? 'fill-current' : ''}`} />
         </button>
     );
 
@@ -159,7 +160,7 @@ export default function ProductCard({ product, layout = 'grid' }) {
 
                 {/* Badge */}
                 {badge && (
-                    <span className={`absolute top-3 left-3 text-xs font-semibold px-2.5 py-1 rounded-full
+                    <span className={`absolute top-2 left-2 sm:top-3 sm:left-3 text-[10px] sm:text-xs font-semibold px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full
             ${badge === 'Sale' ? 'bg-red-500 text-white'
                             : badge === 'New' ? 'bg-brand-primary text-white'
                                 : badge === 'Best Seller' ? 'bg-amber-400 text-slate-900'
@@ -173,26 +174,27 @@ export default function ProductCard({ product, layout = 'grid' }) {
             </Link>
 
             {/* Info */}
-            <div className="flex flex-col flex-1 p-4">
+            <div className="flex flex-col flex-1 p-2.5 sm:p-4">
                 {/* Seller */}
                 <Link
                     to={`/${sellerSlug}`}
-                    className="inline-flex items-center gap-1 text-xs text-brand-primary font-medium mb-1.5 hover:text-brand-secondary transition-colors w-fit"
+                    className="inline-flex items-center gap-1 text-[10px] sm:text-xs text-brand-primary font-medium mb-1 sm:mb-1.5 hover:text-brand-secondary transition-colors w-fit"
                 >
                     <Store size={11} />
                     {seller}
+                    {seller_verified && <BadgeCheck size={11} className="text-brand-primary flex-shrink-0" />}
                 </Link>
 
                 {/* Title */}
-                <Link to={productUrl} className="block mb-2">
-                    <h3 className="text-sm font-medium text-text-primary line-clamp-2 leading-snug
+                <Link to={productUrl} className="block mb-1 sm:mb-2">
+                    <h3 className="text-[13px] sm:text-sm font-medium text-text-primary line-clamp-2 leading-snug
                          group-hover:text-brand-primary transition-colors duration-200">
                         {title}
                     </h3>
                 </Link>
 
                 {/* Rating */}
-                <div className="mb-3">
+                <div className="mb-2 sm:mb-3">
                     <StarRating rating={rating} reviews={reviews} />
                 </div>
 

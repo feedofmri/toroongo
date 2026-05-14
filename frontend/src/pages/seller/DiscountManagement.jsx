@@ -4,9 +4,11 @@ import {
     ToggleLeft, ToggleRight, Trash2, Eye, TrendingUp, Users, ShoppingBag, Loader2
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../context/AuthContext';
 import { useSubscription } from '../../context/SubscriptionContext';
 import UpgradePrompt from '../../components/subscription/UpgradePrompt';
 import { discountService } from '../../services/discountService';
+import { formatPriceInCurrency, getCurrencySymbol } from '../../utils/currency';
 
 const STATUS_STYLES = {
     active: 'text-green-600 bg-green-50',
@@ -45,6 +47,7 @@ function DiscountStats({ discounts }) {
 export default function DiscountManagement() {
     const { canAccess, currentPlan } = useSubscription();
     const { t } = useTranslation();
+    const { user } = useAuth();
     const [search, setSearch] = useState('');
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [discounts, setDiscounts] = useState([]);
@@ -210,7 +213,7 @@ export default function DiscountManagement() {
                             />
                         </div>
                         <div>
-                            <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerDiscounts.form.minOrderLabel', 'Minimum Order Value ($)')}</label>
+                            <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerDiscounts.form.minOrderLabel', 'Minimum Order Value ({{currency}})', { currency: getCurrencySymbol(user?.currency_code) })}</label>
                             <input
                                 type="number"
                                 value={formMinOrder}
@@ -327,13 +330,13 @@ export default function DiscountManagement() {
                                         </span>
                                     </td>
                                     <td className="px-5 py-3.5 text-sm font-semibold text-text-primary">
-                                        {discount.type === 'percentage' ? `${discount.value}%` : `$${discount.value}`}
+                                        {discount.type === 'percentage' ? `${discount.value}%` : formatPriceInCurrency(discount.value, user?.currency_code || 'USD')}
                                     </td>
                                     <td className="px-5 py-3.5 text-sm text-text-muted">
                                         {discount.usage_count}{discount.usage_limit ? ` / ${discount.usage_limit}` : ''}
                                     </td>
                                     <td className="px-5 py-3.5 text-sm text-text-muted">
-                                        {parseFloat(discount.min_order_value) > 0 ? `$${discount.min_order_value}` : '—'}
+                                        {parseFloat(discount.min_order_value) > 0 ? formatPriceInCurrency(discount.min_order_value, user?.currency_code || 'USD') : '—'}
                                     </td>
                                     <td className="px-5 py-3.5">
                                         <span className={`text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${STATUS_STYLES[discount.status]}`}>

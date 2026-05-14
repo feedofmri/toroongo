@@ -154,6 +154,9 @@ export default function ReviewsPage() {
   }, [page, query, status]);
 
   useEffect(() => { fetchReviews(); }, [fetchReviews]);
+  useEffect(() => {
+    adminService.markAllAsRead('reviews').catch(() => {});
+  }, []);
 
   const handleApprove = async (id) => {
     await adminService.updateReview(id, { status: 'approved' });

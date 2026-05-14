@@ -7,7 +7,6 @@ import { useSubscription } from '../../context/SubscriptionContext';
 import { productService } from '../../services';
 import Skeleton from '../../components/ui/Skeleton';
 import { formatPrice, formatPriceInCurrency } from '../../utils/currency';
-import ProductFormModal from './ProductFormModal';
 import UpgradePrompt from '../../components/subscription/UpgradePrompt';
 
 const STATUS_STYLES = {
@@ -26,14 +25,12 @@ const STATUS_LABELS = {
 
 export default function ProductManagement() {
     const { t } = useTranslation();
-    const { user } = useAuth();
     const navigate = useNavigate();
+    const { user } = useAuth();
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
     const [filterStatus, setFilterStatus] = useState('all');
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editProduct, setEditProduct] = useState(null);
     const [deletingId, setDeletingId] = useState(null);
     const [deleteConfirm, setDeleteConfirm] = useState(null);
 
@@ -76,8 +73,11 @@ export default function ProductManagement() {
     };
 
     const handleEdit = (product) => {
-        setEditProduct(product);
-        setIsModalOpen(true);
+        navigate(`/seller/products/edit/${product.id}`);
+    };
+
+    const handleAddProduct = () => {
+        navigate('/seller/products/new');
     };
 
     const handleDeleteClick = (product) => {
@@ -90,23 +90,13 @@ export default function ProductManagement() {
         try {
             await productService.deleteProduct(deleteConfirm.id);
             fetchProducts();
+            refreshSubscription();
         } catch (err) {
             console.error('Failed to delete product:', err);
         } finally {
             setDeletingId(null);
             setDeleteConfirm(null);
         }
-    };
-
-    const handleModalClose = () => {
-        setIsModalOpen(false);
-        setEditProduct(null);
-    };
-
-    const handleModalSuccess = () => {
-        setIsModalOpen(false);
-        setEditProduct(null);
-        fetchProducts();
     };
 
     return (
@@ -123,8 +113,7 @@ export default function ProductManagement() {
                 <button 
                     onClick={() => { 
                         if (!canAddProduct) return;
-                        setEditProduct(null); 
-                        setIsModalOpen(true); 
+                        handleAddProduct();
                     }}
                     disabled={!canAddProduct}
                     className={`flex items-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl transition-colors ${
@@ -265,14 +254,6 @@ export default function ProductManagement() {
                     </div>
                 )}
             </div>
-
-            {/* Add/Edit Product Modal */}
-            <ProductFormModal 
-                isOpen={isModalOpen}
-                onClose={handleModalClose}
-                onSuccess={handleModalSuccess}
-                editProduct={editProduct}
-            />
 
             {/* Delete Confirmation Modal */}
             {deleteConfirm && (

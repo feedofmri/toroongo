@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Globe, ChevronDown } from 'lucide-react';
+import { getCurrencySymbol } from '../../utils/currency';
 
 // Countries grouped by language
 export const COUNTRY_GROUPS = [
@@ -161,7 +162,7 @@ export default function CountrySelector({ value = {}, onChange, className = '' }
                         <p className={`text-sm font-semibold ${isOthers ? 'text-brand-primary' : 'text-text-primary'}`}>
                             Others
                         </p>
-                        <p className="text-[11px] text-text-muted">Any other country · US Dollar ($)</p>
+                        <p className="text-[11px] text-text-muted">Any other country · US Dollar (USD)</p>
                     </div>
                     {isOthers && <div className="w-2 h-2 rounded-full bg-brand-primary flex-shrink-0" />}
                 </button>
@@ -184,7 +185,7 @@ export default function CountrySelector({ value = {}, onChange, className = '' }
             {value.currency_code && (
                 <div className="flex items-center gap-2 p-3 bg-surface-bg rounded-xl border border-border-soft">
                     <span className="text-xs text-text-muted">Your currency will be set to</span>
-                    <span className="text-xs font-bold text-brand-primary">{value.currency_code}</span>
+                    <span className="text-xs font-bold text-brand-primary">{value.currency_code} ({getCurrencySymbol(value.currency_code)})</span>
                 </div>
             )}
         </div>

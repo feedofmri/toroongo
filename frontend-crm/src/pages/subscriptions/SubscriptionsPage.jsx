@@ -146,6 +146,9 @@ export default function SubscriptionsPage() {
   }, [page, query, plan, status]);
 
   useEffect(() => { fetchSubs(); }, [fetchSubs]);
+  useEffect(() => {
+    adminService.markAllAsRead('subscriptions').catch(() => {});
+  }, []);
 
   return (
     <div className="space-y-6 animate-fade-in">

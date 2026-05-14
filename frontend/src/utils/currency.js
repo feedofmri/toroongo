@@ -86,7 +86,7 @@ export function convertCurrency(amount, fromCode = 'USD', toCode = 'USD') {
 
 // Format a price that is stored in sellerCurrencyCode, displayed in buyer's currency
 // sellerCurrencyCode defaults to USD for backward compatibility
-export const formatPrice = (amount, sellerCurrencyCode = 'USD', decimals = 0) => {
+export const formatPrice = (amount, sellerCurrencyCode = 'USD', decimals = 2) => {
     if (typeof amount !== 'number') {
         const parsed = parseFloat(amount);
         amount = isNaN(parsed) ? 0 : parsed;
@@ -104,7 +104,7 @@ export const formatPrice = (amount, sellerCurrencyCode = 'USD', decimals = 0) =>
 };
 
 // Format a price in a specific currency (no conversion — used for seller views)
-export const formatPriceInCurrency = (amount, currencyCode = 'USD', decimals = 0) => {
+export const formatPriceInCurrency = (amount, currencyCode = 'USD', decimals = 2) => {
     if (typeof amount !== 'number') {
         const parsed = parseFloat(amount);
         amount = isNaN(parsed) ? 0 : parsed;
@@ -121,6 +121,10 @@ export const formatPriceInCurrency = (amount, currencyCode = 'USD', decimals = 0
 // Return just the buyer's currency symbol
 export function getBuyerCurrencySymbol() {
     return (CURRENCY_INFO[getBuyerCurrencyCode()] || CURRENCY_INFO.USD).symbol;
+}
+
+export function getCurrencySymbol(code = 'USD') {
+    return (CURRENCY_INFO[code] || CURRENCY_INFO.USD).symbol;
 }
 
 /**

@@ -61,6 +61,8 @@ class ShippingAreaController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:100',
             'country' => 'required|string|max:5',
+            'state' => 'nullable|string|max:100',
+            'city' => 'nullable|string|max:100',
             'fee' => 'required|numeric|min:0',
             'is_active' => 'nullable|boolean',
         ]);
@@ -79,6 +81,8 @@ class ShippingAreaController extends Controller
         $data = $request->validate([
             'name' => 'sometimes|required|string|max:100',
             'country' => 'sometimes|required|string|max:5',
+            'state' => 'nullable|string|max:100',
+            'city' => 'nullable|string|max:100',
             'fee' => 'sometimes|required|numeric|min:0',
             'is_active' => 'nullable|boolean',
         ]);

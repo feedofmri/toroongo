@@ -14,15 +14,16 @@ const normalizeApiPrefix = (value, fallback = "/api") => {
   return withLeadingSlash.replace(/\/+$/, "");
 };
 
-const storagePrefix = (
-  import.meta.env.VITE_STORAGE_PREFIX || "toroongo"
-).trim();
-const apiHost = normalizeBaseUrl(
-  import.meta.env.VITE_API_BASE_URL,
-  "http://localhost:8000",
-);
-const apiPrefix = normalizeApiPrefix(import.meta.env.VITE_API_PREFIX, "/api");
+const storagePrefix = (import.meta.env.VITE_STORAGE_PREFIX || 'toroongo').trim();
+
+// Ensure the API host is taken directly from the environment without unsafe local fallbacks
+const apiHost = normalizeBaseUrl(import.meta.env.VITE_API_BASE_URL, '');
+const apiPrefix = normalizeApiPrefix(import.meta.env.VITE_API_PREFIX, '/api');
 const useCredentials = toBoolean(import.meta.env.VITE_USE_CREDENTIALS, false);
+
+if (!apiHost && import.meta.env.PROD) {
+  console.warn('VITE_API_BASE_URL is not defined in the environment. API calls will likely fail.');
+}
 
 export const TOKEN_STORAGE_KEY =
   import.meta.env.VITE_AUTH_TOKEN_STORAGE_KEY || `${storagePrefix}_token`;

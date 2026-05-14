@@ -188,7 +188,7 @@ export default function SellerMessages() {
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center justify-between mb-0.5">
                                             <span className={`text-sm truncate ${convo.unreadCount > 0 ? 'font-bold text-text-primary' : 'font-semibold text-text-primary'}`}>
-                                                {convo.otherUser?.name || t('common.customer', 'Customer')}
+                                                {convo.otherUser?.store_name || convo.otherUser?.name || t('common.customer', 'Customer')}
                                             </span>
                                             <span className="text-[10px] text-text-muted whitespace-nowrap ml-2">
                                                 {formatTime(convo.lastMessage?.createdAt)}
@@ -224,7 +224,7 @@ export default function SellerMessages() {
                                         <span className="text-sm font-bold text-brand-primary">{(activeConvo.otherUser?.name || 'C').charAt(0).toUpperCase()}</span>
                                     </div>
                                     <div>
-                                        <h3 className="text-sm font-bold text-text-primary">{activeConvo.otherUser?.name || t('common.customer', 'Customer')}</h3>
+                                        <h3 className="text-sm font-bold text-text-primary">{activeConvo.otherUser?.store_name || activeConvo.otherUser?.name || t('common.customer', 'Customer')}</h3>
                                         <p className="text-[10px] text-green-500 font-bold uppercase tracking-wider">{t('sellerMessages.buyerAccount', 'Buyer Account')}</p>
                                     </div>
                                 </div>

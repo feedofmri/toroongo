@@ -71,7 +71,9 @@
         "customer": "Customer",
         "loading": "Loading...",
         "cancel": "Cancel",
-        "product": "Product"
+        "product": "Product",
+        "previous": "Previous",
+        "next": "Next"
     },
     "home": {
         "heroTitle": "Shop Everything",
@@ -276,7 +278,9 @@
         "soldBy": "Sold By",
         "visitShop": "Visit Shop",
         "freeShipping": "Free Shipping",
-        "freeShippingDesc": "Seller area based shipping",
+        "shippingVaries": "Rates vary by location",
+        "shippingCalculatedAtCheckout": "Calculated at checkout",
+        "freeOver": "Free over {{amount}}",
         "productsCount": "{{count}} products",
         "buyerProtection": "Buyer Protection",
         "buyerProtectionDesc": "Money-back guarantee",
@@ -313,7 +317,12 @@
         "stayAtShop": "Stay at Shop",
         "uncategorized": "Uncategorized",
         "contactSupport": "Contact Support",
-        "itemsCount": "{{count}}x items"
+        "itemsCount": "{{count}}x items",
+        "related": {
+            "badge": "",
+            "title": "Related Products",
+            "subtitle": "Explore more items you might find interesting."
+        }
     },
     "storefront": {
         "contact": "Message",
@@ -380,7 +389,7 @@
                     "Orders are processed within 24-48 hours",
                     "Standard shipping delivery time: 3-5 business days",
                     "Tracking information provided via email",
-                    "Free shipping on orders above $50"
+                    "Free shipping on orders above the threshold"
                 ]
             },
             "returns": {
@@ -430,8 +439,10 @@
         "empty": "Your cart is empty",
         "emptyDesc": "Looks like you haven't added anything to your cart yet.",
         "continueShopping": "Continue Shopping",
+        "calculatedAtCheckout": "Calculated at checkout",
         "freeShippingText": "Free shipping",
-        "shippingCostText": "$5.99 shipping",
+        "shippingCostText": "{{amount}} shipping",
+        "freeOverThreshold": "Free over {{amount}}",
         "orderSummary": "Order Summary",
         "promoCode": "Promo code",
         "apply": "Apply",
@@ -761,7 +772,7 @@
                 },
                 {
                     "title": "2. Platform Fees",
-                    "content": "Toroongo charges no transaction fees. Sellers only pay the subscription fee for their chosen plan (Starter, Growth, Business, or Enterprise)."
+                    "content": "Toroongo charges no transaction fees. Sellers only pay the subscription fee for their chosen plan (Starter, Pro, Business, or Enterprise)."
                 },
                 {
                     "title": "3. Content & Intellectual Property",
@@ -1448,8 +1459,8 @@
         "shipping": {
             "title": "Shipping Settings",
             "processing": "Processing Time (days)",
-            "threshold": "Free Shipping Threshold ($)",
-            "rate": "Standard Shipping Rate ($)",
+            "threshold": "Free Shipping Threshold ({{currency}})",
+            "rate": "Standard Shipping Rate ({{currency}})",
             "express": "Offer express shipping",
             "expressDesc": "Allow customers to choose faster 2-3 day delivery",
             "save": "Save Shipping Settings"
@@ -1821,7 +1832,7 @@
             "typePercentage": "Percentage Off",
             "typeFixed": "Fixed Amount Off",
             "valueLabel": "Value",
-            "minOrderLabel": "Minimum Order Value ($)",
+            "minOrderLabel": "Minimum Order Value ({{currency}})",
             "usageLimitLabel": "Usage Limit",
             "usageLimitPlaceholder": "Unlimited",
             "expiryLabel": "Expiry Date",

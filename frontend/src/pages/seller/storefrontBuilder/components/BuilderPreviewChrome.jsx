@@ -179,81 +179,98 @@ export function BuilderHeaderChrome() {
             </header>
 
             {/* ══ STORE BANNER (click to edit) ════════════════════ */}
-            <div
-                className={`relative overflow-hidden border-b cursor-pointer group transition-all ${heroSelected ? 'ring-2 ring-brand-primary ring-inset' : 'hover:ring-2 hover:ring-brand-primary/40 hover:ring-inset'} ${isMobile ? 'h-44' : 'h-44 sm:h-56 lg:h-64'}`}
-                style={{ borderColor }}
-                onClick={(e) => { e.stopPropagation(); selectHero(); }}
-                title="Click to edit banner"
-            >
-                {bannerImage ? (
-                    <img src={bannerImage} alt={storeName}
-                         className="absolute inset-0 w-full h-full object-cover" />
-                ) : (
-                    <div className="absolute inset-0"
-                         style={{ background: 'linear-gradient(135deg, var(--seller-brand, #008080) 0%, var(--seller-brand-secondary, #8B5CF6) 100%)' }} />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"
-                     style={{ opacity: overlayOpacity }} />
-
-                {/* Edit hint badge */}
-                {!heroSelected && (
-                    <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity bg-black/60 text-white text-[10px] font-semibold px-2 py-1 rounded-lg backdrop-blur-sm select-none">
-                        {t('builder.clickToEdit')}
-                    </div>
-                )}
-                {heroSelected && (
-                    <div className="absolute top-3 right-3 bg-brand-primary text-white text-[10px] font-semibold px-2 py-1 rounded-lg select-none">
-                        {t('builder.editing')}
-                    </div>
-                )}
-
-                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end pb-5">
-                    <div className="flex items-end gap-4 justify-between w-full">
-                        <div className="flex items-end gap-3 sm:gap-4">
-                            <div className={`rounded-2xl overflow-hidden border-[3px] border-white shadow-lg bg-white flex-shrink-0 flex items-center justify-center text-gray-400 ${isMobile ? 'w-12 h-12' : 'w-14 h-14 sm:w-[4.5rem] sm:h-[4.5rem]'}`}>
-                                {logo
-                                    ? <img src={logo} alt={storeName} className="w-full h-full object-cover" />
-                                    : <Store size={isMobile ? 22 : 32} />
-                                }
-                            </div>
-                            <div className="pb-0.5">
-                                <h1 className={`leading-tight ${isMobile ? 'text-base' : 'text-lg sm:text-2xl'}`}
-                                    style={{
-                                        fontFamily: hero.nameFont ? `"${hero.nameFont}", sans-serif` : 'var(--seller-heading-font, Inter, sans-serif)',
-                                        fontSize: hero.nameSize ? NAME_SIZE_MAP[hero.nameSize] : undefined,
-                                        fontWeight: hero.nameWeight || '700',
-                                        color: hero.nameColor || '#ffffff',
-                                    }}>
-                                    {storeName}
-                                </h1>
-                                {hero.tagline && (
-                                    <p className="text-xs mt-0.5 mb-0.5"
-                                       style={{ color: hero.taglineColor || 'rgba(255,255,255,0.8)' }}>
-                                        {hero.tagline}
-                                    </p>
-                                )}
-                                {hero.showRating !== false && (
-                                    <div className="flex items-center gap-2.5 mt-0.5">
-                                        <div className="flex items-center gap-1">
-                                            <Star size={12} className="fill-amber-400 text-amber-400" />
-                                            <span className="text-xs text-white/90 font-medium">4.8</span>
-                                        </div>
-                                        <span className="text-xs text-white/50">·</span>
-                                        <span className="text-xs text-white/70">{t('builder.yourProducts')}</span>
-                                    </div>
-                                )}
-                            </div>
+            {hero.hideBanner ? (
+                <div
+                    className={`relative border-b py-8 flex flex-col items-center justify-center cursor-pointer transition-all bg-gray-50/50
+                        ${heroSelected ? 'ring-2 ring-brand-primary' : 'hover:bg-gray-100 border-dashed border-2 border-gray-200'}`}
+                    style={{ borderColor }}
+                    onClick={(e) => { e.stopPropagation(); selectHero(); }}
+                >
+                    <div className="flex flex-col items-center gap-2 text-gray-400">
+                        <div className="p-3 bg-white rounded-full shadow-sm">
+                            <X size={20} className="text-gray-300" />
                         </div>
-
-                        {hero.showContact !== false && (
-                            <div className="flex items-center gap-2 px-3 py-1.5 bg-white/95 backdrop-blur-sm text-slate-900 rounded-xl text-xs font-semibold shadow-lg select-none">
-                                <MessageSquare size={13} />
-                                {hero.contactText || t('footer.contact')}
-                            </div>
-                        )}
+                        <span className="text-xs font-semibold uppercase tracking-wider">{t('builder.panel.bannerHidden', 'Global Banner Hidden')}</span>
+                        <p className="text-[10px] text-gray-400">{t('builder.panel.clickToEditBanner', 'Click to edit or unhide')}</p>
                     </div>
                 </div>
-            </div>
+            ) : (
+                <div
+                    className={`relative overflow-hidden border-b cursor-pointer group transition-all ${heroSelected ? 'ring-2 ring-brand-primary ring-inset' : 'hover:ring-2 hover:ring-brand-primary/40 hover:ring-inset'} ${isMobile ? 'h-44' : 'h-44 sm:h-56 lg:h-64'}`}
+                    style={{ borderColor }}
+                    onClick={(e) => { e.stopPropagation(); selectHero(); }}
+                    title="Click to edit banner"
+                >
+                    {bannerImage ? (
+                        <img src={bannerImage} alt={storeName}
+                             className="absolute inset-0 w-full h-full object-cover" />
+                    ) : (
+                        <div className="absolute inset-0"
+                             style={{ background: 'linear-gradient(135deg, var(--seller-brand, #008080) 0%, var(--seller-brand-secondary, #8B5CF6) 100%)' }} />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"
+                         style={{ opacity: overlayOpacity }} />
+
+                    {/* Edit hint badge */}
+                    {!heroSelected && (
+                        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity bg-black/60 text-white text-[10px] font-semibold px-2 py-1 rounded-lg backdrop-blur-sm select-none">
+                            {t('builder.clickToEdit')}
+                        </div>
+                    )}
+                    {heroSelected && (
+                        <div className="absolute top-3 right-3 bg-brand-primary text-white text-[10px] font-semibold px-2 py-1 rounded-lg select-none">
+                            {t('builder.editing')}
+                        </div>
+                    )}
+
+                    <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end pb-5">
+                        <div className="flex items-end gap-4 justify-between w-full">
+                            <div className="flex items-end gap-3 sm:gap-4">
+                                <div className={`rounded-2xl overflow-hidden border-[3px] border-white shadow-lg bg-white flex-shrink-0 flex items-center justify-center text-gray-400 ${isMobile ? 'w-12 h-12' : 'w-14 h-14 sm:w-[4.5rem] sm:h-[4.5rem]'}`}>
+                                    {logo
+                                        ? <img src={logo} alt={storeName} className="w-full h-full object-cover" />
+                                        : <Store size={isMobile ? 22 : 32} />
+                                    }
+                                </div>
+                                <div className="pb-0.5">
+                                    <h1 className={`leading-tight ${isMobile ? 'text-base' : 'text-lg sm:text-2xl'}`}
+                                        style={{
+                                            fontFamily: hero.nameFont ? `"${hero.nameFont}", sans-serif` : 'var(--seller-heading-font, Inter, sans-serif)',
+                                            fontSize: hero.nameSize ? NAME_SIZE_MAP[hero.nameSize] : undefined,
+                                            fontWeight: hero.nameWeight || '700',
+                                            color: hero.nameColor || '#ffffff',
+                                        }}>
+                                        {storeName}
+                                    </h1>
+                                    {hero.tagline && (
+                                        <p className="text-xs mt-0.5 mb-0.5"
+                                           style={{ color: hero.taglineColor || 'rgba(255,255,255,0.8)' }}>
+                                            {hero.tagline}
+                                        </p>
+                                    )}
+                                    {hero.showRating !== false && (
+                                        <div className="flex items-center gap-2.5 mt-0.5">
+                                            <div className="flex items-center gap-1">
+                                                <Star size={12} className="fill-amber-400 text-amber-400" />
+                                                <span className="text-xs text-white/90 font-medium">4.8</span>
+                                            </div>
+                                            <span className="text-xs text-white/50">·</span>
+                                            <span className="text-xs text-white/70">{t('builder.yourProducts')}</span>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            {hero.showContact !== false && (
+                                <div className="flex items-center gap-2 px-3 py-1.5 bg-white/95 backdrop-blur-sm text-slate-900 rounded-xl text-xs font-semibold shadow-lg select-none">
+                                    <MessageSquare size={13} />
+                                    {hero.contactText || t('footer.contact')}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* ══ DESKTOP NAV TABS (hidden on mobile) ══════════════ */}
             {!isMobile && (

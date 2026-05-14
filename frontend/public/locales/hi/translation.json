@@ -408,7 +408,7 @@
     "emptyDesc": "लगता है आपने अभी तक अपनी कार्ट में कुछ नहीं जोड़ा है।",
     "continueShopping": "खरीदारी जारी रखें",
     "freeShippingText": "मुफ़्त शिपिंग",
-    "shippingCostText": "$5.99 शिपिंग शुल्क",
+    "shippingCostText": "{{amount}} shipping",
     "orderSummary": "ऑर्डर सारांश",
     "promoCode": "प्रोमो कोड",
     "apply": "लागू करें",
@@ -1339,8 +1339,8 @@
     "shipping": {
       "title": "शिपिंग सेटिंग्स",
       "processing": "प्रसंस्करण समय (दिन)",
-      "threshold": "निःशुल्क शिपिंग सीमा ($)",
-      "rate": "मानक शिपिंग दर ($)",
+      "threshold": "निःशुल्क शिपिंग सीमा ({{currency}})",
+      "rate": "मानक शिपिंग दर ({{currency}})",
       "express": "एक्सप्रेस शिपिंग की पेशकश करें",
       "expressDesc": "ग्राहकों को 2-3 दिन की तेज डिलीवरी चुनने की अनुमति दें",
       "save": "शिपिंग सेटिंग सहेजें"
@@ -1698,7 +1698,7 @@
       "typePercentage": "प्रतिशत छूट",
       "typeFixed": "निश्चित राशि की छूट",
       "valueLabel": "कीमत",
-      "minOrderLabel": "न्यूनतम ऑर्डर मूल्य ($)",
+      "minOrderLabel": "न्यूनतम ऑर्डर मूल्य ({{currency}})",
       "usageLimitLabel": "उपयोग सीमा",
       "usageLimitPlaceholder": "असीमित",
       "expiryLabel": "समाप्ति तिथि",

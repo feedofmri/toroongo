@@ -3,7 +3,7 @@ import { Outlet, NavLink, Link, useParams, useNavigate, useLocation } from 'reac
 import {
     Store, Grid3X3, Info, FileText, Star, MessageSquare, ShieldCheck,
     ShoppingCart, Heart, User, Search, LogOut, ChevronLeft, Menu, X, Loader2,
-    Tag, Newspaper
+    Tag, Newspaper, BadgeCheck
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { resolveSellerTheme } from '../../theme/sellerTheme';
@@ -39,8 +39,10 @@ export default function SellerLayout() {
     const [messageSent, setMessageSent] = useState(false);
     const [userDropdownOpen, setUserDropdownOpen] = useState(false);
     const [mobileNavOpen, setMobileNavOpen] = useState(false);
+    const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const userDropdownRef = useRef(null);
+    const searchRef = useRef(null);
 
     useEffect(() => {
         const fetchSellerData = async () => {
@@ -74,9 +76,32 @@ export default function SellerLayout() {
                 setUserDropdownOpen(false);
             }
         }
+        function handleSearchClickOutside(e) {
+            if (searchRef.current && !searchRef.current.contains(e.target)) {
+                setMobileSearchOpen(false);
+            }
+        }
         if (userDropdownOpen) document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, [userDropdownOpen]);
+        if (mobileSearchOpen) {
+            document.addEventListener('mousedown', handleSearchClickOutside);
+            document.body.style.overflow = 'hidden';
+        }
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('mousedown', handleSearchClickOutside);
+            document.body.style.overflow = '';
+        };
+    }, [userDropdownOpen, mobileSearchOpen]);
+
+    // Focus mobile search when opened
+    useEffect(() => {
+        if (mobileSearchOpen) {
+            const timer = setTimeout(() => {
+                document.getElementById('seller-mobile-search-overlay-input')?.focus();
+            }, 100);
+            return () => clearTimeout(timer);
+        }
+    }, [mobileSearchOpen]);
 
     const resolvedTheme = storefrontConfig?.theme || null;
     const resolvedHero = storefrontConfig?.hero || null;
@@ -96,6 +121,7 @@ export default function SellerLayout() {
     const heroShowContact = resolvedHero ? resolvedHero.showContact !== false : true;
     const heroContactText = resolvedHero?.contactText || t('storefront.contact', 'Contact');
     const heroOverlayOpacity = (resolvedHero?.overlayOpacity ?? 70) / 100;
+    const hideBanner = resolvedHero?.hideBanner === true;
     // Hero text style overrides
     const HERO_NAME_SIZE_MAP = {
         sm: '0.875rem', base: '1rem', lg: '1.125rem', xl: '1.25rem',
@@ -178,8 +204,10 @@ export default function SellerLayout() {
     };
 
     const handleSearch = (e) => {
-        if (e.key === 'Enter' && searchQuery.trim()) {
-            navigate(`/products?q=${encodeURIComponent(searchQuery.trim())}`);
+        if ((e.key === 'Enter' || e.type === 'click') && searchQuery.trim()) {
+            navigate(`/${slug}/products?q=${encodeURIComponent(searchQuery.trim())}`);
+            setMobileNavOpen(false);
+            setMobileSearchOpen(false);
         }
     };
 
@@ -242,9 +270,12 @@ export default function SellerLayout() {
                                             <Store size={14} style={{ color: iconColor }} />
                                         )}
                                     </div>
-                                    <span className="text-sm font-bold truncate hidden sm:block"
+                                    <span className="text-sm font-bold truncate hidden sm:flex items-center gap-1.5"
                                         style={{ color: headerText }}>
                                         {seller.store_name || seller.name}
+                                        {seller.is_verified && (
+                                            <BadgeCheck size={14} className="text-brand-primary" />
+                                        )}
                                     </span>
                                 </Link>
                             )}
@@ -261,29 +292,37 @@ export default function SellerLayout() {
                                         <Store size={14} style={{ color: iconColor }} />
                                     )}
                                 </div>
-                                <span className="text-sm font-bold hidden sm:block" style={{ color: headerText }}>
+                                <span className="text-sm font-bold hidden sm:flex items-center gap-1.5" style={{ color: headerText }}>
                                     {seller.store_name || seller.name}
+                                    {seller.is_verified && (
+                                        <BadgeCheck size={14} className="text-brand-primary" />
+                                    )}
                                 </span>
                             </Link>
                         )}
 
                         {/* Center: Search (desktop) */}
                         <div className="hidden md:flex flex-1 max-w-md mx-4">
-                            <div className="relative w-full">
-                                <Search size={16}
-                                    className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
-                                    style={{ color: iconColor }} />
+                            <div className="relative w-full group">
+                                <button 
+                                    onClick={() => handleSearch({ type: 'click' })}
+                                    className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-brand-primary transition-colors cursor-pointer z-10"
+                                    style={{ color: iconColor }}
+                                >
+                                    <Search size={16} />
+                                </button>
                                 <input
                                     type="text"
                                     placeholder={t("nav.search")}
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     onKeyDown={handleSearch}
-                                    className="w-full pl-9 pr-4 py-2 text-sm rounded-xl border outline-none transition-all"
+                                    className="w-full pl-9 pr-4 py-2 text-sm rounded-xl border outline-none transition-all focus:ring-2"
                                     style={{
                                         backgroundColor: isDarkHeader ? 'rgba(255,255,255,0.08)' : '#F8FAFC',
                                         borderColor: isDarkHeader ? 'rgba(255,255,255,0.18)' : '#E2E8F0',
                                         color: headerText,
+                                        '--tw-ring-color': 'var(--seller-brand)',
                                     }}
                                 />
                             </div>
@@ -292,18 +331,21 @@ export default function SellerLayout() {
                         {/* Right: Actions */}
                         <div className="flex items-center gap-0.5 sm:gap-1">
                             {/* Search mobile */}
-                            <Link
-                                to="/products"
+                            <button
+                                onClick={() => {
+                                    setMobileSearchOpen(true);
+                                    setMobileNavOpen(false);
+                                }}
                                 className={`md:hidden p-2 rounded-lg transition-colors ${hoverBg}`}
                                 style={{ color: iconColor }}
                                 aria-label="Search"
                             >
                                 <Search size={19} />
-                            </Link>
+                            </button>
 
                             {/* Wishlist */}
                             <Link
-                                to="/wishlist"
+                                to="/account/wishlist"
                                 className={`hidden sm:flex relative p-2 rounded-lg transition-colors ${hoverBg}`}
                                 style={{ color: iconColor }}
                                 aria-label="Wishlist"
@@ -377,7 +419,7 @@ export default function SellerLayout() {
                                                 {t("nav.dashboard")}
                                             </Link>
                                             <Link
-                                                to="/wishlist"
+                                                to="/account/wishlist"
                                                 onClick={() => setUserDropdownOpen(false)}
                                                 className="sm:hidden block px-3 py-2 text-sm text-text-muted hover:text-brand-primary hover:bg-brand-primary/5 rounded-lg transition-colors"
                                             >
@@ -419,61 +461,66 @@ export default function SellerLayout() {
             {/* ══════════════════════════════════════════════════════
                  STORE BANNER
                  ══════════════════════════════════════════════════════ */}
-            <div className="relative h-44 sm:h-56 lg:h-64 overflow-hidden border-b"
-                style={{ borderColor: headerBorder }}>
-                {heroBannerImage ? (
-                    <img
-                        src={heroBannerImage}
-                        alt={`${heroStoreName} banner`}
-                        className="absolute inset-0 w-full h-full object-cover"
-                    />
-                ) : (
-                    <div className="absolute inset-0"
-                        style={{ background: `linear-gradient(135deg, var(--seller-brand, #008080) 0%, var(--seller-brand-secondary, #8B5CF6) 100%)` }} />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"
-                    style={{ opacity: heroOverlayOpacity }} />
+            {!hideBanner && (
+                <div className="relative h-44 sm:h-56 lg:h-64 overflow-hidden border-b"
+                    style={{ borderColor: headerBorder }}>
+                    {heroBannerImage ? (
+                        <img
+                            src={heroBannerImage}
+                            alt={`${heroStoreName} banner`}
+                            className="absolute inset-0 w-full h-full object-cover"
+                        />
+                    ) : (
+                        <div className="absolute inset-0"
+                            style={{ background: `linear-gradient(135deg, var(--seller-brand, #008080) 0%, var(--seller-brand-secondary, #8B5CF6) 100%)` }} />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"
+                        style={{ opacity: heroOverlayOpacity }} />
 
-                <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end pb-5">
-                    <div className="flex items-end gap-4 justify-between w-full">
-                        <div className="flex items-end gap-3 sm:gap-4">
-                            <div className="w-14 h-14 sm:w-[4.5rem] sm:h-[4.5rem] rounded-2xl overflow-hidden border-[3px] border-white shadow-lg bg-white flex-shrink-0 flex items-center justify-center text-text-muted">
-                                {seller.logo ? (
-                                    <img src={seller.logo} alt={heroStoreName} className="w-full h-full object-cover" />
-                                ) : (
-                                    <Store size={32} />
-                                )}
-                            </div>
-                            <div className="pb-0.5">
-                                <h1 className="text-lg sm:text-2xl leading-tight" style={heroNameStyle}>
-                                    {heroStoreName}
-                                </h1>
-                                {heroTagline && (
-                                    <p className="text-xs mt-0.5 mb-0.5" style={heroTaglineStyle}>{heroTagline}</p>
-                                )}
-                                {heroShowRating && (
-                                    <div className="flex items-center gap-2.5 mt-0.5">
-                                        <div className="flex items-center gap-1">
-                                            <Star size={12} className="fill-amber-400 text-amber-400" />
-                                            <span className="text-xs sm:text-sm text-white/90 font-medium">{seller.rating}</span>
+                    <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-end pb-5">
+                        <div className="flex items-end gap-4 justify-between w-full">
+                            <div className="flex items-end gap-3 sm:gap-4">
+                                <div className="w-14 h-14 sm:w-[4.5rem] sm:h-[4.5rem] rounded-2xl overflow-hidden border-[3px] border-white shadow-lg bg-white flex-shrink-0 flex items-center justify-center text-text-muted">
+                                    {seller.logo ? (
+                                        <img src={seller.logo} alt={heroStoreName} className="w-full h-full object-cover" />
+                                    ) : (
+                                        <Store size={32} />
+                                    )}
+                                </div>
+                                <div className="pb-0.5">
+                                    <h1 className="text-lg sm:text-2xl leading-tight flex items-center gap-2" style={heroNameStyle}>
+                                        {heroStoreName}
+                                        {seller.is_verified && (
+                                            <BadgeCheck size={20} className="text-white/90" />
+                                        )}
+                                    </h1>
+                                    {heroTagline && (
+                                        <p className="text-xs mt-0.5 mb-0.5" style={heroTaglineStyle}>{heroTagline}</p>
+                                    )}
+                                    {heroShowRating && (
+                                        <div className="flex items-center gap-2.5 mt-0.5">
+                                            <div className="flex items-center gap-1">
+                                                <Star size={12} className="fill-amber-400 text-amber-400" />
+                                                <span className="text-xs sm:text-sm text-white/90 font-medium">{seller.rating}</span>
+                                            </div>
+                                            <span className="text-xs text-white/50">·</span>
+                                            <span className="text-xs sm:text-sm text-white/70">{sellerProducts.length} {t("storefront.stats.products")}</span>
                                         </div>
-                                        <span className="text-xs text-white/50">·</span>
-                                        <span className="text-xs sm:text-sm text-white/70">{sellerProducts.length} {t("storefront.stats.products")}</span>
-                                    </div>
-                                )}
+                                    )}
+                                </div>
                             </div>
+                            {heroShowContact && (
+                                <button
+                                    onClick={() => setShowMessageModal(true)}
+                                    className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-white/95 backdrop-blur-sm text-slate-900 rounded-xl text-xs sm:text-sm font-semibold hover:bg-white transition-colors shadow-lg"
+                                >
+                                    <MessageSquare size={14} className="sm:w-[15px] sm:h-[15px]" /> {heroContactText}
+                                </button>
+                            )}
                         </div>
-                        {heroShowContact && (
-                            <button
-                                onClick={() => setShowMessageModal(true)}
-                                className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-white/95 backdrop-blur-sm text-slate-900 rounded-xl text-xs sm:text-sm font-semibold hover:bg-white transition-colors shadow-lg"
-                            >
-                                <MessageSquare size={14} className="sm:w-[15px] sm:h-[15px]" /> {heroContactText}
-                            </button>
-                        )}
                     </div>
                 </div>
-            </div>
+            )}
 
             {/* ══════════════════════════════════════════════════════
                  SHOP NAVIGATION (Desktop)
@@ -531,6 +578,8 @@ export default function SellerLayout() {
                         Toroongo.com
                     </Link>
 
+                    {/* Removed Search from Mobile Nav as it has its own overlay */}
+
                     <div className="pb-2 mb-2 border-b" style={{ borderColor: headerBorder }}>
                         <p className="px-3 text-[10px] font-bold uppercase tracking-wider mb-1"
                             style={{ color: iconColor }}>
@@ -564,7 +613,7 @@ export default function SellerLayout() {
                         {t("storefront.nav.userActions")}
                     </p>
                     <Link
-                        to="/wishlist"
+                        to="/account/wishlist"
                         onClick={() => setMobileNavOpen(false)}
                         className={`flex items-center gap-2.5 px-3 py-2.5 text-sm font-medium rounded-lg transition-colors ${hoverBg}`}
                         style={{ color: iconColor }}
@@ -587,6 +636,42 @@ export default function SellerLayout() {
                             <User size={16} /> {t("nav.signInUp")}
                         </Link>
                     )}
+                </div>
+            )}
+
+            {/* Mobile Search Overlay */}
+            {mobileSearchOpen && (
+                <div className="fixed inset-0 z-[60] sm:hidden">
+                    <div className="absolute inset-0 bg-black/40 backdrop-blur-sm animate-fade-in" onClick={() => setMobileSearchOpen(false)} />
+                    <div ref={searchRef} className="absolute top-0 left-0 right-0 bg-white shadow-2xl p-4 animate-slide-down"
+                         style={{ backgroundColor: 'var(--seller-header-bg, #FFFFFF)' }}>
+                        <div className="flex items-center gap-3">
+                            <div className="relative flex-1">
+                                <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: iconColor }} />
+                                <input
+                                    id="seller-mobile-search-overlay-input"
+                                    type="text"
+                                    placeholder={t("nav.search")}
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    onKeyDown={handleSearch}
+                                    className="w-full pl-10 pr-4 py-3 text-sm rounded-xl border outline-none transition-all"
+                                    style={{
+                                        backgroundColor: isDarkHeader ? 'rgba(255,255,255,0.08)' : '#F8FAFC',
+                                        borderColor: isDarkHeader ? 'rgba(255,255,255,0.18)' : '#E2E8F0',
+                                        color: headerText,
+                                    }}
+                                />
+                            </div>
+                            <button 
+                                onClick={() => setMobileSearchOpen(false)}
+                                className="p-2 transition-colors"
+                                style={{ color: iconColor }}
+                            >
+                                <X size={24} />
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )}
 

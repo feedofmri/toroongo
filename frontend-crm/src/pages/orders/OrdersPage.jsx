@@ -9,12 +9,12 @@ import {
 import { adminService } from '../../services/adminService';
 
 const STATUS_COLORS = {
-  pending:    'bg-amber-100 text-amber-700',
+  pending: 'bg-amber-100 text-amber-700',
   processing: 'bg-blue-100 text-blue-700',
-  shipped:    'bg-indigo-100 text-indigo-700',
-  delivered:  'bg-green-100 text-green-700',
-  cancelled:  'bg-red-100 text-red-700',
-  refunded:   'bg-gray-100 text-gray-600',
+  shipped: 'bg-indigo-100 text-indigo-700',
+  delivered: 'bg-green-100 text-green-700',
+  cancelled: 'bg-red-100 text-red-700',
+  refunded: 'bg-gray-100 text-gray-600',
 };
 
 const STATUS_TABS = ['all', 'pending', 'processing', 'shipped', 'delivered', 'cancelled'];
@@ -51,10 +51,10 @@ function OrderModal({ order, onClose }) {
           {/* Totals Summary */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-6 border-b border-border-soft">
             {[
-              { label: 'Subtotal',  value: `$${Number(order.subtotal ?? 0).toFixed(2)}`,       Icon: Receipt,   cls: 'text-blue-500',   bg: 'bg-blue-50' },
-              { label: 'Shipping',  value: `$${Number(order.shipping_cost ?? 0).toFixed(2)}`,  Icon: Truck,     cls: 'text-indigo-500', bg: 'bg-indigo-50' },
-              { label: 'Tax',       value: `$${Number(order.tax ?? 0).toFixed(2)}`,            Icon: Tag,       cls: 'text-amber-500',  bg: 'bg-amber-50' },
-              { label: 'Total',     value: `$${Number(order.total ?? 0).toFixed(2)}`,          Icon: DollarSign,cls: 'text-green-600',  bg: 'bg-green-50' },
+              { label: 'Subtotal', value: `$${Number(order.subtotal ?? 0).toFixed(2)}`, Icon: Receipt, cls: 'text-blue-500', bg: 'bg-blue-50' },
+              { label: 'Shipping', value: `$${Number(order.shipping_cost ?? 0).toFixed(2)}`, Icon: Truck, cls: 'text-indigo-500', bg: 'bg-indigo-50' },
+              { label: 'Tax', value: `$${Number(order.tax ?? 0).toFixed(2)}`, Icon: Tag, cls: 'text-amber-500', bg: 'bg-amber-50' },
+              { label: 'Total', value: `$${Number(order.total ?? 0).toFixed(2)}`, Icon: DollarSign, cls: 'text-green-600', bg: 'bg-green-50' },
             ].map(s => (
               <div key={s.label} className={`${s.bg} rounded-xl p-3 text-center`}>
                 <s.Icon size={14} className={`${s.cls} mx-auto mb-1`} />
@@ -162,21 +162,21 @@ function OrderModal({ order, onClose }) {
 
 /* ─── Main Page ───────────────────────────────────────── */
 export default function OrdersPage() {
-  const [orders, setOrders]   = useState([]);
-  const [meta, setMeta]       = useState({ current_page: 1, last_page: 1, total: 0 });
-  const [search, setSearch]   = useState('');
-  const [query, setQuery]     = useState('');
-  const [status, setStatus]   = useState('all');
-  const [page, setPage]       = useState(1);
+  const [orders, setOrders] = useState([]);
+  const [meta, setMeta] = useState({ current_page: 1, last_page: 1, total: 0 });
+  const [search, setSearch] = useState('');
+  const [query, setQuery] = useState('');
+  const [status, setStatus] = useState('all');
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState(null);
-  const [error, setError]     = useState('');
+  const [error, setError] = useState('');
 
   const fetchOrders = useCallback(() => {
     setLoading(true);
     setError('');
     const params = { page, per_page: 15 };
-    if (query)            params.search = query;
+    if (query) params.search = query;
     if (status !== 'all') params.status = status;
 
     adminService.getAllOrders(params)
@@ -190,6 +190,9 @@ export default function OrdersPage() {
   }, [page, query, status]);
 
   useEffect(() => { fetchOrders(); }, [fetchOrders]);
+  useEffect(() => {
+    adminService.markAllAsRead('orders').catch(() => { });
+  }, []);
 
   return (
     <div className="space-y-6 animate-fade-in">

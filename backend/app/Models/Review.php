@@ -14,6 +14,7 @@ class Review extends Model
         'comment',
         'media',
         'status',
+        'is_read',
     ];
 
     protected $attributes = ['status' => 'approved'];
@@ -23,6 +24,7 @@ class Review extends Model
         return [
             'rating' => 'integer',
             'media' => 'array',
+            'is_read' => 'boolean',
         ];
     }
 

@@ -97,7 +97,7 @@ export const FEATURES = {
     abandoned:          { label: 'Abandoned Cart Recovery',                          minPlan: 'business', category: 'core', subtitle: 'Automated follow-up emails' },
     currency:           { label: 'Multi-Currency Support',                           minPlan: 'business', category: 'core', subtitle: 'Auto-converting prices based on IP' },
     api:                { label: 'Full API & Webhooks Access',                       minPlan: 'business', category: 'core' },
-    blog:               { label: 'Blog Engine',                                      minPlan: 'business', category: 'core', subtitle: 'Built-in for content marketing' },
+    blog:               { label: 'Blog Engine',                                      minPlan: 'pro', category: 'core', subtitle: 'Built-in for content marketing' },
     manager:            { label: 'Dedicated Account Manager',                        minPlan: 'business', category: 'core' },
 
     // ── Enterprise Features ──────────────────────────────────
@@ -181,6 +181,7 @@ export const PLAN_CARD_FEATURES = {
         'Basic Discount Rules (Percentage off, flat rate)',
         'Advanced Analytics (Conversion funnels, visitor heatmaps)',
         'Priority Support',
+        'Blog Engine built-in for content marketing',
     ],
     business: [
         'White-Labeling: Complete removal of "Powered by Toroongo" branding',
@@ -188,7 +189,6 @@ export const PLAN_CARD_FEATURES = {
         'Abandoned Cart Recovery (Automated follow-up emails)',
         'Multi-Currency Support (Auto-converting prices based on IP)',
         'Full API & Webhooks Access',
-        'Blog Engine built-in for content marketing',
         'Dedicated Account Manager',
     ],
     enterprise: [

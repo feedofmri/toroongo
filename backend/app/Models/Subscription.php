@@ -20,6 +20,7 @@ class Subscription extends Model
         'expires_at',
         'cancelled_at',
         'notes',
+        'is_read',
     ];
 
     protected function casts(): array
@@ -29,6 +30,7 @@ class Subscription extends Model
             'started_at' => 'datetime',
             'expires_at' => 'datetime',
             'cancelled_at' => 'datetime',
+            'is_read' => 'boolean',
         ];
     }
 

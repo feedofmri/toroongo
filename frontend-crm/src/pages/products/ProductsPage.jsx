@@ -249,8 +249,8 @@ export default function ProductsPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white rounded-2xl border border-border-soft overflow-hidden">
-        <div className="overflow-x-auto">
+      <div className="bg-white rounded-2xl border border-border-soft min-h-[400px]">
+        <div className="overflow-x-auto overflow-y-visible">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border-soft bg-surface-bg/50">

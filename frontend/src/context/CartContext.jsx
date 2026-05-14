@@ -35,7 +35,7 @@ export function CartProvider({ children }) {
         return prev.map((item) =>
           item.id === product.id &&
           JSON.stringify(item.variant || {}) === variantKey
-            ? { ...item, quantity: item.quantity + quantity }
+            ? { ...item, quantity: item.quantity + quantity, price: product.price }
             : item,
         );
       }

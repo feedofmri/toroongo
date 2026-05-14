@@ -408,7 +408,7 @@
     "emptyDesc": "يبدو أنك لم تضف أي شيء إلى سلتك بعد.",
     "continueShopping": "مواصلة التسوق",
     "freeShippingText": "شحن مجاني",
-    "shippingCostText": "$5.99 تكلفة الشحن",
+    "shippingCostText": "{{amount}} shipping",
     "orderSummary": "ملخص الطلب",
     "promoCode": "كود الخصم",
     "apply": "تطبيق",
@@ -1340,8 +1340,8 @@
     "shipping": {
       "title": "إعدادات الشحن",
       "processing": "وقت المعالجة (أيام)",
-      "threshold": "حد الشحن المجاني ($)",
-      "rate": "سعر الشحن القياسي ($)",
+      "threshold": "حد الشحن المجاني ({{currency}})",
+      "rate": "سعر الشحن القياسي ({{currency}})",
       "express": "عرض الشحن السريع",
       "expressDesc": "اسمح للعملاء باختيار التسليم بشكل أسرع خلال 2-3 أيام",
       "save": "حفظ إعدادات الشحن"
@@ -1699,7 +1699,7 @@
       "typePercentage": "النسبة المئوية معطلة",
       "typeFixed": "المبلغ الثابت معطل",
       "valueLabel": "قيمة",
-      "minOrderLabel": "الحد الأدنى لقيمة الطلب ($)",
+      "minOrderLabel": "الحد الأدنى لقيمة الطلب ({{currency}})",
       "usageLimitLabel": "حد الاستخدام",
       "usageLimitPlaceholder": "غير محدود",
       "expiryLabel": "تاريخ انتهاء الصلاحية",

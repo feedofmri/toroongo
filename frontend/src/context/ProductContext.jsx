@@ -32,15 +32,17 @@ export function ProductProvider({ children }) {
                 originalPrice: p.original_price || p.originalPrice,
                 sellerId: p.seller_id || p.sellerId,
                 seller: p.seller_name || p.seller,
+                sellerVerified: p.seller_verified || p.sellerVerified,
                 metaDescription: p.meta_description || p.metaDescription,
             }));
 
             const mappedSellers = sellersData.map(s => ({
                 ...s,
                 storeName: s.store_name || s.name,
-                totalProducts: s.total_products || 0,
+                totalProducts: s.products_count ?? s.total_products ?? 0,
                 brandColor: s.brand_color,
-                joinedDate: s.joined_date || s.created_at
+                joinedDate: s.joined_date || s.created_at,
+                isVerified: s.is_verified || s.isVerified,
             }));
 
             const mappedCategories = categoriesData.map(c => ({

@@ -349,6 +349,11 @@ function HeroEditor({ onClose }) {
                         checked={hero.showRating !== false}
                         onChange={(v) => set('showRating', v)}
                     />
+                    <HeroToggle
+                        label={t('builder.panel.hideBanner', 'Hide Header Banner')}
+                        checked={hero.hideBanner === true}
+                        onChange={(v) => set('hideBanner', v)}
+                    />
                     <div>
                         <div className="flex items-center justify-between mb-1">
                             <label className="text-xs font-medium text-gray-500">{t('builder.panel.overlayDarkness')}</label>

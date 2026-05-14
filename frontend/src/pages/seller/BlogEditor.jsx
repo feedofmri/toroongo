@@ -248,6 +248,7 @@ export default function BlogEditor() {
                                     <style>{`
                                         .quill-editor-wrapper .ql-container {
                                             min-height: 400px;
+                                            height: auto;
                                             font-family: inherit;
                                             font-size: 14px;
                                             border-bottom-left-radius: 12px;
@@ -262,7 +263,24 @@ export default function BlogEditor() {
                                         }
                                         .quill-editor-wrapper .ql-editor {
                                             min-height: 400px;
+                                            height: auto;
                                             padding: 20px;
+                                            overflow-y: hidden;
+                                        }
+                                        .quill-editor-wrapper .ql-tooltip {
+                                            border-radius: 12px;
+                                            border-color: #f1f5f9;
+                                            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+                                            padding: 10px 15px;
+                                            background: white;
+                                            z-index: 100;
+                                        }
+                                        .quill-editor-wrapper .ql-tooltip input[type=text] {
+                                            border-radius: 8px;
+                                            border: 1px solid #f1f5f9;
+                                            padding: 5px 10px;
+                                            font-size: 13px;
+                                            outline: none;
                                         }
                                     `}</style>
                                 </div>

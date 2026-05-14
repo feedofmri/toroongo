@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
-import { SlidersHorizontal, X, ChevronDown, ChevronLeft, ChevronRight, Grid3X3, LayoutList, Star, Tag, Search as SearchIcon } from 'lucide-react';
+import { SlidersHorizontal, X, ChevronDown, ChevronLeft, ChevronRight, Grid3X3, LayoutList, Star, Tag, Search as SearchIcon, BadgeCheck } from 'lucide-react';
 import ProductCard from '../../components/product/ProductCard';
 import ProductCardSkeleton from '../../components/product/ProductCardSkeleton';
 import { useDelayedLoad } from '../../hooks/useDelayedLoad';
@@ -97,8 +97,10 @@ export default function SearchResults() {
             result = result.filter(
                 (p) =>
                     (p.title || '').toLowerCase().includes(q) ||
+                    (p.description || '').toLowerCase().includes(q) ||
                     (p.seller || '').toLowerCase().includes(q) ||
-                    (p.category || '').toLowerCase().includes(q)
+                    (p.category || '').toLowerCase().includes(q) ||
+                    (p.tags || []).some(tag => tag.toLowerCase().includes(q))
             );
         }
 
@@ -185,18 +187,23 @@ export default function SearchResults() {
             {/* Page Header */}
             <div className="bg-surface-bg border-b border-border-soft">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                    {/* Mobile Search Bar */}
-                    <div className="sm:hidden mb-6">
-                        <div className="relative">
-                            <SearchIcon size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted" />
+                    {/* Mobile Search Bar (Gap fix: visible on screens < 768px) */}
+                    <div className="md:hidden mb-6">
+                        <div className="relative group">
+                            <button 
+                                onClick={() => handlePageSearch({ type: 'click' })}
+                                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted hover:text-brand-primary transition-colors"
+                            >
+                                <SearchIcon size={18} />
+                            </button>
                             <input
                                 type="text"
                                 placeholder={t('nav.search')}
                                 value={searchInput}
                                 onChange={(e) => setSearchInput(e.target.value)}
                                 onKeyDown={handlePageSearch}
-                                className="w-full pl-10 pr-4 py-3 text-sm rounded-xl bg-white border border-border-soft
-                                   focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none shadow-sm"
+                                className="w-full pl-10 pr-10 py-3 text-sm rounded-xl bg-white border border-border-soft
+                                   focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none shadow-sm transition-all"
                             />
                             {searchInput && (
                                 <button
@@ -476,9 +483,12 @@ export default function SearchResults() {
                                                     <img src={s.logo} alt={s.storeName || s.name} className="w-full h-full object-cover" />
                                                 </div>
                                                 <div className="flex-1 min-w-0">
-                                                    <p className={`text-[11px] font-bold truncate ${selectedSeller === String(s.id) ? 'text-brand-primary' : 'text-text-primary'}`}>
-                                                        {s.storeName || s.name}
-                                                    </p>
+                                                    <div className="flex items-center gap-1 min-w-0">
+                                                        <p className={`text-[11px] font-bold truncate ${selectedSeller === String(s.id) ? 'text-brand-primary' : 'text-text-primary'}`}>
+                                                            {s.storeName || s.name}
+                                                        </p>
+                                                        {s.isVerified && <BadgeCheck size={12} className="text-brand-primary flex-shrink-0" />}
+                                                    </div>
                                                     <div className="flex items-center gap-1 mt-0.5">
                                                         <Star size={9} className="fill-amber-400 text-amber-400" />
                                                         <span className="text-[9px] text-text-muted font-medium">{Number(s.rating || 0).toFixed(1)}</span>

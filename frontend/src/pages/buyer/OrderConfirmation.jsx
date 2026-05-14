@@ -93,9 +93,9 @@ export default function OrderConfirmation() {
                     </div>
 
                     <div className="border-t border-border-soft mt-6 pt-6 flex justify-between items-center">
-                        <span className="text-sm text-text-muted">{t('orderConfirmation.subtotalPaid', 'Subtotal Paid')}</span>
+                        <span className="text-sm text-text-muted">{t('orderConfirmation.subtotalPaid', 'Total Paid')}</span>
                         <span className="text-2xl font-bold text-text-primary">
-                            {latestOrder ? formatPrice(latestOrder.items.reduce((sum, item) => sum + (item.priceAtPurchase * item.quantity), 0)) : formatPrice(531.97)}
+                            {latestOrder ? formatPrice(latestOrder.total, latestOrder.buyer_currency_code) : formatPrice(531.97)}
                         </span>
                     </div>
                 </div>

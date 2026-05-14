@@ -213,7 +213,7 @@ export default function MessageCenter() {
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center justify-between mb-0.5">
                                             <span className={`text-sm truncate ${convo.unreadCount > 0 ? 'font-bold text-text-primary' : 'font-semibold text-text-primary'}`}>
-                                                {convo.otherUser?.name || t('messages.unknownUser')}
+                                                {convo.otherUser?.store_name || convo.otherUser?.name || t('messages.unknownUser')}
                                             </span>
                                             <span className="text-[10px] text-text-muted">
                                                 {formatTime(convo.lastMessage?.createdAt)}
@@ -246,10 +246,10 @@ export default function MessageCenter() {
                                         <ChevronLeft size={20} />
                                     </button>
                                     <div className="w-10 h-10 rounded-2xl bg-brand-primary/10 flex items-center justify-center">
-                                        <span className="text-sm font-bold text-brand-primary">{(activeConvo.otherUser?.name || 'U').charAt(0).toUpperCase()}</span>
+                                        <span className="text-sm font-bold text-brand-primary">{(activeConvo.otherUser?.store_name || activeConvo.otherUser?.name || 'U').charAt(0).toUpperCase()}</span>
                                     </div>
                                     <div>
-                                        <h3 className="text-sm font-bold text-text-primary">{activeConvo.otherUser?.name || t('messages.unknownUser')}</h3>
+                                        <h3 className="text-sm font-bold text-text-primary">{activeConvo.otherUser?.store_name || activeConvo.otherUser?.name || t('messages.unknownUser')}</h3>
                                         <div className="flex items-center gap-1">
                                             <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                                             <p className="text-[10px] text-text-muted font-medium">{t('messages.businessAccount')}</p>

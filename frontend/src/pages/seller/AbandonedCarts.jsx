@@ -4,8 +4,10 @@ import {
     CheckCircle, XCircle, DollarSign, ArrowRight, BarChart3, Filter
 } from 'lucide-react';
 import { useSubscription } from '../../context/SubscriptionContext';
+import { useAuth } from '../../context/AuthContext';
 import { useTranslation } from 'react-i18next';
 import UpgradePrompt from '../../components/subscription/UpgradePrompt';
+import { formatPrice } from '../../utils/currency';
 
 const STATUS_MAP = {
     recovered:  { label: 'Recovered',   color: 'text-green-600 bg-green-50',  icon: CheckCircle },
@@ -26,6 +28,7 @@ function getTimeAgo(dateStr, t) {
 
 export default function AbandonedCarts() {
     const { t } = useTranslation();
+    const { user } = useAuth();
     const { canAccess, currentPlan } = useSubscription();
     const [filter, setFilter] = useState('all');
     const [carts] = useState([]);
@@ -72,7 +75,7 @@ export default function AbandonedCarts() {
                     { label: t('sellerAbandonedCarts.stats.abandoned', 'Abandoned Carts'), value: carts.length, icon: ShoppingCart, color: 'text-amber-600', bg: 'bg-amber-50' },
                     { label: t('sellerAbandonedCarts.stats.recovered', 'Recovered'), value: recovered.length, icon: CheckCircle, color: 'text-green-600', bg: 'bg-green-50' },
                     { label: t('sellerAbandonedCarts.stats.rate', 'Recovery Rate'), value: `${recoveryRate}%`, icon: TrendingUp, color: 'text-blue-600', bg: 'bg-blue-50' },
-                    { label: t('sellerAbandonedCarts.stats.revenue', 'Revenue Recovered'), value: `$${recoveredValue.toFixed(2)}`, icon: DollarSign, color: 'text-purple-600', bg: 'bg-purple-50' },
+                    { label: t('sellerAbandonedCarts.stats.revenue', 'Revenue Recovered'), value: formatPrice(recoveredValue, user?.currency_code), icon: DollarSign, color: 'text-purple-600', bg: 'bg-purple-50' },
                 ].map(stat => (
                     <div key={stat.label} className="bg-white p-4 rounded-2xl border border-border-soft">
                         <div className="flex items-center gap-3 mb-2">
@@ -173,7 +176,7 @@ export default function AbandonedCarts() {
                                             <p className="text-xs text-text-muted">{cart.email}</p>
                                         </td>
                                         <td className="px-5 py-3.5 text-sm text-text-muted">{cart.items} items</td>
-                                        <td className="px-5 py-3.5 text-sm font-semibold text-text-primary">${cart.total.toFixed(2)}</td>
+                                        <td className="px-5 py-3.5 text-sm font-semibold text-text-primary">{formatPrice(cart.total, user?.currency_code)}</td>
                                         <td className="px-5 py-3.5 text-xs text-text-muted">{getTimeAgo(cart.abandonedAt, t)}</td>
                                         <td className="px-5 py-3.5 text-sm text-text-muted">{cart.emailsSent}</td>
                                         <td className="px-5 py-3.5">

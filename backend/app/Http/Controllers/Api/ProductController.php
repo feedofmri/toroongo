@@ -40,12 +40,26 @@ class ProductController extends Controller
         $product = is_numeric($idOrSlug)
             ? Product::findOrFail($idOrSlug)
             : Product::where('slug', $idOrSlug)->firstOrFail();
+
+        // Attach seller is_verified flag
+        $seller = \App\Models\User::find($product->seller_id);
+        $product->seller_verified = (bool) ($seller->is_verified ?? false);
+
         return response()->json($product);
     }
 
     public function bySeller($sellerId)
     {
-        return response()->json(Product::where('seller_id', $sellerId)->get());
+        $products = Product::where('seller_id', $sellerId)->get();
+        $seller = \App\Models\User::find($sellerId);
+        $verified = (bool) ($seller->is_verified ?? false);
+
+        $products->transform(function ($p) use ($verified) {
+            $p->seller_verified = $verified;
+            return $p;
+        });
+
+        return response()->json($products);
     }
 
     public function byCategory($slug)
@@ -61,6 +75,7 @@ class ProductController extends Controller
             'original_price' => 'nullable|numeric',
             'description' => 'nullable|string',
             'category' => 'nullable|string',
+            'tags' => 'nullable|array',
             'badge' => 'nullable|string',
             'image_url' => 'nullable|string',
             'images' => 'nullable|array',
@@ -75,6 +90,14 @@ class ProductController extends Controller
         ]);
 
         $user = $request->user();
+
+        if (!$user->canAddProduct()) {
+            return response()->json([
+                'message' => 'Product limit reached for your plan. Please upgrade to add more products.',
+                'limit' => $user->productLimit(),
+            ], 403);
+        }
+
         $data['seller_id'] = $user->id;
         $data['seller_name'] = $user->store_name ?? $user->name;
         $data['currency_code'] = $user->currency_code ?? 'USD';
@@ -96,6 +119,7 @@ class ProductController extends Controller
             'original_price' => 'nullable|numeric',
             'description' => 'nullable|string',
             'category' => 'nullable|string',
+            'tags' => 'nullable|array',
             'badge' => 'nullable|string',
             'image_url' => 'nullable|string',
             'images' => 'nullable|array',

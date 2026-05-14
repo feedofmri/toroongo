@@ -79,6 +79,7 @@ const MOBILE_INFO_LINKS = [
 export default function Navbar() {
     const { t } = useTranslation();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
     const [searchFocused, setSearchFocused] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
@@ -86,12 +87,14 @@ export default function Navbar() {
     const navigate = useNavigate();
     const [mobileCategoriesOpen, setMobileCategoriesOpen] = useState(false);
     const menuRef = useRef(null);
+    const searchRef = useRef(null);
 
     const handleSearch = (e) => {
         if (e.key === 'Enter' && searchQuery.trim()) {
             navigate(`/products?q=${encodeURIComponent(searchQuery.trim())}`);
             setMobileMenuOpen(false);
-            e.target.blur();
+            setMobileSearchOpen(false);
+            if (e.target.blur) e.target.blur();
         }
     };
 
@@ -122,6 +125,16 @@ export default function Navbar() {
         }
     }, [location.pathname]);
 
+    // Focus mobile search when opened
+    useEffect(() => {
+        if (mobileSearchOpen) {
+            const timer = setTimeout(() => {
+                document.getElementById('mobile-search-overlay-input')?.focus();
+            }, 100);
+            return () => clearTimeout(timer);
+        }
+    }, [mobileSearchOpen]);
+
     // Close on outside click
     useEffect(() => {
         function handleClickOutside(e) {
@@ -132,6 +145,11 @@ export default function Navbar() {
         function handleUserDropdownOutside(e) {
             if (userDropdownRef.current && !userDropdownRef.current.contains(e.target)) {
                 setUserDropdownOpen(false);
+            }
+        }
+        function handleSearchClickOutside(e) {
+            if (searchRef.current && !searchRef.current.contains(e.target)) {
+                setMobileSearchOpen(false);
             }
         }
         function handleNotificationClickOutside(e) {
@@ -149,13 +167,18 @@ export default function Navbar() {
         if (notificationDropdownOpen) {
             document.addEventListener('mousedown', handleNotificationClickOutside);
         }
+        if (mobileSearchOpen) {
+            document.addEventListener('mousedown', handleSearchClickOutside);
+            document.body.style.overflow = 'hidden';
+        }
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('mousedown', handleSearchClickOutside);
             document.removeEventListener('mousedown', handleUserDropdownOutside);
             document.removeEventListener('mousedown', handleNotificationClickOutside);
             document.body.style.overflow = '';
         };
-    }, [mobileMenuOpen, userDropdownOpen, notificationDropdownOpen]);
+    }, [mobileMenuOpen, mobileSearchOpen, userDropdownOpen, notificationDropdownOpen]);
 
     const cartItemCount = getCartCount();
 
@@ -176,7 +199,12 @@ export default function Navbar() {
                     {/* Search Bar (desktop) */}
                     <div className="hidden md:flex flex-1 max-w-xl mx-6">
                         <div className={`relative w-full transition-all duration-200 ${searchFocused ? 'scale-[1.02]' : ''}`}>
-                            <Search size={18} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted pointer-events-none" />
+                            <button 
+                                onClick={() => handleSearch({ key: 'Enter', target: { blur: () => {} } })}
+                                className="absolute left-3.5 top-1/2 -translate-y-1/2 text-text-muted hover:text-brand-primary transition-colors cursor-pointer z-10"
+                            >
+                                <Search size={18} />
+                            </button>
                             <input
                                 type="text"
                                 placeholder={t('nav.search', 'Search products, sellers, categories...')}
@@ -196,9 +224,16 @@ export default function Navbar() {
                     {/* Right Actions */}
                     <div className="flex items-center gap-1 sm:gap-1.5">
                         {/* Search (mobile) */}
-                        <Link to="/products" className="md:hidden p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors" aria-label="Search">
+                        <button 
+                            onClick={() => {
+                                setMobileSearchOpen(true);
+                                setMobileMenuOpen(false);
+                            }}
+                            className="md:hidden p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors" 
+                            aria-label="Search"
+                        >
                             <Search size={20} />
-                        </Link>
+                        </button>
 
 
                         {/* Buyer Actions (desktop) */}
@@ -252,7 +287,7 @@ export default function Navbar() {
 
                         {/* Wishlist */}
                         {(!isAuthenticated || user?.role === 'buyer') && (
-                            <Link to="/wishlist" className="hidden sm:flex relative p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors" aria-label="Wishlist">
+                            <Link to="/account/wishlist" className="hidden sm:flex relative p-2 rounded-lg text-text-muted hover:text-text-primary hover:bg-surface-bg transition-colors" aria-label="Wishlist">
                                 <Heart size={20} />
                                 {wishlistCount > 0 && (
                                     <span className="absolute -top-0.5 -right-0.5 bg-brand-primary text-white text-[10px] font-bold w-[18px] h-[18px] flex items-center justify-center rounded-full leading-none">
@@ -448,6 +483,37 @@ export default function Navbar() {
             )}
 
             {/* ══════════════════════════════════════════════════════
+                 MOBILE SEARCH OVERLAY
+                 ══════════════════════════════════════════════════════ */}
+            {mobileSearchOpen && (
+                <div className="fixed inset-0 z-[60] md:hidden">
+                    <div className="absolute inset-0 bg-black/40 backdrop-blur-sm animate-fade-in" onClick={() => setMobileSearchOpen(false)} />
+                    <div ref={searchRef} className="absolute top-0 left-0 right-0 bg-white shadow-2xl p-4 animate-slide-down">
+                        <div className="flex items-center gap-3">
+                            <div className="relative flex-1">
+                                <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
+                                <input
+                                    id="mobile-search-overlay-input"
+                                    type="text"
+                                    placeholder={t('nav.searchPlaceholderMobile', 'Search products...')}
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    onKeyDown={handleSearch}
+                                    className="w-full pl-10 pr-4 py-3 bg-surface-bg border border-border-soft rounded-xl focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none"
+                                />
+                            </div>
+                            <button 
+                                onClick={() => setMobileSearchOpen(false)}
+                                className="p-2 text-text-muted hover:text-text-primary transition-colors"
+                            >
+                                <X size={24} />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* ══════════════════════════════════════════════════════
                  MOBILE MENU DRAWER
                  ══════════════════════════════════════════════════════ */}
             <div
@@ -466,20 +532,7 @@ export default function Navbar() {
                         </button>
                     </div>
 
-                    {/* Search */}
-                    <div className="p-3 border-b border-border-soft">
-                        <div className="relative">
-                            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" />
-                            <input
-                                type="text"
-                                placeholder={t('nav.searchPlaceholderMobile', 'Search products...')}
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                onKeyDown={handleSearch}
-                                className="w-full pl-9 pr-4 py-2.5 text-sm rounded-xl bg-surface-bg border border-border-soft focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none"
-                            />
-                        </div>
-                    </div>
+                    {/* Removed Search from Mobile Menu */}
 
                     {/* Scrollable content */}
                     <nav className="flex-1 overflow-y-auto">

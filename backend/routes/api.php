@@ -201,6 +201,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/admin/users/{id}', [AdminController::class, 'showUser']);
     Route::put('/admin/users/{id}/role', [AdminController::class, 'updateRole']);
     Route::patch('/admin/users/{id}/toggle-status', [AdminController::class, 'toggleStatus']);
+    Route::delete('/admin/users/{id}', [AdminController::class, 'deleteUser']);
     Route::get('/admin/sellers', [AdminController::class, 'sellers']);
     Route::get('/admin/orders', [AdminController::class, 'orders']);
     Route::get('/admin/products', [AdminController::class, 'products']);
@@ -253,6 +254,11 @@ Route::middleware('auth:sanctum')->group(function () {
     // Newsletter & Contact (admin: all sellers)
     Route::get('/admin/newsletter/subscribers', [NewsletterController::class, 'adminAll']);
     Route::get('/admin/contact/submissions', [ContactController::class, 'adminAll']);
+    Route::put('/admin/contact/submissions/{id}/read', [ContactController::class, 'adminMarkRead']);
+
+    // Notification counts (sidebar badges)
+    Route::get('/admin/notification-counts', [AdminController::class, 'notificationCounts']);
+    Route::post('/admin/notifications/{type}/read', [AdminController::class, 'markTypeAsRead']);
 
     // Career Jobs
     Route::get('/admin/career-jobs', [AdminController::class, 'careerJobs']);

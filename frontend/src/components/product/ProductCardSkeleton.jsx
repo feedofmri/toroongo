@@ -12,7 +12,7 @@ export default function ProductCardSkeleton() {
             <Skeleton className="aspect-square" height="auto" rounded="rounded-none" />
 
             {/* Info skeleton */}
-            <div className="flex flex-col p-4 gap-2.5">
+            <div className="flex flex-col p-2.5 sm:p-4 gap-2 sm:gap-2.5">
                 {/* Seller */}
                 <Skeleton width="40%" height="0.65rem" rounded="rounded" />
 

@@ -5,7 +5,9 @@ import {
     Eye, TrendingUp, BarChart3, Copy, Settings, Globe, ShoppingBag, Megaphone
 } from 'lucide-react';
 import { useSubscription } from '../../context/SubscriptionContext';
+import { useAuth } from '../../context/AuthContext';
 import UpgradePrompt from '../../components/subscription/UpgradePrompt';
+import { formatPrice } from '../../utils/currency';
 
 function IntegrationCard({ integration }) {
     const { t } = useTranslation();
@@ -81,6 +83,7 @@ function IntegrationCard({ integration }) {
 
 export default function SocialCommerce() {
     const { t } = useTranslation();
+    const { user } = useAuth();
     const { canAccess, currentPlan } = useSubscription();
 
     const INTEGRATIONS = [
@@ -174,7 +177,7 @@ export default function SocialCommerce() {
                         </div>
                         <span className="text-xs text-text-muted">{t('sellerSocial.stats.sales')}</span>
                     </div>
-                    <p className="text-xl font-bold text-text-primary">$342</p>
+                    <p className="text-xl font-bold text-text-primary">{formatPrice(342, user?.currency_code)}</p>
                 </div>
             </div>
 

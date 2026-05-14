@@ -174,6 +174,24 @@ function SubmissionsTab() {
         return matchSearch && matchSeller;
     });
 
+    const handleExpand = async (sub) => {
+        if (expanded === sub.id) {
+            setExpanded(null);
+            return;
+        }
+        setExpanded(sub.id);
+        if (!sub.is_read) {
+            try {
+                await adminService.markContactAsRead(sub.id);
+                setSubmissions((prev) =>
+                    prev.map((s) => (s.id === sub.id ? { ...s, is_read: true } : s))
+                );
+            } catch (err) {
+                console.error('Failed to mark as read:', err);
+            }
+        }
+    };
+
     return (
         <div className="space-y-4">
             {/* Toolbar */}
@@ -218,7 +236,7 @@ function SubmissionsTab() {
                                 className={`bg-white rounded-2xl border transition-all ${isExpanded ? 'border-brand-primary/30 shadow-sm' : 'border-border-soft hover:border-brand-primary/20'}`}
                             >
                                 <button
-                                    onClick={() => setExpanded(isExpanded ? null : sub.id)}
+                                    onClick={() => handleExpand(sub)}
                                     className="w-full flex items-center gap-4 px-5 py-4 text-left"
                                 >
                                     <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 text-sm font-bold text-white bg-brand-primary">
@@ -293,6 +311,10 @@ function SubmissionsTab() {
 // ── Main Page ─────────────────────────────────────────────────────────────────
 export default function ContactsPage() {
     const [tab, setTab] = useState('subscribers');
+
+    useEffect(() => {
+        adminService.markAllAsRead('contacts').catch(() => {});
+    }, []);
 
     const tabs = [
         { key: 'subscribers', label: 'Newsletter Subscribers', icon: Mail },

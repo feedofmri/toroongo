@@ -14,6 +14,7 @@ export const adminService = {
   getUserById:      (id)          => api(`/admin/users/${id}`),
   updateUserRole:   (id, role)    => api(`/admin/users/${id}/role`, { method: 'PUT',   body: JSON.stringify({ role }) }),
   toggleUserStatus: (id)          => api(`/admin/users/${id}/toggle-status`, { method: 'PATCH' }),
+  deleteUser:       (id)          => api(`/admin/users/${id}`, { method: 'DELETE' }),
 
   // ── Sellers ────────────────────────────────────────
   getSellersList: (params = {}) => api(`/admin/sellers${qs(params)}`),
@@ -76,6 +77,9 @@ export const adminService = {
   updateAdvertisement:  (id, data) => api(`/admin/advertisements/${id}`, { method: 'PUT',    body: JSON.stringify(data) }),
   deleteAdvertisement:  (id)       => api(`/admin/advertisements/${id}`, { method: 'DELETE' }),
 
+  // ── Notification counts ───────────────────────────
+  getNotificationCounts: () => api('/admin/notification-counts'),
+
   // ── Career Jobs ───────────────────────────────────
   getCareerJobs:    ()         => api('/admin/career-jobs'),
   createCareerJob:  (data)     => api('/admin/career-jobs',      { method: 'POST',   body: JSON.stringify(data) }),
@@ -90,4 +94,6 @@ export const adminService = {
   getChatConversations: ()         => api('/admin/chat/conversations'),
   getChatMessages:      (userId)   => api(`/admin/chat/${userId}/messages`),
   sendChatMessage:      (userId, text) => api(`/admin/chat/${userId}/send`, { method: 'POST', body: JSON.stringify({ text }) }),
+  markContactAsRead:    (id) => api(`/admin/contact/submissions/${id}/read`, { method: 'PUT' }),
+  markAllAsRead:        (type) => api(`/admin/notifications/${type}/read`, { method: 'POST' }),
 };

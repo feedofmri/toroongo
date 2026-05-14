@@ -94,7 +94,8 @@ class UploadController extends Controller
             $optimizedSize = filesize($storedPath);
 
             return [
-                'url' => Storage::disk('public')->url($filename),
+                'url' => url('storage/' . $filename),
+                'path' => $filename,
                 'size' => $optimizedSize,
             ];
         } catch (\Throwable $e) {
@@ -153,7 +154,8 @@ class UploadController extends Controller
         }
 
         return [
-            'url' => Storage::disk('public')->url($outputFilename),
+            'url' => url('storage/' . $outputFilename),
+            'path' => $outputFilename,
             'size' => filesize($outputPath),
         ];
     }
@@ -171,7 +173,8 @@ class UploadController extends Controller
         $storedPath = Storage::disk('public')->path($filename);
 
         return [
-            'url' => Storage::disk('public')->url($filename),
+            'url' => url('storage/' . $filename),
+            'path' => $filename,
             'size' => file_exists($storedPath) ? filesize($storedPath) : $file->getSize(),
         ];
     }

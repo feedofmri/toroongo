@@ -7,7 +7,8 @@ import {
     Grid3X3, 
     LayoutList, 
     Star, 
-    Package 
+    Package,
+    BadgeCheck
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useProduct } from '../../context/ProductContext';
@@ -48,7 +49,7 @@ export default function ShopsPage() {
                 result.sort((a, b) => (b.rating || 0) - (a.rating || 0));
                 break;
             case 'products':
-                result.sort((a, b) => (b.total_products || 0) - (a.total_products || 0));
+                result.sort((a, b) => (b.totalProducts || 0) - (a.totalProducts || 0));
                 break;
             case 'newest':
                 result.sort((a, b) => new Date(b.joined_date || b.created_at) - new Date(a.joined_date || a.created_at));
@@ -57,7 +58,7 @@ export default function ShopsPage() {
                 result.sort((a, b) => (a.store_name || a.name).localeCompare(b.store_name || b.name));
                 break;
             default: // popular — by rating * products
-                result.sort((a, b) => ((b.rating || 0) * (b.total_products || 0)) - ((a.rating || 0) * (a.total_products || 0)));
+                result.sort((a, b) => ((b.rating || 0) * (b.totalProducts || 0)) - ((a.rating || 0) * (a.totalProducts || 0)));
         }
 
         return result;
@@ -166,9 +167,9 @@ export default function ShopsPage() {
                             >
                                 {/* Banner */}
                                 <div className="relative h-28 overflow-hidden bg-surface-bg">
-                                    {seller.banner ? (
+                                    { (seller.storefront_config?.hero?.bannerImage || seller.banner) ? (
                                         <img
-                                            src={seller.banner}
+                                            src={seller.storefront_config?.hero?.bannerImage || seller.banner}
                                             alt={seller.store_name || seller.name}
                                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                         />
@@ -187,8 +188,9 @@ export default function ShopsPage() {
                                             <Package size={24} className="text-text-muted" />
                                         )}
                                     </div>
-                                    <h3 className="font-semibold text-sm text-text-primary mt-2 group-hover:text-brand-primary transition-colors">
+                                    <h3 className="font-semibold text-sm text-text-primary mt-2 group-hover:text-brand-primary transition-colors flex items-center gap-1.5">
                                         {seller.store_name || seller.name}
+                                        {seller.isVerified && <BadgeCheck size={14} className="text-brand-primary flex-shrink-0" />}
                                     </h3>
                                     <p className="text-[11px] text-text-muted mt-0.5 line-clamp-2 leading-relaxed">
                                         {seller.description || t('shops.defaultDescription', 'Welcome to my Toroongo shop!')}
@@ -199,7 +201,7 @@ export default function ShopsPage() {
                                             <span className="text-xs font-semibold text-text-primary">{Number(seller.rating || 0).toFixed(1)}</span>
                                         </div>
                                         <span className="text-[11px] text-text-muted flex items-center gap-1">
-                                            <Package size={11} /> {t('product.productsCount', { count: seller.total_products || 0 })}
+                                            <Package size={11} /> {t('product.productsCount', { count: seller.totalProducts || 0 })}
                                         </span>
                                     </div>
                                 </div>
@@ -226,8 +228,9 @@ export default function ShopsPage() {
                                     )}
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <h3 className="text-sm font-semibold text-text-primary group-hover:text-brand-primary transition-colors truncate">
+                                    <h3 className="text-sm font-semibold text-text-primary group-hover:text-brand-primary transition-colors truncate flex items-center gap-1.5">
                                         {seller.store_name || seller.name}
+                                        {seller.isVerified && <BadgeCheck size={14} className="text-brand-primary flex-shrink-0" />}
                                     </h3>
                                     <p className="text-xs text-text-muted mt-0.5 line-clamp-1">{seller.description || t('shops.defaultDescription', 'Welcome to my Toroongo shop!')}</p>
                                     <div className="flex items-center gap-3 mt-2">
@@ -235,7 +238,7 @@ export default function ShopsPage() {
                                             <Star size={11} className="fill-amber-400 text-amber-400" />
                                             <span className="text-xs font-semibold text-text-primary">{Number(seller.rating || 0).toFixed(1)}</span>
                                         </div>
-                                        <span className="text-[11px] text-text-muted">{t('product.productsCount', { count: seller.total_products || 0 })}</span>
+                                        <span className="text-[11px] text-text-muted">{t('product.productsCount', { count: seller.totalProducts || 0 })}</span>
                                     </div>
                                 </div>
                                 <div className="hidden sm:block text-xs font-medium text-brand-primary group-hover:translate-x-0.5 transition-transform">

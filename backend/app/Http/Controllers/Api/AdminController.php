@@ -13,6 +13,7 @@ use App\Models\HeroBanner;
 use App\Models\Discount;
 use App\Models\Advertisement;
 use App\Models\CareerJob;
+use App\Models\ContactSubmission;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -43,14 +44,19 @@ class AdminController extends Controller
             ];
         }
 
-        // Category Distribution (Market Share)
-        $categoryStats = Category::select('name', 'product_count')->get()->map(function($cat) use ($products) {
+        // Category Distribution (Market Share) - Calculate dynamically for accuracy
+        $productCounts = Product::select('category', DB::raw('count(*) as total'))
+            ->groupBy('category')
+            ->pluck('total', 'category');
+
+        $categoryStats = Category::select('name', 'slug')->get()->map(function($cat) use ($products, $productCounts) {
+            $count = $productCounts->get($cat->slug, 0);
             return [
                 'name' => $cat->name,
-                'value' => $cat->product_count,
-                'percentage' => $products > 0 ? round(($cat->product_count / $products) * 100, 1) : 0
+                'value' => $count,
+                'percentage' => $products > 0 ? round(($count / $products) * 100, 1) : 0
             ];
-        });
+        })->sortByDesc('value')->values();
 
         // Recent Activity (Simulated from database events)
         $recentActivity = [
@@ -667,6 +673,27 @@ class AdminController extends Controller
         return response()->json(['message' => 'Job deleted']);
     }
 
+    public function deleteUser($id)
+    {
+        $user = User::findOrFail($id);
+
+        // Prevent deleting yourself
+        if ($user->id === auth()->id()) {
+            return response()->json(['message' => 'You cannot delete yourself'], 403);
+        }
+
+        // Prevent deleting the last admin
+        if ($user->role === 'admin') {
+            $adminCount = User::where('role', 'admin')->count();
+            if ($adminCount <= 1) {
+                return response()->json(['message' => 'Cannot delete the last admin account'], 403);
+            }
+        }
+
+        $user->delete();
+        return response()->json(['message' => 'User deleted successfully']);
+    }
+
     // ── Chat ──────────────────────────────────────────────
 
     public function chatConversations()
@@ -784,6 +811,56 @@ class AdminController extends Controller
         $adminIds = User::where('role', 'admin')->pluck('id');
         $count    = Message::whereIn('sender_id', $adminIds)->where('receiver_id', $userId)->where('read', false)->count();
         return response()->json(['count' => $count]);
+    }
+
+    // ── Notification counts (sidebar badges) ─────────────
+    public function notificationCounts()
+    {
+        $adminIds = User::where('role', 'admin')->pluck('id');
+
+        $contacts = ContactSubmission::where('is_read', false)->count();
+
+        $chat = Message::whereNotIn('sender_id', $adminIds)
+            ->whereIn('receiver_id', $adminIds)
+            ->where('read', false)
+            ->count();
+
+        $sellers = User::where('role', 'seller')->where('is_read', false)->count();
+        $orders = Order::where('is_read', false)->count();
+        $subscriptions = Subscription::where('is_read', false)->count();
+        $reviews = Review::where('is_read', false)->count();
+
+        return response()->json([
+            'contacts' => $contacts,
+            'chat' => $chat,
+            'sellers' => $sellers,
+            'orders' => $orders,
+            'subscriptions' => $subscriptions,
+            'reviews' => $reviews,
+        ]);
+    }
+
+    public function markTypeAsRead($type)
+    {
+        switch ($type) {
+            case 'sellers':
+                User::where('role', 'seller')->where('is_read', false)->update(['is_read' => true]);
+                break;
+            case 'orders':
+                Order::where('is_read', false)->update(['is_read' => true]);
+                break;
+            case 'subscriptions':
+                Subscription::where('is_read', false)->update(['is_read' => true]);
+                break;
+            case 'reviews':
+                Review::where('is_read', false)->update(['is_read' => true]);
+                break;
+            case 'contacts':
+                ContactSubmission::where('is_read', false)->update(['is_read' => true]);
+                break;
+        }
+
+        return response()->json(['message' => "Marked all $type as read"]);
     }
 
     public function getSettings()

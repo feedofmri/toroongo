@@ -32,6 +32,13 @@ class BlogController extends Controller
         ]);
 
         $user = $request->user();
+
+        if (!$user->hasFeature('blog')) {
+            return response()->json([
+                'message' => 'The blog feature is not available on your current plan. Please upgrade to a Pro plan or higher.',
+            ], 403);
+        }
+
         $data['author'] = $user->name;
         $data['seller_id'] = $user->id;
         $data['slug'] = \Str::slug($data['title']);

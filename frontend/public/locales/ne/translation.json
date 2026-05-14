@@ -408,7 +408,7 @@
     "emptyDesc": "अहिले सम्म तपाईंको कार्टमा केहि पनि थपिएको छैन जस्तो देखिन्छ।",
     "continueShopping": "किनमेल जारी राख्नुहोस्",
     "freeShippingText": "नि:शुल्क शिपिंग",
-    "shippingCostText": "$५.९९ शिपिंग शुल्क",
+    "shippingCostText": "{{amount}} shipping",
     "orderSummary": "अर्डर सारांश",
     "promoCode": "प्रोमो कोड",
     "apply": "लागू गर्नुहोस्",
@@ -1339,8 +1339,8 @@
     "shipping": {
       "title": "ढुवानी सेटिङहरू",
       "processing": "प्रशोधन समय (दिन)",
-      "threshold": "नि:शुल्क ढुवानी थ्रेसहोल्ड ($)",
-      "rate": "मानक ढुवानी दर ($)",
+      "threshold": "नि:शुल्क ढुवानी थ्रेसहोल्ड ({{currency}})",
+      "rate": "मानक ढुवानी दर ({{currency}})",
       "express": "एक्सप्रेस शिपिंग प्रस्ताव",
       "expressDesc": "ग्राहकहरूलाई छिटो 2-3 दिन डेलिभरी छनौट गर्न अनुमति दिनुहोस्",
       "save": "ढुवानी सेटिङहरू बचत गर्नुहोस्"
@@ -1698,7 +1698,7 @@
       "typePercentage": "प्रतिशत बन्द",
       "typeFixed": "निश्चित रकम बन्द",
       "valueLabel": "मूल्य",
-      "minOrderLabel": "न्यूनतम अर्डर मूल्य ($)",
+      "minOrderLabel": "न्यूनतम अर्डर मूल्य ({{currency}})",
       "usageLimitLabel": "उपयोग सीमा",
       "usageLimitPlaceholder": "असीमित",
       "expiryLabel": "म्याद सकिने मिति",

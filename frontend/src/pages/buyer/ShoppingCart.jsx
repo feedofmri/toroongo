@@ -13,7 +13,7 @@ import {
 import { useCart } from "../../context/CartContext";
 import { useProduct } from "../../context/ProductContext";
 import { resolveSellerSlug } from "../../utils/resolveSellerSlug";
-import { formatPrice, formatPriceInCurrency, getBuyerCurrencyCode } from "../../utils/currency";
+import { formatPrice, formatPriceInCurrency, getBuyerCurrencyCode, convertCurrency } from "../../utils/currency";
 
 export default function ShoppingCart() {
   const { t } = useTranslation();
@@ -50,13 +50,37 @@ export default function ShoppingCart() {
   const subtotal = getCartTotal();
   const buyerCode = getBuyerCurrencyCode();
 
+  // Calculate shipping per seller
+  const sellerCalculations = Object.entries(grouped).reduce((acc, [sellerName, group]) => {
+    const seller = sellers.find(s => String(s.id) === String(group.sellerId));
+    const settings = seller?.seller_settings || {};
+    const threshold = parseFloat(settings.free_shipping_threshold ?? 50);
+    const currency = seller?.currency_code || group.items[0]?.product?.currency_code || 'USD';
+
+    const sellerSubtotalInSellerCurrency = group.items.reduce((sum, item) => {
+      return sum + (item.price || item.product.price) * item.quantity;
+    }, 0);
+
+    const isFree = sellerSubtotalInSellerCurrency >= threshold;
+
+    acc[sellerName] = {
+      subtotal: sellerSubtotalInSellerCurrency,
+      shippingFee: isFree ? 0 : null,
+      isFree,
+      threshold,
+      currency
+    };
+    return acc;
+  }, {});
+
+  const shipping = Object.values(sellerCalculations).reduce((total, calc) => {
+    if (calc.isFree) return total;
+    return total; // We can't sum TBD shipping
+  }, 0);
+
+  const hasTbdShipping = Object.values(sellerCalculations).some(calc => !calc.isFree);
+
   const discount = promoApplied ? subtotal * 0.1 : 0;
-  
-  // Shipping thresholds should also be localized? 
-  // Let's assume 50 in current currency is the threshold for simplicity, 
-  // or convert a base 50 USD threshold.
-  const shippingThreshold = 50; 
-  const shipping = subtotal > shippingThreshold ? 0 : 5.99;
   const total = subtotal - discount + shipping;
 
   if (cartItems.length === 0) {
@@ -107,19 +131,30 @@ export default function ShoppingCart() {
                     >
                       {sellerName}
                     </Link>
-                    <div className="flex items-center gap-1.5 text-xs text-text-muted">
-                      <Truck size={13} />
-                      <span>
-                        {subtotal > 50
-                          ? t("cart.freeShippingText")
-                          : t("cart.shippingCostText")}
-                      </span>
+                    <div className="flex flex-col items-end gap-0.5 text-xs text-text-muted">
+                      <div className="flex items-center gap-1.5">
+                        <Truck size={13} />
+                        <span>
+                          {sellerCalculations[sellerName]?.isFree
+                            ? t("cart.freeShippingText")
+                            : t("cart.shippingCostText", { 
+                                amount: formatPrice(sellerCalculations[sellerName]?.rate, sellerCalculations[sellerName]?.currency) 
+                              })}
+                        </span>
+                      </div>
+                      {sellerCalculations[sellerName]?.threshold > 0 && !sellerCalculations[sellerName]?.isFree && (
+                        <span className="text-[10px] text-brand-primary">
+                          {t("cart.freeOverThreshold", { 
+                            amount: formatPrice(sellerCalculations[sellerName]?.threshold, sellerCalculations[sellerName]?.currency) 
+                          })}
+                        </span>
+                      )}
                     </div>
                   </div>
 
                   {/* Items */}
                   <div className="divide-y divide-border-soft">
-                    {items.map(({ product, quantity, variant }) => (
+                    {items.map(({ product, quantity, variant, price }) => (
                       <div
                         key={`${product.id}-${getVariantLabel(variant)}`}
                         className="p-5 flex gap-4"
@@ -147,7 +182,7 @@ export default function ShoppingCart() {
                           </Link>
                           <div className="flex items-baseline gap-2 mt-1.5">
                             <span className="text-sm font-bold text-text-primary">
-                              {formatPrice(product.price, product.currency_code || 'USD')}
+                                {formatPrice(price, product.currency_code || 'USD')}
                             </span>
                             {product.originalPrice && (
                               <span className="text-xs text-text-muted line-through">
@@ -268,7 +303,7 @@ export default function ShoppingCart() {
                   >
                     {shipping === 0
                       ? t("checkout.free")
-                      : `${formatPriceInCurrency(shipping, buyerCode)}`}
+                      : (hasTbdShipping ? t("cart.calculatedAtCheckout", "Calculated at checkout") : formatPriceInCurrency(shipping, buyerCode))}
                   </span>
                 </div>
                 <div className="border-t border-border-soft pt-3 flex justify-between">

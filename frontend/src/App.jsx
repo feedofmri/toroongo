@@ -45,6 +45,7 @@ import StoreReviews from "./pages/seller/StoreReviews";
 // ─── Seller Dashboard Pages ──────────────────────────────────
 import SellerDashboard from "./pages/seller/SellerDashboard";
 import ProductManagement from "./pages/seller/ProductManagement";
+import ProductEditor from "./pages/seller/ProductEditor";
 import OrderManagement from "./pages/seller/OrderManagement";
 import SellerFinance from "./pages/seller/SellerFinance";
 import SellerSettings from "./pages/seller/SellerSettings";
@@ -171,14 +172,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/wishlist"
-            element={
-              <ProtectedRoute allowedRoles={["buyer", "admin"]}>
-                <Wishlist />
-              </ProtectedRoute>
-            }
-          />
+
 
           {/* Auth */}
           <Route path="/login" element={<AuthPage />} />
@@ -234,6 +228,7 @@ function App() {
           <Route path="/messages" element={<Navigate to="/account/messages" replace />} />
           <Route path="/orders" element={<Navigate to="/account/orders" replace />} />
           <Route path="/settings" element={<Navigate to="/account/settings" replace />} />
+          <Route path="/wishlist" element={<Navigate to="/account/wishlist" replace />} />
         </Route>
 
         {/* ── Seller Storefronts (toroongo.com/:username) ─── */}
@@ -271,6 +266,8 @@ function App() {
         >
           <Route index element={<SellerDashboard />} />
           <Route path="products" element={<ProductManagement />} />
+          <Route path="products/new" element={<ProductEditor />} />
+          <Route path="products/edit/:id" element={<ProductEditor />} />
           <Route path="orders" element={<OrderManagement />} />
           <Route path="finance" element={<SellerFinance />} />
           <Route path="messages" element={<SellerMessages />} />

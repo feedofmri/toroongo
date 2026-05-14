@@ -18,7 +18,7 @@ export default function Wishlist() {
 
     useEffect(() => {
         if (!authLoading && !isAuthenticated) {
-            navigate('/login?redirect=/wishlist');
+            navigate('/login?redirect=/account/wishlist');
         }
     }, [isAuthenticated, authLoading, navigate]);
 
@@ -80,9 +80,9 @@ export default function Wishlist() {
                                 <StarRating rating={product.rating} reviews={product.reviews} size={12} />
                             </div>
                             <div className="flex items-baseline gap-2 mt-1.5">
-                                <span className="text-base font-bold text-text-primary">{formatPrice(product.price)}</span>
+                                <span className="text-base font-bold text-text-primary">{formatPrice(product.price, product.currency_code || 'USD')}</span>
                                 {product.originalPrice && (
-                                    <span className="text-xs text-text-muted line-through">{formatPrice(product.originalPrice)}</span>
+                                    <span className="text-xs text-text-muted line-through">{formatPrice(product.originalPrice, product.currency_code || 'USD')}</span>
                                 )}
                             </div>
                         </div>

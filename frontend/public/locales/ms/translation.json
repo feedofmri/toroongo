@@ -408,7 +408,7 @@
     "emptyDesc": "Nampaknya anda belum menambah apa-apa ke troli anda lagi.",
     "continueShopping": "Teruskan Membeli-belah",
     "freeShippingText": "Penghantaran Percuma",
-    "shippingCostText": "$5.99 kos penghantaran",
+    "shippingCostText": "{{amount}} shipping",
     "orderSummary": "Ringkasan Pesanan",
     "promoCode": "Kod Promo",
     "apply": "Gunakan",
@@ -1347,8 +1347,8 @@
     "shipping": {
       "title": "Tetapan Penghantaran",
       "processing": "Masa Pemprosesan (hari)",
-      "threshold": "Ambang Penghantaran Percuma ($)",
-      "rate": "Kadar Penghantaran Standard ($)",
+      "threshold": "Ambang Penghantaran Percuma ({{currency}})",
+      "rate": "Kadar Penghantaran Standard ({{currency}})",
       "express": "Tawarkan penghantaran ekspres",
       "expressDesc": "Benarkan pelanggan memilih penghantaran 2-3 hari yang lebih pantas",
       "save": "Simpan Tetapan Penghantaran"
@@ -1706,7 +1706,7 @@
       "typePercentage": "Peratusan Diskaun",
       "typeFixed": "Jumlah Tetap Diskaun",
       "valueLabel": "Nilai",
-      "minOrderLabel": "Nilai Pesanan Minimum ($)",
+      "minOrderLabel": "Nilai Pesanan Minimum ({{currency}})",
       "usageLimitLabel": "Had Penggunaan",
       "usageLimitPlaceholder": "Tanpa Had",
       "expiryLabel": "Tarikh Tamat Tempoh",

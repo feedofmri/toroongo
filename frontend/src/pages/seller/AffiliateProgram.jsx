@@ -4,9 +4,12 @@ import {
     ExternalLink, CheckCircle, Clock, Eye, BarChart3, Share2
 } from 'lucide-react';
 import { useSubscription } from '../../context/SubscriptionContext';
+import { useAuth } from '../../context/AuthContext';
 import UpgradePrompt from '../../components/subscription/UpgradePrompt';
+import { formatPrice } from '../../utils/currency';
 
 export default function AffiliateProgram() {
+    const { user } = useAuth();
     const { canAccess, currentPlan } = useSubscription();
     const [search, setSearch] = useState('');
     const [showInvite, setShowInvite] = useState(false);
@@ -56,8 +59,8 @@ export default function AffiliateProgram() {
                 {[
                     { label: 'Active Affiliates', value: affiliates.filter(a => a.status === 'active').length, icon: Users, color: 'text-green-600', bg: 'bg-green-50' },
                     { label: 'Total Conversions', value: totalConversions, icon: TrendingUp, color: 'text-blue-600', bg: 'bg-blue-50' },
-                    { label: 'Revenue Generated', value: `$${totalRevenue.toLocaleString()}`, icon: DollarSign, color: 'text-purple-600', bg: 'bg-purple-50' },
-                    { label: 'Commissions Paid', value: `$${totalEarned.toLocaleString()}`, icon: BarChart3, color: 'text-amber-600', bg: 'bg-amber-50' },
+                    { label: 'Revenue Generated', value: formatPrice(totalRevenue, user?.currency_code), icon: DollarSign, color: 'text-purple-600', bg: 'bg-purple-50' },
+                    { label: 'Commissions Paid', value: formatPrice(totalEarned, user?.currency_code), icon: BarChart3, color: 'text-amber-600', bg: 'bg-amber-50' },
                 ].map(stat => (
                     <div key={stat.label} className="bg-white p-4 rounded-2xl border border-border-soft">
                         <div className="flex items-center gap-3 mb-2">
@@ -143,7 +146,7 @@ export default function AffiliateProgram() {
                                 <p className="text-[10px] text-text-muted">Sales</p>
                             </div>
                             <div className="p-2 bg-surface-bg rounded-lg text-center">
-                                <p className="text-xs font-bold text-green-600">${affiliate.earned.toFixed(0)}</p>
+                                <p className="text-xs font-bold text-green-600">{formatPrice(affiliate.earned, user?.currency_code)}</p>
                                 <p className="text-[10px] text-text-muted">Earned</p>
                             </div>
                         </div>

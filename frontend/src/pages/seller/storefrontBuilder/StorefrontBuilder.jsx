@@ -75,7 +75,7 @@ export default function StorefrontBuilder() {
         let cancelled = false;
         getStorefrontConfig(sellerId).then((saved) => {
             if (cancelled) return;
-            if (saved && saved.widgets && saved.widgets.length > 0) {
+            if (saved && (saved.widgets?.length > 0 || saved.hero || saved.theme)) {
                 loadConfig(saved, sellerId);
             } else {
                 loadConfig(null, sellerId);

@@ -65,6 +65,30 @@ class UserController extends Controller
                     'fee' => CurrencyHelper::convert($area->fee, $oldCode, $newCode),
                 ]);
             });
+
+            // Update free shipping threshold in seller_settings
+            $settings = $user->seller_settings ?: [];
+            if (isset($settings['free_shipping_threshold'])) {
+                $settings['free_shipping_threshold'] = CurrencyHelper::convert($settings['free_shipping_threshold'], $oldCode, $newCode);
+                $user->update(['seller_settings' => $settings]);
+            }
+
+            // Update discounts
+            $user->discounts->each(function ($discount) use ($oldCode, $newCode) {
+                $updateData = [
+                    'min_order_value' => CurrencyHelper::convert($discount->min_order_value, $oldCode, $newCode),
+                ];
+                if ($discount->type === 'fixed') {
+                    $updateData['value'] = CurrencyHelper::convert($discount->value, $oldCode, $newCode);
+                }
+                $discount->update($updateData);
+            });
+        }
+
+        // Update products seller_name if shop name or user name changed
+        if ($user->role === 'seller' && ($user->wasChanged('store_name') || $user->wasChanged('name'))) {
+            $newSellerName = $user->store_name ?? $user->name;
+            \App\Models\Product::where('seller_id', $user->id)->update(['seller_name' => $newSellerName]);
         }
 
         // Update localStorage copy on frontend
@@ -73,13 +97,19 @@ class UserController extends Controller
 
     public function sellers()
     {
-        $sellers = User::where('role', 'seller')->get()->makeHidden('password');
+        $sellers = User::where('role', 'seller')
+            ->with('storefrontConfig')
+            ->withCount('products')
+            ->get()
+            ->makeHidden('password');
         return response()->json($sellers);
     }
 
     public function seller($idOrSlug)
     {
         $seller = User::where('role', 'seller')
+            ->with(['storefrontConfig'])
+            ->withCount('products')
             ->where(function ($q) use ($idOrSlug) {
                 $q->where('id', $idOrSlug)->orWhere('slug', $idOrSlug);
             })->firstOrFail();
@@ -101,7 +131,7 @@ class UserController extends Controller
                 return $q->where('id', '!=', $currentId);
             })
             ->exists();
-
+            
         return response()->json([
             'available' => !$exists
         ]);

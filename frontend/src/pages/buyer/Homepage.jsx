@@ -1,11 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
     ArrowRight, ChevronLeft, ChevronRight, ChevronUp, ChevronDown, Sparkles, TrendingUp, Zap,
     ShieldCheck, Truck, RotateCcw, Star, Store, Clock, Percent, Quote, MessageCircle, Search,
     ShoppingBag, Heart, Tag, Gift, Smartphone, Camera, Headphones, Laptop, Monitor, Watch,
     Shirt, Coffee, Box, ThumbsUp, Medal, Crown, Music, Video, Gamepad2, Mic,
-    Sofa, Scissors, Glasses, Brush, Award, Bell, Bookmark, Compass, Flame, Leaf, Moon, Sun, Anchor, Umbrella
+    Sofa, Scissors, Glasses, Brush, Award, Bell, Bookmark, Compass, Flame, Leaf, Moon, Sun, Anchor, Umbrella,
+    BadgeCheck
 } from 'lucide-react';
 import ProductCard from '../../components/product/ProductCard';
 import ProductCardSkeleton from '../../components/product/ProductCardSkeleton';
@@ -19,6 +20,7 @@ import { formatPrice } from '../../utils/currency';
 import { getTestimonials } from '../../data/testimonials';
 
 export default function Homepage() {
+    const navigate = useNavigate();
     const { t } = useTranslation();
     const testimonials = getTestimonials(t);
     const {
@@ -118,7 +120,7 @@ export default function Homepage() {
         return `${Math.min(98, Math.max(2, value + offset))}%`;
     };
 
-    const twoRowProductScrollerClasses = 'grid grid-rows-2 grid-flow-col auto-cols-[220px] sm:auto-cols-[240px] lg:auto-cols-[260px] gap-5 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory';
+    const twoRowProductScrollerClasses = 'grid grid-rows-2 grid-flow-col auto-cols-[165px] sm:auto-cols-[240px] lg:auto-cols-[260px] gap-3 sm:gap-5 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory';
 
     const scrollContainer = (ref, direction) => {
         if (!ref.current) return;
@@ -192,7 +194,11 @@ export default function Homepage() {
                             {t('home.heroSubtitle', 'Shop from thousands of curated sellers. Quality products, secure payments, and fast delivery — all in one place.')}
                         </p>
 
-                        <form onSubmit={(e) => { e.preventDefault(); const val = e.target.elements.search.value; if(val) window.location.href = `/products?search=${encodeURIComponent(val)}`; }} 
+                        <form onSubmit={(e) => { 
+                                e.preventDefault(); 
+                                const val = e.target.elements.search.value; 
+                                if(val) navigate(`/products?q=${encodeURIComponent(val.trim())}`); 
+                              }} 
                               className="flex items-center max-w-2xl mx-auto mb-10 bg-white p-1.5 sm:p-2 rounded-full shadow-2xl shadow-slate-200/40 border border-slate-100 transition-all focus-within:ring-4 focus-within:ring-brand-primary/10">
                             <input
                                 type="text"
@@ -347,7 +353,7 @@ export default function Homepage() {
                     {isLoading ? (
                         <div className={twoRowProductScrollerClasses}>
                             {[...Array(8)].map((_, i) => (
-                                <div key={i} className="w-[220px] sm:w-[240px] lg:w-[260px] snap-start">
+                                <div key={i} className="w-[165px] sm:w-[240px] lg:w-[260px] snap-start">
                                     <ProductCardSkeleton />
                                 </div>
                             ))}
@@ -358,7 +364,7 @@ export default function Homepage() {
                             className={twoRowProductScrollerClasses}
                         >
                             {loadedProducts.map((product) => (
-                                <div key={product.id} className="w-[220px] sm:w-[240px] lg:w-[260px] snap-start">
+                                <div key={product.id} className="w-[165px] sm:w-[240px] lg:w-[260px] snap-start">
                                     <ProductCard product={product} />
                                 </div>
                             ))}
@@ -408,7 +414,7 @@ export default function Homepage() {
                                 {/* Banner */}
                                 <div className="h-24 overflow-hidden">
                                     <img
-                                        src={seller.banner}
+                                        src={seller.storefront_config?.hero?.bannerImage || seller.banner}
                                         alt={seller.name}
                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                     />
@@ -421,10 +427,15 @@ export default function Homepage() {
                                                     -mt-7 relative z-10">
                                         <img src={seller.logo} alt={seller.name} className="w-full h-full object-cover" />
                                     </div>
-                                    <h3 className="font-semibold text-sm text-text-primary mt-2 group-hover:text-brand-primary transition-colors">
-                                        {seller.name}
-                                    </h3>
-                                    <p className="text-[11px] text-text-muted mt-0.5 line-clamp-1">{seller.description}</p>
+                                    <div className="flex items-center gap-1.5 mt-2">
+                                        <h3 className="font-semibold text-sm text-text-primary group-hover:text-brand-primary transition-colors truncate">
+                                            {seller.storeName || seller.store_name || seller.name}
+                                        </h3>
+                                        {seller.isVerified && (
+                                            <BadgeCheck size={14} className="text-brand-primary flex-shrink-0" />
+                                        )}
+                                    </div>
+                                    <p className="text-[11px] text-text-muted mt-0.5 line-clamp-1">{seller.description || t('shops.defaultDescription', 'Welcome to my Toroongo shop!')}</p>
                                     <div className="flex items-center justify-between mt-3 pt-3 border-t border-border-soft/50">
                                         <div className="flex items-center gap-1">
                                             <Star size={12} className="fill-amber-400 text-amber-400" />
@@ -500,7 +511,7 @@ export default function Homepage() {
                     {isLoading ? (
                         <div className={twoRowProductScrollerClasses}>
                             {[...Array(8)].map((_, i) => (
-                                <div key={i} className="w-[220px] sm:w-[240px] lg:w-[260px] snap-start">
+                                <div key={i} className="w-[165px] sm:w-[240px] lg:w-[260px] snap-start">
                                     <ProductCardSkeleton />
                                 </div>
                             ))}
@@ -511,7 +522,7 @@ export default function Homepage() {
                             className={twoRowProductScrollerClasses}
                         >
                             {loadedProducts.slice(0, 12).map((product) => (
-                                <div key={product.id} className="w-[220px] sm:w-[240px] lg:w-[260px] snap-start">
+                                <div key={product.id} className="w-[165px] sm:w-[240px] lg:w-[260px] snap-start">
                                     <ProductCard product={product} />
                                 </div>
                             ))}

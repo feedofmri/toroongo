@@ -18,8 +18,10 @@ import {
   Loader2,
   X,
   Send,
+  BadgeCheck,
 } from "lucide-react";
 import StarRating from "../../components/ui/StarRating";
+import ImageZoom from "../../components/ui/ImageZoom";
 import ProductCard from "../../components/product/ProductCard";
 import { useProduct } from "../../context/ProductContext";
 import { useCart } from "../../context/CartContext";
@@ -28,6 +30,7 @@ import { useWishlist } from "../../context/WishlistContext";
 import { messageService, reviewService } from "../../services";
 import { resolveSellerSlug } from "../../utils/resolveSellerSlug";
 import { formatPrice } from "../../utils/currency";
+import RelatedProducts from "../../components/product/RelatedProducts";
 
 function isVideoUrl(url) {
   return (
@@ -122,7 +125,7 @@ function MediaGallery({ product, selectedVariantValues }) {
   }, [variationImage, product.id]);
 
   return (
-    <div className="relative flex gap-3">
+    <div className="relative flex gap-3 min-w-0">
       {/* Thumbnails (left strip) */}
       {allMedia.length > 1 && (
         <div
@@ -163,7 +166,7 @@ function MediaGallery({ product, selectedVariantValues }) {
       )}
 
       {/* Main display */}
-      <div className="flex-1">
+      <div className="flex-1 min-w-0">
         <div className="aspect-square rounded-2xl overflow-hidden bg-surface-bg border border-border-soft">
           {isSelectedVideo ? (
             youtubeEmbed ? (
@@ -183,17 +186,16 @@ function MediaGallery({ product, selectedVariantValues }) {
               />
             )
           ) : (
-            <img
+            <ImageZoom
               src={selectedMedia || product.imageUrl}
               alt={product.title}
-              className="w-full h-full object-cover"
             />
           )}
         </div>
 
         {/* Mobile thumbnails (horizontal scroll) */}
         {allMedia.length > 1 && (
-          <div className="flex sm:hidden gap-2 mt-3 overflow-x-auto pb-1">
+          <div className="flex sm:hidden gap-2 mt-3 overflow-x-auto pb-1 w-full min-w-0">
             {allMedia.map((url, i) => {
               const isThumbnailVideo = isVideoUrl(url);
               return (
@@ -250,7 +252,7 @@ function MediaGallery({ product, selectedVariantValues }) {
 export default function ProductDetail() {
   const { t } = useTranslation();
   const { slug } = useParams();
-  const { products: allProducts, sellers } = useProduct();
+  const { products: allProducts, sellers, isLoading: sellersLoading } = useProduct();
   const { addToCart } = useCart();
   const { user } = useAuth();
   const { toggleWishlist, isInWishlist } = useWishlist();
@@ -263,6 +265,13 @@ export default function ProductDetail() {
     allProducts.find((p) => String(p.id) === String(slug));
 
   const [quantity, setQuantity] = useState(1);
+  
+  // Dynamic Shipping Logic
+  const seller = sellers.find(s => String(s.id) === String(product?.sellerId));
+  const sellerSettings = seller?.seller_settings || {};
+  const freeShippingThreshold = parseFloat(sellerSettings.free_shipping_threshold ?? 50);
+  const currencyCode = product?.currency_code || seller?.currency_code || 'USD';
+
   const wishlisted = isInWishlist(product?.id);
   const [activeTab, setActiveTab] = useState("description");
   const [added, setAdded] = useState(false);
@@ -286,6 +295,14 @@ export default function ProductDetail() {
     }
   }, [product]);
 
+  if (sellersLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <Loader2 className="w-8 h-8 text-brand-primary animate-spin" />
+      </div>
+    );
+  }
+
   if (!product) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
@@ -303,9 +320,29 @@ export default function ProductDetail() {
     );
   }
 
+  // Dynamic Recommendations: 
+  // 1. Calculate similarity score (Category = 5 points, Shared Tags = 2 points each, Same Seller = 1 point)
   const relatedProducts = allProducts
-    .filter((p) => p.category === product.category && p.id !== product.id)
-    .slice(0, 4);
+    .filter(p => p.id !== product.id) // Exclude current product
+    .map(p => {
+      let score = 0;
+      if (p.category === product.category) score += 5;
+      if (String(p.sellerId) === String(product.sellerId)) score += 1;
+      
+      // Tag matching
+      const pTags = Array.isArray(p.tags) ? p.tags : [];
+      const currentTags = Array.isArray(product.tags) ? product.tags : [];
+      const sharedTags = pTags.filter(tag => currentTags.includes(tag));
+      score += sharedTags.length * 2;
+
+      // Bonus for featured
+      if (p.is_featured) score += 0.5;
+
+      return { ...p, similarityScore: score };
+    })
+    .filter(p => p.similarityScore > 0)
+    .sort((a, b) => b.similarityScore - a.similarityScore)
+    .slice(0, 12);
 
   // Normalize variation groups so values are simple strings for display/selection
   const variationGroups = Array.isArray(product.variations)
@@ -346,7 +383,8 @@ export default function ProductDetail() {
   })();
 
   const handleAddToCart = () => {
-    addToCart(product, quantity, selectedVariant);
+    const finalPrice = selectedVariantPrice ?? product.price;
+    addToCart({ ...product, price: finalPrice }, quantity, selectedVariant);
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };
@@ -413,7 +451,12 @@ export default function ProductDetail() {
               to={`/${resolveSellerSlug(product.sellerId)}`}
               className="text-sm text-brand-primary font-medium hover:text-brand-secondary transition-colors mb-2"
             >
-              {product.seller || product.seller_name}
+              <span className="flex items-center gap-1.5">
+                {product.seller || product.seller_name}
+                {product.seller_verified && (
+                  <BadgeCheck size={14} className="text-brand-primary" />
+                )}
+              </span>
             </Link>
 
             {/* Title */}
@@ -553,8 +596,8 @@ export default function ProductDetail() {
                   )}
                 </button>
                 <button
-                  onClick={() => {
-                    const success = toggleWishlist(product.id);
+                  onClick={async () => {
+                    const success = await toggleWishlist(product.id);
                     if (!success) {
                       navigate(
                         `/login?redirect=${encodeURIComponent(location.pathname)}`,
@@ -613,7 +656,12 @@ export default function ProductDetail() {
                         to={`/${sellerData.slug}`}
                         className="text-sm font-semibold text-text-primary hover:text-brand-primary transition-colors"
                       >
-                        {sellerData.storeName || sellerData.name}
+                        <span className="flex items-center gap-1">
+                          {sellerData.storeName || sellerData.name}
+                          {sellerData.isVerified && (
+                            <BadgeCheck size={14} className="text-brand-primary" />
+                          )}
+                        </span>
                       </Link>
                       <div className="flex items-center gap-2 mt-0.5">
                         <div className="flex items-center gap-0.5">
@@ -648,10 +696,12 @@ export default function ProductDetail() {
               <div className="flex flex-col items-center p-3 bg-surface-bg rounded-xl text-center">
                 <Truck size={18} className="text-brand-primary mb-1.5" />
                 <span className="text-xs font-medium text-text-primary">
-                  {t("product.freeShipping")}
+                  {t("product.shippingVaries", "Rates vary by location")}
                 </span>
                 <span className="text-[10px] text-text-muted">
-                  {t("product.freeShippingDesc")}
+                  {freeShippingThreshold > 0
+                    ? t("product.freeOver", { amount: formatPrice(freeShippingThreshold, currencyCode) })
+                    : t("product.shippingCalculatedAtCheckout", "Calculated at checkout")}
                 </span>
               </div>
               <div className="flex flex-col items-center p-3 bg-surface-bg rounded-xl text-center">
@@ -702,13 +752,12 @@ export default function ProductDetail() {
 
           {activeTab === "description" ? (
             <div className="max-w-3xl text-text-muted text-sm leading-relaxed space-y-6">
-              <div className="prose prose-sm max-w-none">
+              <div className="prose prose-brand prose-sm max-w-none text-text-muted">
                 {product.description ? (
-                  product.description.split("\n").map((para, i) => (
-                    <p key={i} className="mb-4">
-                      {para}
-                    </p>
-                  ))
+                  <div 
+                    className="ql-editor !p-0"
+                    dangerouslySetInnerHTML={{ __html: product.description }} 
+                  />
                 ) : (
                   <>
                     <p>
@@ -936,6 +985,8 @@ export default function ProductDetail() {
             </div>
           </div>
         )}
+        {/* Related Products */}
+        <RelatedProducts products={relatedProducts} />
       </div>
     </div>
   );

@@ -49,7 +49,8 @@ class OrderController extends Controller
             }
         }
 
-        $subtotal = collect($data['items'])->sum(fn($i) => $i['price_at_purchase'] * $i['quantity']);
+        $buyerCurrency = $data['buyer_currency_code'] ?? ($user->currency_code ?? 'USD');
+        
         $shippingResult = $this->calculateShipping(
             $data['items'],
             $data['shipping_address'],
@@ -62,20 +63,39 @@ class OrderController extends Controller
             ], 422);
         }
 
-        $shippingCost = $shippingResult['total'];
+        $subtotal = 0;
+        foreach ($data['items'] as $item) {
+            $product = Product::find($item['product_id']);
+            $sellerCurrency = $product->currency_code ?? 'USD';
+            // Convert price_at_purchase (which is in seller currency) to buyer currency
+            $priceInBuyerCurrency = CurrencyHelper::convert($item['price_at_purchase'], $sellerCurrency, $buyerCurrency);
+            $subtotal += $priceInBuyerCurrency * $item['quantity'];
+        }
+
+        $shippingCost = CurrencyHelper::convert(
+            $shippingResult['total'], 
+            $shippingResult['currency_code'] ?? 'USD', 
+            $buyerCurrency
+        );
+        
         $tax = $subtotal * 0.08;
+        
+        $serviceCharge = 0;
+        if (isset($data['payment_details']['service_charge_pct'])) {
+            $serviceCharge = (($subtotal + $shippingCost + $tax) * (float)$data['payment_details']['service_charge_pct']) / 100;
+        }
 
         $order = Order::create([
             'buyer_id' => $user->id,
             'shipping_address' => $data['shipping_address'] ?? null,
             'payment_method' => $data['payment_method'] ?? null,
-            'buyer_currency_code' => $data['buyer_currency_code'] ?? ($user->currency_code ?? 'USD'),
+            'buyer_currency_code' => $buyerCurrency,
             'seller_currency_code' => $data['seller_currency_code'] ?? null,
             'payment_details' => $data['payment_details'] ?? null,
             'subtotal' => $subtotal,
             'shipping_cost' => $shippingCost,
             'tax' => $tax,
-            'total' => $subtotal + $shippingCost + $tax,
+            'total' => $subtotal + $shippingCost + $tax + $serviceCharge,
         ]);
 
         foreach ($data['items'] as $item) {

@@ -65,4 +65,12 @@ class ContactController extends Controller
 
         return response()->json($submissions);
     }
+
+    public function adminMarkRead($id)
+    {
+        $submission = ContactSubmission::findOrFail($id);
+        $submission->update(['is_read' => true]);
+
+        return response()->json(['message' => 'Marked as read by admin']);
+    }
 }

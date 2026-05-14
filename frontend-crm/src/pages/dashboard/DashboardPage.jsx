@@ -169,8 +169,8 @@ export default function DashboardPage() {
                     <span className="text-xs font-medium text-text-primary truncate max-w-[130px]">{c.name}</span>
                     <span className="text-xs text-text-muted ml-2">{c.percentage ?? 0}%</span>
                   </div>
-                  <div className="w-full bg-surface-bg rounded-full h-1.5">
-                    <div className="bg-brand-primary h-1.5 rounded-full transition-all duration-700" style={{ width: `${c.percentage ?? 0}%` }} />
+                  <div className="w-full bg-surface-bg rounded-full h-1.5 overflow-hidden">
+                    <div className="bg-brand-primary h-1.5 rounded-full transition-all duration-700" style={{ width: `${Math.min(c.percentage ?? 0, 100)}%` }} />
                   </div>
                 </div>
               ))}
@@ -213,9 +213,9 @@ export default function DashboardPage() {
                     <span className="text-xs font-bold text-text-primary">{m.val}{m.pct ? '%' : m.suffix}</span>
                   </div>
                   {m.pct && (
-                    <div className="w-full bg-surface-bg rounded-full h-1.5">
+                    <div className="w-full bg-surface-bg rounded-full h-1.5 overflow-hidden">
                       <div className={`h-1.5 rounded-full transition-all duration-700 ${m.val > 80 ? 'bg-red-500' : m.val > 60 ? 'bg-amber-500' : 'bg-green-500'}`}
-                        style={{ width: `${m.val}%` }} />
+                        style={{ width: `${Math.min(m.val, 100)}%` }} />
                     </div>
                   )}
                 </div>

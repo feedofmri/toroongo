@@ -17,7 +17,7 @@ class SystemController extends Controller
             ->pluck('count', 'category');
 
         $categories = Category::all()->map(function ($cat) use ($productCounts) {
-            $cat->productCount = (int) ($productCounts[$cat->slug] ?? 0);
+            $cat->product_count = (int) ($productCounts[$cat->slug] ?? 0);
             return $cat;
         });
 

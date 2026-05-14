@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Plus, Pencil, Trash2, MapPin, Loader2, Globe, Truck, Info } from "lucide-react";
-import { shippingAreaService } from "../../services";
+import { Truck, MapPin, Globe, Loader2, Plus, Pencil, Trash2, CheckCircle2 } from "lucide-react";
+import { shippingAreaService, userService } from "../../services";
 import { useAuth } from "../../context/AuthContext";
-import { formatPrice, formatPriceInCurrency } from "../../utils/currency";
+import { formatPrice, formatPriceInCurrency, getCurrencySymbol } from "../../utils/currency";
 
 const emptyForm = {
   name: "",
@@ -14,7 +14,7 @@ const emptyForm = {
 
 export default function ShippingAreas() {
   const { t } = useTranslation();
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const [areas, setAreas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -23,6 +23,32 @@ export default function ShippingAreas() {
   const [form, setForm] = useState({ ...emptyForm, country: user?.country || 'BD' });
   const [error, setError] = useState(null);
   const [saveSuccess, setSaveSuccess] = useState(false);
+
+  // General Settings State
+  const [generalSettings, setGeneralSettings] = useState({
+    processing_time: user?.seller_settings?.processing_time ?? 2,
+    free_shipping_threshold: user?.seller_settings?.free_shipping_threshold ?? 50,
+    offer_express_shipping: user?.seller_settings?.offer_express_shipping ?? true,
+  });
+  const [saveGeneralLoading, setSaveGeneralLoading] = useState(false);
+  const [generalSaveSuccess, setGeneralSaveSuccess] = useState(false);
+
+  const isGeneralDirty = React.useMemo(() => {
+    const s = user?.seller_settings || {};
+    return generalSettings.processing_time !== (s.processing_time ?? 2) ||
+           generalSettings.free_shipping_threshold !== (s.free_shipping_threshold ?? 50) ||
+           generalSettings.offer_express_shipping !== (s.offer_express_shipping ?? true);
+  }, [generalSettings, user]);
+  
+  useEffect(() => {
+    if (user?.seller_settings) {
+      setGeneralSettings({
+        processing_time: user.seller_settings.processing_time ?? 2,
+        free_shipping_threshold: user.seller_settings.free_shipping_threshold ?? 50,
+        offer_express_shipping: user.seller_settings.offer_express_shipping ?? true,
+      });
+    }
+  }, [user]);
 
   const isDirty = React.useMemo(() => {
     if (editingArea) {
@@ -99,6 +125,22 @@ export default function ShippingAreas() {
     }
   };
 
+  const handleSaveGeneralSettings = async () => {
+    setSaveGeneralLoading(true);
+    try {
+      const currentSettings = user?.seller_settings || {};
+      const newSettings = { ...currentSettings, ...generalSettings };
+      const updatedUser = await userService.updateProfile(user.id, { seller_settings: newSettings });
+      updateUser(updatedUser);
+      setGeneralSaveSuccess(true);
+      setTimeout(() => setGeneralSaveSuccess(false), 3000);
+    } catch (err) {
+      setError(err.message || "Failed to save general shipping settings.");
+    } finally {
+      setSaveGeneralLoading(false);
+    }
+  };
+
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this shipping area?")) return;
     setDeletingId(id);
@@ -116,10 +158,85 @@ export default function ShippingAreas() {
   return (
     <div className="animate-fade-in space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-text-primary">{t('sellerShipping.title', 'Shipping Areas')}</h1>
+        <h1 className="text-2xl font-bold text-text-primary">{t('sellerShipping.title', 'Shipping Management')}</h1>
         <p className="text-sm text-text-muted mt-1">
-          {t('sellerShipping.subtitle', 'Create delivery zones and set a fee for each area.')}
+          {t('sellerShipping.subtitle', 'Configure your global shipping defaults and delivery zones.')}
         </p>
+      </div>
+
+      {/* Global Shipping Settings */}
+      <div className="bg-white border border-border-soft rounded-2xl p-6 shadow-sm">
+        <div className="flex items-center gap-2 mb-6 text-text-primary font-semibold">
+          <Truck size={18} className="text-brand-primary" />
+          {t('sellerSettings.shipping.title', 'Global Shipping Defaults')}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 items-end">
+          <div>
+            <label className="block text-xs font-medium text-text-muted mb-1.5">
+              {t('sellerSettings.shipping.processing', 'Processing Time (days)')}
+            </label>
+            <input
+              type="number"
+              value={generalSettings.processing_time}
+              onChange={(e) => setGeneralSettings({ ...generalSettings, processing_time: parseInt(e.target.value) || 0 })}
+              className="w-full px-4 py-2.5 bg-white border border-border-soft rounded-xl text-sm outline-none focus:border-brand-primary"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-text-muted mb-1.5">
+              {t('sellerSettings.shipping.threshold', 'Free Shipping Threshold ({{currency}})', { currency: getCurrencySymbol(user?.currency_code) })}
+            </label>
+            <input
+              type="number"
+              value={generalSettings.free_shipping_threshold}
+              onChange={(e) => setGeneralSettings({ ...generalSettings, free_shipping_threshold: parseFloat(e.target.value) || 0 })}
+              className="w-full px-4 py-2.5 bg-white border border-border-soft rounded-xl text-sm outline-none focus:border-brand-primary"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <button
+              onClick={handleSaveGeneralSettings}
+              disabled={saveGeneralLoading || (!isGeneralDirty && !generalSaveSuccess)}
+              className={`w-full px-5 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center justify-center gap-2
+                ${generalSaveSuccess
+                  ? 'bg-gray-100 text-gray-600 border border-gray-200'
+                  : isGeneralDirty
+                    ? 'bg-brand-primary text-white hover:bg-brand-secondary shadow-md shadow-brand-primary/10'
+                    : 'bg-gray-50 text-gray-400 cursor-not-allowed'}`}
+            >
+              {saveGeneralLoading ? (
+                <Loader2 size={16} className="animate-spin" />
+              ) : generalSaveSuccess ? (
+                <CheckCircle2 size={16} className="text-gray-500" />
+              ) : null}
+              {generalSaveSuccess ? t('common.saved', 'Saved!') : t('common.save', 'Save Global Settings')}
+            </button>
+          </div>
+        </div>
+
+        <div className="mt-6 pt-6 border-t border-border-soft">
+          <label className="flex items-center gap-3 cursor-pointer group">
+            <div className="relative">
+              <input
+                type="checkbox"
+                checked={generalSettings.offer_express_shipping}
+                onChange={(e) => setGeneralSettings({ ...generalSettings, offer_express_shipping: e.target.checked })}
+                className="sr-only peer"
+              />
+              <div className="w-10 h-5 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-brand-primary"></div>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-text-primary group-hover:text-brand-primary transition-colors">{t('sellerSettings.shipping.express', 'Offer express shipping')}</p>
+              <p className="text-xs text-text-muted">{t('sellerSettings.shipping.expressDesc', 'Allow customers to choose faster 2-3 day delivery')}</p>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <div className="pt-4">
+        <h2 className="text-lg font-semibold text-text-primary mb-1">{t('sellerShipping.zonesTitle', 'Specific Shipping Zones')}</h2>
+        <p className="text-sm text-text-muted mb-6">{t('sellerShipping.zonesSubtitle', 'Define custom rates for specific countries, states, or cities.')}</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -166,7 +283,7 @@ export default function ShippingAreas() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="relative">
               <div className="absolute left-4 top-1/2 -translate-y-1/2 text-xs font-bold text-text-muted">
-                {user?.currency_code || 'USD'}
+                {getCurrencySymbol(user?.currency_code)}
               </div>
               <input
                 type="number"

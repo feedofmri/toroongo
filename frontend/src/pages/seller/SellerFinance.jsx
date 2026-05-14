@@ -106,7 +106,7 @@ export default function SellerFinance() {
                         <span className="text-sm text-text-muted">{t('sellerFinance.stats.available')}</span>
                     </div>
                     <p className="text-2xl font-bold text-text-primary">
-                        {formatPrice(stats.available)}
+                        {formatPrice(stats.available, user?.currency_code)}
                     </p>
                 </div>
                 <div className="bg-white p-5 rounded-2xl border border-border-soft">
@@ -117,7 +117,7 @@ export default function SellerFinance() {
                         <span className="text-sm text-text-muted">{t('sellerFinance.stats.pending', 'Pending Settlement')}</span>
                     </div>
                     <p className="text-2xl font-bold text-text-primary">
-                        {formatPrice(stats.pending)}
+                        {formatPrice(stats.pending, user?.currency_code)}
                     </p>
                 </div>
                 <div className="bg-white p-5 rounded-2xl border border-border-soft">
@@ -130,7 +130,7 @@ export default function SellerFinance() {
                     <p className="text-2xl font-bold text-text-primary">
                         {new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString(t('common.locale', 'en-US'), { month: 'short', day: 'numeric' })}
                     </p>
-                    <p className="text-xs text-text-muted mt-0.5">{t('sellerFinance.stats.est', 'Est.')} {formatPrice(stats.available)}</p>
+                    <p className="text-xs text-text-muted mt-0.5">{t('sellerFinance.stats.est', 'Est.')} {formatPrice(stats.available, user?.currency_code)}</p>
                 </div>
             </div>
 
@@ -177,13 +177,13 @@ export default function SellerFinance() {
                                     </td>
                                     <td className="px-5 py-3.5 text-sm text-text-muted truncate max-w-[200px]">{txn.description}</td>
                                     <td className={`px-5 py-3.5 text-sm font-medium text-right ${txn.amount >= 0 ? 'text-text-primary' : 'text-red-500'}`}>
-                                        {txn.amount >= 0 ? '+' : ''}{formatPrice(Math.abs(txn.amount))}
+                                        {txn.amount >= 0 ? '+' : ''}{formatPrice(Math.abs(txn.amount), user?.currency_code)}
                                     </td>
                                     <td className="px-5 py-3.5 text-sm text-text-muted text-right">
-                                        {txn.fee !== 0 ? `${formatPrice(Math.abs(txn.fee))}` : '—'}
+                                        {txn.fee !== 0 ? `${formatPrice(Math.abs(txn.fee), user?.currency_code)}` : '—'}
                                     </td>
                                     <td className={`px-5 py-3.5 text-sm font-semibold text-right ${txn.net >= 0 ? 'text-green-600' : 'text-red-500'}`}>
-                                        {txn.net >= 0 ? '+' : ''}{formatPrice(Math.abs(txn.net))}
+                                        {txn.net >= 0 ? '+' : ''}{formatPrice(Math.abs(txn.net), user?.currency_code)}
                                     </td>
                                 </tr>
                             ))}

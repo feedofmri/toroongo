@@ -11,7 +11,16 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        return response()->json(Category::all());
+        $productCounts = \App\Models\Product::select('category', \DB::raw('count(*) as total'))
+            ->groupBy('category')
+            ->pluck('total', 'category');
+
+        $categories = Category::all()->map(function($cat) use ($productCounts) {
+            $cat->product_count = (int) $productCounts->get($cat->slug, 0);
+            return $cat;
+        });
+
+        return response()->json($categories);
     }
 
     public function store(Request $request)

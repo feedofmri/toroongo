@@ -91,12 +91,6 @@ export default function SellerSettings() {
     });
     const [saveBrandingLoading, setSaveBrandingLoading] = useState(false);
 
-    const [shipping, setShipping] = useState({
-        processing_time: user?.seller_settings?.processing_time || 2,
-        free_shipping_threshold: user?.seller_settings?.free_shipping_threshold || 50,
-        standard_shipping_rate: user?.seller_settings?.standard_shipping_rate || 5.99,
-        offer_express_shipping: user?.seller_settings?.offer_express_shipping !== undefined ? user?.seller_settings?.offer_express_shipping : true,
-    });
     const [saveShippingLoading, setSaveShippingLoading] = useState(false);
 
     const [notifications, setNotifications] = useState({
@@ -150,13 +144,7 @@ export default function SellerSettings() {
                countryData.country_custom_name !== (user?.country_custom_name || '');
     }, [countryData, user]);
 
-    const isShippingDirty = React.useMemo(() => {
-        const s = user?.seller_settings || {};
-        return shipping.processing_time !== (s.processing_time || 2) ||
-               shipping.free_shipping_threshold !== (s.free_shipping_threshold || 50) ||
-               shipping.standard_shipping_rate !== (s.standard_shipping_rate || 5.99) ||
-               shipping.offer_express_shipping !== (s.offer_express_shipping !== undefined ? s.offer_express_shipping : true);
-    }, [shipping, user]);
+
 
     const isNotificationsDirty = React.useMemo(() => {
         const n = user?.seller_settings?.notifications || {};
@@ -304,7 +292,6 @@ export default function SellerSettings() {
         { key: 'whitelabel', label: t('sellerSettings.tabs.whitelabel', 'White-Label'), icon: Eye, locked: !canAccess('whitelabel') },
         { key: 'currency', label: t('sellerSettings.tabs.currency', 'Multi-Currency'), icon: Banknote, locked: !canAccess('currency') },
         { key: 'customcode', label: t('sellerSettings.tabs.customcode', 'Custom Code'), icon: Code, locked: !canAccess('css') },
-        { key: 'shipping', label: t('sellerSettings.tabs.shipping', 'Shipping'), icon: Globe },
         { key: 'notifications', label: t('sellerSettings.tabs.notifications', 'Notifications'), icon: Bell },
         { key: 'security', label: t('sellerSettings.tabs.security', 'Security'), icon: Shield },
     ];
@@ -571,50 +558,7 @@ export default function SellerSettings() {
                 </div>
             )}
 
-            {activeTab === 'shipping' && (
-                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">
-                    <div className="space-y-5 bg-white p-6 rounded-2xl border border-border-soft">
-                    <h3 className="text-lg font-semibold text-text-primary">{t('sellerSettings.shipping.title', 'Shipping Settings')}</h3>
-                    <div>
-                        <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.shipping.processing', 'Processing Time (days)')}</label>
-                        <input type="number" value={shipping.processing_time} onChange={(e) => setShipping({...shipping, processing_time: parseInt(e.target.value) || 0})} className={inputClass} />
-                    </div>
-                    <div>
-                        <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.shipping.threshold', 'Free Shipping Threshold ($)')}</label>
-                        <input type="number" value={shipping.free_shipping_threshold} onChange={(e) => setShipping({...shipping, free_shipping_threshold: parseFloat(e.target.value) || 0})} className={inputClass} />
-                    </div>
-                    <div>
-                        <label className="block text-xs font-medium text-text-muted mb-1.5">{t('sellerSettings.shipping.rate', 'Standard Shipping Rate ($)')}</label>
-                        <input type="number" value={shipping.standard_shipping_rate} onChange={(e) => setShipping({...shipping, standard_shipping_rate: parseFloat(e.target.value) || 0})} step="0.01" className={inputClass} />
-                    </div>
-                    <label className="flex items-center gap-3 p-4 border border-border-soft rounded-xl cursor-pointer hover:border-gray-300">
-                        <input type="checkbox" checked={shipping.offer_express_shipping} onChange={(e) => setShipping({...shipping, offer_express_shipping: e.target.checked})} className="accent-brand-primary w-4 h-4" />
-                        <div>
-                            <p className="text-sm font-medium text-text-primary">{t('sellerSettings.shipping.express', 'Offer express shipping')}</p>
-                            <p className="text-xs text-text-muted">{t('sellerSettings.shipping.expressDesc', 'Allow customers to choose faster 2-3 day delivery')}</p>
-                        </div>
-                    </label>
-                    <button 
-                        onClick={() => handleSaveSettings('shipping', shipping, setSaveShippingLoading)} 
-                        disabled={saveShippingLoading || (!isShippingDirty && saveSuccess !== 'shipping')} 
-                        className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all
-                            ${saveSuccess === 'shipping' 
-                                ? 'bg-gray-100 text-gray-600 border border-gray-200' 
-                                : isShippingDirty
-                                    ? 'bg-brand-primary text-white hover:bg-brand-secondary'
-                                    : 'bg-gray-50 text-gray-400 cursor-not-allowed'}
-                            disabled:opacity-70`}
-                    >
-                        {saveShippingLoading ? <Loader2 size={16} className="animate-spin inline mr-2" /> : null}
-                        {saveSuccess === 'shipping' ? (
-                            <span className="flex items-center gap-2"><CheckCircle2 size={16} className="text-gray-500" /> {t('common.saved', 'Saved!')}</span>
-                        ) : (
-                            t('sellerSettings.shipping.save', 'Save Shipping Settings')
-                        )}
-                    </button>
-                    </div>
-                </div>
-            )}
+
 
             {activeTab === 'notifications' && (
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 items-start">

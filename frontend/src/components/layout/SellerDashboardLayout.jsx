@@ -105,8 +105,8 @@ const allSidebarLinks = [
   {
     to: "/seller/shipping-areas",
     icon: MapPin,
-    labelKey: "shippingAreas",
-    fallbackLabel: "Shipping Areas",
+    labelKey: "shippingManagement",
+    fallbackLabel: "Shipping Management",
   },
   {
     to: "/seller/payment-options",

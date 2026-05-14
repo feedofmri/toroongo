@@ -7,7 +7,7 @@ class Order extends Model
     protected $fillable = [
         'buyer_id','status','shipping_address','payment_method',
         'buyer_currency_code','seller_currency_code','payment_details',
-        'subtotal','shipping_cost','tax','total','cancellation_reason','return_reason',
+        'subtotal','shipping_cost','tax','total','cancellation_reason','return_reason','is_read',
     ];
 
     protected function casts(): array
@@ -16,6 +16,7 @@ class Order extends Model
             'shipping_address' => 'array',
             'payment_details' => 'array',
             'subtotal' => 'float', 'shipping_cost' => 'float', 'tax' => 'float', 'total' => 'float',
+            'is_read' => 'boolean',
         ];
     }
 

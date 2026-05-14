@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { useOutletContext } from 'react-router-dom';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useOutletContext, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Search, ChevronDown } from 'lucide-react';
 import ProductCard from '../../components/product/ProductCard';
@@ -7,8 +7,27 @@ import ProductCard from '../../components/product/ProductCard';
 export default function StoreCatalog() {
     const { t } = useTranslation();
     const { sellerProducts } = useOutletContext();
-    const [search, setSearch] = useState('');
+    const [searchParams, setSearchParams] = useSearchParams();
+    const queryParam = searchParams.get('q') || '';
+    
+    const [search, setSearch] = useState(queryParam);
     const [sortBy, setSortBy] = useState('relevance');
+
+    // Sync search state with URL query
+    useEffect(() => {
+        setSearch(queryParam);
+    }, [queryParam]);
+
+    const handleSearchChange = (val) => {
+        setSearch(val);
+        // We update URL params to keep it synced
+        if (val.trim()) {
+            searchParams.set('q', val.trim());
+        } else {
+            searchParams.delete('q');
+        }
+        setSearchParams(searchParams, { replace: true });
+    };
 
     const SORT_OPTIONS = [
         { value: 'relevance', label: t('storefront.catalog.sort.relevance') },
@@ -19,9 +38,21 @@ export default function StoreCatalog() {
 
     const filtered = useMemo(() => {
         let result = [...sellerProducts];
-        if (search) {
-            const q = search.toLowerCase();
-            result = result.filter((p) => p.title.toLowerCase().includes(q));
+        if (search && search.trim()) {
+            const q = search.toLowerCase().trim();
+            result = result.filter((p) => {
+                const title = (p.title || '').toLowerCase();
+                const description = (p.description || '').toLowerCase();
+                const metaDescription = (p.meta_description || p.metaDescription || '').toLowerCase();
+                const category = (p.category || '').toLowerCase();
+                const tags = Array.isArray(p.tags) ? p.tags : [];
+                
+                return title.includes(q) || 
+                       description.includes(q) || 
+                       metaDescription.includes(q) || 
+                       category.includes(q) ||
+                       tags.some(tag => tag && String(tag).toLowerCase().includes(q));
+            });
         }
         switch (sortBy) {
             case 'price-asc': result.sort((a, b) => a.price - b.price); break;
@@ -45,7 +76,7 @@ export default function StoreCatalog() {
                             type="text"
                             placeholder={t("storefront.catalog.searchPlaceholder")}
                             value={search}
-                            onChange={(e) => setSearch(e.target.value)}
+                            onChange={(e) => handleSearchChange(e.target.value)}
                             className="w-full pl-9 pr-3 py-2 text-sm bg-white border border-border-soft rounded-lg
                        focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none"
                         />

@@ -408,7 +408,7 @@
     "emptyDesc": "Sepertinya Anda belum menambahkan apa pun ke keranjang.",
     "continueShopping": "Lanjutkan Belanja",
     "freeShippingText": "Gratis Ongkir",
-    "shippingCostText": "$5.99 biaya pengiriman",
+    "shippingCostText": "{{amount}} shipping",
     "orderSummary": "Ringkasan Pesanan",
     "promoCode": "Kode Promo",
     "apply": "Terapkan",
@@ -1341,8 +1341,8 @@
     "shipping": {
       "title": "Pengaturan Pengiriman",
       "processing": "Waktu Pemrosesan (hari)",
-      "threshold": "Ambang Batas Gratis Ongkir ($)",
-      "rate": "Tarif Pengiriman Standar ($)",
+      "threshold": "Ambang Batas Gratis Ongkir ({{currency}})",
+      "rate": "Tarif Pengiriman Standar ({{currency}})",
       "express": "Tawarkan pengiriman ekspres",
       "expressDesc": "Izinkan pelanggan memilih pengiriman lebih cepat 2-3 hari",
       "save": "Simpan Pengaturan Pengiriman"
@@ -1754,7 +1754,7 @@
       "typePercentage": "Persentase Potongan",
       "typeFixed": "Jumlah Potongan Tetap",
       "valueLabel": "Nilai",
-      "minOrderLabel": "Nilai Pesanan Minimum ($)",
+      "minOrderLabel": "Nilai Pesanan Minimum ({{currency}})",
       "usageLimitLabel": "Batas Penggunaan",
       "usageLimitPlaceholder": "Tanpa Batas",
       "expiryLabel": "Tanggal Kedaluwarsa",
