@@ -93,7 +93,7 @@ function BlogModal({ blog, onClose, onDelete }) {
             <div className="flex gap-3 pt-4 border-t border-border-soft">
               {blog.slug && (
                 <a
-                  href={`${import.meta.env.VITE_PLATFORM_URL || 'http://localhost:5173'}/blog/${blog.slug}`}
+                  href={`${import.meta.env.VITE_PLATFORM_URL || ''}/blog/${blog.slug}`}
                   target="_blank" rel="noreferrer"
                   className="flex items-center gap-2 px-4 py-2 rounded-xl border border-border-soft text-sm font-medium text-text-primary hover:bg-surface-bg transition-colors"
                 >

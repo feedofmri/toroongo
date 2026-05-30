@@ -138,7 +138,7 @@ function ActionMenu({ seller, onView, onToggle, onRefresh }) {
             </button>
             {seller.shop_slug && (
               <a
-                href={`${import.meta.env.VITE_PLATFORM_URL || 'http://localhost:5173'}/shop/${seller.shop_slug}`}
+                href={`${import.meta.env.VITE_PLATFORM_URL || ''}/shop/${seller.shop_slug}`}
                 target="_blank" rel="noreferrer"
                 onClick={() => setOpen(false)}
                 className="flex items-center gap-2.5 px-3 py-2 text-sm text-text-primary hover:bg-surface-bg transition-colors"

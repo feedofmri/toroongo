@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-
-const API_BASE = `${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'}${import.meta.env.VITE_API_PREFIX || '/api'}`;
+const API_BASE = `${import.meta.env.VITE_API_BASE_URL || ''}${import.meta.env.VITE_API_PREFIX || '/api'}`;
 
 export default function AdvertisementCarousel() {
     const [ads, setAds]       = useState([]);

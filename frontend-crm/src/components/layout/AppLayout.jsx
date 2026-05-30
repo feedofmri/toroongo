@@ -123,7 +123,7 @@ function UserMenu({ user, logout }) {
             <div className="p-2">
               <a
                 href={
-                  import.meta.env.VITE_PLATFORM_URL || "http://localhost:5173"
+                  import.meta.env.VITE_PLATFORM_URL || ""
                 }
                 target="_blank"
                 rel="noreferrer"
