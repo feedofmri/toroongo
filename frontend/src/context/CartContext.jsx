@@ -72,8 +72,6 @@ export function CartProvider({ children }) {
     );
   };
 
-  const clearCart = () => setCart([]);
-
   const getCartTotal = () => {
     const buyerCode = getBuyerCurrencyCode();
     return cart.reduce((total, item) => {
@@ -86,6 +84,32 @@ export function CartProvider({ children }) {
     return cart.reduce((count, item) => count + item.quantity, 0);
   };
 
+  const [appliedDiscount, setAppliedDiscount] = useState(null);
+
+  useEffect(() => {
+    const storedDiscount = localStorage.getItem("toroongo_discount");
+    if (storedDiscount) {
+      try {
+        setAppliedDiscount(JSON.parse(storedDiscount));
+      } catch (e) {
+        console.error("Failed to load discount", e);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (appliedDiscount) {
+      localStorage.setItem("toroongo_discount", JSON.stringify(appliedDiscount));
+    } else {
+      localStorage.removeItem("toroongo_discount");
+    }
+  }, [appliedDiscount]);
+
+  const clearCart = () => {
+      setCart([]);
+      setAppliedDiscount(null);
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -96,6 +120,8 @@ export function CartProvider({ children }) {
         clearCart,
         getCartTotal,
         getCartCount,
+        appliedDiscount,
+        setAppliedDiscount
       }}
     >
       {children}

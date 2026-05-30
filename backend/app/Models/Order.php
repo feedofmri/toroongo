@@ -7,6 +7,7 @@ class Order extends Model
     protected $fillable = [
         'buyer_id','status','shipping_address','payment_method',
         'buyer_currency_code','seller_currency_code','payment_details',
+        'discount_id', 'discount_amount',
         'subtotal','shipping_cost','tax','total','cancellation_reason','return_reason','is_read',
     ];
 

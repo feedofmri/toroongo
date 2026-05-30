@@ -74,6 +74,7 @@ export const orderService = {
         buyer_currency_code: orderData.buyer_currency_code,
         seller_currency_code: orderData.seller_currency_code,
         payment_details: orderData.payment_details,
+        discount_id: orderData.discount_id,
       }),
     });
   },

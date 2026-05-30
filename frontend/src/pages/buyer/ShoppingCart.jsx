@@ -9,11 +9,14 @@ import {
   ArrowRight,
   Tag,
   Truck,
+  X,
+  Loader2,
 } from "lucide-react";
 import { useCart } from "../../context/CartContext";
 import { useProduct } from "../../context/ProductContext";
 import { resolveSellerSlug } from "../../utils/resolveSellerSlug";
 import { formatPrice, formatPriceInCurrency, getBuyerCurrencyCode, convertCurrency } from "../../utils/currency";
+import { discountService } from "../../services";
 
 export default function ShoppingCart() {
   const { t } = useTranslation();
@@ -22,11 +25,14 @@ export default function ShoppingCart() {
     updateQuantity,
     removeFromCart: removeItem,
     getCartTotal,
+    appliedDiscount,
+    setAppliedDiscount
   } = useCart();
   const { products: allProducts, sellers } = useProduct();
 
   const [promoCode, setPromoCode] = useState("");
-  const [promoApplied, setPromoApplied] = useState(false);
+  const [promoLoading, setPromoLoading] = useState(false);
+  const [promoError, setPromoError] = useState("");
 
   const getProduct = (id) =>
     allProducts.find((p) => String(p.id) === String(id));
@@ -80,8 +86,46 @@ export default function ShoppingCart() {
 
   const hasTbdShipping = Object.values(sellerCalculations).some(calc => !calc.isFree);
 
-  const discount = promoApplied ? subtotal * 0.1 : 0;
-  const total = subtotal - discount + shipping;
+  // Apply discount logic
+  let discount = 0;
+  if (appliedDiscount) {
+    if (appliedDiscount.type === 'percentage') {
+      discount = subtotal * (appliedDiscount.value / 100);
+    } else {
+      discount = appliedDiscount.value; // Assuming value is in USD, we should ideally convert it but let's keep it simple or convert:
+      discount = convertCurrency(appliedDiscount.value, 'USD', buyerCode);
+    }
+  }
+
+  const total = Math.max(0, subtotal - discount) + shipping;
+
+  const handleApplyPromo = async () => {
+      if (!promoCode.trim()) return;
+      setPromoError("");
+      setPromoLoading(true);
+      
+      const sellerIds = Array.from(new Set(cartItems.map(item => {
+          const product = getProduct(item.id);
+          return product ? product.sellerId : null;
+      }).filter(Boolean)));
+
+      try {
+          // Send subtotal in USD for validation if needed, assuming validation expects USD
+          const subtotalUsd = convertCurrency(subtotal, buyerCode, 'USD');
+          const data = await discountService.validateDiscount(promoCode, sellerIds, subtotalUsd);
+          setAppliedDiscount(data);
+          setPromoCode("");
+      } catch (err) {
+          setPromoError(err.message || "Failed to apply discount code");
+          setAppliedDiscount(null);
+      } finally {
+          setPromoLoading(false);
+      }
+  };
+
+  const handleRemovePromo = () => {
+      setAppliedDiscount(null);
+  };
 
   if (cartItems.length === 0) {
     return (
@@ -254,31 +298,55 @@ export default function ShoppingCart() {
               </h2>
 
               {/* Promo code */}
-              <div className="flex gap-2 mb-6">
-                <div className="relative flex-1">
-                  <Tag
-                    size={14}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted"
-                  />
-                  <input
-                    type="text"
-                    placeholder={t("cart.promoCode")}
-                    value={promoCode}
-                    onChange={(e) => setPromoCode(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2.5 text-sm bg-surface-bg border border-border-soft rounded-lg
-                             focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none"
-                  />
-                </div>
-                <button
-                  onClick={() => {
-                    if (promoCode) setPromoApplied(true);
-                  }}
-                  className="px-4 py-2.5 text-sm font-medium bg-surface-bg border border-border-soft rounded-lg
-                           hover:border-gray-300 transition-colors"
-                >
-                  {t("cart.apply")}
-                </button>
-              </div>
+              {!appliedDiscount ? (
+                  <div className="mb-6">
+                    <div className="flex gap-2">
+                      <div className="relative flex-1">
+                        <Tag
+                          size={14}
+                          className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted"
+                        />
+                        <input
+                          type="text"
+                          placeholder={t("cart.promoCode")}
+                          value={promoCode}
+                          onChange={(e) => setPromoCode(e.target.value)}
+                          onKeyDown={(e) => { if (e.key === 'Enter') handleApplyPromo(); }}
+                          className="w-full pl-9 pr-3 py-2.5 text-sm bg-surface-bg border border-border-soft rounded-lg
+                                   focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 outline-none uppercase"
+                        />
+                      </div>
+                      <button
+                        onClick={handleApplyPromo}
+                        disabled={promoLoading || !promoCode.trim()}
+                        className="px-4 py-2.5 text-sm font-medium bg-surface-bg border border-border-soft rounded-lg
+                                 hover:border-gray-300 transition-colors disabled:opacity-50 flex items-center justify-center min-w-[70px]"
+                      >
+                        {promoLoading ? <Loader2 size={16} className="animate-spin" /> : t("cart.apply")}
+                      </button>
+                    </div>
+                    {promoError && <p className="text-red-500 text-xs mt-2">{promoError}</p>}
+                  </div>
+              ) : (
+                  <div className="mb-6">
+                    <div className="flex items-center justify-between p-3 bg-brand-primary/5 border border-brand-primary/20 rounded-lg">
+                        <div className="flex items-center gap-2">
+                            <Tag size={16} className="text-brand-primary" />
+                            <div>
+                                <span className="text-sm font-bold text-brand-primary uppercase">{appliedDiscount.code}</span>
+                                <span className="text-xs text-brand-primary/80 ml-2">
+                                    {appliedDiscount.type === 'percentage' 
+                                        ? `(${appliedDiscount.value}% off)` 
+                                        : `(${formatPriceInCurrency(convertCurrency(appliedDiscount.value, 'USD', buyerCode), buyerCode)} off)`}
+                                </span>
+                            </div>
+                        </div>
+                        <button onClick={handleRemovePromo} className="text-text-muted hover:text-red-500 transition-colors">
+                            <X size={16} />
+                        </button>
+                    </div>
+                  </div>
+              )}
 
               {/* Totals */}
               <div className="space-y-3 text-sm">
@@ -288,9 +356,9 @@ export default function ShoppingCart() {
                     {formatPriceInCurrency(subtotal, buyerCode)}
                   </span>
                 </div>
-                {promoApplied && (
-                  <div className="flex justify-between text-green-600">
-                    <span>{t("cart.promoDiscount")}</span>
+                {appliedDiscount && (
+                  <div className="flex justify-between text-brand-primary">
+                    <span>{t("cart.promoDiscount")} ({appliedDiscount.type === 'percentage' ? `${appliedDiscount.value}%` : formatPriceInCurrency(convertCurrency(appliedDiscount.value, 'USD', buyerCode), buyerCode)})</span>
                     <span className="font-medium">
                       -{formatPriceInCurrency(discount, buyerCode)}
                     </span>

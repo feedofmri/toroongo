@@ -23,4 +23,11 @@ export const discountService = {
             method: 'DELETE',
         });
     },
+
+    async validateDiscount(code, sellerIds, subtotal) {
+        return await api('/discounts/validate', {
+            method: 'POST',
+            body: JSON.stringify({ code, seller_ids: sellerIds, subtotal })
+        });
+    }
 };

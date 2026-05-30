@@ -12,6 +12,8 @@ import { WishlistProvider } from './context/WishlistContext'
 import { NotificationProvider } from './context/NotificationProvider.jsx'
 import { SubscriptionProvider } from './context/SubscriptionProvider.jsx'
 
+import React, { Suspense } from 'react';
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
@@ -20,7 +22,9 @@ createRoot(document.getElementById('root')).render(
           <WishlistProvider>
             <ProductProvider>
               <CartProvider>
-                <App />
+                <Suspense fallback={<div>Loading...</div>}>
+                  <App />
+                </Suspense>
               </CartProvider>
             </ProductProvider>
           </WishlistProvider>

@@ -87,4 +87,48 @@ class DiscountController extends Controller
 
         return response()->json(['message' => 'Discount deleted.']);
     }
+
+    /**
+     * POST /discounts/validate — Public endpoint to validate a discount code.
+     */
+    public function validateCode(Request $request)
+    {
+        $request->validate([
+            'code' => 'required|string',
+            'seller_ids' => 'required|array',
+            'subtotal' => 'required|numeric' // We might need this for min_order_value check later
+        ]);
+
+        $discount = Discount::with('seller')->where('code', strtoupper($request->code))
+            ->whereIn('seller_id', $request->seller_ids)
+            ->where('status', 'active')
+            ->first();
+
+        if (!$discount) {
+            return response()->json(['message' => 'Invalid or inactive discount code.'], 404);
+        }
+
+        if ($discount->expires_at && now()->greaterThan($discount->expires_at)) {
+            return response()->json(['message' => 'Discount code has expired.'], 400);
+        }
+        
+        if ($discount->usage_limit && $discount->usage_count >= $discount->usage_limit) {
+            return response()->json(['message' => 'Discount code usage limit reached.'], 400);
+        }
+        
+        $sellerCurrency = $discount->seller->currency_code ?? 'USD';
+        $minOrderValueUsd = \App\Utils\CurrencyHelper::convert((float)$discount->min_order_value, $sellerCurrency, 'USD');
+
+        if ($discount->min_order_value > 0 && (float)$request->subtotal < $minOrderValueUsd) {
+            return response()->json(['message' => 'Order subtotal does not meet the minimum requirement for this discount.'], 400);
+        }
+
+        return response()->json([
+            'id' => $discount->id,
+            'code' => $discount->code,
+            'type' => $discount->type,
+            'value' => $discount->value,
+            'seller_id' => $discount->seller_id
+        ]);
+    }
 }

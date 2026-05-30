@@ -14,7 +14,7 @@ import { PLATFORM_CONFIG } from "../../config/constants";
 export default function Checkout() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { cart: cartSummary, clearCart } = useCart();
+  const { cart: cartSummary, clearCart, appliedDiscount, setAppliedDiscount } = useCart();
   const { products: allProducts } = useProduct();
   const { user } = useAuth();
   const [step, setStep] = useState(1);
@@ -121,12 +121,21 @@ export default function Checkout() {
     }, 0);
   }, [cartSummary, allProducts]);
 
+  let discount = 0;
+  if (appliedDiscount) {
+    if (appliedDiscount.type === 'percentage') {
+      discount = subtotal * (appliedDiscount.value / 100);
+    } else {
+      discount = convertCurrency(appliedDiscount.value, 'USD', getBuyerCurrencyCode());
+    }
+  }
+
   const shippingCostInBuyerCurrency = useMemo(() => {
     return convertCurrency(shippingQuote.total, shippingQuote.currency_code || 'USD', getBuyerCurrencyCode());
   }, [shippingQuote.total, shippingQuote.currency_code]);
 
-  const tax = subtotal * (PLATFORM_CONFIG.DEFAULT_TAX_RATE || 0.08);
-  const total = subtotal + shippingCostInBuyerCurrency + tax;
+  const tax = Math.max(0, subtotal - discount) * (PLATFORM_CONFIG.DEFAULT_TAX_RATE || 0.08);
+  const total = Math.max(0, subtotal - discount) + shippingCostInBuyerCurrency + tax;
 
   // Service charge for selected custom method
   const selectedMethod = sellerMethods.find(m => String(m.id) === String(paymentMethod));
@@ -154,12 +163,12 @@ export default function Checkout() {
         if (!cancelled) setShippingQuote({ 
           loading: false, 
           error: null, 
-          total: quote.shipping_cost || 0, 
-          currency_code: quote.currency_code || 'USD',
-          breakdown: quote.breakdown || [] 
+          total: quote.shipping_cost, 
+          currency_code: quote.currency_code,
+          breakdown: quote.breakdown 
         });
       } catch (err) {
-        if (!cancelled) setShippingQuote({ loading: false, error: err.message, total: 0, breakdown: [] });
+        if (!cancelled) setShippingQuote(prev => ({ ...prev, loading: false, error: err.message || "Failed to calculate shipping" }));
       }
     };
     run();
@@ -242,6 +251,7 @@ export default function Checkout() {
       buyer_currency_code: buyerCode,
       seller_currency_code: sellerCurrencyCode,
       payment_details: paymentDetailsPayload,
+      discount_id: appliedDiscount ? appliedDiscount.id : null,
     };
 
     try {
@@ -557,6 +567,14 @@ export default function Checkout() {
                   <span className="text-text-muted">{t("checkout.subtotal", "Subtotal")} ({cartSummary.length} {t("checkout.items", "items")})</span>
                   <span className="font-medium">{formatPriceInCurrency(subtotal, getBuyerCurrencyCode())}</span>
                 </div>
+                {appliedDiscount && (
+                  <div className="flex justify-between text-brand-primary">
+                    <span>{t("cart.promoDiscount")} ({appliedDiscount.type === 'percentage' ? `${appliedDiscount.value}%` : formatPriceInCurrency(convertCurrency(appliedDiscount.value, 'USD', getBuyerCurrencyCode()), getBuyerCurrencyCode())})</span>
+                    <span className="font-medium">
+                      -{formatPriceInCurrency(discount, getBuyerCurrencyCode())}
+                    </span>
+                  </div>
+                )}
                 <div className="flex justify-between">
                   <span className="text-text-muted">{t("checkout.shippingCost", "Shipping")}</span>
                   <span className={`font-medium ${shippingCostInBuyerCurrency === 0 ? "text-green-600" : ""}`}>

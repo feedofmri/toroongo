@@ -76,12 +76,12 @@ export default function BlogDetail() {
                         {blog.title}
                     </h1>
                     <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-text-muted border-y border-border-soft py-6 mb-10">
-                        <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-full bg-brand-primary/10 flex items-center justify-center font-bold text-brand-primary text-xs uppercase">
+                        <Link to={`/${blog.seller?.store_slug || blog.author.toLowerCase().replace(/\s+/g, '-')}`} className="flex items-center gap-2 group hover:opacity-80 transition-opacity">
+                            <div className="w-8 h-8 rounded-full bg-brand-primary/10 flex items-center justify-center font-bold text-brand-primary text-xs uppercase group-hover:bg-brand-primary group-hover:text-white transition-colors">
                                 {blog.author.substring(0, 2)}
                             </div>
-                            <span className="font-bold text-text-primary">{blog.author}</span>
-                        </div>
+                            <span className="font-bold text-text-primary group-hover:text-brand-primary transition-colors">{blog.author}</span>
+                        </Link>
                         <div className="flex items-center gap-1.5">
                             <Clock size={16} />
                             <span>{blog.read_time}</span>

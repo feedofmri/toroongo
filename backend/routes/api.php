@@ -27,6 +27,7 @@ use App\Http\Controllers\Api\NewsletterController;
 use App\Http\Controllers\Api\ContactController;
 
 // ── Public Routes ───────────────────────────────────
+Route::post('/discounts/validate', [DiscountController::class, 'validateCode']);
 Route::post('/auth/register', [AuthController::class, 'register']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/send-otp', [OtpController::class, 'sendOtp']);

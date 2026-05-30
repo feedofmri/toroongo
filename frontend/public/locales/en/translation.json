@@ -182,7 +182,8 @@
         "tax": "Est. Tax",
         "total": "Total",
         "loginRequired": "Please login to place order",
-        "orderFailed": "Order failed: "
+        "orderFailed": "Order failed: ",
+        "shippingOptionsCount": "{{count}} shipping options available"
     },
     "orderConfirmation": {
         "loading": "Loading your order confirmation...",
@@ -249,7 +250,7 @@
         "max": "Max",
         "onSaleOnly": "On Sale Only",
         "minRating": "Minimum Rating",
-        "andUp": "& Up",
+        "andUp": "{{rating}} & Up",
         "shopBySeller": "Shop by Seller",
         "allShops": "All Shops",
         "showAll": "Show All ({{count}})",
@@ -447,7 +448,7 @@
         "promoCode": "Promo code",
         "apply": "Apply",
         "subtotal": "Subtotal",
-        "promoDiscount": "Promo discount (10%)",
+        "promoDiscount": "Promo discount",
         "shipping": "Shipping",
         "total": "Total",
         "proceedToCheckout": "Proceed to Checkout",
@@ -1181,7 +1182,11 @@
             "primary": "Primary",
             "invalidUrl": "Please enter a valid URL",
             "duplicateUrl": "This URL has already been added",
-            "errorSave": "Failed to {{action}} product"
+            "errorSave": "Failed to {{action}} product",
+            "limitReached": "You've reached the maximum of {{limit}} products"
+        },
+        "error": {
+            "priceBelowMinVar": "Price must be at least {{min}}"
         }
     },
     "sellerBlogs": {
@@ -1732,7 +1737,8 @@
     },
     "shops": {
         "title": "Explore Shops",
-        "subtitle": "Discover unique stores from independent sellers on Toroongo. Every shop is a curated experience."
+        "subtitle": "Discover unique stores from independent sellers on Toroongo. Every shop is a curated experience.",
+        "resultsCount": "{{count}} shops found"
     },
     "sellerPayment": {
         "title": "Payment Options",
@@ -2184,5 +2190,18 @@
         "videoPlayer": {
             "noVideo": "Upload a video or add an embed URL"
         }
+    },
+    "upload": {
+        "maxReached": "Maximum of {{max}} files reached",
+        "maxCount": "Max {{max}} files",
+        "failed": "Upload failed",
+        "compressed": "Image compressed",
+        "uploading": "Uploading...",
+        "clickOrDrag": "Click or drag files here",
+        "formatsAll": "All formats supported",
+        "formatsImage": "Images only",
+        "mediaDescUpload": "Upload product media",
+        "dropHere": "Drop files here",
+        "dragOrClick": "Drag & drop or click to upload"
     }
 }

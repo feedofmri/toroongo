@@ -192,7 +192,7 @@ export default function FloatingMessage() {
                                         </div>
                                     )}
                                     {messages.map((msg, idx) => {
-                                        const isMe = msg.senderId === user.id;
+                                        const isMe = String(msg.senderId) === String(user?.id);
                                         return (
                                             <div key={idx} className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
                                                 <div className={`max-w-[80%] px-3.5 py-2 rounded-2xl text-[13px] leading-relaxed

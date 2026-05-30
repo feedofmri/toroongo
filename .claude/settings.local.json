@@ -23,7 +23,15 @@
       "Bash(findstr advertisement *)",
       "Bash(Get-ChildItem -Path \"F:\\\\Areas\\\\Development\\\\Projects\\\\React\\\\toroongo\\\\frontend\\\\src\\\\pages\" -Recurse)",
       "Bash(Select-Object FullName, PSIsContainer)",
-      "Bash(Format-Table -AutoSize)"
+      "Bash(Format-Table -AutoSize)",
+      "Bash(Get-ChildItem -Path \"f:\\\\Areas\\\\Development\\\\Projects\\\\React\\\\toroongo\" -Force)",
+      "Bash(Select-Object Name, Mode)",
+      "Bash(mkdir -p \"f:\\\\Areas\\\\Development\\\\Projects\\\\React\\\\toroongo\\\\seller-app\\\\src\\\\constants\")",
+      "Bash(mkdir -p \"f:\\\\Areas\\\\Development\\\\Projects\\\\React\\\\toroongo\\\\seller-app\\\\src\\\\services\")",
+      "Bash(mkdir -p \"f:\\\\Areas\\\\Development\\\\Projects\\\\React\\\\toroongo\\\\seller-app\\\\src\\\\contexts\")",
+      "Bash(mkdir -p \"f:\\\\Areas\\\\Development\\\\Projects\\\\React\\\\toroongo\\\\seller-app\\\\src\\\\navigation\")",
+      "Bash(mkdir -p \"f:\\\\Areas\\\\Development\\\\Projects\\\\React\\\\toroongo\\\\seller-app\\\\src\\\\screens\\\\auth\")",
+      "Bash(npm install *)"
     ]
   }
 }

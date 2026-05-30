@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { DollarSign, TrendingUp, Package, ShoppingBag, ArrowUp, ArrowDown, Eye, Crown, Sparkles, ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../context/AuthContext';
@@ -36,6 +36,7 @@ function MiniBarChart({ data = [] }) {
 
 function PlanSummaryCard() {
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const { currentPlan, planDetails, nextPlan, productCount, productLimit } = useSubscription();
     const nextPlanData = nextPlan ? PLANS[nextPlan] : null;
 

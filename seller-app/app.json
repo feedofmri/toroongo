@@ -1,0 +1,35 @@
+{
+  "expo": {
+    "name": "Seller",
+    "slug": "toroongo-seller",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/toroongo-icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/toroongo-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#008080"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.toroongo.seller"
+    },
+    "android": {
+      "package": "com.toroongo.seller",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/toroongo-icon.png",
+        "backgroundColor": "#008080"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-font"
+    ]
+  }
+}

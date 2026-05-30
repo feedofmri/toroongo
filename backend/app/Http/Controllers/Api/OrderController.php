@@ -37,6 +37,7 @@ class OrderController extends Controller
             'buyer_currency_code' => 'nullable|string|max:10',
             'seller_currency_code' => 'nullable|string|max:10',
             'payment_details' => 'nullable|array',
+            'discount_id' => 'nullable|exists:discounts,id',
         ]);
 
         $user = $request->user();
@@ -78,11 +79,25 @@ class OrderController extends Controller
             $buyerCurrency
         );
         
-        $tax = $subtotal * 0.08;
+        $discountAmount = 0;
+        if (isset($data['discount_id'])) {
+            $discount = \App\Models\Discount::find($data['discount_id']);
+            if ($discount && $discount->status === 'active') {
+                if ($discount->type === 'percentage') {
+                    $discountAmount = $subtotal * ($discount->value / 100);
+                } else {
+                    $discountAmount = CurrencyHelper::convert($discount->value, 'USD', $buyerCurrency);
+                }
+                
+                $discount->increment('usage_count');
+            }
+        }
+
+        $tax = max(0, $subtotal - $discountAmount) * 0.08;
         
         $serviceCharge = 0;
         if (isset($data['payment_details']['service_charge_pct'])) {
-            $serviceCharge = (($subtotal + $shippingCost + $tax) * (float)$data['payment_details']['service_charge_pct']) / 100;
+            $serviceCharge = ((max(0, $subtotal - $discountAmount) + $shippingCost + $tax) * (float)$data['payment_details']['service_charge_pct']) / 100;
         }
 
         $order = Order::create([
@@ -92,10 +107,12 @@ class OrderController extends Controller
             'buyer_currency_code' => $buyerCurrency,
             'seller_currency_code' => $data['seller_currency_code'] ?? null,
             'payment_details' => $data['payment_details'] ?? null,
+            'discount_id' => $data['discount_id'] ?? null,
+            'discount_amount' => $discountAmount,
             'subtotal' => $subtotal,
             'shipping_cost' => $shippingCost,
             'tax' => $tax,
-            'total' => $subtotal + $shippingCost + $tax + $serviceCharge,
+            'total' => max(0, $subtotal - $discountAmount) + $shippingCost + $tax + $serviceCharge,
         ]);
 
         foreach ($data['items'] as $item) {
